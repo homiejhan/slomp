@@ -1,4 +1,8 @@
-"""Same catalog, listings and codes the frontend uses, so both halves tell the same story."""
+"""SIMULATED demo data for the product engine: invented prices, coupon codes, votes and store events.
+
+Nothing here describes real offers; it exists so the engine, API and tests run offline. Real, current deals come from
+the live sources in local.py.
+"""
 from __future__ import annotations
 
 from datetime import timedelta

@@ -41,7 +41,8 @@ def _type_and_value(row: dict) -> tuple[CouponType, float]:
         val = float(raw)
     except ValueError:
         val = 0.0
-    if "ship" in kind or "ship" in str(_first(row, "title", "name", "description", default="")).lower() and val == 0:
+    title = str(_first(row, "title", "name", "description", default="")).lower()
+    if "ship" in kind or ("ship" in title and val == 0):     # a "$10 off + free shipping" title is still $10 off
         return CouponType.FREESHIP, 0.0
     if "%" in str(_first(row, "value", "discount", default="")) or kind in ("percent", "percentage", "pct"):
         return CouponType.PERCENT, val

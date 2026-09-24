@@ -5,16 +5,19 @@ Response shapes below follow the public docs as of writing; verify against the l
 """
 from __future__ import annotations
 
+import asyncio
 import os
 from typing import Any, Optional
+from urllib.parse import quote
 
-from ..identifiers import canonical_gtin
+from ..identifiers import short_gtin
 from ..models import Condition, Listing, Product
+from ..textfeatures import tokens
 from .base import Adapter, TokenBucket
 
 try:  # transport is optional so the engine and tests run without it
     import httpx  # type: ignore
-except Exception:  # noqa: BLE001
+except ImportError:  # pragma: no cover
     httpx = None
 
 
@@ -23,12 +26,11 @@ class FixtureAdapter(Adapter):
 
     def __init__(self, retailer: str, listings: list[Listing], delay_s: float = 0.0, fail: bool = False,
                  by_product: Optional[dict[str, list[Listing]]] = None):
+        super().__init__(rate=TokenBucket(1000, 1000))
         self.retailer, self._listings, self.delay, self.fail = retailer, listings, delay_s, fail
         self.by_product = by_product      # product id -> listings a real search would have returned
-        self.rate = TokenBucket(1000, 1000)
 
     async def search(self, product: Product) -> list[Listing]:
-        import asyncio
         if self.delay:
             await asyncio.sleep(self.delay)
         if self.fail:
@@ -52,8 +54,8 @@ class _HttpAdapter(Adapter):
     base_url = ""
 
     def __init__(self, api_key: Optional[str] = None):
+        super().__init__(rate=TokenBucket(4, 8))
         self.api_key = api_key or os.getenv(f"{self.retailer.upper()}_API_KEY", "")
-        self.rate = TokenBucket(4, 8)
 
     async def _get(self, url: str, params: dict[str, Any], headers: Optional[dict[str, str]] = None) -> Any:
         if httpx is None:
@@ -71,9 +73,9 @@ class EbayBrowseAdapter(_HttpAdapter):
 
     async def search(self, product: Product) -> list[Listing]:
         params: dict[str, Any] = {"limit": 20}
-        g = canonical_gtin(product.gtin)
+        g = short_gtin(product.gtin)
         if g:
-            params["gtin"] = g.lstrip("0")
+            params["gtin"] = g
         else:
             params["q"] = product.title
         data = await self._get(self.base_url, params, {"Authorization": f"Bearer {self.api_key}", "X-EBAY-C-MARKETPLACE-ID": "EBAY_US"})
@@ -101,7 +103,7 @@ class WalmartAffiliateAdapter(_HttpAdapter):
     base_url = "https://developer.api.walmart.com/api-proxy/service/affil/product/v2/search"
 
     async def search(self, product: Product) -> list[Listing]:
-        q = product.gtin or product.title
+        q = short_gtin(product.gtin) or product.title
         data = await self._get(self.base_url, {"query": q, "numItems": 20}, {"WM_SEC.KEY_VERSION": "1", "WM_CONSUMER.ID": self.api_key})
         return self.parse(data)
 
@@ -124,9 +126,16 @@ class BestBuyAdapter(_HttpAdapter):
     base_url = "https://api.bestbuy.com/v1/products"
 
     async def search(self, product: Product) -> list[Listing]:
-        q = f"(upc={product.gtin})" if product.gtin else f"(search={product.title})"
-        data = await self._get(f"{self.base_url}{q}", {"apiKey": self.api_key, "format": "json", "show": "sku,name,salePrice,regularPrice,upc,modelNumber,manufacturer,url,onlineAvailability,shippingCost,condition", "pageSize": 20})
+        data = await self._get(f"{self.base_url}{self.query(product)}", {"apiKey": self.api_key, "format": "json", "show": "sku,name,salePrice,regularPrice,upc,modelNumber,manufacturer,url,onlineAvailability,shippingCost,condition", "pageSize": 20})
         return self.parse(data)
+
+    @staticmethod
+    def query(product: Product) -> str:
+        """The path filter: `(upc=027242923508)`, or one `search=` term per word since the API rejects raw phrases."""
+        g = short_gtin(product.gtin)
+        if g:
+            return f"(upc={g})"
+        return "(" + "&".join(f"search={quote(w, safe='')}" for w in tokens(product.title)) + ")"
 
     def parse(self, data: dict) -> list[Listing]:
         out = []

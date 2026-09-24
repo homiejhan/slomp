@@ -1,14 +1,11 @@
-import asyncio
-
-import pytest
+from datetime import timedelta
 
 from plum.adapters import FixtureAdapter, SimulatedProbe, parse_feed_rows, run_adapters
 from plum.matching import match
+from plum.models import DealPost, utcnow
 from plum.pricing import quote
 from plum.ranking import deal_heat, is_period_low, rank_deals
-from plum.models import DealPost, utcnow
 from plum.service import DealService
-from datetime import timedelta
 
 
 def test_quote_receipt(products, listings, policies, coupons, now):

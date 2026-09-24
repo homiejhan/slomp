@@ -15,24 +15,13 @@ from typing import Iterable, Optional
 
 from .identifiers import canonical_gtin, is_valid_gtin
 from .models import Listing, MatchResult, Product, Tier
-from .textfeatures import ACCESSORY, Features, compact, features, near_code, norm, tokens, unit_of
+from .textfeatures import ACCESSORY, compact, features, near_code, norm, tokens, unit_of
 
 THRESHOLD_LIKELY = 0.55
 THRESHOLD_CONFIDENT = 0.75
 
 
-def _product_features(p: Product, cache: dict[str, Features]) -> Features:
-    f = cache.get(p.id)
-    if f is None:
-        f = cache[p.id] = features(p.title)
-    return f
-
-
-_FCACHE: dict[str, Features] = {}
-
-
-def match(product: Product, listing: Listing, fcache: Optional[dict[str, Features]] = None) -> MatchResult:
-    fcache = _FCACHE if fcache is None else fcache
+def match(product: Product, listing: Listing) -> MatchResult:
     reasons: list[str] = []
     pg = canonical_gtin(product.gtin)
     lg = canonical_gtin(listing.gtin) if listing.gtin else None
@@ -41,7 +30,7 @@ def match(product: Product, listing: Listing, fcache: Optional[dict[str, Feature
     if pg and lg and pg == lg:
         return MatchResult(1.0, Tier.EXACT, ["UPC matches"])
 
-    P = _product_features(product, fcache)
+    P = features(product.title)
     f = features(listing.title)
     score = 0.0
 
@@ -99,7 +88,6 @@ class ProductIndex:
         self.by_gtin: dict[str, str] = {}
         self.tok_index: dict[str, set[str]] = defaultdict(set)
         self.search_bags: dict[str, set[str]] = {}
-        self.fcache: dict[str, Features] = {}
         for p in products:
             self.add(p)
 
@@ -108,8 +96,7 @@ class ProductIndex:
         g = canonical_gtin(p.gtin)
         if g:
             self.by_gtin[g] = p.id
-        f = _product_features(p, self.fcache)
-        bag = set(f.bag)
+        bag = set(features(p.title).bag)
         for a in p.aliases:
             bag.update(compact(t) for t in tokens(a))
         self.search_bags[p.id] = bag
@@ -130,7 +117,7 @@ class ProductIndex:
     def resolve(self, listing: Listing) -> tuple[Optional[Product], Optional[MatchResult]]:
         best: tuple[Optional[Product], Optional[MatchResult]] = (None, None)
         for p in self.candidates(listing):
-            m = match(p, listing, self.fcache)
+            m = match(p, listing)
             if best[1] is None or m.score > best[1].score:
                 best = (p, m)
         if best[1] and best[1].tier == Tier.REJECTED:
@@ -159,7 +146,7 @@ class ProductIndex:
                     sc += 1
                 elif len(t) >= 3 and any(x.startswith(t) for x in bag):
                     sc += 0.6
-            sc += 1.5 * len(f.codes & self.fcache[pid].codes)
+            sc += 1.5 * len(f.codes & features(self.products[pid].title).codes)
             sc /= max(len(qt), 1)
             if sc > best_score:
                 best, best_score = self.products[pid], sc

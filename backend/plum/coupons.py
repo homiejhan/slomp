@@ -6,7 +6,8 @@ scaled by how recently the code last worked. Expired codes are 0.
 from __future__ import annotations
 
 import math
-from datetime import datetime, timedelta
+from dataclasses import replace
+from datetime import datetime
 from typing import Iterable, Optional
 
 from .models import Coupon, CouponEval, CouponType, Listing, Product, Scope, utcnow
@@ -31,7 +32,7 @@ def reliability(c: Coupon, now: Optional[datetime] = None) -> float:
     if c.expires and c.expires < now:
         return 0.0
     age_days = max(0.0, (now - c.last_worked).total_seconds() / 86400) if c.last_worked else 60.0
-    recency = math.exp(-age_days / RECENCY_HALF_LIFE_DAYS)
+    recency = 0.5 ** (age_days / RECENCY_HALF_LIFE_DAYS)
     return wilson_lower(c.successes, c.attempts) * (0.55 + 0.45 * recency)
 
 
@@ -93,12 +94,14 @@ def record_outcome(c: Coupon, worked: bool, when: Optional[datetime] = None) -> 
 
 
 def dedupe(coupons: Iterable[Coupon]) -> list[Coupon]:
-    """Same retailer+code from several feeds -> one record with pooled stats and the latest expiry."""
+    """Same retailer+code from several feeds -> one record with pooled stats and the latest expiry.
+
+    Returns copies: callers' coupons (e.g. module-level demo data) are never modified, here or by later probes."""
     merged: dict[tuple[str, str], Coupon] = {}
     for c in coupons:
         k = (c.retailer, c.code.upper())
         if k not in merged:
-            merged[k] = c
+            merged[k] = replace(c)
             continue
         m = merged[k]
         m.attempts += c.attempts

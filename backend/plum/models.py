@@ -166,3 +166,96 @@ class ProbeResult:
     steps: list[ProbeStep]
     winner: Optional[str]
     discount: float
+
+
+# --- Local deals: weekly-ad offers at stores near a place ----------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Place:
+    """A resolved location. Weekly ads are published per ZIP code, so a place always carries one."""
+    query: str
+    name: str
+    lat: float
+    lon: float
+    postal_code: str
+    source: str = "OpenStreetMap Nominatim"
+
+
+@dataclass(frozen=True)
+class Store:
+    """One physical store location."""
+    merchant: str
+    name: str
+    lat: float
+    lon: float
+    address: str
+    distance_km: float
+    url: str = ""                  # where the location comes from (an openstreetmap.org link)
+
+
+class Presence(str, Enum):
+    CONFIRMED = "confirmed"        # a store is mapped within the search radius
+    FAR = "far"                    # the merchant is mapped, but no store within the radius
+    UNMAPPED = "unmapped"          # no mapped store found (maps miss some regional chains)
+    UNCHECKED = "unchecked"        # the store lookup itself failed
+
+
+@dataclass
+class StorePresence:
+    merchant: str
+    status: Presence
+    nearest: Optional[Store] = None
+    count: int = 0                 # stores within the radius
+
+
+@dataclass(frozen=True)
+class Flyer:
+    id: int
+    merchant: str
+    merchant_id: int
+    valid_from: datetime
+    valid_to: datetime
+    categories: tuple[str, ...] = ()
+    postal_code: str = ""
+
+    def active(self, now: datetime) -> bool:
+        return self.valid_from <= now <= self.valid_to
+
+
+@dataclass(frozen=True)
+class DealTerms:
+    """What an ad actually promises, normalised. `price` and `was` cover `quantity` items ("2 for $8": price 8, quantity 2)."""
+    price: Optional[float] = None
+    quantity: int = 1
+    unit: str = ""                 # "lb", "each", "case"; "" when the ad doesn't say
+    was: Optional[float] = None    # regular price for the same quantity, when stated or exactly derivable
+    pct_off: Optional[float] = None       # effective saving: "buy 1 get 1 50% off" is 25%, not 50%
+    dollars_off: Optional[float] = None   # for the same quantity
+    hedge: str = ""                # "up to" / "starting at": the numbers are a ceiling or a floor, not a promise
+    offer: str = ""                # the ad's own wording of the deal, when it has one
+    conditions: tuple[str, ...] = ()      # what the price needs: "loyalty card", "coupon", "online price", "buy 6+"
+
+    @property
+    def unit_price(self) -> Optional[float]:
+        return None if self.price is None else self.price / self.quantity
+
+
+@dataclass
+class LocalDeal:
+    id: str                        # "<source>:<item id>"
+    merchant: str
+    title: str
+    terms: DealTerms
+    valid_from: datetime
+    valid_to: datetime
+    flyer_id: Optional[int] = None
+    source: str = "flipp"
+    source_url: str = ""           # public page showing the ad itself
+    product_url: str = ""          # the retailer's own product page, when the ad links one
+    image_url: str = ""
+    brand: str = ""
+    category: str = ""
+    detailed: bool = False         # terms read from the full item record, not just the flyer index
+    store: Optional[Store] = None  # nearest mapped store within the radius
+    flags: list[str] = field(default_factory=list)

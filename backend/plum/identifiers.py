@@ -37,6 +37,18 @@ def canonical_gtin(raw: Optional[str]) -> Optional[str]:
     return re.sub(r"\D", "", raw or "").zfill(14)
 
 
+def short_gtin(raw: Optional[str]) -> Optional[str]:
+    """The GTIN at its printed length (UPC-A 12, EAN-13, GTIN-14) for APIs that reject the zero-padded form.
+
+    Stripping every leading zero instead turns UPC 027242923508 into an 11-digit number that matches nothing.
+    """
+    g = canonical_gtin(raw)
+    if g is None:
+        return None
+    s = g.lstrip("0")
+    return s.zfill(12) if len(s) <= 12 else s.zfill(13) if len(s) == 13 else s
+
+
 def extract_gtins(text: str) -> list[str]:
     """Valid GTINs hiding in a title/description/URL, canonicalised."""
     out = []

@@ -1,11 +1,9 @@
-"""Turns a product title into comparable features: word bag, model codes, sizes.
-
-Mirrors frontend/PlumApp.jsx `features()` so both sides agree on what a match is.
-"""
+"""Turns a product title into comparable features: word bag, model codes, sizes."""
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from functools import lru_cache
 
 STOP = {"the", "a", "an", "and", "with", "for", "of", "in", "by", "to", "new", "latest", "model", "edition", "pack",
         "official", "genuine", "authentic", "original", "free", "shipping", "fast", "us", "usa", "ships", "sealed",
@@ -58,35 +56,40 @@ def _eligible(t: str) -> bool:
     return not (ORD_RE.match(t) or UNIT_RE.match(t) or UNIT_WORD.match(t))
 
 
-@dataclass
+@dataclass(frozen=True)
 class Features:
-    toks: list[str] = field(default_factory=list)
-    bag: set[str] = field(default_factory=set)
-    codes: set[str] = field(default_factory=set)
-    sizes: set[str] = field(default_factory=set)
+    toks: tuple[str, ...] = ()
+    bag: frozenset[str] = frozenset()
+    codes: frozenset[str] = frozenset()
+    sizes: frozenset[str] = frozenset()
 
 
+@lru_cache(maxsize=8192)
 def features(title: str) -> Features:
-    f = Features(toks=tokens(title))
-    for t in f.toks:
+    """Pure function of the title, so it is cached by title (immutable result, safe to share)."""
+    toks = tokens(title)
+    bag: set[str] = set()
+    codes: set[str] = set()
+    sizes: set[str] = set()
+    for t in toks:
         c = compact(t)
-        f.bag.add(c)
+        bag.add(c)
         if code_like(t):
-            f.codes.add(c)
+            codes.add(c)
         m = UNIT_RE.match(t)
         if m:
-            f.sizes.add(m.group(1) + _UNIT_NORM.get(m.group(2), m.group(2)))
-    for a, b in zip(f.toks, f.toks[1:]):
+            sizes.add(m.group(1) + _UNIT_NORM.get(m.group(2), m.group(2)))
+    for a, b in zip(toks, toks[1:]):
         if _NUM.match(a) and UNIT_WORD.match(b):
-            f.sizes.add(a + _UNIT_NORM.get(b, b))
+            sizes.add(a + _UNIT_NORM.get(b, b))
             continue
         if not (_eligible(a) and _eligible(b)):
             continue
         if _has_digit(a) or _has_digit(b):
             j = compact(a + b)
             if _has_digit(j) and _has_alpha(j) and len(j) <= 14:
-                f.codes.add(j)
-    return f
+                codes.add(j)
+    return Features(tuple(toks), frozenset(bag), frozenset(codes), frozenset(sizes))
 
 
 def near_code(a: str, b: str) -> bool:

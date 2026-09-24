@@ -1,23 +1,32 @@
 """FastAPI surface. `pip install 'plum[api]'` then `uvicorn plum.api:app --reload`.
 
-The frontend (PlumApp.jsx) talks to this when `window.PLUM_API` is set; otherwise it simulates adapters locally.
+  /local/deals?where=Austin,TX       live weekly-ad deals near a city or ZIP
+  /local/search?q=eggs&where=78701   one item across nearby stores' ads
+  /search, /probe, /coupons, /deals  the product engine (the default app runs it on simulated demo data)
 """
 from __future__ import annotations
 
+import os
+from contextlib import asynccontextmanager
 from dataclasses import asdict
-from typing import Optional
+from typing import Any, AsyncIterator, Optional
 
+from . import __version__
+from .coupons import reliability
+from .local import LocalDealService
+from .net import HttpError
 from .ranking import deal_heat, rank_deals
+from .render import jsonable
 from .service import DealService
 
 try:
-    from fastapi import FastAPI, HTTPException
+    from fastapi import FastAPI, HTTPException, Query
     from fastapi.middleware.cors import CORSMiddleware
-except Exception as e:  # noqa: BLE001
-    raise SystemExit("pip install 'plum[api]' to run the API") from e
+except ImportError as e:  # pragma: no cover
+    raise ImportError("the API needs FastAPI: pip install 'plum[api]'") from e
 
 
-def _quote(q):
+def _quote(q: Any) -> dict:
     return {
         "listing": asdict(q.listing), "match": asdict(q.match),
         "shipping": q.shipping, "ship_cost": q.ship_cost,
@@ -30,13 +39,51 @@ def _quote(q):
     }
 
 
-def create_app(service: DealService) -> FastAPI:
-    app = FastAPI(title="Plum", version="0.1.0")
-    app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+def create_app(service: DealService, local: Optional[LocalDealService] = None) -> FastAPI:
+    state: dict[str, Optional[LocalDealService]] = {"local": local}
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        yield
+        if local is None and state["local"] is not None:     # only close what this app opened
+            await state["local"].aclose()
+
+    def live() -> LocalDealService:
+        if state["local"] is None:
+            state["local"] = LocalDealService.live()
+        return state["local"]
+
+    app = FastAPI(title="Plum", version=__version__, lifespan=lifespan)
+    origins = [o.strip() for o in os.getenv("PLUM_CORS_ORIGINS", "*").split(",") if o.strip()]
+    app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"], allow_headers=["*"])
 
     @app.get("/health")
     async def health():
-        return {"ok": True, "stores": [a.retailer for a in service.adapters]}
+        return {"ok": True, "version": __version__, "stores": [a.retailer for a in service.adapters]}
+
+    @app.get("/local/deals")
+    async def local_deals(where: str, radius_mi: float = Query(25.0, gt=0, le=100), limit: int = Query(25, ge=1, le=100),
+                          promos: int = Query(10, ge=0, le=100), per_store: int = Query(3, ge=1, le=100),
+                          store: list[str] = Query(default=[]), category: str = "", confirmed_only: bool = False):
+        try:
+            rep = await live().deals(where, radius_mi=radius_mi, limit=limit, promo_limit=promos, per_store=per_store,
+                                     merchants=store, category=category, confirmed_only=confirmed_only)
+        except LookupError as e:
+            raise HTTPException(404, str(e))
+        except HttpError as e:
+            raise HTTPException(502, str(e))
+        return jsonable(rep)
+
+    @app.get("/local/search")
+    async def local_search(q: str, where: str, radius_mi: float = Query(25.0, gt=0, le=100),
+                           limit: int = Query(20, ge=1, le=100), confirmed_only: bool = False):
+        try:
+            rep = await live().search(q, where, radius_mi=radius_mi, limit=limit, confirmed_only=confirmed_only)
+        except LookupError as e:
+            raise HTTPException(404, str(e))
+        except HttpError as e:
+            raise HTTPException(502, str(e))
+        return jsonable(rep)
 
     @app.get("/retailers")
     async def retailers():
@@ -49,27 +96,25 @@ def create_app(service: DealService) -> FastAPI:
             raise HTTPException(404, {"how": rep.how, "message": "no product matched"})
         return {
             "product": asdict(rep.product), "how": rep.how,
-            "adapters": [{"retailer": a.retailer, "status": a.status, "ms": a.ms, "count": len(a.listings), "error": a.error} for a in rep.adapters],
+            "adapters": [{"retailer": a.retailer, "status": a.status, "ms": a.ms, "count": len(a.listings),
+                          "error": a.error} for a in rep.adapters],
             "offers": [dict(_quote(x), lowest_90d=rep.is_low(x)) for x in rep.offers],
-            "skipped": [{"id": s.listing.id, "title": s.listing.title, "retailer": s.listing.retailer, "price": s.listing.price,
-                         "condition": s.listing.condition.value, "why": s.why} for s in rep.skipped],
+            "skipped": [{"id": s.listing.id, "title": s.listing.title, "retailer": s.listing.retailer,
+                         "price": s.listing.price, "condition": s.listing.condition.value, "why": s.why}
+                        for s in rep.skipped],
         }
 
     @app.post("/probe/{listing_id}")
     async def probe(listing_id: str, product_id: str):
-        product = service.index.products.get(product_id)
+        product, listing = await service.listing(product_id, listing_id)
         if product is None:
             raise HTTPException(404, "unknown product")
-        outcomes = await service._fetch(product)
-        listing = next((l for o in outcomes for l in o.listings if l.id == listing_id), None)
         if listing is None:
             raise HTTPException(404, "listing not in current results")
-        res = await service.test_codes(listing, product)
-        return asdict(res)
+        return asdict(await service.test_codes(listing, product))
 
     @app.get("/coupons/{retailer}")
     async def coupons(retailer: str):
-        from .coupons import reliability
         return [dict(asdict(c), type=c.type.value, scope=c.scope.value, reliability=round(reliability(c), 3))
                 for c in service.coupons if c.retailer == retailer]
 

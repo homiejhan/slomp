@@ -55,8 +55,12 @@ class CircuitBreaker:
 
 class Adapter(ABC):
     retailer: str = ""
-    rate = TokenBucket(5, 10)
-    breaker = CircuitBreaker()
+
+    def __init__(self, rate: Optional[TokenBucket] = None, breaker: Optional[CircuitBreaker] = None):
+        # Per instance on purpose: a class-level breaker is shared by every store, so one failing store
+        # used to open the circuit for all of them.
+        self.rate = rate or TokenBucket(5, 10)
+        self.breaker = breaker or CircuitBreaker()
 
     @abstractmethod
     async def search(self, product: Product) -> list[Listing]:
@@ -65,14 +69,17 @@ class Adapter(ABC):
     async def guarded_search(self, product: Product, timeout_s: float) -> list[Listing]:
         if self.breaker.open:
             raise RuntimeError(f"{self.retailer}: circuit open")
-        await self.rate.take()
-        try:
-            res = await asyncio.wait_for(self.search(product), timeout=timeout_s)
+        try:  # the budget covers waiting for a rate-limit token too
+            res = await asyncio.wait_for(self._rate_limited_search(product), timeout=timeout_s)
         except Exception:
             self.breaker.fail()
             raise
         self.breaker.ok()
         return res
+
+    async def _rate_limited_search(self, product: Product) -> list[Listing]:
+        await self.rate.take()
+        return await self.search(product)
 
 
 @dataclass
@@ -92,7 +99,7 @@ async def run_adapters(adapters: list[Adapter], product: Product, budget_s: floa
         try:
             ls = await a.guarded_search(product, budget_s)
             return AdapterOutcome(a.retailer, "done", ls, int((time.monotonic() - t0) * 1000))
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return AdapterOutcome(a.retailer, "timeout", [], int(budget_s * 1000))
         except Exception as e:  # noqa: BLE001 - one bad store must not sink the request
             return AdapterOutcome(a.retailer, "error", [], int((time.monotonic() - t0) * 1000), str(e))

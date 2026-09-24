@@ -16,12 +16,20 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from ..coupons import applies, record_outcome
+from ..coupons import applies, discount_of, record_outcome
 from ..models import Coupon, Listing, ProbeResult, ProbeStep, Product
+
+
+def parse_money(text: str) -> float:
+    """The last dollar amount in a cart-total element: "Total: $1,234.56 (2 items)" -> 1234.56."""
+    s = text or ""
+    amounts = re.findall(r"\$\s*(\d[\d,]*(?:\.\d{2})?)", s) or re.findall(r"\d[\d,]*\.\d{2}", s) or re.findall(r"\d[\d,]*", s)
+    return float(amounts[-1].replace(",", "")) if amounts else 0.0
 
 
 class CheckoutProbe(ABC):
@@ -33,7 +41,6 @@ class SimulatedProbe(CheckoutProbe):
     """Outcome = hash(code, listing) < observed success rate. Same cart, same answer."""
 
     async def try_codes(self, listing: Listing, product: Product, coupons: list[Coupon]) -> ProbeResult:
-        from ..coupons import discount_of
         steps: list[ProbeStep] = []
         for c in coupons:
             ok, why = applies(c, listing, product)
@@ -59,7 +66,7 @@ class CheckoutRecipe:
     promo_submit: str
     total_selector: str
     error_selector: str
-    parse_total: Callable[[str], float] = lambda s: float("".join(ch for ch in s if ch.isdigit() or ch == ".") or 0)
+    parse_total: Callable[[str], float] = parse_money
     settle_ms: int = 800
     extra_steps: list[str] = field(default_factory=list)
 
