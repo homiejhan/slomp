@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plum · local deals</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='17' r='13' fill='%236e2b5f'/%3E%3Ccircle cx='11' cy='12' r='4' fill='%23c77fb4' opacity='.8'/%3E%3Cpath d='M16 4c0-2 2-3 4-3' stroke='%233f7a3f' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f4f2;
+    --surface: #ffffff;
+    --surface-2: #f3ecf0;
+    --text: #2b1f2b;
+    --muted: #7a6b78;
+    --line: #e9dfe6;
+    --plum: #6e2b5f;
+    --plum-strong: #571f4b;
+    --plum-soft: #f4e6f0;
+    --gold: #9a6414;
+    --gold-soft: #fbf0d9;
+    --green: #2f7a4f;
+    --red: #b3463f;
+    --red-soft: #fbe7e5;
+    --shadow: 0 1px 2px rgba(43, 31, 43, .05), 0 10px 28px -14px rgba(43, 31, 43, .22);
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161117; --surface: #201823; --surface-2: #2b2130; --text: #f4ecf2; --muted: #a798a5; --line: #382d3d;
+      --plum: #dba6cd; --plum-strong: #ecc3e0; --plum-soft: #3a2541; --gold: #e6b65e; --gold-soft: #3d3220;
+      --green: #82c9a0; --red: #e8918a; --red-soft: #4a2a2a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
+    }
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { background: var(--bg); color: var(--text); font: 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  body { margin: 0; min-height: 100vh; background:
+    radial-gradient(900px 420px at 12% -8%, var(--plum-soft), transparent 65%),
+    radial-gradient(700px 360px at 95% 0%, var(--gold-soft), transparent 60%); }
+  a { color: var(--plum); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero and search */
+  .hero { padding: 40px 0 28px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c77fb4, var(--plum) 60%, #3f1536); box-shadow: 0 2px 6px rgba(87, 31, 75, .35); }
+  .brand .name { font: 600 26px/1 var(--serif); letter-spacing: -.02em; color: var(--plum); }
+  h1 { font: 500 clamp(32px, 4.6vw, 46px)/1.08 var(--serif); letter-spacing: -.02em; margin: 26px 0 10px; }
+  .lede { margin: 0; color: var(--muted); font-size: 17px; max-width: 58ch; }
+  .search { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 18px; }
+  .mode { display: inline-flex; gap: 2px; background: var(--surface-2); border-radius: 999px; padding: 4px; margin-bottom: 14px; }
+  .mode button { border: 0; background: transparent; color: var(--muted); font: 600 14px var(--sans); padding: 8px 16px; border-radius: 999px; cursor: pointer; }
+  .mode button[aria-selected="true"] { background: var(--surface); color: var(--plum); box-shadow: 0 1px 3px rgba(43, 31, 43, .15); }
+  .fields { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 130px; }
+  .field.grow { flex: 1 1 240px; }
+  .field > span { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  input, select { height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: 16px var(--sans); width: 100%; }
+  input:focus, select:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 4px var(--plum-soft); }
+  .go { height: 46px; padding: 0 22px; border: 0; border-radius: 12px; background: var(--plum); color: #fff; font: 600 15px var(--sans); cursor: pointer; white-space: nowrap; }
+  .go:hover { background: var(--plum-strong); }
+  .go:disabled { opacity: .6; cursor: progress; }
+  @media (prefers-color-scheme: dark) { .go { color: #1b1020; } }
+  .examples { margin: 14px 0 0; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .examples button { border: 1px solid var(--line); background: var(--surface); color: var(--plum); font: 500 13px var(--sans); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+  .examples button:hover { border-color: var(--plum); }
+
+  /* Status */
+  .status { margin: 28px 0; padding: 22px 24px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; gap: 16px; align-items: center; }
+  .status.error { border-color: var(--red); background: var(--red-soft); }
+  .spinner { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--plum-soft); border-top-color: var(--plum); animation: spin .9s linear infinite; flex: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .status strong { display: block; }
+  .status .note { color: var(--muted); font-size: 14px; margin: 2px 0 0; }
+  .status .icon svg { width: 26px; height: 26px; color: var(--red); display: block; }
+
+  /* Results */
+  .results { padding-bottom: 60px; }
+  .meta { margin: 28px 0 6px; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+  .meta h2 { font: 500 30px/1.15 var(--serif); letter-spacing: -.02em; margin: 0; }
+  .meta .facts { color: var(--muted); font-size: 14px; }
+  .notice { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+  .section { margin-top: 34px; }
+  .section-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .section-head h3 { font: 500 24px/1.2 var(--serif); letter-spacing: -.015em; margin: 0; }
+  .count { font-size: 13px; font-weight: 600; color: var(--plum); background: var(--plum-soft); padding: 2px 10px; border-radius: 999px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 4px 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; transition: transform .15s ease, box-shadow .15s ease; }
+  .card:hover { transform: translateY(-2px); }
+  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .merchant { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 999px; background: var(--plum); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .badge.soft { background: var(--gold-soft); color: var(--gold); }
+  @media (prefers-color-scheme: dark) { .badge { color: #1b1020; } .badge.soft { color: var(--gold); } }
+  .card-body { display: flex; gap: 14px; align-items: flex-start; }
+  .card-text { flex: 1; min-width: 0; }
+  .thumb { flex: none; width: 84px; height: 84px; border-radius: 12px; background: var(--surface-2); object-fit: contain; padding: 4px; }
+  .pricing { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .price { font-size: 28px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .each { color: var(--muted); font-size: 14px; }
+  .was { color: var(--muted); font-size: 14px; }
+  .offer { font-size: 20px; font-weight: 600; line-height: 1.2; color: var(--gold); }
+  .title { margin: 6px 0 0; font-size: 15px; font-weight: 500; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chip { font-size: 12px; color: var(--muted); background: var(--surface-2); padding: 3px 9px; border-radius: 8px; }
+  .chip.needs { background: transparent; padding-left: 0; padding-right: 2px; font-weight: 600; }
+  .chip.warn { color: var(--gold); background: var(--gold-soft); }
+  .store { margin: 0; font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: flex-start; }
+  .store svg { flex: none; width: 14px; height: 14px; margin-top: 3px; }
+  .store.flag { color: var(--gold); }
+  .links { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); display: flex; gap: 18px; }
+  .links a { font-size: 13px; font-weight: 600; text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+
+  /* Footer of a report */
+  .aside { margin-top: 30px; color: var(--muted); font-size: 14px; display: grid; gap: 10px; }
+  .aside details summary { cursor: pointer; color: var(--plum); font-weight: 600; }
+  .aside ul { margin: 6px 0 0; padding-left: 20px; }
+  .src { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
+  .src i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+  .src.bad i { background: var(--red); }
+  .foot { padding: 30px 24px 40px; color: var(--muted); font-size: 13px; }
+  .empty { margin: 40px 0; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span><span class="name">Plum</span></div>
+    <h1>This week's deals near you</h1>
+    <p class="lede">The weekly ads from stores around a city, read for what they actually promise: real prices, real savings, and the fine print that goes with them.</p>
+    <form id="form" class="search" autocomplete="off">
+      <div class="mode" role="tablist" aria-label="What to look for">
+        <button type="button" role="tab" data-mode="deals" aria-selected="true">Best deals</button>
+        <button type="button" role="tab" data-mode="search" aria-selected="false">Find an item</button>
+      </div>
+      <div class="fields">
+        <label class="field grow"><span>Where</span><input id="where" placeholder="City or ZIP, e.g. Austin, TX" required></label>
+        <label class="field grow" id="qfield" hidden><span>Item</span><input id="q" placeholder="e.g. chicken breast"></label>
+        <label class="field" id="catfield"><span>Category</span>
+          <select id="category">
+            <option value="">All categories</option>
+            <option>Groceries</option><option>Electronics</option><option>Home &amp; Garden</option><option>Pharmacy</option>
+            <option>General Merchandise</option><option>Fashion</option><option>Sporting Goods</option><option>Pets</option>
+            <option>Baby &amp; Kids</option><option>Office</option><option>Automotive</option><option>Specialty</option>
+          </select></label>
+        <label class="field"><span>Radius</span>
+          <select id="radius"><option value="10">10 mi</option><option value="25" selected>25 mi</option><option value="50">50 mi</option></select></label>
+        <button class="go" id="go" type="submit">Find deals</button>
+      </div>
+      <p class="examples">Try: <button type="button" data-example="Austin, TX">Austin, TX</button><button type="button" data-example="78704">78704</button><button type="button" data-example="Portland, OR">Portland, OR</button></p>
+    </form>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="status" class="status" hidden aria-live="polite"></section>
+  <section id="results" class="results" hidden></section>
+  <p id="empty" class="empty">Enter a city or ZIP to see what's on sale this week.</p>
+</main>
+<footer class="wrap foot">Ads from Flipp; store locations from OpenStreetMap. Prices and stock can change after an ad is published, so open the store page before you go.</footer>
+
+<script>
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const KM_PER_MI = 1.609344;
+  const UNIT = { lb: '/lb', each: ' ea', case: '/case' };
+  const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+  const WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+  const STEPS = ['Finding the place on the map', "Reading this week's ads for the ZIP", 'Checking the full ad records of the front-runners', 'Confirming which stores are nearby'];
+
+  const $ = (s) => document.querySelector(s);
+  let mode = 'deals';
+
+  function h(tag, attrs = {}, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'svg') el.innerHTML = v;              // only the SVG constants above
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : String(kid));
+    return el;
+  }
+  const money = (v) => '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const dateLabel = (iso) => { const [, m, d] = iso.slice(0, 10).split('-').map(Number); return `${MONTHS[m - 1]} ${d}`; };
+  const miles = (km) => (km / KM_PER_MI).toFixed(1) + ' mi';
+  const chip = (text, cls = '') => h('span', { class: 'chip ' + cls }, text);
+
+  function setMode(m) {
+    mode = m;
+    for (const b of document.querySelectorAll('.mode button')) b.setAttribute('aria-selected', b.dataset.mode === m);
+    $('#qfield').hidden = m !== 'search';
+    $('#catfield').hidden = m === 'search';
+    $('#q').required = m === 'search';
+    $('#go').textContent = m === 'search' ? 'Compare prices' : 'Find deals';
+  }
+
+  // The saving as a short label; "soft" when it's hedged or measured against something other than the regular price.
+  function saving(t) {
+    if (t.hedge === 'no reference' && (t.dollars_off || t.pct_off))
+      return { text: t.dollars_off ? `saves ${money(t.dollars_off)}` : `${Math.round(t.pct_off)}% off`, soft: true };
+    if (!t.pct_off) return null;
+    const pct = `${Math.round(t.pct_off)}% off`;
+    if (t.hedge === 'up to') return { text: `up to ${pct}`, soft: true };
+    if (t.hedge === 'compare at') return { text: `${Math.round(t.pct_off)}% below compare-at`, soft: true };
+    return { text: pct, soft: false };
+  }
+
+  function badge(t) {
+    const s = saving(t);
+    return s && h('span', { class: 'badge' + (s.soft ? ' soft' : '') }, s.text);
+  }
+
+  // A card leads with its price; an offer without one leads with the ad's own words for the deal.
+  function headline(t) {
+    if (t.price == null) {
+      const s = saving(t);
+      return h('div', { class: 'offer' }, t.offer || (s ? s.text : ''));
+    }
+    const main = t.quantity > 1 ? `${t.quantity} for ${money(t.price)}` : money(t.price) + (UNIT[t.unit] || '');
+    const bits = [h('span', { class: 'price' }, (t.hedge === 'starting at' ? 'from ' : '') + main)];
+    if (t.quantity > 1) bits.push(h('span', { class: 'each' }, `${money(t.price / t.quantity)} ea`));
+    if (t.was != null) bits.push(h('s', { class: 'was', title: t.hedge === 'compare at' ? 'compare-at value' : 'regular price' }, money(t.was)));
+    return h('div', { class: 'pricing' }, bits);
+  }
+
+  const squash = (s) => s.toLowerCase().replace(/[^a-z0-9%$.]/g, '');
+  function restates(offer, t) {          // "You save 76.00" next to a "saves $76.00" badge says nothing new
+    const s = saving(t);
+    return /^(you\s+)?save\s+\$?\s*[\d,]+(\.\d+)?$/i.test(offer) || (s != null && squash(offer) === squash(s.text));
+  }
+
+  function chips(d) {
+    const t = d.terms, out = [];
+    if (t.offer && t.price != null && !restates(t.offer, t)) out.push(chip(t.offer));
+    if (t.hedge === 'no reference') out.push(chip('no regular price stated', 'warn'));
+    if (t.hedge === 'compare at') out.push(chip('vs. a compare-at value', 'warn'));
+    if (t.conditions.length) { out.push(chip('needs', 'needs')); t.conditions.forEach((c) => out.push(chip(c))); }
+    out.push(chip('ends ' + dateLabel(d.valid_to)));
+    return h('div', { class: 'chips' }, out);
+  }
+
+  function store(d) {
+    if (d.store) {
+      const s = d.store;
+      return h('p', { class: 'store' }, h('span', { svg: PIN }), `${s.name}${s.address ? ', ' + s.address : ''} · ${miles(s.distance_km)}`);
+    }
+    if (d.flags.length) return h('p', { class: 'store flag' }, h('span', { svg: WARN }), d.flags.join('; '));
+    return null;
+  }
+
+  function card(d) {
+    const img = d.image_url && h('img', { class: 'thumb', src: d.image_url, alt: '', loading: 'lazy', onerror: (e) => e.target.remove() });
+    return h('article', { class: 'card' },
+      h('div', { class: 'card-top' }, h('span', { class: 'merchant' }, d.merchant), d.terms.price != null && badge(d.terms)),
+      h('div', { class: 'card-body' },
+        h('div', { class: 'card-text' }, headline(d.terms), h('p', { class: 'title' }, d.title)),
+        img),
+      chips(d),
+      store(d),
+      h('div', { class: 'links' },
+        h('a', { href: d.source_url, target: '_blank', rel: 'noopener' }, 'View the ad ↗'),
+        d.product_url && h('a', { href: d.product_url, target: '_blank', rel: 'noopener' }, 'Store page ↗')));
+  }
+
+  function section(title, sub, deals) {
+    if (!deals.length) return null;
+    return h('section', { class: 'section' },
+      h('div', { class: 'section-head' }, h('h3', {}, title), h('span', { class: 'count' }, deals.length)),
+      h('p', { class: 'sub' }, sub),
+      h('div', { class: 'grid' }, deals.map(card)));
+  }
+
+  function sources(list) {
+    return h('div', {}, list.map((s) => h('span', { class: 'src' + (s.ok ? '' : ' bad'), title: s.detail }, h('i'), `${s.name}: ${s.ok ? 'ok' : 'failed'}`)));
+  }
+
+  function leftOut(skipped) {
+    const entries = Object.entries(skipped).sort((a, b) => b[1] - a[1]);
+    if (!entries.length) return null;
+    const total = entries.reduce((n, [, c]) => n + c, 0);
+    return h('details', {}, h('summary', {}, `What was left out (${total.toLocaleString()} items)`),
+      h('ul', {}, entries.map(([why, n]) => h('li', {}, `${n.toLocaleString()} · ${why}`))));
+  }
+
+  function renderDeals(rep) {
+    const when = new Date(rep.generated_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    const far = Object.values(rep.presence).filter((p) => p.status === 'far' || p.status === 'unmapped').map((p) => p.merchant).sort();
+    return [
+      h('div', { class: 'meta' }, h('h2', {}, rep.place.name),
+        h('span', { class: 'facts' }, `ZIP ${rep.place.postal_code} · ${Math.round(rep.radius_km / KM_PER_MI)} mi · ${rep.flyers.length} ads running · ${rep.items_seen.toLocaleString()} items read · as of ${when}`)),
+      h('p', { class: 'notice' }, 'Prices are what each retailer’s weekly ad says. They can change after an ad is published, so open the store page before you go.'),
+      section('Best deals', 'A firm price, and a saving against the store’s own regular price.', rep.deals),
+      section('Other offers', 'Percent-off and multi-buy promos, “up to” savings, and savings without a stated regular price.', rep.promos),
+      !rep.deals.length && !rep.promos.length && h('p', { class: 'empty' }, 'No deals found in this week’s ads.'),
+      h('div', { class: 'aside' },
+        !rep.complete && h('p', {}, 'Stopped reading full ad records at the budget; lower-ranked deals may be missing.'),
+        far.length > 0 && h('p', {}, `No store mapped within range for ${far.join(', ')}; their deals are flagged rather than dropped, because maps miss some chains.`),
+        rep.upcoming.length > 0 && h('p', {}, 'Starting soon: ' + rep.upcoming.map((f) => `${f.merchant} (${dateLabel(f.valid_from)})`).join(', ')),
+        leftOut(rep.skipped),
+        sources(rep.sources)),
+    ];
+  }
+
+  function renderSearch(rep) {
+    return [
+      h('div', { class: 'meta' }, h('h2', {}, `“${rep.query}” near ${rep.place.name}`),
+        h('span', { class: 'facts' }, `ZIP ${rep.place.postal_code} · ${Math.round(rep.radius_km / KM_PER_MI)} mi · cheapest first`)),
+      rep.results.length ? h('section', { class: 'section' }, h('div', { class: 'grid' }, rep.results.map(card)))
+                         : h('p', { class: 'empty' }, 'Nothing in this week’s ads matches.'),
+      h('div', { class: 'aside' }, leftOut(rep.skipped), sources(rep.sources)),
+    ];
+  }
+
+  function showStatus(kind, title, note) {
+    const el = $('#status');
+    el.className = 'status ' + kind;
+    el.replaceChildren(kind === 'loading' ? h('div', { class: 'spinner' }) : h('span', { svg: WARN, class: 'icon' }),
+      h('div', {}, h('strong', {}, title), note && h('p', { class: 'note' }, note)));
+    el.hidden = false;
+  }
+
+  async function run() {
+    const where = $('#where').value.trim();
+    if (!where) return;
+    const params = new URLSearchParams({ where, radius_mi: $('#radius').value });
+    let url;
+    if (mode === 'search') {
+      const q = $('#q').value.trim();
+      if (!q) return;
+      params.set('q', q);
+      url = '/local/search?' + params;
+    } else {
+      if ($('#category').value) params.set('category', $('#category').value);
+      url = '/local/deals?' + params;
+    }
+    history.replaceState(null, '', '?' + new URLSearchParams({ mode, ...Object.fromEntries(params) }));
+    $('#empty').hidden = true;
+    $('#results').hidden = true;
+    $('#go').disabled = true;
+    let step = 0;
+    const note = 'The first run for a place takes about a minute. Later runs take a second or two.';
+    showStatus('loading', STEPS[0] + '…', note);
+    const ticker = setInterval(() => { step = Math.min(step + 1, STEPS.length - 1); showStatus('loading', STEPS[step] + '…', note); }, 9000);
+    try {
+      const r = await fetch(url);
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        const detail = typeof body.detail === 'string' ? body.detail : 'Something went wrong.';
+        showStatus('error', r.status === 404 ? 'Couldn’t find that place' : 'A source didn’t answer', detail);
+        return;
+      }
+      $('#status').hidden = true;
+      $('#results').replaceChildren(...(mode === 'search' ? renderSearch(body) : renderDeals(body)).flat().filter(Boolean));
+      $('#results').hidden = false;
+    } catch (e) {
+      showStatus('error', 'Couldn’t reach Plum', 'Is the server running? ' + e.message);
+    } finally {
+      clearInterval(ticker);
+      $('#go').disabled = false;
+    }
+  }
+
+  document.querySelectorAll('.mode button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  document.querySelectorAll('[data-example]').forEach((b) => b.addEventListener('click', () => { $('#where').value = b.dataset.example; setMode('deals'); run(); }));
+  $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
+
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('where')) {
+    $('#where').value = qs.get('where');
+    if (qs.get('radius_mi')) $('#radius').value = qs.get('radius_mi');
+    if (qs.get('category')) $('#category').value = qs.get('category');
+    if (qs.get('q')) $('#q').value = qs.get('q');
+    setMode(qs.get('mode') === 'search' ? 'search' : 'deals');
+    run();
+  }
+</script>
+</body>
+</html>

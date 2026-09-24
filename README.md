@@ -20,7 +20,7 @@ plum deals "Austin, TX" --store "H-E-B" --store Randalls --confirmed-only
 plum search "chicken breast" --near "Austin, TX"
 plum deals "Austin, TX" --json > deals.json
 plum demo "sony xm5"                          # the product engine on simulated stores, offline
-uvicorn plum.api:app --reload                 # GET /local/deals?where=Austin,TX   /local/search?q=eggs&where=78701
+uvicorn plum.api:app --reload                 # web page at http://localhost:8000, API docs at /docs
 pytest                                        # 95 tests, all offline
 ```
 
@@ -139,7 +139,8 @@ backend/plum/
   models.py              dataclasses for both halves
   service.py, matching.py, coupons.py, pricing.py, ranking.py, identifiers.py, textfeatures.py, cache.py
   adapters/base.py, retailers.py, affiliate_feed.py, checkout_probe.py
-  api.py                 FastAPI app
+  api.py                 FastAPI app: the web page at /, /local/deals, /local/search, and the product engine
+  static/index.html      the web page: a city or ZIP box, and the deals as cards
   demo_data.py           simulated catalog for the product engine
 backend/tests/           95 tests; fakeweb.py stands in for Flipp, Nominatim and Overpass
 ```

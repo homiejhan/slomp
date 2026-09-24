@@ -12,6 +12,12 @@ def client():
     return TestClient(create_app(build_service(budget_s=1.0)))
 
 
+def test_home_page(client):
+    r = client.get("/")
+    assert r.status_code == 200 and r.headers["content-type"].startswith("text/html")
+    assert "<title>Plum" in r.text and "/local/deals?" in r.text and "/local/search?" in r.text
+
+
 def test_health_and_retailers(client):
     assert client.get("/health").json()["ok"] is True
     assert "bestbuy" in client.get("/retailers").json()

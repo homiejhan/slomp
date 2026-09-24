@@ -1,5 +1,6 @@
 """FastAPI surface. `pip install 'plum[api]'` then `uvicorn plum.api:app --reload`.
 
+  /                                  the web page (static/index.html)
   /local/deals?where=Austin,TX       live weekly-ad deals near a city or ZIP
   /local/search?q=eggs&where=78701   one item across nearby stores' ads
   /search, /probe, /coupons, /deals  the product engine (the default app runs it on simulated demo data)
@@ -9,6 +10,7 @@ from __future__ import annotations
 import os
 from contextlib import asynccontextmanager
 from dataclasses import asdict
+from pathlib import Path
 from typing import Any, AsyncIterator, Optional
 
 from . import __version__
@@ -22,8 +24,11 @@ from .service import DealService
 try:
     from fastapi import FastAPI, HTTPException, Query
     from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import FileResponse
 except ImportError as e:  # pragma: no cover
     raise ImportError("the API needs FastAPI: pip install 'plum[api]'") from e
+
+PAGE = Path(__file__).with_name("static") / "index.html"
 
 
 def _quote(q: Any) -> dict:
@@ -56,6 +61,10 @@ def create_app(service: DealService, local: Optional[LocalDealService] = None) -
     app = FastAPI(title="Plum", version=__version__, lifespan=lifespan)
     origins = [o.strip() for o in os.getenv("PLUM_CORS_ORIGINS", "*").split(",") if o.strip()]
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"], allow_headers=["*"])
+
+    @app.get("/", include_in_schema=False)
+    async def home():
+        return FileResponse(PAGE, media_type="text/html")
 
     @app.get("/health")
     async def health():

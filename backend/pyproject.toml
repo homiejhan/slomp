@@ -21,6 +21,9 @@ plum = "plum.cli:main"
 [tool.setuptools.packages.find]
 include = ["plum*"]
 
+[tool.setuptools.package-data]
+plum = ["static/*"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
