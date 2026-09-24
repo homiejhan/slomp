@@ -259,3 +259,40 @@ class LocalDeal:
     detailed: bool = False         # terms read from the full item record, not just the flyer index
     store: Optional[Store] = None  # nearest mapped store within the radius
     flags: list[str] = field(default_factory=list)
+
+
+# --- Online deals: specific products on sale at web stores, compared with other stores ------------------------------
+
+
+@dataclass(frozen=True)
+class PricePoint:
+    """The same product's price at another store, and who says so."""
+    store: str
+    price: Optional[float]
+    source: str                    # "Best Buy weekly ad", "dealnews editors", "Slickdeals"
+    url: str = ""
+    at_least: bool = False         # "the best price we found by at least $12": the other price is a floor
+    approx: bool = False           # "you'd pay around double elsewhere"
+    note: str = ""                 # "ad runs through Sep 28"
+
+
+@dataclass
+class OnlineDeal:
+    id: str                        # "<source>:<id>"
+    source: str                    # "Slickdeals" | "dealnews" | "camelcamelcamel"
+    title: str
+    store: str
+    terms: DealTerms               # hedge: "" (vs the store's own price or price history), "elsewhere" (vs other
+                                   # stores, per editors), "compare at" (list price), "no reference"
+    url: str                       # the deal post, which cites its evidence
+    store_url: str = ""
+    image_url: str = ""
+    posted: Optional[datetime] = None
+    expires: Optional[datetime] = None
+    votes: Optional[int] = None    # Slickdeals thumb score: the community's vetting
+    staff_pick: bool = False
+    code: str = ""                 # promo code the price needs
+    history: str = ""              # "best-ever price", "$9 below its previous low"
+    category: str = ""
+    headline: str = ""             # the post's own title, before the product name was cut out of it
+    elsewhere: list[PricePoint] = field(default_factory=list)

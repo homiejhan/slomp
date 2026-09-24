@@ -12,7 +12,7 @@ Three item shapes come back:
 from __future__ import annotations
 
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Optional
 
 from ..models import Flyer, LocalDeal
@@ -32,6 +32,14 @@ def item_url(item_id: Any) -> str:
 
 def flyer_url(flyer_id: Any) -> str:
     return f"{WEB}/weekly_ad/{flyer_id}"
+
+
+def end_day(d: datetime) -> str:
+    """The calendar day an ad ends on. Search results give end times in UTC, where "11:59 PM Sep 28" in any US time zone
+    reads as early Sep 29, so an early-morning UTC end belongs to the day before."""
+    if d.utcoffset() == timedelta(0) and d.hour < 12:
+        d -= timedelta(hours=12)
+    return f"{d:%b} {d.day}"
 
 
 def when(raw: Any) -> Optional[datetime]:

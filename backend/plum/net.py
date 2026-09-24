@@ -88,11 +88,13 @@ class HttpClient:
             raise RuntimeError("httpx is not installed; pip install 'plum[live]'")
         self.cache = cache
         self.min_interval = dict(min_interval_s or {})    # host -> seconds between request starts
+        self.timeout_s = timeout_s
         self.retries = retries
         self.backoff_s = backoff_s
         self.requests = 0                                 # network requests made (cache hits don't count)
         self._client = httpx.AsyncClient(timeout=timeout_s, transport=transport, follow_redirects=True,
-                                         headers={"User-Agent": user_agent(), "Accept": "application/json"})
+                                         headers={"User-Agent": user_agent(),
+                                                  "Accept": "application/json, application/rss+xml;q=0.9, */*;q=0.8"})
         self._host_locks: dict[str, asyncio.Lock] = {}
         self._host_next: dict[str, float] = {}
 
@@ -114,11 +116,16 @@ class HttpClient:
         """Form-encoded POST (what Overpass expects)."""
         return await self._json("POST", url, data=data, ttl_s=ttl_s, timeout_s=timeout_s, retries=retries)
 
+    async def get_text(self, url: str, params: Optional[Mapping[str, Any]] = None, *,
+                       ttl_s: Optional[float] = None) -> str:
+        """A text body such as an RSS feed. An HTML error page where XML was expected counts as a failure."""
+        return await self._json("GET", url, params=params, ttl_s=ttl_s, as_text=True)
+
     async def _json(self, method: str, url: str, *, params: Optional[Mapping[str, Any]] = None,
                     data: Optional[Mapping[str, Any]] = None, headers: Optional[Mapping[str, str]] = None,
                     ttl_s: Optional[float] = None, timeout_s: Optional[float] = None,
-                    retries: Optional[int] = None) -> Any:
-        key = _cache_key(method, url, params, data)
+                    retries: Optional[int] = None, as_text: bool = False) -> Any:
+        key = _cache_key(method + (":text" if as_text else ""), url, params, data)
         if self.cache and ttl_s:
             hit = self.cache.get(key)
             if hit is not MISS:
@@ -130,22 +137,31 @@ class HttpClient:
                 await asyncio.sleep(self._backoff(attempt, last))
             await self._pace(host)
             self.requests += 1
+            limit = timeout_s or self.timeout_s
             try:
-                r = await self._client.request(method, url, params=params, data=data, headers=headers,
-                                               **({"timeout": timeout_s} if timeout_s else {}))
-            except httpx.HTTPError as e:  # timeouts, resets, DNS
-                last = HttpError(f"{host}: {type(e).__name__}")
+                # httpx's timeout bounds each wait for bytes, not the whole exchange, so a connection that stalls
+                # mid-response could hang forever; the hard deadline makes it a failed attempt instead.
+                r = await asyncio.wait_for(self._client.request(method, url, params=params, data=data, headers=headers,
+                                                                timeout=limit), timeout=limit + min(5.0, limit))
+            except (httpx.HTTPError, TimeoutError) as e:  # timeouts, resets, DNS, stalls
+                last = HttpError(f"{host}: {'took too long' if isinstance(e, TimeoutError) else type(e).__name__}")
                 continue
             if r.status_code in RETRY_STATUS:
                 last = HttpError(f"{host} answered {r.status_code}", _retry_after(r.headers))
                 continue
             if r.status_code >= 400:
                 raise HttpError(f"{host} answered {r.status_code} for {r.request.url.path}")
-            try:
-                body = r.json()
-            except ValueError:  # e.g. Overpass's HTML "too busy" page
-                last = HttpError(f"{host} sent a non-JSON response")
-                continue
+            if as_text:
+                body = r.text
+                if body.lstrip()[:15].lower().startswith(("<!doctype html", "<html")):
+                    last = HttpError(f"{host} sent a web page instead of a feed")
+                    continue
+            else:
+                try:
+                    body = r.json()
+                except ValueError:  # e.g. Overpass's HTML "too busy" page
+                    last = HttpError(f"{host} sent a non-JSON response")
+                    continue
             if self.cache and ttl_s:
                 self.cache.set(key, body, ttl_s)
             return body

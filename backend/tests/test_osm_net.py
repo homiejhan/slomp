@@ -103,6 +103,20 @@ async def test_disk_cache_serves_repeat_requests(tmp_path):
     assert cache.get("k") is MISS                                          # expired entries read as missing
 
 
+async def test_a_stalled_connection_fails_instead_of_hanging():
+    import asyncio
+
+    async def stall(request):
+        await asyncio.sleep(30)                      # a server that accepts the request and never finishes
+        return httpx.Response(200, json={})
+
+    async with HttpClient(transport=httpx.MockTransport(stall), backoff_s=0, timeout_s=0.05, retries=2) as http:
+        t0 = time.monotonic()
+        with pytest.raises(HttpError, match="took too long"):
+            await http.get_json("https://example.org/slow")
+        assert time.monotonic() - t0 < 2
+
+
 async def test_requests_to_one_host_are_spaced_out():
     async with _client(lambda r: httpx.Response(200, json={}), min_interval_s={"example.org": 0.05}) as http:
         t0 = time.monotonic()

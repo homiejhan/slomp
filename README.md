@@ -1,6 +1,6 @@
 # Plum: find the plum deal near you
 
-Plum answers two questions:
+Plum answers three questions:
 
 - **What's on sale near me this week?** `plum deals "Austin, TX"` reads the weekly ads retailers publish for a city's
   ZIP code, keeps only what's running now, works out what each ad actually promises, and ranks the real savings. Each
@@ -8,6 +8,9 @@ Plum answers two questions:
 - **Where is this exact item cheapest?** `plum search "chicken breast" --near 78701` compares one item across
   nearby stores' ads by unit price. The original product engine (matching, coupon scoring, landed cost) is still
   here too, and `plum demo` runs it on simulated stores.
+- **What's deeply discounted online right now?** `plum online --near 78701` lists specific products at big discounts
+  on web stores. Each shows what its discount is measured against and, where one exists, the same model's current
+  price at other stores. See [Online deals](#online-deals).
 
 ## Quick start
 
@@ -18,10 +21,11 @@ plum deals "Austin, TX"                       # best deals + other offers, 25-mi
 plum deals 78704 --category Groceries --limit 10
 plum deals "Austin, TX" --store "H-E-B" --store Randalls --confirmed-only
 plum search "chicken breast" --near "Austin, TX"
+plum online --near "Austin, TX" --min 50      # online discounts of 50%+, compared with Austin store ads
 plum deals "Austin, TX" --json > deals.json
 plum demo "sony xm5"                          # the product engine on simulated stores, offline
 uvicorn plum.api:app --reload                 # web page at http://localhost:8000, API docs at /docs
-pytest                                        # 95 tests, all offline
+pytest                                        # 111 tests, all offline
 ```
 
 The first run for a city takes about a minute (≈45 ads, ≈110 full ad records, two map queries). Responses are cached
@@ -79,6 +83,46 @@ price**, which is why every deal links to both.
 | "You save 76.00" (Flipp computed 76.01) | 76.00 | The ad's own printed figure wins over a computed one |
 | Costco items | membership warehouse | Costco / Sam's Club / BJ's: "membership"; Restaurant Depot: "business membership" |
 
+## Online deals
+
+`plum online` (and the **Online deals** tab on the web page) lists specific products at big discounts on web stores
+right now, from three public feeds:
+
+| Source | What it's good for | How its discount is read |
+|---|---|---|
+| Slickdeals front page and popular deals | community-vetted deals; the thumb score is the vetting | "on sale for $199.99 − 35% with promo code X = $129.99": the saving is against that store's own price, and the code is shown |
+| dealnews | editor-checked deals, often with other stores' prices | "You'd pay $5 more at Macy's", "the best price we found by $16": other stores' prices; "a $9 low", "best-ever price": price history; "a $39 savings": no stated reference |
+| camelcamelcamel | Amazon price drops | measured against Amazon's own tracked price |
+
+Only **one product at one price** counts. Storewide sales ("Up to 50% off", "Deals from $30", "$10 off $40", promo
+codes), memberships, gift cards, bank bonuses, travel, expired deals, and posts more than 5 days old are left out, and
+each is counted in "What was left out". Deals are ranked by percent saved. A saving against a list price, an "up to"
+ceiling, or no stated price at all counts half, and every card says in words what its discount is measured against:
+"vs $89.98 at Amazon without the code", "vs at least $90 at other stores", "the post gives no regular price".
+
+**The same product at other stores** comes from three current sources:
+- dealnews' editors, who price the same item at other stores
+- this week's ads from stores near the place you enter; the big chains' ad prices are their web prices too, and each
+  ad item links to the retailer's page
+- another feed carrying the same model at a different store
+
+**Checked against the stores (Sep 24, 2026):**
+- The North Face Vault backpack: Amazon shows $70.00 with a $33.62 clip coupon, exactly Plum's $36.38.
+- The North Face Borealis tote: $69.13 less a $28.65 coupon is $40.48 (dealnews rounds to $40). Other colors are
+  $90.00, matching dealnews' "best price by $50". The clip coupon wasn't shown at first; dealnews posts now get
+  their conditions read too.
+- KYEHD cables: Amazon's $7.99 matches Plum's "vs $7.99 without the code". The Prime promo code itself can only be
+  checked at checkout.
+- ENCOOL bottle: Amazon opened on the 18 oz at $21.99, while the deal was for the 32 oz. "On sale from $17.99" and
+  "$9 & More" mean the price depends on the option, and Plum now says so instead of claiming a flat 50% off.
+
+Matching is on model numbers only (EM2FPAF32B, WH-1000XM6, DWHT10998, LEGO 10281), with screen sizes compared, so two
+different 1080p monitors or a 43" and a 55" TV of one series never look alike. Most online deals are marketplace items
+without a model number that any store ad carries, so most cards show no comparison. A price aggregator that would
+cover every store (UPCitemdb) was tested and rejected: its "current" store prices were up to 18 months old, it mixed
+Canadian and UK prices in with US ones, and a model search returned an accessory for it. The product engine's
+eBay, Walmart, Best Buy and Amazon adapters would widen comparisons if you add API keys.
+
 ## Known limitations
 
 - **Ads go stale within the week.** Old Navy's two $20 hoodies (Was $44.99, valid through Sep 27) showed $35.99
@@ -91,6 +135,8 @@ price**, which is why every deal links to both.
 - **Coverage is what Flipp carries.** H-E-B's Flipp ad had 32 items, far fewer than its full weekly ad.
 - **Search is word-based.** "eggs" also finds "Egg Spaetzle". Model numbers are checked (XM6 is not XM5), and
   accessories are dropped ("case for AirPods").
+- **Online prices and codes move fastest.** A promo code can run out within hours of a post, which is why every
+  online card shows how long ago it was posted.
 - US only. The Flipp endpoints are unofficial and may change or be rate-limited; use Plum for personal research, and
   respect each source's terms.
 
@@ -128,19 +174,21 @@ Bugs fixed in 0.2, each with a regression test in [test_engine_fixes.py](backend
 
 ```
 backend/plum/
-  cli.py                 plum deals | search | demo
+  cli.py                 plum deals | search | online | demo
   local.py               LocalDealService: place → ads → items → rank → read → stores → report
+  online.py              OnlineDealService: feeds → single items → rank → same product at other stores
   terms.py               deal terms from ad text: multi-buy, BOGO, units, hedges, conditions, sanity rules
   geo.py                 Nominatim geocoding, distances
   net.py                 polite HTTP: User-Agent, per-host spacing, retries, disk cache
   render.py              text and JSON views
   adapters/flipp.py      Flipp weekly-ad client and item parsers
   adapters/osm.py        Overpass store locator with strict merchant matching
-  models.py              dataclasses for both halves
+  adapters/feeds.py      Slickdeals, dealnews and camelcamelcamel feed parsers
+  models.py              dataclasses for local deals, online deals and the product engine
   service.py, matching.py, coupons.py, pricing.py, ranking.py, identifiers.py, textfeatures.py, cache.py
   adapters/base.py, retailers.py, affiliate_feed.py, checkout_probe.py
-  api.py                 FastAPI app: the web page at /, /local/deals, /local/search, and the product engine
-  static/index.html      the web page: a city or ZIP box, and the deals as cards
+  api.py                 FastAPI app: the web page at /, /local/*, /online/deals, and the product engine
+  static/index.html      the web page: deals near you, an item search, and online deals, as cards
   demo_data.py           simulated catalog for the product engine
-backend/tests/           95 tests; fakeweb.py stands in for Flipp, Nominatim and Overpass
+backend/tests/           111 tests, all offline; fakeweb.py stands in for Flipp, Nominatim and Overpass
 ```

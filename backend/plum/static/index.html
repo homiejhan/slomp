@@ -127,6 +127,27 @@
   .src { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
   .src i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
   .src.bad i { background: var(--red); }
+
+  /* Online deals */
+  .source { font-size: 12px; font-weight: 600; color: var(--muted); display: inline-flex; gap: 6px; align-items: center; }
+  .source b { color: var(--plum); font-weight: 700; }
+  .basis { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+  .code { font: 600 12px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .04em; color: var(--plum);
+          border: 1px dashed var(--plum); background: var(--plum-soft); padding: 2px 8px; border-radius: 8px; }
+  .chip.history { color: var(--green); background: transparent; border: 1px solid var(--line); }
+  .compare { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .compare-head { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+                  padding: 8px 12px; background: var(--surface-2); }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 12px; font-size: 14px;
+         border-top: 1px solid var(--line); }
+  .row .who { min-width: 0; }
+  .row .via { display: block; font-size: 12px; color: var(--muted); }
+  .row .amt { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .row.here { background: var(--plum-soft); }
+  .row.here .amt { color: var(--plum); }
+  .tag { font-size: 11px; font-weight: 700; color: var(--green); margin-left: 6px; }
+  .tag.worse { color: var(--gold); }
+  .compared { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
   .foot { padding: 30px 24px 40px; color: var(--muted); font-size: 13px; }
   .empty { margin: 40px 0; color: var(--muted); }
 </style>
@@ -135,15 +156,16 @@
 <header class="hero">
   <div class="wrap">
     <div class="brand"><span class="dot"></span><span class="name">Plum</span></div>
-    <h1>This week's deals near you</h1>
-    <p class="lede">The weekly ads from stores around a city, read for what they actually promise: real prices, real savings, and the fine print that goes with them.</p>
+    <h1>Find the plum deal</h1>
+    <p class="lede">This week's store ads near you and the biggest discounts online, read for what they actually promise: real prices, real savings, and the fine print that goes with them.</p>
     <form id="form" class="search" autocomplete="off">
       <div class="mode" role="tablist" aria-label="What to look for">
-        <button type="button" role="tab" data-mode="deals" aria-selected="true">Best deals</button>
+        <button type="button" role="tab" data-mode="deals" aria-selected="true">Best deals near you</button>
         <button type="button" role="tab" data-mode="search" aria-selected="false">Find an item</button>
+        <button type="button" role="tab" data-mode="online" aria-selected="false">Online deals</button>
       </div>
       <div class="fields">
-        <label class="field grow"><span>Where</span><input id="where" placeholder="City or ZIP, e.g. Austin, TX" required></label>
+        <label class="field grow"><span id="wherelabel">Where</span><input id="where" placeholder="City or ZIP, e.g. Austin, TX" required></label>
         <label class="field grow" id="qfield" hidden><span>Item</span><input id="q" placeholder="e.g. chicken breast"></label>
         <label class="field" id="catfield"><span>Category</span>
           <select id="category">
@@ -152,8 +174,10 @@
             <option>General Merchandise</option><option>Fashion</option><option>Sporting Goods</option><option>Pets</option>
             <option>Baby &amp; Kids</option><option>Office</option><option>Automotive</option><option>Specialty</option>
           </select></label>
-        <label class="field"><span>Radius</span>
+        <label class="field" id="radfield"><span>Radius</span>
           <select id="radius"><option value="10">10 mi</option><option value="25" selected>25 mi</option><option value="50">50 mi</option></select></label>
+        <label class="field" id="minfield" hidden><span>At least</span>
+          <select id="minpct"><option value="20">20% off</option><option value="30" selected>30% off</option><option value="50">50% off</option><option value="70">70% off</option></select></label>
         <button class="go" id="go" type="submit">Find deals</button>
       </div>
       <p class="examples">Try: <button type="button" data-example="Austin, TX">Austin, TX</button><button type="button" data-example="78704">78704</button><button type="button" data-example="Portland, OR">Portland, OR</button></p>
@@ -175,6 +199,7 @@
   const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
   const WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
   const STEPS = ['Finding the place on the map', "Reading this week's ads for the ZIP", 'Checking the full ad records of the front-runners', 'Confirming which stores are nearby'];
+  const ONLINE_STEPS = ['Reading Slickdeals, dealnews and camelcamelcamel', 'Working out what each discount is measured against', 'Looking for the same models in store ads near you'];
 
   const $ = (s) => document.querySelector(s);
   let mode = 'deals';
@@ -193,16 +218,26 @@
   }
   const money = (v) => '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const dateLabel = (iso) => { const [, m, d] = iso.slice(0, 10).split('-').map(Number); return `${MONTHS[m - 1]} ${d}`; };
+  // An ad ending "11:59 PM Sep 28" in a US time zone is early Sep 29 in UTC, which is how search results report it.
+  const endLabel = (iso) => {
+    if (!/(\+00:00|Z)$/.test(iso) || Number(iso.slice(11, 13)) >= 12) return dateLabel(iso);
+    return dateLabel(new Date(Date.parse(iso.slice(0, 10) + 'T00:00:00Z') - 864e5).toISOString());
+  };
   const miles = (km) => (km / KM_PER_MI).toFixed(1) + ' mi';
   const chip = (text, cls = '') => h('span', { class: 'chip ' + cls }, text);
 
   function setMode(m) {
     mode = m;
+    const online = m === 'online';
     for (const b of document.querySelectorAll('.mode button')) b.setAttribute('aria-selected', b.dataset.mode === m);
     $('#qfield').hidden = m !== 'search';
-    $('#catfield').hidden = m === 'search';
+    $('#catfield').hidden = m !== 'deals';
+    $('#radfield').hidden = online;
+    $('#minfield').hidden = !online;
     $('#q').required = m === 'search';
-    $('#go').textContent = m === 'search' ? 'Compare prices' : 'Find deals';
+    $('#where').required = !online;
+    $('#wherelabel').textContent = online ? 'Compare with stores near (optional)' : 'Where';
+    $('#go').textContent = m === 'search' ? 'Compare prices' : online ? 'Find online deals' : 'Find deals';
   }
 
   // The saving as a short label; "soft" when it's hedged or measured against something other than the regular price.
@@ -246,7 +281,7 @@
     if (t.hedge === 'no reference') out.push(chip('no regular price stated', 'warn'));
     if (t.hedge === 'compare at') out.push(chip('vs. a compare-at value', 'warn'));
     if (t.conditions.length) { out.push(chip('needs', 'needs')); t.conditions.forEach((c) => out.push(chip(c))); }
-    out.push(chip('ends ' + dateLabel(d.valid_to)));
+    out.push(chip('ends ' + endLabel(d.valid_to)));
     return h('div', { class: 'chips' }, out);
   }
 
@@ -273,12 +308,93 @@
         d.product_url && h('a', { href: d.product_url, target: '_blank', rel: 'noopener' }, 'Store page ↗')));
   }
 
-  function section(title, sub, deals) {
+  function section(title, sub, deals, make = card) {
     if (!deals.length) return null;
     return h('section', { class: 'section' },
       h('div', { class: 'section-head' }, h('h3', {}, title), h('span', { class: 'count' }, deals.length)),
       h('p', { class: 'sub' }, sub),
-      h('div', { class: 'grid' }, deals.map(card)));
+      h('div', { class: 'grid' }, deals.map(make)));
+  }
+
+  /* Online deals */
+  function ago(iso) {
+    if (!iso) return null;
+    const hrs = Math.floor((Date.now() - new Date(iso)) / 3.6e6);
+    return hrs < 1 ? 'posted just now' : hrs < 48 ? `posted ${hrs} h ago` : `posted ${Math.floor(hrs / 24)} days ago`;
+  }
+
+  function sourceLabel(d) {
+    if (d.source === 'Slickdeals') return h('span', { class: 'source' }, 'Slickdeals', d.votes != null && h('b', { title: 'thumb score: the community’s vote' }, `+${d.votes}`));
+    if (d.source === 'dealnews') return h('span', { class: 'source' }, d.staff_pick ? 'dealnews staff pick' : 'dealnews');
+    return h('span', { class: 'source' }, 'camelcamelcamel price tracker');
+  }
+
+  function onlineBadge(t) {
+    if (!t.pct_off) return null;
+    const firm = t.hedge === '' || t.hedge === 'elsewhere';
+    return h('span', { class: 'badge' + (firm ? '' : ' soft'), title: firm ? '' : 'measured against a list price or an unstated one' }, `${Math.round(t.pct_off)}% off`);
+  }
+
+  // The deal next to the same product's price at other stores, cheapest first.
+  function compareBlock(d) {
+    const t = d.terms;
+    const others = d.elsewhere.filter((p) => p.price != null);
+    if (!others.length || t.price == null) return null;
+    const rows = [{ who: d.store || 'This deal', via: 'this deal', amt: t.price / t.quantity, here: true }]
+      .concat(others.map((p) => ({ who: p.store, via: p.source + (p.note ? ' · ' + p.note : ''), amt: p.price, url: p.url,
+                                   mark: p.at_least ? 'at least ' : p.approx ? 'about ' : '' })))
+      .sort((a, b) => a.amt - b.amt);
+    return h('div', { class: 'compare' },
+      h('div', { class: 'compare-head' }, 'Same product, other stores'),
+      rows.map((r, i) => h('div', { class: 'row' + (r.here ? ' here' : '') },
+        h('span', { class: 'who' },
+          r.url ? h('a', { href: r.url, target: '_blank', rel: 'noopener' }, r.who) : r.who,
+          i === 0 && h('span', { class: 'tag' + (r.here ? '' : ' worse') }, r.here ? 'cheapest' : 'cheaper here'),
+          h('span', { class: 'via' }, r.via)),
+        h('span', { class: 'amt' }, (r.mark || '') + money(r.amt)))));
+  }
+
+  function onlineCard(d) {
+    const t = d.terms;
+    const img = d.image_url && h('img', { class: 'thumb', src: d.image_url, alt: '', loading: 'lazy', onerror: (e) => e.target.remove() });
+    const pricing = t.price == null ? null : h('div', { class: 'pricing' },
+      h('span', { class: 'price' }, (t.hedge === 'starting at' ? 'from ' : '') + (t.quantity > 1 ? `${t.quantity} for ${money(t.price)}` : money(t.price))),
+      t.quantity > 1 && h('span', { class: 'each' }, `${money(t.price / t.quantity)} ea`),
+      t.was != null && t.hedge === '' && h('s', { class: 'was' }, money(t.was)));
+    return h('article', { class: 'card' },
+      h('div', { class: 'card-top' }, h('span', { class: 'merchant' }, d.store || 'Online'), onlineBadge(t)),
+      h('div', { class: 'card-body' },
+        h('div', { class: 'card-text' }, pricing, h('p', { class: 'title' }, d.title), d.basis && h('p', { class: 'basis' }, d.basis)),
+        img),
+      h('div', { class: 'chips' },
+        d.code && h('span', { class: 'code', title: 'promo code this price needs' }, d.code),
+        t.conditions.filter((c) => !c.startsWith('code ')).map((c) => chip(c)),
+        d.history && chip(d.history, 'history'),
+        ago(d.posted) && chip(ago(d.posted))),
+      compareBlock(d),
+      h('div', { class: 'links' },
+        h('a', { href: d.url, target: '_blank', rel: 'noopener' }, 'Deal post ↗'),
+        d.store_url && h('a', { href: d.store_url, target: '_blank', rel: 'noopener' }, 'Store page ↗'),
+        h('span', { style: 'margin-left:auto' }, sourceLabel(d))));
+  }
+
+  function renderOnline(rep) {
+    const when = new Date(rep.generated_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    const near = rep.compared_near;
+    return [
+      h('div', { class: 'meta' }, h('h2', {}, 'Online deals'),
+        h('span', { class: 'facts' }, `${rep.deals.length} big discounts · from Slickdeals, dealnews and camelcamelcamel · as of ${when}`)),
+      h('p', { class: 'notice' }, 'Specific products at big discounts right now. Prices move fast online and codes run out, so open the deal post before you buy.'),
+      section('Biggest discounts', `One product at one price, at least ${$('#minpct').value}% off. Each card says what its discount is measured against.`, rep.deals, onlineCard),
+      section('Popular, no stated discount', 'Community favorites whose post doesn’t give a regular price to measure against.', rep.popular, onlineCard),
+      !rep.deals.length && !rep.popular.length && h('p', { class: 'empty' }, 'No online deals right now at that discount.'),
+      h('div', { class: 'aside' },
+        h('p', { class: 'compared' }, near
+          ? `Other stores’ prices come from dealnews’ price checks, plus ${rep.looked_up} model-number lookups in this week’s store ads near ${near.name}. A store shows up only when it has the exact model.`
+          : 'Other stores’ prices come from dealnews’ price checks. Add a city or ZIP to also check this week’s store ads near you.'),
+        leftOut(rep.skipped),
+        sources(rep.sources)),
+    ];
   }
 
   function sources(list) {
@@ -332,26 +448,35 @@
 
   async function run() {
     const where = $('#where').value.trim();
-    if (!where) return;
-    const params = new URLSearchParams({ where, radius_mi: $('#radius').value });
+    const params = new URLSearchParams();
     let url;
-    if (mode === 'search') {
-      const q = $('#q').value.trim();
-      if (!q) return;
-      params.set('q', q);
-      url = '/local/search?' + params;
+    if (mode === 'online') {
+      if (where) params.set('where', where);
+      params.set('min_pct', $('#minpct').value);
+      url = '/online/deals?' + params;
     } else {
-      if ($('#category').value) params.set('category', $('#category').value);
-      url = '/local/deals?' + params;
+      if (!where) return;
+      params.set('where', where);
+      params.set('radius_mi', $('#radius').value);
+      if (mode === 'search') {
+        const q = $('#q').value.trim();
+        if (!q) return;
+        params.set('q', q);
+        url = '/local/search?' + params;
+      } else {
+        if ($('#category').value) params.set('category', $('#category').value);
+        url = '/local/deals?' + params;
+      }
     }
     history.replaceState(null, '', '?' + new URLSearchParams({ mode, ...Object.fromEntries(params) }));
     $('#empty').hidden = true;
     $('#results').hidden = true;
     $('#go').disabled = true;
     let step = 0;
-    const note = 'The first run for a place takes about a minute. Later runs take a second or two.';
-    showStatus('loading', STEPS[0] + '…', note);
-    const ticker = setInterval(() => { step = Math.min(step + 1, STEPS.length - 1); showStatus('loading', STEPS[step] + '…', note); }, 9000);
+    const steps = mode === 'online' ? ONLINE_STEPS : STEPS;
+    const note = mode === 'online' ? 'This takes a few seconds.' : 'The first run for a place takes about a minute. Later runs take a second or two.';
+    showStatus('loading', steps[0] + '…', note);
+    const ticker = setInterval(() => { step = Math.min(step + 1, steps.length - 1); showStatus('loading', steps[step] + '…', note); }, mode === 'online' ? 3000 : 9000);
     try {
       const r = await fetch(url);
       const body = await r.json().catch(() => ({}));
@@ -361,7 +486,8 @@
         return;
       }
       $('#status').hidden = true;
-      $('#results').replaceChildren(...(mode === 'search' ? renderSearch(body) : renderDeals(body)).flat().filter(Boolean));
+      const render = mode === 'search' ? renderSearch : mode === 'online' ? renderOnline : renderDeals;
+      $('#results').replaceChildren(...render(body).flat().filter(Boolean));
       $('#results').hidden = false;
     } catch (e) {
       showStatus('error', 'Couldn’t reach Plum', 'Is the server running? ' + e.message);
@@ -376,12 +502,13 @@
   $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
 
   const qs = new URLSearchParams(location.search);
-  if (qs.get('where')) {
-    $('#where').value = qs.get('where');
+  if (qs.get('where') || qs.get('mode') === 'online') {
+    $('#where').value = qs.get('where') || '';
     if (qs.get('radius_mi')) $('#radius').value = qs.get('radius_mi');
     if (qs.get('category')) $('#category').value = qs.get('category');
+    if (qs.get('min_pct')) $('#minpct').value = qs.get('min_pct');
     if (qs.get('q')) $('#q').value = qs.get('q');
-    setMode(qs.get('mode') === 'search' ? 'search' : 'deals');
+    setMode(['search', 'online'].includes(qs.get('mode')) ? qs.get('mode') : 'deals');
     run();
   }
 </script>

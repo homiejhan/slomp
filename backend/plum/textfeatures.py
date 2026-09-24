@@ -92,6 +92,26 @@ def features(title: str) -> Features:
     return Features(tuple(toks), frozenset(bag), frozenset(codes), frozenset(sizes))
 
 
+# Tokens shaped like model numbers that are really specs, sizes or counts: 1080p, 4k, 5000mah, 12pk, gen3, wifi7.
+_SPEC = re.compile(r"\d{3,4}p|\d{1,2}k(?:uhd|hdr)?|\d+(?:hz|gb|tb|mb|mah|mm|cm|in|inch|ft|oz|lbs?|qt|ct|pk|pcs?|w|v|a|wh|"
+                   r"x\d+)|(?:gen|ddr|usb|ipx?|wifi|pcie|hdmi|series|model|size|type|class|version|v)\d+|(?:19|20)\d\d")
+
+
+@lru_cache(maxsize=8192)
+def model_codes(title: str) -> frozenset[str]:
+    """Tokens that identify one product: EM2FPAF32B, WH-1000XM6, DWHT10998, LEGO 10281. Unlike `features().codes`,
+    no joined word pairs and no specs, so "12 mega rolls", "1080p" and "Wi-Fi 7" never make two products "the same"."""
+    out = set()
+    for t in tokens(title):
+        c = compact(t)
+        if _SPEC.fullmatch(c) or UNIT_RE.match(t) or ORD_RE.match(t):
+            continue
+        digits = sum(ch.isdigit() for ch in c)
+        if (c.isdigit() and len(c) >= 5) or (_has_alpha(c) and digits >= 2 and len(c) >= 4):
+            out.add(c)
+    return frozenset(out)
+
+
 def near_code(a: str, b: str) -> bool:
     """Same length, differ in one position (two for long codes): WH-1000XM4 vs XM5, V11 vs V15, 10280 vs 10281."""
     if a == b or len(a) != len(b) or len(a) < 3:

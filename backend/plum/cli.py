@@ -2,6 +2,7 @@
 
   plum deals "Austin, TX"                         this week's best weekly-ad deals near a city or ZIP
   plum search "chicken breast" --near 78701       one item across nearby stores' ads, cheapest first
+  plum online --near 78701                        the biggest online discounts, with the same product elsewhere
   plum demo "sony xm5"                            the product engine on simulated stores (no network)
 """
 from __future__ import annotations
@@ -36,13 +37,33 @@ def _parser() -> argparse.ArgumentParser:
     s.add_argument("--limit", type=int, default=20)
     s.add_argument("--confirmed-only", action="store_true")
 
-    for sp in (d, s):
+    o = sub.add_parser("online", help="the biggest online discounts right now, with the same product elsewhere")
+    o.add_argument("--near", default="", help="a city or ZIP whose store ads to compare against (optional)")
+    o.add_argument("--min", type=float, default=30.0, help="smallest discount to list, in percent (default 30)")
+    o.add_argument("--limit", type=int, default=30)
+
+    for sp in (d, s, o):
         sp.add_argument("--json", action="store_true", help="machine-readable output")
         sp.add_argument("--no-cache", action="store_true", help="ignore cached responses")
 
     m = sub.add_parser("demo", help="the product engine on simulated stores (no network)")
     m.add_argument("query", nargs="*", default=["sony", "xm5"])
     return p
+
+
+async def _online(args: argparse.Namespace) -> int:
+    from .net import DiskCache, HttpClient
+    from .local import POLITE_INTERVALS
+    from .online import OnlineDealService
+    from .render import jsonable, render_online
+
+    svc = OnlineDealService(HttpClient(cache=None if args.no_cache else DiskCache(), min_interval_s=POLITE_INTERVALS))
+    try:
+        rep = await svc.deals(where=args.near, min_pct=args.min, limit=args.limit)
+    finally:
+        await svc.http.aclose()
+    print(json.dumps(jsonable(rep), indent=2) if args.json else render_online(rep))
+    return 0 if all(s.ok for s in rep.sources) else 1
 
 
 async def _local(args: argparse.Namespace) -> int:
@@ -98,6 +119,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     try:
         if args.cmd == "demo":
             return asyncio.run(_demo(" ".join(args.query)))
+        if args.cmd == "online":
+            return asyncio.run(_online(args))
         return asyncio.run(_local(args))
     except LookupError as e:
         print(f"plum: {e}", file=sys.stderr)

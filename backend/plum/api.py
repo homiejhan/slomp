@@ -3,6 +3,7 @@
   /                                  the web page (static/index.html)
   /local/deals?where=Austin,TX       live weekly-ad deals near a city or ZIP
   /local/search?q=eggs&where=78701   one item across nearby stores' ads
+  /online/deals?where=78701          the biggest online discounts, with the same product elsewhere
   /search, /probe, /coupons, /deals  the product engine (the default app runs it on simulated demo data)
 """
 from __future__ import annotations
@@ -17,6 +18,7 @@ from . import __version__
 from .coupons import reliability
 from .local import LocalDealService
 from .net import HttpError
+from .online import OnlineDealService
 from .ranking import deal_heat, rank_deals
 from .render import jsonable
 from .service import DealService
@@ -44,8 +46,9 @@ def _quote(q: Any) -> dict:
     }
 
 
-def create_app(service: DealService, local: Optional[LocalDealService] = None) -> FastAPI:
-    state: dict[str, Optional[LocalDealService]] = {"local": local}
+def create_app(service: DealService, local: Optional[LocalDealService] = None,
+               online: Optional[OnlineDealService] = None) -> FastAPI:
+    state: dict[str, Any] = {"local": local, "online": online}
 
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
@@ -57,6 +60,11 @@ def create_app(service: DealService, local: Optional[LocalDealService] = None) -
         if state["local"] is None:
             state["local"] = LocalDealService.live()
         return state["local"]
+
+    def web() -> OnlineDealService:
+        if state["online"] is None:                        # shares the local service's client, cache and pacing
+            state["online"] = OnlineDealService(live().http)
+        return state["online"]
 
     app = FastAPI(title="Plum", version=__version__, lifespan=lifespan)
     origins = [o.strip() for o in os.getenv("PLUM_CORS_ORIGINS", "*").split(",") if o.strip()]
@@ -93,6 +101,10 @@ def create_app(service: DealService, local: Optional[LocalDealService] = None) -
         except HttpError as e:
             raise HTTPException(502, str(e))
         return jsonable(rep)
+
+    @app.get("/online/deals")
+    async def online_deals(where: str = "", min_pct: float = Query(30.0, ge=0, lt=100), limit: int = Query(30, ge=1, le=100)):
+        return jsonable(await web().deals(where=where, min_pct=min_pct, limit=limit))
 
     @app.get("/retailers")
     async def retailers():
