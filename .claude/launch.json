@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "plum-api",
+      "runtimeExecutable": "/Users/homiejhan/.local/bin/uv",
+      "runtimeArgs": ["run", "--no-project", "--python", "3.12", "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
+                      "python", "-m", "uvicorn", "plum.api:app", "--app-dir", "backend", "--port", "8000"],
+      "port": 8000
+    }
+  ]
+}
