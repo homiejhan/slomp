@@ -1,0 +1,5887 @@
+{
+ "plan": "regulars",
+ "iteration": 1,
+ "seed": 1011,
+ "run_id": "regulars01-202610051120",
+ "run_at": "2026-10-05T16:20:12.988906+00:00",
+ "queries": [
+  [
+   "austin",
+   [
+    "dining",
+    "entertainment",
+    "fashion",
+    "home",
+    "health"
+   ],
+   25.0
+  ],
+  [
+   "san-marcos",
+   [
+    "dining",
+    "entertainment"
+   ],
+   25.0
+  ],
+  [
+   "kyle",
+   [
+    "dining",
+    "entertainment"
+   ],
+   10.0
+  ],
+  [
+   "round-rock",
+   [
+    "dining",
+    "entertainment"
+   ],
+   50.0
+  ],
+  [
+   "houston",
+   [
+    "dining",
+    "entertainment",
+    "fashion",
+    "home",
+    "health"
+   ],
+   25.0
+  ],
+  [
+   "the-woodlands",
+   [
+    "dining",
+    "entertainment"
+   ],
+   25.0
+  ],
+  [
+   "katy",
+   [
+    "dining",
+    "entertainment"
+   ],
+   10.0
+  ],
+  [
+   "league-city",
+   [
+    "dining",
+    "entertainment"
+   ],
+   50.0
+  ],
+  [
+   "dallas",
+   [
+    "dining",
+    "entertainment",
+    "fashion",
+    "home",
+    "health"
+   ],
+   25.0
+  ],
+  [
+   "arlington",
+   [
+    "dining",
+    "entertainment"
+   ],
+   25.0
+  ],
+  [
+   "garland",
+   [
+    "dining",
+    "entertainment"
+   ],
+   10.0
+  ],
+  [
+   "mckinney",
+   [
+    "dining",
+    "entertainment"
+   ],
+   50.0
+  ]
+ ],
+ "plum": {
+  "statewide": {
+   "regular_deals": 184,
+   "by_status": {
+    "reported": 16,
+    "confirmed": 60,
+    "yours": 1,
+    "listed": 107
+   },
+   "by_origin": {
+    "registry": 76,
+    "yours": 1,
+    "list": 107
+   },
+   "left_out": {
+    "regular deal: the chain has no mapped place in Texas": 223,
+    "regular deal: no concrete offer stated": 118,
+    "regular deal: an everyday offer, not tied to a day or time": 112,
+    "regular deal: a one-off date, not a standing offer": 55,
+    "regular deal: lists disagree on the price, so it is not shown": 17,
+    "regular deal: a delivery app's promotion": 5,
+    "regular deal: past its stated end date": 4,
+    "regular deal: a list gives a different price than the company's own page": 4,
+    "regular deal: a gift card, points or sweepstakes offer": 1
+   },
+   "sources_failing": []
+  },
+  "searches": [
+   {
+    "city": "austin",
+    "area": "austin",
+    "industries": [
+     "dining",
+     "entertainment",
+     "fashion",
+     "home",
+     "health"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 117,
+    "by_status": {
+     "confirmed": 47,
+     "listed": 62,
+     "reported": 7,
+     "yours": 1
+    }
+   },
+   {
+    "city": "san-marcos",
+    "area": "austin",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 68,
+    "by_status": {
+     "confirmed": 22,
+     "listed": 45,
+     "reported": 1
+    }
+   },
+   {
+    "city": "kyle",
+    "area": "austin",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 10.0,
+    "regulars": 51,
+    "by_status": {
+     "confirmed": 13,
+     "listed": 38
+    }
+   },
+   {
+    "city": "round-rock",
+    "area": "austin",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 50.0,
+    "regulars": 118,
+    "by_status": {
+     "confirmed": 43,
+     "listed": 67,
+     "reported": 7,
+     "yours": 1
+    }
+   },
+   {
+    "city": "houston",
+    "area": "houston",
+    "industries": [
+     "dining",
+     "entertainment",
+     "fashion",
+     "home",
+     "health"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 122,
+    "by_status": {
+     "confirmed": 37,
+     "listed": 78,
+     "reported": 7
+    }
+   },
+   {
+    "city": "the-woodlands",
+    "area": "houston",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 98,
+    "by_status": {
+     "confirmed": 30,
+     "listed": 66,
+     "reported": 2
+    }
+   },
+   {
+    "city": "katy",
+    "area": "houston",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 10.0,
+    "regulars": 68,
+    "by_status": {
+     "confirmed": 24,
+     "listed": 43,
+     "reported": 1
+    }
+   },
+   {
+    "city": "league-city",
+    "area": "houston",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 50.0,
+    "regulars": 127,
+    "by_status": {
+     "confirmed": 37,
+     "listed": 83,
+     "reported": 7
+    }
+   },
+   {
+    "city": "dallas",
+    "area": "dallas",
+    "industries": [
+     "dining",
+     "entertainment",
+     "fashion",
+     "home",
+     "health"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 118,
+    "by_status": {
+     "confirmed": 35,
+     "listed": 80,
+     "reported": 3
+    }
+   },
+   {
+    "city": "arlington",
+    "area": "dallas",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 25.0,
+    "regulars": 126,
+    "by_status": {
+     "confirmed": 38,
+     "listed": 82,
+     "reported": 6
+    }
+   },
+   {
+    "city": "garland",
+    "area": "dallas",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 10.0,
+    "regulars": 96,
+    "by_status": {
+     "confirmed": 27,
+     "listed": 67,
+     "reported": 2
+    }
+   },
+   {
+    "city": "mckinney",
+    "area": "dallas",
+    "industries": [
+     "dining",
+     "entertainment"
+    ],
+    "radius_mi": 50.0,
+    "regulars": 134,
+    "by_status": {
+     "confirmed": 39,
+     "listed": 89,
+     "reported": 6
+    }
+   }
+  ]
+ },
+ "tests": [
+  {
+   "id": "R-X-000",
+   "category": "R-X other source",
+   "subject": "[austin] Rosa's Caf\u00e9: Taco Tuesday: all taco plates $6.65 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-001",
+   "category": "R-X other source",
+   "subject": "[san-marcos] KFC: Every Friday, guests can score 24 nuggets (reg. $7.99 for a 12-c (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-002",
+   "category": "R-X other source",
+   "subject": "[kyle] Red Lobster: Enjoy Lobster & Shrimp Scampi, plus your choice of side, for $19 (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-003",
+   "category": "R-X other source",
+   "subject": "[round-rock] Hank's: Happy hour every day, 3 to 6:30 pm: $1 off beer, $6 frozen and t (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-004",
+   "category": "R-X other source",
+   "subject": "[houston] Long John Silver's: Get a $30 Date Night meal at Long John Silver's with one snack,  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-005",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Red Lobster: On Tuesdays, Red Lobster offers a pound of snow crab legs with s (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-006",
+   "category": "R-X other source",
+   "subject": "[katy] BJ's Restaurant & Brewhouse: Tuesday: $5 Pizookie and half off wine (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-007",
+   "category": "R-X other source",
+   "subject": "[league-city] Dickey's Barbecue Pit: Score 10 classic wings for $10 at Dickey's Barbecue Pit on Wedne (listed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "EatDrinkDeals (wednesday page)",
+    "their_words": "dickey's barbecue pit:  dickey's bbq has a new daily deals menu; on wednesdays get 10 wings for $10; good for for online or in-store orders."
+   }
+  },
+  {
+   "id": "R-X-008",
+   "category": "R-X other source",
+   "subject": "[dallas] Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "a monthly deal: the weekday lists don't cover it"
+   }
+  },
+  {
+   "id": "R-X-009",
+   "category": "R-X other source",
+   "subject": "[arlington] IKEA: On Wednesdays get two kids entree free with purchase of adult en (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-010",
+   "category": "R-X other source",
+   "subject": "[garland] Dave & Buster's: Dave & Buster's has a Happy Hour every day but Saturday with dri (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-011",
+   "category": "R-X other source",
+   "subject": "[mckinney] Wendy's: This fall, Wendy's has several college football deals available  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals saturday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-012",
+   "category": "R-X other source",
+   "subject": "[austin] Taco Cabana: Double Happy Hour: $2.50 margaritas and $3 snacks, Sunday to Thu (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-013",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Schlotzsky's: From Friday to Sunday after 5 pm, get personal sized pizzas for  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-014",
+   "category": "R-X other source",
+   "subject": "[kyle] Kerbey Lane Cafe: Happy hour every day, 4 to 6 pm: $3 mimosas, $5 beers, $7 cockta (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-015",
+   "category": "R-X other source",
+   "subject": "[round-rock] KFC: Get 8 tenders and four dipping sauces for $10 at KFC on Thursday (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-016",
+   "category": "R-X other source",
+   "subject": "[houston] Black Bear Diner: Get an all-you-can-eat Fish Fry on Fridays at many Black Bear Di (listed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "The Krazy Coupon Lady (friday page)",
+    "their_words": "black bear diner: enjoy an all-you-can-eat fish fry (deep-fried fish fillets, french fries, hushpuppies, and coleslaw) at black bear diner each friday after 4 p.m."
+   }
+  },
+  {
+   "id": "R-X-017",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Buffalo Wild Wings: Get BOGO free boneless wings every Thursday at Buffalo Wild Wing (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-018",
+   "category": "R-X other source",
+   "subject": "[katy] Perry's Steakhouse & Grille: 3-Course Pork Chop Sunday Supper for $49 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-019",
+   "category": "R-X other source",
+   "subject": "[league-city] Beef O'Brady's: Beef 'O' Brady's offers a Fish 'N' Chips special every Friday. T (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-020",
+   "category": "R-X other source",
+   "subject": "[dallas] Sonic Drive-In: Sonic Drive-In has $2 Snacks for rewards members every day from  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-021",
+   "category": "R-X other source",
+   "subject": "[arlington] Modern Art Museum of Fort Worth: Free admission on Fridays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday",
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-022",
+   "category": "R-X other source",
+   "subject": "[mckinney] Carrabba's Italian Grill: Get a dinner for two for $45 at Carrabba's on Saturdays and Sund (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-023",
+   "category": "R-X other source",
+   "subject": "[austin] Luby's: Senior LuAnn plate for $8.49, daily after 3 pm (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-024",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Chuck E. Cheese: Topping Tuesday: buy one large pizza, get one 50% off (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-025",
+   "category": "R-X other source",
+   "subject": "[kyle] Wendy's: Celebrate Fryday with free any size fry at Wendy's when you make (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-026",
+   "category": "R-X other source",
+   "subject": "[round-rock] Revelry Kitchen + Bar: Thursday Smash Burger Night: $7 single patty, $9 double (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-027",
+   "category": "R-X other source",
+   "subject": "[houston] Pluckers Wing Bar: All-you-can-eat Buffalo Bites for $21 on Thursdays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-028",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Dickey's Barbecue Pit: Dickey's BBQ has daily deals every weekday. On Mondays get a Pul (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-029",
+   "category": "R-X other source",
+   "subject": "[katy] Abuelo's: $5 happy hour drinks and appetizers (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-030",
+   "category": "R-X other source",
+   "subject": "[league-city] Flix Brewhouse: $6 tickets for every 2D show on Wednesdays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-031",
+   "category": "R-X other source",
+   "subject": "[dallas] Cowboy Chicken: Every Monday after 4 p.m., get one free kids' (10 and under) mea (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-032",
+   "category": "R-X other source",
+   "subject": "[arlington] Which Wich: Which Wich has a Wicked Wednesday deal with a Regular Wicked san (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-033",
+   "category": "R-X other source",
+   "subject": "[garland] Dave & Buster's: Dave & Buster' s has happy hour specials, $1 wings on Mondays, h (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-034",
+   "category": "R-X other source",
+   "subject": "[mckinney] Dave & Buster's: Half-price games all day every Wednesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-035",
+   "category": "R-X other source",
+   "subject": "[austin] Dirty Martin's Place: Small cheeseburger for $5 during weekday happy hour, 2 to 6 pm (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-036",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Chuy's: Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and win (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-037",
+   "category": "R-X other source",
+   "subject": "[kyle] KFC: Get an 8-piece thighs or drums bucket for $10 on Tuesdays at KFC (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-038",
+   "category": "R-X other source",
+   "subject": "[round-rock] Buffalo Wild Wings: Happy hour: drinks and bites at $3-6 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-039",
+   "category": "R-X other source",
+   "subject": "[houston] IKEA: On Tuesdays at IKEA get any adult entree for half price. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-040",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Torchy's Tacos: Hooky Hour: half-priced house margaritas, beer and appetizers on (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-041",
+   "category": "R-X other source",
+   "subject": "[league-city] Panera Bread: On Tuesdays, get a Baker's Dozen (thirteen total) bagels for jus (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-042",
+   "category": "R-X other source",
+   "subject": "[dallas] Which Wich: Which Wich has daily deals every weekday, with select regular sa (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-043",
+   "category": "R-X other source",
+   "subject": "[arlington] Modern Art Museum of Fort Worth: Half-price tickets on Sundays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals sunday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-044",
+   "category": "R-X other source",
+   "subject": "[mckinney] P.F. Chang's: Happy hour: $5.99 beer, $6.99 wine, $8.99 cocktails and half-pri (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-045",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Marco's Pizza: Marco's Pizza has a buy one, get one free offer on Tuesdays plus (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-046",
+   "category": "R-X other source",
+   "subject": "[kyle] Pizza Hut: Each week you can celebrate Wing Wednesday with a BOGO deal on w (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-047",
+   "category": "R-X other source",
+   "subject": "[round-rock] Macaroni Grill: Macaroni Grill has a Buy One, Get One Free deal on select Monday (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-048",
+   "category": "R-X other source",
+   "subject": "[houston] BJ's Restaurant & Brewhouse: Thursday: $19.99 slow-roasted entr\u00e9e with dessert, and $6 call d (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-049",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] California Pizza Kitchen: Most CPK locations have a weekday Happy Hour with a pizza and be (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-050",
+   "category": "R-X other source",
+   "subject": "[katy] Red Lobster: Get all-you-can eat shrimp for $24.99. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-051",
+   "category": "R-X other source",
+   "subject": "[league-city] Cracker Barrel: On Wednesdays, Cracker Barrel offers Broccoli Cheddar Chicken, p (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-052",
+   "category": "R-X other source",
+   "subject": "[arlington] Outback Steakhouse: Get a surf and turf meal with sides for $24.99 at Outback Steakh (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-053",
+   "category": "R-X other source",
+   "subject": "[garland] Red Lobster: Get steak and lobster for $25 at Red Lobster. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-054",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Burger King: On Whopper Wednesdays (that's every Wednesday) at Burger King, R (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-055",
+   "category": "R-X other source",
+   "subject": "[round-rock] Blanton Museum of Art: Free Tuesdays: free admission every Tuesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-056",
+   "category": "R-X other source",
+   "subject": "[houston] KFC: Each week, KFC offers 10 wings (comes with two sauces) for $10 o (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-057",
+   "category": "R-X other source",
+   "subject": "[league-city] Sbarro: Order a 17-inch XL pepperoni or cheese NY pizza for $14 at Sbarr (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-058",
+   "category": "R-X other source",
+   "subject": "[arlington] Dickey's Barbecue Pit: Every Friday, you can enjoy BOGO Pit Smoked Loaded Baked Potatoe (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-059",
+   "category": "R-X other source",
+   "subject": "[garland] Pluckers Wing Bar: Kids eat free all day on Tuesdays: two free kids meals per adult (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-060",
+   "category": "R-X other source",
+   "subject": "[mckinney] TGI Fridays: Get $0.50 wings every Monday from 5 p.m. - close at TGI Fridays. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-061",
+   "category": "R-X other source",
+   "subject": "[austin] Buffalo Wild Wings: Get BOGO traditional wings at Buffalo Wild Wings. Offer is avail (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-062",
+   "category": "R-X other source",
+   "subject": "[houston] Ross Dress for Less: 55+ Tuesday Discount: 10% off purchases made on Tuesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-063",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Sonic Drive-In: Every Tuesday, rewards members can grab half-price Sonic cheeseb (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-064",
+   "category": "R-X other source",
+   "subject": "[katy] Star Cinema Grill: Tuesday special ticket price (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-065",
+   "category": "R-X other source",
+   "subject": "[league-city] Houston Museum of Natural Science: Free Tuesdays: free admission to the permanent exhibit halls, 5  (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-066",
+   "category": "R-X other source",
+   "subject": "[garland] Which Wich: On Fridays at Which Wich, you can save around $3 on a 7-inch Sea (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-067",
+   "category": "R-X other source",
+   "subject": "[mckinney] Moe's Southwest Grill: Moe Rewards members can score a $6.99 burrito or bowl (excluding (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-068",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Red Lobster: Red Lobster has a $20 Lobster & Shrimp deal every Thursday. Red  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-069",
+   "category": "R-X other source",
+   "subject": "[katy] Red Lobster: Get all-you-can eat shrimp for $24.99 at most locations. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-070",
+   "category": "R-X other source",
+   "subject": "[arlington] KFC: Every Monday you can get 24 chicken nuggets (reg. $15.98), plus  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-071",
+   "category": "R-X other source",
+   "subject": "[austin] McCormick & Schmick's: Every Friday, you can grab Two Buck Shuck oysters on the half sh (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-072",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Cicis: Rewards members can enjoy a $5.99 adult pizza buffet (reg. $9.99 (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-073",
+   "category": "R-X other source",
+   "subject": "[kyle] Which Wich: Which Wich has daily deals every weekday, with select regular sa (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-074",
+   "category": "R-X other source",
+   "subject": "[katy] Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-075",
+   "category": "R-X other source",
+   "subject": "[dallas] Papa Murphy's: Papa Murphy's Pizza has a $10.99 pizza deal most Tuesdays. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-076",
+   "category": "R-X other source",
+   "subject": "[garland] IKEA: It's Meatless Monday at Ikea restaurants where you can score the (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-077",
+   "category": "R-X other source",
+   "subject": "[mckinney] Buca di Beppo: Celebrate Meatball Mondays at Buca di Beppo Italian Restaurant w (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-078",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Pluckers Wing Bar: All-you-can-eat wings for $33 on Mondays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-079",
+   "category": "R-X other source",
+   "subject": "[round-rock] Shake Shack: Get a free Chicken Shack sandwich on Sundays at Shake Shack. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-080",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Freebirds: Kids eat free on Sundays at Freebirds World Burrito. Freebirds p (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-081",
+   "category": "R-X other source",
+   "subject": "[katy] Smoothie King: Healthy Rewards members can upsize their 20-ounce smoothie to a  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-082",
+   "category": "R-X other source",
+   "subject": "[dallas] Schlotzsky's: BOGO Wednesday: buy one pizza, flatbread or calzone and get one  (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-083",
+   "category": "R-X other source",
+   "subject": "[garland] Fuzzy's Taco Shop: TuesYay: $2.50 classic and $3.50 premium tacos all day Tuesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-084",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Jack in the Box: Jack in the Box offers 2 free tacos with any other purchase on T (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-085",
+   "category": "R-X other source",
+   "subject": "[kyle] Wingstop: Get $0.70 boneless wings on Mondays at Wingstop. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-086",
+   "category": "R-X other source",
+   "subject": "[houston] Memorial Trail Ice House: Steak night on Mondays: ribeye with potatoes and salad for $21 (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-087",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] The Cheesecake Factory: The Cheesecake Factory has Happy Hour specials at most locations (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-088",
+   "category": "R-X other source",
+   "subject": "[league-city] Main Event: Get a Kids Eat Free deal every Tuesday at Main Event. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-089",
+   "category": "R-X other source",
+   "subject": "[arlington] Wendy's: Score a free 6-piece Nuggs at Wendy's every Wednesday when you m (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-090",
+   "category": "R-X other source",
+   "subject": "[austin] Luby's: Kids eat free on Wednesdays and Saturdays: one free kid's meal p (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday",
+     "EatDrinkDeals saturday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-091",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Outback Steakhouse: Kids eat free every Monday: a free kids' meal with every adult e (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-092",
+   "category": "R-X other source",
+   "subject": "[dallas] AMC: 50% off movie tickets on Tuesdays and Wednesdays for AMC Stubs m (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-093",
+   "category": "R-X other source",
+   "subject": "[mckinney] Pie Five: On Mondays, Pie Five Pizza Circle of Crust members can enjoy a f (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-094",
+   "category": "R-X other source",
+   "subject": "[katy] BJ's Restaurant & Brewhouse: Monday: $19.99 large pizzas or $14.99 tavern-cut pizza, and $6 B (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "EatDrinkDeals (monday page)",
+    "their_words": "on \"pizza mondays\" get a $19.99 large deep dish or $14.99 large tavern-cut pizza."
+   }
+  },
+  {
+   "id": "R-X-095",
+   "category": "R-X other source",
+   "subject": "[arlington] Bryan Street Tavern: Half-price pizza and $6 Crown & Down all day on Mondays (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-096",
+   "category": "R-X other source",
+   "subject": "[houston] California Pizza Kitchen: Most CPK locations have a weekday Happy Hour with a pizza and be (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-097",
+   "category": "R-X other source",
+   "subject": "[dallas] Rush Bowls: Buy one bowl or smoothie and get another free at Rush Bowls ever (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-098",
+   "category": "R-X other source",
+   "subject": "[arlington] Red Lobster: For $15.99, you can grab a Fish & Chips special (Cod, Chesapeake (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-099",
+   "category": "R-X other source",
+   "subject": "[houston] Einstein Bros. Bagels: Rewards members can pick up a baker's dozen of bagels (13 bagels (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-100",
+   "category": "R-X other source",
+   "subject": "[dallas] Written By the Seasons: Happy hour Monday to Saturday, 3:30 to 5 pm, with half off bottl (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-101",
+   "category": "R-X other source",
+   "subject": "[arlington] Dickey's Barbecue Pit: Score two Two-Meat Plates for $29 at Dickey's Barbecue Pit every (listed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "EatDrinkDeals (tuesday page)",
+    "their_words": "dickey's barbecue pit:  dickey's bbq has a new daily deals menu; on tuesdays get two two meat plates for $29; good for for online or in-store orders."
+   }
+  },
+  {
+   "id": "R-X-102",
+   "category": "R-X other source",
+   "subject": "[austin] Kerbey Lane Cafe: Kids eat free every Tuesday: one free kids meal with an adult en (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-103",
+   "category": "R-X other source",
+   "subject": "[katy] Saltgrass Steak House: Happy hour in the No Bull Lounge, Monday to Friday 3 to 7 pm (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-104",
+   "category": "R-X other source",
+   "subject": "[league-city] McCormick & Schmick's: Get $3 tacos on Tuesdays at McCormick & Schmick's. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-105",
+   "category": "R-X other source",
+   "subject": "[garland] BJ's Restaurant & Brewhouse: Wednesday: $12.99 Loaded Burger with unlimited fries, and $5 BJ' (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-106",
+   "category": "R-X other source",
+   "subject": "[austin] DOKA Bubble Tea: BOGO Wednesday: buy one, get one free on select drinks (yours)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-107",
+   "category": "R-X other source",
+   "subject": "[kyle] Red Lobster: Red Lobster has a $25 Endless Shrimp special on Mondays. Red Lob (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-108",
+   "category": "R-X other source",
+   "subject": "[round-rock] Better Half Coffee & Cocktails: Happy hour cheeseburger for $7, Tuesday to Friday 3 to 6 pm (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-109",
+   "category": "R-X other source",
+   "subject": "[arlington] Kona Grill: 3-6-9 Happy Hour all day Monday and Tuesday: sushi, bites and ma (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "EatDrinkDeals (monday page)",
+    "their_words": "from 2 -6 pm and 9 pm - close every weekday plus 9 pm to close every day, get deals like $3 edamame, fish tacos, shots of sake and kona big wave beer, $6 sliders, select sushi rolls and glasses of win"
+   }
+  },
+  {
+   "id": "R-X-110",
+   "category": "R-X other source",
+   "subject": "[garland] Red Lobster: It's shrimp or Chicken Alfredo for $15 every Thursday at Red Lob (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-111",
+   "category": "R-X other source",
+   "subject": "[mckinney] Smoothie King: Smoothie King has his deal for Rewards members every Friday: Upg (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-112",
+   "category": "R-X other source",
+   "subject": "[round-rock] Hank's: Half off all burgers every Monday, 11 am to 9 pm (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-113",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Outback Steakhouse: Outback Steakhouse has a Walkabout Wednesday meal deal. For $13. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-114",
+   "category": "R-X other source",
+   "subject": "[round-rock] Quiznos: Get an 8\" Classic Italian sub for $7.45 at Quiznos Sub of the Da (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-115",
+   "category": "R-X other source",
+   "subject": "[houston] EZ's Liquor Lounge: Steak night: 12-ounce strip with salad and mashed potatoes for $ (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-116",
+   "category": "R-X other source",
+   "subject": "[mckinney] Logan's Roadhouse: On Wednesdays, you can grab a mesquite-grilled steak, two sides, (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-117",
+   "category": "R-X other source",
+   "subject": "[houston] Bar Louie: On Tuesdays you can get a 1/2 pound B ar Louie Craft Burger and  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-118",
+   "category": "R-X other source",
+   "subject": "[league-city] Dickey's Barbecue Pit: Dickey's Barbecue has a kids eat free deal every Sunday. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-119",
+   "category": "R-X other source",
+   "subject": "[dallas] Huddle House: Huddle House has a free waffle every Wednesday. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-120",
+   "category": "R-X other source",
+   "subject": "[arlington] Mellow Mushroom: Score a medium cheese pizza at Mellow Mushroom for $12 every Mon (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-121",
+   "category": "R-X other source",
+   "subject": "[houston] Bar Louie: Bar Louie has $8 martinis on Mondays plus Happy Hour specials fr (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-122",
+   "category": "R-X other source",
+   "subject": "[dallas] Perry's Steakhouse & Grille: Pork Chop Friday Lunch: a lunch cut of Perry's Famous Pork Chop  (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "a list disagrees with the company's page; Plum shows the company's figure",
+    "site": "The Krazy Coupon Lady (friday page)",
+    "shows": [
+     "$24"
+    ],
+    "theirs": [
+     "$22"
+    ],
+    "their_words": "- 5 p.m., you can order the perry's famous pork chop friday lunch for $22 at perry's steakhouse & grill ."
+   }
+  },
+  {
+   "id": "R-X-123",
+   "category": "R-X other source",
+   "subject": "[arlington] Chuck E. Cheese: Winning Wednesday: 30% off All You Can Play (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-124",
+   "category": "R-X other source",
+   "subject": "[houston] Main Event: Friday Night Fun: all-you-can-play activities or games for $14.9 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday",
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-125",
+   "category": "R-X other source",
+   "subject": "[arlington] Taziki's Mediterranean Cafe: On Fridays, you can enjoy Taziki's Signature Pasta (mixed lettuc (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-126",
+   "category": "R-X other source",
+   "subject": "[mckinney] Del Taco: Thursdays are Taco Night at Del Taco. You can grab three grilled (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-127",
+   "category": "R-X other source",
+   "subject": "[league-city] Ruth's Chris Steak House: Ruth's Chris Steakhouse has Happy Hour deals on Sundays at most  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-128",
+   "category": "R-X other source",
+   "subject": "[garland] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-129",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Main Event: Monday Night Madness: all-you-can-play activities or games for $ (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-130",
+   "category": "R-X other source",
+   "subject": "[dallas] Fuzzy's Taco Shop: $5 Happy Hour: $5 margaritas and house drinks (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-131",
+   "category": "R-X other source",
+   "subject": "[garland] Bruster's Ice Cream: Bring your own banana to Bruster's Ice Cream on a Thursday, and  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-132",
+   "category": "R-X other source",
+   "subject": "[mckinney] Grimaldi's Pizzeria: Grimaldi's Pizzeria has a Social Hour with discounted drinks fro (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-133",
+   "category": "R-X other source",
+   "subject": "[houston] Jonathan's The Rub: Thursday steak night: 16-ounce New York strip with a vegetable a (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-134",
+   "category": "R-X other source",
+   "subject": "[round-rock] Main Event: Kids Bowl Free: 2 free games of bowling for kids 15 and under, M (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-135",
+   "category": "R-X other source",
+   "subject": "[austin] Logan's Roadhouse: Get a FREE appetizer (up to an $11.49 value) with a purchase of  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-136",
+   "category": "R-X other source",
+   "subject": "[league-city] Griff's: Tuesday steak night: marinated steak, baked potato with the fixi (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-137",
+   "category": "R-X other source",
+   "subject": "[the-woodlands] Cracker Barrel: Fridays - Fish Fry $15.99. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-138",
+   "category": "R-X other source",
+   "subject": "[katy] Perry's Steakhouse & Grille: 16 oz. Caramelized Prime Rib Thursday for $59 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-139",
+   "category": "R-X other source",
+   "subject": "[league-city] Quiznos: On Thursdays, Quiznos offers their 8\" Ultimate Turkey Club as th (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-140",
+   "category": "R-X other source",
+   "subject": "[garland] Cicis: Rewards members can enjoy a $5.99 (reg. $9.99) adult pizza buffe (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-141",
+   "category": "R-X other source",
+   "subject": "[dallas] B&B Theatres: Treat Yourself Tuesdays: tickets from $6 (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-142",
+   "category": "R-X other source",
+   "subject": "[round-rock] Howard's Bar: Two burgers for $20 on Mondays (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-143",
+   "category": "R-X other source",
+   "subject": "[mckinney] Tinies: Half-price agave spirits on Tuesdays (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-144",
+   "category": "R-X other source",
+   "subject": "[austin] Regal: Regal Value Days: discounted tickets on Tuesdays for Regal Crown (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-145",
+   "category": "R-X other source",
+   "subject": "[san-marcos] Kerbey Lane Cafe: Morning happy hour, Monday to Friday 7 to 10 am: $3 mimosas, $5  (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-146",
+   "category": "R-X other source",
+   "subject": "[round-rock] The Contemporary Austin: Free admission on Thursdays at both museum locations (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-147",
+   "category": "R-X other source",
+   "subject": "[round-rock] McCormick & Schmick's: McCormick & Schmick's has a weekday happy hour with specials on  (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-148",
+   "category": "R-X other source",
+   "subject": "[mckinney] Branch & Bird: Rooftop happy hour Tuesday to Friday, 4 to 6 pm: $3 domestic bee (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-149",
+   "category": "R-X other source",
+   "subject": "[austin] Galaxy Theatres: Discount Tuesday pricing for Galaxy Rewards members (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-150",
+   "category": "R-X other source",
+   "subject": "[league-city] Beef O'Brady's: Get two Beef 'O'Brady's tacos for $8.99 each week. Offer is vali (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-151",
+   "category": "R-X other source",
+   "subject": "[katy] World of Beer: Get a Cheeseburger and choice of side for just $6.95 at select W (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-152",
+   "category": "R-X other source",
+   "subject": "[mckinney] Bonefish Grill: Bonefish Grill has a $6 martini special every Monday. (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-153",
+   "category": "R-X other source",
+   "subject": "[austin] Wayback Burgers: Wayback Burgers Rewards members can get up to two free kids' mea (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-154",
+   "category": "R-X other source",
+   "subject": "[league-city] Beef O'Brady's: Score Philly Cheesesteaks and fries for $12.99 every Thursday at (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-155",
+   "category": "R-X other source",
+   "subject": "[league-city] Beef O'Brady's: On Mondays, you can build your own burger at Beef 'O' Brady's fo (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-156",
+   "category": "R-X other source",
+   "subject": "[dallas] IKEA: IKEA Family members can enjoy special IKEA Restaurant deals ever (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-157",
+   "category": "R-X other source",
+   "subject": "[arlington] Bonefish Grill: Bang Wednesdays are back at Bonefish Grill, with the iconic Bang (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-158",
+   "category": "R-X other source",
+   "subject": "[garland] Topgolf: Half-Off Golf: 50% off game play all day Monday to Thursday when (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-159",
+   "category": "R-X other source",
+   "subject": "[mckinney] Tinies: Half-price bottles of wine on Wednesdays (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-160",
+   "category": "R-X other source",
+   "subject": "[dallas] El Fenix: El Fenix Mexican Restaurants have their Enchilada Plate for half (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-161",
+   "category": "R-X other source",
+   "subject": "[austin] Drinks Lounge & Records: Smash burger for $5.50 on Mondays ($8 other days) (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "EatDrinkDeals monday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-162",
+   "category": "R-X other source",
+   "subject": "[austin] Goodwill Central Texas: Furniture Friday: 50% off all furniture (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady friday",
+     "EatDrinkDeals friday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-163",
+   "category": "R-X other source",
+   "subject": "[austin] Goodwill Central Texas: Kids' Day: children's clothing, shoes and accessories 40% off (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady thursday",
+     "EatDrinkDeals thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-164",
+   "category": "R-X other source",
+   "subject": "[round-rock] Hank's: Half off all bottles of wine every Tuesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-165",
+   "category": "R-X other source",
+   "subject": "[league-city] Black Walnut Cafe: Happy hour Monday to Friday: 7 to 9:30 am and 3 to 6:30 pm (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady monday",
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals monday",
+     "EatDrinkDeals tuesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-166",
+   "category": "R-X other source",
+   "subject": "[austin] Savers: Senior Tuesday: save 30% every Tuesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-167",
+   "category": "R-X other source",
+   "subject": "[mckinney] Del Taco: Del Taco has a new every day Value Menu starting at $1, taco spe (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "The Krazy Coupon Lady thursday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-168",
+   "category": "R-X other source",
+   "subject": "[arlington] Fort Worth Zoo: Half-Price Wednesdays: half-price admission every Wednesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-169",
+   "category": "R-X other source",
+   "subject": "[austin] Goodwill Central Texas: Color Tag Day: one tag color is 60% off each Wednesday (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-170",
+   "category": "R-X other source",
+   "subject": "[houston] The Blind Goat: Steak frites special on Wednesdays for $27 (reported)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady wednesday",
+     "EatDrinkDeals wednesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-171",
+   "category": "R-X other source",
+   "subject": "[league-city] Beef O'Brady's: Enjoy Wing Wednesday at Beef 'O' Brady's with $0.99 bone-in or b (listed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": []
+   }
+  },
+  {
+   "id": "R-X-172",
+   "category": "R-X other source",
+   "subject": "[austin] Goodwill Central Texas: Heroes Day: 30% off for seniors 55+, first responders and milita (confirmed)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no other source covers this offer",
+    "looked_at": [
+     "The Krazy Coupon Lady tuesday",
+     "EatDrinkDeals tuesday"
+    ]
+   }
+  },
+  {
+   "id": "R-X-173",
+   "category": "R-X other source",
+   "subject": "[mckinney] Del Taco: Grab three snack tacos for $2.49 at Del Taco on Tuesdays. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "agrees": "EatDrinkDeals (tuesday page)",
+    "their_words": "del taco:  del taco has a new every day value menu starting at $1, taco specials on tuesdays and thursdays, and more deals."
+   }
+  },
+  {
+   "id": "R-DAY-174",
+   "category": "R-DAY schedule",
+   "subject": "[austin] Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "First Tuesday of the month",
+    "hours": "",
+    "next": [
+     "2026-10-06"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-175",
+   "category": "R-DAY schedule",
+   "subject": "[san-marcos] Long John Silver's: Get a $30 Date Night meal at Long John Silver's with one snack,  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Friday",
+    "hours": "",
+    "next": [
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-176",
+   "category": "R-DAY schedule",
+   "subject": "[kyle] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "after 5 pm",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-177",
+   "category": "R-DAY schedule",
+   "subject": "[round-rock] Dirty Martin's Place: Small cheeseburger for $5 during weekday happy hour, 2 to 6 pm (reported)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "2\u20136 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-178",
+   "category": "R-DAY schedule",
+   "subject": "[houston] Houston Museum of Natural Science: Free Tuesdays: free admission to the permanent exhibit halls, 5  (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Tuesday",
+    "hours": "5\u20138 pm",
+    "next": [
+     "2026-10-06"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-179",
+   "category": "R-DAY schedule",
+   "subject": "[the-woodlands] Main Event: Kids Bowl Free: 2 free games of bowling for kids 15 and under, M (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "until 5 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-180",
+   "category": "R-DAY schedule",
+   "subject": "[katy] Torchy's Tacos: Hooky Hour: half-priced house margaritas, beer and appetizers on (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "2\u20135 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-181",
+   "category": "R-DAY schedule",
+   "subject": "[league-city] McCormick & Schmick's: Every Friday, you can grab Two Buck Shuck oysters on the half sh (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Friday",
+    "hours": "after 3 pm",
+    "next": [
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-182",
+   "category": "R-DAY schedule",
+   "subject": "[dallas] P.F. Chang's: Happy hour: $5.99 beer, $6.99 wine, $8.99 cocktails and half-pri (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "3\u20136 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-183",
+   "category": "R-DAY schedule",
+   "subject": "[arlington] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "after 5 pm",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-184",
+   "category": "R-DAY schedule",
+   "subject": "[garland] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "after 5 pm",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-185",
+   "category": "R-DAY schedule",
+   "subject": "[mckinney] Torchy's Tacos: Hooky Hour: half-priced house margaritas, beer and appetizers on (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "2\u20135 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-186",
+   "category": "R-DAY schedule",
+   "subject": "[austin] Cicis: Rewards members can enjoy a $5.99 (reg. $9.99) adult pizza buffe (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Monday",
+    "hours": "",
+    "next": [
+     "2026-10-05",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-187",
+   "category": "R-DAY schedule",
+   "subject": "[san-marcos] Cicis: Rewards members can enjoy a $5.99 (reg. $9.99) adult pizza buffe (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Monday",
+    "hours": "",
+    "next": [
+     "2026-10-05",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-188",
+   "category": "R-DAY schedule",
+   "subject": "[kyle] Taco Cabana: Double Happy Hour: $2.50 margaritas and $3 snacks, Sunday to Thu (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Sunday to Thursday",
+    "hours": "3\u20136 pm and after 9 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-11"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-189",
+   "category": "R-DAY schedule",
+   "subject": "[austin] Long John Silver's: Get a $30 Date Night meal at Long John Silver's with one snack,  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Friday",
+    "hours": "",
+    "next": [
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-190",
+   "category": "R-DAY schedule",
+   "subject": "[san-marcos] Einstein Bros. Bagels: Rewards members can pick up a baker's dozen of bagels (13 bagels (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Monday",
+    "hours": "",
+    "next": [
+     "2026-10-05",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-191",
+   "category": "R-DAY schedule",
+   "subject": "[kyle] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "after 5 pm",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-192",
+   "category": "R-DAY schedule",
+   "subject": "[round-rock] Drinks Lounge & Records: Smash burger for $5.50 on Mondays ($8 other days) (reported)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Monday",
+    "hours": "",
+    "next": [
+     "2026-10-05",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-193",
+   "category": "R-DAY schedule",
+   "subject": "[houston] Grimaldi's Pizzeria: Grimaldi's Pizzeria has a Social Hour with discounted drinks fro (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "3\u20135 pm and 11 am\u20133 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-194",
+   "category": "R-DAY schedule",
+   "subject": "[the-woodlands] Logan's Roadhouse: On Wednesdays, you can grab a mesquite-grilled steak, two sides, (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-195",
+   "category": "R-DAY schedule",
+   "subject": "[katy] Smoothie King: Healthy Rewards members can upsize their 20-ounce smoothie to a  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Friday",
+    "hours": "",
+    "next": [
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-196",
+   "category": "R-DAY schedule",
+   "subject": "[league-city] Red Lobster: It's shrimp or Chicken Alfredo for $15 every Thursday at Red Lob (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Thursday",
+    "hours": "",
+    "next": [
+     "2026-10-08"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-197",
+   "category": "R-DAY schedule",
+   "subject": "[dallas] Outback Steakhouse: Outback Steakhouse has a Walkabout Wednesday meal deal. For $13. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-198",
+   "category": "R-DAY schedule",
+   "subject": "[arlington] Pizza Hut: Each week you can celebrate Wing Wednesday with a BOGO deal on w (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Wednesday",
+    "hours": "",
+    "next": [
+     "2026-10-07"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-199",
+   "category": "R-DAY schedule",
+   "subject": "[garland] The Cheesecake Factory: The Cheesecake Factory has Happy Hour specials at most locations (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Monday to Friday",
+    "hours": "4\u20136 pm",
+    "next": [
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-200",
+   "category": "R-DAY schedule",
+   "subject": "[mckinney] Bruster's Ice Cream: Bring your own banana to Bruster's Ice Cream on a Thursday, and  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Thursday",
+    "hours": "",
+    "next": [
+     "2026-10-08"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-201",
+   "category": "R-DAY schedule",
+   "subject": "[austin] Dave & Buster's: Dave & Buster' s has happy hour specials, $1 wings on Mondays, h (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Monday",
+    "hours": "",
+    "next": [
+     "2026-10-05",
+     "2026-10-12"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-202",
+   "category": "R-DAY schedule",
+   "subject": "[san-marcos] Ross Dress for Less: 55+ Tuesday Discount: 10% off purchases made on Tuesday (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Tuesday",
+    "hours": "",
+    "next": [
+     "2026-10-06"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-DAY-203",
+   "category": "R-DAY schedule",
+   "subject": "[kyle] Jack in the Box: Jack in the Box offers 2 free tacos with any other purchase on T (listed)",
+   "verdict": "pass",
+   "detail": {
+    "days": "Every Tuesday",
+    "hours": "",
+    "next": [
+     "2026-10-06"
+    ],
+    "now": "2026-10-05T11:20-05:00"
+   }
+  },
+  {
+   "id": "R-GEO-204",
+   "category": "R-GEO vicinity",
+   "subject": "[austin] P.F. Chang's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "P.F. Chang's",
+    "address": "",
+    "shown_mi": 2.5,
+    "recomputed_mi": 2.53,
+    "locator": "pf_changs",
+    "locator_nearest_to_branch_mi": 0.03,
+    "locator_nearest_to_city_mi": 2.5
+   }
+  },
+  {
+   "id": "R-GEO-205",
+   "category": "R-GEO vicinity",
+   "subject": "[san-marcos] BJ's Restaurant & Brewhouse",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "BJ's Restaurant & Brewhouse",
+    "address": "2951 Cold Spring Drive, New Braunfels",
+    "shown_mi": 13.0,
+    "recomputed_mi": 13.0,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-206",
+   "category": "R-GEO vicinity",
+   "subject": "[kyle] Taco Cabana",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Taco Cabana",
+    "address": "20445 South Interstate 35, Kyle",
+    "shown_mi": 2.0,
+    "recomputed_mi": 1.96,
+    "locator": "taco_cabana_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 2.0
+   }
+  },
+  {
+   "id": "R-GEO-207",
+   "category": "R-GEO vicinity",
+   "subject": "[round-rock] Perry's Steakhouse & Grille",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "Perry's Steakhouse & Grille",
+    "address": "11801 Domain Boulevard, Austin",
+    "shown_mi": 9.2,
+    "recomputed_mi": 9.19,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-208",
+   "category": "R-GEO vicinity",
+   "subject": "[houston] Outback Steakhouse",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Outback Steakhouse",
+    "address": "",
+    "shown_mi": 10.2,
+    "recomputed_mi": 10.19,
+    "locator": "outback_steakhouse",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 10.2
+   }
+  },
+  {
+   "id": "R-GEO-209",
+   "category": "R-GEO vicinity",
+   "subject": "[the-woodlands] Quiznos",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Quiznos",
+    "address": "1440 Lake Woodlands Drive, The Woodlands",
+    "shown_mi": 3.1,
+    "recomputed_mi": 3.15,
+    "locator": "quiznos",
+    "locator_nearest_to_branch_mi": 0.02,
+    "locator_nearest_to_city_mi": 3.1
+   }
+  },
+  {
+   "id": "R-GEO-210",
+   "category": "R-GEO vicinity",
+   "subject": "[katy] Red Lobster",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Red Lobster",
+    "address": "25408 Bell Patina Drive, Fort Bend",
+    "shown_mi": 1.9,
+    "recomputed_mi": 1.9,
+    "locator": "red_lobster_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.9
+   }
+  },
+  {
+   "id": "R-GEO-211",
+   "category": "R-GEO vicinity",
+   "subject": "[league-city] Long John Silver's",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "Long John Silver's",
+    "address": "",
+    "shown_mi": 11.5,
+    "recomputed_mi": 11.54,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-212",
+   "category": "R-GEO vicinity",
+   "subject": "[dallas] Ross Dress for Less",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Ross",
+    "address": "2405 North Haskell Avenue, Dallas",
+    "shown_mi": 1.5,
+    "recomputed_mi": 1.49,
+    "locator": "ross_dress_for_less_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.5
+   }
+  },
+  {
+   "id": "R-GEO-213",
+   "category": "R-GEO vicinity",
+   "subject": "[arlington] Which Wich",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Which Wich",
+    "address": "",
+    "shown_mi": 7.5,
+    "recomputed_mi": 7.52,
+    "locator": "which_wich_us",
+    "locator_nearest_to_branch_mi": 12.07,
+    "locator_nearest_to_city_mi": 9.3
+   }
+  },
+  {
+   "id": "R-GEO-214",
+   "category": "R-GEO vicinity",
+   "subject": "[garland] Bar Louie",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "Bar Louie",
+    "address": "",
+    "shown_mi": 8.5,
+    "recomputed_mi": 8.46,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-215",
+   "category": "R-GEO vicinity",
+   "subject": "[mckinney] Dave & Buster's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Dave & Buster's",
+    "address": "",
+    "shown_mi": 1.3,
+    "recomputed_mi": 1.29,
+    "locator": "dave_and_busters",
+    "locator_nearest_to_branch_mi": 0.01,
+    "locator_nearest_to_city_mi": 1.3
+   }
+  },
+  {
+   "id": "R-GEO-216",
+   "category": "R-GEO vicinity",
+   "subject": "[austin] Wingstop",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wingstop",
+    "address": "2316 Guadalupe Street, Austin",
+    "shown_mi": 1.1,
+    "recomputed_mi": 1.09,
+    "locator": "wingstop",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.1
+   }
+  },
+  {
+   "id": "R-GEO-217",
+   "category": "R-GEO vicinity",
+   "subject": "[san-marcos] Chuck E. Cheese",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Chuck E. Cheese",
+    "address": "",
+    "shown_mi": 21.5,
+    "recomputed_mi": 21.55,
+    "locator": "chuck_e_cheese",
+    "locator_nearest_to_branch_mi": 0.04,
+    "locator_nearest_to_city_mi": 21.5
+   }
+  },
+  {
+   "id": "R-GEO-218",
+   "category": "R-GEO vicinity",
+   "subject": "[kyle] Torchy's Tacos",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Torchy's Tacos",
+    "address": "19100 S IH-35 Frontage Rd, Kyle",
+    "shown_mi": 3.2,
+    "recomputed_mi": 3.23,
+    "locator": "torchys_tacos_us",
+    "locator_nearest_to_branch_mi": 0.01,
+    "locator_nearest_to_city_mi": 3.2
+   }
+  },
+  {
+   "id": "R-GEO-219",
+   "category": "R-GEO vicinity",
+   "subject": "[round-rock] Rosa's Caf\u00e9",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Rosa's Caf\u00e9 & Tortilla Factory",
+    "address": "2111 Palm Valley Boulevard, Round Rock",
+    "shown_mi": 0.8,
+    "recomputed_mi": 0.76,
+    "locator": "rosas_cafe_us",
+    "locator_nearest_to_branch_mi": 0.05,
+    "locator_nearest_to_city_mi": 0.7
+   }
+  },
+  {
+   "id": "R-GEO-220",
+   "category": "R-GEO vicinity",
+   "subject": "[houston] Wendy's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wendy's",
+    "address": "210 Patton Street, Houston",
+    "shown_mi": 1.4,
+    "recomputed_mi": 1.39,
+    "locator": "wendys",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.4
+   }
+  },
+  {
+   "id": "R-GEO-221",
+   "category": "R-GEO vicinity",
+   "subject": "[the-woodlands] Outback Steakhouse",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Outback Steakhouse",
+    "address": "",
+    "shown_mi": 3.5,
+    "recomputed_mi": 3.54,
+    "locator": "outback_steakhouse",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 3.5
+   }
+  },
+  {
+   "id": "R-GEO-222",
+   "category": "R-GEO vicinity",
+   "subject": "[katy] KFC",
+   "verdict": "pass",
+   "detail": {
+    "branch": "KFC",
+    "address": "908 South Mason Road, Katy",
+    "shown_mi": 5.6,
+    "recomputed_mi": 5.55,
+    "locator": "kfc_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 2.2
+   }
+  },
+  {
+   "id": "R-GEO-223",
+   "category": "R-GEO vicinity",
+   "subject": "[league-city] BJ's Restaurant & Brewhouse",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "BJ's Restaurant & Brewhouse",
+    "address": "",
+    "shown_mi": 4.0,
+    "recomputed_mi": 4.04,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-224",
+   "category": "R-GEO vicinity",
+   "subject": "[dallas] BJ's Restaurant & Brewhouse",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "BJ's Restaurant & Brewhouse",
+    "address": "1106 Town East Mall, Mesquite",
+    "shown_mi": 8.3,
+    "recomputed_mi": 8.3,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-225",
+   "category": "R-GEO vicinity",
+   "subject": "[arlington] Buffalo Wild Wings",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Buffalo Wild Wings",
+    "address": "West Interstate 20",
+    "shown_mi": 5.3,
+    "recomputed_mi": 5.27,
+    "locator": "buffalo_wild_wings_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 4.0
+   }
+  },
+  {
+   "id": "R-GEO-226",
+   "category": "R-GEO vicinity",
+   "subject": "[garland] Dickey's Barbecue Pit",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Dickey's Barbecue Pit",
+    "address": "",
+    "shown_mi": 3.3,
+    "recomputed_mi": 3.3,
+    "locator": "dickeys_barbecue_pit",
+    "locator_nearest_to_branch_mi": 0.01,
+    "locator_nearest_to_city_mi": 3.2
+   }
+  },
+  {
+   "id": "R-GEO-227",
+   "category": "R-GEO vicinity",
+   "subject": "[mckinney] Regal",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Regal Cinemas",
+    "address": "11801 McCree Road, Dallas",
+    "shown_mi": 22.9,
+    "recomputed_mi": 22.91,
+    "locator": "regal_theaters",
+    "locator_nearest_to_branch_mi": 0.69,
+    "locator_nearest_to_city_mi": 22.7
+   }
+  },
+  {
+   "id": "R-GEO-228",
+   "category": "R-GEO vicinity",
+   "subject": "[austin] Red Lobster",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Red Lobster",
+    "address": "",
+    "shown_mi": 4.2,
+    "recomputed_mi": 4.23,
+    "locator": "red_lobster_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 4.2
+   }
+  },
+  {
+   "id": "R-GEO-229",
+   "category": "R-GEO vicinity",
+   "subject": "[san-marcos] Wendy's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wendy's",
+    "address": "701 East Hopkins Street, San Marcos",
+    "shown_mi": 1.1,
+    "recomputed_mi": 1.06,
+    "locator": "wendys",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.1
+   }
+  },
+  {
+   "id": "R-GEO-230",
+   "category": "R-GEO vicinity",
+   "subject": "[kyle] Cracker Barrel",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Cracker Barrel",
+    "address": "550 Old San Antonio Road, Buda",
+    "shown_mi": 7.3,
+    "recomputed_mi": 7.25,
+    "locator": "cracker_barrel_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 7.3
+   }
+  },
+  {
+   "id": "R-GEO-231",
+   "category": "R-GEO vicinity",
+   "subject": "[round-rock] BJ's Restaurant & Brewhouse",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "BJ's Restaurant & Brewhouse",
+    "address": "14201 N Interstate Hwy 35, Round Rock",
+    "shown_mi": 3.0,
+    "recomputed_mi": 3.02,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-232",
+   "category": "R-GEO vicinity",
+   "subject": "[houston] Dickey's Barbecue Pit",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Dickey's Barbecue Pit",
+    "address": "",
+    "shown_mi": 19.5,
+    "recomputed_mi": 19.55,
+    "locator": "dickeys_barbecue_pit",
+    "locator_nearest_to_branch_mi": 12.97,
+    "locator_nearest_to_city_mi": 1.9
+   }
+  },
+  {
+   "id": "R-GEO-233",
+   "category": "R-GEO vicinity",
+   "subject": "[katy] Wingstop",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wingstop",
+    "address": "1998 Katy Mills Boulevard, Katy",
+    "shown_mi": 2.1,
+    "recomputed_mi": 2.07,
+    "locator": "wingstop",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 2.1
+   }
+  },
+  {
+   "id": "R-GEO-234",
+   "category": "R-GEO vicinity",
+   "subject": "[league-city] Marco's Pizza",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Marco's Pizza",
+    "address": "5440 El Dorado Boulevard, Houston",
+    "shown_mi": 8.1,
+    "recomputed_mi": 8.13,
+    "locator": "marcos",
+    "locator_nearest_to_branch_mi": 0.06,
+    "locator_nearest_to_city_mi": 0.4
+   }
+  },
+  {
+   "id": "R-GEO-235",
+   "category": "R-GEO vicinity",
+   "subject": "[dallas] Smoothie King",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Smoothie King",
+    "address": "9371 Garland Road",
+    "shown_mi": 4.5,
+    "recomputed_mi": 4.54,
+    "locator": "smoothie_king_ky_us_tt",
+    "locator_nearest_to_branch_mi": 0.01,
+    "locator_nearest_to_city_mi": 2.7
+   }
+  },
+  {
+   "id": "R-GEO-236",
+   "category": "R-GEO vicinity",
+   "subject": "[arlington] Topgolf",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Topgolf",
+    "address": "3670 South State Highway 161, Grand Prairie",
+    "shown_mi": 6.1,
+    "recomputed_mi": 6.09,
+    "locator": "topgolf_us",
+    "locator_nearest_to_branch_mi": 0.06,
+    "locator_nearest_to_city_mi": 6.1
+   }
+  },
+  {
+   "id": "R-GEO-237",
+   "category": "R-GEO vicinity",
+   "subject": "[garland] Freebirds",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Freebirds",
+    "address": "238 West Campbell Road, Richardson",
+    "shown_mi": 7.0,
+    "recomputed_mi": 6.99,
+    "locator": "freebirds_us",
+    "locator_nearest_to_branch_mi": 0.01,
+    "locator_nearest_to_city_mi": 7.0
+   }
+  },
+  {
+   "id": "R-GEO-238",
+   "category": "R-GEO vicinity",
+   "subject": "[mckinney] Del Taco",
+   "verdict": "inconclusive",
+   "detail": {
+    "branch": "Del Taco",
+    "address": "1715 #100 South Loop 288, Denton",
+    "shown_mi": 25.1,
+    "recomputed_mi": 25.08,
+    "why": "no independent store list for this chain"
+   }
+  },
+  {
+   "id": "R-GEO-239",
+   "category": "R-GEO vicinity",
+   "subject": "[san-marcos] KFC",
+   "verdict": "pass",
+   "detail": {
+    "branch": "KFC",
+    "address": "660 East Hopkins Street, San Marcos",
+    "shown_mi": 1.0,
+    "recomputed_mi": 1.02,
+    "locator": "kfc_us",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.0
+   }
+  },
+  {
+   "id": "R-GEO-240",
+   "category": "R-GEO vicinity",
+   "subject": "[kyle] Wendy's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wendy's",
+    "address": "20584 South Interstate 35, Kyle",
+    "shown_mi": 1.9,
+    "recomputed_mi": 1.87,
+    "locator": "wendys",
+    "locator_nearest_to_branch_mi": 0.0,
+    "locator_nearest_to_city_mi": 1.9
+   }
+  },
+  {
+   "id": "R-GEO-241",
+   "category": "R-GEO vicinity",
+   "subject": "[round-rock] Wendy's",
+   "verdict": "pass",
+   "detail": {
+    "branch": "Wendy's",
+    "address": "",
+    "shown_mi": 2.0,
+    "recomputed_mi": 1.99,
+    "locator": "wendys",
+    "locator_nearest_to_branch_mi": 1.71,
+    "locator_nearest_to_city_mi": 3.1
+   }
+  },
+  {
+   "id": "R-IND-242",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[league-city] Beef O'Brady's: Score Philly Cheesesteaks and fries for $12.99 every Thursday at",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-243",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[arlington] Modern Art Museum of Fort Worth: Half-price tickets on Sundays",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-244",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Furniture Friday: 50% off all furniture",
+   "detail": {
+    "shown_under": "home",
+    "plum_industries": [
+     "home"
+    ],
+    "judge_industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-245",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Color Tag Day: one tag color is 60% off each Wednesday",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion",
+     "home"
+    ],
+    "judge_industries": [
+     "fashion",
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-246",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[mckinney] Del Taco: Thursdays are Taco Night at Del Taco. You can grab three grilled",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-247",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[arlington] Fort Worth Zoo: Half-Price Wednesdays: half-price admission every Wednesday",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-248",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Savers: Senior Tuesday: save 30% every Tuesday",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion",
+     "home"
+    ],
+    "judge_industries": [
+     "fashion",
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-249",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[arlington] Pie Five: On Mondays, Pie Five Pizza Circle of Crust members can enjoy a f",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-250",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Blanton Museum of Art: Free Tuesdays: free admission every Tuesday",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-251",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Heroes Day: 30% off for seniors 55+, first responders and milita",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion",
+     "home"
+    ],
+    "judge_industries": [
+     "fashion",
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-252",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[mckinney] Tinies: Half-price agave spirits on Tuesdays",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-253",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[mckinney] Galaxy Theatres: Discount Tuesday pricing for Galaxy Rewards members",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-254",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Kids' Day: children's clothing, shoes and accessories 40% off",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "judge_industries": [
+     "baby",
+     "fashion"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-255",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Dirty Martin's Place: Small cheeseburger for $5 during weekday happy hour, 2 to 6 pm",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-256",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[league-city] Houston Museum of Natural Science: Free Tuesdays: free admission to the permanent exhibit halls, 5 ",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-257",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[arlington] Mellow Mushroom: Score a medium cheese pizza at Mellow Mushroom for $12 every Mon",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-258",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[katy] Star Cinema Grill: Tuesday special ticket price",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-259",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Macaroni Grill: Macaroni Grill has a Buy One, Get One Free deal on select Monday",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-260",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[league-city] Main Event: Kids Bowl Free: 2 free games of bowling for kids 15 and under, M",
+   "detail": {
+    "shown_under": "entertainment",
+    "plum_industries": [
+     "entertainment"
+    ],
+    "judge_industries": [
+     "entertainment"
+    ]
+   }
+  },
+  {
+   "id": "R-IND-261",
+   "category": "R-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[round-rock] Hank's: Half off all bottles of wine every Tuesday",
+   "detail": {
+    "shown_under": "dining",
+    "plum_industries": [
+     "dining"
+    ],
+    "judge_industries": [
+     "dining"
+    ]
+   }
+  },
+  {
+   "id": "R-TXT-262",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Panera Bread: On Tuesdays, get a Baker's Dozen (thirteen total) bagels for jus (listed)",
+   "detail": {
+    "card": {
+     "place": "Panera Bread",
+     "offer": "On Tuesdays, get a Baker's Dozen (thirteen total) bagels for just $9.99 at participating Panera Bread locations.",
+     "runs": "Every Tuesday",
+     "until": null,
+     "conditions": [
+      "participating locations"
+     ]
+    },
+    "source": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-263",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "fail",
+   "subject": "[san-marcos] Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Cinemark",
+     "offer": "Discount Tuesdays: movie tickets up to 50% off, all day",
+     "runs": "Every Tuesday",
+     "until": null,
+     "conditions": [
+      "participating theatres",
+      "best price for Movie Rewards members (free to join)",
+      "premium formats cost extra",
+      "not on some holiday dates"
+     ]
+    },
+    "source": "https://www.cinemark.com/discount-tuesdays",
+    "judge": {
+     "faithful": false,
+     "problem": "The passage does not support 'all day', Movie Rewards member pricing, the premium-format surcharge or the holiday exclusions."
+    }
+   }
+  },
+  {
+   "id": "R-TXT-264",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[kyle] Burger King: On Whopper Wednesdays (that's every Wednesday) at Burger King, R (listed)",
+   "detail": {
+    "card": {
+     "place": "Burger King",
+     "offer": "On Whopper Wednesdays (that's every Wednesday) at Burger King, Royal Perks members can grab a $3.99 original Whopper (menu price $6.19) or Impossible Whopper (menu price $7.39) when they order online, in-app, or\u2026",
+     "runs": "Every Wednesday",
+     "until": null,
+     "conditions": [
+      "rewards members"
+     ]
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/wednesday-food-deals",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-265",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "fail",
+   "subject": "[round-rock] Quiznos: Get an 8\" Classic Italian sub for $7.45 at Quiznos Sub of the Da (listed)",
+   "detail": {
+    "card": {
+     "place": "Quiznos",
+     "offer": "Get an 8\" Classic Italian sub for $7.45 at Quiznos Sub of the Day. Offer is valid for pickup, delivery, or in-store orders.",
+     "runs": "Every Monday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "judge": {
+     "faithful": false,
+     "problem": "The source text names no day, so 'Every Monday' is unsupported."
+    }
+   }
+  },
+  {
+   "id": "R-TXT-266",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[houston] Red Lobster: Enjoy Lobster & Shrimp Scampi, plus your choice of side, for $19 (listed)",
+   "detail": {
+    "card": {
+     "place": "Red Lobster",
+     "offer": "Enjoy Lobster & Shrimp Scampi, plus your choice of side, for $19.99 at Red Lobster on Mondays.",
+     "runs": "Every Monday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-267",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "fail",
+   "subject": "[the-woodlands] Marco's Pizza: Marco's Pizza has a buy one, get one free offer on Tuesdays plus (listed)",
+   "detail": {
+    "card": {
+     "place": "Marco's Pizza",
+     "offer": "Marco's Pizza has a buy one, get one free offer on Tuesdays plus more pizza deals. Start at the Marco's Menu Page.",
+     "runs": "Every Tuesday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "judge": {
+     "faithful": false,
+     "problem": "Omits that you must be signed into a Marco's account and order online through Hot Deals to get the BOGO."
+    }
+   }
+  },
+  {
+   "id": "R-TXT-268",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[katy] Flix Brewhouse: $6 tickets for every 2D show on Wednesdays (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Flix Brewhouse",
+     "offer": "$6 tickets for every 2D show on Wednesdays",
+     "runs": "Every Wednesday",
+     "until": null,
+     "conditions": [
+      "2D shows only",
+      "not during holiday weeks",
+      "not for films premiering that Wednesday or Flix Pick shows"
+     ]
+    },
+    "source": "https://flixbrewhouse.com/discount-day/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-269",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[league-city] Fuzzy's Taco Shop: $5 Happy Hour: $5 margaritas and house drinks (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Fuzzy's Taco Shop",
+     "offer": "$5 Happy Hour: $5 margaritas and house drinks",
+     "runs": "Monday to Friday \u00b7 3\u20137 pm",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.fuzzystacoshop.com/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-270",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[dallas] Einstein Bros. Bagels: Rewards members can pick up a baker's dozen of bagels (13 bagels (listed)",
+   "detail": {
+    "card": {
+     "place": "Einstein Bros. Bagels",
+     "offer": "Rewards members can pick up a baker's dozen of bagels (13 bagels) for $9 on Mondays at Einstein Bros.",
+     "runs": "Every Monday",
+     "until": null,
+     "conditions": [
+      "rewards members"
+     ]
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-271",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[arlington] California Pizza Kitchen: Most CPK locations have a weekday Happy Hour with a pizza and be (listed)",
+   "detail": {
+    "card": {
+     "place": "California Pizza Kitchen",
+     "offer": "Most CPK locations have a weekday Happy Hour with a pizza and beer special for $9 and half off all drinks and starters. The happy hour for most CPK locations is 3-6 pm Mon-Fri.",
+     "runs": "Monday to Friday \u00b7 3\u20136 pm",
+     "until": null,
+     "conditions": [
+      "participating locations"
+     ]
+    },
+    "source": "https://www.eatdrinkdeals.com/wednesday-restaurant-deals-and-specials-2/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-272",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[mckinney] Galaxy Theatres: Discount Tuesday pricing for Galaxy Rewards members (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Galaxy Theatres",
+     "offer": "Discount Tuesday pricing for Galaxy Rewards members",
+     "runs": "Every Tuesday",
+     "until": null,
+     "conditions": [
+      "Galaxy Rewards members",
+      "select locations"
+     ]
+    },
+    "source": "https://www.galaxytheatres.com/rewards",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-273",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Kids' Day: children's clothing, shoes and accessories 40% off (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Goodwill Central Texas",
+     "offer": "Kids' Day: children's clothing, shoes and accessories 40% off",
+     "runs": "Every Thursday",
+     "until": null,
+     "conditions": [
+      "in store",
+      "not at Outlet stores"
+     ]
+    },
+    "source": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-274",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[san-marcos] Kerbey Lane Cafe: Happy hour every day, 4 to 6 pm: $3 mimosas, $5 beers, $7 cockta (confirmed)",
+   "detail": {
+    "card": {
+     "place": "Kerbey Lane Cafe",
+     "offer": "Happy hour every day, 4 to 6 pm: $3 mimosas, $5 beers, $7 cocktails",
+     "runs": "Every day \u00b7 4\u20136 pm",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.kerbeylanecafe.com/menu",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-275",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[kyle] Which Wich: On Fridays at Which Wich, you can save around $3 on a 7-inch Sea (listed)",
+   "detail": {
+    "card": {
+     "place": "Which Wich",
+     "offer": "On Fridays at Which Wich, you can save around $3 on a 7-inch Seafood Wich (tuna salad, tuna melt, Krab Salad, Call Roll, or Land & Sea), with prices starting at $7.",
+     "runs": "Every Friday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-276",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[round-rock] Which Wich: Which Wich has daily deals every weekday, with select regular sa (listed)",
+   "detail": {
+    "card": {
+     "place": "Which Wich",
+     "offer": "Which Wich has daily deals every weekday, with select regular sandwiches for just $7. On Thursdays get Vegetarian sandwiches, including Black Bean Patty, Tomato and Avocado, Caprese and Triple Cheese.",
+     "runs": "Every Thursday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.eatdrinkdeals.com/thursday-restaurant-deals-and-specials/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-277",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[houston] Which Wich: Which Wich has a Wicked Wednesday deal with a Regular Wicked san (listed)",
+   "detail": {
+    "card": {
+     "place": "Which Wich",
+     "offer": "Which Wich has a Wicked Wednesday deal with a Regular Wicked sandwich for $7 on Wednesdays. Price may vary depending on location.",
+     "runs": "Every Wednesday",
+     "until": null,
+     "conditions": [
+      "participating locations"
+     ]
+    },
+    "source": "https://www.eatdrinkdeals.com/wednesday-restaurant-deals-and-specials-2/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-278",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[the-woodlands] Carrabba's Italian Grill: Get a dinner for two for $45 at Carrabba's on Saturdays and Sund (listed)",
+   "detail": {
+    "card": {
+     "place": "Carrabba's Italian Grill",
+     "offer": "Get a dinner for two for $45 at Carrabba's on Saturdays and Sundays.",
+     "runs": "Saturdays and Sundays",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.eatdrinkdeals.com/daily-deals-saturday-restaurant-specials/",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-279",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[katy] BJ's Restaurant & Brewhouse: Monday: $19.99 large pizzas or $14.99 tavern-cut pizza, and $6 B (confirmed)",
+   "detail": {
+    "card": {
+     "place": "BJ's Restaurant & Brewhouse",
+     "offer": "Monday: $19.99 large pizzas or $14.99 tavern-cut pizza, and $6 Brewhouse Margaritas",
+     "runs": "Every Monday",
+     "until": null,
+     "conditions": [
+      "not on select holidays",
+      "specials vary by location and price"
+     ]
+    },
+    "source": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-280",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "pass",
+   "subject": "[league-city] Quiznos: On Thursdays, Quiznos offers their 8\" Ultimate Turkey Club as th (listed)",
+   "detail": {
+    "card": {
+     "place": "Quiznos",
+     "offer": "On Thursdays, Quiznos offers their 8\" Ultimate Turkey Club as the $7.45 Sub of the Day in-app deal. This offer is valid for in-app orders only.",
+     "runs": "Every Thursday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://thekrazycouponlady.com/tips/money/thirsty-thursday-food-deals",
+    "judge": {
+     "faithful": true,
+     "problem": ""
+    }
+   }
+  },
+  {
+   "id": "R-TXT-281",
+   "category": "R-TXT faithful summary (blind judge)",
+   "verdict": "fail",
+   "subject": "[dallas] Bonefish Grill: Bang Wednesdays are back at Bonefish Grill, with the iconic Bang (listed)",
+   "detail": {
+    "card": {
+     "place": "Bonefish Grill",
+     "offer": "Bang Wednesdays are back at Bonefish Grill, with the iconic Bang Bang Shrimp on special for just $7.",
+     "runs": "Every Wednesday",
+     "until": null,
+     "conditions": []
+    },
+    "source": "https://www.eatdrinkdeals.com/wednesday-restaurant-deals-and-specials-2/",
+    "judge": {
+     "faithful": false,
+     "problem": "Omits that the $7 special is dine-in only, not to-go or delivery."
+    }
+   }
+  },
+  {
+   "id": "R-REC-282",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Pluckers Wing Bar: All-you-can-eat wings for $33 on Mondays, dine-in only (as poste",
+   "detail": {
+    "key": "Pluckers Wing Bar: All-you-can-eat wings for $33 on Mondays, dine-in only (as posted on the Austin 'The Linc' location page).",
+    "days": [
+     "monday"
+    ],
+    "url": "https://www.pluckers.com/locations-pages/the-linc",
+    "plum": "Pluckers Wing Bar: All-you-can-eat wings for $33 on Mondays (Every Monday)"
+   }
+  },
+  {
+   "id": "R-REC-283",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Kohl's: Senior discount: 15% off regular-priced items every Wednesday fo",
+   "detail": {
+    "key": "Kohl's: Senior discount: 15% off regular-priced items every Wednesday for shoppers 60 and older.",
+    "days": [
+     "wednesday"
+    ],
+    "url": "https://www.aol.com/14-stores-offer-best-senior-143500192.html",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-284",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[dallas] Fort Worth Zoo: Half-price admission every Wednesday of the year.",
+   "detail": {
+    "key": "Fort Worth Zoo: Half-price admission every Wednesday of the year.",
+    "days": [
+     "wednesday"
+    ],
+    "url": "https://www.fortworthzoo.org/plan-a-visit",
+    "why": "not in the registry and not on the deal-site lists Plum reads"
+   }
+  },
+  {
+   "id": "R-REC-285",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[austin] La Condesa: Happy hour at the bar only: half off all drinks and $3 tacos.",
+   "detail": {
+    "key": "La Condesa: Happy hour at the bar only: half off all drinks and $3 tacos.",
+    "days": [
+     "weekdays"
+    ],
+    "url": "https://www.theinfatuation.com/austin/guides/best-happy-hour-austin",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-286",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] Houston Museum of Natural Science: Free Tuesdays: free general admission to the permanent exhibit h",
+   "detail": {
+    "key": "Houston Museum of Natural Science: Free Tuesdays: free general admission to the permanent exhibit halls on Tuesday evenings.",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.hmns.org/visit/",
+    "plum": "Houston Museum of Natural Science: Free Tuesdays: free admission to the permanent exhibit halls, 5 to 8 pm (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-287",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[dallas] Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays f",
+   "detail": {
+    "key": "Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays for shoppers who can verify they are 55 or olde",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.aol.com/14-stores-offer-best-senior-143500192.html",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-288",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Chuy's: Happy hour with specials on house margaritas, house Texas martin",
+   "detail": {
+    "key": "Chuy's: Happy hour with specials on house margaritas, house Texas martinis, beer and wine, plus $5 Chips 'N' Dips; ava",
+    "days": [
+     "weekdays"
+    ],
+    "url": "https://www.chuys.com/happy-hour",
+    "plum": "Chuy's: Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and wine, and $5 Chips 'N' Dips (Monday to Friday)"
+   }
+  },
+  {
+   "id": "R-REC-289",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Luby's: Kids' meals are free on Wednesdays and Saturdays.",
+   "detail": {
+    "key": "Luby's: Kids' meals are free on Wednesdays and Saturdays.",
+    "days": [
+     "wednesday",
+     "saturday"
+    ],
+    "url": "https://www.houstononthecheap.com/kids-eat-free-houston",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-290",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[dallas] Kohl's: Senior discount: 15% off regular-priced items every Wednesday fo",
+   "detail": {
+    "key": "Kohl's: Senior discount: 15% off regular-priced items every Wednesday for shoppers 60 and older.",
+    "days": [
+     "wednesday"
+    ],
+    "url": "https://www.aol.com/14-stores-offer-best-senior-143500192.html",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-291",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesda",
+   "detail": {
+    "key": "Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesday (price varies by theater).",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.cinemark.com/discounts",
+    "plum": "Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-292",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays f",
+   "detail": {
+    "key": "Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays for shoppers who can verify they are 55 or olde",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.aol.com/14-stores-offer-best-senior-143500192.html",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-293",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[dallas] La Madeleine: Kids 10 and younger eat free on Tuesdays with the purchase of an",
+   "detail": {
+    "key": "La Madeleine: Kids 10 and younger eat free on Tuesdays with the purchase of an adult entr\u00e9e.",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://dfwchild.com/kids-eat-free/",
+    "why": "the chain is not on Plum's map"
+   }
+  },
+  {
+   "id": "R-REC-294",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Walgreens: Seniors Day: 20% off eligible regular-price items in store on th",
+   "detail": {
+    "key": "Walgreens: Seniors Day: 20% off eligible regular-price items in store on the first Tuesday of each month for myWalgreens ",
+    "days": [
+     "monthly: first tuesday"
+    ],
+    "url": "https://www.walgreens.com/Seniorday",
+    "plum": "Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of the month (First Tuesday of the month)"
+   }
+  },
+  {
+   "id": "R-REC-295",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] Griff's: Tuesday steak night: $24 plate with a marinated steak, giant bak",
+   "detail": {
+    "key": "Griff's: Tuesday steak night: $24 plate with a marinated steak, giant baked potato with a fixings bar, and a draft beer",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+    "plum": "Griff's: Tuesday steak night: marinated steak, baked potato with the fixings bar and a draft beer f (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-296",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesda",
+   "detail": {
+    "key": "Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesday (price varies by theater).",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.cinemark.com/discounts",
+    "plum": "Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-297",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Pluckers Wing Bar: Kids eat free all day on Tuesdays: two free kids' meals per adul",
+   "detail": {
+    "key": "Pluckers Wing Bar: Kids eat free all day on Tuesdays: two free kids' meals per adult entr\u00e9e, dine-in only (as posted on the Austi",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.pluckers.com/locations-pages/the-linc",
+    "plum": "Pluckers Wing Bar: Kids eat free all day on Tuesdays: two free kids meals per adult entr\u00e9e (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-298",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] Walgreens: Seniors Day: 20% off eligible regular-price items in store on th",
+   "detail": {
+    "key": "Walgreens: Seniors Day: 20% off eligible regular-price items in store on the first Tuesday of each month for myWalgreens ",
+    "days": [
+     "monthly: first tuesday"
+    ],
+    "url": "https://www.walgreens.com/Seniorday",
+    "plum": "Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of the month (First Tuesday of the month)"
+   }
+  },
+  {
+   "id": "R-REC-299",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[dallas] Buffalo Wild Wings: Buy one order of boneless wings, get one of equal or lesser valu",
+   "detail": {
+    "key": "Buffalo Wild Wings: Buy one order of boneless wings, get one of equal or lesser value free every Thursday (dine-in, takeout or del",
+    "days": [
+     "thursday"
+    ],
+    "url": "https://www.chowhound.com/2132338/best-time-bogo-buffalo-wild-wings",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-300",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[austin] Hopdoddy Burger Bar: Half off cocktails, beer and wine Monday through Thursday from 3",
+   "detail": {
+    "key": "Hopdoddy Burger Bar: Half off cocktails, beer and wine Monday through Thursday from 3 to 6 pm, dine-in only (as posted on the Austi",
+    "days": [
+     "monday",
+     "tuesday",
+     "wednesday",
+     "thursday"
+    ],
+    "url": "https://www.hopdoddy.com/locations/plazasaltillo",
+    "why": "not in the registry and not on the deal-site lists Plum reads"
+   }
+  },
+  {
+   "id": "R-REC-301",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] JAX Grill: Kids eat free every Sunday through Tuesday with the purchase of ",
+   "detail": {
+    "key": "JAX Grill: Kids eat free every Sunday through Tuesday with the purchase of an adult meal.",
+    "days": [
+     "sunday",
+     "monday",
+     "tuesday"
+    ],
+    "url": "https://www.houstononthecheap.com/kids-eat-free-houston",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-302",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Rosa's Cafe & Tortilla Factory: Taco Tuesday: all taco plates are $6.65 every Tuesday.",
+   "detail": {
+    "key": "Rosa's Cafe & Tortilla Factory: Taco Tuesday: all taco plates are $6.65 every Tuesday.",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.rosascafe.com/",
+    "plum": "Rosa's Caf\u00e9: Taco Tuesday: all taco plates $6.65 (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-303",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[austin] Buffalo Wild Wings: Buy one order of boneless wings, get one of equal or lesser valu",
+   "detail": {
+    "key": "Buffalo Wild Wings: Buy one order of boneless wings, get one of equal or lesser value free every Thursday (dine-in, takeout or del",
+    "days": [
+     "thursday"
+    ],
+    "url": "https://www.chowhound.com/2132338/best-time-bogo-buffalo-wild-wings",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-304",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesda",
+   "detail": {
+    "key": "Cinemark: Discount Tuesdays: discounted movie tickets all day every Tuesday (price varies by theater).",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.cinemark.com/discounts",
+    "plum": "Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-305",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[dallas] Caf\u00e9 Brazil: Kids 12 and younger eat free from the kids' menu Sunday through ",
+   "detail": {
+    "key": "Caf\u00e9 Brazil: Kids 12 and younger eat free from the kids' menu Sunday through Thursday evenings with the purchase of an adul",
+    "days": [
+     "sunday",
+     "monday",
+     "tuesday",
+     "wednesday",
+     "thursday"
+    ],
+    "url": "https://dfwchild.com/kids-eat-free/",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-306",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[austin] Bullock Texas State History Museum: Free exhibition admission on the first Sunday of every month (H-",
+   "detail": {
+    "key": "Bullock Texas State History Museum: Free exhibition admission on the first Sunday of every month (H-E-B Free First Sunday).",
+    "days": [
+     "monthly: first sunday"
+    ],
+    "url": "https://www.thestoryoftexas.com/visit",
+    "why": "not in the registry and not on the deal-site lists Plum reads"
+   }
+  },
+  {
+   "id": "R-REC-307",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Pluckers Wing Bar: Kids eat free on Tuesdays with the purchase of an adult meal (li",
+   "detail": {
+    "key": "Pluckers Wing Bar: Kids eat free on Tuesdays with the purchase of an adult meal (listed for the 1400 Shepherd Dr, Houston locatio",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.houstononthecheap.com/kids-eat-free-houston",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-308",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Chuy's: Happy hour with specials on house margaritas, house Texas martin",
+   "detail": {
+    "key": "Chuy's: Happy hour with specials on house margaritas, house Texas martinis, beer and wine, plus $5 Chips 'N' Dips; ava",
+    "days": [
+     "weekdays"
+    ],
+    "url": "https://www.chuys.com/happy-hour",
+    "plum": "Chuy's: Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and wine, and $5 Chips 'N' Dips (Monday to Friday)"
+   }
+  },
+  {
+   "id": "R-REC-309",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[austin] Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays f",
+   "detail": {
+    "key": "Ross Dress for Less: Every Tuesday Club: 10% off apparel and home decor on Tuesdays for shoppers who can verify they are 55 or olde",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.aol.com/14-stores-offer-best-senior-143500192.html",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-310",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Buffalo Wild Wings: Buy one order of traditional (bone-in) wings, get a second of eq",
+   "detail": {
+    "key": "Buffalo Wild Wings: Buy one order of traditional (bone-in) wings, get a second of equal or lesser value 50% off every Tuesday (din",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.chowhound.com/2132338/best-time-bogo-buffalo-wild-wings",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-311",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[dallas] Maroma: Bar-only happy hour: a selection of bites and cocktails all pric",
+   "detail": {
+    "key": "Maroma: Bar-only happy hour: a selection of bites and cocktails all priced at $12, plus $3 oysters.",
+    "days": [
+     "daily"
+    ],
+    "url": "https://dallas.culturemap.com/news/restaurants-bars/best-happy-hours-june-2026/",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-312",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[austin] Quality Seafood Market: Happy hour with $0.35 peel-and-eat shrimp, $1 oysters and $3 Mod",
+   "detail": {
+    "key": "Quality Seafood Market: Happy hour with $0.35 peel-and-eat shrimp, $1 oysters and $3 Modelos.",
+    "days": [
+     "wednesday",
+     "thursday",
+     "friday"
+    ],
+    "url": "https://www.theinfatuation.com/austin/guides/best-happy-hour-austin",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-313",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] Chuy's: Happy hour with specials on house margaritas, house Texas martin",
+   "detail": {
+    "key": "Chuy's: Happy hour with specials on house margaritas, house Texas martinis, beer and wine, plus $5 Chips 'N' Dips; ava",
+    "days": [
+     "weekdays"
+    ],
+    "url": "https://www.chuys.com/happy-hour",
+    "plum": "Chuy's: Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and wine, and $5 Chips 'N' Dips (Monday to Friday)"
+   }
+  },
+  {
+   "id": "R-REC-314",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Cowboy Chicken: Kids 10 and younger eat free after 4 pm on Mondays with the purc",
+   "detail": {
+    "key": "Cowboy Chicken: Kids 10 and younger eat free after 4 pm on Mondays with the purchase of an adult entr\u00e9e (limit four per transa",
+    "days": [
+     "monday"
+    ],
+    "url": "https://dfwchild.com/kids-eat-free/",
+    "plum": "Cowboy Chicken: Every Monday after 4 p.m., get one free kids' (10 and under) meal when you purchase an adu (Every Monday)"
+   }
+  },
+  {
+   "id": "R-REC-315",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Dave & Buster's: Half-price games every Wednesday and Sunday, in store only (excl",
+   "detail": {
+    "key": "Dave & Buster's: Half-price games every Wednesday and Sunday, in store only (excludes virtual reality, The Arena, Game Suites, ",
+    "days": [
+     "sunday",
+     "wednesday"
+    ],
+    "url": "https://www.daveandbusters.com/us/en/play/specials",
+    "plum": "Dave & Buster's: Dave & Buster's has a Happy Hour every day but Saturday with drinks starting at $5 and mor (Sunday to Friday)"
+   }
+  },
+  {
+   "id": "R-REC-316",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[houston] Houston Zoo: Free Zoo Days: free zoo admission on the first Tuesday of each m",
+   "detail": {
+    "key": "Houston Zoo: Free Zoo Days: free zoo admission on the first Tuesday of each month; tickets must be reserved online in advan",
+    "days": [
+     "monthly: first tuesday"
+    ],
+    "url": "https://www.houstonzoo.org/plan-your-visit/prices-and-discounts/free-tuesdays/",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-317",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Dave & Buster's: Half-price games every Wednesday and Sunday, in store only (excl",
+   "detail": {
+    "key": "Dave & Buster's: Half-price games every Wednesday and Sunday, in store only (excludes virtual reality, The Arena, Game Suites, ",
+    "days": [
+     "sunday",
+     "wednesday"
+    ],
+    "url": "https://www.daveandbusters.com/us/en/play/specials",
+    "plum": "Dave & Buster's: Dave & Buster's has a Happy Hour every day but Saturday with drinks starting at $5 and mor (Sunday to Friday)"
+   }
+  },
+  {
+   "id": "R-REC-318",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[austin] Goodwill Central Texas: Heroes Day: 30% off every Tuesday for seniors 55+, first respond",
+   "detail": {
+    "key": "Goodwill Central Texas: Heroes Day: 30% off every Tuesday for seniors 55+, first responders, and active or retired military.",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+    "plum": "Goodwill Central Texas: Heroes Day: 30% off for seniors 55+, first responders and military (Every Tuesday)"
+   }
+  },
+  {
+   "id": "R-REC-319",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[houston] The Blind Goat: Steak frites special for $27 on Wednesdays.",
+   "detail": {
+    "key": "The Blind Goat: Steak frites special for $27 on Wednesdays.",
+    "days": [
+     "wednesday"
+    ],
+    "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+    "plum": "The Blind Goat: Steak frites special on Wednesdays for $27 (Every Wednesday)"
+   }
+  },
+  {
+   "id": "R-REC-320",
+   "category": "R-REC recall",
+   "verdict": "pass",
+   "subject": "[dallas] Walgreens: Seniors Day: 20% off eligible regular-price items in store on th",
+   "detail": {
+    "key": "Walgreens: Seniors Day: 20% off eligible regular-price items in store on the first Tuesday of each month for myWalgreens ",
+    "days": [
+     "monthly: first tuesday"
+    ],
+    "url": "https://www.walgreens.com/Seniorday",
+    "plum": "Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of the month (First Tuesday of the month)"
+   }
+  },
+  {
+   "id": "R-REC-321",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[austin] Uchi: Daily happy hour menu: dishes $6-29, sake $7-13, wine and beer $",
+   "detail": {
+    "key": "Uchi: Daily happy hour menu: dishes $6-29, sake $7-13, wine and beer $6-16, and $10 cocktails.",
+    "days": [
+     "daily"
+    ],
+    "url": "https://www.theinfatuation.com/austin/guides/best-happy-hour-austin",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-REC-322",
+   "category": "R-REC recall",
+   "verdict": "inconclusive",
+   "subject": "[houston] Denny's: Kids eat free on Tuesdays from 4 to 10 pm: a free kids' meal wit",
+   "detail": {
+    "key": "Denny's: Kids eat free on Tuesdays from 4 to 10 pm: a free kids' meal with the purchase of an adult entr\u00e9e of $6 or mor",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://www.houstononthecheap.com/kids-eat-free-houston",
+    "why": "the answer key's own source is over 180 days old"
+   }
+  },
+  {
+   "id": "R-REC-323",
+   "category": "R-REC recall",
+   "verdict": "fail",
+   "subject": "[dallas] Mama's Daughters' Diner: Kids 10 and younger eat free all day on Tuesdays with the purcha",
+   "detail": {
+    "key": "Mama's Daughters' Diner: Kids 10 and younger eat free all day on Tuesdays with the purchase of an adult meal.",
+    "days": [
+     "tuesday"
+    ],
+    "url": "https://dfwchild.com/kids-eat-free/",
+    "why": "a local place Plum has no entry for"
+   }
+  },
+  {
+   "id": "R-SRC-324",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Hank's: Half off all burgers every Monday, 11 am to 9 pm (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.hanksaustin.com/menus/",
+    "kind": "official",
+    "claims": {
+     "half": true
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-325",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[san-marcos] Freebirds: Kids eat free on Sundays at Freebirds World Burrito. Freebirds p (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-sunday-restaurant-specials/",
+    "kind": "list",
+    "claims": {},
+    "days": "Every Sunday"
+   }
+  },
+  {
+   "id": "R-SRC-326",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Wendy's: Celebrate Fryday with free any size fry at Wendy's when you make (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$5"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-327",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Red Lobster: Red Lobster has a $20 Lobster & Shrimp deal every Thursday. Red  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/thursday-restaurant-deals-and-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$20"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  },
+  {
+   "id": "R-SRC-328",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] Schlotzsky's: From Friday to Sunday after 5 pm, get personal sized pizzas for  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-friday-restaurant-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$5"
+     ]
+    },
+    "days": "Friday to Sunday"
+   }
+  },
+  {
+   "id": "R-SRC-329",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] The Cheesecake Factory: The Cheesecake Factory has Happy Hour specials at most locations (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-monday-restaurant-specials-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$10"
+     ]
+    },
+    "days": "Monday to Friday"
+   }
+  },
+  {
+   "id": "R-SRC-330",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[katy] Walgreens: Seniors Day: 20% off regular-price items on the first Tuesday of (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.walgreens.com/topic/promotion/seniorday.jsp",
+    "kind": "official",
+    "claims": {
+     "percents": [
+      "20%"
+     ]
+    },
+    "days": "First Tuesday of the month",
+    "read_twice": true,
+    "whole_page": true
+   }
+  },
+  {
+   "id": "R-SRC-331",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[league-city] Beef O'Brady's: On Mondays, you can build your own burger at Beef 'O' Brady's fo (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$8.99"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-332",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Buffalo Wild Wings: Happy hour: drinks and bites at $3-6 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.buffalowildwings.com/happy-hour/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$3"
+     ]
+    },
+    "days": "Monday to Friday"
+   }
+  },
+  {
+   "id": "R-SRC-333",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[arlington] Perry's Steakhouse & Grille: 3-Course Pork Chop Sunday Supper for $49 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://perryssteakhouse.com/specials/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$49"
+     ]
+    },
+    "days": "Every Sunday"
+   }
+  },
+  {
+   "id": "R-SRC-334",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Hank's: Half off all bottles of wine every Tuesday (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.hanksaustin.com/menus/",
+    "kind": "official",
+    "claims": {
+     "half": true
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-335",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[san-marcos] Cracker Barrel: Fridays - Fish Fry $15.99. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-friday-restaurant-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$15.99"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-336",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Red Lobster: It's shrimp or Chicken Alfredo for $15 every Thursday at Red Lob (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/thirsty-thursday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$15"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  },
+  {
+   "id": "R-SRC-337",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Flix Brewhouse: $6 tickets for every 2D show on Wednesdays (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://flixbrewhouse.com/discount-day/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$6"
+     ]
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-338",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] TGI Fridays: Get $0.50 wings every Monday from 5 p.m. - close at TGI Fridays. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$0.50"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-339",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] Fuzzy's Taco Shop: TuesYay: $2.50 classic and $3.50 premium tacos all day Tuesday (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.fuzzystacoshop.com/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$2.50",
+      "$3.50"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-340",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[katy] KFC: Every Monday you can get 24 chicken nuggets (reg. $15.98), plus  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$10",
+      "$15.98"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-341",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[league-city] Ruth's Chris Steak House: Ruth's Chris Steakhouse has Happy Hour deals on Sundays at most  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-sunday-restaurant-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$9"
+     ]
+    },
+    "days": "Every Sunday"
+   }
+  },
+  {
+   "id": "R-SRC-342",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Pluckers Wing Bar: All-you-can-eat Buffalo Bites for $21 on Thursdays (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.pluckers.com/locations-pages/meyerland",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$21"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  },
+  {
+   "id": "R-SRC-343",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[garland] Cinemark: Discount Tuesdays: movie tickets up to 50% off, all day (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.cinemark.com/discount-tuesdays",
+    "kind": "official",
+    "claims": {
+     "percents": [
+      "50%"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-344",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[mckinney] Red Lobster: Get all-you-can eat shrimp for $24.99 at most locations. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-saturday-restaurant-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$24.99"
+     ]
+    },
+    "days": "Every Saturday"
+   }
+  },
+  {
+   "id": "R-SRC-345",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Main Event: Get a Kids Eat Free deal every Tuesday at Main Event. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "kind": "list",
+    "claims": {},
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-346",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Freebirds: After 5 p.m. local time on Wednesdays, rewards members can enjoy (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/wednesday-food-deals",
+    "kind": "list",
+    "claims": {
+     "bogo": true
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-347",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Main Event: Kids Bowl Free: 2 free games of bowling for kids 15 and under, M (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.mainevent.com/specials",
+    "kind": "official",
+    "claims": {},
+    "days": "Monday to Friday"
+   }
+  },
+  {
+   "id": "R-SRC-348",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] Logan's Roadhouse: On Wednesdays, you can grab a mesquite-grilled steak, two sides, (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/wednesday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$12.99"
+     ]
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-349",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] Luby's: Kids eat free on Wednesdays and Saturdays: one free kid's meal p (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.lubys.com/discounts",
+    "kind": "official",
+    "claims": {},
+    "days": "Wednesdays and Saturdays"
+   }
+  },
+  {
+   "id": "R-SRC-350",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[katy] Outback Steakhouse: Outback Steakhouse has a Walkabout Wednesday meal deal. For $13. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/wednesday-restaurant-deals-and-specials-2/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$13.99"
+     ]
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-351",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[league-city] Main Event: Friday Night Fun: all-you-can-play activities or games for $14.9 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.mainevent.com/specials",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$14.99"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-352",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Red Lobster: Red Lobster has a $25 Endless Shrimp special on Mondays. Red Lob (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-monday-restaurant-specials-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$25"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-353",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[arlington] Dickey's Barbecue Pit: Dickey's Barbecue has a kids eat free deal every Sunday. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-sunday-restaurant-specials/",
+    "kind": "list",
+    "claims": {},
+    "days": "Every Sunday"
+   }
+  },
+  {
+   "id": "R-SRC-354",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[mckinney] Moe's Southwest Grill: Moe Rewards members can score a $6.99 burrito or bowl (excluding (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$6.99"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-355",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Quiznos: On Thursdays, Quiznos offers their 8\" Ultimate Turkey Club as th (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/thirsty-thursday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$7.45"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  },
+  {
+   "id": "R-SRC-356",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[san-marcos] KFC: Every Friday, guests can score 24 nuggets (reg. $7.99 for a 12-c (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$0.30",
+      "$10",
+      "$7.99"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-357",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Torchy's Tacos: Hooky Hour: half-priced house margaritas, beer and appetizers on (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://torchystacos.com/hooky-hour",
+    "kind": "official",
+    "claims": {
+     "half": true
+    },
+    "days": "Monday to Friday"
+   }
+  },
+  {
+   "id": "R-SRC-358",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Wingstop: Get $0.70 boneless wings on Mondays at Wingstop. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$0.70"
+     ]
+    },
+    "days": "Mondays and Tuesdays"
+   }
+  },
+  {
+   "id": "R-SRC-359",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] Which Wich: Which Wich has daily deals every weekday, with select regular sa (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$7"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-360",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[katy] Red Lobster: Enjoy Lobster & Shrimp Scampi, plus your choice of side, for $19 (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$19.99"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-361",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Which Wich: Which Wich has daily deals every weekday, with select regular sa (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/thursday-restaurant-deals-and-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$7"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  },
+  {
+   "id": "R-SRC-362",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[arlington] Cicis: Rewards members can enjoy a $5.99 adult pizza buffet (reg. $9.99 (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/tuesday-meal-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$5.99",
+      "$9.99"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-363",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[garland] Pizza Hut: Each week you can celebrate Wing Wednesday with a BOGO deal on w (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/wednesday-food-deals",
+    "kind": "list",
+    "claims": {
+     "bogo": true
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-364",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Chuy's: Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and win (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.chuys.com/happy-hour",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$5"
+     ]
+    },
+    "days": "Monday to Friday"
+   }
+  },
+  {
+   "id": "R-SRC-365",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] Perry's Steakhouse & Grille: Pork Chop Friday Lunch: a lunch cut of Perry's Famous Pork Chop  (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://perryssteakhouse.com/specials/pork-chop-lunch/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$24"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-366",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[katy] Marco's Pizza: Marco's Pizza has a buy one, get one free offer on Tuesdays plus (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "kind": "list",
+    "claims": {
+     "bogo": true
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-367",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[arlington] Bar Louie: Bar Louie has $8 martinis on Mondays plus Happy Hour specials fr (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-monday-restaurant-specials-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$8"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-368",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[mckinney] Outback Steakhouse: Get a surf and turf meal with sides for $24.99 at Outback Steakh (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/tuesday-meal-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$24.99"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-369",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Sonic Drive-In: Every Tuesday, rewards members can grab half-price Sonic cheeseb (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/tuesday-meal-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$4.99"
+     ],
+     "half": true
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-370",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Ross Dress for Less: 55+ Tuesday Discount: 10% off purchases made on Tuesday (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.rossstores.com/contact-us/",
+    "kind": "official",
+    "claims": {
+     "percents": [
+      "10%"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-371",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] Schlotzsky's: BOGO Wednesday: buy one pizza, flatbread or calzone and get one  (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.schlotzskys.com/about-us/faqs",
+    "kind": "official",
+    "claims": {
+     "bogo": true
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-372",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Dickey's Barbecue Pit: Dickey's BBQ has daily deals every weekday. On Mondays get a Pul (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-monday-restaurant-specials-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$4.99"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-373",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[mckinney] Rosa's Caf\u00e9: Taco Tuesday: all taco plates $6.65 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.rosascafe.com/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$6.65"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-374",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[san-marcos] Which Wich: On Fridays at Which Wich, you can save around $3 on a 7-inch Sea (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$3",
+      "$7"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-375",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[kyle] Kerbey Lane Cafe: Kids eat free every Tuesday: one free kids meal with an adult en (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.kerbeylanecafe.com/menu",
+    "kind": "official",
+    "claims": {},
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-376",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[round-rock] Chuck E. Cheese: Winning Wednesday: 30% off All You Can Play (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.chuckecheese.com/denton-tx/coupons-and-deals/",
+    "kind": "official",
+    "claims": {
+     "percents": [
+      "30%"
+     ]
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-377",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] Panera Bread: On Tuesdays, get a Baker's Dozen (thirteen total) bagels for jus (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$9.99"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-378",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] KFC: Each week, KFC offers 10 wings (comes with two sauces) for $10 o (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/wednesday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$10"
+     ]
+    },
+    "days": "Every Wednesday"
+   }
+  },
+  {
+   "id": "R-SRC-379",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[league-city] Carrabba's Italian Grill: Get a dinner for two for $45 at Carrabba's on Saturdays and Sund (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/daily-deals-saturday-restaurant-specials/",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$45"
+     ]
+    },
+    "days": "Saturdays and Sundays"
+   }
+  },
+  {
+   "id": "R-SRC-380",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[dallas] Einstein Bros. Bagels: Rewards members can pick up a baker's dozen of bagels (13 bagels (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/monday-restaurant-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$9"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-381",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[arlington] B&B Theatres: Treat Yourself Tuesdays: tickets from $6 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.bbtheatres.com/offers-and-promotions/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$6"
+     ]
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-382",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[garland] Wendy's: This fall, Wendy's has several college football deals available  (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "kind": "list",
+    "claims": {
+     "percents": [
+      "50%"
+     ]
+    },
+    "days": "Every Saturday"
+   }
+  },
+  {
+   "id": "R-SRC-383",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[mckinney] BJ's Restaurant & Brewhouse: Monday: $19.99 large pizzas or $14.99 tavern-cut pizza, and $6 B (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$14.99",
+      "$19.99",
+      "$6"
+     ]
+    },
+    "days": "Every Monday"
+   }
+  },
+  {
+   "id": "R-SRC-384",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[austin] Red Lobster: For $15.99, you can grab a Fish & Chips special (Cod, Chesapeake (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://thekrazycouponlady.com/tips/money/friday-food-deals",
+    "kind": "list",
+    "claims": {
+     "amounts": [
+      "$15.99"
+     ]
+    },
+    "days": "Every Friday"
+   }
+  },
+  {
+   "id": "R-SRC-385",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[san-marcos] Kerbey Lane Cafe: Happy hour every day, 4 to 6 pm: $3 mimosas, $5 beers, $7 cockta (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.kerbeylanecafe.com/menu",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$3",
+      "$5",
+      "$7"
+     ]
+    },
+    "days": "Every day"
+   }
+  },
+  {
+   "id": "R-SRC-386",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[houston] IKEA: On Tuesdays at IKEA get any adult entree for half price. (listed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.eatdrinkdeals.com/tuesday-restaurant-specials-and-deals/",
+    "kind": "list",
+    "claims": {
+     "half": true
+    },
+    "days": "Every Tuesday"
+   }
+  },
+  {
+   "id": "R-SRC-387",
+   "category": "R-SRC evidence fidelity",
+   "subject": "[the-woodlands] Perry's Steakhouse & Grille: 16 oz. Caramelized Prime Rib Thursday for $59 (confirmed)",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://perryssteakhouse.com/specials/",
+    "kind": "official",
+    "claims": {
+     "amounts": [
+      "$59"
+     ]
+    },
+    "days": "Every Thursday"
+   }
+  }
+ ],
+ "summary": {
+  "conclusive": 200,
+  "pass": 185,
+  "fail": 15,
+  "inconclusive": 188,
+  "pending": 0,
+  "pass_rate": 0.925,
+  "by_category": {
+   "R-DAY schedule": {
+    "pass": 30,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "R-GEO vicinity": {
+    "pass": 30,
+    "fail": 0,
+    "inconclusive": 8,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "R-IND industry (blind judge)": {
+    "pass": 20,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "R-REC recall": {
+    "pass": 19,
+    "fail": 11,
+    "inconclusive": 12,
+    "pending": 0,
+    "pass_rate": 0.633
+   },
+   "R-SRC evidence fidelity": {
+    "pass": 64,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "R-TXT faithful summary (blind judge)": {
+    "pass": 16,
+    "fail": 4,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.8
+   },
+   "R-X other source": {
+    "pass": 6,
+    "fail": 0,
+    "inconclusive": 168,
+    "pending": 0,
+    "pass_rate": 1.0
+   }
+  }
+ },
+ "quality": {
+  "shown": 1243,
+  "distinct": 174,
+  "confirmed_share": 0.315,
+  "with_a_stated_discount": 0.247
+ }
+}

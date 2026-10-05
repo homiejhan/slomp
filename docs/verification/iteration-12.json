@@ -1,0 +1,3424 @@
+{
+ "iteration": 12,
+ "seed": 12007,
+ "run_id": "it12-202610051107",
+ "run_at": "2026-10-05T16:07:01.664637+00:00",
+ "queries": [
+  [
+   "irving",
+   [
+    "baby",
+    "auto"
+   ]
+  ],
+  [
+   "grand-prairie",
+   [
+    "sports",
+    "fashion"
+   ]
+  ],
+  [
+   "austin",
+   [
+    "office",
+    "home"
+   ]
+  ],
+  [
+   "rosenberg",
+   [
+    "grocery",
+    "toys"
+   ]
+  ],
+  [
+   "forney",
+   [
+    "health",
+    "beauty"
+   ]
+  ],
+  [
+   "kingsville",
+   [
+    "beauty",
+    "grocery"
+   ]
+  ],
+  [
+   "lindale",
+   [
+    "entertainment",
+    "fashion"
+   ]
+  ],
+  [
+   "buda",
+   [
+    "tech",
+    "sports"
+   ]
+  ],
+  [
+   "knox-city",
+   [
+    "dining",
+    "fashion"
+   ]
+  ],
+  [
+   "runge",
+   [
+    "pets",
+    "health"
+   ]
+  ]
+ ],
+ "plum": {
+  "local": [
+   {
+    "city": "irving",
+    "industries": [
+     "baby",
+     "auto"
+    ],
+    "deals": 32,
+    "promotions": 14,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 234,
+     "ad price with no saving stated": 3934,
+     "other industry": 1533,
+     "page element, not an item": 770,
+     "no item name": 22,
+     "item starts after the 7-day window": 2,
+     "item already ended": 62,
+     "implausible saving (93.8% off a $8.00 price: likely an ad error)": 1,
+     "fine print, not an item": 1,
+     "nearest store beyond 25 mi": 4,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23,
+     "regular deal: no branch within the radius": 1
+    }
+   },
+   {
+    "city": "grand-prairie",
+    "industries": [
+     "sports",
+     "fashion"
+    ],
+    "deals": 224,
+    "promotions": 64,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 230,
+     "ad price with no saving stated": 3378,
+     "other industry": 1254,
+     "page element, not an item": 764,
+     "item already ended": 65,
+     "same item in another ad": 7,
+     "item starts after the 7-day window": 2,
+     "implausible saving (93.8% off a $8.00 price: likely an ad error)": 1,
+     "fine print, not an item": 1,
+     "nearest store beyond 25 mi": 44,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23,
+     "regular deal: no branch within the radius": 4
+    }
+   },
+   {
+    "city": "austin",
+    "industries": [
+     "office",
+     "home"
+    ],
+    "deals": 263,
+    "promotions": 100,
+    "unconfirmed": 0,
+    "excluded": {
+     "page element, not an item": 636,
+     "other industry": 986,
+     "ad price with no saving stated": 2730,
+     "no industry": 206,
+     "no item name": 3,
+     "same item in another ad": 19,
+     "item starts after the 7-day window": 1,
+     "item already ended": 29,
+     "fine print, not an item": 1,
+     "no store within 50 mi": 4,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   },
+   {
+    "city": "rosenberg",
+    "industries": [
+     "grocery",
+     "toys"
+    ],
+    "deals": 88,
+    "promotions": 180,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 238,
+     "ad price with no saving stated": 2979,
+     "other industry": 1183,
+     "page element, not an item": 665,
+     "same item in another ad": 9,
+     "item starts after the 7-day window": 1,
+     "item already ended": 63,
+     "no item name": 1,
+     "fine print, not an item": 1,
+     "nearest store beyond 25 mi": 22,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   },
+   {
+    "city": "forney",
+    "industries": [
+     "health",
+     "beauty"
+    ],
+    "deals": 46,
+    "promotions": 158,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 226,
+     "ad price with no saving stated": 4051,
+     "other industry": 1339,
+     "page element, not an item": 728,
+     "no item name": 3,
+     "item already ended": 63,
+     "item starts after the 7-day window": 2,
+     "implausible saving (93.8% off a $8.00 price: likely an ad error)": 1,
+     "same item in another ad": 1,
+     "fine print, not an item": 1,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   },
+   {
+    "city": "kingsville",
+    "industries": [
+     "beauty",
+     "grocery"
+    ],
+    "deals": 67,
+    "promotions": 101,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 234,
+     "ad price with no saving stated": 1951,
+     "other industry": 1052,
+     "page element, not an item": 557,
+     "same item in another ad": 11,
+     "item starts after the 7-day window": 1,
+     "item already ended": 22,
+     "fine print, not an item": 1,
+     "no store within 50 mi": 22,
+     "nearest store beyond 25 mi": 50,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   },
+   {
+    "city": "lindale",
+    "industries": [
+     "entertainment",
+     "fashion"
+    ],
+    "deals": 170,
+    "promotions": 47,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 200,
+     "ad price with no saving stated": 2186,
+     "other industry": 1092,
+     "page element, not an item": 566,
+     "same item in another ad": 7,
+     "item starts after the 7-day window": 1,
+     "item already ended": 26,
+     "fine print, not an item": 1,
+     "nearest store beyond 25 mi": 34,
+     "no store within 50 mi": 28,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23,
+     "regular deal: no branch within the radius": 23
+    }
+   },
+   {
+    "city": "buda",
+    "industries": [
+     "tech",
+     "sports"
+    ],
+    "deals": 191,
+    "promotions": 4,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 236,
+     "ad price with no saving stated": 2515,
+     "other industry": 1184,
+     "page element, not an item": 634,
+     "item starts after the 7-day window": 1,
+     "item already ended": 29,
+     "fine print, not an item": 1,
+     "no store within 50 mi": 3,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   },
+   {
+    "city": "knox-city",
+    "industries": [
+     "dining",
+     "fashion"
+    ],
+    "deals": 0,
+    "promotions": 0,
+    "unconfirmed": 0,
+    "excluded": {
+     "page element, not an item": 341,
+     "other industry": 528,
+     "ad price with no saving stated": 792,
+     "no industry": 3,
+     "same item in another ad": 1,
+     "nearest store beyond 25 mi": 18,
+     "no store within 50 mi": 118,
+     "promotion: gift card, subscription, game or merchandise": 9,
+     "promotion: no branch nearby": 8,
+     "promotion: not a mapped restaurant chain": 34,
+     "promotion: no dates and posted over 3 days ago": 5,
+     "promotion: outside the 7-day window": 14,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23,
+     "regular deal: no branch within the radius": 163
+    }
+   },
+   {
+    "city": "runge",
+    "industries": [
+     "pets",
+     "health"
+    ],
+    "deals": 25,
+    "promotions": 8,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 201,
+     "ad price with no saving stated": 1904,
+     "other industry": 1153,
+     "page element, not an item": 551,
+     "item starts after the 7-day window": 1,
+     "item already ended": 22,
+     "fine print, not an item": 1,
+     "same item in another ad": 4,
+     "no store within 50 mi": 3,
+     "nearest store beyond 25 mi": 106,
+     "regular deal: the chain has no mapped place in Texas": 223,
+     "regular deal: a delivery app's promotion": 5,
+     "regular deal: a one-off date, not a standing offer": 55,
+     "regular deal: no concrete offer stated": 117,
+     "regular deal: past its stated end date": 4,
+     "regular deal: a gift card, points or sweepstakes offer": 1,
+     "regular deal: an everyday offer, not tied to a day or time": 102,
+     "regular deal: a list gives a different price than the company's own page": 4,
+     "regular deal: lists disagree on the price, so it is not shown": 23
+    }
+   }
+  ],
+  "online": {
+   "auto": 3,
+   "baby": 4,
+   "beauty": 7,
+   "fashion": 25,
+   "grocery": 13,
+   "health": 5,
+   "home": 25,
+   "office": 6,
+   "pets": 5,
+   "sports": 9,
+   "tech": 12,
+   "toys": 12
+  }
+ },
+ "tests": [
+  {
+   "id": "L-WIN-000",
+   "category": "L-WIN time window",
+   "subject": "[irving] Dollar General: Gentle Steps\u00ae Training Pants",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-001",
+   "category": "L-WIN time window",
+   "subject": "[grand-prairie] JCPenney: Men's lab-grown diamond or gemstone rings\u2021\u00a7",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Mon Sep 28-Sun Oct 25"
+   }
+  },
+  {
+   "id": "L-WIN-002",
+   "category": "L-WIN time window",
+   "subject": "[austin] Walmart: Cuisinart 2 Slice Stainless Steel Custom Select Toaster, New, CPT-620P",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Wed Sep 30-Tue Oct 06"
+   }
+  },
+  {
+   "id": "L-WIN-003",
+   "category": "L-WIN time window",
+   "subject": "[rosenberg] H-E-B: H-E-B Thin Potato Chips",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Wed Sep 30-Tue Oct 06"
+   }
+  },
+  {
+   "id": "L-WIN-004",
+   "category": "L-WIN time window",
+   "subject": "[forney] CVS Pharmacy: Midol or U by Kotex (excludes liners 16 ct.)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-005",
+   "category": "L-WIN time window",
+   "subject": "[kingsville] Dollar General: Colgate\u00ae Manual Toothbrushes 360\u00b0 Advanced, Total, or Optic White\u2122 1-2",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-006",
+   "category": "L-WIN time window",
+   "subject": "[lindale] Kohl's: Napier Medallion Station Multi-Strand Necklace",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Wed Sep 30-Tue Oct 06"
+   }
+  },
+  {
+   "id": "L-WIN-007",
+   "category": "L-WIN time window",
+   "subject": "[buda] Best Buy: eero - Pro 7 Tri-band Mesh Wi-Fi 7 Router (1-pack) - White",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Tue Sep 29-Mon Oct 05"
+   }
+  },
+  {
+   "id": "L-WIN-008",
+   "category": "L-WIN time window",
+   "subject": "[runge] Dollar General: Composure\u2122 Bladder Control Pads 24-66 ct. or Male Guard 52 ct.",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-009",
+   "category": "L-WIN time window",
+   "subject": "[irving] Walmart: Vercelli I All Season 215/60R16 95V SUV/Crossover Tire",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Wed Sep 30-Tue Oct 06"
+   }
+  },
+  {
+   "id": "L-WIN-010",
+   "category": "L-WIN time window",
+   "subject": "[grand-prairie] JCPenney: 6-1/2 to 8-1/4 ct. t.w. lab-grown diamond; 5 or 6 ct. center stone\u2021\u25ca C",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Mon Sep 28-Sun Oct 25"
+   }
+  },
+  {
+   "id": "L-WIN-011",
+   "category": "L-WIN time window",
+   "subject": "[austin] Harbor Freight Tools: 16 qt. Oil Container with Drain Pan",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Tue Sep 29-Mon Oct 12"
+   }
+  },
+  {
+   "id": "L-WIN-012",
+   "category": "L-WIN time window",
+   "subject": "[rosenberg] CVS Pharmacy: Joyward teal pumpkin, non- food trick-or-treat options, crafts or nove",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-013",
+   "category": "L-WIN time window",
+   "subject": "[forney] Walgreens: Walgreens branded products*",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-WIN-014",
+   "category": "L-WIN time window",
+   "subject": "[kingsville] CVS Pharmacy: Vita Coco pure coconut water 4 pk. or 1 liter",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Sun Oct 04-Sat Oct 10"
+   }
+  },
+  {
+   "id": "L-GEO-015",
+   "category": "L-GEO vicinity",
+   "subject": "[irving] Family Dollar",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.7,
+    "locator_store": "2401 Finley Road, Suite 180, Irving",
+    "plum_store_mi": 1.3,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.0
+   }
+  },
+  {
+   "id": "L-GEO-016",
+   "category": "L-GEO vicinity",
+   "subject": "[grand-prairie] Kohl's",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 1.4,
+    "locator_store": "3152 S STATE HWY 161, GRAND PRAIRIE",
+    "plum_store_mi": 1.4,
+    "plum_store": "3865 South Carrier Parkway, Grand Prairie",
+    "plum_store_confirmed_within_mi": 1.46
+   }
+  },
+  {
+   "id": "L-GEO-017",
+   "category": "L-GEO vicinity",
+   "subject": "[austin] Ace Hardware",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.6,
+    "locator_store": "718 W 29th St, Austin",
+    "plum_store_mi": 3.5,
+    "plum_store": "3663 Bee Caves Road, West Lake Hills",
+    "plum_store_confirmed_within_mi": 0.05
+   }
+  },
+  {
+   "id": "L-GEO-018",
+   "category": "L-GEO vicinity",
+   "subject": "[rosenberg] Dollar General",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.8,
+    "locator_store": "1916 1st St, Rosenberg",
+    "plum_store_mi": 2.4,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.03
+   }
+  },
+  {
+   "id": "L-GEO-019",
+   "category": "L-GEO vicinity",
+   "subject": "[forney] Walgreens",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.3,
+    "locator_store": "451 FM 548, Forney",
+    "plum_store_mi": 0.4,
+    "plum_store": "451 North FM 548, Forney",
+    "plum_store_confirmed_within_mi": 0.03
+   }
+  },
+  {
+   "id": "L-GEO-020",
+   "category": "L-GEO vicinity",
+   "subject": "[kingsville] Dollar General",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.7,
+    "locator_store": "206 W King Ave, Kingsville",
+    "plum_store_mi": 0.7,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.06
+   }
+  },
+  {
+   "id": "L-GEO-021",
+   "category": "L-GEO vicinity",
+   "subject": "[lindale] JCPenney",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 14.7,
+    "locator_store": "4401 S Broadway, Tyler",
+    "plum_store_mi": 14.7,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.02
+   }
+  },
+  {
+   "id": "L-GEO-022",
+   "category": "L-GEO vicinity",
+   "subject": "[buda] Cabela's",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "store-locator data for Cabela's looks incomplete (2 Texas stores vs 5 mapped)"
+   }
+  },
+  {
+   "id": "L-GEO-023",
+   "category": "L-GEO vicinity",
+   "subject": "[runge] Tractor Supply Company",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 9.9,
+    "locator_store": "407 NORTH SUNSET STRIP, KENEDY",
+    "plum_store_mi": 24.0,
+    "plum_store": "1460 North Jefferson Street, Goliad",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-024",
+   "category": "L-GEO vicinity",
+   "subject": "[irving] Harbor Freight Tools",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 2.4,
+    "locator_store": "3919 W. Airport Fwy, Irving",
+    "plum_store_mi": 2.4,
+    "plum_store": "3929 West Airport Freeway, Irving",
+    "plum_store_confirmed_within_mi": 0.03
+   }
+  },
+  {
+   "id": "L-GEO-025",
+   "category": "L-GEO vicinity",
+   "subject": "[grand-prairie] JCPenney",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 5.9,
+    "locator_store": "3851 S Cooper St, Arlington",
+    "plum_store_mi": 14.9,
+    "plum_store": "1101 Melbourne Road",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-026",
+   "category": "L-GEO vicinity",
+   "subject": "[austin] Walmart",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "store-locator data for Walmart looks incomplete (164 Texas stores vs 584 mapped)"
+   }
+  },
+  {
+   "id": "L-GEO-027",
+   "category": "L-GEO vicinity",
+   "subject": "[rosenberg] Target",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "store-locator data for Target looks incomplete (42 Texas stores vs 162 mapped)"
+   }
+  },
+  {
+   "id": "L-GEO-028",
+   "category": "L-GEO vicinity",
+   "subject": "[forney] Walgreens",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.3,
+    "locator_store": "451 FM 548, Forney",
+    "plum_store_mi": 0.4,
+    "plum_store": "451 North FM 548, Forney",
+    "plum_store_confirmed_within_mi": 0.03
+   }
+  },
+  {
+   "id": "L-GEO-029",
+   "category": "L-GEO vicinity",
+   "subject": "[kingsville] Walgreens",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.6,
+    "locator_store": "922 E KING AVE, Kingsville",
+    "plum_store_mi": 0.6,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-030",
+   "category": "L-GEO vicinity",
+   "subject": "[lindale] Kohl's",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 16.8,
+    "locator_store": "7715 S BROADWAY AVE, TYLER",
+    "plum_store_mi": 16.8,
+    "plum_store": "7715 South Broadway Avenue, Tyler",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-031",
+   "category": "L-GEO vicinity",
+   "subject": "[buda] Dick's Sporting Goods",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 16.9,
+    "locator_store": "3921 Market Street, Bee Cave",
+    "plum_store_mi": 16.9,
+    "plum_store": "3921 Market Street, Bee Cave",
+    "plum_store_confirmed_within_mi": 0.02
+   }
+  },
+  {
+   "id": "L-GEO-032",
+   "category": "L-GEO vicinity",
+   "subject": "[runge] Dollar General",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 10.1,
+    "locator_store": "109 S Sunset Strip St, Kenedy",
+    "plum_store_mi": 10.1,
+    "plum_store": "109 South Sunset Strip Drive, Kenedy",
+    "plum_store_confirmed_within_mi": 0.03
+   }
+  },
+  {
+   "id": "L-GEO-033",
+   "category": "L-GEO vicinity",
+   "subject": "[irving] Target",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "store-locator data for Target looks incomplete (42 Texas stores vs 162 mapped)"
+   }
+  },
+  {
+   "id": "L-GEO-034",
+   "category": "L-GEO vicinity",
+   "subject": "[grand-prairie] JCPenney",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 5.9,
+    "locator_store": "3851 S Cooper St, Arlington",
+    "plum_store_mi": 14.9,
+    "plum_store": "1101 Melbourne Road",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-035",
+   "category": "L-GEO vicinity",
+   "subject": "[austin] Home Depot",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 2.8,
+    "locator_store": "1200 Barbara Jordan Blvd Suite 100, Austin",
+    "plum_store_mi": 2.7,
+    "plum_store": "1200 Barbara Jordan Boulevard, Austin",
+    "plum_store_confirmed_within_mi": 0.12
+   }
+  },
+  {
+   "id": "L-GEO-036",
+   "category": "L-GEO vicinity",
+   "subject": "[rosenberg] Ace Hardware",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 2.2,
+    "locator_store": "3714 Avenue I, Rosenberg",
+    "plum_store_mi": 2.2,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.0
+   }
+  },
+  {
+   "id": "L-GEO-037",
+   "category": "L-GEO vicinity",
+   "subject": "[forney] H-E-B",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 2.4,
+    "locator_store": "11700 E. US Hwy 80, FORNEY",
+    "plum_store_mi": 2.4,
+    "plum_store": "11700 East US Highway 80",
+    "plum_store_confirmed_within_mi": 0.01
+   }
+  },
+  {
+   "id": "L-GEO-038",
+   "category": "L-GEO vicinity",
+   "subject": "[kingsville] Dollar General",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 0.7,
+    "locator_store": "206 W King Ave, Kingsville",
+    "plum_store_mi": 0.7,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.06
+   }
+  },
+  {
+   "id": "L-MATH-039",
+   "category": "L-MATH terms and math",
+   "subject": "[irving] Harbor Freight Tools: Tubeless Tire Repair Kit, 9-Piece",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$4.99, reg. $6.99, 28.6% off"
+   }
+  },
+  {
+   "id": "L-MATH-040",
+   "category": "L-MATH terms and math",
+   "subject": "[grand-prairie] JCPenney: 1/10 to 1/5 ct. t.w. natural or lab-grown diamond &/or genuine or lab-",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$159.99, 65% off"
+   }
+  },
+  {
+   "id": "L-MATH-041",
+   "category": "L-MATH terms and math",
+   "subject": "[austin] Best Buy: BISSELL - Little Green Mini Portable Carpet Cleaner - Tea",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$79.99, reg. $99.99, 20% off"
+   }
+  },
+  {
+   "id": "L-MATH-042",
+   "category": "L-MATH terms and math",
+   "subject": "[rosenberg] Dollar General: Tide \u2022 Pods\u2122 57 ct. \u2022 Power Pods\u2122 32 ct. \u2022 Liquid Laundry Detergent 65",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$12.95, 19% off"
+   }
+  },
+  {
+   "id": "L-MATH-043",
+   "category": "L-MATH terms and math",
+   "subject": "[forney] Target: Dove & Dove Men soap",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "buy 1 get 1 50% off"
+   }
+  },
+  {
+   "id": "L-MATH-044",
+   "category": "L-MATH terms and math",
+   "subject": "[kingsville] Dollar General: Colgate\u00ae Manual Toothbrushes 360\u00b0 Advanced, Total, or Optic White\u2122 1-2",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$3.00 off"
+   }
+  },
+  {
+   "id": "L-MATH-045",
+   "category": "L-MATH terms and math",
+   "subject": "[lindale] JCPenney: 7/8 to 1 ct. t.w. lab-grown diamond\u2021 Color G-H, Clarity VS2-SI2",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$1,099.99, 66% off"
+   }
+  },
+  {
+   "id": "L-MATH-046",
+   "category": "L-MATH terms and math",
+   "subject": "[buda] Cabela's: Garmin Instinct 3 AMOLED 45mm GPS Smartwatch",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$349.99, reg. $399.99, 12.5% off"
+   }
+  },
+  {
+   "id": "L-MATH-047",
+   "category": "L-MATH terms and math",
+   "subject": "[runge] Dollar General: ANY Poise\u00ae Liners & Pads",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$2.50 off"
+   }
+  },
+  {
+   "id": "L-MATH-048",
+   "category": "L-MATH terms and math",
+   "subject": "[irving] Walmart: Hyper Tough DC12V Standard Tire Inflator & Tire Pump",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$19.97, reg. $24.97, 20% off"
+   }
+  },
+  {
+   "id": "L-RET-049",
+   "category": "L-RET retailer page",
+   "subject": "[runge] Dollar General: Pedigree\u00ae Dog Food Adult High Protein Red Meat",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.dollargeneral.com/p/pedigree-high-protein-adult-dry-dog-food-beef-and-lamb-flavor-27-lb-bag/023100182315?ab=Circular_AdsPromos",
+    "ad_price": 22.95,
+    "regular_shown": 24.95,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-050",
+   "category": "L-RET retailer page",
+   "subject": "[runge] Dollar General: Tidy Cats\u00ae Scoop Litter",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.dollargeneral.com/p/purina-tidy-cats-blissful-meadow-scented-clumping-cat-litter-odor-control-formula-10-lbs/070230100603?ab=Circular_AdsPromos",
+    "ad_price": 7.75,
+    "regular_shown": 8.5,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-051",
+   "category": "L-RET retailer page",
+   "subject": "[forney] Ollie's Bargain Outlet: 60 CT. FACIAL WIPES",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.ollies.us/currentflyer/flyer.html",
+    "ad_price": 2.79,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-052",
+   "category": "L-RET retailer page",
+   "subject": "[irving] Family Dollar: Pampers Baby Dry or Swaddlers Diapers Sizes NB-6, 16-32 ct. or Easy Up",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.familydollar.com/product/FD3000352?utm_source=flipp&utm_medium=eflyer",
+    "ad_price": null,
+    "regular_shown": null,
+    "page_offer": 11.0,
+    "why": "a promotion without a single price"
+   }
+  },
+  {
+   "id": "L-RET-053",
+   "category": "L-RET retailer page",
+   "subject": "[austin] TJ Maxx: 17oz Multicolor Flowers Skull In A Frame Glass Jar",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://tjmaxx.tjx.com/store/jump/product/home-shop-by-category-halloween/17oz-Multicolor-Flowers-Skull-In-A-Frame-Glass-Jar/1001211663?colorId=NS1003538&pos=1:",
+    "ad_price": 6.5,
+    "regular_shown": 12.99,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-054",
+   "category": "L-RET retailer page",
+   "subject": "[austin] Marshalls: TAHARI HOME Beaded Jack-o'-lanterns And Spiders Table Runner",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.marshalls.com/us/store/jump/product/home-home-halloween/Beaded-Jack-o'-lanterns-And-Spiders-Table-Runner/4000369332?colorId=NS4155481&pos=1:9&N=4107",
+    "ad_price": 15.0,
+    "regular_shown": 29.99,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-055",
+   "category": "L-RET retailer page",
+   "subject": "[austin] JCPenney: BEARPAW 3-Pc. Plaid Flannel Sherpa Full/Queen Comforter Set",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.jcpenney.com/p/bearpaw-bobbi-plaid-flannel-sherpa-3-pc-comforter-set/ppr5008704878?pTmplType=regular&utm_source=flipp&cid=store%2520ads%7Cflipp%7Cap",
+    "ad_price": 99.99,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-056",
+   "category": "L-RET retailer page",
+   "subject": "[lindale] JCPenney: Samsonite Ascella 4.0 20\" Softside Luggage",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.jcpenney.com/p/samsonite-ascella-40-20-inch-softside-expandable-carry-on-spinner-luggage/ppr5008561349?pTmplType=regular&utm_source=flipp&cid=store%",
+    "ad_price": 107.99,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-057",
+   "category": "L-RET retailer page",
+   "subject": "[forney] Sam's Club: NatureWell Brightening Body Cream, 10 oz., 2 pk.",
+   "verdict": "pass",
+   "detail": {
+    "url": "https://www.samsclub.com/ip/NatureWell-Brightening-Body-Cream-10-oz-2-pk/15511753765?classType=REGULAR",
+    "ad_price": 12.98,
+    "regular_shown": 19.96,
+    "page_offer": null,
+    "result": "the retailer's page shows the ad price"
+   }
+  },
+  {
+   "id": "L-RET-058",
+   "category": "L-RET retailer page",
+   "subject": "[austin] TJ Maxx: Set Of Four Linen Wine Ghost Coasters",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://tjmaxx.tjx.com/store/jump/product/home-shop-by-category-halloween/Set-Of-Four-Linen-Wine-Ghost-Coasters/1001048110?colorId=NS2842598&pos=1:10&N=40177264",
+    "ad_price": 12.0,
+    "regular_shown": 24.99,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-059",
+   "category": "L-RET retailer page",
+   "subject": "[lindale] JCPenney: American Tourister Color Splash XLT 20\" Hardside Luggage",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.jcpenney.com/p/american-tourister-color-splash-20-inch-hardside-expandable-carry-on-spinner-luggage/ppr5008440526?pTmplType=regular&utm_source=flipp",
+    "ad_price": 71.99,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-060",
+   "category": "L-RET retailer page",
+   "subject": "[austin] JCPenney: Beautyrest Level One 13\" Firm Tight Top Queen Mattress",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.jcpenney.com/p/beautyrest-level-one-13-firm-tight-top-mattress-only/ppr5008582831?pTmplType=regular&utm_source=flipp&cid=store%2520ads%7Cflipp%7Capp",
+    "ad_price": 799.0,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-061",
+   "category": "L-RET retailer page",
+   "subject": "[austin] JCPenney: Cooks Wave Ceramic 12-Pc. Cookware Set",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://www.jcpenney.com/p/cooks-wave-ceramic-12-pc-non-stick-cookware-set/ppr5008431628?pTmplType=regular&utm_source=flipp&cid=store%2520ads%7Cflipp%7Capp%7C35",
+    "ad_price": 107.99,
+    "regular_shown": null,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-RET-062",
+   "category": "L-RET retailer page",
+   "subject": "[austin] Ace Hardware: Feit Electric Adjustable White Bulb",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "the site served a bot check"
+   }
+  },
+  {
+   "id": "L-RET-063",
+   "category": "L-RET retailer page",
+   "subject": "[austin] TJ Maxx: 14x14 Ragdoll Vampire Costume Hook Pillow",
+   "verdict": "inconclusive",
+   "detail": {
+    "url": "https://tjmaxx.tjx.com/store/jump/product/home-shop-by-category-halloween/14x14-Ragdoll-Vampire-Costume-Hook-Pillow/1001178303?colorId=NS1003538&pos=1:8&N=40177",
+    "ad_price": 8.5,
+    "regular_shown": 16.99,
+    "page_offer": null,
+    "why": "the page doesn't expose the product's price to a script"
+   }
+  },
+  {
+   "id": "L-REC-064",
+   "category": "L-REC recall",
+   "subject": "[grand-prairie] fashion",
+   "verdict": "pass",
+   "detail": {
+    "item": "Wrangler\u00ae Men's Premium Cowboy Cut\u00ae Jeans",
+    "merchant": "Bomgaars",
+    "taxonomy": "Apparel & Accessories > Clothing",
+    "excluded_for": "nearest store 44.9 mi away"
+   }
+  },
+  {
+   "id": "L-REC-065",
+   "category": "L-REC recall",
+   "subject": "[austin] home",
+   "verdict": "pass",
+   "detail": {
+    "item": "Halloween Kids Gifts",
+    "merchant": "Randalls",
+    "taxonomy": "Home & Garden > Decor",
+    "shown_as": "promotion"
+   }
+  },
+  {
+   "id": "L-REC-066",
+   "category": "L-REC recall",
+   "subject": "[austin] home",
+   "verdict": "pass",
+   "detail": {
+    "item": "DeGroot Fall Bulbs**",
+    "merchant": "Ace Hardware",
+    "taxonomy": "Home & Garden > Plants",
+    "excluded_for": "same item in another ad (1039160200)"
+   }
+  },
+  {
+   "id": "L-REC-067",
+   "category": "L-REC recall",
+   "subject": "[irving] baby",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no baby item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-068",
+   "category": "L-REC recall",
+   "subject": "[kingsville] beauty",
+   "verdict": "pass",
+   "detail": {
+    "item": "Oral-B Power Toothbrush Refill Heads",
+    "merchant": "Walgreens",
+    "taxonomy": "Health & Beauty > Personal Care",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-REC-069",
+   "category": "L-REC recall",
+   "subject": "[runge] health",
+   "verdict": "pass",
+   "detail": {
+    "item": "Adult Zyrtec 24-35 ct., Allergen Shield spray 200 ct., children's 8 oz or 24 ct. (excludes ALL products with pseudoepphedrine or ephedrine)",
+    "merchant": "CVS Pharmacy",
+    "taxonomy": "Health & Beauty > Health Care",
+    "excluded_for": "nearest store 34 mi away"
+   }
+  },
+  {
+   "id": "L-REC-070",
+   "category": "L-REC recall",
+   "subject": "[runge] pets",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no pets item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-071",
+   "category": "L-REC recall",
+   "subject": "[rosenberg] grocery",
+   "verdict": "pass",
+   "detail": {
+    "item": "Stella Rosa, Matua or Chloe",
+    "merchant": "Kroger",
+    "taxonomy": "Food, Beverages & Tobacco > Beverages",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-REC-072",
+   "category": "L-REC recall",
+   "subject": "[kingsville] grocery",
+   "verdict": "pass",
+   "detail": {
+    "item": "Windex\u00ae Foam Aerosol Glass Cleaner",
+    "merchant": "Dollar General",
+    "taxonomy": "Home & Garden > Household Supplies",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-REC-073",
+   "category": "L-REC recall",
+   "subject": "[irving] auto",
+   "verdict": "pass",
+   "detail": {
+    "item": "Antifreeze/Coolant",
+    "merchant": "Bomgaars",
+    "taxonomy": "Vehicles & Parts > Vehicle Parts & Accessories",
+    "excluded_for": "nearest store 44.8 mi away"
+   }
+  },
+  {
+   "id": "L-REC-074",
+   "category": "L-REC recall",
+   "subject": "[runge] health",
+   "verdict": "pass",
+   "detail": {
+    "item": "Max Blackout Mystique 100% Blackout Faux Silk 84\" Grommet-Top Curtain",
+    "merchant": "JCPenney",
+    "taxonomy": "Health & Beauty > Health Care",
+    "excluded_for": "no store within 50 mi"
+   }
+  },
+  {
+   "id": "L-REC-075",
+   "category": "L-REC recall",
+   "subject": "[rosenberg] toys",
+   "verdict": "pass",
+   "detail": {
+    "item": "Stansport Gold Panning Kit for Kids",
+    "merchant": "Cabela's",
+    "taxonomy": "Toys & Games > Toys",
+    "excluded_for": "nearest store 43.8 mi away"
+   }
+  },
+  {
+   "id": "L-REC-076",
+   "category": "L-REC recall",
+   "subject": "[forney] health",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no health item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-077",
+   "category": "L-REC recall",
+   "subject": "[buda] sports",
+   "verdict": "pass",
+   "detail": {
+    "item": "Bauer S23 Vapor Volt Hockey Stick - Junior",
+    "merchant": "Dick's Sporting Goods",
+    "taxonomy": "Sporting Goods > Athletics",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-REC-078",
+   "category": "L-REC recall",
+   "subject": "[forney] beauty",
+   "verdict": "pass",
+   "detail": {
+    "item": "Just For Men Gray Reverse Hair Care",
+    "merchant": "Walgreens",
+    "taxonomy": "Health & Beauty > Personal Care",
+    "shown_as": "promotion"
+   }
+  },
+  {
+   "id": "L-REC-079",
+   "category": "L-REC recall",
+   "subject": "[forney] beauty",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no beauty item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-080",
+   "category": "L-REC recall",
+   "subject": "[knox-city] fashion",
+   "verdict": "pass",
+   "detail": {
+    "item": "Bluetooth Smart Sunglasses - SHINY BLACK with BLACK Polarized Lens (large)",
+    "merchant": "Walmart",
+    "taxonomy": "Apparel & Accessories > Clothing Accessories",
+    "excluded_for": "nearest store 30.8 mi away"
+   }
+  },
+  {
+   "id": "L-REC-081",
+   "category": "L-REC recall",
+   "subject": "[lindale] fashion",
+   "verdict": "pass",
+   "detail": {
+    "item": "RedHead Timberbuck Waterproof Hunting Boots for Kids - TrueTimber Strata - 11 Kids",
+    "merchant": "Cabela's",
+    "taxonomy": "Apparel & Accessories > Shoes",
+    "excluded_for": "no store within 50 mi"
+   }
+  },
+  {
+   "id": "L-REC-082",
+   "category": "L-REC recall",
+   "subject": "[runge] pets",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no pets item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-083",
+   "category": "L-REC recall",
+   "subject": "[kingsville] beauty",
+   "verdict": "pass",
+   "detail": {
+    "item": "John Frieda ULTRAfiller+ Thickening Spray for Fine Hair, Volumizing Spray",
+    "merchant": "Walmart",
+    "taxonomy": "Health & Beauty > Personal Care",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-IND-084",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[irving] Walgreens: Aveeno Baby Care",
+   "detail": {
+    "shown_under": "baby",
+    "plum_industries": [
+     "baby"
+    ],
+    "rule": "taxonomy:Baby & Toddler > Baby Health",
+    "judge_industries": [
+     "baby",
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-085",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[grand-prairie] Walmart: Avia Women's SoftSculpt High Rise Leggings 25\" with Pockets",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "taxonomy:Apparel & Accessories",
+    "judge_industries": [
+     "fashion",
+     "sports"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-086",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "fail",
+   "subject": "[austin] Cabela's: Puffin Drinkwear The Hoodie Can Cooler with Bass Pro Shops Logo - Blac",
+   "detail": {
+    "shown_under": "home",
+    "plum_industries": [
+     "home"
+    ],
+    "rule": "taxonomy:Home & Garden > Kitchen & Dining",
+    "judge_industries": [
+     "sports"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-087",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[rosenberg] CVS Pharmacy: Joyward teal pumpkin, non-food trick-or-treat options, crafts or novel",
+   "detail": {
+    "shown_under": "toys",
+    "plum_industries": [
+     "toys"
+    ],
+    "rule": "keywords:toys+home",
+    "judge_industries": [
+     "toys"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-088",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[forney] Family Dollar: Dove Products",
+   "detail": {
+    "shown_under": "beauty",
+    "plum_industries": [
+     "beauty"
+    ],
+    "rule": "taxonomy:Health & Beauty > Personal Care",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-089",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[kingsville] Dollar General: Old Spice\u00ae Antiperspirant Deodorant, Hair Care or Body Wash",
+   "detail": {
+    "shown_under": "beauty",
+    "plum_industries": [
+     "beauty"
+    ],
+    "rule": "taxonomy:Health & Beauty > Personal Care",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-090",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[lindale] Walmart: Jessica Simpson Women's and Women's Plus Daisy Fitted Flare Jeans",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "taxonomy:Apparel & Accessories > Clothing",
+    "judge_industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-091",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[buda] Best Buy: Ring - Spotlight Cam Plus Outdoor/Indoor Wireless 1080p Battery Survei",
+   "detail": {
+    "shown_under": "tech",
+    "plum_industries": [
+     "tech"
+    ],
+    "rule": "taxonomy:Cameras & Optics > Cameras",
+    "judge_industries": [
+     "tech"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-092",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "fail",
+   "subject": "[runge] Walmart: Milani Make It Last Charcoal Jumbo XL Setting Spray, Matte Finish, Lon",
+   "detail": {
+    "shown_under": "health",
+    "plum_industries": [
+     "health",
+     "beauty"
+    ],
+    "rule": "taxonomy:Health & Beauty",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-093",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[irving] Kroger: Diaper Genie",
+   "detail": {
+    "shown_under": "baby",
+    "plum_industries": [
+     "baby"
+    ],
+    "rule": "taxonomy:Baby & Toddler > Diapering",
+    "judge_industries": [
+     "baby"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-094",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[grand-prairie] Dick's Sporting Goods: CCM FT655 JetSpeed Ice Hockey Skates - Junior",
+   "detail": {
+    "shown_under": "sports",
+    "plum_industries": [
+     "sports"
+    ],
+    "rule": "taxonomy:Sporting Goods > Athletics",
+    "judge_industries": [
+     "sports"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-095",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[austin] Home Depot: KitchenAid 30 in. 5 Element Slide-In Electric Range in PrintShield Sta",
+   "detail": {
+    "shown_under": "home",
+    "plum_industries": [
+     "home"
+    ],
+    "rule": "merchant",
+    "judge_industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-096",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[rosenberg] Target: Coffee & tea*",
+   "detail": {
+    "shown_under": "grocery",
+    "plum_industries": [
+     "grocery"
+    ],
+    "rule": "taxonomy:Food, Beverages & Tobacco > Beverages",
+    "judge_industries": [
+     "grocery"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-097",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[forney] Walmart: SheaMoisture Shampoo for Type 3 & 4 Dry Hair, Jamaican Black Castor Oi",
+   "detail": {
+    "shown_under": "beauty",
+    "plum_industries": [
+     "beauty"
+    ],
+    "rule": "taxonomy:Health & Beauty+keywords:beauty+grocery",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-098",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[kingsville] Walmart: SheaMoisture Silk Press Prep Hair Cream with Plant-Derived Straighteni",
+   "detail": {
+    "shown_under": "beauty",
+    "plum_industries": [
+     "beauty"
+    ],
+    "rule": "taxonomy:Health & Beauty+keywords:beauty+grocery",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-099",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[lindale] JCPenney: 3 to 5 ct. t.w. lab-grown diamond\u00a7",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "keywords:fashion",
+    "judge_industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-100",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[buda] Dick's Sporting Goods: Horizon Fitness 5.0R Recumbent Exercise Bike",
+   "detail": {
+    "shown_under": "sports",
+    "plum_industries": [
+     "sports"
+    ],
+    "rule": "taxonomy:Sporting Goods > Exercise & Fitness",
+    "judge_industries": [
+     "sports"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-101",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[runge] Dollar General: Heartland Farms\u00ae Dog Food 12-15 lb.",
+   "detail": {
+    "shown_under": "pets",
+    "plum_industries": [
+     "pets"
+    ],
+    "rule": "taxonomy:Animals & Pet Supplies > Pet Supplies",
+    "judge_industries": [
+     "pets"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-102",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[irving] Harbor Freight Tools: 6/12V Circuit Tester with 5 ft. Lead",
+   "detail": {
+    "shown_under": "auto",
+    "plum_industries": [
+     "auto"
+    ],
+    "rule": "taxonomy:Vehicles & Parts > Vehicle Parts & Accessories",
+    "judge_industries": [
+     "auto",
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "L-IND-103",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[grand-prairie] Tractor Supply Company: Tractor Supply Unisex Adult Trucker Cap, Navy",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "taxonomy:Apparel & Accessories > Clothing Accessories",
+    "judge_industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "id": "L-FID-104",
+   "category": "L-FID source fidelity",
+   "subject": "[irving] Tractor Supply Company: bROK WARRIOR 3 in. Receiver Forged Ball Mount, 4 in. Drop, 21,000 lb. ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 129.99,
+    "shown_price": 129.99
+   }
+  },
+  {
+   "id": "L-FID-105",
+   "category": "L-FID source fidelity",
+   "subject": "[grand-prairie] Dick's Sporting Goods: Chubbies Men's Classic 5.5\" Swim Trunks",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 58.99,
+    "shown_price": 58.99
+   }
+  },
+  {
+   "id": "L-FID-106",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] Dick's Sporting Goods: The Memory Company Colorado Buffaloes 34 oz. Handled Tumbler",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 8.47,
+    "shown_price": 8.47
+   }
+  },
+  {
+   "id": "L-FID-107",
+   "category": "L-FID source fidelity",
+   "subject": "[rosenberg] Target: Organic fruits & vegetables",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-108",
+   "category": "L-FID source fidelity",
+   "subject": "[forney] Walmart: SheaMoisture Curl & Shine Conditioner for Thick, Curly Hair Coconut & ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 9.87,
+    "shown_price": 9.87
+   }
+  },
+  {
+   "id": "L-FID-109",
+   "category": "L-FID source fidelity",
+   "subject": "[kingsville] Walmart: SheaMoisture Silk Press Prep Hair Cream with Plant-Derived Straighteni",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 10.97,
+    "shown_price": 10.97
+   }
+  },
+  {
+   "id": "L-FID-110",
+   "category": "L-FID source fidelity",
+   "subject": "[lindale] Family Dollar: Black Square Apparel",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-111",
+   "category": "L-FID source fidelity",
+   "subject": "[buda] Cabela's: Bass Pro Shops Cozy Fleece Full-Zip Hoodie for Toddlers - Blue Check -",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 11.97,
+    "shown_price": 11.97
+   }
+  },
+  {
+   "id": "L-FID-112",
+   "category": "L-FID source fidelity",
+   "subject": "[runge] Tractor Supply Company: Nylabone Peanut Butter Flavor Dog Chew Treats, 1.7 lb., 15 ct.",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 14.24,
+    "shown_price": 14.24
+   }
+  },
+  {
+   "id": "L-FID-113",
+   "category": "L-FID source fidelity",
+   "subject": "[irving] Walmart: BFG Trail-Terrain T/A+ 255/55R20 110H XL Passenger SUV Tire",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 222.08,
+    "shown_price": 222.08
+   }
+  },
+  {
+   "id": "L-FID-114",
+   "category": "L-FID source fidelity",
+   "subject": "[grand-prairie] JCPenney: 1 to 2 ct. t.w. lab-grown diamond\u2021",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 999.99,
+    "shown_price": 999.99
+   }
+  },
+  {
+   "id": "L-FID-115",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] Ace Hardware: LIFT 2-Step 3' Folding Step Stool",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 19.99,
+    "shown_price": 19.99
+   }
+  },
+  {
+   "id": "L-FID-116",
+   "category": "L-FID source fidelity",
+   "subject": "[rosenberg] Target: Select Magna-Tiles building kits & sets",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-117",
+   "category": "L-FID source fidelity",
+   "subject": "[forney] Walgreens: Force Factor Vitamins and Suplements",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-118",
+   "category": "L-FID source fidelity",
+   "subject": "[kingsville] CVS Pharmacy: Halloween 0.56-7.2 oz or Harvest novelty candy 7-9.5 oz.",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-119",
+   "category": "L-FID source fidelity",
+   "subject": "[lindale] JCPenney: Men's stainless steel pendants or chains",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 39.99,
+    "shown_price": 39.99
+   }
+  },
+  {
+   "id": "L-FID-120",
+   "category": "L-FID source fidelity",
+   "subject": "[buda] Dick's Sporting Goods: Nikon ProStaff P3 10x42 Binoculars",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 149.98,
+    "shown_price": 149.98
+   }
+  },
+  {
+   "id": "L-FID-121",
+   "category": "L-FID source fidelity",
+   "subject": "[runge] Dollar General: Heartland Farms\u00ae Dog Food 12-15 lb.",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 10.5,
+    "shown_price": 10.5
+   }
+  },
+  {
+   "id": "L-FID-122",
+   "category": "L-FID source fidelity",
+   "subject": "[irving] Walgreens: Desitin or Johnson's Baby Care",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-123",
+   "category": "L-FID source fidelity",
+   "subject": "[grand-prairie] JCPenney: 6-1/2 to 8-1/4 ct. t.w. lab-grown diamond; 5 or 6 ct. center stone\u2021\u25ca C",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 4499.99,
+    "shown_price": 4499.99
+   }
+  },
+  {
+   "id": "L-FID-124",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] Harbor Freight Tools: Nylon Pry Bar Installer Kit, 4-Piece",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 5.49,
+    "shown_price": 5.49
+   }
+  },
+  {
+   "id": "L-FID-125",
+   "category": "L-FID source fidelity",
+   "subject": "[rosenberg] Sprouts Farmers Market: All Bagged Avocados",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-126",
+   "category": "L-FID source fidelity",
+   "subject": "[forney] Walgreens: Just For Men Gray Reverse Hair Care",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-127",
+   "category": "L-FID source fidelity",
+   "subject": "[kingsville] Walmart: Caress Black Orchid & Patchouli Oil Moisturizing Body Wash, Body Soap ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 6.98,
+    "shown_price": 6.98
+   }
+  },
+  {
+   "id": "L-FID-128",
+   "category": "L-FID source fidelity",
+   "subject": "[lindale] Kohl's: Men's Sonoma Goods For Life\u00ae Supersoft Flannel Button-Down Shirt",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 19.99,
+    "shown_price": 19.99
+   }
+  },
+  {
+   "id": "L-FID-129",
+   "category": "L-FID source fidelity",
+   "subject": "[buda] Dick's Sporting Goods: Nike Men's Club Fleece Joggers",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 49.98,
+    "shown_price": 49.98
+   }
+  },
+  {
+   "id": "L-FID-130",
+   "category": "L-FID source fidelity",
+   "subject": "[runge] Dollar General: Heartland Farms\u00ae Dog Biscuits",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 2.5,
+    "shown_price": 2.5
+   }
+  },
+  {
+   "id": "L-FID-131",
+   "category": "L-FID source fidelity",
+   "subject": "[irving] Harbor Freight Tools: 4-Way Trailer Wiring Connection Kit, 25 ft.",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 11.99,
+    "shown_price": 11.99
+   }
+  },
+  {
+   "id": "L-FID-132",
+   "category": "L-FID source fidelity",
+   "subject": "[grand-prairie] Kohl's: Men's Nike Club Pullover Fleece Hoodie",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 65.0,
+    "shown_price": 65.0
+   }
+  },
+  {
+   "id": "L-FID-133",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] Home Depot: Whirlpool 7.0 cu. ft. Vented Front Load Electric Dryer in White with A",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 589.0,
+    "shown_price": 589.0
+   }
+  },
+  {
+   "id": "L-FID-134",
+   "category": "L-FID source fidelity",
+   "subject": "[rosenberg] Target: Frozen snacks & appetizers*",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-135",
+   "category": "L-FID source fidelity",
+   "subject": "[forney] Walgreens: Gold Bond Skin Care",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-136",
+   "category": "L-FID source fidelity",
+   "subject": "[kingsville] Walmart: e.l.f. Soft Glam Foundation",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 8.0,
+    "shown_price": 8.0
+   }
+  },
+  {
+   "id": "L-FID-137",
+   "category": "L-FID source fidelity",
+   "subject": "[lindale] JCPenney: 1 ct. lab-grown diamond fancy solitaire\u2021",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 899.99,
+    "shown_price": 899.99
+   }
+  },
+  {
+   "id": "L-FID-138",
+   "category": "L-FID source fidelity",
+   "subject": "[buda] Cabela's: Natural Reflections Everyday Crew Short-Sleeve T-Shirt - Mood Indigo -",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 8.98,
+    "shown_price": 8.98
+   }
+  },
+  {
+   "id": "L-FID-139",
+   "category": "L-FID source fidelity",
+   "subject": "[runge] Dollar General: ANY Delsym\u00ae or Mucinex\u00ae Product",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-140",
+   "category": "L-FID source fidelity",
+   "subject": "[irving] Dollar General: Gentle Steps\u00ae Training Pants",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 9.0,
+    "shown_price": 9.0
+   }
+  },
+  {
+   "id": "L-FID-141",
+   "category": "L-FID source fidelity",
+   "subject": "[grand-prairie] Walmart: Jessica Simpson Women's and Women's Plus Daisy Fitted Flare Jeans",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 17.0,
+    "shown_price": 17.0
+   }
+  },
+  {
+   "id": "L-FID-142",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] Harbor Freight Tools: 4V Cordless Power Cutter",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 29.99,
+    "shown_price": 29.99
+   }
+  },
+  {
+   "id": "O-MER-143",
+   "category": "O-MER merchant link",
+   "subject": "[auto] Slickdeals: Amazon \u2013 AstroAI M10 6000A Jump Starter w/ 150 PSI Air Compressor - $4",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B0F8VSM4QB",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 89.97,
+    "store_title": "AstroAI M10 6000A Car Jump Starter with Air Compressor, 12V Jump Box",
+    "deal_unit_price": 41.99,
+    "price_check": "store price is before the stated condition (promo code)"
+   }
+  },
+  {
+   "id": "O-MER-144",
+   "category": "O-MER merchant link",
+   "subject": "[baby] Hip2Save: The Nightmare Before Christmas Crochet Kit Just $10 Shipped for Prime ",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-145",
+   "category": "O-MER merchant link",
+   "subject": "[beauty] dealnews: Old Spice Obscure Ocean Cologne for Men 3.4-oz. Bottle for $26 + free ",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B0GX2B787K?creative=9325&camp=1789&tag=dealnewscom&smid=ATVPDKIKX0DER&th=1&ascsubtag=g96ckqgyz2dmzkzes74WD2arzDdjUqeD",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 26.24,
+    "store_title": "Old Spice Cologne for Men, Sophisticated Obscure Ocean Scent, 3.4 fl oz",
+    "deal_unit_price": 26.0
+   }
+  },
+  {
+   "id": "O-MER-146",
+   "category": "O-MER merchant link",
+   "subject": "[fashion] Hip2Save: Men\u2019s & Women\u2019s Graphic Tees from $7.49 Shipped on Kohls.com (Reg. $13",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-147",
+   "category": "O-MER merchant link",
+   "subject": "[grocery] dealnews: Celsius Kiwi Guava Sugar Free Energy Drink 12-oz. Can 12-Pack for $13 ",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B07BY3HJPT?creative=9325&camp=1789&tag=dealnewscom&smid=ATVPDKIKX0DER&th=1&ascsubtag=kv6ckpn46t933zkzes7jLMv9IPk7jEoy",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 13.97,
+    "store_title": "CELSIUS Sparkling Kiwi Guava, Sugar Free Energy Drink, 12 Fl Oz (Pack of 12)",
+    "deal_unit_price": 13.27,
+    "price_check": "store price is before the stated condition (Subscribe & Save)"
+   }
+  },
+  {
+   "id": "O-MER-148",
+   "category": "O-MER merchant link",
+   "subject": "[health] Hip2Save: Leg Massager Only $43 Shipped on Amazon (Reg. $84) | Relieves Fatigue",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-149",
+   "category": "O-MER merchant link",
+   "subject": "[home] dealnews: DeWalt Aluminum Adjustable Miter Saw Stand for $149 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.lowes.com/pd/DEWALT-Aluminum-Adjustable-Miter-Saw-Stand/3326150?irclickid=wTe3ATQzixyZT1CUwQVfHSbrUkrwqEXP0z8dRA0&irgwc=1&afsrc=1&cm_mmc=aff-_-c-_-p",
+    "store_from_link": "Lowe's",
+    "seller_shown": "Lowe's"
+   }
+  },
+  {
+   "id": "O-MER-150",
+   "category": "O-MER merchant link",
+   "subject": "[office] Slickdeals: 5-Pk 3\" OVLLAN Rollerblade Office Chair Replacement Poly Wheels $12",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-151",
+   "category": "O-MER merchant link",
+   "subject": "[pets] Slickdeals: Select Accts: 24-Ct 3-Oz Blue Buffalo Tastefuls Chicken Tender Morsels",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/gp/product/B08MKTXMP7",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": null,
+    "store_title": "Blue Buffalo Tastefuls Chicken Tender Morsels Wet Cat Food, 3 oz, 24 ct",
+    "deal_unit_price": 14.25,
+    "price_check": "no buy-box price on the page"
+   }
+  },
+  {
+   "id": "O-MER-152",
+   "category": "O-MER merchant link",
+   "subject": "[sports] dealnews: Barrington Billiards Harrison 5-Foot Pool Table Set for $269 + free sh",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.walmart.com/ip/5-ft-Harrison-Pool-Table-Billiard-Table-Black-Blue-by-Barrington-Billiards-Company/625594783?clickid=wiTXfbQzixyZT1CUwQVfHSbrUkrwqES2",
+    "store_from_link": "Walmart",
+    "seller_shown": "Walmart"
+   }
+  },
+  {
+   "id": "O-MER-153",
+   "category": "O-MER merchant link",
+   "subject": "[tech] Hip2Save: GO! onn Smart TVs from $68 Shipped on Walmart.com",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-154",
+   "category": "O-MER merchant link",
+   "subject": "[toys] Hip2Save: Viral Slime Kit with Over 50-Pieces Just $20 on Walmart.com",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-155",
+   "category": "O-MER merchant link",
+   "subject": "[auto] Slickdeals: 5000A Soulor Portable Car Jump Starter w/ 9-in-1 Functions & LCD Displ",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-156",
+   "category": "O-MER merchant link",
+   "subject": "[baby] Hip2Save: Kids Karaoke Machine w/ 2 Microphones Only $9.99 on Amazon (Reg. $25)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-157",
+   "category": "O-MER merchant link",
+   "subject": "[beauty] dealnews: Versace Eros for Men 3.4 oz. Parfum Spray for $69 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B09HXZ84SJ?creative=9325&camp=1789&tag=dealnewscom&smid=A1845GUODSOXMY&th=1&ascsubtag=9y6ckqgysch48zkzes7p8J8zCili2Q09",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 68.97,
+    "store_title": "Versace Eros for Men 3.4 oz Parfum Spray",
+    "deal_unit_price": 69.0
+   }
+  },
+  {
+   "id": "O-MER-158",
+   "category": "O-MER merchant link",
+   "subject": "[fashion] dealnews: Awearness Kenneth Cole Men's Modern Fit Performance Vest for $15 + fre",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "the dealnews link couldn't be followed (robots or network)"
+   }
+  },
+  {
+   "id": "O-MER-159",
+   "category": "O-MER merchant link",
+   "subject": "[grocery] Hip2Save: Welch\u2019s Fruit Snacks 120-Count Snack Box Just $18 on Amazon (Reg. $32)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-160",
+   "category": "O-MER merchant link",
+   "subject": "[health] dealnews: Colgate Optic White Advanced Hydrogen Peroxide Toothpaste 3-Pack for $",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B082F1Q1T9?creative=9325&camp=1789&tag=dealnewscom&smid=ATVPDKIKX0DER&th=1&ascsubtag=2t6ckpn03oetkzkzes79pOXAulPKdRHQ",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 12.99,
+    "store_title": "Colgate Optic White Advanced Hydrogen Peroxide Toothpaste, 3 Pack, 3.2 oz",
+    "deal_unit_price": 6.34,
+    "price_check": "store price is before the stated condition (coupon required)"
+   }
+  },
+  {
+   "id": "O-MER-161",
+   "category": "O-MER merchant link",
+   "subject": "[home] Hip2Save: Crock-Pot Slow Cooker from $26.99 on Kohls.com (Reg. $100)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-162",
+   "category": "O-MER merchant link",
+   "subject": "[office] Hip2Save: Glitter Paint Markers 18-Pack Only $4.99 Shipped on Amazon",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-163",
+   "category": "O-MER merchant link",
+   "subject": "[pets] Hip2Save: 44\u2033 Cat Tree Just $28 Shipped (Regularly $81)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-164",
+   "category": "O-MER merchant link",
+   "subject": "[sports] dealnews: Arrowhead Outdoor Cozy Club Folding Chair for $29 + free shipping w/ P",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "the dealnews link couldn't be followed (robots or network)"
+   }
+  },
+  {
+   "id": "O-MER-165",
+   "category": "O-MER merchant link",
+   "subject": "[tech] Slickdeals: 17.3\" LOVEVOOK Laptop Backpack w/ Tumbler Pocket (Khaki & Beige) $17",
+   "verdict": "inconclusive",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B0BPKR12RF",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_title": "LOVEVOOK Mini Backpack for Women Stylish Waterproof Backpack Purse with USB Port, Cute Bookbag for C",
+    "why": "can't confirm this store link is the deal's product"
+   }
+  },
+  {
+   "id": "O-MER-166",
+   "category": "O-MER merchant link",
+   "subject": "[toys] Hip2Save: Halloween Mini Bubble Wands 30-Pack Only $4.79 on Amazon (Reg. $10)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-167",
+   "category": "O-MER merchant link",
+   "subject": "[auto] dealnews: Vevor 44\" Mechanic Garage Creeper for $45 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.vevor.com/creeper-c_12248/vevor-44-in-mechanic-garage-creeper-300-lbs-capacity-automotive-rolling-creeper-p_010919341947?utm_source=awin&utm_medium=",
+    "store_from_link": "VEVOR",
+    "seller_shown": "VEVOR"
+   }
+  },
+  {
+   "id": "O-MER-168",
+   "category": "O-MER merchant link",
+   "subject": "[baby] Hip2Save: The Night Before Christmas Hardcover Book Only $8 on Amazon (Reg. $20)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-169",
+   "category": "O-MER merchant link",
+   "subject": "[beauty] Hip2Save: Philips Sonicare Electric Toothbrush Only $39.96 Shipped w/ Amazon Pri",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-170",
+   "category": "O-MER merchant link",
+   "subject": "[fashion] dealnews: Tasc Men's Performance Elevation Merino T-Shirt for $25 + free shippin",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "the dealnews link couldn't be followed (robots or network)"
+   }
+  },
+  {
+   "id": "O-MER-171",
+   "category": "O-MER merchant link",
+   "subject": "[grocery] Slickdeals: 50-Pk 28oz. Geisoun Meal Prep Reusable Containers w/ Easy Snap Lids (B",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-172",
+   "category": "O-MER merchant link",
+   "subject": "[health] Slickdeals: 300-Ct VEV Corefeel 10000 IU Vitamin D3 + K2 Softgels w/ Magnesium & Z",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-173",
+   "category": "O-MER merchant link",
+   "subject": "[home] dealnews: Bissell Power Force Helix Pet Deluxe Bagless Vacuum w/ Live Wand for $",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.walmart.com/ip/BISSELL-Power-Force-Helix-Pet-Deluxe-Bagless-Upright-Vacuum-with-Live-Wand-3334/678259898?classType=REGULAR&athbdg=L1800&from=%2Fsear",
+    "store_from_link": "Walmart",
+    "seller_shown": "Walmart"
+   }
+  },
+  {
+   "id": "O-MER-174",
+   "category": "O-MER merchant link",
+   "subject": "[office] Hip2Save: Sharpie Permanent Markers 12-Pack Just $6.83 Shipped on Amazon",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-175",
+   "category": "O-MER merchant link",
+   "subject": "[pets] Slickdeals: 36\" Song Puppy Orthopedic Memory Foam Dog Bed w/ Bolster & Removable C",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-176",
+   "category": "O-MER merchant link",
+   "subject": "[sports] dealnews: World of Watersports Ace Racing 1-Person Towable for $46 + free shippi",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.walmart.com/ip/seort/44555222?clickid=wiTXfbQzixyZT1CUwQVfHSbrUkrwqB0G0z8dRA0&irgwc=1&afsrc=1&sourceid=imp_wiTXfbQzixyZT1CUwQVfHSbrUkrwqB0G0z8dRA0&v",
+    "store_from_link": "Walmart",
+    "seller_shown": "Walmart"
+   }
+  },
+  {
+   "id": "O-MER-177",
+   "category": "O-MER merchant link",
+   "subject": "[tech] Hip2Save: Vizio 75\u2033 QLED Smart TV Only $398 Shipped on Walmart.com (Reg. $998)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-178",
+   "category": "O-MER merchant link",
+   "subject": "[toys] Hip2Save: Giant 6\u2032 Halloween Coloring Tablecloth Just $3.99 on Amazon (Reg. $8)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-179",
+   "category": "O-MER merchant link",
+   "subject": "[beauty] Hip2Save: MAREE Toner Pads Just $7 Shipped on Amazon (Reg. $25)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-180",
+   "category": "O-MER merchant link",
+   "subject": "[fashion] Slickdeals: adidas Women's Grand Court 2.0 Shoes (Core Black / Cloud White / Gold ",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-181",
+   "category": "O-MER merchant link",
+   "subject": "[grocery] dealnews: Butterfinger, Crunch, Baby Ruth & 100 Grand 100-Count Halloween Candy ",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.walmart.com/ip/seort/15815917880?clickid=wiTXfbQzixyZT1CUwQVfHSbrUkrwqB0v0z8dRA0&irgwc=1&afsrc=1&sourceid=imp_wiTXfbQzixyZT1CUwQVfHSbrUkrwqB0v0z8dRA",
+    "store_from_link": "Walmart",
+    "seller_shown": "Walmart"
+   }
+  },
+  {
+   "id": "O-MER-182",
+   "category": "O-MER merchant link",
+   "subject": "[health] Hip2Save: Tylenol Cold + Flu Severe Day & Night Medicine Only $5.31 Shipped on A",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-183",
+   "category": "O-MER merchant link",
+   "subject": "[home] Hip2Save: Egg Night Light Only $9.99 on Amazon (Reg. $25) | Up to 100-Hour Batte",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-184",
+   "category": "O-MER merchant link",
+   "subject": "[office] Hip2Save: Mr. Pen Journal Notebook Set Just $3.66 Shipped on Amazon (Reg. $8)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-185",
+   "category": "O-MER merchant link",
+   "subject": "[pets] The Inventory: $65 Faux Fur Orthopedic Dog Bed (35% Off) on Amazon",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B0H3ZGJXKH",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 72.99,
+    "store_title": "Faux Fur Dog Bed Rug Medium Size, Orthopedic Thick Foam 40\"x26\"",
+    "deal_unit_price": 64.99,
+    "price_check": "Plum already shows the store's current price (store price now $72.99 (the deal may have ended))"
+   }
+  },
+  {
+   "id": "O-MER-186",
+   "category": "O-MER merchant link",
+   "subject": "[sports] The Inventory: $6.49 Golf Polo: KUYIGO UPF 40+ Moisture-Wicking Deal",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.amazon.com/dp/B0GHN5PTBH",
+    "store_from_link": "Amazon",
+    "seller_shown": "Amazon",
+    "store_price": 6.49,
+    "store_title": "KUYIGO Mens Golf Polo Shirt Quick Dry Moisture Wicking UPF 40+",
+    "deal_unit_price": 6.49
+   }
+  },
+  {
+   "id": "O-MER-187",
+   "category": "O-MER merchant link",
+   "subject": "[tech] dealnews: Beats Studio Pro Wireless Noise-Cancelling Headphones for $119 + free ",
+   "verdict": "pass",
+   "detail": {
+    "link": "https://www.walmart.com/ip/Beats-by-Dr-Dre-Studio-Pro-Wireless-Noise-Cancelling-Over-Ear-Headphones-Black/14280620660?clickid=wiTXfbQzixyZT1CUwQVfHSbrUkrwqBx20z",
+    "store_from_link": "Walmart",
+    "seller_shown": "Walmart"
+   }
+  },
+  {
+   "id": "O-RANK-188",
+   "category": "O-RANK ranking and quality",
+   "subject": "[auto] Slickdeals: 5000A Soulor Portable Car Jump Starter w/ 9-in-1 Functions & LCD Displ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 2,
+    "score": 37.8
+   }
+  },
+  {
+   "id": "O-RANK-189",
+   "category": "O-RANK ranking and quality",
+   "subject": "[baby] Hip2Save: Halloween Mini Bubble Wands 30-Pack Only $4.79 on Amazon (Reg. $10)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 4,
+    "score": 39.39
+   }
+  },
+  {
+   "id": "O-RANK-190",
+   "category": "O-RANK ranking and quality",
+   "subject": "[beauty] dealnews: Old Spice Obscure Ocean Cologne for Men 3.4-oz. Bottle for $26 + free ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 5,
+    "score": 36.64
+   }
+  },
+  {
+   "id": "O-RANK-191",
+   "category": "O-RANK ranking and quality",
+   "subject": "[fashion] dealnews: Nomadix Fanny Pack for $11 + free shipping w/ $100",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 8,
+    "score": 44.1
+   }
+  },
+  {
+   "id": "O-RANK-192",
+   "category": "O-RANK ranking and quality",
+   "subject": "[grocery] dealnews: Mars 65-Piece Halloween Chocolate Variety Bag for $10 + free shipping ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 6,
+    "score": 37.92
+   }
+  },
+  {
+   "id": "O-RANK-193",
+   "category": "O-RANK ranking and quality",
+   "subject": "[health] Hip2Save: Lunakai B12 Vitamins 60-Count Only $12.95 Shipped on Amazon (Reg. $26)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 3,
+    "score": 37.95
+   }
+  },
+  {
+   "id": "O-RANK-194",
+   "category": "O-RANK ranking and quality",
+   "subject": "[home] Hip2Save: Reader-Fave Plush Throw Blanket Only $7.44 on Amazon (Reg. $17)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 12,
+    "score": 42.49
+   }
+  },
+  {
+   "id": "O-RANK-195",
+   "category": "O-RANK ranking and quality",
+   "subject": "[office] Hip2Save: Mr. Pen Journal Notebook Set Just $3.66 Shipped on Amazon (Reg. $8)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 3,
+    "score": 44.88
+   }
+  },
+  {
+   "id": "O-RANK-196",
+   "category": "O-RANK ranking and quality",
+   "subject": "[pets] Slickdeals: Select Accts: 24-Ct 3-Oz Blue Buffalo Tastefuls Chicken Tender Morsels",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 2,
+    "score": 30.24
+   }
+  },
+  {
+   "id": "O-RANK-197",
+   "category": "O-RANK ranking and quality",
+   "subject": "[sports] The Inventory: $19 COOFANDY Golf Polo: UPF 50+ Long-Sleeve Shirt Deal",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 7,
+    "score": 33.3
+   }
+  },
+  {
+   "id": "O-IND-198",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[auto] Slickdeals: Amazon \u2013 AstroAI M10 6000A Jump Starter w/ 150 PSI Air Compressor - $4",
+   "detail": {
+    "shown_under": "auto",
+    "plum_industries": [
+     "auto"
+    ],
+    "rule": "keywords:auto",
+    "judge_industries": [
+     "auto"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-199",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "fail",
+   "subject": "[baby] Hip2Save: Halloween Mini Bubble Wands 30-Pack Only $4.79 on Amazon (Reg. $10)",
+   "detail": {
+    "shown_under": "baby",
+    "plum_industries": [
+     "baby",
+     "toys"
+    ],
+    "rule": "feed:hip2save sales-deals/kids",
+    "judge_industries": [
+     "toys"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-200",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[beauty] dealnews: Old Spice Obscure Ocean Cologne for Men 3.4-oz. Bottle for $26 + free ",
+   "detail": {
+    "shown_under": "beauty",
+    "plum_industries": [
+     "beauty"
+    ],
+    "rule": "dealnews:Fragrances",
+    "judge_industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-201",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "fail",
+   "subject": "[fashion] Hip2Save: Foldable Storage Tote 6-Pack Only $9.99 on Amazon (Reg. $33) \u2013 Organiz",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "keywords:keywords:fashion+feed hint",
+    "judge_industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-202",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[grocery] Hip2Save: WOW! Rice Krispies Treats Are Only $1.99 at CVS",
+   "detail": {
+    "shown_under": "grocery",
+    "plum_industries": [
+     "grocery"
+    ],
+    "rule": "keywords:keywords:grocery+feed hint",
+    "judge_industries": [
+     "grocery"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-203",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[health] Hip2Save: Tylenol Cold + Flu Severe Day & Night Medicine Only $5.31 Shipped on A",
+   "detail": {
+    "shown_under": "health",
+    "plum_industries": [
+     "health"
+    ],
+    "rule": "keywords:keywords:health+feed hint",
+    "judge_industries": [
+     "health"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-204",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[home] Hip2Save: WORX Electric Leaf Mulcher Only $118.74 Shipped on Amazon (Reg. $200)",
+   "detail": {
+    "shown_under": "home",
+    "plum_industries": [
+     "home"
+    ],
+    "rule": "feed:hip2save home-deals-coupons-tips",
+    "judge_industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-205",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[office] Hip2Save: Glitter Paint Markers 18-Pack Only $4.99 Shipped on Amazon",
+   "detail": {
+    "shown_under": "office",
+    "plum_industries": [
+     "office"
+    ],
+    "rule": "keywords:keywords:office+home+feed hint",
+    "judge_industries": [
+     "office",
+     "toys"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-206",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[pets] Hip2Save: 44\u2033 Cat Tree Just $28 Shipped (Regularly $81)",
+   "detail": {
+    "shown_under": "pets",
+    "plum_industries": [
+     "pets"
+    ],
+    "rule": "keywords:keywords:pets+feed hint",
+    "judge_industries": [
+     "pets"
+    ]
+   }
+  },
+  {
+   "id": "O-IND-207",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "[sports] The Inventory: adidas Supernova Running Shoes 61% Off at Just $39 on Amazon",
+   "detail": {
+    "shown_under": "sports",
+    "plum_industries": [
+     "sports",
+     "fashion"
+    ],
+    "rule": "keywords:sports+fashion",
+    "judge_industries": [
+     "fashion",
+     "sports"
+    ]
+   }
+  },
+  {
+   "id": "O-FID-208",
+   "category": "O-FID source fidelity",
+   "subject": "[auto] dealnews: Vevor 44\" Mechanic Garage Creeper for $45 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/products/Vevor/Vevor-44-Mechanic-Garage-Creeper/540153.html"
+   }
+  },
+  {
+   "id": "O-FID-209",
+   "category": "O-FID source fidelity",
+   "subject": "[baby] Hip2Save: The Night Before Christmas Hardcover Book Only $8 on Amazon (Reg. $20)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/the-night-before-christmas-book/"
+   }
+  },
+  {
+   "id": "O-FID-210",
+   "category": "O-FID source fidelity",
+   "subject": "[beauty] dealnews: Versace Eros for Men 3.4 oz. Parfum Spray for $69 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Versace-Eros-for-Men-3-4-oz-Parfum-Spray-for-69-free-shipping/22246617.html"
+   }
+  },
+  {
+   "id": "O-FID-211",
+   "category": "O-FID source fidelity",
+   "subject": "[fashion] dealnews: Dearfoams Men's Cozy Comfort Notch Clog Slippers for $8 + free shippin",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Dearfoams-Mens-Cozy-Comfort-Notch-Clog-Slippers-for-8-free-shipping-w-35/22243080.html"
+   }
+  },
+  {
+   "id": "O-FID-212",
+   "category": "O-FID source fidelity",
+   "subject": "[grocery] Hip2Save: WOW! Rice Krispies Treats Are Only $1.99 at CVS",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/cvs-rice-krispies-treats/"
+   }
+  },
+  {
+   "id": "O-FID-213",
+   "category": "O-FID source fidelity",
+   "subject": "[health] Hip2Save: Leg Massager Only $43 Shipped on Amazon (Reg. $84) | Relieves Fatigue",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/leg-massager/"
+   }
+  },
+  {
+   "id": "O-FID-214",
+   "category": "O-FID source fidelity",
+   "subject": "[home] Hip2Save: Vacuum Storage Bags 12-Pack w/ Pump Just $11 on Amazon (Great for Trav",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/vacuum-storage-bags/"
+   }
+  },
+  {
+   "id": "O-FID-215",
+   "category": "O-FID source fidelity",
+   "subject": "[office] Hip2Save: Wireless Label Maker Just $14.99 on Amazon | Perfect for Organizing & ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/niimbot-b1-label-maker/"
+   }
+  },
+  {
+   "id": "O-FID-216",
+   "category": "O-FID source fidelity",
+   "subject": "[pets] Slickdeals: 36\" Song Puppy Orthopedic Memory Foam Dog Bed w/ Bolster & Removable C",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20090304-36-orthopedic-large-dog-bed-w-bolster-memory-foam-removable-waterproof-cover-from-21-59-free-shipping-w-prime-or-on-35"
+   }
+  },
+  {
+   "id": "O-FID-217",
+   "category": "O-FID source fidelity",
+   "subject": "[sports] The Inventory: $19 COOFANDY Golf Polo: UPF 50+ Long-Sleeve Shirt Deal",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://theinventory.com/coofandy-men-s-long-sleeve-polo-shirt-collared-performance-golf-shirts-contrast--b37154f9"
+   }
+  },
+  {
+   "id": "O-FID-218",
+   "category": "O-FID source fidelity",
+   "subject": "[tech] Slickdeals: 2-Pk EYAIOROTES Universal Samsung TV Replacement Remote Control $6.50",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20088588-2-pack-eyaiorotes-universal-samsung-tv-replacement-remote-control-6-49-free-shipping-w-prime-or-on-35"
+   }
+  },
+  {
+   "id": "O-FID-219",
+   "category": "O-FID source fidelity",
+   "subject": "[toys] Hip2Save: FOUR Hasbro Board Games Only $14.49 Shipped for Prime Members (Just $3",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/hasbro-board-games/"
+   }
+  },
+  {
+   "id": "O-FID-220",
+   "category": "O-FID source fidelity",
+   "subject": "[auto] Slickdeals: Amazon \u2013 AstroAI M10 6000A Jump Starter w/ 150 PSI Air Compressor - $4",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20101995-amazon-astroai-m10-6000a-jump-starter-w-150-psi-air-compressor-41-99-w-code"
+   }
+  },
+  {
+   "id": "O-FID-221",
+   "category": "O-FID source fidelity",
+   "subject": "[baby] Hip2Save: Halloween Mini Bubble Wands 30-Pack Only $4.79 on Amazon (Reg. $10)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/amazon-bubble-wands/"
+   }
+  },
+  {
+   "id": "O-FID-222",
+   "category": "O-FID source fidelity",
+   "subject": "[beauty] dealnews: Old Spice Obscure Ocean Cologne for Men 3.4-oz. Bottle for $26 + free ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Old-Spice-Obscure-Ocean-Cologne-for-Men-3-4-oz-Bottle-for-26-free-shipping/22246589.html"
+   }
+  },
+  {
+   "id": "O-FID-223",
+   "category": "O-FID source fidelity",
+   "subject": "[fashion] Hip2Save: Girls Disney Tutu Dresses Only $9.81 on SamsClub.com",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/disney-princess-dress/"
+   }
+  },
+  {
+   "id": "O-FID-224",
+   "category": "O-FID source fidelity",
+   "subject": "[grocery] dealnews: Bauducco Creamy Hazelnut Mega Wafer 24-Pack for $3 + free shipping w/ ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Bauducco-Creamy-Hazelnut-Mega-Wafer-24-Pack-for-3-free-shipping-w-Prime/22242227.html"
+   }
+  },
+  {
+   "id": "O-FID-225",
+   "category": "O-FID source fidelity",
+   "subject": "[health] Slickdeals: 300-Ct VEV Corefeel 10000 IU Vitamin D3 + K2 Softgels w/ Magnesium & Z",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20075109-300-count-vev-corefeel-10-000-iu-vitamin-d3-k2-softgels-w-magnesium-zinc-5-99-w-s-s-free-shipping-w-prime-or-on-35"
+   }
+  },
+  {
+   "id": "O-FID-226",
+   "category": "O-FID source fidelity",
+   "subject": "[home] Hip2Save: The Prettiest Christmas Village Advent Calendar is Just $37.99 Shipped",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/qvc-christmas-village-advent-calendar/"
+   }
+  },
+  {
+   "id": "O-FID-227",
+   "category": "O-FID source fidelity",
+   "subject": "[office] Hip2Save: Sharpie Permanent Markers 12-Pack Just $6.83 Shipped on Amazon",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/sharpie-markers/"
+   }
+  },
+  {
+   "id": "O-FID-228",
+   "category": "O-FID source fidelity",
+   "subject": "[pets] Slickdeals: Select Accts: 24-Ct 3-Oz Blue Buffalo Tastefuls Chicken Tender Morsels",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20096301-sns-ac-14-25-24-pack-3-oz-blue-buffalo-tastefuls-natural-tender-morsels-wet-cat-food-chicken-entr-e-at-amazon"
+   }
+  },
+  {
+   "id": "O-FID-229",
+   "category": "O-FID source fidelity",
+   "subject": "[sports] Hip2Save: *HOT* Score NFL Hoodies from $19 on Walmart.com (Reg. $43)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/nfl-hoodies/"
+   }
+  },
+  {
+   "id": "O-FID-230",
+   "category": "O-FID source fidelity",
+   "subject": "[tech] dealnews: Nintendo Switch Pro Controller The Legend of Zelda: ToK Edition for $7",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Nintendo-Switch-Pro-Controller-The-Legend-of-Zelda-To-K-Edition-for-70-free-shipping-w-Prime/22246013.html"
+   }
+  },
+  {
+   "id": "O-FID-231",
+   "category": "O-FID source fidelity",
+   "subject": "[toys] Hip2Save: Play-Doh 65-Count Color Collection Only $10 on Walmart.com (Reg. $20)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/play-doh-color-collection/"
+   }
+  },
+  {
+   "id": "O-FID-232",
+   "category": "O-FID source fidelity",
+   "subject": "[auto] Slickdeals: 5000A Soulor Portable Car Jump Starter w/ 9-in-1 Functions & LCD Displ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20075334-5000a-soulor-portable-car-jump-starter-w-9-in-1-functions-lcd-display-18-free-s-h"
+   }
+  },
+  {
+   "id": "O-FID-233",
+   "category": "O-FID source fidelity",
+   "subject": "[baby] Hip2Save: The Nightmare Before Christmas Crochet Kit Just $10 Shipped for Prime ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/the-nightmare-before-christmas-crochet-kit/"
+   }
+  },
+  {
+   "id": "O-FID-234",
+   "category": "O-FID source fidelity",
+   "subject": "[beauty] Hip2Save: IPL Laser Hair Remover Only $28.99 Shipped on Amazon | Painlessly Remo",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/ubroo-ipl-laser-hair-remover/"
+   }
+  },
+  {
+   "id": "O-FID-235",
+   "category": "O-FID source fidelity",
+   "subject": "[fashion] dealnews: Fanatics Men's Speed Goes Pro Hoodie for $9 + free shipping w/ $49",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Fanatics-Mens-Speed-Goes-Pro-Hoodie-for-9-free-shipping-w-49/22242910.html"
+   }
+  },
+  {
+   "id": "O-FID-236",
+   "category": "O-FID source fidelity",
+   "subject": "[grocery] Hip2Save: Hershey\u2019s Full-Size Candy Bars 30-Pack Just $22.78 on SamsClub.com (76",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/hersheys-full-size-candy-bars/"
+   }
+  },
+  {
+   "id": "O-FID-237",
+   "category": "O-FID source fidelity",
+   "subject": "[health] Hip2Save: Tylenol Cold + Flu Severe Day & Night Medicine Only $5.31 Shipped on A",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/tylenol-cold-flu/"
+   }
+  },
+  {
+   "id": "O-FID-238",
+   "category": "O-FID source fidelity",
+   "subject": "[home] Hip2Save: BOGO FREE Lowe\u2019s Posable Skeletons (Just $22.49 Each Delivered!)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/lowes-posable-skeletons/"
+   }
+  },
+  {
+   "id": "O-FID-239",
+   "category": "O-FID source fidelity",
+   "subject": "[office] Slickdeals: 5-Pk 3\" OVLLAN Rollerblade Office Chair Replacement Poly Wheels $12",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://slickdeals.net/f/20053677-5-pack-3-ovllan-rollerblade-office-gaming-chair-replacement-poly-wheels-transparent-11-99-free-shipping-w-prime-or-on-35"
+   }
+  },
+  {
+   "id": "O-FID-240",
+   "category": "O-FID source fidelity",
+   "subject": "[pets] Hip2Save: Self-Warming Pet Bed Just $13.79 on Amazon (Regularly $23)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/amazon-self-warming-pet-bed/"
+   }
+  },
+  {
+   "id": "O-FID-241",
+   "category": "O-FID source fidelity",
+   "subject": "[sports] dealnews: Arrowhead Outdoor Cozy Club Folding Chair for $29 + free shipping w/ P",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/Arrowhead-Outdoor-Cozy-Club-Folding-Chair-for-29-free-shipping-w-Prime/22242737.html"
+   }
+  },
+  {
+   "id": "O-FID-242",
+   "category": "O-FID source fidelity",
+   "subject": "[tech] Hip2Save: Pioneer 55\u2033 LED 4K Smart TV Only $179.99 Shipped on BestBuy.com (Reg. ",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/pioneer-tv/"
+   }
+  },
+  {
+   "id": "O-FID-243",
+   "category": "O-FID source fidelity",
+   "subject": "[toys] Hip2Save: Viral Slime Kit with Over 50-Pieces Just $20 on Walmart.com",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/gui-gui/"
+   }
+  },
+  {
+   "id": "O-FID-244",
+   "category": "O-FID source fidelity",
+   "subject": "[baby] Hip2Save: Kids Karaoke Machine w/ 2 Microphones Only $9.99 on Amazon (Reg. $25)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/kids-karaoke-machine/"
+   }
+  },
+  {
+   "id": "O-FID-245",
+   "category": "O-FID source fidelity",
+   "subject": "[beauty] Hip2Save: WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/cvs-best-digital-coupons/"
+   }
+  },
+  {
+   "id": "O-FID-246",
+   "category": "O-FID source fidelity",
+   "subject": "[fashion] Hip2Save: Women\u2019s Fleece Memory Foam Slippers Only $7.49 on Amazon (Reg. $25)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/parlovable-slippers/"
+   }
+  },
+  {
+   "id": "O-FID-247",
+   "category": "O-FID source fidelity",
+   "subject": "[grocery] Hip2Save: David\u2019s Ready-to-Bake Cookies 174-Count Just $39.98 Shipped (Reg. $73)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/davids-cookies/"
+   }
+  },
+  {
+   "id": "O-FID-248",
+   "category": "O-FID source fidelity",
+   "subject": "[health] Hip2Save: Lunakai B12 Vitamins 60-Count Only $12.95 Shipped on Amazon (Reg. $26)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/lunakai-b12-vitamins/"
+   }
+  },
+  {
+   "id": "O-FID-249",
+   "category": "O-FID source fidelity",
+   "subject": "[home] Hip2Save: Reader-Fave Plush Throw Blanket Only $7.44 on Amazon (Reg. $17)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/bedelite-throws/"
+   }
+  },
+  {
+   "id": "O-FID-250",
+   "category": "O-FID source fidelity",
+   "subject": "[office] Hip2Save: Mr. Pen Journal Notebook Set Just $3.66 Shipped on Amazon (Reg. $8)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/mr-pen/"
+   }
+  },
+  {
+   "id": "O-FID-251",
+   "category": "O-FID source fidelity",
+   "subject": "[pets] The Inventory: $65 Faux Fur Orthopedic Dog Bed (35% Off) on Amazon",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://theinventory.com/faux-fur-dog-bed-rug-medium-size-orthopedic-thick-foam-40-x26-c2231432"
+   }
+  },
+  {
+   "id": "O-FID-252",
+   "category": "O-FID source fidelity",
+   "subject": "[sports] The Inventory: adidas Supernova Running Shoes 61% Off at Just $39 on Amazon",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://theinventory.com/adidas-mens-supernova-ease-2-m-running-sneakers-shoes-blue-cf38a7bc"
+   }
+  }
+ ],
+ "summary": {
+  "conclusive": 200,
+  "pass": 196,
+  "fail": 4,
+  "inconclusive": 53,
+  "pending": 0,
+  "pass_rate": 0.98,
+  "by_category": {
+   "L-FID source fidelity": {
+    "pass": 39,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-GEO vicinity": {
+    "pass": 20,
+    "fail": 0,
+    "inconclusive": 4,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-IND industry (blind judge)": {
+    "pass": 18,
+    "fail": 2,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.9
+   },
+   "L-MATH terms and math": {
+    "pass": 10,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-REC recall": {
+    "pass": 15,
+    "fail": 0,
+    "inconclusive": 5,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-RET retailer page": {
+    "pass": 1,
+    "fail": 0,
+    "inconclusive": 14,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-WIN time window": {
+    "pass": 15,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-FID source fidelity": {
+    "pass": 45,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-IND industry (blind judge)": {
+    "pass": 8,
+    "fail": 2,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.8
+   },
+   "O-MER merchant link": {
+    "pass": 15,
+    "fail": 0,
+    "inconclusive": 30,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-RANK ranking and quality": {
+    "pass": 10,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   }
+  }
+ },
+ "quality": {
+  "local_deals": 1782,
+  "local_firm_basis_share": 0.603,
+  "local_unconfirmed_store_share": 0.0,
+  "local_queries_with_no_results": 1,
+  "online_deals": 118,
+  "online_with_product_identity": 7,
+  "online_with_2plus_other_sites": 0,
+  "online_store_checked": 14,
+  "online_flagged_changed": 1,
+  "online_basis_share": {
+   "market": 0.0,
+   "store_regular": 0.712,
+   "editor_compare": 0.102,
+   "history": 0.076,
+   "list": 0.11
+  }
+ }
+}

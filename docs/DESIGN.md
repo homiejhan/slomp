@@ -1,6 +1,6 @@
-# Plum v1: system design
+# Slomp v1: system design
 
-Plum takes a **Texas city** and one or more **industries** and returns:
+Slomp takes a **Texas city** and one or more **industries** and returns:
 
 1. **Near you, next 7 days:** every known deal, discount or promotion at stores in the vicinity of that city that is valid at
    any point in the next 7 days, filtered to the chosen industries.
@@ -18,7 +18,7 @@ choice (all verified live on **Oct 4, 2026**), the architecture, the trade-offs,
 
 | # | Requirement |
 |---|---|
-| F1 | Inputs come from fixed lists: a city from **all Texas cities** (every incorporated city, town and village, plus census-designated places with 10,000+ people), and 1+ industries from a fixed set of 13. |
+| F1 | Inputs come from fixed lists: a city from **all Texas cities** (every incorporated city, town and village, plus census-designated places with 10,000+ people), and 1+ industries from a fixed set of 13 (14 since the regular-deals addendum in section 10). |
 | F2 | Output 1 lists **all** deals at stores within a radius of the city (default 25 mi) whose validity window overlaps `[now, now + 7 days]`, in the city's own time zone. |
 | F3 | Output 2 lists the products with the **highest discounts** in each chosen industry, with the same product's price on other websites where it can be found. |
 | F4 | Every deal says **what its discount is measured against** (the store's own regular price, other stores' prices, a list price, or nothing) and carries links to its source. |
@@ -58,7 +58,7 @@ choice (all verified live on **Oct 4, 2026**), the architecture, the trade-offs,
 ## 2. What the research found
 
 Each row was checked live on Oct 4, 2026. "Honest UA" means the source answers a client that identifies itself as
-`Plum/1.0` rather than impersonating a browser.
+`Slomp/1.0` rather than impersonating a browser.
 
 ### 2.1 Local deals and store locations
 
@@ -69,7 +69,7 @@ Each row was checked live on Oct 4, 2026. "Honest UA" means the source answers a
 | Flipp `/items/search?q={merchant}` | All of that merchant's ad items (≤150) **with Google Product Taxonomy categories** (`_L1`/`_L2`) and `original_price` | **Use** for industry classification. Best Buy: 116/116 items labelled, Old Navy 51/51 |
 | Flipp `/items/{id}` | Full record: sale story, $ off, % off, description, disclaimer, retailer product URL | **Use** for top items and for verification |
 | OpenStreetMap, Geofabrik Texas extract (723 MB, daily) | Every mapped store: 8,871 stores of 76 registry merchants and 16,867 locations of 399 restaurant chains, extracted in 20 s | **Use.** Built into a local dataset weekly. Live Overpass was tried first: the public servers answered 406, timed out or returned 504 under load |
-| AllThePlaces (weekly scrape of chains' own store locators) | Per-chain GeoJSON with addresses | **Verification only.** Independent of OSM, but uneven run to run (Target 545–1,370 US stores; Walmart in 1 of 6 runs), so it checks Plum rather than feeding it |
+| AllThePlaces (weekly scrape of chains' own store locators) | Per-chain GeoJSON with addresses | **Verification only.** Independent of OSM, but uneven run to run (Target 545–1,370 US stores; Walmart in 1 of 6 runs), so it checks Slomp rather than feeding it |
 | US Census Gazetteer 2026 + PEP 2025 + ACS 2024 | Every Texas place with type, internal point, population; ZCTA centroids | **Use** for the fixed city list |
 | Google Product Taxonomy (2021-09-21) | The 21 top-level and ~190 second-level categories Flipp labels items with | **Use** as the industry mapping backbone |
 
@@ -105,12 +105,12 @@ measured quantity per industry rather than promising it everywhere.
 
 Restaurant-chain promotions (dealnews Restaurants c377, Slickdeals restaurant search and freebies forum) are national
 promotions honored at local branches, such as Chuy's free entrée on National Taco Day (Oct 6) or KFC's $10 Tuesday
-bucket. Plum shows one only when OSM has a branch within the radius and its dates (ranges, "through Oct 21", "every
+bucket. Slomp shows one only when OSM has a branch within the radius and its dates (ranges, "through Oct 21", "every
 Tuesday") overlap the window. Checked and not used: Groupon and Simon malls (bot walls); Eventbrite and DoStuff event
 listings (only some metros, and events fit no industry); MLB promotions (no Texas home games Oct 4–11); Texas sales-tax
 holidays (none in the window; a static table if added).
 
-### 2.5 Lessons carried over from Plum v0.2
+### 2.5 Lessons carried over from Slomp v0.2
 
 The previous build (in git history) taught rules this design keeps:
 
@@ -129,7 +129,7 @@ The previous build (in git history) taught rules this design keeps:
 
 ```
                  ┌─────────────────────────────────────────────────────────┐
-  Browser ──────►│  Web page (static)          CLI (plum ...)               │
+  Browser ──────►│  Web page (static)          CLI (slomp ...)               │
                  └───────────────┬────────────────────────┬────────────────┘
                                  ▼                        ▼
                  ┌─────────────────────────────────────────────────────────┐
@@ -137,7 +137,7 @@ The previous build (in git history) taught rules this design keeps:
                  └───────────────┬─────────────────────────────────────────┘
                                  ▼
                  ┌─────────────────────────────────────────────────────────┐
-                 │  PlumService: validates inputs against the fixed lists, │
+                 │  SlompService: validates inputs against the fixed lists, │
                  │  fans out to both pipelines, caches results 30 min      │
                  └──────┬──────────────────────────────────────┬───────────┘
                         ▼                                      ▼
@@ -165,11 +165,11 @@ The previous build (in git history) taught rules this design keeps:
    └─────────────────────────────────────┬───────────────────────────────────────────────┘
                                          ▼
    ┌─────────────────────────────────────────────────────────────────────────────────────┐
-   │ SQLite (~/.cache/plum/plum.db): http_cache · price_observations · verify_runs/results│
+   │ SQLite (~/.cache/slomp/slomp.db): http_cache · price_observations · verify_runs/results│
    │ Reference data (in repo): texas_cities.json · merchants.json · industries           │
    └─────────────────────────────────────────────────────────────────────────────────────┘
 
-   Verification harness (plum verify) ── calls PlumService like a user, then re-checks a
+   Verification harness (slomp verify) ── calls SlompService like a user, then re-checks a
    sample of results against the sources through its own, independent fetch paths.
 ```
 
@@ -272,7 +272,7 @@ Response shape (abridged):
 
 ### 3.5 Web page
 
-One static file (`backend/plum/static/index.html`): no framework and no build step, with light and dark themes.
+One static file (`backend/slomp/static/index.html`): no framework and no build step, with light and dark themes.
 
 - **Inputs:** a searchable city picker over the fixed list (most populous matches first), a three-way distance
   control, and industry chips. The search lives in the URL, so results can be bookmarked.
@@ -286,13 +286,13 @@ One static file (`backend/plum/static/index.html`): no framework and no build st
   the ad's own price text below, so cards crop to the product and the dialog shows the whole clipping. Deal feeds
   supply product photos. A deal with no picture gets its industry's icon.
 - **Honesty in the UI:** struck-through prices appear only for a store's own regular price or a list price (which is
-  labelled); a failed source shows a notice; "What Plum left out, and why" lists every exclusion count.
+  labelled); a failed source shows a notice; "What Slomp left out, and why" lists every exclusion count.
 
 ### 3.6 Storage
 
 | Store | Contents | Why |
 |---|---|---|
-| `backend/plum/data/*.json` (in git) | Texas cities, merchant registry | Fixed inputs must be reproducible and reviewable; rebuilt by scripts |
+| `backend/slomp/data/*.json` (in git) | Texas cities, merchant registry | Fixed inputs must be reproducible and reviewable; rebuilt by scripts |
 | SQLite `http_cache` | Raw responses keyed by URL + params, with expiry | Politeness and speed; the verification harness can read exactly what the pipeline saw |
 | SQLite `price_observations` | (product key, site, price, url, observed_at) | Cross-site comparisons and later price history |
 | SQLite `verify_runs`, `verify_results` | Every test with its evidence | Iteration-over-iteration tracking |
@@ -348,7 +348,7 @@ One client wraps every network call:
 - **Hard deadline per request** (20 s) so a stalled connection can't hang a run.
 - **robots.txt** is fetched and honored for HTML pages; JSON endpoints that a site's own pages call are used only when
   robots.txt does not disallow them.
-- **User-Agent:** `Mozilla/5.0 (compatible; Plum/1.0)`, plus a contact from `PLUM_CONTACT` if set.
+- **User-Agent:** `Mozilla/5.0 (compatible; Slomp/1.0)`, plus a contact from `SLOMP_CONTACT` if set.
 - **Cache:** SQLite with TTLs per source (below). Errors are cached briefly (2 min) to avoid hammering a failing host.
 
 ### 4.3 Deal model and discount basis
@@ -358,7 +358,7 @@ basis can be trusted:
 
 | Basis | Meaning | Example | Weight |
 |---|---|---|---|
-| `market` | Below the median current price at 2+ other sites that Plum itself checked | Amazon $298, Best Buy $299 vs deal $229 | 1.0 |
+| `market` | Below the median current price at 2+ other sites that Slomp itself checked | Amazon $298, Best Buy $299 vs deal $229 | 1.0 |
 | `store_regular` | Below the same store's own regular price | Best Buy "Was $1,199.99"; Flipp item with `original_price` | 0.9 |
 | `editor_compare` | An editor's statement about other stores | dealnews "You'd pay $65 elsewhere" | 0.8 |
 | `history` | A price-history claim | "the best price Amazon has charged" | 0.6 |
@@ -418,22 +418,22 @@ if a field isn't in the source, it is absent from the output.
 ## 5. Verification
 
 Unit tests (offline, recorded fixtures) cover parsing and rules. Accuracy against the real world needs **live**
-tests, which `plum verify` runs:
+tests, which `slomp verify` runs:
 
 **Per iteration:** draw a seeded random sample of cities stratified by size (3 large ≥ 200k, 3 mid 20k–200k, 4 small
-< 20k) and industries (every industry appears at least once), run Plum like a user, then run **200 tests** that
+< 20k) and industries (every industry appears at least once), run Slomp like a user, then run **200 tests** that
 re-check its output against the sources through **independent fetch paths** (a different endpoint, or the retailer's
 own page), never the pipeline's cached copy:
 
 | Group | Test | Count | Passes when |
 |---|---|---|---|
 | Local | Source fidelity | 30 | The item's own Flipp record (`/items/{id}`) has the same merchant, title, price, regular price/saving and dates |
-| Local | Retailer page | 10 | The retailer's own product page shows the ad price, or the regular price Plum states (added in iteration 4) |
+| Local | Retailer page | 10 | The retailer's own product page shows the ad price, or the regular price Slomp states (added in iteration 4) |
 | Local | Time window | 15 | The source dates overlap `[now, now+7d]` in the city's time zone, and the labels (ends/starts) are right |
 | Local | Vicinity | 20 | The claimed store exists in the map source with that brand, and its recomputed distance ≤ radius |
-| Local | Industry | 20 | A blind judge, given only title and merchant, assigns an industry that Plum also assigned |
+| Local | Industry | 20 | A blind judge, given only title and merchant, assigns an industry that Slomp also assigned |
 | Local | Terms and math | 10 | Savings and % recomputed from raw source fields match; BOGO/multi-buy/hedges handled |
-| Local | Recall | 15 | A random qualifying item pulled directly from Flipp for that ZIP and industry is in Plum's output, or excluded for a valid reason |
+| Local | Recall | 15 | A random qualifying item pulled directly from Flipp for that ZIP and industry is in Slomp's output, or excluded for a valid reason |
 | Online | Source fidelity | 25 | The deal's own post page shows the same price and store, and is not marked expired |
 | Online | Merchant link | 15 | The outbound link lands on the claimed store's domain; if the page exposes a price, it matches (allowing for stated codes/coupons) |
 | Online | Comparisons | 20 | Each comparison listing, re-fetched, is the same product (model/GTIN) at the stated price (±2% or $1) |
@@ -441,11 +441,11 @@ own page), never the pipeline's cached copy:
 | Online | Ranking and quality | 10 | Discount recomputes; order follows score; no duplicates; no storewide sales or stale posts in the product list |
 
 Vicinity is checked against AllThePlaces (the chains' own store locators), which is independent of the OpenStreetMap
-data Plum uses. Each test records pass, fail or **inconclusive** (for example a site that is down). Inconclusive tests are replaced
+data Slomp uses. Each test records pass, fail or **inconclusive** (for example a site that is down). Inconclusive tests are replaced
 from a reserve sample so each iteration reports 200 conclusive results where possible, and the inconclusive count is
-reported too. The blind judge is a separate model run given only the deal's text, never Plum's labels.
+reported too. The blind judge is a separate model run given only the deal's text, never Slomp's labels.
 
-**Iteration loop (×10):** run → triage every failure as *Plum bug*, *source error* or *test bug* → fix with a
+**Iteration loop (×10):** run → triage every failure as *Slomp bug*, *source error* or *test bug* → fix with a
 regression unit test → next iteration on a fresh sample, plus a re-run of every earlier failure. Results go to
 `docs/VERIFICATION.md`.
 
@@ -503,3 +503,14 @@ doubles as a canary (run a small daily sample; alert if fidelity < 98% or a sour
 5. Pipelines, service, API, CLI, web page.
 6. Offline unit tests.
 7. Verification harness, then 10 iterations of 200 live tests, fixing what each finds.
+
+
+## 10. Addendum: regular deals (Oct 5, 2026)
+
+Standing offers that repeat on a schedule (BOGO Wednesdays, discount movie Tuesdays, kids eat free on Sundays) are not
+in weekly ads and rarely in deal feeds, so v1 missed them. They are now a third list in Output 1, `regulars`, with
+their own design document: [DESIGN-regular-deals.md](DESIGN-regular-deals.md). In short: two day-of-week roundup
+pages are parsed automatically, a curated registry points at company pages and the words that must be on them, each
+card names its evidence, and deals announced only on social media can be added by hand. The fourteenth industry,
+Movies & Entertainment, is local-only like Restaurants & Dining. Two 200-test runs in the Austin, Houston and Dallas
+areas and an audit of every regular deal are in [VERIFICATION.md](VERIFICATION.md#regular-deals).

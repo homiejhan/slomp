@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Slomp · Texas deals</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z' fill='%237b2d64'/%3E%3Ccircle cx='10.6' cy='10.6' r='2.3' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+/* ---- tokens ---------------------------------------------------------------------------------------------- */
+:root {
+  --bg: #faf7f9; --surface: #ffffff; --ink: #211a20; --muted: #6d6370; --faint: #978d99;
+  --line: #ece5ea; --line-strong: #dcd2d9;
+  --accent: #7b2d64; --accent-hover: #6a2456; --on-accent: #ffffff; --accent-soft: #f6e9f2; --accent-ink: #6a2456;
+  --tile: #f5f1f4; --brand: #7b2d64;
+  --urgent: #b42318; --warn-bg: #fff4de; --warn-ink: #8a5300; --ok-bg: #e4f3e8; --ok-ink: #1d6a3a;
+  --shadow-sm: 0 1px 2px rgba(33, 26, 32, .06);
+  --shadow-md: 0 8px 28px rgba(33, 26, 32, .10);
+  --shadow-lg: 0 24px 64px rgba(33, 26, 32, .26);
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141115; --surface: #1e1a1f; --ink: #f4eff3; --muted: #aba0ac; --faint: #807682;
+    --line: #2f2830; --line-strong: #40373f;
+    --accent: #e3a9d1; --accent-hover: #edbfe0; --on-accent: #2b1124; --accent-soft: #35212f; --accent-ink: #edbfe0;
+    --tile: #ebe5ea; --brand: #c56aae;
+    --urgent: #ff9a8f; --warn-bg: #3a2c12; --warn-ink: #f3c276; --ok-bg: #16301f; --ok-ink: #93d6a8;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 8px 28px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, .65);
+  }
+}
+
+/* ---- base ------------------------------------------------------------------------------------------------ */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html:has(dialog[open]) { overflow: hidden; }
+body {
+  margin: 0; color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased;
+  background: linear-gradient(180deg, var(--accent-soft), transparent 320px) no-repeat, var(--bg);
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.muted { color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+legend { padding: 0; }
+
+/* ---- header ---------------------------------------------------------------------------------------------- */
+.top { display: flex; align-items: center; gap: 6px 16px; flex-wrap: wrap; padding: 28px 0 20px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none;
+         font-size: 24px; font-weight: 750; letter-spacing: -0.02em; }
+.brand svg { width: 28px; height: 28px; }
+.tagline { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* ---- search panel ---------------------------------------------------------------------------------------- */
+.panel { display: grid; gap: 18px; padding: 20px; background: var(--surface); border: 1px solid var(--line);
+         border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+.fields { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
+.label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.combo { position: relative; }
+.combo > svg { position: absolute; left: 13px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%);
+               color: var(--faint); pointer-events: none; }
+.combo input { width: 100%; height: 46px; padding: 0 14px 0 40px; font: inherit; color: var(--ink);
+               background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.combo input::placeholder { color: var(--faint); }
+.combo input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.listbox { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px;
+           list-style: none; max-height: 336px; overflow: auto; background: var(--surface);
+           border: 1px solid var(--line-strong); border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.listbox li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 10px;
+              border-radius: 8px; font-size: 15px; cursor: pointer; }
+.listbox li small { color: var(--faint); font-size: 13px; white-space: nowrap; }
+.listbox li[aria-selected="true"], .listbox li[data-i]:hover { background: var(--accent-soft); }
+.listbox li.none { color: var(--muted); cursor: default; }
+
+.seg { display: inline-flex; gap: 2px; height: 46px; padding: 4px; background: var(--bg);
+       border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.seg label { position: relative; }
+.seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.seg span { display: grid; place-items: center; height: 100%; padding: 0 14px; border-radius: 7px;
+            font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 46px; padding: 0 22px;
+       border: 0; border-radius: var(--r-sm); font: inherit; font-weight: 650; text-decoration: none; cursor: pointer;
+       white-space: nowrap; transition: background .12s, border-color .12s; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn.ghost:hover { border-color: var(--accent); }
+.btn.small { height: 38px; padding: 0 16px; font-size: 14px; }
+.btn[disabled] { opacity: .65; cursor: progress; }
+
+.chips, .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 13px; font: inherit;
+        font-size: 14px; font-weight: 500; color: var(--ink); background: var(--surface);
+        border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; white-space: nowrap;
+        transition: background .12s, border-color .12s; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"], .chip[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent);
+        color: var(--accent-ink); font-weight: 650; }
+.chip .ico { font-size: 15px; line-height: 1; }
+.chip .n { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.chip[aria-selected="true"] .n { color: inherit; }
+.form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
+
+/* ---- results --------------------------------------------------------------------------------------------- */
+.tabs { display: flex; gap: 28px; margin-top: 32px; border-bottom: 1px solid var(--line); }
+.tab { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 12px 2px; font: inherit;
+       font-size: 17px; font-weight: 650; color: var(--muted); background: none; border: 0;
+       border-bottom: 3px solid transparent; cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab .n { padding: 2px 8px; border-radius: 999px; font-size: 13px; background: var(--line); color: var(--muted); }
+.tab[aria-selected="true"] .n { background: var(--accent-soft); color: var(--accent-ink); }
+.subhead { display: grid; gap: 14px; margin: 20px 0 18px; }
+.context { margin: 0; font-size: 14px; color: var(--muted); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface);
+        border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer;
+        transition: transform .14s ease, box-shadow .14s ease, border-color .14s; }
+.card:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+.thumb { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden;
+         background: var(--tile); container-type: size; }
+.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 10px; object-fit: contain;
+             mix-blend-mode: multiply; }
+.thumb.cover img { padding: 0; object-fit: cover; mix-blend-mode: normal; }
+.thumb img { opacity: 0; transition: opacity .2s ease; }      /* fade in once loaded, instead of popping in */
+.thumb img.ok { opacity: 1; }
+/* Ads built from a retailer's product feed are product cards: the picture on top, the ad's own price text below.
+   The clip box shows just the picture, fitted to the tile; --r is set when the image loads. */
+.clip { width: min(100cqw - 20px, (100cqh - 20px) * var(--r, 1.6)); aspect-ratio: var(--r, 1.6); overflow: hidden; }
+.thumb .clip img { position: static; display: block; width: 100%; height: auto; padding: 0; }
+.thumb .ph { font-size: 44px; line-height: 1; }
+.thumb.has-img .ph { display: none; }
+/* Badges sit on the picture tile, which is light in both themes, so their colors don't follow the theme. */
+.badge { position: absolute; left: 10px; top: 10px; padding: 4px 9px; border-radius: 999px; font-size: 13px;
+         font-weight: 700; line-height: 1.3; background: #7b2d64; color: #fff; box-shadow: 0 1px 2px rgba(33, 26, 32, .18); }
+.badge.soft { background: #fff; color: #6a2456; box-shadow: inset 0 0 0 1px #7b2d64; }
+.badge.inline { position: static; background: var(--accent); color: var(--on-accent); box-shadow: none; }
+.badge.inline.soft { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.body { display: grid; flex: 1; gap: 6px; align-content: start; padding: 14px 14px 16px; }
+.meta { display: flex; gap: 6px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.meta strong { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--ink); }
+.meta span { flex: none; }
+.title { display: -webkit-box; margin: 0; overflow: hidden; font-size: 15px; font-weight: 600; line-height: 1.35;
+         -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.title.long { -webkit-line-clamp: 3; }      /* an offer with no price line: the title is the offer */
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-variant-numeric: tabular-nums; }
+.price b { font-size: 20px; font-weight: 750; letter-spacing: -0.01em; }
+.price s { font-size: 14px; color: var(--faint); }
+.price small { font-size: 13px; color: var(--muted); }
+.offer { font-size: 15px; font-weight: 650; }
+.info .offer { font-size: 20px; font-weight: 750; }
+.info .price { gap: 4px 10px; }
+.when { font-size: 13px; color: var(--muted); }
+.when.urgent { font-weight: 600; color: var(--urgent); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.tag { padding: 5px 8px; border-radius: 999px; font-size: 12px; line-height: 1; white-space: nowrap;
+       color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
+.tag.warn { color: var(--warn-ink); background: var(--warn-bg); border-color: transparent; }
+.tag.ok { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; font-weight: 600; }
+/* Regular deals: one button per day of the coming week. */
+.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px; margin: -2px; scrollbar-width: none; }
+.days::-webkit-scrollbar { display: none; }
+.day { display: grid; flex: none; justify-items: center; gap: 1px; min-width: 68px; padding: 8px 12px; font: inherit;
+       color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+       cursor: pointer; transition: background .12s, border-color .12s; }
+.day:hover { border-color: var(--accent); }
+.day b { font-size: 14px; font-weight: 650; white-space: nowrap; }
+.day small { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.day[aria-selected="true"] small { color: inherit; }
+.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+.rcard { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px;
+         background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer;
+         transition: transform .14s ease, box-shadow .14s ease, border-color .14s; }
+.rcard:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+.rthumb { position: relative; display: grid; place-items: center; width: 56px; height: 56px; font-size: 28px;
+          line-height: 1; background: var(--accent-soft); border-radius: 14px; overflow: hidden; }
+/* A company's logo covers the icon once it loads; a square app icon fills the tile, other logos sit on white. */
+.rthumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 7px; object-fit: contain;
+              background: #fff; border: 1px solid var(--line); border-radius: inherit; opacity: 0;
+              transition: opacity .2s ease; }
+.rthumb.cover img { padding: 0; object-fit: cover; border: 0; }
+.rthumb img.ok { opacity: 1; }
+.ctx { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.sort { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.sort select { padding: 7px 34px 7px 14px; font: inherit; font-size: 14px; color: var(--ink); cursor: pointer;
+               background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23978d99' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center / 11px 8px;
+               border: 1px solid var(--line-strong); border-radius: 999px; -webkit-appearance: none; appearance: none; }
+.sort select:hover { border-color: var(--accent); }
+.sort select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rcard .body { gap: 5px; padding: 0; }
+.rcard .head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rcard .head .meta { min-width: 0; }
+.rcard .badge { flex: none; }
+.rcard .title { font-size: 15.5px; }
+.proof { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.proof li { display: grid; gap: 2px; }
+.proof .how { font-weight: 600; }
+.proof .how.off { font-weight: 400; color: var(--muted); }
+.proof q { color: var(--muted); quotes: "“" "”"; }
+.fine { margin: 24px 0 0; font-size: 14px; color: var(--muted); }
+.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 28px; font-size: 14px; }
+
+.notice { display: flex; gap: 10px; margin: 20px 0 0; padding: 12px 14px; border-radius: var(--r-sm);
+          font-size: 14px; color: var(--warn-ink); background: var(--warn-bg); }
+.empty { padding: 48px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong);
+         border-radius: var(--r-md); }
+.empty .big { font-size: 40px; line-height: 1; }
+.empty h3 { margin: 12px 0 6px; font-size: 18px; color: var(--ink); }
+.empty p { max-width: 520px; margin: 0 auto 16px; }
+.leftout { margin-top: 28px; font-size: 14px; color: var(--muted); }
+.leftout summary { width: fit-content; cursor: pointer; }
+.leftout ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px 28px;
+              margin: 12px 0 0; padding: 0; list-style: none; }
+.leftout li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 4px;
+              border-bottom: 1px dotted var(--line-strong); }
+.leftout b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---- welcome and loading --------------------------------------------------------------------------------- */
+.welcome { padding: 56px 20px 16px; text-align: center; }
+.strip { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.strip span { display: grid; place-items: center; width: 56px; height: 56px; font-size: 26px; background: var(--surface);
+              border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-sm); }
+.strip span:nth-child(odd) { transform: rotate(-4deg) translateY(4px); }
+.strip span:nth-child(even) { transform: rotate(3deg); }
+.welcome h2 { margin: 12px 0 6px; font-size: 24px; letter-spacing: -0.02em; }
+.welcome p { max-width: 540px; margin: 0 auto 20px; color: var(--muted); }
+.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+.status { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 15px; color: var(--muted); }
+.spin { flex: none; width: 16px; height: 16px; border: 2px solid var(--line-strong); border-top-color: var(--accent);
+        border-radius: 50%; animation: spin .8s linear infinite; }
+.skel { cursor: default; pointer-events: none; }
+.skel .thumb, .skel .bar { background: linear-gradient(90deg, var(--line) 25%, var(--bg) 37%, var(--line) 63%);
+                           background-size: 400% 100%; animation: shimmer 1.4s ease infinite; }
+.skel .bar { height: 12px; border-radius: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { from { background-position: 100% 50%; } to { background-position: 0 50%; } }
+
+/* ---- details --------------------------------------------------------------------------------------------- */
+dialog.sheet { width: min(780px, calc(100vw - 32px)); padding: 0; overflow: hidden; color: var(--ink);
+               background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+               box-shadow: var(--shadow-lg); }
+dialog.sheet::backdrop { background: rgba(20, 14, 19, .55); }
+.sheet-scroll { max-height: min(88vh, 860px); overflow: auto; }
+.sheet-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.pic { display: grid; place-items: center; min-height: 300px; padding: 24px; background: var(--tile); }
+.pic img { max-width: 100%; max-height: 440px; object-fit: contain; mix-blend-mode: multiply; }
+.pic.cover { padding: 0; }
+.pic.cover img { width: 100%; height: 100%; max-height: none; object-fit: cover; mix-blend-mode: normal; }
+.pic .ph { font-size: 72px; line-height: 1; }
+.pic.has-img .ph { display: none; }
+.info { display: grid; gap: 14px; align-content: start; padding: 28px 28px 24px; }
+.eyebrow { margin: 0 36px 0 0; font-size: 13px; font-weight: 650; color: var(--muted); }
+.info h2 { margin: 0; font-size: 20px; line-height: 1.3; letter-spacing: -0.01em; }
+.info .price b { font-size: 26px; }
+.info .price s { font-size: 16px; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 16px; margin: 0; font-size: 14px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.facts .tags { margin: 0; }
+.facts .tag { white-space: normal; line-height: 1.3; border-radius: 12px; }   /* a long condition wraps in the details view */
+.cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.cmp td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+.cmp td:last-child { text-align: right; font-weight: 600; }
+.cmp small { color: var(--faint); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.actions.center { justify-content: center; }
+.close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; place-items: center; width: 36px;
+         height: 36px; padding: 0; font: inherit; font-size: 20px; line-height: 1; color: var(--ink);
+         background: var(--surface); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
+
+footer { margin: 56px 0 32px; font-size: 13px; text-align: center; color: var(--faint); }
+footer p { max-width: 720px; margin: 0 auto; }
+
+/* ---- small screens --------------------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+  .top { padding: 20px 0 16px; }
+  .panel { padding: 16px; }
+  .fields { grid-template-columns: 1fr auto; }
+  .fields > :first-child { grid-column: 1 / -1; }
+  .tabs { margin-top: 24px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .rgrid { grid-template-columns: 1fr; gap: 10px; }
+  .body { padding: 12px; }
+  .price b { font-size: 18px; }
+  .thumb .ph { font-size: 36px; }
+  .sheet-grid { grid-template-columns: 1fr; }
+  .pic { min-height: 220px; }
+  .pic img { max-height: 260px; }
+  .info { padding: 20px; }
+  .welcome { padding-top: 40px; }
+}
+@media (max-width: 520px) {
+  .fields { grid-template-columns: 1fr; }
+  .seg { display: flex; }
+  .seg label { flex: 1; }
+  #go { width: 100%; }
+  .tab { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .rcard, .btn, .chip, .day, .thumb img { transition: none; }
+  .card:hover, .rcard:hover { transform: none; }
+  .spin, .skel .thumb, .skel .bar { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/" aria-label="Slomp, start over">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z" fill="var(--brand)"/>
+        <circle cx="10.6" cy="10.6" r="2.3" fill="#fff"/>
+      </svg>
+      <span>Slomp</span>
+    </a>
+    <p class="tagline">Deals near any Texas city this week, plus the biggest discounts online.</p>
+  </header>
+
+  <main>
+    <form id="search" class="panel" novalidate>
+      <div class="fields">
+        <div>
+          <label class="label" for="city">City</label>
+          <div class="combo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <input id="city" type="text" role="combobox" aria-expanded="false" aria-controls="city-list"
+                   aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Search Texas cities">
+            <ul id="city-list" class="listbox" role="listbox" aria-label="Texas cities" hidden></ul>
+          </div>
+        </div>
+        <fieldset>
+          <legend class="label">Distance</legend>
+          <div class="seg" id="radius"></div>
+        </fieldset>
+        <button class="btn primary" id="go" type="submit">Find deals</button>
+      </div>
+      <fieldset>
+        <legend class="label">What are you shopping for?</legend>
+        <div class="chips" id="chips"></div>
+      </fieldset>
+      <p class="form-msg" id="form-msg" role="alert" hidden></p>
+    </form>
+
+    <p id="sr" class="sr-only" role="status"></p>
+    <section id="results" aria-label="Results"></section>
+  </main>
+
+  <footer>
+    <p>Local prices are the ads retailers publish (via Flipp) and can change, so check at the store. Regular deals come
+       from company pages and the day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals come from
+       public deal sites. Store locations © OpenStreetMap contributors.</p>
+  </footer>
+</div>
+
+<dialog id="detail" class="sheet" aria-labelledby="detail-title">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <div class="sheet-scroll" id="detail-body"></div>
+</dialog>
+
+<script>
+"use strict";
+const PAGE = 24;
+const ICON = {tech: "💻", sports: "⚽", fashion: "👕", home: "🏡", beauty: "💄", health: "💊", grocery: "🛒",
+              toys: "🧸", baby: "🍼", pets: "🐾", auto: "🚗", office: "✏️", dining: "🍽️", entertainment: "🎟️"};
+const SHORT = {tech: "Tech", sports: "Sports", fashion: "Fashion", home: "Home", beauty: "Beauty", health: "Health",
+               grocery: "Grocery", toys: "Toys", baby: "Baby & Kids", pets: "Pets", auto: "Auto", office: "Office",
+               dining: "Dining", entertainment: "Entertainment"};
+// Regular deals have no ad picture, so the tile shows what kind of place it is.
+const KIND = {cinema: ["🎬", "Cinema"], golf: ["⛳", "Golf"], bowling: ["🎳", "Bowling"], museum: ["🏛️", "Museum"],
+              zoo: ["🦒", "Zoo"], bar: ["🍸", "Bar"], cafe: ["☕", "Café"], restaurant: ["🍽️", "Restaurant"],
+              store: ["🛍️", "Store"]};
+// What a discount is measured against: [short label for cards, sentence for the details view].
+const BASIS = {
+  market: ["vs. other stores", "Measured against the median price at other stores Slomp checked itself."],
+  store_regular: ["vs. regular price", "Measured against this store's own regular price."],
+  editor_compare: ["vs. other stores", "Measured against other stores' prices, per the deal site's editor."],
+  claimed_savings: ["saving per the ad", "The ad states this saving but not the regular price it is measured from."],
+  history: ["vs. price history", "Measured against this product's own price history."],
+  list: ["vs. list price", "Measured against a list price, which stores rarely charge."],
+};
+const PHOTO_FEEDS = new Set(["Hip2Save", "9to5Toys", "The Inventory"]);   // photos fill the tile; cut-outs are fitted
+const PICTURE_PART = 0.58;   // product-card ad clippings: the picture is the top part; the ad's price text starts at ~62%
+
+const S = {cities: [], byId: {}, byLabel: {}, industries: {}, radii: [10, 25, 50], sel: null, inds: new Set(["tech"]),
+           radius: 25, auto: false, data: null, near: [], regulars: [], days: [], day: null, tab: "near",
+           ind: {near: null, regulars: "all", online: null}, shown: {near: PAGE, regulars: PAGE, online: PAGE},
+           view: [], req: 0, sort: "best"};
+
+/* ---- helpers --------------------------------------------------------------------------------------------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const money = v => v == null ? "" : "$" + Number(v).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const whole = s => s.replace(/\.00$/, "");
+const link = u => /^https?:\/\//i.test(u || "") ? u : "";                  // web links only, never javascript:
+const pic = u => link(u).replace(/^http:\/\//i, "https://");
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : "";
+const compact = n => n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e4 ? Math.round(n / 1e3) + "K" : n.toLocaleString("en-US");
+const day = (iso, tz) => new Date(iso).toLocaleDateString("en-US", {weekday: "short", month: "short", day: "numeric", timeZone: tz});
+// A calendar date ("2026-10-07") as "Wed Oct 7"; noon keeps it on that date in every time zone.
+const dateText = (iso, opts = {weekday: "short", month: "short", day: "numeric"}) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", opts);
+const addDays = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const short = id => SHORT[id] || S.industries[id]?.name || id;
+const full = id => S.industries[id]?.name || id;
+const norm = s => s.toLowerCase().replace(/\(.*\)\s*$/, "").replace(/,?\s*(tx|texas)\s*$/, "").replace(/[^a-z0-9]/g, "");
+function ago(iso) {
+  const h = Math.max(1, Math.round((Date.now() - new Date(iso)) / 36e5));
+  return h < 24 ? `${h} h ago` : `${Math.round(h / 24)} d ago`;
+}
+
+/* ---- start-up -------------------------------------------------------------------------------------------- */
+async function boot() {
+  let meta;
+  try {
+    meta = await (await fetch("/api/v1/meta")).json();
+  } catch {
+    $("#results").innerHTML = emptyHtml("🔌", "Can't reach Slomp", "The server isn't answering. Check that it's running, then reload.");
+    return;
+  }
+  const names = {};
+  meta.cities.forEach(c => { names[c.name] = (names[c.name] || 0) + 1; });
+  S.cities = meta.cities.map(c => ({...c, key: norm(c.name), label: `${c.name}, TX` + (names[c.name] > 1 ? ` (${c.county})` : "")}));
+  S.cities.forEach(c => { S.byId[c.id] = c; S.byLabel[c.label.toLowerCase()] = c; });
+  meta.industries.forEach(i => { S.industries[i.id] = i; });
+  S.radii = meta.radii_mi || S.radii;
+  restore();
+  $("#city").placeholder = `Search ${S.cities.length.toLocaleString("en-US")} Texas cities`;
+  drawRadius();
+  drawChips();
+  setupCity();
+  if (S.auto && S.sel) run(); else welcome();
+}
+
+function restore() {
+  const q = new URLSearchParams(location.search);
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem("slomp.search") || "{}"); } catch {}
+  const city = S.byId[q.get("city") || saved.city];
+  if (city) pick(city);
+  const fromUrl = (q.get("industries") || "").split(",").filter(i => S.industries[i]);
+  const inds = fromUrl.length ? fromUrl : (saved.industries || []).filter(i => S.industries[i]);
+  if (inds.length) S.inds = new Set(inds);
+  const r = Number(q.get("radius") || saved.radius);
+  if (S.radii.includes(r)) S.radius = r;
+  try { const sort = localStorage.getItem("slomp.sort"); if (SORTS.some(([k]) => k === sort)) S.sort = sort; } catch {}
+  S.auto = !!q.get("city");
+}
+
+function drawRadius() {
+  const box = $("#radius");
+  box.innerHTML = S.radii.map(r => `<label><input type="radio" name="radius" value="${r}"${r === S.radius ? " checked" : ""}><span>${r} mi</span></label>`).join("");
+  box.addEventListener("change", e => { S.radius = Number(e.target.value); });
+}
+
+function drawChips() {
+  const box = $("#chips");
+  box.innerHTML = Object.values(S.industries).map(i =>
+    `<button type="button" class="chip" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" title="${esc(i.name + ": " + i.description)}">` +
+    `<span class="ico" aria-hidden="true">${ICON[i.id] || "🏷️"}</span>${esc(short(i.id))}</button>`).join("");
+  box.addEventListener("click", e => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    const on = chip.getAttribute("aria-pressed") !== "true";
+    chip.setAttribute("aria-pressed", on);
+    if (on) S.inds.add(chip.dataset.id); else S.inds.delete(chip.dataset.id);
+    msg("");
+  });
+}
+
+/* ---- city picker ----------------------------------------------------------------------------------------- */
+function findCities(text, limit = 8) {
+  const n = norm(text || "");
+  if (!n) return S.cities.slice(0, limit);                 // the list is ordered by population
+  const starts = [], inside = [];
+  for (const c of S.cities) {
+    if (c.key.startsWith(n)) starts.push(c);
+    else if (inside.length < limit && c.key.includes(n)) inside.push(c);
+    if (starts.length >= limit) break;
+  }
+  return starts.concat(inside).slice(0, limit);
+}
+
+function resolveCity(text) {
+  const t = (text || "").trim().toLowerCase();
+  if (!t) return null;
+  return S.byLabel[t] || S.byLabel[t + ", tx"] || findCities(t, 1)[0] || null;
+}
+
+function pick(city) {
+  S.sel = city;
+  $("#city").value = city.label;
+  msg("");
+}
+
+function setupCity() {
+  const input = $("#city"), list = $("#city-list");
+  let items = [], active = -1;
+  const close = () => { list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
+  const mark = i => {
+    active = i;
+    [...list.children].forEach((li, k) => li.setAttribute("aria-selected", k === i));
+    if (i < 0) return;
+    const li = list.children[i];
+    input.setAttribute("aria-activedescendant", li.id);
+    if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop;
+    else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight;
+  };
+  const open = () => {
+    items = findCities(input.value);
+    list.innerHTML = items.length
+      ? items.map((c, i) => `<li role="option" id="city-opt-${i}" data-i="${i}"><span>${esc(c.label)}</span><small>${esc(c.county)}${c.population ? " · " + compact(c.population) : ""}</small></li>`).join("")
+      : `<li class="none">No Texas city matches</li>`;
+    list.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    mark(items.length ? 0 : -1);
+  };
+  input.addEventListener("input", () => { S.sel = null; msg(""); open(); });
+  input.addEventListener("focus", () => { input.select(); if (!S.sel) open(); });
+  input.addEventListener("blur", () => setTimeout(close, 120));
+  input.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (list.hidden) open();
+      else if (items.length) mark((active + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length);
+    } else if (e.key === "Enter" && !list.hidden && active >= 0) {
+      e.preventDefault();
+      pick(items[active]);
+      close();
+    } else if (e.key === "Escape") {
+      close();
+    }
+  });
+  list.addEventListener("mousedown", e => {
+    const li = e.target.closest("li[data-i]");
+    if (!li) return;
+    e.preventDefault();
+    pick(items[Number(li.dataset.i)]);
+    close();
+  });
+}
+
+/* ---- searching ------------------------------------------------------------------------------------------- */
+function msg(text) {
+  const el = $("#form-msg");
+  el.textContent = text;
+  el.hidden = !text;
+}
+
+function busy(on) {
+  const b = $("#go");
+  b.disabled = on;
+  b.textContent = on ? "Searching…" : "Find deals";
+}
+
+async function run() {
+  if (!S.sel) {
+    const typed = $("#city").value.trim(), city = resolveCity(typed);
+    if (city) pick(city);
+    else { msg(typed ? `No Texas city matches “${typed}”.` : "Choose a city to start."); $("#city").focus(); return; }
+  }
+  const inds = Object.keys(S.industries).filter(i => S.inds.has(i));
+  if (!inds.length) { msg("Choose at least one thing you're shopping for."); return; }
+  msg("");
+  try { localStorage.setItem("slomp.search", JSON.stringify({city: S.sel.id, industries: inds, radius: S.radius})); } catch {}
+  history.replaceState(null, "", `?city=${S.sel.id}&industries=${inds.join(",")}&radius=${S.radius}`);
+  const token = ++S.req;
+  busy(true);
+  loading();
+  try {
+    const q = new URLSearchParams({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
+    let r, data;
+    try { r = await fetch("/api/v1/search?" + q); } catch { throw new Error("Slomp's server isn't answering. Check that it's still running."); }
+    try { data = await r.json(); } catch { throw new Error("The server sent something unexpected. Try again in a moment."); }
+    if (token !== S.req) return;
+    if (!r.ok) throw new Error(data.error || "Something went wrong.");
+    prepare(data);
+    render();
+    $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` + (data.online ? `, ${onlineCount()} online.` : ".");
+  } catch (e) {
+    if (token === S.req) failed(e.message);
+  } finally {
+    if (token === S.req) busy(false);
+  }
+}
+
+function prepare(data) {
+  S.data = data;
+  const L = data.local, O = data.online;
+  // One list per place: firm deals, promotions and unconfirmed stores together, biggest effective discount first.
+  S.near = [...L.deals, ...L.promotions, ...L.unconfirmed]
+    .sort((a, b) => (b.score - a.score) || ((b.terms.savings || 0) - (a.terms.savings || 0)));
+  const onInds = O ? Object.keys(O.deals) : [];
+  S.ind.near = L.industries.find(i => S.near.some(d => d.industries.includes(i))) || L.industries[0];
+  S.ind.online = onInds.find(i => O.deals[i].length) || onInds[0] || null;
+  // Regular deals, each under the days it runs on in the coming week. Today's weekday falls in the window twice
+  // (today and a week from today); the second one is shown only for a deal whose turn today has already passed.
+  const today = L.window.start.slice(0, 10), last = addDays(today, 6);
+  S.regulars = L.regulars || [];
+  S.regulars.forEach(d => { const dates = d.regular.next.filter(x => x <= last); d.on = dates.length ? dates : d.regular.next.slice(0, 1); });
+  const week = Array.from({length: 7}, (_, k) => addDays(today, k));
+  S.days = [...new Set(week.concat(S.regulars.flatMap(d => d.on)))].sort();
+  S.day = S.days.find(x => S.regulars.some(d => d.on.includes(x))) || today;
+  S.ind.regulars = "all";
+  S.shown = {near: PAGE, regulars: PAGE, online: PAGE};
+  S.tab = S.near.length || !S.regulars.length ? "near" : "regulars";
+}
+
+function onlineCount() {
+  const O = S.data && S.data.online;
+  return O ? new Set(Object.values(O.deals).flat().map(d => d.id)).size : 0;
+}
+
+/* ---- sorting --------------------------------------------------------------------------------------------- */
+const SORTS = [["best", "Best deal first"], ["ending", "Ending soonest"], ["az", "Name A–Z"], ["za", "Name Z–A"]];
+const collator = new Intl.Collator("en", {sensitivity: "base", numeric: true});
+const nameOf = d => "seller" in d ? d.seller || "Online" : d.merchant || "";
+
+// How big a deal is: the percent on its badge. Something free is 100% off, or 50% when it takes a purchase
+// ("kids eat free with an adult entrée", "a free pizza when they buy one": like buy one, get one); a price with
+// nothing to compare it to has no percent.
+const TAKES_PURCHASE = /\b(?:with|when (?:you|they))\b[^.]{0,40}\b(?:purchase|buy|order)|\b(?:with|per) (?:an? |each |every |any )?(?:adult|regular|full-priced)\b/i;
+function savePct(d) {
+  if (d.discount_pct != null) return d.discount_pct;
+  const t = d.terms || {};
+  if (t.pct) return t.pct;
+  if (!/\bfree\b/i.test(t.summary || "")) return null;
+  const purchase = (t.conditions || []).some(c => /^with\b/i.test(c)) || /kids eat free/i.test(t.summary) || TAKES_PURCHASE.test(d.title);
+  return purchase ? 50 : 100;
+}
+
+// When a deal stops: a weekly ad's last day; a regular deal's stated end date, then the time its hours end on the
+// day shown; an online deal's stated expiry. No end at all sorts last.
+function endsAt(d) {
+  if (d.regular) {
+    const r = d.regular;
+    return r.until || r.ends ? Date.parse(`${r.until || "9999-12-31"}T${r.ends || "23:59"}:00`) : Infinity;
+  }
+  if ("seller" in d) return d.expires_at ? Date.parse(d.expires_at) : Infinity;
+  return (d.terms.conditions || []).includes("dates not stated") ? Infinity : Date.parse(d.valid_to);
+}
+
+function sortDeals(list) {
+  const best = (a, b) => ((savePct(b) ?? -1) - (savePct(a) ?? -1)) || ((b.score || 0) - (a.score || 0)) ||
+    ((a.store ? a.store.distance_mi : 1e9) - (b.store ? b.store.distance_mi : 1e9)) || collator.compare(nameOf(a), nameOf(b));
+  const by = {best,
+    ending: (a, b) => (endsAt(a) - endsAt(b)) || best(a, b),
+    az: (a, b) => collator.compare(nameOf(a), nameOf(b)) || best(a, b),
+    za: (a, b) => collator.compare(nameOf(b), nameOf(a)) || best(a, b)}[S.sort] || best;
+  return list.slice().sort(by);
+}
+
+const sortHtml = () => `<label class="sort">Sort <select id="sort">` +
+  SORTS.map(([k, text]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${text}</option>`).join("") + `</select></label>`;
+
+/* ---- results --------------------------------------------------------------------------------------------- */
+function render() {
+  const {local: L, online: O} = S.data;
+  const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${text}<span class="n">${n}</span></button>`;
+  $("#results").innerHTML =
+    `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}</div>` +
+    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === "near" ? nearPanel(L) : S.tab === "regulars" ? regularsPanel(L) : onlinePanel(O)}</div>`;
+}
+
+function pillsHtml(inds, current, count) {
+  if (inds.length < 2) return "";
+  return `<div class="pills" role="tablist" aria-label="Category">` + inds.map(i =>
+    `<button type="button" class="chip" role="tab" aria-selected="${i === current}" data-ind="${i}">` +
+    `<span class="ico" aria-hidden="true">${ICON[i] || "🏷️"}</span>${esc(short(i))}<span class="n">${count(i)}</span></button>`).join("") + `</div>`;
+}
+
+function nearPanel(L) {
+  const cur = S.ind.near, tz = L.city.tz;
+  const count = i => S.near.filter(d => d.industries.includes(i)).length;
+  const list = S.view = sortDeals(S.near.filter(d => d.industries.includes(cur)));
+  const down = (L.sources || []).filter(s => !s.ok).map(s => s.name);
+  const notice = down.length ? noticeHtml(`Slomp couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
+  const context = `Within ${L.radius_mi} mi of ${esc(L.city.name)} · ${day(L.window.start, tz)} to ${day(L.window.end, tz)}`;
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
+    : nearEmpty(L, cur);
+  return notice + `<div class="subhead">${pillsHtml(L.industries, cur, count)}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(L.excluded);
+}
+
+function regularsPanel(L) {
+  const today = L.window.start.slice(0, 10), cur = S.ind.regulars;
+  const inInd = d => cur === "all" || d.industries.includes(cur);
+  const onDay = S.regulars.filter(d => d.on.includes(S.day));
+  const list = S.view = sortDeals(onDay.filter(inInd));
+  const days = `<div class="days" role="tablist" aria-label="Day">` + S.days.map(x => {
+    const n = S.regulars.filter(d => d.on.includes(x) && inInd(d)).length;
+    const name = x === today ? "Today" : `${dateText(x, {weekday: "short"})} ${Number(x.slice(8))}`;
+    return `<button type="button" class="day" role="tab" aria-selected="${x === S.day}" data-day="${x}"><b>${name}</b><small>${n}</small></button>`;
+  }).join("") + `</div>`;
+  const inds = L.industries.filter(i => S.regulars.some(d => d.industries.includes(i)));
+  const pills = inds.length < 2 ? "" : `<div class="pills" role="tablist" aria-label="Category">` +
+    [["all", "All", onDay.length]].concat(inds.map(i => [i, short(i), onDay.filter(d => d.industries.includes(i)).length])).map(([id, text, n]) =>
+      `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
+      (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
+  const down = (L.sources || []).filter(s => !s.ok && /Krazy|EatDrink|registry/i.test(s.name)).map(s => s.name);
+  const notice = down.length ? noticeHtml(`Slomp couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
+  const context = `Deals that repeat every week, within ${L.radius_mi} mi of ${esc(L.city.name)}. Each one says how Slomp knows about it.`;
+  const what = cur === "all" ? "" : ` for ${esc(full(cur))}`;
+  const body = list.length
+    ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
+    : emptyHtml("📅", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
+                S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
+  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing unless you add it to your own list (see the README). Participation can vary by location.</p>`;
+  return notice + `<div class="subhead">${days}${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + fine;
+}
+
+function onlinePanel(O) {
+  const inds = Object.keys(O.deals), cur = S.ind.online;
+  const list = S.view = sortDeals(O.deals[cur] || []);
+  const down = (O.sources || []).filter(s => !s.ok).length;
+  const notice = down ? noticeHtml(`${down} of ${O.sources.length} deal feeds couldn't be read just now, so this list may be incomplete.`) : "";
+  const context = "Where another store sells the same product, the discount is measured against its price.";
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
+    : emptyHtml(ICON[cur] || "🏷️", `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
+  return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(O.excluded);
+}
+
+function nearEmpty(L, cur) {
+  const far = (L.beyond_radius || []).slice(0, 4).map(m => `${esc(m.merchant)} (${m.nearest_mi} mi)`).join(", ");
+  const localOnly = S.industries[cur] && S.industries[cur].online === false;
+  const hint = L.radius_mi < 50 && far && !localOnly ? `<p>Stores with ads a little farther out: ${far}.</p>` : "";
+  const wider = L.radius_mi < 50 ? `<button type="button" class="btn ghost small" data-wider>Search within 50 mi</button>` : "";
+  const n = onlineCount(), r = S.regulars.filter(d => d.industries.includes(cur)).length;
+  const online = n && !localOnly ? `<button type="button" class="btn ghost small" data-tab="online">See ${n} online ${n === 1 ? "deal" : "deals"}</button>` : "";
+  const regular = r ? `<button type="button" class="btn ghost small" data-tab="regulars" data-ind-for="${cur}">See ${r} regular ${r === 1 ? "deal" : "deals"}</button>` : "";
+  return emptyHtml(ICON[cur] || "🏷️", `No ads or promotions for ${esc(full(cur))} within ${L.radius_mi} mi of ${esc(L.city.name)} this week`, "",
+                   hint + `<div class="actions center">${regular}${wider}${online}</div>`);
+}
+
+const noticeHtml = text => `<p class="notice"><span aria-hidden="true">⚠️</span><span>${esc(text)}</span></p>`;
+const emptyHtml = (icon, title, text, extra = "") =>
+  `<div class="empty"><div class="big" aria-hidden="true">${icon}</div><h3>${title}</h3>${text ? `<p>${text}</p>` : ""}${extra}</div>`;
+const moreHtml = (total, shown) => total > shown
+  ? `<div class="more"><button type="button" class="btn ghost small" id="more">Show ${Math.min(PAGE, total - shown)} more</button><span class="muted" id="more-count">${shown} of ${total}</span></div>` : "";
+
+function leftoutHtml(excluded) {
+  const rows = Object.entries(excluded || {}).sort((a, b) => b[1] - a[1]);
+  if (!rows.length) return "";
+  return `<details class="leftout"><summary>What Slomp left out, and why</summary><ul>` +
+    rows.map(([why, n]) => `<li><span>${esc(cap(why))}</span><b>${n.toLocaleString("en-US")}</b></li>`).join("") + `</ul></details>`;
+}
+
+/* ---- cards ----------------------------------------------------------------------------------------------- */
+// Regular deals: a restaurant chain's deal on games is entertainment, so its tile is a ticket, not a plate.
+const iconOf = d => d.regular && !(d.regular.kind === "restaurant" && d.industries[0] !== "dining")
+  ? (KIND[d.regular.kind] || [])[0] || ICON[d.industries[0]] || "🏷️" : ICON[(d.industries || [])[0]] || "🏷️";
+
+function thumbHtml(d, badge, photo) {
+  const src = pic(d.image_url), icon = iconOf(d);
+  const img = src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "";
+  return `<div class="thumb${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+    (img && d.feed ? `<div class="clip">${img}</div>` : img) +      // feed ads: show the product, not the ad's price text
+    (badge ? `<span class="badge${badge.soft ? " soft" : ""}">${esc(badge.text)}</span>` : "") + `</div>`;
+}
+
+function shortCondition(c) {
+  if (c.startsWith("store price now")) return "price may have changed";
+  if (c.startsWith("out of stock")) return "out of stock";
+  if (c.startsWith("& more")) return "price varies";
+  if (c.startsWith("price is for")) return c.replace(/^price is for (\d+).*$/, "price is for $1");
+  return {"loyalty card / rewards price": "rewards price", "discount applied in cart": "discount in cart",
+          "price varies by size or color": "varies by size"}[c] || c;
+}
+const isWarning = c => /^(store price now|out of stock)/.test(c);
+
+function tagsHtml(tags, limit = 2) {
+  if (!tags.length) return "";
+  const shown = tags.slice(0, limit).map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(shortCondition(c))}</span>`).join("");
+  return `<div class="tags">${shown}${tags.length > limit ? `<span class="tag">+${tags.length - limit}</span>` : ""}</div>`;
+}
+
+function localBadge(d) {
+  const t = d.terms;
+  if (t.bogo) {                                     // "buy 1 get 1 50% off" is not a free second one
+    const part = /(\d+)% off/.exec(t.bogo);
+    return {text: part ? `BOGO ${part[1]}%` : "BOGO", soft: true};
+  }
+  if (t.pct) return {text: `${t.hedge === "up to" ? "Up to " : ""}${Math.round(t.pct)}% off`, soft: !!(t.promo || t.hedge)};
+  if (t.savings) return {text: `${whole(money(t.savings))} off`, soft: true};
+  return null;
+}
+
+// The price line: "$3.50 /lb  $5.50", "2 for $8 · $4.00 each", or "" when the offer has no single price.
+function priceLine(t) {
+  if (t.qty > 1 && t.bundle_price) return `<b>${t.qty} for ${whole(money(t.bundle_price))}</b><small>${money(t.bundle_price / t.qty)} each</small>`;
+  if (t.price == null) return "";
+  const unit = t.unit && t.unit !== "ea" ? `<small>/${esc(t.unit)}</small>` : "";
+  const was = t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list") ? `<s>${money(t.regular)}</s>` : "";
+  const claim = t.basis === "claimed_savings" && t.savings ? `<small>save ${whole(money(t.savings))} per the ad</small>` : "";
+  return `<b>${money(t.price)}</b>${unit}${was}${claim}`;
+}
+
+function localPrice(t) {
+  const line = priceLine(t);
+  if (line) return `<div class="price">${line}</div>`;
+  return t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>` : "";
+}
+
+function when(d, tz) {
+  if ((d.terms.conditions || []).includes("dates not stated")) return {text: "No end date given", urgent: false};
+  if (d.starts_in_days > 0) {
+    const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
+    return {text: oneDay ? `${day(d.valid_from, tz)} only` : `Starts ${day(d.valid_from, tz)}`, urgent: false};
+  }
+  if (d.ends_in_days <= 0) return {text: "Ends today", urgent: true};
+  if (d.ends_in_days === 1) return {text: "Ends tomorrow", urgent: false};
+  return {text: `Ends ${day(d.valid_to, tz)}`, urgent: false};
+}
+
+function localTags(d) {
+  const t = d.terms, tags = [];
+  if (d.store_status === "unmapped") tags.push("store not confirmed");
+  if (t.basis === "list") tags.push("vs. list price");
+  if (t.hedge && t.hedge !== "up to") tags.push(t.hedge);
+  return tags.concat((t.conditions || []).filter(c => c !== "dates not stated"));   // the date line already says so
+}
+
+function localCard(d, i, tz) {
+  const w = when(d, tz), where = d.store ? `${d.store.distance_mi} mi` : "location unknown", price = localPrice(d.terms);
+  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, localBadge(d), false)}<div class="body">` +
+    `<div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${where}</span></div>` +
+    `<h3 class="title${price ? "" : " long"}">${esc(d.title)}</h3>${price}` +
+    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${tagsHtml(localTags(d))}</div></article>`;
+}
+
+/* ---- regular deals --------------------------------------------------------------------------------------- */
+const runsText = r => [r.days_text, r.time_text].filter(Boolean).join(" · ");
+const untilText = r => r.until ? ` · until ${dateText(r.until, {month: "short", day: "numeric"})}` : "";
+const logoSrc = u => /^data:image\//.test(u || "") ? u : pic(u);
+
+// The company's logo where Slomp knows one; the icon for the kind of place stays underneath until it loads, and
+// takes over if it doesn't.
+function regularThumb(d) {
+  const lg = d.regular.logo, src = lg ? logoSrc(lg.url) : "";
+  return `<div class="rthumb${src && lg.fit === "cover" ? " cover" : ""}" aria-hidden="true">${iconOf(d)}` +
+    (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") + `</div>`;
+}
+
+// How Slomp knows, in two or three words for the card.
+function proofTag(r) {
+  if (r.status === "confirmed") return `<span class="tag ok">✓ Company site</span>`;
+  if (r.status === "listed") {
+    const n = new Set(r.evidence.filter(e => e.live && e.kind === "list").map(e => e.source)).size;
+    return `<span class="tag">Listed by ${n > 1 ? n + " sites" : "1 site"}</span>`;
+  }
+  return `<span class="tag">${r.status === "reported" ? "Reported" : "Added by you"}</span>`;
+}
+
+// The offer in a few words: a price with its regular price, or "From $3", "Kids eat free", "Happy hour".
+function regularOffer(t) {
+  if (t.bogo) return `<div class="offer">${esc(cap(t.bogo))}</div>`;
+  if (t.summary && !/^\$[\d.,]+$/.test(t.summary) && !t.pct) return `<div class="offer">${esc(cap(t.summary))}</div>`;
+  if (t.price != null && (!t.pct || t.regular)) return `<div class="price"><b>${money(t.price)}</b>${t.regular ? `<s>${money(t.regular)}</s>` : ""}</div>`;
+  return "";
+}
+
+function regularCard(d, i) {
+  const r = d.regular, offer = regularOffer(d.terms), badge = localBadge(d);
+  const cond = (d.terms.conditions || []).slice(0, 1).map(c => `<span class="tag">${esc(c)}</span>`).join("");
+  const more = (d.terms.conditions || []).length > 1 ? `<span class="tag">+${d.terms.conditions.length - 1}</span>` : "";
+  return `<article class="rcard" role="button" tabindex="0" data-i="${i}">` +
+    `${regularThumb(d)}<div class="body">` +
+    `<div class="head"><div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${d.store.distance_mi} mi</span></div>${badgeInline(badge)}</div>` +
+    `<h3 class="title long">${esc(d.title)}</h3>${badge ? "" : offer}` +
+    `<div class="when">${esc(runsText(r) + untilText(r))}</div><div class="tags">${proofTag(r)}${cond}${more}</div></div></article>`;
+}
+
+function proofHtml(e) {
+  const where = link(e.url) ? `<a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">${esc(e.source)}</a>` : esc(e.source);
+  const read = e.checked_at ? `read ${day(e.checked_at)}` : "", dated = e.page_date ? `page dated ${dateText(e.page_date, {month: "short", day: "numeric", year: "numeric"})}` : "";
+  const quote = e.quote ? `<q>${esc(e.quote)}</q>` : "";
+  if (e.kind === "yours") return `<li><span class="how">Added by you</span>${e.quote ? `<span class="muted">${esc(e.quote)}</span>` : ""}${link(e.url) ? `<span>${where}</span>` : ""}</li>`;
+  if (!e.live) {
+    const why = e.found ? e.note || "too old to rely on" : e.found === false ? "the page no longer says this" : e.note || "the page couldn't be read";
+    return `<li><span class="how off">${where}: ${esc(why)}</span></li>`;
+  }
+  const how = e.kind === "list" ? "Listed by" : e.kind === "article" ? "Reported by" : "Confirmed on";
+  return `<li><span class="how">${how} ${where}</span><span class="muted">${[e.kind === "list" || e.kind === "article" ? dated : "", read].filter(Boolean).join(" · ")}</span>${quote}</li>`;
+}
+
+function regularDetail(d) {
+  const L = S.data.local, r = d.regular, t = d.terms, st = d.store, today = L.window.start.slice(0, 10);
+  const badge = localBadge(d), offer = regularOffer(t);
+  // A price takes its badge beside it; an offer in words ("Buy 1 get 1 free") already says what the badge would.
+  const headline = offer.startsWith('<div class="price">') ? offer.replace("</div>", `${badgeInline(badge)}</div>`)
+    : offer || (badge ? `<div class="price">${badgeInline(badge)}</div>` : "");
+  const until = r.until ? `, through ${dateText(r.until)}` : "";
+  const next = r.next.map(x => x === today ? "Today" : dateText(x)).join(", ");
+  const rows = [["Runs", esc(runsText(r) + until)], ["Next", esc(next)]];
+  rows.push(["Where", `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}` +
+    (st.source === "osm" ? `<br><span class="muted">The nearest one on the map. Participation can vary by location.</span>` : "")]);
+  if ((t.conditions || []).length) rows.push(["Conditions", allTags(t.conditions)]);
+  if (BASIS[t.basis] && t.pct) rows.push(["Discount", esc(t.bogo ? "Measured against buying the same items at the regular price." : "Measured against the regular price, as the offer states it.")]);
+  rows.push(["How Slomp knows", `<ul class="proof">${r.evidence.map(proofHtml).join("")}</ul>`]);
+  const kind = (KIND[r.kind] || [])[1];
+  const shown = d.image_url || !r.logo ? d : {...d, image_url: logoSrc(r.logo.url)};
+  return sheetHtml(shown, false,
+    `<p class="eyebrow">${esc(d.merchant)}${kind ? " · " + kind : ""}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline + factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, "Open the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}</div>`);
+}
+
+// Deal-post titles repeat the price and shipping ("… for $45 + free shipping"); the card shows those separately.
+// Headline-style titles (9to5Toys) are sentences, not product names, and are left as written.
+function productName(d) {
+  const title = d.title;
+  if (d.source === "9to5Toys") return title;
+  const t = title
+    .replace(/^(?:\*hot\*|hot!|go!|wow!)\s*/i, "")
+    .replace(/^(?:prime members?:|select accts?:|\[prime\])\s*/i, "")
+    .replace(/^\$[\d,.]+\*?\s*\|?\s*/, "")
+    .replace(/\s+(?:for \d+ )?(?:for|only|just|from|under)\s+\$[\d,.]+.*$/i, "")
+    .replace(/\s+\d{1,2}% off\b.*$/i, "")
+    .replace(/\s+\$[\d,.]+\*?(?:\s*(?:\+|w\/|&|\(|at\b|on\b|via\b).*)?$/i, "")
+    .replace(/\s+(?:is|are|now|at|to|hits|drops?|falls?)$/i, "")
+    .replace(/[\s:–—-]+$/, "");
+  return t.length >= 8 ? t : title;
+}
+
+function onlineBadge(d) {
+  return d.discount_pct ? {text: `${Math.round(d.discount_pct)}% off`, soft: d.basis === "list" || d.basis === "history"} : null;
+}
+const onlineRef = d => d.basis === "market" && d.market_median ? d.market_median : d.reference_price;
+
+function onlineCard(d, i) {
+  const ref = onlineRef(d), note = (BASIS[d.basis] || [""])[0];
+  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source))}<div class="body">` +
+    `<div class="meta"><strong>${esc(d.seller || "Online")}</strong>${d.posted_at ? `<span>·</span><span>${ago(d.posted_at)}</span>` : ""}</div>` +
+    `<h3 class="title">${esc(productName(d))}</h3>` +
+    `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}</div>` +
+    `<div class="when">${esc(note)}${d.basis === "market" ? " ✓" : ""}</div>${tagsHtml(d.conditions || [])}</div></article>`;
+}
+
+/* ---- details --------------------------------------------------------------------------------------------- */
+const factsHtml = rows => `<dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
+const allTags = tags => `<div class="tags">${tags.map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(c)}</span>`).join("")}</div>`;
+const actionHtml = (href, text, primary) => link(href)
+  ? `<a class="btn small ${primary ? "primary" : "ghost"}" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${text} <span aria-hidden="true">↗</span></a>` : "";
+const badgeInline = b => b ? `<span class="badge inline${b.soft ? " soft" : ""}">${esc(b.text)}</span>` : "";
+
+function sheetHtml(d, photo, info) {
+  const src = logoSrc(d.image_url), icon = iconOf(d);
+  return `<div class="sheet-grid"><div class="pic${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+    (src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : "") + `</div><div class="info">${info}</div></div>`;
+}
+
+function localDetail(d) {
+  const L = S.data.local, tz = L.city.tz, t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
+  const rows = [], line = priceLine(t), badge = localBadge(d);
+  // Headline: the price with its badge; a buy-one-get-one offer in words; or the badge alone ("40% off").
+  const headline = line ? `<div class="price">${line}${badgeInline(badge)}</div>`
+    : t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>`
+    : badge ? `<div class="price">${badgeInline(badge)}</div>` : "";
+  const said = `${line} ${t.bogo} ${badge ? badge.text : ""}`.toLowerCase().replace(/<[^>]+>/g, " ");
+  if (!promo && t.summary && (t.qty > 1 || t.hedge) && !said.includes(t.summary.toLowerCase())) rows.push(["Offer", esc(cap(t.summary))]);
+  if (!promo && BASIS[t.basis]) rows.push(["Discount", esc(t.bogo ? "Measured against buying the same items at this store's regular price." : BASIS[t.basis][1])]);
+  const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
+  rows.push(["Valid", (t.conditions || []).includes("dates not stated") ? "The post doesn't give dates"
+    : oneDay ? `${day(d.valid_from, tz)} only`
+    : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
+  rows.push(["Where", st
+    ? `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}`
+    : `<span class="muted">This store isn't on the map, so Slomp can't confirm one is nearby.</span>`]);
+  const tags = localTags(d);
+  if (tags.length) rows.push(["Conditions", allTags(tags)]);
+  if (promo) rows.push(["Note", `<span class="muted">A national promotion. Participation can vary by location.</span>`]);
+  const kind = !promo && d.category ? ` · ${esc(d.category.split(" > ").pop())}` : "";
+  return sheetHtml(d, false,
+    `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
+    factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}</div>`);
+}
+
+function onlineDetail(d) {
+  const ref = onlineRef(d), rows = [];
+  if (BASIS[d.basis]) {
+    const quote = d.basis_text && d.basis !== "market" ? `<br><span class="muted">“${esc(d.basis_text.length > 190 ? d.basis_text.slice(0, 190) + "…" : d.basis_text)}”</span>` : "";
+    rows.push(["Discount", esc(BASIS[d.basis][1]) + quote]);
+  }
+  rows.push(["Other stores", (d.comparisons || []).length
+    ? `<table class="cmp">${d.comparisons.map(p => `<tr><td>${link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.site)}</a>` : esc(p.site)}${p.via ? ` <small>${esc(p.via)}</small>` : ""}</td><td>${money(p.price)}</td></tr>`).join("")}</table>`
+    : `<span class="muted">No exact match found at other stores.</span>`]);
+  const sc = d.store_check || {};
+  if (sc.price != null) rows.push(["Store check", `${esc(sc.site)} showed ${sc.unavailable ? "it out of stock" : money(sc.price)} when Slomp looked${sc.checked_at ? ` (${ago(sc.checked_at)})` : ""}.`]);
+  if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
+  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => (link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.source)}</a>` : esc(p.source)) + ` ${money(p.price)}`).join(", ")]);
+  rows.push(["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}`]);
+  return sheetHtml(d, PHOTO_FEEDS.has(d.source),
+    `<p class="eyebrow">${esc(d.seller || "Online")}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
+    `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}${badgeInline(onlineBadge(d))}</div>` +
+    factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}</div>`);
+}
+
+function openDetail(d) {
+  $("#detail-body").innerHTML = "seller" in d ? onlineDetail(d) : d.regular ? regularDetail(d) : localDetail(d);
+  $("#detail-body").scrollTop = 0;
+  $("#detail").showModal();
+}
+
+/* ---- welcome, loading, errors ---------------------------------------------------------------------------- */
+function welcome() {
+  const strip = ["tech", "fashion", "home", "grocery", "dining", "entertainment"].map(i => `<span>${ICON[i]}</span>`).join("");
+  $("#results").innerHTML = `<div class="welcome"><div class="strip" aria-hidden="true">${strip}</div>` +
+    `<h2>Find this week's deals near you</h2>` +
+    `<p>Pick a Texas city and what you're shopping for. Slomp reads this week's store ads, today's deal posts and the deals that repeat every week, and tells you what each one rests on.</p>` +
+    `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div></div>`;
+}
+
+function loading() {
+  const card = `<div class="card skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:45%"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div><div class="bar" style="width:35%;height:18px;margin-top:6px"></div></div></div>`;
+  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>Reading this week's ads and today's deal posts. A city's first search can take up to a minute.</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
+  $("#sr").textContent = "Searching.";
+}
+
+function failed(message) {
+  $("#results").innerHTML = emptyHtml("😕", "That search didn't work", esc(message), `<button type="button" class="btn ghost small" id="retry">Try again</button>`);
+}
+
+function showMore() {
+  const key = S.tab, from = S.shown[key], tz = S.data.local.city.tz;
+  S.shown[key] = from + PAGE;
+  const cards = S.view.slice(from, S.shown[key]).map((d, k) => key === "near" ? localCard(d, from + k, tz) : key === "regulars" ? regularCard(d, from + k) : onlineCard(d, from + k)).join("");
+  $("#panel .grid, #panel .rgrid").insertAdjacentHTML("beforeend", cards);
+  if (S.shown[key] >= S.view.length) { $(".more").remove(); return; }
+  $("#more").textContent = `Show ${Math.min(PAGE, S.view.length - S.shown[key])} more`;
+  $("#more-count").textContent = `${S.shown[key]} of ${S.view.length}`;
+}
+
+/* ---- events ---------------------------------------------------------------------------------------------- */
+$("#search").addEventListener("submit", e => { e.preventDefault(); run(); });
+
+$("#results").addEventListener("click", e => {
+  const hit = sel => e.target.closest(sel);
+  let el;
+  if ((el = hit("[data-tab]"))) { S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render(); }
+  else if ((el = hit("[data-day]"))) { S.day = el.dataset.day; S.shown.regulars = PAGE; render(); }
+  else if ((el = hit("[data-ind]"))) { S.ind[S.tab] = el.dataset.ind; S.shown[S.tab] = PAGE; render(); }
+  else if (hit("#more")) showMore();
+  else if (hit("#retry")) run();
+  else if (hit("[data-wider]")) { S.radius = 50; drawRadiusValue(); run(); }
+  else if ((el = hit("[data-city]"))) { pick(S.byId[el.dataset.city]); run(); }
+  else if ((el = hit(".card[data-i], .rcard[data-i]"))) openDetail(S.view[Number(el.dataset.i)]);
+});
+
+$("#results").addEventListener("change", e => {
+  if (e.target.id !== "sort") return;
+  S.sort = e.target.value;
+  try { localStorage.setItem("slomp.sort", S.sort); } catch {}
+  S.shown[S.tab] = PAGE;
+  render();
+  $("#sort").focus();
+});
+
+$("#results").addEventListener("keydown", e => {
+  const card = e.target.closest && e.target.closest(".card[data-i], .rcard[data-i]");
+  if (card && e.target === card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(S.view[Number(card.dataset.i)]); }
+});
+
+function drawRadiusValue() {
+  document.querySelectorAll('#radius input').forEach(r => { r.checked = Number(r.value) === S.radius; });
+}
+
+const dialog = $("#detail");
+$(".close", dialog).addEventListener("click", () => dialog.close());
+dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });   // a click on the backdrop
+
+// Picture events don't bubble, so listen in the capture phase.
+// A picture that fails to load gives way to the placeholder icon.
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement)) return;
+  if (img.closest(".rthumb")) { img.remove(); return; }
+  const box = img.closest(".thumb, .pic");
+  if (box) { box.classList.remove("has-img", "cover"); (img.closest(".clip") || img).remove(); }
+}, true);
+// Once a product-card clipping loads, size its clip box to the picture part.
+document.addEventListener("load", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || !img.naturalHeight) return;
+  img.classList.add("ok");
+  const clip = img.parentElement;
+  if (clip && clip.classList.contains("clip")) clip.style.setProperty("--r", (img.naturalWidth / (PICTURE_PART * img.naturalHeight)).toFixed(3));
+}, true);
+
+boot();
+</script>
+</body>
+</html>

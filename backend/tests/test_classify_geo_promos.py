@@ -3,11 +3,11 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from plum import industries as ind
-from plum.geo import ad_end_local, ad_start_local
-from plum.promos import promo_dates, recurring_days
-from plum.reference import cities, city, find_cities
-from plum.service import InputError, resolve_city, resolve_industries
+from slomp import industries as ind
+from slomp.geo import ad_end_local, ad_start_local
+from slomp.promos import promo_dates, recurring_days
+from slomp.reference import cities, city, find_cities
+from slomp.service import InputError, resolve_city, resolve_industries
 
 
 def test_taxonomy_mapping():

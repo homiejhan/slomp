@@ -3,14 +3,14 @@ import socket
 
 import pytest
 
-from plum import cli, industries as ind
-from plum.identity import identify, model_query
-from plum.online import exact_price, multi_qty
-from plum.terms import ad_terms, bogo_of, conditions_of
+from slomp import cli, industries as ind
+from slomp.identity import identify, model_query
+from slomp.online import exact_price, multi_qty
+from slomp.terms import ad_terms, bogo_of, conditions_of
 
 
 def test_it01_headline_percent_is_not_turned_into_a_regular_price():
-    # it01 L-MATH: Dollar General "28%" headline -> Plum showed savings $2.04; the record says $2.00
+    # it01 L-MATH: Dollar General "28%" headline -> Slomp showed savings $2.04; the record says $2.00
     t = ad_terms({"current_price": "5.25", "discount": 28}, feed=False)
     assert t.pct == 28.0 and t.regular is None and t.savings is None
 
@@ -63,14 +63,14 @@ def test_it03_industry_judge_disagreements():
 
 def test_it04_landing_pages_are_not_store_pages():
     # it04 L-RET: Dollar General's "store page" for Febreze was its coupons landing page
-    from plum.sources.flipp import is_product_link
+    from slomp.sources.flipp import is_product_link
     assert not is_product_link("https://www.dollargeneral.com/deals/coupons?ab=Circular_AdsPromos", [])
     assert is_product_link("https://www.petsmart.com/cat/furniture/whisker-city-plush-mansion-12345.html", [])
 
 
 def test_it04_price_with_space_after_dollar_sign():
     # it04 O-FID (test bug): Slickdeals wrote "= $ 18.60"
-    from plum.verify.pages import has_price
+    from slomp.verify.pages import has_price
     assert has_price("40% off with code ADIDAS40 = $ 18.60 . Shipping", 18.6)
     assert not has_price("$118.60", 18.6)
 
@@ -133,7 +133,7 @@ def test_it06_audit_taxonomy_labels():
     assert ind.classify_ad_item("Electronics", "Electronics Accessories", "V20 3Ah Advanced Battery Starter Kit", "", []).industries == ["home"]
     assert "fashion" in ind.classify_ad_item("Business & Industrial", "Signage", "Cat & Jack kids' clothing", "", []).industries
     assert ind.classify_ad_item("Health & Beauty", None, "Dr Teal's Lotion 18 oz., Foaming Bath or Epsom Salt Soak", "", []).industries == ["beauty", "health"]
-    from plum.sources.flipp import junk_reason
+    from slomp.sources.flipp import junk_reason
     assert junk_reason({"display_type": 1, "name": "Must be an ExtraCare cardholder and present card at checkout"})
     assert not junk_reason({"display_type": 1, "name": "Limited Edition Holiday Mug"})
 
@@ -152,7 +152,7 @@ def test_it08_industry_judge_disagreements():
 
 
 def test_it09_implausible_savings_are_named():
-    # it09 L-REC: GameStop's ad lists a $4.99 plush at $0.02 ("100% off"); Plum rejected the saving but recorded
+    # it09 L-REC: GameStop's ad lists a $4.99 plush at $0.02 ("100% off"); Slomp rejected the saving but recorded
     # it as "no saving stated"
     t = ad_terms({"current_price": "0.02", "original_price": 4.99, "discount": 100}, feed=False)
     assert t.basis == "none" and t.rejected.startswith("99.6% off")
@@ -170,7 +170,7 @@ def test_it09_industry_judge_disagreements():
 
 def test_it10_removed_posts_and_late_night_ad_ends():
     from datetime import datetime, timezone
-    from plum.sources.feeds import post_gone
+    from slomp.sources.feeds import post_gone
     # it10 O-FID: dealnews' feed linked an ended deal straight to its Amazon store listing page (no redirect)
     u = "https://www.dealnews.com/s313/Amazon/22242953.html"
     assert post_gone(u, u, "<h1>Amazon Deals</h1>", "Hudson Baby Long-Sleeve Fleece Sleeping Bag for $11")
@@ -178,7 +178,7 @@ def test_it10_removed_posts_and_late_night_ad_ends():
     assert not post_gone(live, live, "<h1>Hudson Baby Long-Sleeve Fleece Sleeping Bag for $11</h1>",
                          "Hudson Baby Long-Sleeve Fleece Sleeping Bag for $11")
     # it10 L-FID: "through Oct 4" is 11:59 PM Eastern at Flipp, which pulls the item at 10:59 PM Central
-    from plum.geo import ad_end_local
+    from slomp.geo import ad_end_local
     vt = datetime.fromisoformat("2026-10-04T23:59:59-04:00")
     now = datetime(2026, 10, 4, 23, 9, tzinfo=timezone.utc).replace(hour=4, day=5)    # 11:09 PM CDT, Oct 4
     assert min(ad_end_local(vt, "America/Chicago"), vt) < now < ad_end_local(vt, "America/Chicago")
@@ -192,7 +192,7 @@ def test_final_check_filing_is_office_only_with_office_nouns():
 
 def test_ui_review_labels_stay_within_what_the_store_sells():
     # found while adding pictures: the source filed these under Food or Beverages
-    from plum.reference import merchant
+    from slomp.reference import merchant
 
     def label(store, l1, l2, title):
         m = merchant(store)
@@ -228,6 +228,14 @@ def test_ui_review_bogo_glued_and_ordinal():
     assert bogo_of("Buy 1 get 1 FREE*") == ("buy 1 get 1 free", 50.0)
 
 
+def test_a_second_item_for_half_off_is_not_free():
+    # regular deals audit: "buy 1, get 1 for 50% off individual meals" (Whole Foods) was read as buy one get one free
+    assert bogo_of("Tuesdays: $2 off Rotisserie Chicken; buy 1, get 1 for 50% off individual meals") == ("buy 1 get 1 50% off", 25.0)
+    assert bogo_of("Buy one, get one at half price") == ("buy 1 get 1 50% off", 25.0)
+    assert bogo_of("Buy 1 get 1 for $1") == ("", None)                     # a second one for a dollar is not a free one
+    assert bogo_of("Buy 1 get 1 FREE*") == ("buy 1 get 1 free", 50.0)
+
+
 def test_it11_industry_judge_disagreements():
     # it11 L-IND: a hair cream with only a top-level "Health & Beauty" label was shown under Health too
     t = "SheaMoisture Silk Press Prep Hair Cream with Plant-Derived Straightening Complex"
@@ -237,8 +245,28 @@ def test_it11_industry_judge_disagreements():
     assert ind.classify_ad_item("Health & Beauty", "Personal Care", t, "", []).industries == ["health"]
 
 
+def test_it12_industry_judge_disagreements():
+    from slomp.online import classify_post
+    from slomp.sources.feeds import Post
+    # it12 L-IND: a can cooler at Cabela's, filed under Kitchen & Dining, was shown under Home; judge: Sports
+    t = "Puffin Drinkwear The Hoodie Can Cooler with Bass Pro Shops Logo - Black"
+    assert ind.classify_ad_item("Home & Garden", "Kitchen & Dining", t, "", ["sports"]).industries == ["sports"]
+    assert ind.classify_ad_item("Home & Garden", "Kitchen & Dining", "Igloo 52 qt. Cooler", "", []).industries == ["home"]
+    # it12 L-IND: a makeup setting spray with only a top-level "Health & Beauty" label was shown under Health too
+    t = "Milani Make It Last Charcoal Jumbo XL Setting Spray, Matte Finish, Long Lasting"
+    assert ind.classify_ad_item("Health & Beauty", None, t, "", []).industries == ["beauty"]
+    # it12 O-IND: bubble wands from Hip2Save's kids feed were shown under Baby & Kids; judge: Toys
+    p = Post(source="hip2save", id="hip2save:1", url="https://hip2save.com/x", text="", feeds=["hip2save sales-deals/kids"],
+             title="Halloween Mini Bubble Wands 30-Pack Only $4.79 on Amazon (Reg. $10)", feed_industries=["baby", "toys"])
+    assert classify_post(p).industries == ["toys"]
+    assert ind.from_text("Scrubbing Bubbles Bathroom Cleaner").industries == ["grocery"]
+    # it12 O-IND: "tote" made a six-pack of storage totes Fashion; judge: Home
+    assert ind.from_text("Foldable Storage Tote 6-Pack Only $9.99 on Amazon (Reg. $33) – Organize Your Closet").industries == ["home"]
+    assert ind.from_text("Women's Canvas Tote Only $12 at Target").industries == ["fashion"]
+
+
 def test_serve_explains_a_busy_port(capsys, monkeypatch):
-    # a second `plum serve` beside a running one died with "[Errno 48] ... address already in use" and no way forward
+    # a second `slomp serve` beside a running one died with "[Errno 48] ... address already in use" and no way forward
     import uvicorn
     monkeypatch.setattr(uvicorn, "run", lambda *a, **k: pytest.fail("must not start on a port that is taken"))
     with socket.socket() as taken:
@@ -247,7 +275,7 @@ def test_serve_explains_a_busy_port(capsys, monkeypatch):
         port = taken.getsockname()[1]
         assert cli.main(["serve", "--port", str(port)]) == 1
     err = capsys.readouterr().err
-    assert f"Port {port} is already in use" in err and "Ctrl+C" in err and f"plum serve --port {port + 1}" in err
+    assert f"Port {port} is already in use" in err and "Ctrl+C" in err and f"slomp serve --port {port + 1}" in err
 
 
 def test_serve_starts_on_a_free_port(monkeypatch):
@@ -257,4 +285,53 @@ def test_serve_starts_on_a_free_port(monkeypatch):
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
         port = s.getsockname()[1]
-    assert cli.main(["serve", "--port", str(port)]) == 0 and started == [("plum.api:app", {"port": port})]
+    assert cli.main(["serve", "--port", str(port)]) == 0 and started == [("slomp.api:app", {"port": port})]
+
+
+def test_a_site_whose_certificate_cannot_be_verified_is_a_failed_read_not_a_crash(tmp_path):
+    # regular deals research: older httpcore let ssl.SSLCertVerificationError through, which stopped a whole search
+    import asyncio
+    import ssl
+    from slomp.config import Settings
+    from slomp.db import Store
+    from slomp.http import FetchError, PoliteClient
+
+    class Broken:
+        calls = 0
+
+        async def get(self, *a, **k):
+            Broken.calls += 1
+            raise ssl.SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] unable to get local issuer certificate")
+
+    client = PoliteClient(Store(tmp_path / "slomp.db"), Settings(cache_dir=tmp_path))
+    client._client = Broken()
+    with pytest.raises(FetchError) as err:
+        asyncio.run(client.get("https://example.test/page", ttl_s=60))
+    assert "certificate" in err.value.reason and Broken.calls == 1          # no retries: a retry can't fix a certificate
+
+
+
+def test_robots_rules_addressed_to_ai_assistants_are_seen(tmp_path):
+    # regular deals, run 1: three sites let ordinary readers in but tell Anthropic's agents, by name, to keep out
+    import asyncio
+    import time
+    from slomp.config import Settings
+    from slomp.db import Store
+    from slomp.http import PoliteClient, Response
+
+    robots = {
+        "https://zoo.test": "User-agent: GPTBot\nUser-agent: Claude-Code\nUser-agent: ClaudeBot\nDisallow: /\n\n"
+                            "User-agent: *\nDisallow: /admin/\n",
+        "https://open.test": "User-agent: GPTBot\nDisallow: /\n\nUser-agent: *\nDisallow: /search\n",
+        "https://shut.test": "User-agent: *\nDisallow: /\n",
+    }
+    client = PoliteClient(Store(tmp_path / "slomp.db"), Settings(cache_dir=tmp_path))
+
+    async def fake_get(url, *a, **k):
+        origin = url[:url.index("/", 8)]
+        return Response(url, url, 200, "text/plain", robots[origin].encode(), time.time())
+    client.get = fake_get
+    ask = lambda u: (asyncio.run(client.allowed(u)), asyncio.run(client.turns_away_ai(u)))      # noqa: E731
+    assert ask("https://zoo.test/plan-a-visit") == (True, True)       # Slomp may read it; an AI assistant may not
+    assert ask("https://open.test/deals") == (True, False)            # only another company's bot is named
+    assert ask("https://shut.test/deals") == (False, False)           # closed to everyone: the ordinary rule covers it

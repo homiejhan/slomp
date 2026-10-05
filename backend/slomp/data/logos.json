@@ -1,0 +1,782 @@
+{
+ "built": "2026-10-05",
+ "about": "A logo for each chain and place a regular deal can be shown at, keyed like the venue lookup (r: Wikidata id of a restaurant chain, s: store, v: venue, place: a single place's folded name). `url` is where the picture lives; `fit` says whether it fills its tile (a square app icon) or is fitted into it. Built by scripts/build_logos.py from each company's own website, or its Wikidata logo on Wikimedia Commons.",
+ "logos": {
+  "place:betterhalfcoffeeandcocktails": {
+   "brand": "Better Half Coffee & Cocktails",
+   "url": "https://images.squarespace-cdn.com/content/v1/594bffe5197aeafbe96113c2/1498191937791-RQOOVVS2Y7CMRFPYFL7W/favicon.ico?format=100w",
+   "fit": "contain",
+   "from": "site",
+   "site": "www.betterhalfbar.com"
+  },
+  "place:blantonmuseumofart": {
+   "brand": "Blanton Museum of Art",
+   "url": "https://blantonmuseum.b-cdn.net/app/themes/blanton-museum/build/img/favicon/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 72,
+   "from": "site",
+   "site": "blantonmuseum.org"
+  },
+  "place:bryanstreettavern": {
+   "brand": "Bryan Street Tavern",
+   "url": "https://static.spotapps.co/website_images/ab_websites/60712_website_v1/favicons/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.bryanstreettavern.com"
+  },
+  "place:childrensmuseumhouston": {
+   "brand": "Children's Museum Houston",
+   "url": "https://cdn.prod.website-files.com/5d90d752d12b5bcf2d9d8632/5daf57245d7dc9f3b59e90f5_CMH-webclip.png",
+   "fit": "cover",
+   "px": 256,
+   "from": "site",
+   "site": "www.cmhouston.org"
+  },
+  "place:colterstexasbarbq": {
+   "brand": "Colter's Texas Bar-B-Q",
+   "url": "https://coltersbbq.com/media/colters-texas-bbq-favicon.png",
+   "fit": "contain",
+   "px": 150,
+   "from": "site",
+   "site": "coltersbbq.com"
+  },
+  "place:dirtymartinsplace": {
+   "brand": "Dirty Martin's Place",
+   "url": "https://static.wixstatic.com/media/afec09_6240452945cb42aca52403cbef96ec75%7Emv2_d_1680_1686_s_2.jpeg/v1/fill/w_180%2Ch_180%2Clg_1%2Cusm_0.66_1.00_0.01/afec09_6240452945cb42aca52403cbef96ec75%7Emv2_d_1680_1686_s_2.jpeg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.dirtymartins.com"
+  },
+  "place:elchicocafe": {
+   "brand": "El Chico Café",
+   "url": "https://www.elchico.com/wp-content/uploads/2019/11/Elchico-logo.png",
+   "fit": "cover",
+   "px": 294,
+   "from": "site",
+   "site": "www.elchico.com"
+  },
+  "place:elrinconmexicankitchen": {
+   "brand": "El Rincon Mexican Kitchen",
+   "url": "https://www.elrincontx.com/wp-content/uploads/2022/12/favicon-32x32-1.png",
+   "fit": "cover",
+   "px": 32,
+   "from": "site",
+   "site": "www.elrincontx.com"
+  },
+  "place:griffs": {
+   "brand": "Griff's",
+   "url": "https://www.griffshouston.net/wp-content/uploads/2019/03/icon.png",
+   "fit": "cover",
+   "px": 150,
+   "from": "site",
+   "site": "www.griffshouston.net"
+  },
+  "place:howardsbar": {
+   "brand": "Howard's Bar",
+   "url": "https://howardsaustin.com/wp-content/uploads/2022/09/cropped-icon-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "howardsaustin.com"
+  },
+  "place:meadowsmuseum": {
+   "brand": "Meadows Museum",
+   "url": "https://meadowsmuseumdallas.org/wp-content/uploads/2019/08/favicontest-5-1.ico",
+   "fit": "cover",
+   "px": 64,
+   "from": "site",
+   "site": "meadowsmuseumdallas.org"
+  },
+  "place:mexicartemuseum": {
+   "brand": "Mexic-Arte Museum",
+   "url": "https://mexic-artemuseum.org/wp-content/uploads/2020/08/Mexic-ArteMuseum.png",
+   "fit": "contain",
+   "px": 297,
+   "from": "site",
+   "site": "mexic-artemuseum.org"
+  },
+  "place:qualityseafoodmarket": {
+   "brand": "Quality Seafood Market",
+   "url": "https://static.spotapps.co/web/qualityseafoodmarket--com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.qualityseafoodmarket.com"
+  },
+  "place:sourduckmarket": {
+   "brand": "Sour Duck Market",
+   "url": "https://images.squarespace-cdn.com/content/v1/60f2fce46385b311d9476316/80e7ae01-386c-4d5d-8ec4-d33ad6d205fa/favicon.ico?format=100w",
+   "fit": "contain",
+   "from": "site",
+   "site": "www.sourduckmarket.com"
+  },
+  "place:texasscienceandnaturalhistorymuseum": {
+   "brand": "Texas Science & Natural History Museum",
+   "url": "https://sciencemuseum.utexas.edu/wp-content/themes/scimuse/images/favicon.ico",
+   "fit": "contain",
+   "px": 256,
+   "from": "site",
+   "site": "sciencemuseum.utexas.edu"
+  },
+  "place:thehealthmuseum": {
+   "brand": "The Health Museum",
+   "url": "https://thehealthmuseum.org/wp-content/uploads/sites/678/2023/09/cropped-Favicon-1-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "thehealthmuseum.org"
+  },
+  "place:uchi": {
+   "brand": "Uchi",
+   "url": "https://uchi.uchirestaurants.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "uchi.uchirestaurants.com"
+  },
+  "r:Q1045842": {
+   "brand": "The Cheesecake Factory",
+   "url": "https://www.thecheesecakefactory.com/themes/custom/cake/favicon/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.thecheesecakefactory.com"
+  },
+  "r:Q1064893": {
+   "brand": "Outback Steakhouse",
+   "url": "https://www.outback.com/favicon.ico",
+   "fit": "contain",
+   "px": 131,
+   "from": "site",
+   "site": "www.outback.com"
+  },
+  "r:Q106769573": {
+   "brand": "Torchy's Tacos",
+   "url": "https://deo-tenant-media.s3.bhs.io.cloud.ovh.net/7d540a9ff2c42fe21ace7659553f071a/01KF3R2H6X9VPCC2RPFMQQ2NHD.svg",
+   "fit": "contain",
+   "from": "site",
+   "site": "torchystacos.com"
+  },
+  "r:Q112765292": {
+   "brand": "Rush Bowls",
+   "url": "https://rushbowls.com/oak/files/favicon/favicon.png",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "rushbowls.com"
+  },
+  "r:Q1183818": {
+   "brand": "Del Taco",
+   "url": "https://deltaco.com/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "deltaco.com"
+  },
+  "r:Q12070488": {
+   "brand": "Taco Cabana",
+   "url": "https://www.tacocabana.com/wp-content/uploads/2022/04/cropped-TC-Logo_Knockout_favicon_512x512-2-180x180.jpg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.tacocabana.com"
+  },
+  "r:Q123689179": {
+   "brand": "Hopdoddy Burger Bar",
+   "url": "https://cdn.prod.website-files.com/5fd923d0e6a54cb58ac2acc8/606f2776fac9b70b6b3f0636_bookmarkicon.png",
+   "fit": "cover",
+   "px": 256,
+   "from": "site",
+   "site": "www.hopdoddy.com"
+  },
+  "r:Q1524184": {
+   "brand": "TGI Fridays",
+   "url": "https://www.tgifridays.es/on/demandware.static/Sites-tgifridays-Site/-/default/dw3003b437/images/favicons/favicon.ico",
+   "fit": "contain",
+   "px": 89,
+   "from": "site",
+   "site": "www.tgifridays.es"
+  },
+  "r:Q1535221": {
+   "brand": "Long John Silver's",
+   "url": "https://www.ljsilvers.com/_nuxt/icons/icon_512x512.1b190a.png",
+   "fit": "cover",
+   "px": 512,
+   "from": "site",
+   "site": "www.ljsilvers.com"
+  },
+  "r:Q1538507": {
+   "brand": "Jack in the Box",
+   "url": "https://www.jackinthebox.com/icon.png",
+   "fit": "cover",
+   "px": 540,
+   "from": "site",
+   "site": "www.jackinthebox.com"
+  },
+  "r:Q16935493": {
+   "brand": "Bar Louie",
+   "url": "https://barlouie.com/wp-content/uploads/2025/12/Untitled-design-3.svg",
+   "fit": "cover",
+   "from": "site",
+   "site": "barlouie.com"
+  },
+  "r:Q17021360": {
+   "brand": "Mellow Mushroom",
+   "url": "https://www.mellowmushroom.com/_nuxt/icons/icon_512x512.9768f2.png",
+   "fit": "cover",
+   "px": 512,
+   "from": "site",
+   "site": "www.mellowmushroom.com"
+  },
+  "r:Q177054": {
+   "brand": "Burger King",
+   "url": "https://www.bk.com/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.bk.com"
+  },
+  "r:Q191615": {
+   "brand": "Pizza Hut",
+   "url": "https://www.pizzahut.com/images/favicon.png",
+   "fit": "contain",
+   "px": 512,
+   "from": "site",
+   "site": "www.pizzahut.com"
+  },
+  "r:Q1936229": {
+   "brand": "Quiznos",
+   "url": "https://cdn-ilamobn.nitrocdn.com/IrJGhmsYCvvCAkPUjGXBOnlJrsinLlpt/assets/images/optimized/rev-a222ca3/www.quiznos.com/wp-content/themes/quiznos-2021/assets/img/icons/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.quiznos.com"
+  },
+  "r:Q19849840": {
+   "brand": "Taziki's Mediterranean Cafe",
+   "url": "https://images.squarespace-cdn.com/content/v1/65f315c1ff62b273e9ba7a3e/d3391312-84e2-49da-a1fa-477cd3277896/favicon.ico?format=100w",
+   "fit": "contain",
+   "px": 100,
+   "from": "site",
+   "site": "www.tazikis.com"
+  },
+  "r:Q19880747": {
+   "brand": "Dickey's Barbecue Pit",
+   "url": "https://www.dickeys.com/static/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.dickeys.com"
+  },
+  "r:Q2244796": {
+   "brand": "Schlotzsky's",
+   "url": "https://www.schlotzskys.com/favicon.ico",
+   "fit": "contain",
+   "px": 256,
+   "from": "site",
+   "site": "www.schlotzskys.com"
+  },
+  "r:Q2438391": {
+   "brand": "Chuck E. Cheese",
+   "url": "https://www.chuckecheese.com/wp-content/uploads/2025/06/cropped-CEC_SocialLogo_512x512-180x180.jpg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.chuckecheese.com"
+  },
+  "r:Q2589409": {
+   "brand": "Sbarro",
+   "url": "https://sbarro.com/wp-content/themes/foundationpress/assets/images/icons/apple-icon-180x180.png?v=2",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "sbarro.com"
+  },
+  "r:Q30647224": {
+   "brand": "Slim Chickens",
+   "url": "https://www.slimchickens.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.slimchickens.com"
+  },
+  "r:Q4835755": {
+   "brand": "BJ's Restaurant & Brewhouse",
+   "url": "https://www.bjsrestaurants.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.bjsrestaurants.com"
+  },
+  "r:Q4879745": {
+   "brand": "Beef O'Brady's",
+   "url": "https://www.beefobradys.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.beefobradys.com"
+  },
+  "r:Q4920343": {
+   "brand": "Black Bear Diner",
+   "url": "https://blackbeardiner.com/wp-content/uploads/2024/06/favicon-300x300.png",
+   "fit": "cover",
+   "px": 300,
+   "from": "site",
+   "site": "blackbeardiner.com"
+  },
+  "r:Q4941599": {
+   "brand": "Bonefish Grill",
+   "url": "https://www.bonefishgrill.com/favicon.ico",
+   "fit": "contain",
+   "px": 145,
+   "from": "site",
+   "site": "www.bonefishgrill.com"
+  },
+  "r:Q4979810": {
+   "brand": "Bruster's Ice Cream",
+   "url": "https://brusters.com/favicon.png",
+   "fit": "contain",
+   "px": 75,
+   "from": "site",
+   "site": "brusters.com"
+  },
+  "r:Q4985900": {
+   "brand": "Buffalo Wings & Rings",
+   "url": "https://www.wingsandrings.com/content/favicon/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.wingsandrings.com"
+  },
+  "r:Q5045999": {
+   "brand": "Carrabba's Italian Grill",
+   "url": "https://www.carrabbas.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.carrabbas.com"
+  },
+  "r:Q509255": {
+   "brand": "Buffalo Wild Wings",
+   "url": "https://www.buffalowildwings.com/brands/bww/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.buffalowildwings.com"
+  },
+  "r:Q5118415": {
+   "brand": "Chuy's",
+   "url": "https://media.chuys.com/images/site/favicon.ico",
+   "fit": "cover",
+   "px": 256,
+   "from": "site",
+   "site": "www.chuys.com"
+  },
+  "r:Q5228205": {
+   "brand": "Dave & Buster's",
+   "url": "https://www.daveandbusters.com/content/dam/dnb/favicon.ico",
+   "fit": "contain",
+   "px": 256,
+   "from": "site",
+   "site": "www.daveandbusters.com"
+  },
+  "r:Q524757": {
+   "brand": "KFC",
+   "url": "https://www.kfc.com/favicon/default/apple-touch-icon.png?v=2026-08-29",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.kfc.com"
+  },
+  "r:Q5349788": {
+   "brand": "Einstein Bros. Bagels",
+   "url": "https://www.einsteinbros.com/wp-content/uploads/2024/01/logo.svg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.einsteinbros.com"
+  },
+  "r:Q5360181": {
+   "brand": "P.F. Chang's",
+   "url": "https://www.pfchangs.com/assets/icons/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.pfchangs.com"
+  },
+  "r:Q54078": {
+   "brand": "IKEA",
+   "url": "https://www.ikea.com/global/en/images/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.ikea.com"
+  },
+  "r:Q5433448": {
+   "brand": "Famous Dave's",
+   "url": "https://www.famousdavesdmv.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.famousdavesdmv.com"
+  },
+  "r:Q5491421": {
+   "brand": "Smoothie King",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Smoothie_King_logo.svg/250px-Smoothie_King_logo.svg.png",
+   "fit": "contain",
+   "px": 250,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "r:Q5500367": {
+   "brand": "Freebirds",
+   "url": "https://freebirds.com/wp-content/uploads/2026/02/cropped-FMark_Orange-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "freebirds.com"
+  },
+  "r:Q550258": {
+   "brand": "Wendy's",
+   "url": "https://www.wendys.com/themes/custom/wendys_main/favicons/apple-touch-icon-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.wendys.com"
+  },
+  "r:Q564256": {
+   "brand": "Grimaldi's Pizzeria",
+   "url": "https://grimaldispizzeria.b-cdn.net/dbcwp/wp-content/uploads/2022/07/Grimaldis-Favicon-500x500-1-300x300.png",
+   "fit": "cover",
+   "px": 300,
+   "from": "site",
+   "site": "www.grimaldispizzeria.com"
+  },
+  "r:Q584601": {
+   "brand": "Baskin-Robbins",
+   "url": "https://www.baskinrobbins.com/etc/designs/br/favicons/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.baskinrobbins.com"
+  },
+  "r:Q5928324": {
+   "brand": "Huddle House",
+   "url": "https://www.huddlehouse.com/favicon.ico",
+   "fit": "contain",
+   "px": 512,
+   "from": "site",
+   "site": "www.huddlehouse.com"
+  },
+  "r:Q64055835": {
+   "brand": "Brio",
+   "url": "https://www.brioitalian.com/wp-content/uploads/2022/08/brio-favicon.png",
+   "fit": "cover",
+   "px": 32,
+   "from": "site",
+   "site": "www.brioitalian.com"
+  },
+  "r:Q6666872": {
+   "brand": "Logan's Roadhouse",
+   "url": "https://logans.wpenginepowered.com/wp-content/themes/sassapress/assets/images/menu/flame-red.png",
+   "fit": "contain",
+   "px": 1819,
+   "from": "site",
+   "site": "logansroadhouse.com"
+  },
+  "r:Q6695701": {
+   "brand": "Luby's",
+   "url": "https://images.squarespace-cdn.com/content/v1/69a64312e09dcd6e22f1b313/ab1c0400-8e82-4c42-9cc2-6ab4e749d021/favicon.ico",
+   "fit": "contain",
+   "from": "site",
+   "site": "www.lubys.com"
+  },
+  "r:Q6757382": {
+   "brand": "Marco's Pizza",
+   "url": "https://momspublicstorage.blob.core.windows.net/content/moms/online/favicon.png",
+   "fit": "contain",
+   "px": 75,
+   "from": "site",
+   "site": "www.marcos.com"
+  },
+  "r:Q6800562": {
+   "brand": "McCormick & Schmick's",
+   "url": "https://media-cdn.getbento.com/accounts/af9848ccc05c8eb147e35a87adee2d85/media/images/1348337581-MS-Logo-6.png",
+   "fit": "contain",
+   "px": 1406,
+   "from": "site",
+   "site": "www.mccormickandschmicks.com"
+  },
+  "r:Q6889938": {
+   "brand": "Moe's Southwest Grill",
+   "url": "https://www.moes.com/favicon.ico",
+   "fit": "contain",
+   "px": 128,
+   "from": "site",
+   "site": "www.moes.com"
+  },
+  "r:Q7130852": {
+   "brand": "Panera Bread",
+   "url": "https://www.panerabread.com/content/dam/library/device/favicon-48x48.png",
+   "fit": "contain",
+   "px": 96,
+   "from": "site",
+   "site": "www.panerabread.com"
+  },
+  "r:Q7191325": {
+   "brand": "Pie Five",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/3651_P5_Logo.jpg/250px-3651_P5_Logo.jpg",
+   "fit": "contain",
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "r:Q7362714": {
+   "brand": "Macaroni Grill",
+   "url": "https://www.macaronigrill.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 57,
+   "from": "site",
+   "site": "www.macaronigrill.com"
+  },
+  "r:Q7382829": {
+   "brand": "Ruth's Chris Steak House",
+   "url": "https://media.ruthschris.com/images/site/favicon.ico",
+   "fit": "cover",
+   "px": 48,
+   "from": "site",
+   "site": "www.ruthschris.com"
+  },
+  "r:Q7406113": {
+   "brand": "Saltgrass Steak House",
+   "url": "https://media-cdn.getbento.com/accounts/d0caa310b64e7ad2cb37b1e933788077/media/images/4041favicon.png",
+   "fit": "contain",
+   "px": 300,
+   "from": "site",
+   "site": "www.saltgrass.com"
+  },
+  "r:Q7561808": {
+   "brand": "Sonic Drive-In",
+   "url": "https://www.sonicdrivein.com/brands/sdi/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.sonicdrivein.com"
+  },
+  "r:Q7930659": {
+   "brand": "Village Inn",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Village_Inn_logo.png/250px-Village_Inn_logo.png",
+   "fit": "contain",
+   "px": 250,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "r:Q7993556": {
+   "brand": "Which Wich",
+   "url": "https://whichwich.com/wp-content/uploads/which-wich-icon-yellow-1.webp",
+   "fit": "cover",
+   "from": "site",
+   "site": "whichwich.com"
+  },
+  "r:Q846301": {
+   "brand": "Red Lobster",
+   "url": "https://www.redlobster.com/static/29f1783b/favicon.67a8782a1239.ico",
+   "fit": "contain",
+   "px": 64,
+   "from": "site",
+   "site": "www.redlobster.com"
+  },
+  "s:Ross Dress for Less": {
+   "brand": "Ross Dress for Less",
+   "url": "https://www.rossstores.com/wp-content/uploads/2026/09/cropped-R_Logo_Ross_2026_MidnightHarbor-1-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.rossstores.com"
+  },
+  "s:Walgreens": {
+   "brand": "Walgreens",
+   "url": "https://www.walgreens.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.walgreens.com"
+  },
+  "v:abuelos": {
+   "brand": "Abuelo's",
+   "url": "https://abuelos.b-cdn.net/dbcwp/wp-content/uploads/2018/03/Abuelos-Favicon-500x500.png",
+   "fit": "cover",
+   "px": 500,
+   "from": "site",
+   "site": "www.abuelos.com"
+  },
+  "v:amc": {
+   "brand": "AMC",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/AMC_Theatres_logo_(2).svg/250px-AMC_Theatres_logo_(2).svg.png",
+   "fit": "contain",
+   "px": 250,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "v:bb-theatres": {
+   "brand": "B&B Theatres",
+   "url": "https://cms-assets.webediamovies.pro/cdn-cgi/image/width=180,height=180,fit=contain,quality=100/production/2/45eeaece363096cb7aef7e7a9cef1e1c.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.bbtheatres.com"
+  },
+  "v:black-walnut-cafe": {
+   "brand": "Black Walnut Cafe",
+   "url": "https://www.blackwalnutcafe.com/assets/images/theme/touch-icon-58.png",
+   "fit": "cover",
+   "px": 58,
+   "from": "site",
+   "site": "www.blackwalnutcafe.com"
+  },
+  "v:cafe-brazil": {
+   "brand": "Café Brazil",
+   "url": "https://cafebrazil.com/wp-content/uploads/2026/06/cb-new-favicon-300x300.png",
+   "fit": "cover",
+   "px": 300,
+   "from": "site",
+   "site": "cafebrazil.com"
+  },
+  "v:cinemark": {
+   "brand": "Cinemark",
+   "url": "https://www.cinemark.com/images/favicons/apple-touch-icon-152x152.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.cinemark.com"
+  },
+  "v:contemporary-austin": {
+   "brand": "The Contemporary Austin",
+   "url": "https://thecontemporaryaustin.org/wp-content/themes/contemporary-austin/assets/i/icons/AppIcon76x76@2x.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "thecontemporaryaustin.org"
+  },
+  "v:cowboy-chicken": {
+   "brand": "Cowboy Chicken",
+   "url": "https://www.cowboychicken.com/wp-content/uploads/2020/12/cropped-favicon-logo-cowboy-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.cowboychicken.com"
+  },
+  "v:flix-brewhouse": {
+   "brand": "Flix Brewhouse",
+   "url": "https://cms-assets.webediamovies.pro/cdn-cgi/image/width=180,height=180,fit=contain,quality=100/production/2/a25c4fe607cc9792043497c8a746c515.png",
+   "fit": "cover",
+   "from": "site",
+   "site": "flixbrewhouse.com"
+  },
+  "v:galaxy-theatres": {
+   "brand": "Galaxy Theatres",
+   "url": "https://cdn.theatertoolkit.com/media/galaxy/apple/precomposed/apple-touch-icon-precomposed.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.galaxytheatres.com"
+  },
+  "v:goodwill": {
+   "brand": "Goodwill Central Texas",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Goodwill_Industries_Logo.svg/250px-Goodwill_Industries_Logo.svg.png",
+   "fit": "contain",
+   "px": 343,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "v:houston-zoo": {
+   "brand": "Houston Zoo",
+   "url": "https://s28164.pcdn.co/wp-content/themes/houstonzoo-2019/components/favicons/img/apple-icon-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.houstonzoo.org"
+  },
+  "v:kerbey-lane": {
+   "brand": "Kerbey Lane Cafe",
+   "url": "https://images.squarespace-cdn.com/content/v1/69a1ae00963efe0b35aaae59/fcaf5af1-398d-47b5-9493-aaba514d2274/favicon.ico",
+   "fit": "contain",
+   "px": 880,
+   "from": "site",
+   "site": "www.kerbeylanecafe.com"
+  },
+  "v:kona-grill": {
+   "brand": "Kona Grill",
+   "url": "https://konagrill.com/wp-content/uploads/2024/12/cropped-Favicon-180x180.png",
+   "fit": "cover",
+   "from": "site",
+   "site": "konagrill.com"
+  },
+  "v:mamas-daughters-diner": {
+   "brand": "Mama's Daughters' Diner",
+   "url": "https://media-cdn.getbento.com/accounts/8a185ecc8f50e0e4a8b817dbcae4b9e2/media/KT3a5qhWR2CaIOOjIprx_MDD_020.jpg",
+   "fit": "contain",
+   "from": "site",
+   "site": "www.mamasdaughtersdiner.com"
+  },
+  "v:modern-market": {
+   "brand": "Modern Market",
+   "url": "https://modernmarket.com/wp-content/themes/modernmarket/assets/images/icons/apple-icon-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "modernmarket.com"
+  },
+  "v:perrys": {
+   "brand": "Perry's Steakhouse & Grille",
+   "url": "https://perryssteakhouse.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "perryssteakhouse.com"
+  },
+  "v:pluckers": {
+   "brand": "Pluckers Wing Bar",
+   "url": "https://cdn.prod.website-files.com/592740e995c3096bba010fd0/5a7395c9106faa0001148412_webclip.jpg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.pluckers.com"
+  },
+  "v:rack-room-shoes": {
+   "brand": "Rack Room Shoes",
+   "url": "https://www.rackroomshoes.com/favicon.ico",
+   "fit": "contain",
+   "px": 192,
+   "from": "site",
+   "site": "www.rackroomshoes.com"
+  },
+  "v:rosas-cafe": {
+   "brand": "Rosa's Café",
+   "url": "https://www.rosascafe.com/assets/images/favicons/apple-touch-icon-57x57.png",
+   "fit": "cover",
+   "px": 57,
+   "from": "site",
+   "site": "www.rosascafe.com"
+  },
+  "v:savers": {
+   "brand": "Savers",
+   "url": "https://assets.savers.com/images/all-brand-tag-favicon.svg",
+   "fit": "contain",
+   "from": "site",
+   "site": "stores.savers.com"
+  },
+  "v:topgolf": {
+   "brand": "Topgolf",
+   "url": "https://s3.topgolf.com/apple-touch-icon-cpa.png?v=2023",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "topgolf.com"
+  },
+  "v:whole-foods": {
+   "brand": "Whole Foods Market",
+   "url": "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/sales_flyer/img/favicon_180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.wholefoodsmarket.com"
+  }
+ }
+}

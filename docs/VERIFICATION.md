@@ -1,19 +1,23 @@
 # Verification log
 
-Plum is checked against the real sources, not against itself. Each iteration samples 10 Texas cities (3 with 200k+
-people, 3 with 20k–200k, 4 under 20k) and spreads all 13 industries across them. It runs Plum the way a user would,
+Slomp is checked against the real sources, not against itself. Each iteration samples 10 Texas cities (3 with 200k+
+people, 3 with 20k–200k, 4 under 20k) and spreads all 13 industries across them. It runs Slomp the way a user would,
 then runs **200 live tests** that re-read each result from the source by a different route than the pipeline used.
+Regular deals, added on Oct 5, have their own plan and results in [their own section](#regular-deals) below.
+
+Slomp was called Plum until Oct 5, 2026. The reports in `docs/verification/` from before the rename keep the old
+name, in field names such as `plum_industries` and in the User-Agent they record (`Plum/1.0`).
 
 | Group | Test | Count | Passes when |
 |---|---|---|---|
-| Local | Source fidelity | 40 | The item's own Flipp record, fetched fresh, has the merchant, title, price and dates Plum shows (restaurant promotions: the post page still shows the offer) |
+| Local | Source fidelity | 40 | The item's own Flipp record, fetched fresh, has the merchant, title, price and dates Slomp shows (restaurant promotions: the post page still shows the offer) |
 | Local | Time window | 15 | The source's dates overlap the next 7 days in the city's time zone, and "ends"/"starts" labels are right |
-| Local | Vicinity | 20 | The chain's own store locator (AllThePlaces, independent of the OpenStreetMap data Plum uses) has a store within the radius |
-| Local | Industry | 20 | A blind judge, shown only the title and store, puts the item in the industry Plum showed it under |
+| Local | Vicinity | 20 | The chain's own store locator (AllThePlaces, independent of the OpenStreetMap data Slomp uses) has a store within the radius |
+| Local | Industry | 20 | A blind judge, shown only the title and store, puts the item in the industry Slomp showed it under |
 | Local | Terms and math | 10 | Percent and savings follow from the prices shown, and agree with the fresh record's own % off, $ off and original price; buy-X-get-Y offers are read as such |
-| Local | Recall | 15 | A random item with a stated saving, which the source itself files under the industry, is in Plum's output or was left out for a valid reason (no store nearby, ended, duplicate) |
+| Local | Recall | 15 | A random item with a stated saving, which the source itself files under the industry, is in Slomp's output or was left out for a valid reason (no store nearby, ended, duplicate) |
 | Online | Source fidelity | 25 | The deal's post page shows the price and product, and isn't marked expired |
-| Online | Merchant link | 15 | The deal's store link (followed like a browser would) lands on the store Plum names; an Amazon page's buy-box price matches, allowing for stated codes and coupons |
+| Online | Merchant link | 15 | The deal's store link (followed like a browser would) lands on the store Slomp names; an Amazon page's buy-box price matches, allowing for stated codes and coupons |
 | Online | Comparisons | 20 | Each "same product elsewhere" listing, re-fetched, is the same product at the price shown (±2% or $1) |
 | Online | Industry | 10 | Blind judge agrees |
 | Online | Ranking and quality | 10 | Discounts recompute from the prices shown; order follows score; no duplicates, storewide sales or stale posts |
@@ -21,8 +25,8 @@ then runs **200 live tests** that re-read each result from the source by a diffe
 **Rules.** A test that can't be made (the source is down, blocks automated reading, or doesn't cover the subject) is
 recorded as *inconclusive* and replaced by another subject of the same kind. A category that runs out of subjects
 hands its remaining tests to its side's source-fidelity tests. Pass rates are over conclusive tests, and inconclusive
-counts are reported alongside. Every failure is triaged as a **Plum bug**, a **source error** (the source itself is
-wrong or changed) or a **test bug**, fixed with a regression unit test where it is a Plum bug, and the next iteration
+counts are reported alongside. Every failure is triaged as a **Slomp bug**, a **source error** (the source itself is
+wrong or changed) or a **test bug**, fixed with a regression unit test where it is a Slomp bug, and the next iteration
 runs on a fresh sample. Full per-test evidence is in `docs/verification/iteration-NN.json`.
 
 ## Summary
@@ -32,9 +36,9 @@ Antonio (1.5 million), including 20 places under 1,000 people, and all 13 indust
 was down, blocked automated reading, or didn't cover the subject) and were replaced. The first iteration passed 94.5%;
 the next nine passed 98.0–99.5%.
 
-The 32 failures broke down into 26 **Plum bugs**, all fixed with a regression test; 3 **source errors or drift** (an ad
+The 32 failures broke down into 26 **Slomp bugs**, all fixed with a regression test; 3 **source errors or drift** (an ad
 mislabelled by its source, a post whose price changed); and 4 **test bugs**, fixed in the harness. One dog-bed failure
-was both drift and a Plum bug. Reviewing runs and auditing labels between iterations found about 20 more Plum issues
+was both drift and a Slomp bug. Reviewing runs and auditing labels between iterations found about 20 more Slomp issues
 before any test hit them; the biggest was false "out of stock" flags on Amazon pages.
 
 | Category | Pass | Fail | Rate | Inconclusive |
@@ -55,13 +59,13 @@ before any test hit them; the biggest was false "out of stock" flags on Amazon p
 **What the numbers do and don't say**
 
 - **Local deals are accurate to their source.** Price, dates, merchant and title matched Flipp's own record 329 of
-  330 times. The one miss was an ad Flipp pulled at 11:59 PM Eastern while Plum still showed it until local midnight
-  (fixed). The retailer's own product page confirmed the ad price or Plum's stated regular price 67 of 70 times.
+  330 times. The one miss was an ad Flipp pulled at 11:59 PM Eastern while Slomp still showed it until local midnight
+  (fixed). The retailer's own product page confirmed the ad price or Slomp's stated regular price 67 of 70 times.
 - **Industry labels are the weakest part:** 95% agreement with a blind judge for local deals, 96% online. Each miss
   was a keyword or a source label that read an item wrongly (a wine at a pharmacy, gardening gloves filed as apparel,
   a body wash "with vitamin B3"); each got a targeted fix. Expect a long tail of such cases.
 - **"Near you" holds up.** 199 of 200 vicinity tests passed against the chains' own store locators, which are
-  independent of the map data Plum uses. 84 more couldn't be checked: AllThePlaces' Walmart and Target scrapes are
+  independent of the map data Slomp uses. 84 more couldn't be checked: AllThePlaces' Walmart and Target scrapes are
   partial, and it doesn't cover restaurant chains.
 - **Cross-site comparison is the gap.** All 10 comparison listings tested were correct, but there were only 10. Per
   iteration, 2–5 of ~122 online deals carried a model number or UPC, and about one had 2+ other sites. Most deals in
@@ -88,7 +92,7 @@ before any test hit them; the biggest was false "out of stock" flags on Amazon p
 
 ## Results by iteration
 
-| Iter | Date | Cities (industries) | Passed | Rate | Inconclusive | Local | Online | Plum bugs found |
+| Iter | Date | Cities (industries) | Passed | Rate | Inconclusive | Local | Online | Slomp bugs found |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Oct 4 | San Antonio, El Paso, McKinney, Seguin, Pflugerville, Rockwall, Sun Valley, Woodway, Vinton, San Elizario (all 13) | 189/200 | 94.5% | 37 | 117/120 | 72/80 | 9 |
 | 2 | Oct 4 | Arlington, Dallas, McKinney, Melissa, La Porte, North Richland Hills, Pottsboro, Graham, Vidor, Bayside | 199/200 | 99.5% | 35 | 120/120 | 79/80 | 1 (found by inspection) |
@@ -124,19 +128,19 @@ Only 5 comparison listings existed to test, so 17 of O-CMP's 20 tests moved to O
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-MATH Dollar General drain gel | Shown "saves $2.04"; the record says $2.00. Plum derived a regular price from the ad's rounded "28%" | Plum bug | A headline percent alone is shown as a percent; no regular price is computed from it |
-| O-FID dealnews LEGO Williams Racing | Shown $51; the post says $50.99. The feed's structured price is rounded | Plum bug | Prefer an exact price in the post text within $1 of the title's |
-| O-FID Slickdeals Bedsure dog bed | Shown $26.40 (title); the post says "= $26.39" | Plum bug | Same fix |
-| O-MER Pepsi Zero Sugar "3 for $15" | Shown as $15 for one 12-pack; Amazon sells one for $6.97 | Plum bug | "N for $X" is read as a multi-buy and compared per unit ($5.00 each) |
-| O-MER Fanttik X8 inflator | $72 needs "extra 10% off in checkout"; Amazon's page shows $79.99 | Plum bug | Cart and checkout discounts are a stated condition |
-| O-MER adidas Supernova $39 | Amazon's default size and color is $74.90 | Plum bug | Apparel sold on Amazon, Walmart or eBay carries "price varies by size or color" |
-| L-IND KT therapy tape (Walgreens) | Shown under Beauty from Google's "Personal Care"; judge: Health, Sports | Plum bug | Personal Care items are split by their words; therapy and braces go to Health |
-| O-IND VitaUp vitamins | Hip2Save's beauty feed put vitamins in Beauty; judge: Health | Plum bug | Hip2Save's categories are hints; the title decides |
-| O-IND Women's cat Christmas tees | "cat" put a T-shirt in Pets; judge: Fashion | Plum bug | Pets needs a pet product; bare pet words count only when nothing else names the item |
+| L-MATH Dollar General drain gel | Shown "saves $2.04"; the record says $2.00. Slomp derived a regular price from the ad's rounded "28%" | Slomp bug | A headline percent alone is shown as a percent; no regular price is computed from it |
+| O-FID dealnews LEGO Williams Racing | Shown $51; the post says $50.99. The feed's structured price is rounded | Slomp bug | Prefer an exact price in the post text within $1 of the title's |
+| O-FID Slickdeals Bedsure dog bed | Shown $26.40 (title); the post says "= $26.39" | Slomp bug | Same fix |
+| O-MER Pepsi Zero Sugar "3 for $15" | Shown as $15 for one 12-pack; Amazon sells one for $6.97 | Slomp bug | "N for $X" is read as a multi-buy and compared per unit ($5.00 each) |
+| O-MER Fanttik X8 inflator | $72 needs "extra 10% off in checkout"; Amazon's page shows $79.99 | Slomp bug | Cart and checkout discounts are a stated condition |
+| O-MER adidas Supernova $39 | Amazon's default size and color is $74.90 | Slomp bug | Apparel sold on Amazon, Walmart or eBay carries "price varies by size or color" |
+| L-IND KT therapy tape (Walgreens) | Shown under Beauty from Google's "Personal Care"; judge: Health, Sports | Slomp bug | Personal Care items are split by their words; therapy and braces go to Health |
+| O-IND VitaUp vitamins | Hip2Save's beauty feed put vitamins in Beauty; judge: Health | Slomp bug | Hip2Save's categories are hints; the title decides |
+| O-IND Women's cat Christmas tees | "cat" put a T-shirt in Pets; judge: Fashion | Slomp bug | Pets needs a pet product; bare pet words count only when nothing else names the item |
 | O-MER Faux fur dog bed | Shown $64.99; Amazon now $72.99 for the default size | Source drift | none: the post's price changed or applied to another size |
 | L-GEO Cabela's near Rockwall | The Allen, TX store is real; AllThePlaces' Cabela's scrape had 36 stores nationwide | Test bug | AllThePlaces is used only when it has at least half the stores OSM maps for that chain in Texas, and is merged across 3 runs |
 
-**Quality finding.** Only 4 of 119 online deals carried a model number, so cross-site comparisons were rare. Plum now
+**Quality finding.** Only 4 of 119 online deals carried a model number, so cross-site comparisons were rare. Slomp now
 reads the Amazon page a deal links to (from the post, its page, or dealnews' Buy Now link). That page gives brand,
 model number and UPC, which identify the product for other-site lookups. It also gives Amazon's live price: deals
 whose price has moved back up are flagged "the deal may have ended" and ranked far lower. Also fixed: LEGO sets are
@@ -153,14 +157,14 @@ inconclusive 12 times because AllThePlaces' scrapes for Walmart (164 Texas store
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| O-MER Faux fur dog bed (again) | Amazon $72.99 vs the post's $64.99. Plum's new store check caught the change, but labelled it "out of stock" | Source drift + Plum bug | See below; Plum now shows "store price now $72.99 (the deal may have ended)" and ranks it low |
+| O-MER Faux fur dog bed (again) | Amazon $72.99 vs the post's $64.99. Slomp's new store check caught the change, but labelled it "out of stock" | Source drift + Slomp bug | See below; Slomp now shows "store price now $72.99 (the deal may have ended)" and ranks it low |
 
-**Found by inspecting the run, not by a failing test:** 7 of the 8 Amazon deals Plum store-checked were flagged "out of
+**Found by inspecting the run, not by a failing test:** 7 of the 8 Amazon deals Slomp store-checked were flagged "out of
 stock" although their pages showed a buy-box price. Every Amazon product page carries "Currently unavailable" in a
 script's message table. Availability is now read from the buy box's own availability line (regression test added).
 The verification parser had the same flaw and got the same fix.
 
-**Comparison coverage, measured.** 2 of 122 online deals had a model number or UPC usable for lookups. Plum resolved
+**Comparison coverage, measured.** 2 of 122 online deals had a model number or UPC usable for lookups. Slomp resolved
 the Amazon page for 8 deals; most of those pages give a UPC but no model number, and no free source with prices
 exposes UPCs. Half the deals come from Hip2Save, whose store links are drawn by JavaScript. Verified cross-site
 comparisons are therefore limited to model-numbered goods (electronics, appliances, tools, LEGO). Elsewhere each deal
@@ -171,29 +175,29 @@ a list price.
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| O-FID dealnews Hudson Baby sleeping bag | The post now redirects to dealnews' Amazon store page: the deal ended. Plum's store check saw Amazon at $16.99 vs $10.94, but "Prime members" let it pass as a possible Prime-only price | Plum bug | Plum now re-reads the posts of its leading candidates and drops any that were removed (redirected or 404) or are marked expired |
-| L-IND "Apothic Red" at Walgreens | No keyword matched, so it fell back to Walgreens' health/beauty prior; judge: grocery (it's wine) | Plum bug | Pharmacies no longer have a prior (they sell wine, snacks and toys); wine varietals and brands added |
-| O-IND Walmart drawstring bags (Hip2Save kids feed) | No keyword matched, so Hip2Save's kids category put it in Baby & Kids; judge: fashion | Plum bug | Bag types (drawstring, crossbody, tote, duffel) added to fashion |
+| O-FID dealnews Hudson Baby sleeping bag | The post now redirects to dealnews' Amazon store page: the deal ended. Slomp's store check saw Amazon at $16.99 vs $10.94, but "Prime members" let it pass as a possible Prime-only price | Slomp bug | Slomp now re-reads the posts of its leading candidates and drops any that were removed (redirected or 404) or are marked expired |
+| L-IND "Apothic Red" at Walgreens | No keyword matched, so it fell back to Walgreens' health/beauty prior; judge: grocery (it's wine) | Slomp bug | Pharmacies no longer have a prior (they sell wine, snacks and toys); wine varietals and brands added |
+| O-IND Walmart drawstring bags (Hip2Save kids feed) | No keyword matched, so Hip2Save's kids category put it in Baby & Kids; judge: fashion | Slomp bug | Bag types (drawstring, crossbody, tote, duffel) added to fashion |
 
 **Test changes from iteration 4.** A new **retailer page** test (10, taken from local source fidelity's 40) reads
 the retailer's own product page for weekly-ad items (PetSmart, Old Navy, Ulta, Office Depot, Costco, Sam's Club and
-others that answer a script). It passes when the page shows the ad's price, or the regular price Plum states (weekly-ad
+others that answer a script). It passes when the page shows the ad's price, or the regular price Slomp states (weekly-ad
 prices can be in-store only), and fails when it shows neither. It puts the ads themselves to a real-world test, which
 source fidelity alone can't. Each report now also records quality metrics: share of deals with a firm basis,
 online identity and comparison coverage, store checks, and deals flagged as changed.
 
 ### Iteration 4 (seed 4007)
 
-First run of the retailer-page test: 9 of 10 retailer pages showed the ad's price or the regular price Plum states.
+First run of the retailer-page test: 9 of 10 retailer pages showed the ad's price or the regular price Slomp states.
 Quality: 1,838 local deals, 57% with a firm basis (the store's own regular price), 0.1% at unconfirmed stores; 121
 online deals, 14 store-checked live on Amazon (1 flagged as changed), 5 with a product identity, none with 2+ other
 sites.
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-RET Dollar General Febreze | Plum's "store page" link was Dollar General's coupons landing page, not the product | Plum bug | Only product pages are shown as the store page |
-| L-IND "Diamond Mesh Gate" at Kroger | The bare word "diamond" (added for jewelry in iteration 1) made a safety gate Fashion; judge: Baby & Kids, Pets | Plum bug | "diamond" counts only with a jewelry noun; safety, baby and pet gates added |
-| L-IND PetSmart reptile terrarium | Flipp's taxonomy said Home > Decor; judge: Pets | Plum bug | Single-category stores (PetSmart, Petco, Ulta, Bath & Body Works, AutoZone, O'Reilly) decide their items' industry |
+| L-RET Dollar General Febreze | Slomp's "store page" link was Dollar General's coupons landing page, not the product | Slomp bug | Only product pages are shown as the store page |
+| L-IND "Diamond Mesh Gate" at Kroger | The bare word "diamond" (added for jewelry in iteration 1) made a safety gate Fashion; judge: Baby & Kids, Pets | Slomp bug | "diamond" counts only with a jewelry noun; safety, baby and pet gates added |
+| L-IND PetSmart reptile terrarium | Flipp's taxonomy said Home > Decor; judge: Pets | Slomp bug | Single-category stores (PetSmart, Petco, Ulta, Bath & Body Works, AutoZone, O'Reilly) decide their items' industry |
 | O-FID Slickdeals adidas Grand Court | The post wrote "= $ 18.60" (a space after the sign) | Test bug | Price matching allows that space |
 
 ### Iteration 5 (seed 5007)
@@ -202,7 +206,7 @@ Every automated test passed (170/170); the judge disagreed once.
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-IND Miracle-Gro floral gloves (Tractor Supply) | Flipp's taxonomy says Clothing Accessories, so Fashion; judge: Home (gardening gloves) | Plum bug | Garden, work and cleaning gloves and protective gear are Home whatever the taxonomy says |
+| L-IND Miracle-Gro floral gloves (Tractor Supply) | Flipp's taxonomy says Clothing Accessories, so Fashion; judge: Home (gardening gloves) | Slomp bug | Garden, work and cleaning gloves and protective gear are Home whatever the taxonomy says |
 
 **Found by auditing, between iterations 4 and 5:** a review of 70 random items labelled by keywords or store priors
 found five collisions no judge test had hit yet: a plush bath towel (Toys), a flannel sheet set (Fashion), an espresso
@@ -210,19 +214,19 @@ machine (Grocery), a body groomer named "The Lawn Mower" (Home), and "Watch Part
 rule for home textiles and kitchen machines, narrower toy and watch terms, and grooming terms; each has a regression
 test.
 
-**Found by inspection:** searches on other sites used Plum's normalized model key ("Apple AIRPODSPRO3") instead of the
+**Found by inspection:** searches on other sites used Slomp's normalized model key ("Apple AIRPODSPRO3") instead of the
 words as written ("Apple AirPods Pro 3", "Sony WH-1000XM6"), so the weekly-ad search could never match named products.
 Fixed. Also: console bundles no longer match the console alone, and Slickdeals posts that list several stores
 ("Amazon has it for $51.99… Target has it for $51.99") now show those prices as "per the post", kept out of the
-median of Plum's own checks. The comparison test re-reads the post for them.
+median of Slomp's own checks. The comparison test re-reads the post for them.
 
 ### Iteration 6 (seed 6007)
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
 | L-RET Dollar General Pedigree dog food, Tidy Cats litter | Dollar General's product pages draw prices with JavaScript, so neither price is visible to a script; the test read that as a mismatch | Test bug | A page without a structured price, where the ad price isn't visible either, is inconclusive |
-| L-IND Ring indoor security cam (Best Buy) | Taxonomy "Home Security" mapped to Home; judge: Tech | Plum bug | Home-security items are Tech and Home |
-| L-IND bROK pintle hook (Tractor Supply) | Taxonomy "Hardware" mapped to Home; judge: Automotive | Plum bug | Towing gear (pintle hooks, hitches, ball mounts, winches) is Automotive |
+| L-IND Ring indoor security cam (Best Buy) | Taxonomy "Home Security" mapped to Home; judge: Tech | Slomp bug | Home-security items are Tech and Home |
+| L-IND bROK pintle hook (Tractor Supply) | Taxonomy "Hardware" mapped to Home; judge: Automotive | Slomp bug | Towing gear (pintle hooks, hitches, ball mounts, winches) is Automotive |
 
 **Found by auditing iteration 5's online labels:** toner pads were Health (from "pads", added for incontinence
 products), a night light was Tech (a generic "battery" term), a kids' terrarium kit was Pets, and DJI camera drones
@@ -236,10 +240,10 @@ listings checked out, and one deal's discount was measured against other stores'
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-REC PetSmart "Foldable Pet Gate - Dog Gate" | Flipp files it under Baby Safety, so the recall test expected it under Baby & Kids; Plum (rightly) treats everything at PetSmart as Pets | Source error | The recall test no longer fails Plum where it deliberately overrides the source's category; the blind judge arbitrates those |
+| L-REC PetSmart "Foldable Pet Gate - Dog Gate" | Flipp files it under Baby Safety, so the recall test expected it under Baby & Kids; Slomp (rightly) treats everything at PetSmart as Pets | Source error | The recall test no longer fails Slomp where it deliberately overrides the source's category; the blind judge arbitrates those |
 
 **Found by auditing taxonomy-labelled items (iterations 4–6):** Flipp files Target's promo banners under "Signage"
-(Plum had them as Office), a bottle jack under Material Handling, a tire repair kit under Plumbing, Target throws under
+(Slomp had them as Office), a bottle jack under Material Handling, a tire repair kit under Plumbing, Target throws under
 Outdoor Recreation, school glue under Adhesives, and power-tool batteries under Electronics; CVS fine print ("Must be an
 ExtraCare cardholder…") was read as an item; and items with both health and beauty words got only one. Each fixed
 with a regression test.
@@ -254,16 +258,16 @@ Every automated test passed (170/170), including both cross-site comparison chec
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-IND Caress body wash "…with Hyaluronic Acid & Vitamin B3" (Walmart) | The ingredient "Vitamin" made it Health as well as Beauty (a side effect of iteration 7's rule giving items with both kinds of words both labels); judge: Beauty | Plum bug | Industry is read from the product's head phrase, before "with …"; the full title is used only if the head says nothing |
-| L-IND Funko Jurassic Park plush (GameStop) | Flipp files it under Baby Toys; judge: Toys | Plum bug | Baby Toys counts as Baby & Kids only when the item names babies, ages in months, teethers, rattles and the like |
+| L-IND Caress body wash "…with Hyaluronic Acid & Vitamin B3" (Walmart) | The ingredient "Vitamin" made it Health as well as Beauty (a side effect of iteration 7's rule giving items with both kinds of words both labels); judge: Beauty | Slomp bug | Industry is read from the product's head phrase, before "with …"; the full title is used only if the head says nothing |
+| L-IND Funko Jurassic Park plush (GameStop) | Flipp files it under Baby Toys; judge: Toys | Slomp bug | Baby Toys counts as Baby & Kids only when the item names babies, ages in months, teethers, rattles and the like |
 
 ### Iteration 9 (seed 9007)
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| L-REC Funko plush at GameStop, $0.02 "100% off" $4.99 | Plum refused to believe a 99.6% saving from the ad (likely an ad error) but recorded it as "no saving stated" | Plum bug (wrong reason) | Rejected savings are named: "implausible saving (99.6% off a $4.99 price: likely an ad error)"; the recall test accepts that reason |
-| L-IND Michaels "ALL Scrapbook & Photo Albums" | Taxonomy Household Supplies mapped wholesale to Grocery & Household; judge: Home, Toys | Plum bug | Household Supplies goes to Grocery & Household only for cleaning, laundry, paper and bags; the rest is Home |
-| O-IND Perler fuse-bead kit (Hip2Save kids feed) | No keyword matched, so the kids feed put it in Baby & Kids; judge: Toys | Plum bug | Craft kits, fuse beads, scrapbooks and coloring and sticker books are Toys |
+| L-REC Funko plush at GameStop, $0.02 "100% off" $4.99 | Slomp refused to believe a 99.6% saving from the ad (likely an ad error) but recorded it as "no saving stated" | Slomp bug (wrong reason) | Rejected savings are named: "implausible saving (99.6% off a $4.99 price: likely an ad error)"; the recall test accepts that reason |
+| L-IND Michaels "ALL Scrapbook & Photo Albums" | Taxonomy Household Supplies mapped wholesale to Grocery & Household; judge: Home, Toys | Slomp bug | Household Supplies goes to Grocery & Household only for cleaning, laundry, paper and bags; the rest is Home |
+| O-IND Perler fuse-bead kit (Hip2Save kids feed) | No keyword matched, so the kids feed put it in Baby & Kids; judge: Toys | Slomp bug | Craft kits, fuse beads, scrapbooks and coloring and sticker books are Toys |
 
 La Grange (Restaurants + Sports, 25 mi) returned nothing: no sporting-goods ad within 25 miles, and none of this week's
 chain promotions has a branch there.
@@ -274,22 +278,22 @@ The judge agreed on all 30 industry tests.
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| O-FID dealnews Hudson Baby sleeping bag (again) | The feed now linked this ended deal straight to dealnews' Amazon store listing page, so no redirect was left for iteration 3's fix to catch | Plum bug | A post whose link is a dealnews store page, or whose page no longer shows the deal's title, counts as removed. Spot-checked live: dropped, along with 3 other ended posts |
-| L-FID ULTA La Roche-Posay cleanser (Lubbock) | The ad ran "through Oct 4". Flipp encodes that as 11:59 PM Eastern and pulled the item at 10:59 PM Central; Plum showed it until 11:59 PM local | Plum bug | Dates still display as the day the ad names, but an item is live only until the earlier of the two times. Spot-checked live: Lubbock's ended ULTA ad is gone |
+| O-FID dealnews Hudson Baby sleeping bag (again) | The feed now linked this ended deal straight to dealnews' Amazon store listing page, so no redirect was left for iteration 3's fix to catch | Slomp bug | A post whose link is a dealnews store page, or whose page no longer shows the deal's title, counts as removed. Spot-checked live: dropped, along with 3 other ended posts |
+| L-FID ULTA La Roche-Posay cleanser (Lubbock) | The ad ran "through Oct 4". Flipp encodes that as 11:59 PM Eastern and pulled the item at 10:59 PM Central; Slomp showed it until 11:59 PM local | Slomp bug | Dates still display as the day the ad names, but an item is live only until the earlier of the two times. Spot-checked live: Lubbock's ended ULTA ad is gone |
 
 ### Iteration 11 (seed 11007): after the web page rework
 
 Putting pictures on the page exposed data errors the tests had only sampled, because the ad's own picture now sits
-next to what Plum says about it. Fixed before this run, each with a regression test:
+next to what Slomp says about it. Fixed before this run, each with a regression test:
 
 - **The source's category labels can be absurd.** Flipp filed JCPenney diamond rings and a Best Buy ice-cream maker
-  under Food, and Lowe's razor blades under Beverages. Plum now keeps labels to what each kind of store sells (a
+  under Food, and Lowe's razor blades under Beverages. Slomp now keeps labels to what each kind of store sells (a
   `sells` list for 26 chains): a label outside it is replaced by what the item's words say, or by the store's own
   line. Food labels at stores that sell no food count only when the words agree.
 - **Buy-one-get-one wording.** "BUY ONE. GET ONE 50% OFF" (a period), "Buy 1 get 1 50%* off" (an asterisk), "Buy 1 get
   150% OFF" (a missing space) and "Buy 2 get 3rd FREE" were misread as 50% off, free, "get 150" and "get 3". Offers
   without a price were also ranked last; they now rank by their effective saving.
-- **Fine print is read per industry.** Plum reads the full record of the first 24 deals in each requested industry
+- **Fine print is read per industry.** Slomp reads the full record of the first 24 deals in each requested industry
   (it used to read the first 40 overall), so the deals a user sees first have their buy-one-get-one terms and store
   links.
 
@@ -298,10 +302,231 @@ Briaroaks, Premont, Navasota.
 
 | Test | What happened | Kind | Fix |
 |---|---|---|---|
-| O-MER LOVEVOOK laptop backpack; UGREEN charger | The test took the first Amazon link on the post page, which was a related product, or compared a headline-style title with the listing's | Test bug (×2) | A store link the test finds itself is inconclusive unless its title matches; only Plum's own store check can fail this way |
-| L-IND SheaMoisture hair cream (Walmart) | Only a top-level "Health & Beauty" label and no keyword hit, so it was shown under both; judge: Beauty | Plum bug | Hair, face and body creams, masks, oils and serums are Beauty |
-| L-IND Composure bladder control pads (Dollar General) | Taxonomy Personal Care mapped to Beauty; judge: Health | Plum bug | Bladder-control and incontinence products are Health |
+| O-MER LOVEVOOK laptop backpack; UGREEN charger | The test took the first Amazon link on the post page, which was a related product, or compared a headline-style title with the listing's | Test bug (×2) | A store link the test finds itself is inconclusive unless its title matches; only Slomp's own store check can fail this way |
+| L-IND SheaMoisture hair cream (Walmart) | Only a top-level "Health & Beauty" label and no keyword hit, so it was shown under both; judge: Beauty | Slomp bug | Hair, face and body creams, masks, oils and serums are Beauty |
+| L-IND Composure bladder control pads (Dollar General) | Taxonomy Personal Care mapped to Beauty; judge: Health | Slomp bug | Bladder-control and incontinence products are Health |
 
 Every source-fidelity, date, vicinity, math, recall, retailer-page, comparison and ranking test passed (168 of 170
 automated tests; the two misses were the test bugs above). The recall test now treats any deliberate departure from
 the source's category as inconclusive (5 this run), since the blind judge is the arbiter there.
+
+### Iteration 12 (seed 12007): after regular deals were added
+
+Regular deals touch code the first two outputs share: the industry list (now 14), the HTTP client, the service and
+the local result. So the standard plan ran once more on the changed code, with the two local-only industries in the
+draw (Lindale got Movies & Entertainment, Knox City got Restaurants & Dining).
+
+Result: **196 of 200 (98.0%)**, 53 inconclusive. Irving, Grand Prairie, Austin, Rosenberg, Forney, Kingsville,
+Lindale, Buda, Knox City, Runge. All 170 automated tests passed. The four misses were industry labels the blind judge
+disagreed with, each from v1's keyword rules and each fixed with a regression test:
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| L-IND Puffin can cooler (Cabela's) | Taxonomy Kitchen & Dining made it Home; judge: Sports | Slomp bug | At a sporting-goods store, coolers, can coolers and ice chests are Sports & Outdoors |
+| L-IND Milani setting spray (Walmart) | Only a top-level "Health & Beauty" label and no keyword hit, so it was shown under both; judge: Beauty | Slomp bug | Setting sprays, primers, eyeshadow, bronzer and several makeup brands are Beauty |
+| O-IND Halloween bubble wands (Hip2Save kids feed) | No keyword matched, so the kids feed put it in Baby & Kids; judge: Toys | Slomp bug | Bubble wands, machines and guns are Toys |
+| O-IND Foldable storage totes (Hip2Save) | The word "tote" made it Fashion; judge: Home | Slomp bug | Storage totes, bins, boxes and baskets are Home, ahead of the fashion rule |
+
+## Regular deals
+
+Regular deals ([DESIGN-regular-deals.md](DESIGN-regular-deals.md)) make a different kind of claim from the rest of
+Slomp: not "this item costs $X this week" but "this place does this every Wednesday". They have their own plan. Each
+run searches twelve places: Austin, Houston and Dallas at 25 miles with every industry that has regular deals, and
+three randomly drawn suburbs of each with Restaurants & Dining and Movies & Entertainment at 25, 10 and 50 miles.
+Then it runs **200 live tests**:
+
+| Test | Count | Passes when |
+|---|---|---|
+| R-SRC evidence fidelity | 45 | The evidence page, fetched fresh and read by the test's own reader, states this place, a day the deal runs on, and every amount, percent and buy-one-get-one the card shows |
+| R-X other source | 25 | A source Slomp did not use for the deal (the other deal site's list for that day) states the same offer; the same item at a different price fails |
+| R-DAY schedule | 30 | The dates shown are exactly the dates a separate calendar computes from the stated days, hours and end date, in the city's time zone |
+| R-GEO vicinity | 30 | The distance shown is right and within the radius, and the branch shown is itself in the chain's own store locator (AllThePlaces, fetched fresh, and used only when it is complete enough to say); for a single place, the Census geocoder puts its address where Slomp does. In run 1 any locator branch within the radius was enough |
+| R-IND industry | 20 | A blind judge, given only the place and the offer, picks an industry Slomp showed it under |
+| R-TXT faithful summary | 20 | A blind judge, given Slomp's card and the text of every page it cites, finds no day, price or condition the pages do not support, and no missing condition that changes who can get the deal or when. In run 1 the judge saw one passage of one page |
+| R-REC recall | 30 | A deal from an answer key, researched by a separate agent with no sight of Slomp's code or data, is in Slomp's results within 50 miles of that metro's main city (25 in run 1): the place, a shared day and something of the offer itself must match. Absent is a fail, whatever the reason |
+
+**Results in short.** Two runs, 400 tests: **361 passed (90.3%)**.
+
+| | Run 1 | Run 2 | Both |
+|---|---|---|---|
+| What Slomp shows (evidence, other source, dates, location, industry, summary) | 166 of 170 | 170 of 170 | 336 of 340 (98.8%) |
+| Recall against an independent answer key | 19 of 30 | 6 of 30 | 25 of 60 |
+| All tests | 185 of 200 | 176 of 200 | 361 of 400 |
+
+- **What is shown is accurate.** Across both runs every amount, percent and day on 129 sampled cards was on the
+  page Slomp cites, the dates were right on 60, the branch shown was within the radius on 60, and the industry was
+  right on 40. The four misses were all in run 1: two cards that left out a condition, and two the judge was shown
+  too little of. Between the runs every card and every branch was checked, not a sample, and what that found
+  (27 cards missing a condition or a detail over two readings, and 1 mapped branch in 12 that its chain no longer
+  lists) was fixed before run 2.
+- **Coverage is the weak part, and it falls off quickly.** Of the best-known recurring deals in the three metros
+  (the first key), Slomp had 19 of 30. Of the next tier (the second key, which excluded the first key's businesses), it
+  had 6 of 30. Chains on the two deal-site lists are covered well. Museums' free days, local happy hours and local
+  kids-eat-free days are covered only where someone added them: 33 were added from the two keys.
+- **Some deals Slomp will not show.** A deal stated only on social media, on a page behind a bot check, or on a site
+  that turns away AI assistants is left out unless you add it to your own file.
+
+The rules are the same as above: a test that can't be made is inconclusive and replaced, a category that runs out
+hands its tests to R-SRC, and every failure is triaged and fixed with a regression test. R-X is rarely conclusive,
+because the two lists seldom carry the same offer for the same chain and day, so most of its 25 tests move to R-SRC.
+Full evidence is in `docs/verification/regulars-NN.json`; `regulars-00.json` is the last trial run made while the
+tests themselves were being built.
+
+### Run 1 (seed 1011, Oct 5)
+
+Austin, San Marcos, Kyle, Round Rock; Houston, The Woodlands, Katy, League City; Dallas, Arlington, Garland, McKinney.
+Slomp knew 184 regular deals statewide (60 confirmed on a company's own page, 107 on a deal-site list, 16 reported by
+a dated article, 1 added by the user) and showed 174 different ones across the twelve searches.
+
+Result: **185 of 200 (92.5%)**, 188 inconclusive (168 of them R-X).
+
+| Category | Pass | Fail | Inconclusive |
+|---|---|---|---|
+| R-SRC evidence fidelity | 64 | 0 | 0 |
+| R-X other source | 6 | 0 | 168 |
+| R-DAY schedule | 30 | 0 | 0 |
+| R-GEO vicinity | 30 | 0 | 8 |
+| R-IND industry (judge) | 20 | 0 | 0 |
+| R-TXT faithful summary (judge) | 16 | 4 | 0 |
+| R-REC recall | 19 | 11 | 12 |
+
+What Slomp showed matched its evidence: every amount, percent and day on 64 cards was on the page, the dates were
+right on 30, a branch was within the radius on 30, and the industry was right on 20. The two weak spots were
+conditions left off cards, and deals Slomp did not have at all.
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| R-TXT Bonefish Grill, $7 Bang Bang Shrimp on Wednesdays | The list says "You can only get the special for dine-in orders". That sentence is 71 characters, and the list reader kept follow-on sentences only up to 70 | Slomp bug | A later sentence that restricts the offer is kept and read for conditions, up to the entry's next offer |
+| R-TXT Marco's Pizza, buy one get one on Tuesdays | The list says you must be signed in to a Marco's account; the card had no conditions | Slomp bug | Same fix; "signed in to an account" is now a condition |
+| R-TXT Cinemark Discount Tuesdays | The judge was shown one 520-character passage. The card's conditions (members' pricing, premium formats, holidays) are stated elsewhere on the page | Test bug | The judge is shown a short company page whole |
+| R-TXT Quiznos, $7.45 sub on Mondays | The judge was shown the entry without its page's title, "Monday restaurant deals", so the day looked unsupported | Test bug | List entries are shown with the title of their page |
+| R-REC Hopdoddy happy hour; Houston Zoo free first Tuesday; Quality Seafood happy hour (Austin); Uchi happy hour | Each is stated on the place's own page, and Slomp had no entry | Coverage gap (×4) | Added, each confirmed on the company's page. The zoo's Oct 6 date is sold out by its own page, so Slomp holds it back this week |
+| R-REC la Madeleine, Café Brazil and Mama's Daughters' Diner kids-eat-free days (Dallas); Maroma happy hour (Dallas) | Stated in dated local guides (DFWChild, CultureMap); Slomp had no entry, and la Madeleine was not on its map | Coverage gap (×4) | Added as "reported"; three restaurant groups added to the map |
+| R-REC Fort Worth Zoo half-price Wednesdays | Slomp had it, but the zoo is 33 miles from Dallas and the test searched 25 | Test bug | The recall test covers the metro, 50 miles. See the note below: the entry was then removed |
+| R-REC Bullock Museum free first Sunday (Austin) | Slomp had it, but the first Sunday was Oct 4 and the next is Nov 1, outside the 7 days | Test bug | The recall test counts a deal Slomp is holding back for lack of a date this week. The entry was then removed, as below |
+| R-REC La Condesa happy hour (Austin) | The only page that states the offer is on a site that turns away AI assistants; La Condesa's own page gives the hours but not the offer | Left out by rule | None |
+
+**A rule that came out of this run.** Checking the pages behind the missed deals showed that some sites let ordinary
+readers in but tell AI assistants, by name, to keep out: The Infatuation (whose guide was the answer key's source for
+three Austin happy hours), the Fort Worth Zoo and the Bullock Museum. Slomp's registry is researched and kept up with
+an AI assistant, so those pages are no longer used as evidence, although robots.txt would let Slomp's own reader in.
+That removed two entries Slomp had (the zoo and the museum above) and ruled out one source. The design document
+explains the reasoning (section 2.2).
+
+**Rechecked after the fixes** (the same answer key, so this is a check of the fixes and not a fresh measurement):
+27 of the 30 conclusive deals are found. The three still missing are the ones left out by that rule.
+
+### Between the runs: everything, not a sample
+
+Run 1's samples passed on evidence, dates and location. But 20 or 30 samples cannot say how often a card is wrong,
+and the two summary failures suggested more of the same kind. So before a second run, every regular deal within 50
+miles of the three cities went through the checks, not a sample of them.
+
+**Every card read against its page.** A blind judge, with the same instructions as R-TXT, compared all 177 cards
+that cite a page with the text of that page. It marked 21. Sixteen were real, and nearly all of one kind: the card
+was right as far as it went and left out something the page says.
+
+| What the judge found | Cards | Fix |
+|---|---|---|
+| A condition stated a sentence or two after the offer: an account and a $10 purchase (Shake Shack), "redeem online or in the app" (Sonic), a $6, $11.99 or $12 minimum purchase (Huddle House, Main Event, Dickey's), "in the bar" (The Cheesecake Factory), "dine-in on Wednesdays only" (Outback) | 7 | The list reader keeps a restricting sentence up to three sentences on, and a later sentence about the same thing is read for conditions; six more wordings are recognized |
+| The section's opening sentence says who the deals are for ("IKEA Family members can enjoy …") | 2 | The opening sentence is read for conditions |
+| Hours that differ by day shown as one set (Dave & Buster's happy hour: Monday to Thursday two windows, Friday one, Sunday the other) | 1 | No hours are shown, and the card says "hours differ by day" |
+| One sentence for Monday and its twin for Tuesday merged into one card that read "on Mondays" and ran both days (Wingstop) | 1 | Sentences that name different days stay separate cards |
+| "Every Wednesday … Offer valid on Sept. 30": shown on Oct 5 (Wayback Burgers) | 1 | A date an offer says it is valid on is its last day |
+| A registry entry without the hours its article gives (Drinks Lounge, Austin: 4 pm to midnight) | 1 | Entry corrected |
+| The museum's page says its galleries are closed until Oct 30 (The Modern, Fort Worth: free Fridays, half-price Sundays) | 2 | Both entries are held back until Oct 31 |
+| A weekly coupon's page states an expiry, Oct 19 (Chuck E. Cheese) | 1 | The expiry on the page is read each day and shown as the deal's last day |
+
+The other five marks were the test's doing, and the test was changed. Three cards rest on two pages and were judged
+against one (Uchi's nine-course tasting is on its menu page and its hours on its location page; a condition on
+Bruster's card comes from the second of two lists). Two were Fuzzy's, whose home page is served in two versions, one
+without its promotions. The judge now sees every page a card cites, and Slomp's own reader re-reads a two-version page
+before counting a miss.
+
+**Read again after those fixes.** The judge then read all 173 cards a second time, now with every page each card
+cites. It marked 13. Two were the test's (a passage that missed the line the card rests on). Ten were one more kind
+that the first reading could not see, because it showed the judge one page per card: when two lists describe the same
+deal, the card had kept the first list's conditions and dropped what only the second one says ("Dine-in only" on
+Logan's, Red Lobster's and Buca di Beppo's cards, "online or with the KFC app" on four KFC cards, a lunch-only price
+at Cracker Barrel). A restriction that either list states is now shown. Where the two lists disagree on how to
+order, the card names the one that says it: Buffalo Wild Wings' Tuesday wings read "dine-in only, says
+EatDrinkDeals", because the other list says online orders count too. The last was a registry entry (Perry's Sunday
+supper) that lacked the hours and "dine-in or to-go" from Perry's own page.
+
+**Every branch checked against its chain's own store locator.** The first pass failed 13 chain-and-city pairs. Most
+were locator scrapes with gaps (Jack in the Box: 16 branches near Texas against 504 on the map). One was not: the map
+still has a Buca di Beppo in Austin that the chain no longer lists. Comparing all 74 chains that have a locator
+showed how common that is: 550 of 6,462 mapped branches (8.5%) are not in their chain's own list, among them 10 of
+Red Lobster's 48 and 7 of Quiznos' 8. Slomp now skips those branches when it names the nearest one
+(`branch_checks.json`, design 4.6), and the R-GEO test was tightened to match: the branch shown must itself be in the
+chain's locator, where the locator is complete enough to say.
+
+**Every list deal read through.** Reading all 108 list-sourced cards turned up six more:
+
+| Card | What was wrong | Fix |
+|---|---|---|
+| Bar Louie, $8 martinis on Mondays | Shown as 3–6 pm: the hours of "plus Happy Hour specials from 3-6 pm" in the same sentence | Another offer's hours in the sentence are not borrowed |
+| Grimaldi's, $10.99 pizza lunch | Shown with the hours of the Social Hour in the sentence before | An offer that states its own days does not borrow the sentence before it |
+| Del Taco, "$1 on Tuesdays and Thursdays" | The $1 is the every-day menu's; the Tuesday and Thursday specials had no figure in that sentence | A sentence listing several offers gives each day only its own part |
+| Red Lobster, all-you-can-eat shrimp on Saturdays, Sundays and Mondays | The sentence before says it is available every day | An offer introduced as every-day is treated as one |
+| Dave & Buster's, half-price games "Sundays to Thursdays" | The company's own page says Wednesday and Sunday (and Slomp's entry said Wednesday only) | Entry corrected; a list cannot add days to an offer the company dates exactly |
+| Whole Foods, "buy 1, get 1 for 50% off" | Read as a free second item (a v1 wording rule) | "for 50% off" and "at half price" are read as such |
+
+**Coverage.** Four chains the lists carry were on the map under another spelling (Famous Dave's, Morton's, The
+Melting Pot, Brio), and Whole Foods' Prime-member days were added, with grocery among the industries searched.
+
+After these fixes the same checks were repeated over everything before the second run: the evidence test passed
+for all 173 deals that cite a page, the schedule test for every card in the three cities, and the location test for
+159 chain-and-city pairs with none failing (61 could not be judged: no locator, or an incomplete one). The audit is
+now a command, `python -m slomp.verify.regulars_run --audit`.
+
+### Run 2 (seed 2011, Oct 5): after the fixes, with a second answer key
+
+Austin, Pflugerville, Kyle, Cedar Park; Houston, League City, Pasadena, Katy; Dallas, Frisco, Plano, McKinney, with
+Grocery added to the main cities' industries. Slomp knew 195 regular deals statewide (64 confirmed, 110 listed, 20
+reported, 1 added by the user) and showed 174 different ones.
+
+Result: **176 of 200 (88.0%)**, 178 inconclusive (169 of them R-X).
+
+| Category | Pass | Fail | Inconclusive |
+|---|---|---|---|
+| R-SRC evidence fidelity | 65 | 0 | 0 |
+| R-X other source | 5 | 0 | 169 |
+| R-DAY schedule | 30 | 0 | 0 |
+| R-GEO vicinity | 30 | 0 | 9 |
+| R-IND industry (judge) | 20 | 0 | 0 |
+| R-TXT faithful summary (judge) | 20 | 0 | 0 |
+| R-REC recall | 6 | 24 | 0 |
+
+Every test of what Slomp shows passed, 170 of 170, including all 20 summaries (16 of 20 in run 1). All 24 failures
+are recall, and recall fell because the answer key was made harder on purpose. Its researcher was given the 28
+businesses of the first key and told to name 42 others, one deal each. So this key measures the next tier of deals,
+past the best-known ones, and there Slomp had 6 of 30.
+
+| What was missing | Deals | Where it is stated | What was done |
+|---|---|---|---|
+| Free days at museums: Texas Science & Natural History Museum and Mexic-Arte (Austin); Holocaust Museum, Children's Museum and The Health Museum (Houston); Meadows Museum and the Nasher (Dallas) | 7 | Each museum's own page | Added, each confirmed on that page |
+| Kids' meal days at Dallas-Fort Worth restaurants: Black-Eyed Pea, Slim Chickens, Modern Market, Colter's, El Rincon, Central Market's café | 6 | DFWChild's dated guide | Added as "reported", with two more from the part of the key the run did not draw |
+| Happy hours at four East Austin restaurants | 4 | A local guide that answers Slomp's reader with a bot check | Sour Duck Market states its happy hour on its own page and was added. Casa Bianca, Licha's Cantina and Suerte are still missing |
+| Chain early-bird menus: Texas Roadhouse, Cracker Barrel, The Capital Grille | 3 | A dated article | Added as "reported"; two chains added to the map |
+| Houston steak nights: Confessions, Johnny Ritas | 2 | An article Slomp already used for five others; it gives no street addresses | Confessions added, with the address from its opening story. Johnny Ritas left out: no address on a page Slomp read |
+| Taco Bell's "Tuesday Drops" | 1 | A list Slomp reads | Left out on purpose: "a money-saving promo code" names no offer |
+| Dollar General's Saturday coupon | 1 | A dated post about one Saturday | Left out: the page does not say it repeats |
+
+**Rechecked after the additions** (a check of the additions, not a fresh measurement): 33 of the second key's 42
+deals are found, and 27 of the first key's 30 conclusive ones. The nine and three still missing are the ones the
+tables above leave out, plus three deals from the second key that the run did not draw (a steak night without an
+address, a happy hour behind the same bot check, and a thrift store's rolling weekly sale that is tied to no day).
+
+**The new and changed cards read once more.** The 37 cards that were new or had changed since the second reading
+went to the judge again: 34 were faithful. Two of the three marked were the test showing the wrong passage of a long
+guide (its pointer was a phrase the guide repeats twelve times; it now uses words the page has once). The third was
+Buffalo Wild Wings' Thursday wings, where the two lists disagree on how to order; the card now says so: "takeout or
+delivery, says The Krazy Coupon Lady (EatDrinkDeals differs)".
+
+**One more rule from the final audit.** The audit after run 2 failed two cards on evidence: Fuzzy's two offers,
+shown as "confirmed" while its home page had stopped stating them. Slomp had forgiven a single miss for a day, in case
+the page was served in two versions. It now reads such a page three times instead, and a miss ends the deal at once.
+With that, the last audit of all 195 regular deals near the three cities passed the evidence test for all 194 that
+cite a page, the schedule test for all 411 cards, and the location test for 176 chain-and-city pairs, with none
+failing (71 could not be judged).

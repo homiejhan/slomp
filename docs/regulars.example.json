@@ -1,0 +1,21 @@
+[
+ {
+  "brand": "DOKA Bubble Tea",
+  "offer": "BOGO Wednesday: buy one, get one free on select drinks",
+  "days": ["wed"],
+  "kind": "cafe",
+  "industries": ["dining"],
+  "bogo": "buy 1 get 1 free",
+  "conditions": ["select drinks"],
+  "places": [{"name": "DOKA Bubble Tea", "address": "2815 Guadalupe St Ste A, Austin, TX 78705"}],
+  "link": "https://www.facebook.com/p/Doka-Bubble-Tea-100070021503436/",
+  "note": "Announced on their Facebook page."
+ },
+ {
+  "brand": "Schlotzsky's",
+  "offer": "Free small drink with any sandwich after 8 pm on Thursdays",
+  "days": ["thu"],
+  "time": "after 8 pm",
+  "note": "An example of a chain: no address needed, Slomp finds the nearest branch on the map."
+ }
+]

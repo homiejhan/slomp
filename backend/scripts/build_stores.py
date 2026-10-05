@@ -1,9 +1,11 @@
 """Build the store-location datasets from OpenStreetMap (Geofabrik's Texas extract):
 
-  plum/data/stores_tx.json        every mapped store of the merchants in plum/data/merchants.json
-  plum/data/restaurants_tx.json   every mapped location of US restaurant chains (for restaurant promotions)
+  slomp/data/stores_tx.json        every mapped store of the merchants in slomp/data/merchants.json
+  slomp/data/restaurants_tx.json   every mapped location of US restaurant chains (for restaurant promotions)
+  slomp/data/venues_tx.json        cinemas, entertainment venues and Texas chains listed in slomp/data/venue_brands.json
+                                  (for regular deals)
 
-Store locations change slowly, so Plum looks them up locally instead of querying a live map API per request (the
+Store locations change slowly, so Slomp looks them up locally instead of querying a live map API per request (the
 public Overpass servers were too slow or blocking for that). Rebuild weekly.
 
     uv run --no-project --with osmium python scripts/build_stores.py [--pbf PATH]
@@ -25,13 +27,13 @@ import osmium
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from plum.reference import merchants, norm  # noqa: E402
+from slomp.reference import fold, merchants, norm  # noqa: E402
 
 PBF_URL = "https://download.geofabrik.de/north-america/us/texas-latest.osm.pbf"
 NSI_URL = "https://cdn.jsdelivr.net/npm/name-suggestion-index@latest/dist/nsi.min.json"
-CACHE = Path.home() / ".cache" / "plum" / "osm"
-DATA = ROOT / "plum" / "data"
-UA = {"User-Agent": "Mozilla/5.0 (compatible; Plum/1.0)"}
+CACHE = Path.home() / ".cache" / "slomp" / "osm"
+DATA = ROOT / "slomp" / "data"
+UA = {"User-Agent": "Mozilla/5.0 (compatible; Slomp/1.0)"}
 
 NOT_A_STORE = {"fuel", "car_wash", "vending_machine", "atm", "charging_station", "parking", "clinic", "doctors",
                "parcel_locker", "bicycle_rental", "fast_food", "cafe", "restaurant", "pharmacy_counter"}
@@ -69,6 +71,30 @@ def restaurant_brands() -> dict[str, dict]:
     return out
 
 
+def venue_rules() -> list[dict]:
+    """venue_brands.json, with names and brand tags folded for comparison."""
+    rules = json.loads((DATA / "venue_brands.json").read_text())["venues"]
+    for r in rules:
+        r["_names"] = [fold(n) for n in r["names"]]
+        r["_brands"] = {fold(b) for b in r.get("brands", [])}
+    return rules
+
+
+def venue_of(tags: dict, rules: list[dict]) -> str:
+    """The venue brand a place belongs to: its brand tag is listed, or its name starts with one of the brand's names,
+    and its type is one the brand allows."""
+    name, brand = fold(tags.get("name", "")), fold(tags.get("brand", ""))
+    if not (name or brand):
+        return ""
+    for r in rules:
+        only = r.get("only")
+        if only and not any(tags.get(k) in v for k, v in only.items()):
+            continue
+        if (brand and brand in r["_brands"]) or (name and any(name.startswith(n) for n in r["_names"])):
+            return r["key"]
+    return ""
+
+
 def address(tags: dict) -> str:
     street = " ".join(x for x in (tags.get("addr:housenumber"), tags.get("addr:street")) if x)
     return ", ".join(x for x in (street, tags.get("addr:city", "")) if x)
@@ -91,11 +117,14 @@ def main() -> None:
 
     stores: dict[str, list] = {}
     rest: dict[str, list] = {}
+    tagged: Counter = Counter()          # restaurant locations matched by their brand tag, not just their name
+    vrules = venue_rules()
+    venues: dict[str, list] = {}
     seen: set = set()
     t0, n = time.time(), 0
     fp = (osmium.FileProcessor(str(pbf), osmium.osm.NODE | osmium.osm.WAY)
           .with_locations()
-          .with_filter(osmium.filter.KeyFilter("shop", "amenity")))
+          .with_filter(osmium.filter.KeyFilter("shop", "amenity", "leisure", "tourism")))
     for o in fp:
         n += 1
         tags = {t.k: t.v for t in o.tags}
@@ -114,11 +143,22 @@ def main() -> None:
         amenity, shop = tags.get("amenity", ""), tags.get("shop", "")
         names = [norm(tags.get(k, "")) for k in ("brand", "name")]
 
+        # Venues for regular deals: cinemas, entertainment, chains the restaurant index lacks.
+        vkey = venue_of(tags, vrules)
+        if vkey:
+            key = ("venue", vkey, round(lat * 500), round(lon * 500))      # a node and its building outline: one
+            if key not in seen:
+                seen.add(key)
+                venues.setdefault(vkey, []).append([round(lat, 6), round(lon, 6), tags.get("name") or "",
+                                                    address(tags), ref])
+        if not (amenity or shop):
+            continue
         # Restaurants (for restaurant promotions).
         if amenity in RESTAURANT_AMENITY or shop in RESTAURANT_SHOP:
             rq = qid if qid in rbrands else next((r_by_name[x] for x in names if x and x in r_by_name), "")
             if rq:
                 rest.setdefault(rq, []).append([round(lat, 6), round(lon, 6), address(tags), ref])
+                tagged[rq] += qid == rq
             continue
         # Retail stores of registry merchants.
         if amenity in NOT_A_STORE or shop in ("optician", "car_repair", "tyres"):
@@ -141,8 +181,15 @@ def main() -> None:
         {"built": built, "source": "OpenStreetMap contributors (ODbL), Geofabrik Texas extract; brands from the "
                                    "OSM Name Suggestion Index",
          "fields": ["lat", "lon", "address", "ref"],
-         "brands": {q: {"name": rbrands[q]["name"], "aliases": sorted(rbrands[q]["aliases"]), "locations": locs}
+         "brands": {q: {"name": rbrands[q]["name"], "aliases": sorted(rbrands[q]["aliases"]), "tagged": tagged[q],
+                        "locations": locs}
                     for q, locs in rest.items()}}, separators=(",", ":")))
+    (DATA / "venues_tx.json").write_text(json.dumps(
+        {"built": built, "source": "OpenStreetMap contributors (ODbL), Geofabrik Texas extract; brands from "
+                                   "slomp/data/venue_brands.json",
+         "fields": ["lat", "lon", "name", "address", "ref"],
+         "venues": {r["key"]: {"name": r["name"], "kind": r["kind"], "industries": r.get("industries", []),
+                               "locations": venues.get(r["key"], [])} for r in vrules}}, separators=(",", ":")))
     print(f"scanned {n:,} shop/amenity objects in {time.time() - t0:.0f}s")
     counts = Counter({k: len(v) for k, v in stores.items()})
     print(f"stores: {sum(counts.values()):,} for {len(counts)} merchants; none for "
@@ -150,6 +197,10 @@ def main() -> None:
     print("  " + ", ".join(f"{k} {v}" for k, v in counts.most_common()))
     rc = Counter({rbrands[q]["name"]: len(v) for q, v in rest.items()})
     print(f"restaurants: {sum(rc.values()):,} locations of {len(rc)} brands; top: {rc.most_common(12)}")
+    vc = Counter({r["name"]: len(venues.get(r["key"], [])) for r in vrules})
+    print(f"venues: {sum(vc.values()):,} locations of {sum(1 for v in vc.values() if v)} brands; none for "
+          f"{sorted(k for k, v in vc.items() if not v)}")
+    print("  " + ", ".join(f"{k} {v}" for k, v in vc.most_common() if v))
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from plum.terms import ad_terms, bogo_of, is_storewide, post_reference, title_price
+from slomp.terms import ad_terms, bogo_of, is_storewide, post_reference, title_price
 
 
 def test_feed_item_saving_is_firm():

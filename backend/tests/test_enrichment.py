@@ -1,5 +1,5 @@
-from plum.online import same_listing
-from plum.sources.prices import asins_in, parse_amazon, parse_amazon_item, parse_newegg
+from slomp.online import same_listing
+from slomp.sources.prices import asins_in, parse_amazon, parse_amazon_item, parse_newegg
 
 AMAZON_ITEM = """
 <span id="productTitle" class="a-size-large"> Sony WH-1000XM6 The Best Noise Cancelling Wireless Headphones </span>
@@ -62,8 +62,8 @@ def test_it02_out_of_stock_comes_from_the_buy_box():
 
 
 def test_it03_removed_or_expired_posts_are_detected():
-    # it03 O-FID: a dealnews post for a sleeping bag redirected to dealnews' Amazon store page; Plum still listed it
-    from plum.sources.feeds import post_gone
+    # it03 O-FID: a dealnews post for a sleeping bag redirected to dealnews' Amazon store page; Slomp still listed it
+    from slomp.sources.feeds import post_gone
     url = "https://www.dealnews.com/Hudson-Baby-Sleeping-Bag-for-11/22242953.html"
     assert post_gone(url, "https://www.dealnews.com/s313/Amazon/22242953.html", "<html>Amazon deals</html>")
     assert post_gone(url, url, "<div class='flag'>This deal has expired</div>")
@@ -71,8 +71,8 @@ def test_it03_removed_or_expired_posts_are_detected():
 
 
 def test_it05_bundles_and_post_listed_stores():
-    from plum.identity import identify, same_product
-    from plum.sources.feeds import _SD_STORE_PRICE
+    from slomp.identity import identify, same_product
+    from slomp.sources.feeds import _SD_STORE_PRICE
     # a console bundle is not the console
     assert not same_product(identify("Nintendo Switch 2 Mario Kart World Bundle"), identify("Nintendo Switch 2 Console"))[0]
     text = ("Amazon [ amazon.com ] has 799-Piece LEGO Icons Williams Racing (10353) on sale for $51.99 . Shipping is free. "
@@ -81,7 +81,7 @@ def test_it05_bundles_and_post_listed_stores():
 
 
 def test_feed_pictures_are_extracted():
-    from plum.sources.feeds import _image, parse_bensbargains, parse_theinventory, parse_hip2save
+    from slomp.sources.feeds import _image, parse_bensbargains, parse_theinventory, parse_hip2save
     assert _image("<p><img src='//cdn.bensimages.com/media/img/450/1.webp'></p>") == "https://cdn.bensimages.com/media/img/450/1.webp"
     assert _image("", "http://f.wishabi.net/a.jpg") == "https://f.wishabi.net/a.jpg"
     assert _image("just words", None) == ""

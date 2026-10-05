@@ -1,60 +1,118 @@
-# Plum
+# Slomp
 
-Pick a **Texas city** and one or more **industries**. Plum returns:
+Pick a **Texas city** and one or more **industries**. Slomp returns:
 
 1. **Near you, next 7 days:** every deal, discount or promotion at stores near that city, valid at some point in
    the next 7 days. It reads the weekly ads retailers publish for the city's ZIP code, plus restaurant-chain
-   promotions that a nearby branch honors.
+   promotions that a nearby branch honors, plus **regular deals**: standing offers that repeat on a schedule, such
+   as BOGO Wednesdays or discount movie Tuesdays.
 2. **Biggest discounts online:** the products in each industry with the highest discounts right now. Where other
    stores sell the exact same product, the discount is measured against their prices rather than a list price.
 
 Everything comes from public, keyless sources. [docs/DESIGN.md](docs/DESIGN.md) covers the design and the research
-behind it. [docs/VERIFICATION.md](docs/VERIFICATION.md) has the results of the live accuracy tests.
+behind it, and [docs/DESIGN-regular-deals.md](docs/DESIGN-regular-deals.md) does the same for regular deals.
+[docs/VERIFICATION.md](docs/VERIFICATION.md) has the results of the live accuracy tests.
 
 ## Run it
 
 ```bash
 cd backend
-python3 -m venv .venv && source .venv/bin/activate   # keeps Plum's packages out of your base Python
+python3 -m venv .venv && source .venv/bin/activate   # keeps Slomp's packages out of your base Python
 pip install -e '.[dev]'
-plum cities "san an"                          # find a city id (1,256 Texas places)
-plum local austin -i tech,fashion             # deals near Austin in the next 7 days
-plum local alpine -i grocery,dining -r 50     # small towns: widen the radius
-plum online -i tech,home -n 10                # biggest verified online discounts
-plum serve                                    # web page at http://localhost:8000, API docs at /docs
+slomp cities "san an"                          # find a city id (1,256 Texas places)
+slomp local austin -i tech,fashion             # deals near Austin in the next 7 days
+slomp local alpine -i grocery,dining -r 50     # small towns: widen the radius
+slomp local austin -i dining,entertainment     # restaurant promotions and regular deals, by the day they next run
+slomp regulars                                 # every regular deal Slomp knows, with the state of its evidence
+slomp online -i tech,home -n 10                # biggest verified online discounts
+slomp serve                                    # web page at http://localhost:8000, API docs at /docs
 pytest                                        # offline unit tests
-plum verify --iteration 1                     # 200 live accuracy tests (about 30 minutes)
+slomp verify --iteration 1                     # 200 live accuracy tests (about 30 minutes)
+slomp verify --iteration 1 --plan regulars     # 200 live tests of regular deals (Austin, Houston, Dallas areas)
+python -m slomp.verify.regulars_run --audit    # every regular deal near those cities, not a sample
 ```
 
 ## The web page
 
-`plum serve` opens a single page: search a city, tap a distance and what you're shopping for, and browse picture
-cards under two tabs, **Near you** and **Online**. Click a card for the details: what the discount is measured
+`slomp serve` opens a single page: search a city, tap a distance and what you're shopping for, and browse cards under
+three tabs, **Near you**, **Regulars** and **Online**. Click a card for the details: what the discount is measured
 against, dates, the nearest store, conditions, other stores' prices, and links to the ad or deal post. Searches are
 kept in the address bar, so a results page can be bookmarked or shared. Pictures are the ad clippings and deal-post
 photos, loaded from their sources.
 
+Each tab has a **Sort** menu: best deal first (the biggest discount on the card's badge; something free counts as 100%
+off, or 50% when it takes a purchase), ending soonest, or the company's name A–Z or Z–A. The page remembers the
+choice.
+
+## Regular deals
+
+The **Regulars** tab shows the deals that repeat every week, one button per day of the coming week. Each card shows
+the company's logo, when the deal runs (and until when, if it ends), where the nearest branch is, and how Slomp knows:
+
+| Label | Meaning |
+|---|---|
+| ✓ Company site | Slomp read the company's own page in the last 7 days and found the offer's words on it |
+| Listed by 1 or 2 sites | The Krazy Coupon Lady's or EatDrinkDeals' day-of-week list carries it, and the list was updated in the last 45 days |
+| Reported | A dated article states it, and the article is under 180 days old |
+| Added by you | It is in your own file (below); Slomp has not checked it |
+
+A deal stops showing when its evidence goes stale, its page stops saying it, or its stated end date passes. A free
+day that needs a reserved ticket is left out for a date its own page marks sold out.
+`slomp regulars` prints every entry with the state of its evidence. The curated entries live in
+[backend/slomp/data/regulars.json](backend/slomp/data/regulars.json): each names the page that states the deal and the
+words that must be found there.
+
+**Your own regular deals.** Slomp can't read Instagram, Facebook, X or TikTok (they all forbid automated readers), so
+a deal announced only there is missing until you add it. Put entries in `~/.config/slomp/regulars.json` (or the file
+named by `SLOMP_REGULARS`), in the format of [docs/regulars.example.json](docs/regulars.example.json):
+
+```json
+[{"brand": "DOKA Bubble Tea", "offer": "BOGO Wednesday: buy one, get one free on select drinks", "days": ["wed"],
+  "kind": "cafe", "bogo": "buy 1 get 1 free", "conditions": ["select drinks"],
+  "places": [{"name": "DOKA Bubble Tea", "address": "2815 Guadalupe St Ste A, Austin, TX 78705"}],
+  "link": "https://www.facebook.com/p/Doka-Bubble-Tea-100070021503436/", "note": "Announced on their Facebook page."}]
+```
+
+`days` takes weekdays (`"mon"` to `"sun"`), `"daily"`, `"weekdays"`, or a monthly rule (`"first tue"`, `"7th"`).
+`time` is optional (`"after 5 pm"`, `"3-6 pm"`). Give `places` with a street address for a single shop (Slomp looks up
+its coordinates), or leave it out for a chain the map knows. `link` and `note` are shown to you; Slomp never fetches
+the link. `site`, the place's own website, lets `scripts/build_logos.py` find its logo.
+
 The first search for a city reads about 150 source pages (about 10–60 seconds). Results are cached in
-`~/.cache/plum` (`PLUM_CACHE_DIR` moves it). Set `PLUM_CONTACT` to a URL or email to add it to the User-Agent.
+`~/.cache/slomp` (`SLOMP_CACHE_DIR` moves it). Set `SLOMP_CONTACT` to a URL or email to add it to the User-Agent.
 
 ## Rebuilding the reference data
 
 ```bash
 python scripts/build_texas_cities.py                                         # Census 2026 / PEP 2025 / ACS 2024
-uv run --no-project --with osmium python scripts/build_stores.py             # OpenStreetMap Texas stores, weekly
+uv run --no-project --with osmium python scripts/build_stores.py             # OpenStreetMap Texas stores, restaurants
+                                                                             # and venues (cinemas etc.), weekly
+python scripts/build_branch_checks.py                                        # branches the chains' own locators no
+                                                                             # longer list (AllThePlaces), after it
+python scripts/build_logos.py                                                # a logo for each place a regular deal
+                                                                             # is at, from its own website
 ```
 
 ## Industries
 
 Tech & Electronics, Sports & Outdoors, Fashion & Apparel, Home & Garden, Beauty & Personal Care, Health & Wellness,
-Grocery & Household, Toys Games & Hobbies, Baby & Kids, Pets, Automotive, Office & School, and Restaurants & Dining
-(local promotions only).
+Grocery & Household, Toys Games & Hobbies, Baby & Kids, Pets, Automotive, Office & School, Restaurants & Dining and
+Movies & Entertainment. The last two are local only: promotions and regular deals at places near you.
 
 ## Limits
 
 - Weekly ads are the retailer's published claim. Prices can change after posting, so every deal links to its source.
 - Walmart, Target, Best Buy's site, eBay, Home Depot, Lowe's and several other retailers block automated readers,
-  and Plum doesn't work around that. Their prices reach Plum only through their weekly ads and deal posts.
+  and Slomp doesn't work around that. Their prices reach Slomp only through their weekly ads and deal posts.
 - Store locations come from OpenStreetMap, which misses some regional chains. Those deals are shown as
   "store not confirmed" rather than dropped.
+- Regular deals: Slomp shows the nearest branch, but can't tell whether that branch takes part, so each card carries
+  the conditions and its evidence. The map can keep a branch after it closes; where a chain's own store locator is
+  available, Slomp skips the branches it no longer lists (about 1 in 12), and elsewhere a card can still name a
+  closed one. Deals announced only on social media, and chains whose pages sit behind bot checks
+  with no dated article to stand in (Alamo Drafthouse's Tuesday tickets, for one), are missing.
+- Regular deals at local places are the thinnest part: each is added by hand from the place's own page or a dated
+  article. A few sites tell AI assistants by name to keep out (the Fort Worth Zoo, the Bullock Museum, The
+  Infatuation's guides). Their pages are not used, because the curated list is kept up with an AI assistant. Add
+  those deals to your own file if you want them.
 - For personal research: respect each source's terms.

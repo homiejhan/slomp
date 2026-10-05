@@ -1,0 +1,3319 @@
+{
+ "about": "Curated regular deals. Each entry names the page that states it (`evidence[].url`) and the words Slomp must find there (`find`, all of them, close together) before it shows the deal. `absorbs` lists words that mark a roundup entry as the same offer. An entry with `suppress` only stops a roundup entry known not to apply in Texas. Checked on 2026-10-05; `slomp regulars` shows each entry's current status.",
+ "regulars": [
+  {
+   "id": "cinemark-discount-tuesdays",
+   "brand": "Cinemark",
+   "offer": "Discount Tuesdays: movie tickets up to 50% off, all day",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 50,
+   "hedge": "up to",
+   "link": "https://www.cinemark.com/discount-tuesdays",
+   "conditions": [
+    "participating theatres",
+    "best price for Movie Rewards members (free to join)",
+    "premium formats cost extra",
+    "not on some holiday dates"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.cinemark.com/discount-tuesdays",
+     "find": [
+      "up to 50% off movie tickets on Discount Tuesdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "amc-half-price-tue-wed",
+   "brand": "AMC",
+   "offer": "50% off movie tickets on Tuesdays and Wednesdays for AMC Stubs members",
+   "days": [
+    "tue",
+    "wed"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 50,
+   "link": "https://www.amctheatres.com/50pct-off-tuesdays-and-wednesdays",
+   "conditions": [
+    "AMC Stubs members (free to join)",
+    "participating theatres",
+    "off the regular adult evening ticket price",
+    "limit 10 tickets per show date"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://hip2save.com/deals/amc-stubs-membership/",
+     "find": [
+      "save 50% on movie tickets every Tuesday AND Wednesday"
+     ],
+     "source": "Hip2Save"
+    },
+    {
+     "kind": "article",
+     "url": "https://thekrazycouponlady.com/tips/family/never-pay-for-tickets-again-how-i-attend-the-movies-for-free",
+     "find": [
+      "50% off movie tickets on Wednesdays"
+     ],
+     "source": "The Krazy Coupon Lady"
+    },
+    {
+     "kind": "official",
+     "url": "https://www.amctheatres.com/50pct-off-tuesdays-and-wednesdays",
+     "find": [
+      "50% Off Tuesdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "regal-value-days",
+   "brand": "Regal",
+   "offer": "Regal Value Days: discounted tickets on Tuesdays for Regal Crown Club members",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "discount tickets",
+   "link": "https://www.regmovies.com/promotions/regal-value-days",
+   "conditions": [
+    "Regal Crown Club members",
+    "participating locations",
+    "prices vary by theatre"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.milehighonthecheap.com/regal-cinemas-discount-tickets-tuesday-denver/",
+     "find": [
+      "Every Tuesday, Regal Cinema offers its Regal Crown Club Value Days with discounted tickets"
+     ],
+     "source": "Mile High on the Cheap"
+    },
+    {
+     "kind": "official",
+     "url": "https://www.regmovies.com/promotions/regal-value-days",
+     "find": [
+      "Value Days"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "flix-brewhouse-wednesdays",
+   "brand": "Flix Brewhouse",
+   "offer": "$6 tickets for every 2D show on Wednesdays",
+   "days": [
+    "wed"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "price": 6,
+   "link": "https://flixbrewhouse.com/discount-day/",
+   "conditions": [
+    "2D shows only",
+    "not during holiday weeks",
+    "not for films premiering that Wednesday or Flix Pick shows"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://flixbrewhouse.com/discount-day/",
+     "find": [
+      "Every 2D show at your local Flix Brewhouse is just $6",
+      "on Wednesdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "star-cinema-grill-tuesdays",
+   "brand": "Star Cinema Grill",
+   "offer": "Tuesday special ticket price",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "discount tickets",
+   "link": "https://www.starcinemagrill.net/",
+   "conditions": [
+    "not for premieres or special screenings",
+    "the price is not stated on the company's page"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.starcinemagrill.net/movie-theater/conroe/faq",
+     "find": [
+      "The Tuesday special ticket price does not apply to premieres or special screenings"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bb-theatres-treat-yourself-tuesdays",
+   "brand": "B&B Theatres",
+   "offer": "Treat Yourself Tuesdays: tickets from $6",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "price": 6,
+   "summary": "from $6",
+   "link": "https://www.bbtheatres.com/offers-and-promotions/",
+   "conditions": [
+    "Backstage Pass members",
+    "premium formats cost extra",
+    "blackout dates apply"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bbtheatres.com/offers-and-promotions/",
+     "find": [
+      "Treat Yourself Tuesdays! Tickets start at $6"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "galaxy-theatres-discount-tuesday",
+   "brand": "Galaxy Theatres",
+   "offer": "Discount Tuesday pricing for Galaxy Rewards members",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "discount tickets",
+   "link": "https://www.galaxytheatres.com/rewards",
+   "conditions": [
+    "Galaxy Rewards members",
+    "select locations"
+   ],
+   "evidence": [
+    {
+     "kind": "rewards",
+     "url": "https://www.galaxytheatres.com/rewards",
+     "find": [
+      "Discount Tuesday Pricing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dave-busters-half-price-games",
+   "brand": "Dave & Buster's",
+   "offer": "Half-price games every Wednesday and Sunday",
+   "days": [
+    "wed",
+    "sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 50,
+   "link": "https://www.daveandbusters.com/us/en/play/half-price-games-sun-thur",
+   "conditions": [
+    "in store only",
+    "not on Virtual Reality, The Arena, Game Suites or Human Crane",
+    "may not apply in all stores"
+   ],
+   "absorbs": [
+    "half-priced games",
+    "half-price games",
+    "half price games"
+   ],
+   "exact_days": true,
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.daveandbusters.com/us/en/play/half-price-games-sun-thur",
+     "find": [
+      "half the price every Wednesday & Sunday"
+     ]
+    },
+    {
+     "kind": "official",
+     "url": "https://www.daveandbusters.com/us/en/play/half-price-games-sun-thur",
+     "find": [
+      "Valid only on Sundays and Wednesdays",
+      "Offer valid in-store only"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "topgolf-half-off-golf",
+   "brand": "Topgolf",
+   "offer": "Half-Off Golf: 50% off game play all day Monday to Thursday when you book online",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 50,
+   "link": "https://topgolf.com/us/promo/half-off-golf/",
+   "conditions": [
+    "book on Topgolf's site or app",
+    "participating venues",
+    "$6 activation fee for new players"
+   ],
+   "absorbs": [
+    "half-price",
+    "half-off",
+    "50% off"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://topgolf.com/us/promo/half-off-golf/",
+     "find": [
+      "half-off all day Monday-Thursday when you book online"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "main-event-monday-night-madness",
+   "brand": "Main Event",
+   "offer": "Monday Night Madness: all-you-can-play activities or games for $12.99 a person",
+   "days": [
+    "mon"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "time": "after 4 pm",
+   "price": 12.99,
+   "link": "https://www.mainevent.com/specials",
+   "conditions": [
+    "participating locations"
+   ],
+   "absorbs": [
+    "monday madness",
+    "$12.99"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mainevent.com/specials",
+     "find": [
+      "just $12.99 per person after 4pm on Monday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "main-event-friday-night-fun",
+   "brand": "Main Event",
+   "offer": "Friday Night Fun: all-you-can-play activities or games for $14.99",
+   "days": [
+    "fri"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "time": "after 9 pm",
+   "price": 14.99,
+   "link": "https://www.mainevent.com/specials",
+   "conditions": [
+    "participating locations"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mainevent.com/specials",
+     "find": [
+      "Friday Night Fun",
+      "just $14.99 after 9 PM"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "main-event-kids-bowl-free",
+   "brand": "Main Event",
+   "offer": "Kids Bowl Free: 2 free games of bowling for kids 15 and under, Monday to Friday until 5 pm",
+   "days": [
+    "weekdays"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "time": "until 5 pm",
+   "until": "2026-10-31",
+   "summary": "kids bowl free",
+   "link": "https://www.mainevent.com/specials",
+   "conditions": [
+    "kids 15 and under",
+    "participating locations"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mainevent.com/specials",
+     "find": [
+      "2 FREE games of bowling for kids 15 & under Monday-Friday from Open-5pm through October"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuck-e-cheese-topping-tuesday",
+   "brand": "Chuck E. Cheese",
+   "offer": "Topping Tuesday: buy one large pizza, get one 50% off",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "bogo": "buy 1 get 1 50% off",
+   "link": "https://www.chuckecheese.com/deals/",
+   "conditions": [
+    "participating locations",
+    "dine-in and carryout",
+    "with the coupon on Chuck E. Cheese's deals page",
+    "limit 1"
+   ],
+   "absorbs": [
+    "topping tuesday",
+    "large pizza"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.chuckecheese.com/denton-tx/coupons-and-deals/",
+     "find": [
+      "Topping Tuesday buy-one-get-one 50% off large pizzas"
+     ],
+     "expires_after": "Topping Tuesday Buy 1 Large Pizza, Get One Large 50% OFF"
+    }
+   ]
+  },
+  {
+   "id": "chuck-e-cheese-winning-wednesday",
+   "brand": "Chuck E. Cheese",
+   "offer": "Winning Wednesday: 30% off All You Can Play",
+   "days": [
+    "wed"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 30,
+   "link": "https://www.chuckecheese.com/deals/",
+   "conditions": [
+    "participating locations",
+    "on 60 minutes or more",
+    "with the coupon on Chuck E. Cheese's deals page",
+    "limit 1"
+   ],
+   "absorbs": [
+    "all you can play",
+    "unlimited play"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.chuckecheese.com/denton-tx/coupons-and-deals/",
+     "find": [
+      "Winning Wednesday 30% off All You Can Play"
+     ],
+     "expires_after": "Winning Wednesday 30% OFF 60 Minutes of All You Can Play every Wednesday"
+    }
+   ]
+  },
+  {
+   "id": "hmns-free-tuesdays",
+   "brand": "Houston Museum of Natural Science",
+   "offer": "Free Tuesdays: free admission to the permanent exhibit halls, 5 to 8 pm",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "time": "5-8 pm",
+   "summary": "free admission",
+   "link": "https://www.hmns.org/visit/",
+   "conditions": [
+    "permanent exhibit halls only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.hmns.org/visit/",
+     "find": [
+      "Free Tuesdays 5:00 pm - 8:00 pm"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contemporary-austin-free-thursdays",
+   "brand": "The Contemporary Austin",
+   "offer": "Free admission on Thursdays at both museum locations",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "free admission",
+   "link": "https://thecontemporaryaustin.org/visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://thecontemporaryaustin.org/visit/",
+     "find": [
+      "Both museum locations are free for all visitors on Thursdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "blanton-free-tuesdays",
+   "brand": "Blanton Museum of Art",
+   "offer": "Free Tuesdays: free admission every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "link": "https://blantonmuseum.org/visit/",
+   "conditions": [],
+   "places": [
+    {
+     "name": "Blanton Museum of Art",
+     "address": "200 E Martin Luther King Jr Blvd, Austin, TX 78712",
+     "lat": 30.280544,
+     "lon": -97.737413
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://blantonmuseum.org/visit/",
+     "find": [
+      "Every Tuesday visitors get free admission"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "houston-zoo-free-first-tuesday",
+   "brand": "Houston Zoo",
+   "offer": "Free Zoo Day: free admission on the first Tuesday of the month, with a ticket reserved online ahead of time",
+   "days": [
+    "first tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "zoo",
+   "summary": "free admission",
+   "link": "https://www.houstonzoo.org/plan-your-visit/prices-and-discounts/free-tuesdays/",
+   "conditions": [
+    "reserve a free ticket online in advance",
+    "tickets are limited and often run out"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.houstonzoo.org/plan-your-visit/prices-and-discounts/free-tuesdays/",
+     "find": [
+      "on the first Tuesday of each month",
+      "Online reservations are required"
+     ],
+     "sold_out": "{month} {day} - SOLD OUT"
+    }
+   ]
+  },
+  {
+   "id": "the-modern-free-fridays",
+   "brand": "Modern Art Museum of Fort Worth",
+   "offer": "Free admission on Fridays",
+   "days": [
+    "fri"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "free admission",
+   "link": "https://www.themodern.org/visit/hours-and-admission",
+   "conditions": [],
+   "since": "2026-10-31",
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.themodern.org/visit/hours-and-admission",
+     "find": [
+      "half-price tickets on Sundays and free admission on Fridays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "the-modern-half-price-sundays",
+   "brand": "Modern Art Museum of Fort Worth",
+   "offer": "Half-price tickets on Sundays",
+   "days": [
+    "sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "pct": 50,
+   "link": "https://www.themodern.org/visit/hours-and-admission",
+   "conditions": [],
+   "since": "2026-10-31",
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.themodern.org/visit/hours-and-admission",
+     "find": [
+      "half-price tickets on Sundays and free admission on Fridays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "goodwill-central-texas-heroes-tuesday",
+   "brand": "Goodwill Central Texas",
+   "offer": "Heroes Day: 30% off for seniors 55+, first responders and military",
+   "days": [
+    "tue"
+   ],
+   "venue": "Goodwill",
+   "area": {
+    "lat": 30.2672,
+    "lon": -97.7431,
+    "mi": 40,
+    "name": "Goodwill Central Texas stores (Austin area)"
+   },
+   "pct": 30,
+   "industries": [
+    "fashion",
+    "home"
+   ],
+   "link": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+   "conditions": [
+    "age 55+, first responders or military, with ID",
+    "in store",
+    "not at Outlet stores"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+     "find": [
+      "We honor our local heroes with 30% off every Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "goodwill-central-texas-color-tag-wednesday",
+   "brand": "Goodwill Central Texas",
+   "offer": "Color Tag Day: one tag color is 60% off each Wednesday",
+   "days": [
+    "wed"
+   ],
+   "venue": "Goodwill",
+   "area": {
+    "lat": 30.2672,
+    "lon": -97.7431,
+    "mi": 40,
+    "name": "Goodwill Central Texas stores (Austin area)"
+   },
+   "pct": 60,
+   "industries": [
+    "fashion",
+    "home"
+   ],
+   "link": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+   "conditions": [
+    "only the week's tag color",
+    "in store",
+    "not at Outlet stores"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+     "find": [
+      "Each Wednesday, a different Color Tag is 60% off"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "goodwill-central-texas-kids-thursday",
+   "brand": "Goodwill Central Texas",
+   "offer": "Kids' Day: children's clothing, shoes and accessories 40% off",
+   "days": [
+    "thu"
+   ],
+   "venue": "Goodwill",
+   "area": {
+    "lat": 30.2672,
+    "lon": -97.7431,
+    "mi": 40,
+    "name": "Goodwill Central Texas stores (Austin area)"
+   },
+   "pct": 40,
+   "industries": [
+    "fashion",
+    "baby"
+   ],
+   "link": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+   "conditions": [
+    "in store",
+    "not at Outlet stores"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+     "find": [
+      "All children's clothing, shoes, and accessories are 40% off every Thursday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "goodwill-central-texas-furniture-friday",
+   "brand": "Goodwill Central Texas",
+   "offer": "Furniture Friday: 50% off all furniture",
+   "days": [
+    "fri"
+   ],
+   "venue": "Goodwill",
+   "area": {
+    "lat": 30.2672,
+    "lon": -97.7431,
+    "mi": 40,
+    "name": "Goodwill Central Texas stores (Austin area)"
+   },
+   "pct": 50,
+   "industries": [
+    "home"
+   ],
+   "link": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+   "conditions": [
+    "in store",
+    "not at Outlet stores"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.goodwillcentraltexas.org/retail-stores/sales/",
+     "find": [
+      "Start your weekend with 50% off all furniture"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "walgreens-seniors-day",
+   "brand": "Walgreens",
+   "offer": "Seniors Day: 20% off regular-price items on the first Tuesday of the month",
+   "days": [
+    "first tue"
+   ],
+   "pct": 20,
+   "link": "https://www.walgreens.com/topic/promotion/seniorday.jsp",
+   "conditions": [
+    "myWalgreens members 55 and older",
+    "regular-price items",
+    "the date can move for a holiday"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.walgreens.com/topic/promotion/seniorday.jsp",
+     "find": [
+      "Seniors Day discount is once a month on the first Tuesday",
+      "your 20% discount"
+     ],
+     "within": 0
+    }
+   ]
+  },
+  {
+   "id": "ross-55-plus-tuesdays",
+   "brand": "Ross Dress for Less",
+   "offer": "55+ Tuesday Discount: 10% off purchases made on Tuesday",
+   "days": [
+    "tue"
+   ],
+   "pct": 10,
+   "link": "https://www.rossstores.com/contact-us/",
+   "conditions": [
+    "age 55+",
+    "ID may be asked for"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.rossstores.com/contact-us/",
+     "find": [
+      "Eligible customers are entitled to 10% off purchases made on Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "savers-senior-tuesday",
+   "brand": "Savers",
+   "offer": "Senior Tuesday: save 30% every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "pct": 30,
+   "link": "https://stores.savers.com/tx/cedarpark/savers-thrift-store-1200.html",
+   "conditions": [
+    "age 55+",
+    "excludes new merchandise (red tags)"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://stores.savers.com/tx/cedarpark/savers-thrift-store-1200.html",
+     "find": [
+      "Save 30%. Every Tuesday is Senior Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "schlotzskys-bogo-wednesday",
+   "brand": "Schlotzsky's",
+   "offer": "BOGO Wednesday: buy one pizza, flatbread or calzone and get one free",
+   "days": [
+    "wed"
+   ],
+   "bogo": "buy 1 get 1 free",
+   "link": "https://www.schlotzskys.com/about-us/faqs",
+   "conditions": [
+    "one offer per transaction",
+    "extra toppings not included",
+    "some stores in the app only",
+    "service fee on app and online orders"
+   ],
+   "absorbs": [
+    "bogo"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.schlotzskys.com/about-us/faqs",
+     "find": [
+      "Schlotzsky's BOGO Wednesday offer is only available on Wednesdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "chuys-happy-hour",
+   "brand": "Chuy's",
+   "offer": "Happy hour: specials on House 'Ritas, Texas 'Tinis, beer and wine, and $5 Chips 'N' Dips",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-6 pm",
+   "summary": "happy hour",
+   "link": "https://www.chuys.com/happy-hour",
+   "conditions": [
+    "participating locations"
+   ],
+   "absorbs": [
+    "happy hour"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.chuys.com/happy-hour",
+     "find": [
+      "Weekdays 3-6PM",
+      "Specials on House 'Ritas",
+      "$5 Chips 'N' Dips"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kona-grill-happy-hour",
+   "brand": "Kona Grill",
+   "offer": "3-6-9 Happy Hour all day Monday and Tuesday: sushi, bites and margaritas from $3, $6 and $9",
+   "days": [
+    "mon",
+    "tue"
+   ],
+   "price": 3,
+   "summary": "from $3",
+   "link": "https://www.konagrill.com/happy-hour",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.konagrill.com/happy-hour",
+     "find": [
+      "ALL DAY Monday & Tuesday",
+      "bites from $3, $6 and $9"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pluckers-kids-eat-free-tuesday",
+   "brand": "Pluckers Wing Bar",
+   "offer": "Kids eat free all day on Tuesdays: two free kids meals per adult entrée",
+   "days": [
+    "tue"
+   ],
+   "summary": "kids eat free",
+   "link": "https://www.pluckers.com/",
+   "conditions": [
+    "kids 10 and under",
+    "dine-in only",
+    "specials are listed per location"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.pluckers.com/locations-pages/meyerland",
+     "find": [
+      "Kids Eat Free all day on Tuesdays"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pluckers-all-you-can-eat-wings-monday",
+   "brand": "Pluckers Wing Bar",
+   "offer": "All-you-can-eat wings for $33 on Mondays",
+   "days": [
+    "mon"
+   ],
+   "price": 33,
+   "link": "https://www.pluckers.com/",
+   "conditions": [
+    "dine-in only",
+    "specials are listed per location"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.pluckers.com/locations-pages/meyerland",
+     "find": [
+      "$33",
+      "All You Can Eat Wings on Mondays"
+     ],
+     "within": 120
+    }
+   ]
+  },
+  {
+   "id": "pluckers-buffalo-bites-thursday",
+   "brand": "Pluckers Wing Bar",
+   "offer": "All-you-can-eat Buffalo Bites for $21 on Thursdays",
+   "days": [
+    "thu"
+   ],
+   "price": 21,
+   "link": "https://www.pluckers.com/",
+   "conditions": [
+    "specials are listed per location"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.pluckers.com/locations-pages/meyerland",
+     "find": [
+      "$21",
+      "All You Can Eat Buffalo Bites on Thursdays"
+     ],
+     "within": 120
+    }
+   ]
+  },
+  {
+   "id": "perrys-pork-chop-friday-lunch",
+   "brand": "Perry's Steakhouse & Grille",
+   "offer": "Pork Chop Friday Lunch: a lunch cut of Perry's Famous Pork Chop with applesauce and bread for $24",
+   "days": [
+    "fri"
+   ],
+   "time": "10:30 am - 5 pm",
+   "price": 24,
+   "link": "https://perryssteakhouse.com/specials/pork-chop-lunch/",
+   "conditions": [
+    "dine-in or to-go"
+   ],
+   "absorbs": [
+    "pork chop friday",
+    "pork chop"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://perryssteakhouse.com/specials/pork-chop-lunch/",
+     "find": [
+      "Available Fridays from 10:30 am to 5 pm",
+      "for $24"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "perrys-sunday-supper",
+   "brand": "Perry's Steakhouse & Grille",
+   "offer": "3-Course Pork Chop Sunday Supper for $49",
+   "days": [
+    "sun"
+   ],
+   "price": 49,
+   "link": "https://perryssteakhouse.com/specials/sunday-supper/",
+   "conditions": [
+    "dine-in or to-go",
+    "during Sunday opening hours (from 4 pm)"
+   ],
+   "absorbs": [
+    "three-course pork chop",
+    "sunday supper"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://perryssteakhouse.com/specials/",
+     "find": [
+      "3-Course Pork Chop Sunday Supper for $49"
+     ]
+    },
+    {
+     "kind": "official",
+     "url": "https://perryssteakhouse.com/specials/sunday-supper/",
+     "find": [
+      "3-Course Sunday Supper for $49",
+      "Available DINE-IN & TO-GO"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "perrys-prime-rib-thursday",
+   "brand": "Perry's Steakhouse & Grille",
+   "offer": "16 oz. Caramelized Prime Rib Thursday for $59",
+   "days": [
+    "thu"
+   ],
+   "price": 59,
+   "link": "https://perryssteakhouse.com/specials/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://perryssteakhouse.com/specials/",
+     "find": [
+      "Caramelized Prime Rib Thursday | $59"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lubys-kids-eat-free",
+   "brand": "Luby's",
+   "offer": "Kids eat free on Wednesdays and Saturdays: one free kid's meal per adult meal",
+   "days": [
+    "wed",
+    "sat"
+   ],
+   "summary": "kids eat free",
+   "link": "https://www.lubys.com/discounts",
+   "conditions": [
+    "ages 10 and under",
+    "dine-in only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.lubys.com/discounts",
+     "find": [
+      "Kids Eat Free Available Wednesdays and Saturdays for ages 10 years and under"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lubys-senior-luann",
+   "brand": "Luby's",
+   "offer": "Senior LuAnn plate for $8.49, daily after 3 pm",
+   "days": [
+    "daily"
+   ],
+   "time": "after 3 pm",
+   "price": 8.49,
+   "link": "https://www.lubys.com/discounts",
+   "conditions": [
+    "age 55+",
+    "ID required"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.lubys.com/discounts",
+     "find": [
+      "$8.49 Senior LuAnn Available daily after 3:00 p.m."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kerbey-lane-kids-eat-free-tuesday",
+   "brand": "Kerbey Lane Cafe",
+   "offer": "Kids eat free every Tuesday: one free kids meal with an adult entrée",
+   "days": [
+    "tue"
+   ],
+   "summary": "kids eat free",
+   "link": "https://www.kerbeylanecafe.com/menu",
+   "conditions": [
+    "kids 12 and under",
+    "with an adult entrée"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.kerbeylanecafe.com/menu",
+     "find": [
+      "Kids eat free every Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kerbey-lane-happy-hour",
+   "brand": "Kerbey Lane Cafe",
+   "offer": "Happy hour every day, 4 to 6 pm: $3 mimosas, $5 beers, $7 cocktails",
+   "days": [
+    "daily"
+   ],
+   "time": "4-6 pm",
+   "price": 3,
+   "summary": "from $3",
+   "link": "https://www.kerbeylanecafe.com/menu",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.kerbeylanecafe.com/menu",
+     "find": [
+      "4pm-6pm Every Day",
+      "$3 Mimosas | $10 Carafes | $5 Beers | $7 Cocktails"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kerbey-lane-morning-happy-hour",
+   "brand": "Kerbey Lane Cafe",
+   "offer": "Morning happy hour, Monday to Friday 7 to 10 am: $3 mimosas, $5 beers, $7 cocktails",
+   "days": [
+    "weekdays"
+   ],
+   "time": "7-10 am",
+   "price": 3,
+   "summary": "from $3",
+   "link": "https://www.kerbeylanecafe.com/menu",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.kerbeylanecafe.com/menu",
+     "find": [
+      "Happy Hour 7am-10am Monday-Friday",
+      "$3 Mimosas | $10 Carafes | $5 Beers | $7 Cocktails"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "buffalo-wild-wings-happy-hour",
+   "brand": "Buffalo Wild Wings",
+   "offer": "Happy hour: drinks and bites at $3-6",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-6 pm",
+   "price": 3,
+   "summary": "from $3",
+   "link": "https://www.buffalowildwings.com/happy-hour/",
+   "conditions": [
+    "dine-in only",
+    "participating locations"
+   ],
+   "absorbs": [
+    "happy hour"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.buffalowildwings.com/happy-hour/",
+     "find": [
+      "$3-6 FROM 3-6 PM",
+      "Monday through Friday only"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "outback-kids-eat-free-monday",
+   "brand": "Outback Steakhouse",
+   "offer": "Kids eat free every Monday: a free kids' meal with every adult entrée",
+   "days": [
+    "mon"
+   ],
+   "summary": "kids eat free",
+   "link": "https://www.outback.com/offers/kids-eat-free",
+   "conditions": [
+    "with an adult entrée",
+    "say \"Free Joey Meal\" when dining in, or use code JOEYFREE online",
+    "participating locations"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.outback.com/offers/kids-eat-free",
+     "find": [
+      "Every Monday, wrangle up a FREE kids' meal"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "saltgrass-happy-hour",
+   "brand": "Saltgrass Steak House",
+   "offer": "Happy hour in the No Bull Lounge, Monday to Friday 3 to 7 pm",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-7 pm",
+   "summary": "happy hour",
+   "link": "https://www.saltgrass.com/",
+   "conditions": [
+    "bar area",
+    "listed per location"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.saltgrass.com/location/saltgrass-pearland/",
+     "find": [
+      "Monday - Friday | 3pm - 7pm"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pf-changs-happy-hour",
+   "brand": "P.F. Chang's",
+   "offer": "Happy hour: $5.99 beer, $6.99 wine, $8.99 cocktails and half-priced appetizers",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-6 pm",
+   "summary": "happy hour",
+   "link": "https://www.pfchangs.com/menu/happy-hour/",
+   "conditions": [
+    "dine-in only",
+    "participating locations"
+   ],
+   "absorbs": [
+    "happy hour"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.pfchangs.com/menu/happy-hour/",
+     "find": [
+      "$5.99 Select Beer, $6.99 Select Wine, $8.99 Select Cocktails and Half Priced Half Apps",
+      "Monday - Friday 3-6"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "abuelos-happy-hour",
+   "brand": "Abuelo's",
+   "offer": "$5 happy hour drinks and appetizers",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-6 pm",
+   "price": 5,
+   "link": "https://www.abuelos.com/",
+   "conditions": [
+    "bar and patio",
+    "listed per location"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.abuelos.com/restaurants/ft-worth/",
+     "find": [
+      "Mon-Fri 3pm-6pm",
+      "$5 Happy Hour drinks"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "black-walnut-cafe-happy-hour",
+   "brand": "Black Walnut Cafe",
+   "offer": "Happy hour Monday to Friday: 7 to 9:30 am and 3 to 6:30 pm",
+   "days": [
+    "weekdays"
+   ],
+   "time": "7-9:30 am and 3-6:30 pm",
+   "summary": "happy hour",
+   "link": "https://www.blackwalnutcafe.com/locations/houston-locations/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.blackwalnutcafe.com/locations/houston-locations/",
+     "find": [
+      "Happy Hour: Monday - Friday",
+      "Afternoon Happy Hour 3-6:30p"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bjs-monday-pizza",
+   "brand": "BJ's Restaurant & Brewhouse",
+   "offer": "Monday: $19.99 large pizzas or $14.99 tavern-cut pizza, and $6 Brewhouse Margaritas",
+   "days": [
+    "mon"
+   ],
+   "price": 14.99,
+   "summary": "from $14.99",
+   "link": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+   "conditions": [
+    "not on select holidays",
+    "specials vary by location and price"
+   ],
+   "absorbs": [
+    "pizza mondays",
+    "large deep dish"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+     "find": [
+      "Monday: $19.99 Large Pizzas and $6 BJ's Brewhouse Margarita",
+      "Monday: $14.99 Tavern-Cut Pizza and $6 BJ's Brewhouse Margarita"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bjs-tuesday-pizookie",
+   "brand": "BJ's Restaurant & Brewhouse",
+   "offer": "Tuesday: $5 Pizookie and half off wine",
+   "days": [
+    "tue"
+   ],
+   "price": 5,
+   "link": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+   "conditions": [
+    "not on select holidays",
+    "specials vary by location and price"
+   ],
+   "absorbs": [
+    "pizookie"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+     "find": [
+      "Tuesday: $5 Pizookie and Half Off Wine"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bjs-wednesday-burger",
+   "brand": "BJ's Restaurant & Brewhouse",
+   "offer": "Wednesday: $12.99 Loaded Burger with unlimited fries, and $5 BJ's Signature Beers",
+   "days": [
+    "wed"
+   ],
+   "price": 12.99,
+   "link": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+   "conditions": [
+    "not on select holidays",
+    "specials vary by location and price"
+   ],
+   "absorbs": [
+    "loaded burger",
+    "signature beers"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+     "find": [
+      "Wednesday: $12.99 Loaded Burger with Unlimited Fries and $5 BJ's Signature Beers"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bjs-thursday-slow-roasted",
+   "brand": "BJ's Restaurant & Brewhouse",
+   "offer": "Thursday: $19.99 slow-roasted entrée with dessert, and $6 call drinks",
+   "days": [
+    "thu"
+   ],
+   "price": 19.99,
+   "link": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+   "conditions": [
+    "not on select holidays",
+    "specials vary by location and price"
+   ],
+   "absorbs": [
+    "ribs",
+    "slow-roasted"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bjsrestaurants.com/marketing-pages/deals-and-offers/daily-brewhouse-specials",
+     "find": [
+      "Thursday: $19.99 Slow-Roasted Entree with Dessert and $6 Call Drinks"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taco-cabana-double-happy-hour",
+   "brand": "Taco Cabana",
+   "offer": "Double Happy Hour: $2.50 margaritas and $3 snacks, Sunday to Thursday",
+   "days": [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu"
+   ],
+   "time": "3-6 pm and 9 pm - 2 am",
+   "price": 2.5,
+   "summary": "from $2.50",
+   "link": "https://www.tacocabana.com/double-happy-hour/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.tacocabana.com/double-happy-hour/",
+     "find": [
+      "Available Sunday through Thursday from 3 to 6 p.m. and again from 9 p.m.to 2 a.m.",
+      "Bean & Cheese Nachos - $3",
+      "Margaritas - $2.50"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fuzzys-taco-tuesday",
+   "brand": "Fuzzy's Taco Shop",
+   "offer": "TuesYay: $2.50 classic and $3.50 premium tacos all day Tuesday",
+   "days": [
+    "tue"
+   ],
+   "price": 2.5,
+   "link": "https://www.fuzzystacoshop.com/",
+   "conditions": [],
+   "absorbs": [
+    "taco tuesday",
+    "$2.50 tacos"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.fuzzystacoshop.com/",
+     "find": [
+      "$2.50 classic and $3.50 premium tacos available all day Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fuzzys-happy-hour",
+   "brand": "Fuzzy's Taco Shop",
+   "offer": "$5 Happy Hour: $5 margaritas and house drinks",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-7 pm",
+   "price": 5,
+   "link": "https://www.fuzzystacoshop.com/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.fuzzystacoshop.com/",
+     "find": [
+      "$5 margaritas and house drinks, Mon-Fri 3-7pm"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "torchys-hooky-hour",
+   "brand": "Torchy's Tacos",
+   "offer": "Hooky Hour: half-priced house margaritas, beer and appetizers on weekdays",
+   "days": [
+    "weekdays"
+   ],
+   "time": "2-5 pm",
+   "pct": 50,
+   "link": "https://torchystacos.com/hooky-hour",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://torchystacos.com/hooky-hour",
+     "find": [
+      "weekdays from 2-5 PM with half-priced House Margaritas and beer"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rosas-taco-tuesday",
+   "brand": "Rosa's Café",
+   "offer": "Taco Tuesday: all taco plates $6.65",
+   "days": [
+    "tue"
+   ],
+   "price": 6.65,
+   "link": "https://www.rosascafe.com/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.rosascafe.com/",
+     "find": [
+      "All Taco Plates are only $6.65 every Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "baskin-robbins-celebrate-31",
+   "brand": "Baskin-Robbins",
+   "offer": "Celebrate 31: 31% off all scoops on the 31st of the month",
+   "days": [
+    "31st"
+   ],
+   "pct": 31,
+   "link": "https://www.baskinrobbins.com/en/celebrate31",
+   "conditions": [
+    "participating locations"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.baskinrobbins.com/en/celebrate31",
+     "find": [
+      "31% off",
+      "31st"
+     ],
+     "within": 400
+    }
+   ]
+  },
+  {
+   "id": "red-robin-happy-hour-not-texas",
+   "brand": "Red Robin",
+   "offer": "Happy hour 3 to 6 pm Monday to Friday",
+   "days": [
+    "weekdays"
+   ],
+   "absorbs": [
+    "happy hour"
+   ],
+   "evidence": [],
+   "suppress": "the company's page limits it to listed restaurants in other states"
+  },
+  {
+   "id": "hanks-half-off-burgers-monday",
+   "brand": "Hank's",
+   "offer": "Half off all burgers every Monday, 11 am to 9 pm",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "Hank's",
+     "address": "5811 Berkman Dr, Austin, TX 78723",
+     "lat": 30.312014,
+     "lon": -97.693665
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "11 am - 9 pm",
+   "pct": 50,
+   "link": "https://www.hanksaustin.com/menus/",
+   "conditions": [
+    "dine-in only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.hanksaustin.com/menus/",
+     "find": [
+      "EVERY MONDAY 11AM-9PM Half off all burgers"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hanks-half-off-wine-tuesday",
+   "brand": "Hank's",
+   "offer": "Half off all bottles of wine every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "places": [
+    {
+     "name": "Hank's",
+     "address": "5811 Berkman Dr, Austin, TX 78723",
+     "lat": 30.312014,
+     "lon": -97.693665
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "pct": 50,
+   "link": "https://www.hanksaustin.com/menus/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.hanksaustin.com/menus/",
+     "find": [
+      "EVERY TUESDAY Half off all bottles of wine"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hanks-happy-hour",
+   "brand": "Hank's",
+   "offer": "Happy hour every day, 3 to 6:30 pm: $1 off beer, $6 frozen and tap cocktails, $3 off appetizers",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Hank's",
+     "address": "5811 Berkman Dr, Austin, TX 78723",
+     "lat": 30.312014,
+     "lon": -97.693665
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "3-6:30 pm",
+   "summary": "happy hour",
+   "link": "https://www.hanksaustin.com/menus/",
+   "conditions": [
+    "dine-in and take-out"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.hanksaustin.com/menus/",
+     "find": [
+      "EVERYDAY HAPPY HOUR - Dine-In & Take-Out 3-6:30PM $1 Off Beer $6 Frozen Cocktails & Tap Cocktails",
+      "$3 Off Appetizers"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bryan-street-tavern-half-price-pizza-monday",
+   "brand": "Bryan Street Tavern",
+   "offer": "Half-price pizza and $6 Crown & Down all day on Mondays",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "Bryan Street Tavern",
+     "address": "4315 Bryan St, Dallas, TX 75204",
+     "lat": 32.799113,
+     "lon": -96.779315
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "pct": 50,
+   "link": "https://www.bryanstreettavern.com/",
+   "conditions": [
+    "pizza is dine-in only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.bryanstreettavern.com/",
+     "find": [
+      "MONDAYS: HALF-PRICE PIZZA & $6 CROWN & DOWN"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ezs-liquor-lounge-steak-night",
+   "brand": "EZ's Liquor Lounge",
+   "offer": "Steak night: 12-ounce strip with salad and mashed potatoes for $32, Mondays from 6 pm",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "EZ's Liquor Lounge",
+     "address": "3301 White Oak Dr, Houston, TX 77007",
+     "lat": 29.781484,
+     "lon": -95.39299
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "time": "after 6 pm",
+   "price": 32,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "12-ounce strip with a salad and mashed potatoes for $32 every Monday beginning at 6 pm"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ]
+  },
+  {
+   "id": "memorial-trail-ice-house-steak-night",
+   "brand": "Memorial Trail Ice House",
+   "offer": "Steak night on Mondays: ribeye with potatoes and salad for $21",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "Memorial Trail Ice House",
+     "address": "6202 Washington Ave, Houston, TX 77007",
+     "lat": 29.773215,
+     "lon": -95.424781
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "price": 21,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "Memorial Trail Ice House added a steak night on Mondays",
+      "ribeye steak with bacon-smashed mozzarella potatoes and salad for $21"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ]
+  },
+  {
+   "id": "griffs-steak-night",
+   "brand": "Griff's",
+   "offer": "Tuesday steak night: marinated steak, baked potato with the fixings bar and a draft beer for $24",
+   "days": [
+    "tue"
+   ],
+   "places": [
+    {
+     "name": "Griff's",
+     "address": "3416 Roseland St, Houston, TX 77006",
+     "lat": 29.742171,
+     "lon": -95.389977
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "price": 24,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "Tuesday Griff's",
+      "$24 plate comes with a marinated steak, giant baked potato"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ],
+   "site": "https://www.griffshouston.net/"
+  },
+  {
+   "id": "the-blind-goat-steak-frites",
+   "brand": "The Blind Goat",
+   "offer": "Steak frites special on Wednesdays for $27",
+   "days": [
+    "wed"
+   ],
+   "places": [
+    {
+     "name": "The Blind Goat",
+     "address": "8145 Long Point Rd, Houston, TX 77055",
+     "lat": 29.802892,
+     "lon": -95.491731
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "price": 27,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "steak frites special on Wednesdays for $27"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ]
+  },
+  {
+   "id": "jonathans-the-rub-steak-night",
+   "brand": "Jonathan's The Rub",
+   "offer": "Thursday steak night: 16-ounce New York strip with a vegetable and smashed potatoes, $35 at Campbell Place",
+   "days": [
+    "thu"
+   ],
+   "places": [
+    {
+     "name": "Jonathan's The Rub",
+     "address": "9061 Gaylord Dr, Houston, TX 77024",
+     "lat": 29.782007,
+     "lon": -95.512533
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "price": 35,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [
+    "$30 at the East End location"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "Campbell Place ($35) or East End ($30) locations of Jonathan's The Rub on Thursdays for a 16-ounce New York strip"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ]
+  },
+  {
+   "id": "written-by-the-seasons-happy-hour",
+   "brand": "Written By the Seasons",
+   "offer": "Happy hour Monday to Saturday, 3:30 to 5 pm, with half off bottles of wine",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat"
+   ],
+   "places": [
+    {
+     "name": "Written By the Seasons",
+     "address": "380 Melba St, Dallas, TX 75208",
+     "lat": 32.747149,
+     "lon": -96.827931
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "3:30-5 pm",
+   "pct": 50,
+   "link": "https://dallas.culturemap.com/news/restaurants-bars/where-drink-september-happy-hours/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dallas.culturemap.com/news/restaurants-bars/where-drink-september-happy-hours/",
+     "find": [
+      "happy hour 3:30-5 pm Monday-Saturday, with half-off on bottles of wine"
+     ],
+     "source": "CultureMap Dallas"
+    }
+   ]
+  },
+  {
+   "id": "tinies-half-price-agave-tuesday",
+   "brand": "Tinies",
+   "offer": "Half-price agave spirits on Tuesdays",
+   "days": [
+    "tue"
+   ],
+   "places": [
+    {
+     "name": "Tinies",
+     "address": "113 S Main St, Fort Worth, TX 76104",
+     "lat": 32.743434,
+     "lon": -97.325806
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "pct": 50,
+   "link": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+     "find": [
+      "Tinies",
+      "half-price agave spirits on Tuesdays"
+     ],
+     "source": "Dallasites101"
+    }
+   ]
+  },
+  {
+   "id": "tinies-half-price-wine-wednesday",
+   "brand": "Tinies",
+   "offer": "Half-price bottles of wine on Wednesdays",
+   "days": [
+    "wed"
+   ],
+   "places": [
+    {
+     "name": "Tinies",
+     "address": "113 S Main St, Fort Worth, TX 76104",
+     "lat": 32.743434,
+     "lon": -97.325806
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "pct": 50,
+   "link": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+     "find": [
+      "Tinies",
+      "half-price bottles of wine on Wednesdays"
+     ],
+     "source": "Dallasites101"
+    }
+   ]
+  },
+  {
+   "id": "branch-and-bird-happy-hour",
+   "brand": "Branch & Bird",
+   "offer": "Rooftop happy hour Tuesday to Friday, 4 to 6 pm: $3 domestic beers, $8 wine and margaritas",
+   "days": [
+    "tue",
+    "wed",
+    "thu",
+    "fri"
+   ],
+   "places": [
+    {
+     "name": "Branch & Bird",
+     "address": "640 Taylor St, Fort Worth, TX 76102",
+     "lat": 32.752457,
+     "lon": -97.332973
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "4-6 pm",
+   "price": 3,
+   "summary": "from $3",
+   "link": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.dallasites101.com/blog/post/fort-worth-happy-hours-every-weekday/",
+     "find": [
+      "From Tuesday through Friday, enjoy Branch & Bird's rooftop",
+      "$3 domestic beers, $8 wine"
+     ],
+     "source": "Dallasites101"
+    }
+   ],
+   "site": "https://branchbirdfw.com/"
+  },
+  {
+   "id": "howards-bar-two-for-20",
+   "brand": "Howard's Bar",
+   "offer": "Two burgers for $20 on Mondays",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "Howard's Bar",
+     "address": "1130 W 6th St, Austin, TX 78703",
+     "lat": 30.272336,
+     "lon": -97.755839
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "price": 10,
+   "summary": "2 for $20",
+   "link": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+     "find": [
+      "Howard's Bar",
+      "You get two burgers for $20 on Mondays"
+     ],
+     "source": "Austin Food Magazine"
+    }
+   ],
+   "site": "https://www.howardsaustin.com/"
+  },
+  {
+   "id": "drinks-lounge-monday-burger",
+   "brand": "Drinks Lounge & Records",
+   "offer": "Monday burger night: smash burger for $5.50, 4 pm to midnight ($8 other days)",
+   "days": [
+    "mon"
+   ],
+   "places": [
+    {
+     "name": "Drinks Lounge & Records",
+     "address": "2001 E Cesar Chavez St, Austin, TX 78702",
+     "lat": 30.256589,
+     "lon": -97.723289
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "time": "4 pm - midnight",
+   "price": 5.5,
+   "regular": 8,
+   "link": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+     "find": [
+      "Drinks Lounge & Records $8 daily, $5.50 on Mondays",
+      "Monday burger night, $5.50, 4pm to midnight"
+     ],
+     "source": "Austin Food Magazine",
+     "within": 900
+    }
+   ]
+  },
+  {
+   "id": "revelry-smash-burger-thursday",
+   "brand": "Revelry Kitchen + Bar",
+   "offer": "Thursday Smash Burger Night: $7 single patty, $9 double",
+   "days": [
+    "thu"
+   ],
+   "places": [
+    {
+     "name": "Revelry Kitchen + Bar",
+     "address": "1410 E 6th St, Austin, TX 78702",
+     "lat": 30.263722,
+     "lon": -97.728346
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "price": 7,
+   "link": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+     "find": [
+      "Thursday Smash Burger Night, $7 single patty, $9 double"
+     ],
+     "source": "Austin Food Magazine"
+    }
+   ],
+   "site": "https://revelryatx.com/"
+  },
+  {
+   "id": "better-half-happy-hour-burger",
+   "brand": "Better Half Coffee & Cocktails",
+   "offer": "Happy hour cheeseburger for $7, Tuesday to Friday 3 to 6 pm",
+   "days": [
+    "tue",
+    "wed",
+    "thu",
+    "fri"
+   ],
+   "places": [
+    {
+     "name": "Better Half Coffee & Cocktails",
+     "address": "406 Walsh St, Austin, TX 78703",
+     "lat": 30.27116,
+     "lon": -97.758491
+    }
+   ],
+   "kind": "cafe",
+   "industries": [
+    "dining"
+   ],
+   "time": "3-6 pm",
+   "price": 7,
+   "link": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+     "find": [
+      "The happy hour cheeseburger, beef or veggie, runs $7 Tuesday through Friday"
+     ],
+     "source": "Austin Food Magazine"
+    }
+   ],
+   "site": "https://www.betterhalfbar.com/"
+  },
+  {
+   "id": "dirty-martins-happy-hour-burger",
+   "brand": "Dirty Martin's Place",
+   "offer": "Small cheeseburger for $5 during weekday happy hour, 2 to 6 pm",
+   "days": [
+    "weekdays"
+   ],
+   "places": [
+    {
+     "name": "Dirty Martin's Place",
+     "address": "2808 Guadalupe St, Austin, TX 78705",
+     "lat": 30.293735,
+     "lon": -97.742064
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "2-6 pm",
+   "price": 5,
+   "link": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://austinfoodmagazine.com/best-burgers-austin-10-and-under/",
+     "find": [
+      "The small cheeseburger runs $5 during weekday happy hour"
+     ],
+     "source": "Austin Food Magazine"
+    }
+   ],
+   "site": "https://dirtymartins.com/"
+  },
+  {
+   "id": "hopdoddy-happy-hour",
+   "brand": "Hopdoddy Burger Bar",
+   "offer": "Happy hour: cocktails, beer, wine and sliders half off, Monday to Thursday 3 to 6 pm",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu"
+   ],
+   "time": "3-6 pm",
+   "pct": 50,
+   "link": "https://www.hopdoddy.com/happy-hour",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.hopdoddy.com/happy-hour",
+     "find": [
+      "Monday - Thursday from 3 to 6pm",
+      "Happy Hour is half off"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "quality-seafood-happy-hour",
+   "brand": "Quality Seafood Market",
+   "offer": "Happy hour: $1 Gulf oysters, 35-cent peel-and-eat shrimp and $3 Modelo drafts, 4 to 6 pm",
+   "days": [
+    "wed",
+    "thu",
+    "fri",
+    "sat"
+   ],
+   "places": [
+    {
+     "name": "Quality Seafood Market",
+     "address": "5621 Airport Blvd, Austin, TX 78751",
+     "lat": 30.31933,
+     "lon": -97.712411
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "4-6 pm",
+   "price": 1,
+   "summary": "$1 oysters",
+   "link": "https://www.qualityseafoodmarket.com/austin-quality-seafood-market-happy-hours-specials",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.qualityseafoodmarket.com/austin-quality-seafood-market-happy-hours-specials",
+     "find": [
+      "Happy Hour from 4:00 PM to 6:00 PM",
+      "$1.00",
+      "Peel N Eat Shrimp and $3"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "uchi-austin-happy-hour",
+   "brand": "Uchi",
+   "offer": "Happy hour menu every day from 4 to 6 pm, including a nine-course tasting for two",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Uchi",
+     "address": "801 S Lamar Blvd, Austin, TX 78704",
+     "lat": 30.257575,
+     "lon": -97.760058
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "4-6 pm",
+   "summary": "happy hour menu",
+   "link": "https://uchi.uchirestaurants.com/location/sushi-austin/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://uchi.uchirestaurants.com/location/sushi-austin/",
+     "find": [
+      "happy hour every day 4pm - 6pm"
+     ]
+    },
+    {
+     "kind": "official",
+     "url": "https://uchi.uchirestaurants.com/location/sushi-austin/menu/",
+     "find": [
+      "happy hour omakase",
+      "nine-course tasting for 2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "uchi-dallas-happy-hour",
+   "brand": "Uchi",
+   "offer": "Happy hour menu every day from 4 to 6 pm, including a nine-course tasting for two",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Uchi",
+     "address": "2817 Maple Ave, Dallas, TX 75201",
+     "lat": 32.796784,
+     "lon": -96.806004
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "4-6 pm",
+   "summary": "happy hour menu",
+   "link": "https://uchi.uchirestaurants.com/location/sushi-dallas/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://uchi.uchirestaurants.com/location/sushi-dallas/",
+     "find": [
+      "happy hour every day 4pm - 6pm"
+     ]
+    },
+    {
+     "kind": "official",
+     "url": "https://uchi.uchirestaurants.com/location/sushi-dallas/menu/",
+     "find": [
+      "happy hour omakase",
+      "nine-course tasting menu for two"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "uchi-houston-happy-hour",
+   "brand": "Uchi",
+   "offer": "Happy hour menu every day from 4 to 6 pm",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Uchi",
+     "address": "904 Westheimer Rd, Houston, TX 77006",
+     "lat": 29.744731,
+     "lon": -95.390687
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "4-6 pm",
+   "summary": "happy hour menu",
+   "link": "https://uchi.uchirestaurants.com/location/sushi-houston/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://uchi.uchirestaurants.com/location/sushi-houston/",
+     "find": [
+      "happy hour daily 4pm - 6pm"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "maroma-happy-hour",
+   "brand": "Maroma",
+   "offer": "Happy hour at the bar: bites and cocktails for $12 each and oysters for $3, every day 2 to 6 pm",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Maroma",
+     "address": "1333 Oak Lawn Ave, Dallas, TX 75207",
+     "lat": 32.794497,
+     "lon": -96.821635
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "2-6 pm",
+   "price": 12,
+   "summary": "$12 bites and cocktails",
+   "link": "https://dallas.culturemap.com/news/restaurants-bars/best-happy-hours-june-2026/",
+   "conditions": [
+    "at the bar only"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dallas.culturemap.com/news/restaurants-bars/best-happy-hours-june-2026/",
+     "find": [
+      "Maroma",
+      "bites and cocktails all priced at $12, served daily from 2-6 pm at the bar",
+      "oysters for $3"
+     ],
+     "source": "CultureMap Dallas"
+    }
+   ]
+  },
+  {
+   "id": "la-madeleine-kids-eat-free-tuesday",
+   "brand": "la Madeleine",
+   "offer": "Kids 10 and younger eat free on Tuesdays: one free kids meal per adult entrée",
+   "days": [
+    "tue"
+   ],
+   "area": {
+    "lat": 32.77,
+    "lon": -97.06,
+    "mi": 55,
+    "name": "Dallas-Fort Worth locations"
+   },
+   "summary": "kids eat free",
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "conditions": [
+    "kids 10 and under",
+    "with an adult entrée",
+    "dine-in only",
+    "reported for Dallas-Fort Worth locations"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "La Madeleine",
+      "Kids ages 10 and younger eat free on Tuesdays"
+     ],
+     "source": "DFWChild"
+    }
+   ]
+  },
+  {
+   "id": "mamas-daughters-diner-kids-eat-free-tuesday",
+   "brand": "Mama's Daughters' Diner",
+   "offer": "Kids 10 and younger eat free all day on Tuesdays: one free kids meal per adult meal",
+   "days": [
+    "tue"
+   ],
+   "summary": "kids eat free",
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "conditions": [
+    "kids 10 and under",
+    "with an adult meal",
+    "dine-in only"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Mama's Daughters' Diner",
+      "Kids ages 10 and younger eat free all day on Tuesday"
+     ],
+     "source": "DFWChild"
+    }
+   ]
+  },
+  {
+   "id": "cafe-brazil-kids-eat-free",
+   "brand": "Café Brazil",
+   "offer": "Kids 12 and younger eat free from the kids' menu, Sunday to Thursday 5 to 10 pm, with an adult entrée",
+   "days": [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu"
+   ],
+   "time": "5-10 pm",
+   "summary": "kids eat free",
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "conditions": [
+    "kids 12 and under",
+    "with an adult entrée",
+    "dine-in only"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Café Brazil",
+      "Sunday-Thursday, 5-10pm, kids ages 12 and younger eat free"
+     ],
+     "source": "DFWChild"
+    }
+   ]
+  },
+  {
+   "id": "texas-science-museum-free-fourth-sunday",
+   "brand": "Texas Science & Natural History Museum",
+   "offer": "H-E-B Free Fourth Sunday: free admission on the fourth Sunday of the month, 1 to 5 pm",
+   "days": [
+    "fourth sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Texas Science & Natural History Museum",
+     "address": "2400 Trinity St, Austin, TX 78712",
+     "lat": 30.286993,
+     "lon": -97.731961
+    }
+   ],
+   "time": "1-5 pm",
+   "link": "https://calendar.utexas.edu/event/h-e-b-free-fourth-sunday-4810",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://calendar.utexas.edu/event/h-e-b-free-fourth-sunday-4810",
+     "find": [
+      "H-E-B Free Fourth Sundays, held the fourth Sunday of every month"
+     ]
+    }
+   ],
+   "site": "https://sciencemuseum.utexas.edu/"
+  },
+  {
+   "id": "mexic-arte-free-sundays",
+   "brand": "Mexic-Arte Museum",
+   "offer": "Free admission for everyone on Sundays",
+   "days": [
+    "sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Mexic-Arte Museum",
+     "address": "419 Congress Ave, Austin, TX 78701",
+     "lat": 30.266394,
+     "lon": -97.743361
+    }
+   ],
+   "link": "https://mexic-artemuseum.org/visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://mexic-artemuseum.org/visit/",
+     "find": [
+      "Sundays are free for everyone"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "holocaust-museum-houston-free-thursdays",
+   "brand": "Holocaust Museum Houston",
+   "offer": "Free admission for everyone on Thursdays from 2 to 5 pm",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Holocaust Museum Houston",
+     "address": "5401 Caroline St, Houston, TX 77004",
+     "lat": 29.725602,
+     "lon": -95.38585
+    }
+   ],
+   "time": "2-5 pm",
+   "link": "https://hmh.org/visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://hmh.org/visit/",
+     "find": [
+      "The Museum is free to all on Thursdays from 2 pm to 5 pm"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "childrens-museum-houston-free-family-night",
+   "brand": "Children's Museum Houston",
+   "offer": "Free Family Night: free admission every Thursday from 5 to 8 pm",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Children's Museum Houston",
+     "address": "1500 Binz St, Houston, TX 77004",
+     "lat": 29.723138,
+     "lon": -95.385296
+    }
+   ],
+   "time": "5-8 pm",
+   "link": "https://www.cmhouston.org/page/all-discounts",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.cmhouston.org/page/all-discounts",
+     "find": [
+      "Free Family Night Thursday",
+      "every week from 5 to 8 p.m."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "health-museum-free-family-thursday",
+   "brand": "The Health Museum",
+   "offer": "Free Family Thursday: free general admission every Thursday from 2 to 5 pm, with a ticket reserved online",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "The Health Museum",
+     "address": "1515 Hermann Dr, Houston, TX 77004",
+     "lat": 29.721471,
+     "lon": -95.386448
+    }
+   ],
+   "time": "2-5 pm",
+   "link": "https://thehealthmuseum.org/visit/freefamilythursday/",
+   "conditions": [
+    "reserve a free ticket online; they are released on Monday at 10 am for that week only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://thehealthmuseum.org/visit/freefamilythursday/",
+     "find": [
+      "Free Family Thursday takes place every Thursday from 2:00 pm to 5:00 pm",
+      "available every Monday at 10:00 am for the current week only"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "meadows-museum-free-thursday-evenings",
+   "brand": "Meadows Museum",
+   "offer": "Free admission on Thursday evenings after 5 pm",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Meadows Museum",
+     "address": "5900 Bishop Blvd, Dallas, TX 75205",
+     "lat": 32.838496,
+     "lon": -96.785031
+    }
+   ],
+   "time": "5-9 pm",
+   "link": "https://meadowsmuseumdallas.org/visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://meadowsmuseumdallas.org/visit/",
+     "find": [
+      "Free Thursday evenings after 5 p.m."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nasher-free-first-saturdays",
+   "brand": "Nasher Sculpture Center",
+   "offer": "Free First Saturdays: free admission on the first Saturday of the month, 11 am to 5 pm",
+   "days": [
+    "first sat"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Nasher Sculpture Center",
+     "address": "2001 Flora St, Dallas, TX 75201",
+     "lat": 32.787831,
+     "lon": -96.80019
+    }
+   ],
+   "time": "11 am - 5 pm",
+   "link": "https://www.nashersculpturecenter.org/visit",
+   "conditions": [
+    "not when the first Saturday is January 1 or July 4"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.nashersculpturecenter.org/visit",
+     "find": [
+      "Free First Saturdays / Every first Saturday of the month",
+      "11 a.m. - 5 p.m."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sour-duck-market-happy-hour",
+   "brand": "Sour Duck Market",
+   "offer": "Happy hour every day from 3 to 6 pm: $6 single burgers, $9 double burgers, $6 cocktails and $4 pints of select lagers",
+   "days": [
+    "daily"
+   ],
+   "places": [
+    {
+     "name": "Sour Duck Market",
+     "address": "1814 E Martin Luther King Jr Blvd, Austin, TX 78702",
+     "lat": 30.279739,
+     "lon": -97.722027
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "time": "3-6 pm",
+   "price": 6,
+   "summary": "from $4",
+   "link": "https://www.sourduckmarket.com/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.sourduckmarket.com/",
+     "find": [
+      "Happy Hour 3-6pm Daily!",
+      "$6 Single Burgers $9 Double Burger",
+      "$4 Pints of Select Lagers"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rack-room-shoes-military-tuesday",
+   "brand": "Rack Room Shoes",
+   "offer": "Military discount: 10% off your entire purchase every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "pct": 10,
+   "link": "https://www.rackroomshoes.com/military-discount",
+   "industries": [
+    "fashion"
+   ],
+   "conditions": [
+    "with a valid U.S. military ID",
+    "in store only"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.rackroomshoes.com/military-discount",
+     "find": [
+      "receive a 10% discount on in-store purchases every Tuesday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "confessions-ribeye-wednesday",
+   "brand": "Confessions",
+   "offer": "All-you-can-eat ribeye and fries for $45 on Wednesdays",
+   "days": [
+    "wed"
+   ],
+   "places": [
+    {
+     "name": "Confessions",
+     "address": "3200 Kirby Dr, Houston, TX 77098",
+     "lat": 29.736215,
+     "lon": -95.418776
+    }
+   ],
+   "kind": "restaurant",
+   "industries": [
+    "dining"
+   ],
+   "price": 45,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "Confessions",
+      "all-you-can-eat ribeye and fries for $45 on Wednesdays"
+     ],
+     "source": "CultureMap Houston"
+    }
+   ]
+  },
+  {
+   "id": "starduster-lounge-steak-night",
+   "brand": "Starduster Lounge",
+   "offer": "Thursday steak night: a steak, butter-poached potatoes and vegetables for $30",
+   "days": [
+    "thu"
+   ],
+   "places": [
+    {
+     "name": "Starduster Lounge",
+     "address": "3921 N Main St, Houston, TX 77009",
+     "lat": 29.792713,
+     "lon": -95.375622
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "price": 30,
+   "link": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://houston.culturemap.com/news/restaurants-bars/12-houston-steak-nights-2026/",
+     "find": [
+      "Thursday Johnny Ritas",
+      "Starduster Lounge The casual Heights spot's steak night",
+      "cowboy butter for $30"
+     ],
+     "source": "CultureMap Houston",
+     "within": 900
+    }
+   ]
+  },
+  {
+   "id": "texas-roadhouse-early-dine",
+   "brand": "Texas Roadhouse",
+   "offer": "Early Dine menu: many entrées at reduced prices, Monday to Thursday about 3 to 5 pm",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu"
+   ],
+   "time": "3-5 pm",
+   "summary": "early dine prices",
+   "link": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+   "conditions": [
+    "hours are approximate and vary by restaurant"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+     "find": [
+      "Texas Roadhouse",
+      "Monday through Thursday, from roughly 3 p.m. to 5 p.m.",
+      "Early Dine Menu"
+     ],
+     "source": "The Takeout"
+    }
+   ],
+   "site": "https://www.texasroadhouse.com/"
+  },
+  {
+   "id": "cracker-barrel-early-dinner",
+   "brand": "Cracker Barrel",
+   "offer": "Early dinner menu of smaller-portion specials, Monday to Friday 4 to 6 pm",
+   "days": [
+    "weekdays"
+   ],
+   "time": "4-6 pm",
+   "summary": "early dinner menu",
+   "link": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+   "conditions": [
+    "dine-in only"
+   ],
+   "absorbs": [
+    "early dinner"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+     "find": [
+      "Cracker Barrel",
+      "dine in the restaurant from 4 p.m. to 6 p.m.",
+      "menu of special deals for early birds"
+     ],
+     "source": "The Takeout"
+    }
+   ],
+   "site": "https://www.crackerbarrel.com/"
+  },
+  {
+   "id": "capital-grille-capital-hours",
+   "brand": "The Capital Grille",
+   "offer": "Capital Hours: discounted plates Monday to Friday from 3 to 6 pm",
+   "days": [
+    "weekdays"
+   ],
+   "time": "3-6 pm",
+   "summary": "discounted plates",
+   "link": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+     "find": [
+      "Capital Grille",
+      "Capital Hours",
+      "discounted plates Monday through Friday from 3 p.m. to 6 p.m."
+     ],
+     "source": "The Takeout"
+    }
+   ]
+  },
+  {
+   "id": "eddie-vs-happy-hour",
+   "brand": "Eddie V's",
+   "offer": "Happy hour every day, weekends included, from 4 to 6:30 pm, with its Teasers small plates",
+   "days": [
+    "daily"
+   ],
+   "time": "4-6:30 pm",
+   "summary": "happy hour",
+   "link": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://www.thetakeout.com/2219822/chain-restaurants-best-early-bird-deals-2026/",
+     "find": [
+      "Eddie V's",
+      "offered every day, even on weekends",
+      "From 4 p.m. to 6:30 p.m."
+     ],
+     "source": "The Takeout"
+    }
+   ]
+  },
+  {
+   "id": "slim-chickens-kids-sunday",
+   "brand": "Slim Chickens",
+   "offer": "Kids 10 and younger eat for $2.99 on Sundays with an adult entrée",
+   "days": [
+    "sun"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "area": {
+    "lat": 32.77,
+    "lon": -97.06,
+    "mi": 55,
+    "name": "Dallas-Fort Worth locations"
+   },
+   "price": 2.99,
+   "regular": 5.49,
+   "conditions": [
+    "kids 10 and under",
+    "with an adult entrée",
+    "reported for Dallas-Fort Worth locations"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Slim Chickens",
+      "Kids ages 10 and younger eat for $2.99 on Sundays"
+     ],
+     "source": "DFWChild"
+    }
+   ]
+  },
+  {
+   "id": "modern-market-kids-eat-free-weekends",
+   "brand": "Modern Market",
+   "offer": "Kids 12 and younger eat free on Saturdays and Sundays after 5 pm",
+   "days": [
+    "sat",
+    "sun"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "area": {
+    "lat": 32.77,
+    "lon": -97.06,
+    "mi": 55,
+    "name": "Dallas-Fort Worth locations"
+   },
+   "time": "after 5 pm",
+   "summary": "kids eat free",
+   "conditions": [
+    "kids 12 and under",
+    "with an adult entrée",
+    "order in the restaurant, not online or in the app"
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Modern Market",
+      "Kids ages 12 and younger eat free Sundays and Saturdays after 5pm"
+     ],
+     "source": "DFWChild"
+    }
+   ]
+  },
+  {
+   "id": "black-eyed-pea-kids-eat-free-tuesday",
+   "brand": "Black-Eyed Pea",
+   "offer": "Kids 10 and younger eat free on Tuesdays after 4 pm",
+   "days": [
+    "tue"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "time": "after 4 pm",
+   "summary": "kids eat free",
+   "conditions": [
+    "kids 10 and under",
+    "with an adult entrée"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "places": [
+    {
+     "name": "Black-Eyed Pea",
+     "address": "4000 Bagpiper Way, Arlington, TX 76018",
+     "lat": 32.680396,
+     "lon": -97.105359
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Black-Eyed Pea",
+      "Kids ages 10 and younger eat free on Tuesdays after 4pm"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://theblackeyedpea.com/"
+  },
+  {
+   "id": "colters-kids-eat-free-wednesday",
+   "brand": "Colter's Texas Bar-B-Q",
+   "offer": "Kids 12 and younger eat free every Wednesday after 4 pm",
+   "days": [
+    "wed"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "time": "after 4 pm",
+   "summary": "kids eat free",
+   "industries": [
+    "dining"
+   ],
+   "conditions": [
+    "kids 12 and under",
+    "with an adult entrée",
+    "dine-in only"
+   ],
+   "places": [
+    {
+     "name": "Colter's Texas Bar-B-Q",
+     "address": "3904 W Camp Wisdom Rd, Dallas, TX 75237",
+     "lat": 32.661894,
+     "lon": -96.881767
+    },
+    {
+     "name": "Colter's Texas Bar-B-Q",
+     "address": "4435 Little Rd, Arlington, TX 76016",
+     "lat": 32.676017,
+     "lon": -97.19773
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Colter's Texas Bar-B-Q",
+      "Kids eat free every Wednesday after 4pm"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://coltersbbq.com/"
+  },
+  {
+   "id": "el-rincon-kids-eat-free-saturday-lunch",
+   "brand": "El Rincon Mexican Kitchen",
+   "offer": "Kids 10 and younger eat free at lunch on Saturdays, 11 am to 2 pm",
+   "days": [
+    "sat"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "time": "11 am - 2 pm",
+   "summary": "kids eat free",
+   "industries": [
+    "dining"
+   ],
+   "conditions": [
+    "kids 10 and under",
+    "with an adult entrée"
+   ],
+   "places": [
+    {
+     "name": "El Rincon Mexican Kitchen",
+     "address": "1114 S Elm St, Carrollton, TX 75006",
+     "lat": 32.952037,
+     "lon": -96.908482
+    },
+    {
+     "name": "El Rincon Mexican Kitchen",
+     "address": "5004 Addison Cir, Addison, TX 75001",
+     "lat": 32.961488,
+     "lon": -96.824731
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "El Rincon Mexican Kitchen",
+      "Kids eat free for lunch on Saturdays, 11am-2pm"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://elrincontx.com/"
+  },
+  {
+   "id": "central-market-cafe-southlake-kids-tuesday",
+   "brand": "Central Market Café",
+   "offer": "Kids 12 and younger eat free on Tuesdays from 4 to 9 pm at the Southlake store's café",
+   "days": [
+    "tue"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "time": "4-9 pm",
+   "summary": "kids eat free",
+   "industries": [
+    "dining"
+   ],
+   "conditions": [
+    "kids 12 and under",
+    "with an adult meal",
+    "Southlake store only"
+   ],
+   "places": [
+    {
+     "name": "Central Market",
+     "address": "1425 E Southlake Blvd, Southlake, TX 76092",
+     "lat": 32.940987,
+     "lon": -97.131775
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Central Market Café",
+      "Kids ages 12 and younger eat free from 4-9pm"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://www.centralmarket.com/"
+  },
+  {
+   "id": "el-chico-kids-99-cents-thursday",
+   "brand": "El Chico Café",
+   "offer": "Kids 12 and younger eat for 99 cents from the Little Amigos menu on Thursdays",
+   "days": [
+    "thu"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "price": 0.99,
+   "summary": "99¢ kids meal",
+   "industries": [
+    "dining"
+   ],
+   "conditions": [
+    "kids 12 and under",
+    "with an adult entrée",
+    "dine-in only"
+   ],
+   "places": [
+    {
+     "name": "El Chico Café",
+     "address": "7621 Baker Blvd, Richland Hills, TX 76118",
+     "lat": 32.809163,
+     "lon": -97.213637
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "El Chico Café",
+      "Kids ages 12 and younger eat for 99¢ from the Little Amigos menu"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://elchico.com/"
+  },
+  {
+   "id": "roman-cucina-kids-eat-free-monday",
+   "brand": "Roman Cucina",
+   "offer": "Kids 12 and younger eat free on Mondays",
+   "days": [
+    "mon"
+   ],
+   "link": "https://dfwchild.com/kids-eat-free/",
+   "summary": "kids eat free",
+   "industries": [
+    "dining"
+   ],
+   "conditions": [
+    "kids 12 and under",
+    "with a regular adult entrée",
+    "dine-in only",
+    "not on holidays"
+   ],
+   "places": [
+    {
+     "name": "Roman Cucina",
+     "address": "201 E Bethany Dr, Allen, TX 75002",
+     "lat": 33.090726,
+     "lon": -96.673902
+    },
+    {
+     "name": "Roman Cucina",
+     "address": "7989 Belt Line Rd, Dallas, TX 75248",
+     "lat": 32.950991,
+     "lon": -96.769313
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "article",
+     "url": "https://dfwchild.com/kids-eat-free/",
+     "find": [
+      "Roman Cucina",
+      "Kids 12 and younger eat free on Mondays"
+     ],
+     "source": "DFWChild"
+    }
+   ],
+   "site": "https://romancucina.com/"
+  }
+ ]
+}

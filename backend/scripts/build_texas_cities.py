@@ -1,4 +1,4 @@
-"""Build plum/data/texas_cities.json: the fixed list of Texas cities users choose from.
+"""Build slomp/data/texas_cities.json: the fixed list of Texas cities users choose from.
 
 Sources (US Census Bureau, public, keyless):
   * 2026 Gazetteer, Texas places: every incorporated place and CDP with its internal point
@@ -34,7 +34,7 @@ URLS = {
            "acsdt5y2024-b01003.dat",
     "zcta_county": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt",
 }
-OUT = Path(__file__).resolve().parents[1] / "plum" / "data" / "texas_cities.json"
+OUT = Path(__file__).resolve().parents[1] / "slomp" / "data" / "texas_cities.json"
 KINDS = {"25": "city", "43": "town", "47": "village", "57": "cdp"}
 CDP_MIN_POP = 10_000
 MOUNTAIN_COUNTIES = {"48141", "48229"}      # El Paso and Hudspeth observe Mountain time; the rest of Texas is Central
@@ -45,7 +45,7 @@ def fetch(name: str, cache: Path) -> bytes:
     path = cache / URLS[name].rsplit("/", 1)[1]
     if not path.exists():
         print(f"downloading {URLS[name]}")
-        req = urllib.request.Request(URLS[name], headers={"User-Agent": "Mozilla/5.0 (compatible; Plum/1.0)"})
+        req = urllib.request.Request(URLS[name], headers={"User-Agent": "Mozilla/5.0 (compatible; Slomp/1.0)"})
         with urllib.request.urlopen(req, timeout=300) as r:
             path.write_bytes(r.read())
     return path.read_bytes()
@@ -144,7 +144,7 @@ def build(cache: Path) -> list[dict]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--cache", type=Path, default=Path.home() / ".cache" / "plum" / "census")
+    ap.add_argument("--cache", type=Path, default=Path.home() / ".cache" / "slomp" / "census")
     args = ap.parse_args()
     rows = build(args.cache)
     OUT.parent.mkdir(parents=True, exist_ok=True)

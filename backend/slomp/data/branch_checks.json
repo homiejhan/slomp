@@ -1,0 +1,1123 @@
+{
+ "built": "2026-10-05",
+ "source": "AllThePlaces (alltheplaces.xyz, CC-0), the chains' own store locators; runs 2026-09-26-13-32-25, 2026-09-19-13-32-18, 2026-09-12-13-32-21",
+ "about": "Mapped branches no locator branch is within 0.75 mi of (`unlisted`, by OpenStreetMap id). Slomp does not show these as a deal's nearest branch. `used: false` means the locator data looked incomplete and was ignored.",
+ "chains": {
+  "AMC": {
+   "locator": "amc_theatres_us",
+   "mapped": 39,
+   "listed_near_texas": 54,
+   "used": true,
+   "unlisted": [
+    "osm:node/6900230788",
+    "osm:way/520606963",
+    "osm:way/740489077"
+   ]
+  },
+  "Applebee's": {
+   "locator": "applebees",
+   "mapped": 78,
+   "listed_near_texas": 136,
+   "used": true,
+   "unlisted": [
+    "osm:node/1478293228",
+    "osm:way/238904770",
+    "osm:way/297119153",
+    "osm:way/713248972",
+    "osm:way/714769453",
+    "osm:way/829931270"
+   ]
+  },
+  "B&B Theatres": {
+   "locator": "bb_theatres_us",
+   "mapped": 3,
+   "listed_near_texas": 13,
+   "used": true,
+   "unlisted": []
+  },
+  "Baskin-Robbins": {
+   "locator": "baskin_robbins_us",
+   "mapped": 85,
+   "listed_near_texas": 234,
+   "used": true,
+   "unlisted": [
+    "osm:node/13253291674",
+    "osm:node/13307584304",
+    "osm:node/6894634731",
+    "osm:node/7287247423",
+    "osm:node/8148051211",
+    "osm:way/704084400"
+   ]
+  },
+  "Beef O'Brady's": {
+   "locator": "beef_o_bradys",
+   "mapped": 3,
+   "listed_near_texas": 3,
+   "used": true,
+   "unlisted": [
+    "osm:node/12537342959"
+   ]
+  },
+  "Black Bear Diner": {
+   "locator": "black_bear_diner_us",
+   "mapped": 14,
+   "listed_near_texas": 33,
+   "used": true,
+   "unlisted": [
+    "osm:node/12752987472",
+    "osm:node/12996335972",
+    "osm:node/13089152838",
+    "osm:way/835411933",
+    "osm:way/863678306"
+   ]
+  },
+  "Bonefish Grill": {
+   "locator": "bonefish_grill",
+   "mapped": 2,
+   "listed_near_texas": 3,
+   "used": true,
+   "unlisted": [
+    "osm:way/607557449"
+   ]
+  },
+  "Buca di Beppo": {
+   "locator": "buca_di_beppo_us",
+   "mapped": 4,
+   "listed_near_texas": 5,
+   "used": true,
+   "unlisted": [
+    "osm:node/5339561946",
+    "osm:way/72463838"
+   ]
+  },
+  "Buffalo Wild Wings": {
+   "locator": "buffalo_wild_wings_us",
+   "mapped": 90,
+   "listed_near_texas": 192,
+   "used": true,
+   "unlisted": [
+    "osm:node/11123426593",
+    "osm:node/12555780009",
+    "osm:node/13568407737",
+    "osm:node/9351814486",
+    "osm:way/103477381"
+   ]
+  },
+  "Burger King": {
+   "locator": "burger_king",
+   "mapped": 481,
+   "listed_near_texas": 730,
+   "used": true,
+   "unlisted": [
+    "osm:node/10248723201",
+    "osm:node/10983205260",
+    "osm:node/11062709737",
+    "osm:node/11670629097",
+    "osm:node/11959273249",
+    "osm:node/12094220489",
+    "osm:node/12150590411",
+    "osm:node/12695600698",
+    "osm:node/2169055750",
+    "osm:node/3033564671",
+    "osm:node/4256142517",
+    "osm:node/4525182982",
+    "osm:node/5072670822",
+    "osm:node/5163337810",
+    "osm:node/5215539244",
+    "osm:node/5788239992",
+    "osm:node/5811024958",
+    "osm:node/6410708202",
+    "osm:node/6494344862",
+    "osm:node/7132354247",
+    "osm:node/9008941934",
+    "osm:way/1128067471",
+    "osm:way/1178562825",
+    "osm:way/132679529",
+    "osm:way/380883612",
+    "osm:way/409162921",
+    "osm:way/631708459",
+    "osm:way/709814004",
+    "osm:way/746514243",
+    "osm:way/760720536",
+    "osm:way/860832544",
+    "osm:way/877383154"
+   ]
+  },
+  "California Pizza Kitchen": {
+   "locator": "california_pizza_kitchen",
+   "mapped": 6,
+   "listed_near_texas": 1,
+   "used": false
+  },
+  "Carrabba's Italian Grill": {
+   "locator": "carrabbas_italian_grill",
+   "mapped": 14,
+   "listed_near_texas": 16,
+   "used": true,
+   "unlisted": [
+    "osm:way/368076245",
+    "osm:way/903668253"
+   ]
+  },
+  "Cheddar's": {
+   "locator": "cheddars_scratch_kitchen",
+   "mapped": 46,
+   "listed_near_texas": 68,
+   "used": true,
+   "unlisted": [
+    "osm:way/734907040"
+   ]
+  },
+  "Chili's": {
+   "locator": "chilis",
+   "mapped": 201,
+   "listed_near_texas": 293,
+   "used": true,
+   "unlisted": [
+    "osm:node/2690518455",
+    "osm:node/5753178568",
+    "osm:way/1015339156",
+    "osm:way/1233981122",
+    "osm:way/209292902",
+    "osm:way/384093112",
+    "osm:way/556191590",
+    "osm:way/677777744",
+    "osm:way/871793164",
+    "osm:way/975206137"
+   ]
+  },
+  "Chuck E. Cheese": {
+   "locator": "chuck_e_cheese",
+   "mapped": 48,
+   "listed_near_texas": 82,
+   "used": true,
+   "unlisted": [
+    "osm:node/2627550027"
+   ]
+  },
+  "Chuy's": {
+   "locator": "chuys_us",
+   "mapped": 47,
+   "listed_near_texas": 60,
+   "used": true,
+   "unlisted": [
+    "osm:node/11900198227",
+    "osm:node/1506444813",
+    "osm:way/691994295",
+    "osm:way/848791303"
+   ]
+  },
+  "Cinemark": {
+   "locator": "cinemark",
+   "mapped": 80,
+   "listed_near_texas": 90,
+   "used": true,
+   "unlisted": [
+    "osm:node/6892097512",
+    "osm:way/1068323262",
+    "osm:way/1359491213",
+    "osm:way/377912565",
+    "osm:way/443520842",
+    "osm:way/689511776",
+    "osm:way/735990552",
+    "osm:way/739612719",
+    "osm:way/740502764"
+   ]
+  },
+  "Cracker Barrel": {
+   "locator": "cracker_barrel_us",
+   "mapped": 56,
+   "listed_near_texas": 78,
+   "used": true,
+   "unlisted": [
+    "osm:way/1344868594",
+    "osm:way/196532059"
+   ]
+  },
+  "Dave & Buster's": {
+   "locator": "dave_and_busters",
+   "mapped": 11,
+   "listed_near_texas": 22,
+   "used": true,
+   "unlisted": []
+  },
+  "Del Taco": {
+   "locator": "del_taco_us",
+   "mapped": 1,
+   "listed_near_texas": 18,
+   "used": true,
+   "unlisted": [
+    "osm:node/3257165793"
+   ]
+  },
+  "Denny's": {
+   "locator": "dennys_us",
+   "mapped": 172,
+   "listed_near_texas": 222,
+   "used": true,
+   "unlisted": [
+    "osm:node/10213170117",
+    "osm:node/2479251357",
+    "osm:node/5876993564",
+    "osm:node/9525959131",
+    "osm:way/1100956386",
+    "osm:way/1203027899",
+    "osm:way/271674303",
+    "osm:way/328449000",
+    "osm:way/334104770",
+    "osm:way/378594823",
+    "osm:way/382130535",
+    "osm:way/383839737",
+    "osm:way/430270294",
+    "osm:way/465056416",
+    "osm:way/47235611",
+    "osm:way/560844491",
+    "osm:way/569495750",
+    "osm:way/628933257",
+    "osm:way/641614795",
+    "osm:way/659563328",
+    "osm:way/698283521",
+    "osm:way/713757234",
+    "osm:way/717738764",
+    "osm:way/734270312",
+    "osm:way/813716308"
+   ]
+  },
+  "Dickey's Barbecue Pit": {
+   "locator": "dickeys_barbecue_pit",
+   "mapped": 48,
+   "listed_near_texas": 81,
+   "used": true,
+   "unlisted": [
+    "osm:node/10297392775",
+    "osm:node/11151862446",
+    "osm:node/11703984455",
+    "osm:node/12053536288",
+    "osm:node/12162519498",
+    "osm:node/14197763987",
+    "osm:node/3287894020",
+    "osm:node/3610562053",
+    "osm:node/5665557042",
+    "osm:node/7932190428",
+    "osm:node/8633699291",
+    "osm:node/9661583468",
+    "osm:node/9922520606",
+    "osm:way/1058758104",
+    "osm:way/198132438",
+    "osm:way/439602068",
+    "osm:way/475676960",
+    "osm:way/717738949",
+    "osm:way/753460134"
+   ]
+  },
+  "Einstein Bros. Bagels": {
+   "locator": "einstein_bros_us",
+   "mapped": 60,
+   "listed_near_texas": 129,
+   "used": true,
+   "unlisted": [
+    "osm:node/11555278132",
+    "osm:node/11980538289",
+    "osm:node/13451924845",
+    "osm:node/13546947023",
+    "osm:node/5302783920",
+    "osm:node/5707357831",
+    "osm:node/6053175186",
+    "osm:node/7031861185",
+    "osm:way/1148716868"
+   ]
+  },
+  "Famous Dave's": {
+   "locator": "famous_daves_us",
+   "mapped": 2,
+   "listed_near_texas": 8,
+   "used": true,
+   "unlisted": []
+  },
+  "Freebirds": {
+   "locator": "freebirds_us",
+   "mapped": 48,
+   "listed_near_texas": 63,
+   "used": true,
+   "unlisted": [
+    "osm:node/10245678424",
+    "osm:node/2406308909",
+    "osm:node/3066913007",
+    "osm:node/8369597939"
+   ]
+  },
+  "Fuzzy's Taco Shop": {
+   "locator": "fuzzys_taco_shop_us",
+   "mapped": 40,
+   "listed_near_texas": 66,
+   "used": true,
+   "unlisted": [
+    "osm:node/11393317127",
+    "osm:node/2805278002",
+    "osm:node/3513739147",
+    "osm:node/4227549180",
+    "osm:node/7576528805",
+    "osm:way/480688875",
+    "osm:way/667329018",
+    "osm:way/712088425",
+    "osm:way/964879267"
+   ]
+  },
+  "Golden Corral": {
+   "locator": "golden_corral",
+   "mapped": 46,
+   "listed_near_texas": 66,
+   "used": true,
+   "unlisted": [
+    "osm:way/1097916072",
+    "osm:way/1203152048",
+    "osm:way/179394516",
+    "osm:way/467534857",
+    "osm:way/533243468",
+    "osm:way/651597946"
+   ]
+  },
+  "Goodwill": {
+   "locator": "goodwill",
+   "mapped": 187,
+   "listed_near_texas": 507,
+   "used": true,
+   "unlisted": [
+    "osm:node/11748393569",
+    "osm:node/13643640577",
+    "osm:node/13650225510",
+    "osm:node/13728353188",
+    "osm:node/1436443528",
+    "osm:node/2603485107",
+    "osm:node/2644083875",
+    "osm:node/4227549104",
+    "osm:node/4227595095",
+    "osm:node/4302909218",
+    "osm:node/5218130854",
+    "osm:node/5261462369",
+    "osm:node/6698464124",
+    "osm:node/6775257586",
+    "osm:node/6894162443",
+    "osm:node/7075942812",
+    "osm:node/8046626699",
+    "osm:node/9525363999",
+    "osm:node/9698119494",
+    "osm:node/9816166913",
+    "osm:way/1022153068",
+    "osm:way/1054973961",
+    "osm:way/1084489609",
+    "osm:way/334220401",
+    "osm:way/364730377",
+    "osm:way/415387925",
+    "osm:way/470453477",
+    "osm:way/546395275",
+    "osm:way/641613451",
+    "osm:way/712908452",
+    "osm:way/753362423",
+    "osm:way/758569788",
+    "osm:way/759450809",
+    "osm:way/865217814",
+    "osm:way/993527119"
+   ]
+  },
+  "Grimaldi's Pizzeria": {
+   "locator": "grimaldis_pizzeria",
+   "mapped": 9,
+   "listed_near_texas": 19,
+   "used": true,
+   "unlisted": [
+    "osm:way/330744931"
+   ]
+  },
+  "Hopdoddy Burger Bar": {
+   "locator": "hopdoddy_burger_bar_us",
+   "mapped": 20,
+   "listed_near_texas": 36,
+   "used": true,
+   "unlisted": []
+  },
+  "Huddle House": {
+   "locator": "huddle_house_us",
+   "mapped": 11,
+   "listed_near_texas": 15,
+   "used": true,
+   "unlisted": [
+    "osm:node/7742089467",
+    "osm:node/9698896839",
+    "osm:way/526922582",
+    "osm:way/877383157"
+   ]
+  },
+  "IKEA": {
+   "locator": "ikea",
+   "mapped": 3,
+   "listed_near_texas": 10,
+   "used": true,
+   "unlisted": []
+  },
+  "Jack in the Box": {
+   "locator": "jack_in_the_box",
+   "mapped": 504,
+   "listed_near_texas": 16,
+   "used": false
+  },
+  "KFC": {
+   "locator": "kfc_us",
+   "mapped": 225,
+   "listed_near_texas": 409,
+   "used": true,
+   "unlisted": [
+    "osm:node/10297100635",
+    "osm:node/10537661535",
+    "osm:node/11959273193",
+    "osm:node/11959273212",
+    "osm:node/11959273276",
+    "osm:node/12123447720",
+    "osm:node/12661259780",
+    "osm:node/2712511451",
+    "osm:node/3112263268",
+    "osm:node/5180857307",
+    "osm:node/6020359408",
+    "osm:node/6465899311",
+    "osm:node/6913003057",
+    "osm:node/7049132187",
+    "osm:node/7145095372",
+    "osm:way/1255463020",
+    "osm:way/127463672",
+    "osm:way/1453185232",
+    "osm:way/294825500",
+    "osm:way/334216855",
+    "osm:way/383181845",
+    "osm:way/384424389",
+    "osm:way/460390078",
+    "osm:way/461729012",
+    "osm:way/468110392",
+    "osm:way/468190097",
+    "osm:way/608808411",
+    "osm:way/652868670",
+    "osm:way/691719854"
+   ]
+  },
+  "Kona Grill": {
+   "locator": "kona_grill_us",
+   "mapped": 2,
+   "listed_near_texas": 3,
+   "used": true,
+   "unlisted": [
+    "osm:node/8631005873"
+   ]
+  },
+  "Logan's Roadhouse": {
+   "locator": "logans_roadhouse_us",
+   "mapped": 15,
+   "listed_near_texas": 19,
+   "used": true,
+   "unlisted": [
+    "osm:way/177424122",
+    "osm:way/338353041",
+    "osm:way/361088178",
+    "osm:way/406759423"
+   ]
+  },
+  "Macaroni Grill": {
+   "locator": "macaroni_grill_us",
+   "mapped": 5,
+   "listed_near_texas": 1,
+   "used": false
+  },
+  "Main Event": {
+   "locator": "main_event",
+   "mapped": 9,
+   "listed_near_texas": 26,
+   "used": true,
+   "unlisted": []
+  },
+  "Marco's Pizza": {
+   "locator": "marcos",
+   "mapped": 67,
+   "listed_near_texas": 248,
+   "used": true,
+   "unlisted": [
+    "osm:node/12734680901",
+    "osm:node/8660526261",
+    "osm:node/9374790507"
+   ]
+  },
+  "McCormick & Schmick's": {
+   "locator": "mccormick_and_schmicks_us",
+   "mapped": 3,
+   "listed_near_texas": 2,
+   "used": false
+  },
+  "Moe's Southwest Grill": {
+   "locator": "moes_southwest_grill",
+   "mapped": 3,
+   "listed_near_texas": 10,
+   "used": true,
+   "unlisted": [
+    "osm:node/4631911102"
+   ]
+  },
+  "Morton's The Steakhouse": {
+   "locator": "mortons_the_steakhouse_us",
+   "mapped": 2,
+   "listed_near_texas": 3,
+   "used": true,
+   "unlisted": [
+    "osm:node/5235821793"
+   ]
+  },
+  "Olive Garden": {
+   "locator": "olive_garden",
+   "mapped": 109,
+   "listed_near_texas": 160,
+   "used": true,
+   "unlisted": []
+  },
+  "Outback Steakhouse": {
+   "locator": "outback_steakhouse",
+   "mapped": 46,
+   "listed_near_texas": 69,
+   "used": true,
+   "unlisted": [
+    "osm:way/244982330",
+    "osm:way/387388874",
+    "osm:way/468118207",
+    "osm:way/543979036"
+   ]
+  },
+  "P.F. Chang's": {
+   "locator": "pf_changs",
+   "mapped": 24,
+   "listed_near_texas": 30,
+   "used": true,
+   "unlisted": [
+    "osm:node/11796239348",
+    "osm:way/691310662"
+   ]
+  },
+  "Panera Bread": {
+   "locator": "panera_bread_us",
+   "mapped": 105,
+   "listed_near_texas": 157,
+   "used": true,
+   "unlisted": [
+    "osm:node/11979252330",
+    "osm:node/13581743180",
+    "osm:node/2842992101",
+    "osm:node/3905171066",
+    "osm:node/5231627421",
+    "osm:node/6120422985",
+    "osm:node/7025124494",
+    "osm:node/7072414717",
+    "osm:node/9123330429",
+    "osm:node/9758286232",
+    "osm:way/1164616490",
+    "osm:way/707049417",
+    "osm:way/735033375",
+    "osm:way/97568250"
+   ]
+  },
+  "Papa Murphy's": {
+   "locator": "papa_murphys",
+   "mapped": 25,
+   "listed_near_texas": 53,
+   "used": true,
+   "unlisted": [
+    "osm:node/10649881059",
+    "osm:node/13874527844",
+    "osm:node/2603485111",
+    "osm:node/2622855261",
+    "osm:node/4113060003",
+    "osm:node/4924834545",
+    "osm:node/5101328151",
+    "osm:node/5693198016",
+    "osm:node/9426249827",
+    "osm:node/9776091289",
+    "osm:way/273838647",
+    "osm:way/306695851",
+    "osm:way/466564021",
+    "osm:way/468204167",
+    "osm:way/544436011"
+   ]
+  },
+  "Pizza Hut": {
+   "locator": "pizza_hut_us",
+   "mapped": 433,
+   "listed_near_texas": 1241,
+   "used": true,
+   "unlisted": [
+    "osm:node/10299573572",
+    "osm:node/11071720767",
+    "osm:node/12143272070",
+    "osm:node/12431760978",
+    "osm:node/12735455699",
+    "osm:node/13301048420",
+    "osm:node/1414691575",
+    "osm:node/2353755211",
+    "osm:node/2366237152",
+    "osm:node/2479251358",
+    "osm:node/2712510226",
+    "osm:node/3201144243",
+    "osm:node/4018977767",
+    "osm:node/4072279981",
+    "osm:node/4650175556",
+    "osm:node/4965141152",
+    "osm:node/5116419968",
+    "osm:node/5759436148",
+    "osm:node/6482507693",
+    "osm:node/6762963161",
+    "osm:node/6883838575",
+    "osm:node/6899479875",
+    "osm:node/8681033263",
+    "osm:node/9203574939",
+    "osm:node/9285422103",
+    "osm:way/1055818932",
+    "osm:way/132679637",
+    "osm:way/1349988930",
+    "osm:way/240851001",
+    "osm:way/315562342",
+    "osm:way/359681247",
+    "osm:way/368303656",
+    "osm:way/406793848",
+    "osm:way/409215998",
+    "osm:way/460390081",
+    "osm:way/462456795",
+    "osm:way/48102463",
+    "osm:way/588026054",
+    "osm:way/649334354",
+    "osm:way/661858863",
+    "osm:way/700452478",
+    "osm:way/728239133",
+    "osm:way/736669490",
+    "osm:way/985521921"
+   ]
+  },
+  "Quiznos": {
+   "locator": "quiznos",
+   "mapped": 8,
+   "listed_near_texas": 17,
+   "used": true,
+   "unlisted": [
+    "osm:node/1241513307",
+    "osm:node/2324901259",
+    "osm:node/5249755442",
+    "osm:node/5604621768",
+    "osm:node/566833412",
+    "osm:node/660508633",
+    "osm:way/328520428"
+   ]
+  },
+  "Red Lobster": {
+   "locator": "red_lobster_us",
+   "mapped": 48,
+   "listed_near_texas": 61,
+   "used": true,
+   "unlisted": [
+    "osm:node/6269418529",
+    "osm:way/1249449889",
+    "osm:way/172361297",
+    "osm:way/173390797",
+    "osm:way/407788606",
+    "osm:way/468118215",
+    "osm:way/648603726",
+    "osm:way/682133186",
+    "osm:way/818155889",
+    "osm:way/940712711"
+   ]
+  },
+  "Regal": {
+   "locator": "regal_theaters",
+   "mapped": 19,
+   "listed_near_texas": 27,
+   "used": true,
+   "unlisted": [
+    "osm:way/179080013",
+    "osm:way/48232505",
+    "osm:way/738376864"
+   ]
+  },
+  "Rosa's Café": {
+   "locator": "rosas_cafe_us",
+   "mapped": 37,
+   "listed_near_texas": 54,
+   "used": true,
+   "unlisted": [
+    "osm:way/812709292"
+   ]
+  },
+  "Ross Dress for Less": {
+   "locator": "ross_dress_for_less_us",
+   "mapped": 177,
+   "listed_near_texas": 306,
+   "used": true,
+   "unlisted": [
+    "osm:node/5862468929",
+    "osm:way/1320817992"
+   ]
+  },
+  "Ruth's Chris Steak House": {
+   "locator": "ruths_chris_steak_house_us",
+   "mapped": 5,
+   "listed_near_texas": 11,
+   "used": true,
+   "unlisted": []
+  },
+  "Saltgrass Steak House": {
+   "locator": "saltgrass_steak_house_us",
+   "mapped": 49,
+   "listed_near_texas": 74,
+   "used": true,
+   "unlisted": []
+  },
+  "Savers": {
+   "locator": "savers_ca_us",
+   "mapped": 2,
+   "listed_near_texas": 9,
+   "used": true,
+   "unlisted": []
+  },
+  "Sbarro": {
+   "locator": "sbarro",
+   "mapped": 8,
+   "listed_near_texas": 44,
+   "used": true,
+   "unlisted": []
+  },
+  "Schlotzsky's": {
+   "locator": "schlotzskys",
+   "mapped": 205,
+   "listed_near_texas": 113,
+   "used": false
+  },
+  "Shake Shack": {
+   "locator": "shake_shack",
+   "mapped": 25,
+   "listed_near_texas": 36,
+   "used": true,
+   "unlisted": [
+    "osm:node/4908319122"
+   ]
+  },
+  "Smoothie King": {
+   "locator": "smoothie_king_ky_us_tt",
+   "mapped": 122,
+   "listed_near_texas": 334,
+   "used": true,
+   "unlisted": [
+    "osm:node/10802014894",
+    "osm:node/11023652433",
+    "osm:node/11390924394",
+    "osm:node/11707846584",
+    "osm:node/12144726901",
+    "osm:node/13253083136",
+    "osm:node/13819217772",
+    "osm:node/4297111805",
+    "osm:node/6751450477"
+   ]
+  },
+  "Sonic Drive-In": {
+   "locator": "sonic_drivein_us",
+   "mapped": 728,
+   "listed_near_texas": 1405,
+   "used": true,
+   "unlisted": [
+    "osm:node/10130779852",
+    "osm:node/11703983923",
+    "osm:node/11805482090",
+    "osm:node/12156878884",
+    "osm:node/12918069319",
+    "osm:node/13878287387",
+    "osm:node/1484203995",
+    "osm:node/1581332997",
+    "osm:node/1897197244",
+    "osm:node/2696488994",
+    "osm:node/2810302024",
+    "osm:node/2818573233",
+    "osm:node/4288698864",
+    "osm:node/5235805530",
+    "osm:node/762939869",
+    "osm:node/822471264",
+    "osm:node/9363047997",
+    "osm:way/1014965502",
+    "osm:way/1057058158",
+    "osm:way/1071346856",
+    "osm:way/1084150741",
+    "osm:way/1230274739",
+    "osm:way/1257211848",
+    "osm:way/1288097681",
+    "osm:way/1333038916",
+    "osm:way/1421720496",
+    "osm:way/152291582",
+    "osm:way/169759924",
+    "osm:way/199580006",
+    "osm:way/220536034",
+    "osm:way/266747023",
+    "osm:way/355379106",
+    "osm:way/365622207",
+    "osm:way/381901628",
+    "osm:way/382013833",
+    "osm:way/383893705",
+    "osm:way/393849343",
+    "osm:way/413040985",
+    "osm:way/427111685",
+    "osm:way/517764476",
+    "osm:way/580545497",
+    "osm:way/582062493",
+    "osm:way/583834911",
+    "osm:way/607787854",
+    "osm:way/639270412",
+    "osm:way/642281523",
+    "osm:way/664671902",
+    "osm:way/707475109",
+    "osm:way/734596594",
+    "osm:way/751726162",
+    "osm:way/752725140",
+    "osm:way/761908214",
+    "osm:way/845840997",
+    "osm:way/849688059",
+    "osm:way/924165371",
+    "osm:way/943982927",
+    "osm:way/97718897"
+   ]
+  },
+  "Taco Bell": {
+   "locator": "taco_bell_us",
+   "mapped": 561,
+   "listed_near_texas": 1073,
+   "used": true,
+   "unlisted": [
+    "osm:node/10292461861",
+    "osm:node/7435608035",
+    "osm:way/1088693390",
+    "osm:way/1127932789",
+    "osm:way/1255186496",
+    "osm:way/320363290",
+    "osm:way/441839487"
+   ]
+  },
+  "Taco Cabana": {
+   "locator": "taco_cabana_us",
+   "mapped": 124,
+   "listed_near_texas": 107,
+   "used": true,
+   "unlisted": [
+    "osm:node/12672544501",
+    "osm:node/2370341314",
+    "osm:node/2818571080",
+    "osm:node/4613198977",
+    "osm:node/912970633",
+    "osm:way/1069153800",
+    "osm:way/1078084458",
+    "osm:way/131421995",
+    "osm:way/199450147",
+    "osm:way/277069670",
+    "osm:way/31143546",
+    "osm:way/320363296",
+    "osm:way/337062007",
+    "osm:way/358546844",
+    "osm:way/361085763",
+    "osm:way/391988496",
+    "osm:way/426004562",
+    "osm:way/439260674",
+    "osm:way/454296727",
+    "osm:way/463908405",
+    "osm:way/468043069",
+    "osm:way/486223790",
+    "osm:way/488141060",
+    "osm:way/538729176",
+    "osm:way/638830203",
+    "osm:way/650240182",
+    "osm:way/673730382",
+    "osm:way/673924857",
+    "osm:way/682129391",
+    "osm:way/708651058",
+    "osm:way/817032337",
+    "osm:way/841513319",
+    "osm:way/846944296",
+    "osm:way/89372321"
+   ]
+  },
+  "Texas Roadhouse": {
+   "locator": "texas_roadhouse",
+   "mapped": 72,
+   "listed_near_texas": 119,
+   "used": true,
+   "unlisted": [
+    "osm:node/11300559367",
+    "osm:node/8238441767",
+    "osm:way/560844466",
+    "osm:way/925772549"
+   ]
+  },
+  "The Cheesecake Factory": {
+   "locator": "the_cheesecake_factory",
+   "mapped": 17,
+   "listed_near_texas": 23,
+   "used": true,
+   "unlisted": []
+  },
+  "Topgolf": {
+   "locator": "topgolf_us",
+   "mapped": 15,
+   "listed_near_texas": 18,
+   "used": true,
+   "unlisted": [
+    "osm:way/1222163447"
+   ]
+  },
+  "Torchy's Tacos": {
+   "locator": "torchys_tacos_us",
+   "mapped": 74,
+   "listed_near_texas": 90,
+   "used": true,
+   "unlisted": [
+    "osm:node/534448268",
+    "osm:way/1064886138",
+    "osm:way/508233646"
+   ]
+  },
+  "Village Inn": {
+   "locator": "village_inn_us",
+   "mapped": 5,
+   "listed_near_texas": 0,
+   "used": false
+  },
+  "Walgreens": {
+   "locator": "walgreens",
+   "mapped": 619,
+   "listed_near_texas": 994,
+   "used": true,
+   "unlisted": [
+    "osm:node/10223712955",
+    "osm:node/10229344284",
+    "osm:node/10255635669",
+    "osm:node/10303899361",
+    "osm:node/10647085227",
+    "osm:node/11934021404",
+    "osm:node/13197422595",
+    "osm:node/13309454693",
+    "osm:node/4516472036",
+    "osm:node/4952718994",
+    "osm:node/6601644209",
+    "osm:node/6933336444",
+    "osm:way/1057024115",
+    "osm:way/1236037309",
+    "osm:way/328449148",
+    "osm:way/40416825",
+    "osm:way/453668065",
+    "osm:way/471170409",
+    "osm:way/658614345",
+    "osm:way/769520733",
+    "osm:way/822624842",
+    "osm:way/823242760",
+    "osm:way/848673362"
+   ]
+  },
+  "Wendy's": {
+   "locator": "wendys",
+   "mapped": 389,
+   "listed_near_texas": 613,
+   "used": true,
+   "unlisted": [
+    "osm:node/11822835501",
+    "osm:node/12044710835",
+    "osm:node/12050368486",
+    "osm:node/12050368502",
+    "osm:node/1234229422",
+    "osm:node/12592502243",
+    "osm:node/1459442498",
+    "osm:node/1475425631",
+    "osm:node/3149717697",
+    "osm:node/3334483932",
+    "osm:node/472497316",
+    "osm:node/4775403340",
+    "osm:node/5235821785",
+    "osm:node/9442763858",
+    "osm:way/1080209961",
+    "osm:way/1107848984",
+    "osm:way/1322380207",
+    "osm:way/132679566",
+    "osm:way/1378437062",
+    "osm:way/160992281",
+    "osm:way/205774387",
+    "osm:way/276163141",
+    "osm:way/29275704",
+    "osm:way/383199000",
+    "osm:way/384394541",
+    "osm:way/39200451",
+    "osm:way/427304562",
+    "osm:way/462422835",
+    "osm:way/464986731",
+    "osm:way/466540555",
+    "osm:way/485352104",
+    "osm:way/497759654",
+    "osm:way/508507641",
+    "osm:way/650240186",
+    "osm:way/654603792",
+    "osm:way/661939346",
+    "osm:way/663533003",
+    "osm:way/692845734",
+    "osm:way/74457835",
+    "osm:way/767881258",
+    "osm:way/822886524",
+    "osm:way/876360429",
+    "osm:way/969647521",
+    "osm:way/978924747"
+   ]
+  },
+  "Which Wich": {
+   "locator": "which_wich_us",
+   "mapped": 35,
+   "listed_near_texas": 39,
+   "used": true,
+   "unlisted": [
+    "osm:node/1366833124",
+    "osm:node/1583526082",
+    "osm:node/1930091449",
+    "osm:node/2295997398",
+    "osm:node/3610601357",
+    "osm:node/3670774770",
+    "osm:node/4631911103",
+    "osm:node/4924834536",
+    "osm:node/564586535",
+    "osm:node/601805038",
+    "osm:node/6033186874",
+    "osm:node/6248624967",
+    "osm:node/6480898287",
+    "osm:node/7435608021",
+    "osm:node/815170745",
+    "osm:node/9646888069",
+    "osm:way/690550775",
+    "osm:way/909746341"
+   ]
+  },
+  "Whole Foods Market": {
+   "locator": "whole_foods",
+   "mapped": 34,
+   "listed_near_texas": 45,
+   "used": true,
+   "unlisted": []
+  },
+  "Wingstop": {
+   "locator": "wingstop",
+   "mapped": 272,
+   "listed_near_texas": 568,
+   "used": true,
+   "unlisted": [
+    "osm:node/12050349745",
+    "osm:node/13954208367",
+    "osm:node/13984633404",
+    "osm:node/3617975236",
+    "osm:way/1547789967"
+   ]
+  },
+  "Yard House": {
+   "locator": "yard_house",
+   "mapped": 8,
+   "listed_near_texas": 11,
+   "used": true,
+   "unlisted": []
+  }
+ }
+}

@@ -1,4 +1,4 @@
-from plum.identity import identify, model_query, same_product
+from slomp.identity import identify, model_query, same_product
 
 
 def test_models_and_named_products():

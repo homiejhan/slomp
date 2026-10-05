@@ -2,18 +2,18 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "plum-api",
+      "name": "slomp-api",
       "runtimeExecutable": "/Users/homiejhan/.local/bin/uv",
       "runtimeArgs": ["run", "--no-project", "--python", "3.12", "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
-                      "python", "-m", "uvicorn", "plum.api:app", "--app-dir", "backend", "--port", "8000"],
+                      "python", "-m", "uvicorn", "slomp.api:app", "--app-dir", "backend", "--port", "8000"],
       "port": 8000
     },
     {
-      "name": "plum-preview",
+      "name": "slomp-preview",
       "runtimeExecutable": "/usr/bin/env",
-      "runtimeArgs": ["PLUM_WARM=0", "/Users/homiejhan/.local/bin/uv", "run", "--no-project", "--python", "3.12",
+      "runtimeArgs": ["SLOMP_WARM=0", "/Users/homiejhan/.local/bin/uv", "run", "--no-project", "--python", "3.12",
                       "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
-                      "python", "-m", "uvicorn", "plum.api:app", "--app-dir", "backend", "--port", "8010"],
+                      "python", "-m", "uvicorn", "slomp.api:app", "--app-dir", "backend", "--port", "8010"],
       "port": 8010
     }
   ]

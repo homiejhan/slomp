@@ -1,0 +1,1485 @@
+{
+ "about": "Places that regular deals happen at and that the restaurant and store datasets lack. scripts/build_stores.py reads this and writes venues_tx.json. A place matches a venue when its brand tag is listed, or its name starts with one of `names`, and its type is one of `only`. `aliases` maps other spellings of a chain to the name the datasets use. `display` gives the name shown for a chain when the map's name is not the everyday one. `site` is a venue's own website, for its logo (scripts/build_logos.py).",
+ "aliases": {
+  "BJ's Restaurant & Brewhouse": "BJ's",
+  "BJ's Restaurant and Brewhouse": "BJ's",
+  "BJ's Restaurant": "BJ's",
+  "BJ's Restaurants": "BJ's",
+  "Dickey's BBQ": "Dickey's Barbecue Pit",
+  "Dickeys BBQ": "Dickey's Barbecue Pit",
+  "Applebee's": "Applebee's Neighborhood Grill & Bar",
+  "Cheesecake Factory": "The Cheesecake Factory",
+  "Macaroni Grill": "Romano's Macaroni Grill",
+  "Carrabba's": "Carrabba's Italian Grill",
+  "Wings and Rings": "Buffalo Wings & Rings",
+  "Top Golf": "Topgolf",
+  "Cotton Patch Texas": "Cotton Patch Cafe",
+  "Moe's": "Moe's Southwest Grill",
+  "Church's Texas Chicken": "Church's Chicken",
+  "Sonic Drive-In": "Sonic",
+  "Rosa's Cafe": "Rosa's Café",
+  "Rosas Cafe": "Rosa's Café",
+  "Pluckers": "Pluckers Wing Bar",
+  "Kerbey Lane": "Kerbey Lane Cafe",
+  "Perry's Steakhouse": "Perry's Steakhouse & Grille",
+  "Miller's Ale House": "Miller's Ale House",
+  "Alamo Drafthouse": "Alamo Drafthouse Cinema",
+  "AMC Theatres": "AMC",
+  "Regal Cinemas": "Regal",
+  "Cinemark Theatres": "Cinemark",
+  "Dave and Buster's": "Dave & Buster's",
+  "Chuck E Cheese": "Chuck E. Cheese",
+  "Luby's Cafeteria": "Luby's",
+  "Saltgrass": "Saltgrass Steak House",
+  "PF Chang's": "P.F. Chang's",
+  "Kona Grill": "Kona Grill",
+  "Cicis Pizza": "Cicis",
+  "Schlotzsky's Deli": "Schlotzsky's",
+  "Freebirds World Burrito": "Freebirds",
+  "Torchy's": "Torchy's Tacos",
+  "Fuzzy's": "Fuzzy's Taco Shop",
+  "Jersey Mike's": "Jersey Mike's Subs",
+  "Dutch Bros": "Dutch Bros. Coffee",
+  "Cheddar's Scratch Kitchen": "Cheddar's",
+  "Abuelo's Mexican Restaurant": "Abuelo's",
+  "Goodwill Central Texas": "Goodwill",
+  "Outback": "Outback Steakhouse",
+  "Texas Roadhouse": "Texas Roadhouse",
+  "Twin Peaks Restaurants": "Twin Peaks",
+  "Famous Dave's BBQ": "Famous Dave's",
+  "Morton's Steakhouse": "Morton's The Steakhouse",
+  "Melting Pot": "The Melting Pot",
+  "Brio Italian Grille": "Brio",
+  "Whole Foods": "Whole Foods Market",
+  "Eddie V's Prime Seafood": "Eddie V's",
+  "Capital Grille": "The Capital Grille"
+ },
+ "display": {
+  "BJ's": "BJ's Restaurant & Brewhouse",
+  "Applebee's Neighborhood Grill & Bar": "Applebee's",
+  "Which Wich?": "Which Wich",
+  "Romano's Macaroni Grill": "Macaroni Grill",
+  "Sonic": "Sonic Drive-In",
+  "Church's Chicken": "Church's Texas Chicken",
+  "Dutch Bros. Coffee": "Dutch Bros",
+  "Rudy's Country Store and Bar-B-Q": "Rudy's Bar-B-Q"
+ },
+ "not_these": [
+  "Jack's Family Restaurants",
+  "Jack's",
+  "Bravo",
+  "Brio",
+  "Ruby's Diner",
+  "Potato Corner",
+  "Wing Zone",
+  "Texas Steakhouse"
+ ],
+ "venues": [
+  {
+   "key": "cinemark",
+   "name": "Cinemark",
+   "kind": "cinema",
+   "names": [
+    "Cinemark",
+    "Century 1",
+    "Century Theatres"
+   ],
+   "brands": [
+    "Cinemark",
+    "Century Theatres"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "amc",
+   "name": "AMC",
+   "kind": "cinema",
+   "names": [
+    "AMC "
+   ],
+   "brands": [
+    "AMC",
+    "AMC Theatres"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "regal",
+   "name": "Regal",
+   "kind": "cinema",
+   "names": [
+    "Regal "
+   ],
+   "brands": [
+    "Regal Cinemas",
+    "Regal"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "alamo-drafthouse",
+   "name": "Alamo Drafthouse Cinema",
+   "kind": "cinema",
+   "names": [
+    "Alamo Drafthouse"
+   ],
+   "brands": [
+    "Alamo Drafthouse Cinema",
+    "Alamo Drafthouse"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "flix-brewhouse",
+   "name": "Flix Brewhouse",
+   "kind": "cinema",
+   "names": [
+    "Flix Brewhouse"
+   ],
+   "brands": [
+    "Flix Brewhouse"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "star-cinema-grill",
+   "name": "Star Cinema Grill",
+   "kind": "cinema",
+   "names": [
+    "Star Cinema Grill"
+   ],
+   "brands": [
+    "Star Cinema Grill"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "studio-movie-grill",
+   "name": "Studio Movie Grill",
+   "kind": "cinema",
+   "names": [
+    "Studio Movie Grill"
+   ],
+   "brands": [
+    "Studio Movie Grill"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "bb-theatres",
+   "name": "B&B Theatres",
+   "kind": "cinema",
+   "names": [
+    "B&B "
+   ],
+   "brands": [
+    "B&B Theatres"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "galaxy-theatres",
+   "name": "Galaxy Theatres",
+   "kind": "cinema",
+   "names": [
+    "Galaxy Theatres",
+    "Galaxy Highland"
+   ],
+   "brands": [
+    "Galaxy Theatres"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "cinepolis",
+   "name": "Cinépolis",
+   "kind": "cinema",
+   "names": [
+    "Cinepolis",
+    "Cinépolis"
+   ],
+   "brands": [
+    "Cinépolis",
+    "Cinepolis"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "moviehouse-eatery",
+   "name": "Moviehouse & Eatery",
+   "kind": "cinema",
+   "names": [
+    "Moviehouse & Eatery",
+    "Moviehouse and Eatery"
+   ],
+   "brands": [
+    "Moviehouse & Eatery"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "look-cinemas",
+   "name": "LOOK Dine-In Cinemas",
+   "kind": "cinema",
+   "names": [
+    "LOOK Dine-In",
+    "Look Dine-in",
+    "LOOK Cinemas"
+   ],
+   "brands": [
+    "LOOK Dine-In Cinemas"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "evo",
+   "name": "EVO Entertainment",
+   "kind": "cinema",
+   "names": [
+    "EVO "
+   ],
+   "brands": [
+    "EVO Entertainment",
+    "EVO Cinemas"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "santikos",
+   "name": "Santikos Entertainment",
+   "kind": "cinema",
+   "names": [
+    "Santikos"
+   ],
+   "brands": [
+    "Santikos"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "showbiz",
+   "name": "ShowBiz Cinemas",
+   "kind": "cinema",
+   "names": [
+    "ShowBiz",
+    "Showbiz"
+   ],
+   "brands": [
+    "ShowBiz Cinemas"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "violet-crown",
+   "name": "Violet Crown",
+   "kind": "cinema",
+   "names": [
+    "Violet Crown"
+   ],
+   "brands": [
+    "Violet Crown"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "ipic",
+   "name": "IPIC Theaters",
+   "kind": "cinema",
+   "names": [
+    "IPIC",
+    "iPic"
+   ],
+   "brands": [
+    "IPIC Theaters",
+    "iPic"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "angelika",
+   "name": "Angelika Film Center",
+   "kind": "cinema",
+   "names": [
+    "Angelika Film Center"
+   ],
+   "brands": [
+    "Angelika Film Center"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "xscape",
+   "name": "Xscape Theatres",
+   "kind": "cinema",
+   "names": [
+    "Xscape"
+   ],
+   "brands": [
+    "Xscape Theatres"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "premiere",
+   "name": "Premiere Cinemas",
+   "kind": "cinema",
+   "names": [
+    "Premiere Cinema",
+    "PREMIERE "
+   ],
+   "brands": [
+    "Premiere Cinemas"
+   ],
+   "only": {
+    "amenity": [
+     "cinema"
+    ]
+   }
+  },
+  {
+   "key": "topgolf",
+   "name": "Topgolf",
+   "kind": "golf",
+   "names": [
+    "Topgolf",
+    "Top Golf"
+   ],
+   "brands": [
+    "Topgolf"
+   ]
+  },
+  {
+   "key": "bowlero",
+   "name": "Bowlero",
+   "kind": "bowling",
+   "names": [
+    "Bowlero"
+   ],
+   "brands": [
+    "Bowlero"
+   ]
+  },
+  {
+   "key": "pinstack",
+   "name": "Pinstack",
+   "kind": "bowling",
+   "names": [
+    "Pinstack",
+    "PINSTACK"
+   ],
+   "brands": [
+    "Pinstack"
+   ]
+  },
+  {
+   "key": "bullock-museum",
+   "name": "Bullock Texas State History Museum",
+   "kind": "museum",
+   "names": [
+    "Bullock Texas State History Museum",
+    "Bob Bullock Texas State History Museum",
+    "Texas State History Museum"
+   ],
+   "brands": [
+    "Bullock Texas State History Museum"
+   ]
+  },
+  {
+   "key": "blanton",
+   "name": "Blanton Museum of Art",
+   "kind": "museum",
+   "names": [
+    "Blanton Museum of Art",
+    "Jack S. Blanton Museum of Art"
+   ],
+   "brands": [
+    "Blanton Museum of Art"
+   ]
+  },
+  {
+   "key": "mfah",
+   "name": "Museum of Fine Arts, Houston",
+   "kind": "museum",
+   "names": [
+    "Museum of Fine Arts, Houston",
+    "Museum of Fine Arts Houston",
+    "The Museum of Fine Arts, Houston"
+   ],
+   "brands": [
+    "Museum of Fine Arts, Houston"
+   ]
+  },
+  {
+   "key": "hmns",
+   "name": "Houston Museum of Natural Science",
+   "kind": "museum",
+   "names": [
+    "Houston Museum of Natural Science"
+   ],
+   "brands": [
+    "Houston Museum of Natural Science"
+   ]
+  },
+  {
+   "key": "fort-worth-zoo",
+   "name": "Fort Worth Zoo",
+   "kind": "zoo",
+   "names": [
+    "Fort Worth Zoo"
+   ],
+   "brands": [
+    "Fort Worth Zoo"
+   ]
+  },
+  {
+   "key": "houston-zoo",
+   "name": "Houston Zoo",
+   "kind": "zoo",
+   "names": [
+    "Houston Zoo"
+   ],
+   "brands": [
+    "Houston Zoo"
+   ]
+  },
+  {
+   "key": "kimbell",
+   "name": "Kimbell Art Museum",
+   "kind": "museum",
+   "names": [
+    "Kimbell Art Museum"
+   ],
+   "brands": [
+    "Kimbell Art Museum"
+   ]
+  },
+  {
+   "key": "the-modern",
+   "name": "Modern Art Museum of Fort Worth",
+   "kind": "museum",
+   "names": [
+    "Modern Art Museum of Fort Worth",
+    "The Modern"
+   ],
+   "brands": [
+    "Modern Art Museum of Fort Worth"
+   ]
+  },
+  {
+   "key": "nasher",
+   "name": "Nasher Sculpture Center",
+   "kind": "museum",
+   "names": [
+    "Nasher Sculpture Center"
+   ],
+   "brands": [
+    "Nasher Sculpture Center"
+   ]
+  },
+  {
+   "key": "contemporary-austin",
+   "name": "The Contemporary Austin",
+   "kind": "museum",
+   "names": [
+    "The Contemporary Austin"
+   ],
+   "brands": [
+    "The Contemporary Austin"
+   ]
+  },
+  {
+   "key": "pluckers",
+   "name": "Pluckers Wing Bar",
+   "kind": "restaurant",
+   "names": [
+    "Pluckers"
+   ],
+   "brands": [
+    "Pluckers Wing Bar"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "rosas-cafe",
+   "name": "Rosa's Café",
+   "kind": "restaurant",
+   "names": [
+    "Rosa's Cafe",
+    "Rosa's Café",
+    "Rosas Cafe"
+   ],
+   "brands": [
+    "Rosa's Café"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "millers-ale-house",
+   "name": "Miller's Ale House",
+   "kind": "restaurant",
+   "names": [
+    "Miller's Ale House"
+   ],
+   "brands": [
+    "Miller's Ale House"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "perrys",
+   "name": "Perry's Steakhouse & Grille",
+   "kind": "restaurant",
+   "names": [
+    "Perry's Steakhouse"
+   ],
+   "brands": [
+    "Perry's Steakhouse & Grille"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "uncle-julios",
+   "name": "Uncle Julio's",
+   "kind": "restaurant",
+   "names": [
+    "Uncle Julio's"
+   ],
+   "brands": [
+    "Uncle Julio's"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "el-fenix",
+   "name": "El Fenix",
+   "kind": "restaurant",
+   "names": [
+    "El Fenix"
+   ],
+   "brands": [
+    "El Fenix"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://www.elfenix.com/"
+  },
+  {
+   "key": "cowboy-chicken",
+   "name": "Cowboy Chicken",
+   "kind": "restaurant",
+   "names": [
+    "Cowboy Chicken"
+   ],
+   "brands": [
+    "Cowboy Chicken"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "hteao",
+   "name": "HTeaO",
+   "kind": "cafe",
+   "names": [
+    "HTeaO"
+   ],
+   "brands": [
+    "HTeaO"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "kerbey-lane",
+   "name": "Kerbey Lane Cafe",
+   "kind": "restaurant",
+   "names": [
+    "Kerbey Lane"
+   ],
+   "brands": [
+    "Kerbey Lane Cafe"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "tiffs-treats",
+   "name": "Tiff's Treats",
+   "kind": "cafe",
+   "names": [
+    "Tiff's Treats"
+   ],
+   "brands": [
+    "Tiff's Treats"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "crumbl",
+   "name": "Crumbl",
+   "kind": "cafe",
+   "names": [
+    "Crumbl"
+   ],
+   "brands": [
+    "Crumbl"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "7-brew",
+   "name": "7 Brew",
+   "kind": "cafe",
+   "names": [
+    "7 Brew"
+   ],
+   "brands": [
+    "7 Brew"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "mr-gattis",
+   "name": "Mr Gatti's Pizza",
+   "kind": "restaurant",
+   "names": [
+    "Mr. Gatti's",
+    "Mr Gatti's",
+    "Gatti's Pizza",
+    "Gattitown"
+   ],
+   "brands": [
+    "Mr Gatti's Pizza"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "abuelos",
+   "name": "Abuelo's",
+   "kind": "restaurant",
+   "names": [
+    "Abuelo's"
+   ],
+   "brands": [
+    "Abuelo's"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "lupe-tortilla",
+   "name": "Lupe Tortilla",
+   "kind": "restaurant",
+   "names": [
+    "Lupe Tortilla"
+   ],
+   "brands": [
+    "Lupe Tortilla"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "pappasitos",
+   "name": "Pappasito's Cantina",
+   "kind": "restaurant",
+   "names": [
+    "Pappasito's"
+   ],
+   "brands": [
+    "Pappasito's Cantina"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "walk-ons",
+   "name": "Walk-On's Sports Bistreaux",
+   "kind": "restaurant",
+   "names": [
+    "Walk-On's",
+    "Walk On's"
+   ],
+   "brands": [
+    "Walk-On's Sports Bistreaux"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "world-of-beer",
+   "name": "World of Beer",
+   "kind": "bar",
+   "names": [
+    "World of Beer"
+   ],
+   "brands": [
+    "World of Beer"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://worldofbeer.com/"
+  },
+  {
+   "key": "black-walnut-cafe",
+   "name": "Black Walnut Cafe",
+   "kind": "restaurant",
+   "names": [
+    "Black Walnut Cafe",
+    "Black Walnut Café"
+   ],
+   "brands": [
+    "Black Walnut Cafe"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "kona-grill",
+   "name": "Kona Grill",
+   "kind": "restaurant",
+   "names": [
+    "Kona Grill"
+   ],
+   "brands": [
+    "Kona Grill"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   }
+  },
+  {
+   "key": "goodwill",
+   "name": "Goodwill",
+   "kind": "store",
+   "industries": [
+    "fashion",
+    "home"
+   ],
+   "names": [
+    "Goodwill"
+   ],
+   "brands": [
+    "Goodwill"
+   ],
+   "only": {
+    "shop": [
+     "second_hand",
+     "charity",
+     "clothes",
+     "variety_store",
+     "department_store"
+    ]
+   }
+  },
+  {
+   "key": "savers",
+   "name": "Savers",
+   "kind": "store",
+   "industries": [
+    "fashion",
+    "home"
+   ],
+   "names": [
+    "Savers"
+   ],
+   "brands": [
+    "Savers"
+   ],
+   "only": {
+    "shop": [
+     "second_hand",
+     "charity",
+     "clothes",
+     "variety_store"
+    ]
+   }
+  },
+  {
+   "key": "la-madeleine",
+   "name": "la Madeleine",
+   "kind": "restaurant",
+   "names": [
+    "la Madeleine"
+   ],
+   "brands": [
+    "la Madeleine",
+    "La Madeleine French Bakery & Café"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://www.lamadeleine.com/"
+  },
+  {
+   "key": "cafe-brazil",
+   "name": "Café Brazil",
+   "kind": "restaurant",
+   "names": [
+    "Café Brazil",
+    "Cafe Brazil"
+   ],
+   "brands": [
+    "Café Brazil"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://cafebrazil.com/"
+  },
+  {
+   "key": "mamas-daughters-diner",
+   "name": "Mama's Daughters' Diner",
+   "kind": "restaurant",
+   "names": [
+    "Mama's Daughters",
+    "Mamas Daughters"
+   ],
+   "brands": [
+    "Mama's Daughters' Diner"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://mamasdaughtersdiner.com/"
+  },
+  {
+   "key": "whole-foods",
+   "name": "Whole Foods Market",
+   "kind": "store",
+   "industries": [
+    "grocery"
+   ],
+   "names": [
+    "Whole Foods"
+   ],
+   "brands": [
+    "Whole Foods Market",
+    "Whole Foods"
+   ],
+   "only": {
+    "shop": [
+     "supermarket",
+     "health_food",
+     "greengrocer"
+    ]
+   },
+   "site": "https://www.wholefoodsmarket.com/"
+  },
+  {
+   "key": "modern-market",
+   "name": "Modern Market",
+   "kind": "restaurant",
+   "names": [
+    "Modern Market"
+   ],
+   "brands": [
+    "Modern Market",
+    "Modern Market Eatery"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://modernmarket.com/"
+  },
+  {
+   "key": "capital-grille",
+   "name": "The Capital Grille",
+   "kind": "restaurant",
+   "names": [
+    "The Capital Grille",
+    "Capital Grille"
+   ],
+   "brands": [
+    "The Capital Grille"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://www.thecapitalgrille.com/"
+  },
+  {
+   "key": "eddie-vs",
+   "name": "Eddie V's",
+   "kind": "restaurant",
+   "names": [
+    "Eddie V's",
+    "Eddie Vs"
+   ],
+   "brands": [
+    "Eddie V's",
+    "Eddie V's Prime Seafood"
+   ],
+   "only": {
+    "amenity": [
+     "fast_food",
+     "restaurant",
+     "cafe",
+     "ice_cream",
+     "pub",
+     "bar",
+     "food_court",
+     "biergarten"
+    ],
+    "shop": [
+     "coffee",
+     "bakery",
+     "pastry",
+     "confectionery",
+     "tea",
+     "beverages"
+    ]
+   },
+   "site": "https://www.eddiev.com/"
+  },
+  {
+   "key": "rack-room-shoes",
+   "name": "Rack Room Shoes",
+   "kind": "store",
+   "industries": [
+    "fashion"
+   ],
+   "names": [
+    "Rack Room Shoes"
+   ],
+   "brands": [
+    "Rack Room Shoes"
+   ],
+   "only": {
+    "shop": [
+     "shoes",
+     "clothes"
+    ]
+   }
+  }
+ ]
+}
