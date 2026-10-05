@@ -1,0 +1,2801 @@
+{
+"categories": {
+"39": {
+"path": "Computers",
+"leaf": "Computers",
+"industries": [
+"tech"
+]
+},
+"40": {
+"path": "Store-Events",
+"leaf": "Store Events",
+"industries": []
+},
+"41": {
+"path": "Computers/Apple-Computers",
+"leaf": "Apple Computers",
+"industries": [
+"tech"
+]
+},
+"42": {
+"path": "Computers/Apple-Computers/iMac",
+"leaf": "iMac",
+"industries": [
+"tech"
+]
+},
+"48": {
+"path": "Computers/Desktops",
+"leaf": "Desktops",
+"industries": [
+"tech"
+]
+},
+"49": {
+"path": "Computers/Laptops",
+"leaf": "Laptops",
+"industries": [
+"tech"
+]
+},
+"50": {
+"path": "Computers/Servers",
+"leaf": "Servers",
+"industries": [
+"tech"
+]
+},
+"51": {
+"path": "Computers/Storage",
+"leaf": "Storage",
+"industries": [
+"tech"
+]
+},
+"56": {
+"path": "Computers/Storage/Hard-Drives",
+"leaf": "Hard Drives",
+"industries": [
+"tech"
+]
+},
+"69": {
+"path": "Computers/Peripherals",
+"leaf": "Peripherals",
+"industries": [
+"tech"
+]
+},
+"70": {
+"path": "Computers/Peripherals/Input-Devices",
+"leaf": "Input Devices",
+"industries": [
+"tech"
+]
+},
+"71": {
+"path": "Computers/Peripherals/Input-Devices/Joysticks-Gamepads",
+"leaf": "Joysticks Gamepads",
+"industries": [
+"tech"
+]
+},
+"72": {
+"path": "Computers/Peripherals/Input-Devices/Keyboards",
+"leaf": "Keyboards",
+"industries": [
+"tech"
+]
+},
+"73": {
+"path": "Computers/Peripherals/Input-Devices/Mice-Trackballs",
+"leaf": "Mice Trackballs",
+"industries": [
+"tech"
+]
+},
+"75": {
+"path": "Computers/Peripherals/Monitors",
+"leaf": "Monitors",
+"industries": [
+"tech"
+]
+},
+"83": {
+"path": "Computers/Peripherals/Printers-Scanners",
+"leaf": "Printers Scanners",
+"industries": [
+"tech"
+]
+},
+"84": {
+"path": "Computers/Peripherals/Printers-Scanners/Inkjet-Printers",
+"leaf": "Inkjet Printers",
+"industries": [
+"tech"
+]
+},
+"85": {
+"path": "Computers/Peripherals/Printers-Scanners/Laser-Printers",
+"leaf": "Laser Printers",
+"industries": [
+"tech"
+]
+},
+"87": {
+"path": "Computers/Peripherals/Computer-Speakers",
+"leaf": "Computer Speakers",
+"industries": [
+"tech"
+]
+},
+"89": {
+"path": "Computers/Computer-Accessories",
+"leaf": "Computer Accessories",
+"industries": [
+"tech"
+]
+},
+"92": {
+"path": "Computers/Computer-Accessories/Computer-Cables",
+"leaf": "Computer Cables",
+"industries": [
+"tech"
+]
+},
+"93": {
+"path": "Computers/Upgrades-Components",
+"leaf": "Upgrades Components",
+"industries": [
+"tech"
+]
+},
+"94": {
+"path": "Computers/Upgrades-Components/Processors-CPUs",
+"leaf": "Processors CPUs",
+"industries": [
+"tech"
+]
+},
+"99": {
+"path": "Computers/Upgrades-Components/Processors-CPUs/AMD-Processors",
+"leaf": "AMD Processors",
+"industries": [
+"tech"
+]
+},
+"101": {
+"path": "Computers/Upgrades-Components/Processors-CPUs/CPU-Fans-Mounting-Kits",
+"leaf": "CPU Fans Mounting Kits",
+"industries": [
+"tech"
+]
+},
+"102": {
+"path": "Computers/Upgrades-Components/Computer-Memory-RAM",
+"leaf": "Computer Memory RAM",
+"industries": [
+"tech"
+]
+},
+"108": {
+"path": "Computers/Storage/Flash-Memory-Cards",
+"leaf": "Flash Memory Cards",
+"industries": [
+"tech"
+]
+},
+"110": {
+"path": "Computers/Upgrades-Components/Motherboards",
+"leaf": "Motherboards",
+"industries": [
+"tech"
+]
+},
+"111": {
+"path": "Computers/Upgrades-Components/Sound-Cards",
+"leaf": "Sound Cards",
+"industries": [
+"tech"
+]
+},
+"112": {
+"path": "Computers/Upgrades-Components/Computer-Cases-Accessories",
+"leaf": "Computer Cases Accessories",
+"industries": [
+"tech"
+]
+},
+"113": {
+"path": "Computers/Upgrades-Components/Video-Cards",
+"leaf": "Video Cards",
+"industries": [
+"tech"
+]
+},
+"114": {
+"path": "Computers/Networking",
+"leaf": "Networking",
+"industries": [
+"tech"
+]
+},
+"118": {
+"path": "Computers/Networking/Switches",
+"leaf": "Switches",
+"industries": [
+"tech"
+]
+},
+"119": {
+"path": "Computers/Networking/Networking-Cables",
+"leaf": "Networking Cables",
+"industries": [
+"tech"
+]
+},
+"120": {
+"path": "Computers/Networking/Modems",
+"leaf": "Modems",
+"industries": [
+"tech"
+]
+},
+"124": {
+"path": "Computers/Software",
+"leaf": "Software",
+"industries": [
+"tech"
+]
+},
+"142": {
+"path": "Electronics",
+"leaf": "Electronics",
+"industries": [
+"tech"
+]
+},
+"143": {
+"path": "Electronics/Audio-Components",
+"leaf": "Audio Components",
+"industries": [
+"tech"
+]
+},
+"144": {
+"path": "Electronics/MP3-Players",
+"leaf": "MP3 Players",
+"industries": [
+"tech"
+]
+},
+"145": {
+"path": "Automotive/Car-Audio",
+"leaf": "Car Audio",
+"industries": [
+"auto",
+"tech"
+]
+},
+"146": {
+"path": "Electronics/Audio-Components/CD-Players",
+"leaf": "CD Players",
+"industries": [
+"tech"
+]
+},
+"147": {
+"path": "Electronics/Audio-Components/Speakers",
+"leaf": "Speakers",
+"industries": [
+"tech"
+]
+},
+"148": {
+"path": "Electronics/Audio-Components/Home-Theater-Systems",
+"leaf": "Home Theater Systems",
+"industries": [
+"tech"
+]
+},
+"152": {
+"path": "Electronics/Audio-Components/Receivers",
+"leaf": "Receivers",
+"industries": [
+"tech"
+]
+},
+"155": {
+"path": "Electronics/Audio-Components/Headphones",
+"leaf": "Headphones",
+"industries": [
+"tech"
+]
+},
+"156": {
+"path": "Electronics/Video-Components",
+"leaf": "Video Components",
+"industries": [
+"tech"
+]
+},
+"158": {
+"path": "Electronics/Camcorders/Digital-Camcorders",
+"leaf": "Digital Camcorders",
+"industries": [
+"tech"
+]
+},
+"159": {
+"path": "Electronics/TVs",
+"leaf": "TVs",
+"industries": [
+"tech"
+]
+},
+"166": {
+"path": "Electronics/Video-Components/Digital-Video-Recorders-Ti-Vo-Replay",
+"leaf": "Digital Video Recorders Ti Vo Replay",
+"industries": [
+"tech"
+]
+},
+"167": {
+"path": "Electronics/Cameras",
+"leaf": "Cameras",
+"industries": [
+"tech"
+]
+},
+"168": {
+"path": "Electronics/Cameras/Digital-Cameras",
+"leaf": "Digital Cameras",
+"industries": [
+"tech"
+]
+},
+"171": {
+"path": "Electronics/Phones-Cell-Phones",
+"leaf": "Phones Cell Phones",
+"industries": [
+"tech"
+]
+},
+"173": {
+"path": "Electronics/Phones-Cell-Phones/Cordless-Phones",
+"leaf": "Cordless Phones",
+"industries": [
+"tech"
+]
+},
+"174": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phones",
+"leaf": "Cell Phones",
+"industries": [
+"tech"
+]
+},
+"175": {
+"path": "Electronics/Gadgets",
+"leaf": "Gadgets",
+"industries": [
+"tech"
+]
+},
+"177": {
+"path": "Movies-Music-Books/Books-Magazines",
+"leaf": "Books Magazines",
+"industries": []
+},
+"178": {
+"path": "Movies-Music-Books",
+"leaf": "Movies Music Books",
+"industries": []
+},
+"179": {
+"path": "Movies-Music-Books/Movies-TV-Shows-Videos/DVD-Movies",
+"leaf": "DVD Movies",
+"industries": []
+},
+"181": {
+"path": "Movies-Music-Books/Music",
+"leaf": "Music",
+"industries": []
+},
+"182": {
+"path": "Office-School-Supplies",
+"leaf": "Office School Supplies",
+"industries": [
+"office"
+]
+},
+"184": {
+"path": "Office-School-Supplies/Office-Furniture",
+"leaf": "Office Furniture",
+"industries": [
+"office",
+"home"
+]
+},
+"186": {
+"path": "Gaming-Toys",
+"leaf": "Gaming Toys",
+"industries": [
+"toys"
+]
+},
+"187": {
+"path": "Gaming-Toys/Computer-Games",
+"leaf": "Computer Games",
+"industries": [
+"tech"
+]
+},
+"188": {
+"path": "Gaming-Toys/Computer-Games/Mac-Games",
+"leaf": "Mac Games",
+"industries": [
+"tech"
+]
+},
+"189": {
+"path": "Gaming-Toys/Computer-Games/PC-Games",
+"leaf": "PC Games",
+"industries": [
+"tech"
+]
+},
+"191": {
+"path": "Gaming-Toys/Video-Games",
+"leaf": "Video Games",
+"industries": [
+"tech"
+]
+},
+"196": {
+"path": "Home-Garden",
+"leaf": "Home Garden",
+"industries": [
+"home"
+]
+},
+"197": {
+"path": "Home-Garden/Tools-Hardware",
+"leaf": "Tools Hardware",
+"industries": [
+"home"
+]
+},
+"198": {
+"path": "Home-Garden/Garden",
+"leaf": "Garden",
+"industries": [
+"home"
+]
+},
+"199": {
+"path": "Home-Garden/Home-Furniture",
+"leaf": "Home Furniture",
+"industries": [
+"home"
+]
+},
+"200": {
+"path": "Home-Garden/Decor",
+"leaf": "Decor",
+"industries": [
+"home"
+]
+},
+"201": {
+"path": "Home-Garden/Kitchen",
+"leaf": "Kitchen",
+"industries": [
+"home"
+]
+},
+"202": {
+"path": "Clothing-Accessories",
+"leaf": "Clothing Accessories",
+"industries": [
+"fashion"
+]
+},
+"205": {
+"path": "Clothing-Accessories/Kids-Clothes",
+"leaf": "Kids Clothes",
+"industries": [
+"fashion",
+"baby"
+]
+},
+"206": {
+"path": "Travel-Entertainment",
+"leaf": "Travel Entertainment",
+"industries": []
+},
+"207": {
+"path": "Travel-Entertainment/Airfare",
+"leaf": "Airfare",
+"industries": []
+},
+"208": {
+"path": "Travel-Entertainment/Hotels",
+"leaf": "Hotels",
+"industries": []
+},
+"209": {
+"path": "Travel-Entertainment/Car-Rentals",
+"leaf": "Car Rentals",
+"industries": []
+},
+"210": {
+"path": "Travel-Entertainment/Vacations",
+"leaf": "Vacations",
+"industries": []
+},
+"211": {
+"path": "Sports-Fitness",
+"leaf": "Sports Fitness",
+"industries": [
+"sports"
+]
+},
+"212": {
+"path": "Sports-Fitness/Golf-Items",
+"leaf": "Golf Items",
+"industries": [
+"sports"
+]
+},
+"213": {
+"path": "Home-Garden/Food-Drink",
+"leaf": "Food Drink",
+"industries": [
+"grocery"
+]
+},
+"214": {
+"path": "Home-Garden/Food-Drink/Groceries",
+"leaf": "Groceries",
+"industries": [
+"grocery"
+]
+},
+"215": {
+"path": "Home-Garden/Food-Drink/Specialty-Foods",
+"leaf": "Specialty Foods",
+"industries": [
+"grocery"
+]
+},
+"218": {
+"path": "Special-Occasion/Gifts-Flowers-Cards",
+"leaf": "Gifts Flowers Cards",
+"industries": []
+},
+"219": {
+"path": "Special-Occasion/Gifts-Flowers-Cards/Flowers",
+"leaf": "Flowers",
+"industries": []
+},
+"220": {
+"path": "Special-Occasion/Gifts-Flowers-Cards/Chocolates",
+"leaf": "Chocolates",
+"industries": []
+},
+"221": {
+"path": "Home-Garden/Pets",
+"leaf": "Pets",
+"industries": [
+"pets"
+]
+},
+"224": {
+"path": "Home-Garden/Babies-Kids-Items",
+"leaf": "Babies Kids Items",
+"industries": [
+"baby"
+]
+},
+"226": {
+"path": "Gaming-Toys/Toys-Hobbies",
+"leaf": "Toys Hobbies",
+"industries": [
+"toys"
+]
+},
+"227": {
+"path": "Clothing-Accessories/Jewelry",
+"leaf": "Jewelry",
+"industries": [
+"fashion"
+]
+},
+"231": {
+"path": "Everything-Else",
+"leaf": "Everything Else",
+"industries": []
+},
+"232": {
+"path": "Store-Events/Shipping",
+"leaf": "Shipping",
+"industries": []
+},
+"233": {
+"path": "Electronics/Cameras/Photo-Services",
+"leaf": "Photo Services",
+"industries": [
+"tech"
+]
+},
+"238": {
+"path": "Automotive",
+"leaf": "Automotive",
+"industries": [
+"auto"
+]
+},
+"241": {
+"path": "Movies-Music-Books/Books-Magazines/Comics-Collectibles",
+"leaf": "Comics Collectibles",
+"industries": []
+},
+"250": {
+"path": "Computers/Computer-Accessories/USB-Accessories",
+"leaf": "USB Accessories",
+"industries": [
+"tech"
+]
+},
+"251": {
+"path": "Computers/Computer-Accessories/USB-Accessories/USB-Hubs",
+"leaf": "USB Hubs",
+"industries": [
+"tech"
+]
+},
+"259": {
+"path": "Plugs",
+"leaf": "Plugs",
+"industries": []
+},
+"263": {
+"path": "Computers/Peripherals/Webcams",
+"leaf": "Webcams",
+"industries": [
+"tech"
+]
+},
+"266": {
+"path": "Computers/Networking/Wireless-Networking",
+"leaf": "Wireless Networking",
+"industries": [
+"tech"
+]
+},
+"274": {
+"path": "Special-Occasion/Gifts-Flowers-Cards/Greeting-Cards",
+"leaf": "Greeting Cards",
+"industries": []
+},
+"275": {
+"path": "Clothing-Accessories/Accessories",
+"leaf": "Accessories",
+"industries": [
+"fashion"
+]
+},
+"276": {
+"path": "Home-Garden/Seasonal-Holidays",
+"leaf": "Seasonal Holidays",
+"industries": [
+"home"
+]
+},
+"277": {
+"path": "Computers/Computer-Accessories/Laptop-Accessories/Laptop-Bags",
+"leaf": "Laptop Bags",
+"industries": [
+"tech"
+]
+},
+"279": {
+"path": "Home-Garden/Party-Supplies",
+"leaf": "Party Supplies",
+"industries": [
+"toys"
+]
+},
+"280": {
+"path": "Clothing-Accessories/Shoes",
+"leaf": "Shoes",
+"industries": [
+"fashion"
+]
+},
+"281": {
+"path": "Office-School-Supplies/Supplies",
+"leaf": "Supplies",
+"industries": [
+"office"
+]
+},
+"287": {
+"path": "Clothing-Accessories/Luggage-Travel-Gear",
+"leaf": "Luggage Travel Gear",
+"industries": [
+"fashion"
+]
+},
+"294": {
+"path": "Gaming-Toys/Card-And-Board-Games",
+"leaf": "Card And Board Games",
+"industries": [
+"toys"
+]
+},
+"295": {
+"path": "Computers/Upgrades-Components/Case-Power-Supplies",
+"leaf": "Case Power Supplies",
+"industries": [
+"tech"
+]
+},
+"297": {
+"path": "Computers/Storage/USB-Flash-Drives",
+"leaf": "USB Flash Drives",
+"industries": [
+"tech"
+]
+},
+"298": {
+"path": "Sports-Fitness/Camping-Outdoors",
+"leaf": "Camping Outdoors",
+"industries": [
+"sports"
+]
+},
+"299": {
+"path": "Electronics/Camcorders",
+"leaf": "Camcorders",
+"industries": [
+"tech"
+]
+},
+"302": {
+"path": "Electronics/Audio-Components/Microphones",
+"leaf": "Microphones",
+"industries": [
+"tech"
+]
+},
+"303": {
+"path": "Movies-Music-Books/Books-Magazines/Magazines",
+"leaf": "Magazines",
+"industries": []
+},
+"304": {
+"path": "Home-Garden/Appliances",
+"leaf": "Appliances",
+"industries": [
+"home"
+]
+},
+"305": {
+"path": "Office-School-Supplies/Supplies/Storage-Media",
+"leaf": "Storage Media",
+"industries": [
+"office"
+]
+},
+"306": {
+"path": "Electronics/Batteries",
+"leaf": "Batteries",
+"industries": [
+"tech"
+]
+},
+"309": {
+"path": "Electronics/Batteries/Battery-Chargers-Accessories",
+"leaf": "Battery Chargers Accessories",
+"industries": [
+"tech"
+]
+},
+"311": {
+"path": "Home-Garden/Crafts",
+"leaf": "Crafts",
+"industries": [
+"toys"
+]
+},
+"328": {
+"path": "Electronics/Universal-Remote-Controls",
+"leaf": "Universal Remote Controls",
+"industries": [
+"tech"
+]
+},
+"329": {
+"path": "Electronics/FRS-2-Way-Radios",
+"leaf": "FRS 2 Way Radios",
+"industries": [
+"tech"
+]
+},
+"331": {
+"path": "Movies-Music-Books/Music/Music-CDs",
+"leaf": "Music CDs",
+"industries": []
+},
+"332": {
+"path": "Movies-Music-Books/Music/Musical-Instruments",
+"leaf": "Musical Instruments",
+"industries": []
+},
+"333": {
+"path": "Travel-Entertainment/Things-to-Do",
+"leaf": "Things to Do",
+"industries": []
+},
+"356": {
+"path": "Electronics/Phones-Cell-Phones/Voice-Over-IP-Vo-IP-Phones",
+"leaf": "Voice Over IP Vo IP Phones",
+"industries": [
+"tech"
+]
+},
+"357": {
+"path": "Automotive/Automotive-GPSs",
+"leaf": "Automotive GPSs",
+"industries": [
+"auto",
+"tech"
+]
+},
+"360": {
+"path": "Home-Garden/Bed-Bath",
+"leaf": "Bed Bath",
+"industries": [
+"home"
+]
+},
+"368": {
+"path": "Computers/Storage/Drive-Enclosures",
+"leaf": "Drive Enclosures",
+"industries": [
+"tech"
+]
+},
+"371": {
+"path": "Electronics/Power-Management",
+"leaf": "Power Management",
+"industries": [
+"tech"
+]
+},
+"372": {
+"path": "Electronics/Power-Management/Extension-Cords-Power-Strips",
+"leaf": "Extension Cords Power Strips",
+"industries": [
+"tech"
+]
+},
+"374": {
+"path": "Electronics/Power-Management/Power-Converters-Inverters",
+"leaf": "Power Converters Inverters",
+"industries": [
+"tech"
+]
+},
+"377": {
+"path": "Home-Garden/Food-Drink/Restaurants",
+"leaf": "Restaurants",
+"industries": [
+"dining"
+]
+},
+"380": {
+"path": "Computers/Apple-Computers/Mac-Mini-Desktop-Computers",
+"leaf": "Mac Mini Desktop Computers",
+"industries": [
+"tech"
+]
+},
+"382": {
+"path": "Sports-Fitness/Running",
+"leaf": "Running",
+"industries": [
+"sports"
+]
+},
+"387": {
+"path": "Electronics/iPods",
+"leaf": "iPods",
+"industries": [
+"tech"
+]
+},
+"395": {
+"path": "Computers/Upgrades-Components/Processors-CPUs/Intel-Processors",
+"leaf": "Intel Processors",
+"industries": [
+"tech"
+]
+},
+"401": {
+"path": "Computers/Upgrades-Components/Computer-Memory-RAM/Desktop-Memory",
+"leaf": "Desktop Memory",
+"industries": [
+"tech"
+]
+},
+"402": {
+"path": "Computers/Upgrades-Components/Computer-Memory-RAM/Notebook-RAM",
+"leaf": "Notebook RAM",
+"industries": [
+"tech"
+]
+},
+"418": {
+"path": "Electronics/MP3-Players/Portable-CD-MP3-Players",
+"leaf": "Portable CD MP3 Players",
+"industries": [
+"tech"
+]
+},
+"423": {
+"path": "Electronics/Video-Components/Satellite-Receivers",
+"leaf": "Satellite Receivers",
+"industries": [
+"tech"
+]
+},
+"429": {
+"path": "Electronics/Cameras/Camera-Accessories",
+"leaf": "Camera Accessories",
+"industries": [
+"tech"
+]
+},
+"433": {
+"path": "Computers/Storage/Flash-Memory-Cards/Flash-Memory-Card-Readers",
+"leaf": "Flash Memory Card Readers",
+"industries": [
+"tech"
+]
+},
+"436": {
+"path": "Clothing-Accessories/Accessories/Watches",
+"leaf": "Watches",
+"industries": [
+"fashion"
+]
+},
+"440": {
+"path": "Computers/Computer-Services",
+"leaf": "Computer Services",
+"industries": [
+"tech"
+]
+},
+"449": {
+"path": "Movies-Music-Books/Movies-TV-Shows-Videos/DVD-HD-Movie-Rentals",
+"leaf": "DVD HD Movie Rentals",
+"industries": []
+},
+"452": {
+"path": "Electronics/Streaming-Media-Players",
+"leaf": "Streaming Media Players",
+"industries": [
+"tech"
+]
+},
+"454": {
+"path": "Clothing-Accessories/Accessories/Sunglasses",
+"leaf": "Sunglasses",
+"industries": [
+"fashion"
+]
+},
+"463": {
+"path": "Electronics/Camcorders/Camcorder-Accessories",
+"leaf": "Camcorder Accessories",
+"industries": [
+"tech"
+]
+},
+"466": {
+"path": "Computers/Apple-Computers/Mac-Book-Pro",
+"leaf": "Mac Book Pro",
+"industries": [
+"tech"
+]
+},
+"467": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phone-Accessories",
+"leaf": "Cell Phone Accessories",
+"industries": [
+"tech"
+]
+},
+"468": {
+"path": "Computers/Computer-Accessories/Laptop-Accessories",
+"leaf": "Laptop Accessories",
+"industries": [
+"tech"
+]
+},
+"469": {
+"path": "Electronics/Gadgets/Weather-Gadgets",
+"leaf": "Weather Gadgets",
+"industries": [
+"tech"
+]
+},
+"472": {
+"path": "Computers/Storage/Hard-Drives/External-Hard-Drives",
+"leaf": "External Hard Drives",
+"industries": [
+"tech"
+]
+},
+"473": {
+"path": "Computers/Storage/Hard-Drives/Internal-Hard-Drives",
+"leaf": "Internal Hard Drives",
+"industries": [
+"tech"
+]
+},
+"474": {
+"path": "Computers/Apple-Computers/Mac-Book",
+"leaf": "Mac Book",
+"industries": [
+"tech"
+]
+},
+"475": {
+"path": "Computers/Apple-Computers/Mac-Pro",
+"leaf": "Mac Pro",
+"industries": [
+"tech"
+]
+},
+"476": {
+"path": "Sports-Fitness/Bicycling",
+"leaf": "Bicycling",
+"industries": [
+"sports"
+]
+},
+"477": {
+"path": "Movies-Music-Books/Video-Downloads",
+"leaf": "Video Downloads",
+"industries": []
+},
+"481": {
+"path": "Clothing-Accessories/Accessories/Handbags",
+"leaf": "Handbags",
+"industries": [
+"fashion"
+]
+},
+"482": {
+"path": "Store-Events/Black-Friday",
+"leaf": "Black Friday",
+"industries": []
+},
+"487": {
+"path": "Clothing-Accessories/Activewear",
+"leaf": "Activewear",
+"industries": [
+"fashion"
+]
+},
+"488": {
+"path": "Clothing-Accessories/Intimates",
+"leaf": "Intimates",
+"industries": [
+"fashion"
+]
+},
+"489": {
+"path": "Clothing-Accessories/Coats",
+"leaf": "Coats",
+"industries": [
+"fashion"
+]
+},
+"490": {
+"path": "Clothing-Accessories/Dresses",
+"leaf": "Dresses",
+"industries": [
+"fashion"
+]
+},
+"491": {
+"path": "Electronics/Phones-Cell-Phones/Apple-iPhones",
+"leaf": "Apple iPhones",
+"industries": [
+"tech"
+]
+},
+"492": {
+"path": "Home-Garden/Home-Security",
+"leaf": "Home Security",
+"industries": [
+"home"
+]
+},
+"495": {
+"path": "Clothing-Accessories/Swim",
+"leaf": "Swim",
+"industries": [
+"fashion"
+]
+},
+"500": {
+"path": "Movies-Music-Books/Movies-TV-Shows-Videos",
+"leaf": "Movies TV Shows Videos",
+"industries": []
+},
+"502": {
+"path": "Movies-Music-Books/Movies-TV-Shows-Videos/Blu-Ray-Disc-Movies",
+"leaf": "Blu Ray Disc Movies",
+"industries": []
+},
+"513": {
+"path": "Electronics/Digital-Picture-Frames",
+"leaf": "Digital Picture Frames",
+"industries": [
+"tech"
+]
+},
+"514": {
+"path": "Computers/Apple-Computers/Mac-Book-Air",
+"leaf": "Mac Book Air",
+"industries": [
+"tech"
+]
+},
+"515": {
+"path": "Clothing-Accessories/Jeans",
+"leaf": "Jeans",
+"industries": [
+"fashion"
+]
+},
+"517": {
+"path": "Computers/Storage/DVD-Blu-Ray-CD-Drives-Burners",
+"leaf": "DVD Blu Ray CD Drives Burners",
+"industries": [
+"tech"
+]
+},
+"522": {
+"path": "Financial-Services/Credit-Cards",
+"leaf": "Credit Cards",
+"industries": []
+},
+"523": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phone-Accessories/Bluetooth-Headsets",
+"leaf": "Bluetooth Headsets",
+"industries": [
+"tech"
+]
+},
+"524": {
+"path": "Electronics/TVs/TV-Antennas-Receivers",
+"leaf": "TV Antennas Receivers",
+"industries": [
+"tech"
+]
+},
+"525": {
+"path": "Computers/Barebones-PCs",
+"leaf": "Barebones PCs",
+"industries": [
+"tech"
+]
+},
+"527": {
+"path": "Movies-Music-Books/Music/MP3-Downloads",
+"leaf": "MP3 Downloads",
+"industries": []
+},
+"528": {
+"path": "Electronics/Cameras/Digital-Cameras/Digital-SLR-Cameras",
+"leaf": "Digital SLR Cameras",
+"industries": [
+"tech"
+]
+},
+"529": {
+"path": "Home-Garden/Garden/BBQs-Grills",
+"leaf": "BBQs Grills",
+"industries": [
+"home"
+]
+},
+"534": {
+"path": "Store-Events/Macworld-Expo",
+"leaf": "Macworld Expo",
+"industries": []
+},
+"540": {
+"path": "Electronics/Video-Audio-Cables",
+"leaf": "Video Audio Cables",
+"industries": [
+"tech"
+]
+},
+"541": {
+"path": "Electronics/Phones-Cell-Phones/Apple-iPhones/iPhone-iPod-Apps",
+"leaf": "iPhone iPod Apps",
+"industries": [
+"tech"
+]
+},
+"544": {
+"path": "Store-Events/Halloween-Items",
+"leaf": "Halloween Items",
+"industries": []
+},
+"550": {
+"path": "Electronics/Phones-Cell-Phones/Apple-iPhones/iPhone-Accessories",
+"leaf": "iPhone Accessories",
+"industries": [
+"tech"
+]
+},
+"551": {
+"path": "Electronics/Ebook-Readers",
+"leaf": "Ebook Readers",
+"industries": [
+"tech"
+]
+},
+"553": {
+"path": "Movies-Music-Books/Books-Magazines/Books",
+"leaf": "Books",
+"industries": []
+},
+"554": {
+"path": "Movies-Music-Books/Books-Magazines/Books/Ebooks",
+"leaf": "Ebooks",
+"industries": []
+},
+"559": {
+"path": "Clothing-Accessories/Shoes/Kids-Shoes",
+"leaf": "Kids Shoes",
+"industries": [
+"fashion",
+"baby"
+]
+},
+"568": {
+"path": "Computers/iPad-Tablet/iPads",
+"leaf": "iPads",
+"industries": [
+"tech"
+]
+},
+"572": {
+"path": "Computers/iPad-Tablet/iPad-Accessories",
+"leaf": "iPad Accessories",
+"industries": [
+"tech"
+]
+},
+"575": {
+"path": "Computers/Upgrades-Components/Computer-Memory-RAM/Mac-RAM",
+"leaf": "Mac RAM",
+"industries": [
+"tech"
+]
+},
+"577": {
+"path": "Computers/iPad-Tablet/iPad-Apps",
+"leaf": "iPad Apps",
+"industries": [
+"tech"
+]
+},
+"578": {
+"path": "Electronics/TVs/TV-Wall-Mounts",
+"leaf": "TV Wall Mounts",
+"industries": [
+"tech"
+]
+},
+"580": {
+"path": "Electronics/TVs/3-D-Glasses",
+"leaf": "3 D Glasses",
+"industries": [
+"tech"
+]
+},
+"594": {
+"path": "Computers/iPad-Tablet/Tablets",
+"leaf": "Tablets",
+"industries": [
+"tech"
+]
+},
+"604": {
+"path": "Home-Garden/Appliances/Kitchen",
+"leaf": "Kitchen",
+"industries": [
+"home"
+]
+},
+"605": {
+"path": "Home-Garden/Appliances/Laundry",
+"leaf": "Laundry",
+"industries": [
+"home"
+]
+},
+"606": {
+"path": "Home-Garden/Appliances/Household-Items",
+"leaf": "Household Items",
+"industries": [
+"home"
+]
+},
+"607": {
+"path": "Home-Garden/Appliances/Household-Items/Air-Conditioners",
+"leaf": "Air Conditioners",
+"industries": [
+"home"
+]
+},
+"608": {
+"path": "Home-Garden/Appliances/Household-Items/Air-Purifiers",
+"leaf": "Air Purifiers",
+"industries": [
+"home"
+]
+},
+"609": {
+"path": "Home-Garden/Appliances/Household-Items/Fans",
+"leaf": "Fans",
+"industries": [
+"home"
+]
+},
+"610": {
+"path": "Home-Garden/Appliances/Household-Items/Heaters",
+"leaf": "Heaters",
+"industries": [
+"home"
+]
+},
+"611": {
+"path": "Home-Garden/Appliances/Household-Items/Humidifiers-Dehumidifiers",
+"leaf": "Humidifiers Dehumidifiers",
+"industries": [
+"home"
+]
+},
+"612": {
+"path": "Home-Garden/Appliances/Household-Items/Vacuum-Cleaners",
+"leaf": "Vacuum Cleaners",
+"industries": [
+"home"
+]
+},
+"613": {
+"path": "Home-Garden/Appliances/Laundry/Dryers",
+"leaf": "Dryers",
+"industries": [
+"home"
+]
+},
+"614": {
+"path": "Home-Garden/Appliances/Laundry/Washers-Washing-Machines",
+"leaf": "Washers Washing Machines",
+"industries": [
+"home"
+]
+},
+"615": {
+"path": "Home-Garden/Appliances/Kitchen/Dishwashers",
+"leaf": "Dishwashers",
+"industries": [
+"home"
+]
+},
+"616": {
+"path": "Home-Garden/Appliances/Kitchen/Microwave-Ovens",
+"leaf": "Microwave Ovens",
+"industries": [
+"home"
+]
+},
+"617": {
+"path": "Home-Garden/Appliances/Kitchen/Ovens-Stoves",
+"leaf": "Ovens Stoves",
+"industries": [
+"home"
+]
+},
+"618": {
+"path": "Home-Garden/Appliances/Kitchen/Refrigerators-Freezers",
+"leaf": "Refrigerators Freezers",
+"industries": [
+"home"
+]
+},
+"621": {
+"path": "Electronics/Phones-Cell-Phones/Android-Phones/Android-Apps",
+"leaf": "Android Apps",
+"industries": [
+"tech"
+]
+},
+"622": {
+"path": "Computers/iPad-Tablet",
+"leaf": "iPad Tablet",
+"industries": [
+"tech"
+]
+},
+"623": {
+"path": "Computers/iPad-Tablet/Tablet-Accessories",
+"leaf": "Tablet Accessories",
+"industries": [
+"tech"
+]
+},
+"624": {
+"path": "Store-Events/Spring-Break",
+"leaf": "Spring Break",
+"industries": []
+},
+"629": {
+"path": "Travel-Entertainment/Cruises",
+"leaf": "Cruises",
+"industries": []
+},
+"636": {
+"path": "Special-Occasion",
+"leaf": "Special Occasion",
+"industries": []
+},
+"637": {
+"path": "Home-Garden/Cleaning-Supplies",
+"leaf": "Cleaning Supplies",
+"industries": [
+"grocery"
+]
+},
+"638": {
+"path": "Home-Garden/Bed-Bath/Bedding",
+"leaf": "Bedding",
+"industries": [
+"home"
+]
+},
+"639": {
+"path": "Home-Garden/Bed-Bath/Towels",
+"leaf": "Towels",
+"industries": [
+"home"
+]
+},
+"640": {
+"path": "Home-Garden/Decor/Rugs",
+"leaf": "Rugs",
+"industries": [
+"home"
+]
+},
+"641": {
+"path": "Home-Garden/Decor/Lighting-Lamps",
+"leaf": "Lighting Lamps",
+"industries": [
+"home"
+]
+},
+"642": {
+"path": "Home-Garden/Kitchen/Small-Appliances",
+"leaf": "Small Appliances",
+"industries": [
+"home"
+]
+},
+"643": {
+"path": "Home-Garden/Kitchen/Cutlery-Flatware",
+"leaf": "Cutlery Flatware",
+"industries": [
+"home"
+]
+},
+"644": {
+"path": "Home-Garden/Kitchen/Dinnerware",
+"leaf": "Dinnerware",
+"industries": [
+"home"
+]
+},
+"645": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools",
+"leaf": "Hand Tools",
+"industries": [
+"home"
+]
+},
+"646": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools",
+"leaf": "Power Tools",
+"industries": [
+"home"
+]
+},
+"647": {
+"path": "Home-Garden/Tools-Hardware/Tool-Storage-Organization",
+"leaf": "Tool Storage Organization",
+"industries": [
+"home"
+]
+},
+"648": {
+"path": "Home-Garden/Tools-Hardware/Flashlights-Lighting",
+"leaf": "Flashlights Lighting",
+"industries": [
+"home"
+]
+},
+"649": {
+"path": "Office-School-Supplies/Office-Furniture/Office-Chairs",
+"leaf": "Office Chairs",
+"industries": [
+"office",
+"home"
+]
+},
+"650": {
+"path": "Office-School-Supplies/Office-Furniture/Computer-Desks",
+"leaf": "Computer Desks",
+"industries": [
+"office",
+"home"
+]
+},
+"654": {
+"path": "Travel-Entertainment/Movie-Tickets",
+"leaf": "Movie Tickets",
+"industries": []
+},
+"655": {
+"path": "Sports-Fitness/Exercise-Equipment",
+"leaf": "Exercise Equipment",
+"industries": [
+"sports"
+]
+},
+"656": {
+"path": "Sports-Fitness/Camping-Outdoors/Handheld-GPSs",
+"leaf": "Handheld GPSs",
+"industries": [
+"sports",
+"tech"
+]
+},
+"661": {
+"path": "Home-Garden/Babies-Kids-Items/Diapers-Wipes",
+"leaf": "Diapers Wipes",
+"industries": [
+"baby"
+]
+},
+"662": {
+"path": "Automotive/Radar-Detectors",
+"leaf": "Radar Detectors",
+"industries": [
+"auto",
+"tech"
+]
+},
+"671": {
+"path": "Electronics/Phones-Cell-Phones/Apple-iPhones/iPhone-Accessories/iPhone-Cases",
+"leaf": "iPhone Cases",
+"industries": [
+"tech"
+]
+},
+"672": {
+"path": "Electronics/Phones-Cell-Phones/Android-Phones",
+"leaf": "Android Phones",
+"industries": [
+"tech"
+]
+},
+"673": {
+"path": "Electronics/Phones-Cell-Phones/Android-Phones/Android-Phone-Accessories",
+"leaf": "Android Phone Accessories",
+"industries": [
+"tech"
+]
+},
+"674": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phone-Accessories/Cell-Phone-Chargers",
+"leaf": "Cell Phone Chargers",
+"industries": [
+"tech"
+]
+},
+"676": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phone-Accessories/Cell-Phone-Cases",
+"leaf": "Cell Phone Cases",
+"industries": [
+"tech"
+]
+},
+"677": {
+"path": "Electronics/Ebook-Readers/Ebook-Reader-Accessories",
+"leaf": "Ebook Reader Accessories",
+"industries": [
+"tech"
+]
+},
+"678": {
+"path": "Sports-Fitness/Camping-Outdoors/Knives-Multitools",
+"leaf": "Knives Multitools",
+"industries": [
+"sports"
+]
+},
+"682": {
+"path": "Store-Events/Tax-Day-Sales",
+"leaf": "Tax Day Sales",
+"industries": []
+},
+"702": {
+"path": "Financial-Services",
+"leaf": "Financial Services",
+"industries": []
+},
+"703": {
+"path": "Sports-Fitness/Camping-Outdoors/Guns-Ammo",
+"leaf": "Guns Ammo",
+"industries": [
+"sports"
+]
+},
+"704": {
+"path": "Sports-Fitness/Camping-Outdoors/Hunting-Gear",
+"leaf": "Hunting Gear",
+"industries": [
+"sports"
+]
+},
+"712": {
+"path": "Gaming-Toys/Video-Games/Accessories",
+"leaf": "Accessories",
+"industries": [
+"tech"
+]
+},
+"713": {
+"path": "Gaming-Toys/Video-Games/Games",
+"leaf": "Games",
+"industries": [
+"tech"
+]
+},
+"714": {
+"path": "Gaming-Toys/Video-Games/Consoles",
+"leaf": "Consoles",
+"industries": [
+"tech"
+]
+},
+"715": {
+"path": "Clothing-Accessories/Pants",
+"leaf": "Pants",
+"industries": [
+"fashion"
+]
+},
+"716": {
+"path": "Clothing-Accessories/Shirts",
+"leaf": "Shirts",
+"industries": [
+"fashion"
+]
+},
+"717": {
+"path": "Clothing-Accessories/Shorts",
+"leaf": "Shorts",
+"industries": [
+"fashion"
+]
+},
+"718": {
+"path": "Clothing-Accessories/Sleep-Lounge",
+"leaf": "Sleep Lounge",
+"industries": [
+"fashion"
+]
+},
+"719": {
+"path": "Clothing-Accessories/Sweaters",
+"leaf": "Sweaters",
+"industries": [
+"fashion"
+]
+},
+"720": {
+"path": "Clothing-Accessories/Suits",
+"leaf": "Suits",
+"industries": [
+"fashion"
+]
+},
+"721": {
+"path": "Clothing-Accessories/T-Shirts",
+"leaf": "T Shirts",
+"industries": [
+"fashion"
+]
+},
+"722": {
+"path": "Clothing-Accessories/Underwear",
+"leaf": "Underwear",
+"industries": [
+"fashion"
+]
+},
+"723": {
+"path": "Electronics/Power-Management/Battery-Backups-UPSs",
+"leaf": "Battery Backups UPSs",
+"industries": [
+"tech"
+]
+},
+"726": {
+"path": "Clothing-Accessories/Skirts",
+"leaf": "Skirts",
+"industries": [
+"fashion"
+]
+},
+"729": {
+"path": "Electronics/Power-Management/Surge-Protectors",
+"leaf": "Surge Protectors",
+"industries": [
+"tech"
+]
+},
+"732": {
+"path": "Computers/Networking/Wireless-Networking/Routers",
+"leaf": "Routers",
+"industries": [
+"tech"
+]
+},
+"735": {
+"path": "Computers/Networking/Wireless-Networking/Adapters",
+"leaf": "Adapters",
+"industries": [
+"tech"
+]
+},
+"738": {
+"path": "Electronics/Cameras/Camera-Accessories/Camera-Lens",
+"leaf": "Camera Lens",
+"industries": [
+"tech"
+]
+},
+"741": {
+"path": "Electronics/Cameras/Camera-Accessories/Camera-Bags",
+"leaf": "Camera Bags",
+"industries": [
+"tech"
+]
+},
+"744": {
+"path": "Home-Garden/Garden/Patio-Furniture",
+"leaf": "Patio Furniture",
+"industries": [
+"home"
+]
+},
+"747": {
+"path": "Home-Garden/Garden/Garden-Tools",
+"leaf": "Garden Tools",
+"industries": [
+"home"
+]
+},
+"750": {
+"path": "Home-Garden/Garden/Patio-Furniture/Patio-Chairs",
+"leaf": "Patio Chairs",
+"industries": [
+"home"
+]
+},
+"753": {
+"path": "Home-Garden/Garden/Patio-Furniture/Patio-Tables",
+"leaf": "Patio Tables",
+"industries": [
+"home"
+]
+},
+"756": {
+"path": "Health-Beauty",
+"leaf": "Health Beauty",
+"industries": [
+"health",
+"beauty"
+]
+},
+"759": {
+"path": "Health-Beauty/Beauty",
+"leaf": "Beauty",
+"industries": [
+"beauty"
+]
+},
+"762": {
+"path": "Health-Beauty/Health/Dental",
+"leaf": "Dental",
+"industries": [
+"health"
+]
+},
+"765": {
+"path": "Health-Beauty/Health",
+"leaf": "Health",
+"industries": [
+"health"
+]
+},
+"768": {
+"path": "Health-Beauty/Beauty/Fragrances",
+"leaf": "Fragrances",
+"industries": [
+"beauty"
+]
+},
+"771": {
+"path": "Health-Beauty/Health/Glasses-Contact-Lenses",
+"leaf": "Glasses Contact Lenses",
+"industries": [
+"health"
+]
+},
+"774": {
+"path": "Health-Beauty/Beauty/Personal-Care",
+"leaf": "Personal Care",
+"industries": [
+"beauty"
+]
+},
+"777": {
+"path": "Health-Beauty/Beauty/Personal-Care/Hair-Care",
+"leaf": "Hair Care",
+"industries": [
+"beauty"
+]
+},
+"780": {
+"path": "Health-Beauty/Health/Medicine-Medical",
+"leaf": "Medicine Medical",
+"industries": [
+"health"
+]
+},
+"783": {
+"path": "Health-Beauty/Beauty/Personal-Care/Shaving-Grooming",
+"leaf": "Shaving Grooming",
+"industries": [
+"beauty"
+]
+},
+"786": {
+"path": "Health-Beauty/Beauty/Personal-Care/Skin-Care",
+"leaf": "Skin Care",
+"industries": [
+"beauty"
+]
+},
+"789": {
+"path": "Health-Beauty/Beauty/Makeup",
+"leaf": "Makeup",
+"industries": [
+"beauty"
+]
+},
+"792": {
+"path": "Health-Beauty/Health/Dental/Toothbrushes",
+"leaf": "Toothbrushes",
+"industries": [
+"health"
+]
+},
+"795": {
+"path": "Health-Beauty/Health/Dental/Toothpaste",
+"leaf": "Toothpaste",
+"industries": [
+"health"
+]
+},
+"798": {
+"path": "Health-Beauty/Health/Supplements",
+"leaf": "Supplements",
+"industries": [
+"health"
+]
+},
+"801": {
+"path": "Health-Beauty/Health/Vitamins",
+"leaf": "Vitamins",
+"industries": [
+"health"
+]
+},
+"804": {
+"path": "Home-Garden/Laundry-Supplies",
+"leaf": "Laundry Supplies",
+"industries": [
+"grocery"
+]
+},
+"807": {
+"path": "Home-Garden/Decor/Ceiling-Fans",
+"leaf": "Ceiling Fans",
+"industries": [
+"home"
+]
+},
+"810": {
+"path": "Home-Garden/Light-Bulbs",
+"leaf": "Light Bulbs",
+"industries": [
+"home"
+]
+},
+"813": {
+"path": "Home-Garden/Home-Furniture/Tables",
+"leaf": "Tables",
+"industries": [
+"home"
+]
+},
+"816": {
+"path": "Home-Garden/Home-Furniture/Sofas-Couches",
+"leaf": "Sofas Couches",
+"industries": [
+"home"
+]
+},
+"819": {
+"path": "Home-Garden/Home-Furniture/Chairs",
+"leaf": "Chairs",
+"industries": [
+"home"
+]
+},
+"822": {
+"path": "Home-Garden/Home-Furniture/Desks",
+"leaf": "Desks",
+"industries": [
+"home"
+]
+},
+"825": {
+"path": "Home-Garden/Home-Furniture/TV-Stands",
+"leaf": "TV Stands",
+"industries": [
+"home"
+]
+},
+"828": {
+"path": "Home-Garden/Home-Security/Safes",
+"leaf": "Safes",
+"industries": [
+"home"
+]
+},
+"831": {
+"path": "Home-Garden/Home-Security/Security-Cameras",
+"leaf": "Security Cameras",
+"industries": [
+"home"
+]
+},
+"834": {
+"path": "Home-Garden/Pets/Pet-Food",
+"leaf": "Pet Food",
+"industries": [
+"pets"
+]
+},
+"837": {
+"path": "Electronics/Portable-Speakers",
+"leaf": "Portable Speakers",
+"industries": [
+"tech"
+]
+},
+"841": {
+"path": "Computers/Peripherals/Projectors",
+"leaf": "Projectors",
+"industries": [
+"tech"
+]
+},
+"844": {
+"path": "Computers/Peripherals/Projectors/DLP-Projectors",
+"leaf": "DLP Projectors",
+"industries": [
+"tech"
+]
+},
+"847": {
+"path": "Computers/Peripherals/Projectors/LCD-Projectors",
+"leaf": "LCD Projectors",
+"industries": [
+"tech"
+]
+},
+"848": {
+"path": "Clothing-Accessories/Accessories/Socks",
+"leaf": "Socks",
+"industries": [
+"fashion"
+]
+},
+"851": {
+"path": "Clothing-Accessories/Luggage-Travel-Gear/Backpacks",
+"leaf": "Backpacks",
+"industries": [
+"fashion"
+]
+},
+"859": {
+"path": "Gift-Cards",
+"leaf": "Gift Cards",
+"industries": []
+},
+"862": {
+"path": "Home-Garden/Home-Improvement",
+"leaf": "Home Improvement",
+"industries": [
+"home"
+]
+},
+"865": {
+"path": "Home-Garden/Food-Drink/Beer-Wine-Liquor",
+"leaf": "Beer Wine Liquor",
+"industries": [
+"grocery"
+]
+},
+"866": {
+"path": "Clothing-Accessories/Sweatshirts-Hoodies",
+"leaf": "Sweatshirts Hoodies",
+"industries": [
+"fashion"
+]
+},
+"869": {
+"path": "Home-Garden/Food-Drink/Coffee",
+"leaf": "Coffee",
+"industries": [
+"grocery"
+]
+},
+"872": {
+"path": "Office-School-Supplies/Supplies/Ink-Toner",
+"leaf": "Ink Toner",
+"industries": [
+"office"
+]
+},
+"875": {
+"path": "Electronics/Phones-Cell-Phones/Cell-Phone-Accessories/Portable-Power-Banks",
+"leaf": "Portable Power Banks",
+"industries": [
+"tech"
+]
+},
+"882": {
+"path": "Home-Garden/Home-Furniture/Mattresses",
+"leaf": "Mattresses",
+"industries": [
+"home"
+]
+},
+"908": {
+"path": "Electronics/Smart-Home/Smart-Assistants",
+"leaf": "Smart Assistants",
+"industries": [
+"tech"
+]
+},
+"911": {
+"path": "Electronics/Wearable-Technology",
+"leaf": "Wearable Technology",
+"industries": [
+"tech"
+]
+},
+"914": {
+"path": "Electronics/Wearable-Technology/Smart-Watches",
+"leaf": "Smart Watches",
+"industries": [
+"tech"
+]
+},
+"917": {
+"path": "Electronics/Wearable-Technology/Fitness-Trackers",
+"leaf": "Fitness Trackers",
+"industries": [
+"tech"
+]
+},
+"925": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws",
+"leaf": "Power Saws",
+"industries": [
+"home"
+]
+},
+"928": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws/Circular-Saws",
+"leaf": "Circular Saws",
+"industries": [
+"home"
+]
+},
+"931": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws/Jigsaws",
+"leaf": "Jigsaws",
+"industries": [
+"home"
+]
+},
+"934": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Drills",
+"leaf": "Drills",
+"industries": [
+"home"
+]
+},
+"937": {
+"path": "Home-Garden/Tools-Hardware/Air-Tools",
+"leaf": "Air Tools",
+"industries": [
+"home"
+]
+},
+"940": {
+"path": "Home-Garden/Tools-Hardware/Air-Tools/Air-Compressors",
+"leaf": "Air Compressors",
+"industries": [
+"home"
+]
+},
+"943": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Cutters",
+"leaf": "Cutters",
+"industries": [
+"home"
+]
+},
+"946": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Cutters/Bolt-Cutters",
+"leaf": "Bolt Cutters",
+"industries": [
+"home"
+]
+},
+"949": {
+"path": "Home-Garden/Tools-Hardware/Painting-Tools",
+"leaf": "Painting Tools",
+"industries": [
+"home"
+]
+},
+"952": {
+"path": "Home-Garden/Tools-Hardware/Painting-Tools/Paint-Sprayers",
+"leaf": "Paint Sprayers",
+"industries": [
+"home"
+]
+},
+"955": {
+"path": "Home-Garden/Tools-Hardware/Air-Tools/Air-Nailers",
+"leaf": "Air Nailers",
+"industries": [
+"home"
+]
+},
+"958": {
+"path": "Home-Garden/Tools-Hardware/Air-Tools/Air-Hammers",
+"leaf": "Air Hammers",
+"industries": [
+"home"
+]
+},
+"961": {
+"path": "Home-Garden/Kitchen/Cookware",
+"leaf": "Cookware",
+"industries": [
+"home"
+]
+},
+"964": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws/Table-Saws",
+"leaf": "Table Saws",
+"industries": [
+"home"
+]
+},
+"967": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws/Scroll-Saws",
+"leaf": "Scroll Saws",
+"industries": [
+"home"
+]
+},
+"970": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Sanders",
+"leaf": "Sanders",
+"industries": [
+"home"
+]
+},
+"973": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Routers",
+"leaf": "Routers",
+"industries": [
+"home"
+]
+},
+"976": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Pry-Bars",
+"leaf": "Pry Bars",
+"industries": [
+"home"
+]
+},
+"979": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Saws/Miter-Saws",
+"leaf": "Miter Saws",
+"industries": [
+"home"
+]
+},
+"982": {
+"path": "Home-Garden/Tools-Hardware/Automated-Tools",
+"leaf": "Automated Tools",
+"industries": [
+"home"
+]
+},
+"985": {
+"path": "Home-Garden/Tools-Hardware/Automated-Tools/3-D-Printing",
+"leaf": "3 D Printing",
+"industries": [
+"home"
+]
+},
+"988": {
+"path": "Home-Garden/Tools-Hardware/Automated-Tools/3-D-Printing/3-D-Printers",
+"leaf": "3 D Printers",
+"industries": [
+"home"
+]
+},
+"991": {
+"path": "Home-Garden/Tools-Hardware/Automated-Tools/3-D-Printing/3-D-Printer-Filament",
+"leaf": "3 D Printer Filament",
+"industries": [
+"home"
+]
+},
+"994": {
+"path": "Home-Garden/Kitchen/Small-Appliances/Toasters",
+"leaf": "Toasters",
+"industries": [
+"home"
+]
+},
+"997": {
+"path": "Home-Garden/Kitchen/Small-Appliances/Toaster-Ovens",
+"leaf": "Toaster Ovens",
+"industries": [
+"home"
+]
+},
+"1000": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Measuring-Devices",
+"leaf": "Measuring Devices",
+"industries": [
+"home"
+]
+},
+"1003": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Measuring-Devices/Tape-Measures",
+"leaf": "Tape Measures",
+"industries": [
+"home"
+]
+},
+"1006": {
+"path": "Home-Garden/Tools-Hardware/Ladders",
+"leaf": "Ladders",
+"industries": [
+"home"
+]
+},
+"1009": {
+"path": "Home-Garden/Appliances/Household-Items/Vacuum-Cleaners/Robot-Vacuums",
+"leaf": "Robot Vacuums",
+"industries": [
+"home"
+]
+},
+"1012": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Wrenches",
+"leaf": "Wrenches",
+"industries": [
+"home"
+]
+},
+"1018": {
+"path": "Home-Garden/Kitchen/Small-Appliances/Waffle-Irons",
+"leaf": "Waffle Irons",
+"industries": [
+"home"
+]
+},
+"1021": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Measuring-Devices/Levels",
+"leaf": "Levels",
+"industries": [
+"home"
+]
+},
+"1024": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Hammers",
+"leaf": "Hammers",
+"industries": [
+"home"
+]
+},
+"1027": {
+"path": "Home-Garden/Appliances/Household-Items/Vacuum-Cleaners/Handheld-Vacuums",
+"leaf": "Handheld Vacuums",
+"industries": [
+"home"
+]
+},
+"1030": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Screwdrivers",
+"leaf": "Screwdrivers",
+"industries": [
+"home"
+]
+},
+"1033": {
+"path": "Home-Garden/Tools-Hardware/Painting-Tools/Paint-Brushes",
+"leaf": "Paint Brushes",
+"industries": [
+"home"
+]
+},
+"1036": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Heat-Guns",
+"leaf": "Heat Guns",
+"industries": [
+"home"
+]
+},
+"1039": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Grinders",
+"leaf": "Grinders",
+"industries": [
+"home"
+]
+},
+"1042": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Tool-Combo-Sets",
+"leaf": "Power Tool Combo Sets",
+"industries": [
+"home"
+]
+},
+"1045": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Impact-Wrenches-Drivers",
+"leaf": "Impact Wrenches Drivers",
+"industries": [
+"home"
+]
+},
+"1048": {
+"path": "Home-Garden/Kitchen/Small-Appliances/Sandwich-Makers",
+"leaf": "Sandwich Makers",
+"industries": [
+"home"
+]
+},
+"1051": {
+"path": "Sports-Fitness/Exercise-Equipment/Exercise-Spin-Bikes",
+"leaf": "Exercise Spin Bikes",
+"industries": [
+"sports"
+]
+},
+"1054": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-D",
+"leaf": "Vitamin D",
+"industries": [
+"health"
+]
+},
+"1057": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-C",
+"leaf": "Vitamin C",
+"industries": [
+"health"
+]
+},
+"1060": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B",
+"leaf": "Vitamin B",
+"industries": [
+"health"
+]
+},
+"1063": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B6-Pyridoxal-Phosphate",
+"leaf": "B6 Pyridoxal Phosphate",
+"industries": [
+"health"
+]
+},
+"1066": {
+"path": "Health-Beauty/Health/Vitamins/Prenatal-Vitamins",
+"leaf": "Prenatal Vitamins",
+"industries": [
+"health"
+]
+},
+"1069": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B1-Thiamine",
+"leaf": "B1 Thiamine",
+"industries": [
+"health"
+]
+},
+"1072": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B2-Riboflavin",
+"leaf": "B2 Riboflavin",
+"industries": [
+"health"
+]
+},
+"1075": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B5-Pantothenic-Acid",
+"leaf": "B5 Pantothenic Acid",
+"industries": [
+"health"
+]
+},
+"1078": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B3-Niacin",
+"leaf": "B3 Niacin",
+"industries": [
+"health"
+]
+},
+"1081": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B7-Biotin",
+"leaf": "B7 Biotin",
+"industries": [
+"health"
+]
+},
+"1084": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B8-Inositol",
+"leaf": "B8 Inositol",
+"industries": [
+"health"
+]
+},
+"1087": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B9-Folic-Acid",
+"leaf": "B9 Folic Acid",
+"industries": [
+"health"
+]
+},
+"1090": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B12",
+"leaf": "B12",
+"industries": [
+"health"
+]
+},
+"1093": {
+"path": "Health-Beauty/Health/Vitamins/Vitamin-B/B-Complex",
+"leaf": "B Complex",
+"industries": [
+"health"
+]
+},
+"1096": {
+"path": "Health-Beauty/Health/Supplements/Sports-Nutrition",
+"leaf": "Sports Nutrition",
+"industries": [
+"health"
+]
+},
+"1099": {
+"path": "Health-Beauty/Health/Supplements/Sports-Nutrition/Protein",
+"leaf": "Protein",
+"industries": [
+"health"
+]
+},
+"1102": {
+"path": "Health-Beauty/Health/Supplements/Sports-Nutrition/Pre-Workout",
+"leaf": "Pre Workout",
+"industries": [
+"health"
+]
+},
+"1105": {
+"path": "Home-Garden/Tools-Hardware/Hand-Tools/Clamps",
+"leaf": "Clamps",
+"industries": [
+"home"
+]
+},
+"1108": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Tool-Parts-Accessories",
+"leaf": "Power Tool Parts Accessories",
+"industries": [
+"home"
+]
+},
+"1111": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Tool-Parts-Accessories/Drill-Bits",
+"leaf": "Drill Bits",
+"industries": [
+"home"
+]
+},
+"1114": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Tool-Parts-Accessories/Saw-Blades",
+"leaf": "Saw Blades",
+"industries": [
+"home"
+]
+},
+"1117": {
+"path": "Home-Garden/Tools-Hardware/Power-Tools/Power-Tool-Parts-Accessories/Hole-Saws-Accessories",
+"leaf": "Hole Saws Accessories",
+"industries": [
+"home"
+]
+},
+"1118": {
+"path": "Electronics/Audio-Components/Speakers/Soundbars",
+"leaf": "Soundbars",
+"industries": [
+"tech"
+]
+},
+"1121": {
+"path": "Automotive/Car-Video",
+"leaf": "Car Video",
+"industries": [
+"auto",
+"tech"
+]
+},
+"1124": {
+"path": "Automotive/Car-Video/Dash-Cameras",
+"leaf": "Dash Cameras",
+"industries": [
+"auto",
+"tech"
+]
+},
+"1127": {
+"path": "Automotive/Car-Video/Backup-Cameras",
+"leaf": "Backup Cameras",
+"industries": [
+"auto",
+"tech"
+]
+},
+"1130": {
+"path": "Home-Garden/Home-Furniture/Beds",
+"leaf": "Beds",
+"industries": [
+"home"
+]
+},
+"1133": {
+"path": "Home-Garden/Garden/Outdoor-Power-Equipment",
+"leaf": "Outdoor Power Equipment",
+"industries": [
+"home"
+]
+},
+"1136": {
+"path": "Home-Garden/Garden/Outdoor-Power-Equipment/Generators",
+"leaf": "Generators",
+"industries": [
+"home"
+]
+},
+"1139": {
+"path": "Home-Garden/Garden/Outdoor-Power-Equipment/Solar-Panels-Accessories",
+"leaf": "Solar Panels Accessories",
+"industries": [
+"home"
+]
+},
+"1142": {
+"path": "Home-Garden/Kitchen/Small-Appliances/Fryers",
+"leaf": "Fryers",
+"industries": [
+"home"
+]
+},
+"1145": {
+"path": "Home-Garden/Garden/Outdoor-Lighting",
+"leaf": "Outdoor Lighting",
+"industries": [
+"home"
+]
+},
+"1148": {
+"path": "Home-Garden/Garden/Outdoor-Lighting/String-Lights",
+"leaf": "String Lights",
+"industries": [
+"home"
+]
+},
+"1151": {
+"path": "Home-Garden/Garden/Outdoor-Lighting/Flood-Lights",
+"leaf": "Flood Lights",
+"industries": [
+"home"
+]
+},
+"1154": {
+"path": "Home-Garden/Garden/Outdoor-Lighting/Path-Lights",
+"leaf": "Path Lights",
+"industries": [
+"home"
+]
+},
+"1157": {
+"path": "Home-Garden/Garden/Outdoor-Lighting/Landscape-Lighting",
+"leaf": "Landscape Lighting",
+"industries": [
+"home"
+]
+},
+"1160": {
+"path": "Home-Garden/Garden/Outdoor-Lighting/Lighting-Projectors",
+"leaf": "Lighting Projectors",
+"industries": [
+"home"
+]
+},
+"1163": {
+"path": "Gaming-Toys/Toys-Hobbies/RC-Vehicles",
+"leaf": "RC Vehicles",
+"industries": [
+"tech",
+"toys"
+]
+},
+"1166": {
+"path": "Gaming-Toys/Toys-Hobbies/RC-Vehicles/Drones",
+"leaf": "Drones",
+"industries": [
+"tech",
+"toys"
+]
+},
+"1169": {
+"path": "Gaming-Toys/Toys-Hobbies/RC-Vehicles/RC-Cars-Trucks",
+"leaf": "RC Cars Trucks",
+"industries": [
+"toys"
+]
+},
+"1172": {
+"path": "Gaming-Toys/Toys-Hobbies/RC-Vehicles/RC-Boats",
+"leaf": "RC Boats",
+"industries": [
+"toys"
+]
+},
+"1178": {
+"path": "Store-Events/Singles-Awareness-Day",
+"leaf": "Singles Awareness Day",
+"industries": []
+},
+"1181": {
+"path": "Electronics/Power-Management/Power-Stations",
+"leaf": "Power Stations",
+"industries": [
+"tech"
+]
+},
+"1183": {
+"path": "Movies-Music-Books/Streaming-Services",
+"leaf": "Streaming Services",
+"industries": []
+},
+"1184": {
+"path": "Movies-Music-Books/Streaming-Services/Video-Streaming-Services",
+"leaf": "Video Streaming Services",
+"industries": []
+},
+"1185": {
+"path": "Movies-Music-Books/Streaming-Services/Music-Streaming-Services",
+"leaf": "Music Streaming Services",
+"industries": []
+},
+"1187": {
+"path": "Home-Garden/Garden/Mulch",
+"leaf": "Mulch",
+"industries": [
+"home"
+]
+},
+"1188": {
+"path": "Home-Garden/Moving-Services-Supplies",
+"leaf": "Moving Services Supplies",
+"industries": [
+"home"
+]
+},
+"1190": {
+"path": "Electronics/Audio-Components/Headphones/Air-Pods",
+"leaf": "Air Pods",
+"industries": [
+"tech"
+]
+},
+"1191": {
+"path": "Sports-Fitness/Disc-Golf",
+"leaf": "Disc Golf",
+"industries": [
+"sports"
+]
+},
+"1192": {
+"path": "Home-Garden/Food-Drink/Cigars",
+"leaf": "Cigars",
+"industries": [
+"grocery"
+]
+},
+"1193": {
+"path": "Sports-Fitness/Sports-Souvenirs",
+"leaf": "Sports Souvenirs",
+"industries": [
+"sports"
+]
+}
+}
+}

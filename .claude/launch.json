@@ -7,6 +7,14 @@
       "runtimeArgs": ["run", "--no-project", "--python", "3.12", "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
                       "python", "-m", "uvicorn", "plum.api:app", "--app-dir", "backend", "--port", "8000"],
       "port": 8000
+    },
+    {
+      "name": "plum-preview",
+      "runtimeExecutable": "/usr/bin/env",
+      "runtimeArgs": ["PLUM_WARM=0", "/Users/homiejhan/.local/bin/uv", "run", "--no-project", "--python", "3.12",
+                      "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
+                      "python", "-m", "uvicorn", "plum.api:app", "--app-dir", "backend", "--port", "8010"],
+      "port": 8010
     }
   ]
 }

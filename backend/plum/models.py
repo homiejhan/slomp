@@ -1,298 +1,228 @@
+"""Domain objects. Everything a response shows is one of these, serialized by `to_dict`."""
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Optional
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
+from typing import Any, Optional
+
+# What a discount is measured against, strongest first, and how much ranking trusts each.
+BASIS_WEIGHT = {
+    "market": 1.0,           # below the median current price at 2+ other sites Plum checked itself
+    "store_regular": 0.9,    # below the same store's own stated regular / was price
+    "editor_compare": 0.8,   # an editor's statement about other stores' prices ("you'd pay $65 elsewhere")
+    "claimed_savings": 0.6,  # the ad states a saving but not the regular price it is measured from
+    "history": 0.6,          # a price-history claim ("lowest price Amazon has charged")
+    "list": 0.5,             # list price, MSRP, compare-at, "value"
+    "none": 0.0,             # no reference: a price, not a discount
+}
+BASIS_TEXT = {
+    "market": "vs other stores' current prices (checked by Plum)",
+    "store_regular": "vs the store's own regular price",
+    "editor_compare": "vs other stores, per the deal's editor",
+    "claimed_savings": "saving stated by the ad; no regular price given",
+    "history": "vs this product's own price history",
+    "list": "vs list price / MSRP",
+    "none": "no regular price given",
+}
 
 
-def utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+def _iso(v: Any) -> Any:
+    return v.isoformat() if isinstance(v, datetime) else v
 
 
-class Condition(str, Enum):
-    NEW = "new"
-    REFURBISHED = "refurbished"
-    OPEN_BOX = "open box"
-    USED = "used"
+def _clean(d: Any) -> Any:
+    if isinstance(d, dict):
+        return {k: _clean(v) for k, v in d.items()}
+    if isinstance(d, list):
+        return [_clean(v) for v in d]
+    return _iso(d)
 
 
-class CouponType(str, Enum):
-    PERCENT = "percent"
-    FIXED = "fixed"
-    FREESHIP = "freeship"
-
-
-class Scope(str, Enum):
-    SITEWIDE = "sitewide"
-    CATEGORY = "category"
-    PRODUCT = "product"
-
-
-class Tier(str, Enum):
-    EXACT = "exact"          # shared, valid GTIN
-    CONFIDENT = "confident"  # model code + strong word overlap
-    LIKELY = "likely"        # good overlap, worth showing with a caveat
-    REJECTED = "rejected"
-
-
-@dataclass(frozen=True)
-class RetailerPolicy:
+@dataclass
+class City:
     id: str
     name: str
-    free_shipping_over: float
-    flat_shipping: float
-    cashback_rate: float = 0.0
-    trust: float = 0.9          # 0..1; used only as a tiebreaker, never to reorder by commission
-    timeout_ms: int = 1200
-
-
-@dataclass
-class Product:
-    id: str
-    brand: str
-    title: str
-    category: str
-    list_price: float
-    gtin: Optional[str] = None
-    mpn: Optional[str] = None
-    aliases: tuple[str, ...] = ()
-    glyph: str = ""
-
-
-@dataclass
-class Listing:
-    id: str
-    retailer: str
-    title: str
-    price: float
-    url: str = ""
-    gtin: Optional[str] = None
-    mpn: Optional[str] = None
-    brand: Optional[str] = None
-    condition: Condition = Condition.NEW
-    shipping: Optional[float] = None    # None -> derive from retailer policy
-    in_stock: bool = True
-    seller: Optional[str] = None
-    fetched_at: datetime = field(default_factory=utcnow)
-
-
-@dataclass
-class Coupon:
-    retailer: str
-    code: str
-    type: CouponType
-    value: float
-    scope: Scope = Scope.SITEWIDE
-    categories: tuple[str, ...] = ()
-    excludes_brands: tuple[str, ...] = ()
-    min_spend: float = 0.0
-    max_discount: Optional[float] = None
-    new_only: bool = False
-    attempts: int = 0
-    successes: int = 0
-    last_worked: Optional[datetime] = None
-    expires: Optional[datetime] = None
-    source: str = "affiliate_feed"
-    note: str = ""
-
-
-@dataclass
-class MatchResult:
-    score: float
-    tier: Tier
-    reasons: list[str]
-
-
-@dataclass
-class CouponEval:
-    coupon: Coupon
-    applicable: bool
-    why: str
-    reliability: float
-    discount: float
-    expected: float   # discount * reliability
-
-
-@dataclass
-class Quote:
-    listing: Listing
-    product: Product
-    match: MatchResult
-    shipping: float            # store's shipping before any code
-    ship_cost: float           # what is actually charged after a free-shipping code
-    best_coupon: Optional[CouponEval]
-    code_discount: float
-    pay_today: float
-    cashback: float
-    net: float
-    coupon_evals: list[CouponEval]
-    verified: bool = False
-
-
-@dataclass
-class DealPost:
-    id: str
-    product_id: str
-    retailer: str
-    price: float
-    votes: int
-    posted: datetime
-    note: str = ""
-    depth: float = 0.0   # 1 - price/list
-    listing_id: Optional[str] = None
-    condition: str = "new"
-
-
-@dataclass
-class StoreEvent:
-    retailer: str
-    title: str
-    ends: datetime
-    code: Optional[str] = None
-
-
-@dataclass
-class ProbeStep:
-    code: str
-    ok: bool
-    discount: float
-    why: str = ""
-
-
-@dataclass
-class ProbeResult:
-    listing_id: str
-    steps: list[ProbeStep]
-    winner: Optional[str]
-    discount: float
-
-
-# --- Local deals: weekly-ad offers at stores near a place ----------------------------------------------------------
-
-
-@dataclass(frozen=True)
-class Place:
-    """A resolved location. Weekly ads are published per ZIP code, so a place always carries one."""
-    query: str
-    name: str
+    kind: str
+    county: str
+    county_fips: str
     lat: float
     lon: float
-    postal_code: str
-    source: str = "OpenStreetMap Nominatim"
+    population: Optional[int]
+    zip: str
+    nearby_zips: list[str]
+    tz: str
+    geoid: str = ""
+    state: str = "TX"
+
+    @property
+    def label(self) -> str:
+        return f"{self.name}, TX"
+
+    def to_dict(self) -> dict:
+        return asdict(self)
 
 
-@dataclass(frozen=True)
+@dataclass
+class Merchant:
+    name: str
+    flipp: list[str]
+    wikidata: list[str]
+    osm_names: list[str]
+    domains: list[str]
+    industries: list[str]
+    membership: str = ""
+    map_coverage: str = ""      # "sparse": the map misses many of this chain's stores, so absence proves nothing
+    exclusive: bool = False     # sells one kind of thing (PetSmart, Ulta, AutoZone): its items are that industry
+    sells: list[str] = field(default_factory=list)   # industries the store plausibly sells; empty = anything
+    food: bool = True           # False: a "Food" label on its ad items is a mislabel unless the words agree
+
+
+@dataclass
 class Store:
-    """One physical store location."""
     merchant: str
     name: str
     lat: float
     lon: float
     address: str
-    distance_km: float
-    url: str = ""                  # where the location comes from (an openstreetmap.org link)
+    distance_mi: float
+    source: str                 # "osm" or "atp"
+    ref: str                    # "osm:way/123" or "atp:target_us:638"
 
-
-class Presence(str, Enum):
-    CONFIRMED = "confirmed"        # a store is mapped within the search radius
-    FAR = "far"                    # the merchant is mapped, but no store within the radius
-    UNMAPPED = "unmapped"          # no mapped store found (maps miss some regional chains)
-    UNCHECKED = "unchecked"        # the store lookup itself failed
+    def to_dict(self) -> dict:
+        return asdict(self)
 
 
 @dataclass
-class StorePresence:
-    merchant: str
-    status: Presence
-    nearest: Optional[Store] = None
-    count: int = 0                 # stores within the radius
+class Terms:
+    """What a deal promises, per unit, after reading all of its text."""
+    price: Optional[float] = None          # per-unit price the deal gives (multi-buys divided out)
+    regular: Optional[float] = None        # per-unit reference price the saving is measured from
+    savings: Optional[float] = None        # per-unit dollars saved
+    pct: Optional[float] = None            # effective percent saved
+    basis: str = "none"
+    qty: int = 1                           # "2 for $8" -> 2
+    bundle_price: Optional[float] = None   # "2 for $8" -> 8.0
+    bogo: str = ""                         # "buy 1 get 1 free", "buy 2 get 1 50% off"
+    hedge: str = ""                        # "up to", "starting at", "from", "select items"
+    unit: str = ""                         # "lb", "oz", "ea"
+    conditions: list[str] = field(default_factory=list)
+    promo: bool = False                    # a percent- or dollars-off promotion without one firm item price
+    summary: str = ""
+    rejected: str = ""                     # why a stated saving wasn't believed ("99.6% off: likely an ad error")
 
-
-@dataclass(frozen=True)
-class Flyer:
-    id: int
-    merchant: str
-    merchant_id: int
-    valid_from: datetime
-    valid_to: datetime
-    categories: tuple[str, ...] = ()
-    postal_code: str = ""
-
-    def active(self, now: datetime) -> bool:
-        return self.valid_from <= now <= self.valid_to
-
-
-@dataclass(frozen=True)
-class DealTerms:
-    """What an ad actually promises, normalised. `price` and `was` cover `quantity` items ("2 for $8": price 8, quantity 2)."""
-    price: Optional[float] = None
-    quantity: int = 1
-    unit: str = ""                 # "lb", "each", "case"; "" when the ad doesn't say
-    was: Optional[float] = None    # regular price for the same quantity, when stated or exactly derivable
-    pct_off: Optional[float] = None       # effective saving: "buy 1 get 1 50% off" is 25%, not 50%
-    dollars_off: Optional[float] = None   # for the same quantity
-    hedge: str = ""                # "up to" / "starting at": the numbers are a ceiling or a floor, not a promise
-    offer: str = ""                # the ad's own wording of the deal, when it has one
-    conditions: tuple[str, ...] = ()      # what the price needs: "loyalty card", "coupon", "online price", "buy 6+"
-
-    @property
-    def unit_price(self) -> Optional[float]:
-        return None if self.price is None else self.price / self.quantity
+    def to_dict(self) -> dict:
+        return asdict(self)
 
 
 @dataclass
 class LocalDeal:
-    id: str                        # "<source>:<item id>"
-    merchant: str
+    id: str
+    item_id: int
+    flyer_id: int
     title: str
-    terms: DealTerms
+    merchant: str
+    brand: str
+    industries: list[str]
+    industry_rule: str
+    category: str
+    terms: Terms
     valid_from: datetime
     valid_to: datetime
-    flyer_id: Optional[int] = None
-    source: str = "flipp"
-    source_url: str = ""           # public page showing the ad itself
-    product_url: str = ""          # the retailer's own product page, when the ad links one
+    source_url: str
+    retailer_url: str = ""
     image_url: str = ""
+    store: Optional[Store] = None
+    store_status: str = "unknown"          # nearby | unmapped | far
+    feed: bool = False                     # from the retailer's own product feed (its ad picture is a product card)
+    detailed: bool = False
+    score: float = 0.0
+    starts_in_days: int = 0
+    ends_in_days: int = 0
+    raw: dict = field(default_factory=dict, repr=False)
+
+    @property
+    def kind(self) -> str:
+        return "promotion" if (self.terms.promo or self.terms.hedge or self.terms.bogo) else "deal"
+
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d.pop("raw", None)
+        d["kind"] = self.kind
+        d["basis_text"] = BASIS_TEXT.get(self.terms.basis, "")
+        return _clean(d)
+
+
+@dataclass
+class Identity:
     brand: str = ""
-    category: str = ""
-    detailed: bool = False         # terms read from the full item record, not just the flyer index
-    store: Optional[Store] = None  # nearest mapped store within the radius
-    flags: list[str] = field(default_factory=list)
+    model: str = ""
+    gtin: str = ""
+    attrs: dict[str, str] = field(default_factory=dict)   # screen, storage, size, pack, condition
+    accessory: bool = False
+
+    @property
+    def key(self) -> str:
+        if self.gtin:
+            return f"gtin:{self.gtin}"
+        return f"{self.brand.lower()}|{self.model}" if self.brand and self.model else ""
+
+    def to_dict(self) -> dict:
+        return {**asdict(self), "key": self.key}
 
 
-# --- Online deals: specific products on sale at web stores, compared with other stores ------------------------------
-
-
-@dataclass(frozen=True)
+@dataclass
 class PricePoint:
-    """The same product's price at another store, and who says so."""
-    store: str
-    price: Optional[float]
-    source: str                    # "Best Buy weekly ad", "dealnews editors", "Slickdeals"
-    url: str = ""
-    at_least: bool = False         # "the best price we found by at least $12": the other price is a floor
-    approx: bool = False           # "you'd pay around double elsewhere"
-    note: str = ""                 # "ad runs through Sep 28"
+    site: str
+    price: float
+    url: str
+    title: str
+    match: str                 # "gtin" | "model"
+    observed_at: datetime
+    regular_price: Optional[float] = None
+    in_stock: Optional[bool] = None
+    via: str = ""              # how it was found: "amazon search", "flipp weekly ad", "feed post", ...
+
+    def to_dict(self) -> dict:
+        return _clean(asdict(self))
 
 
 @dataclass
 class OnlineDeal:
-    id: str                        # "<source>:<id>"
-    source: str                    # "Slickdeals" | "dealnews" | "camelcamelcamel"
+    id: str
+    source: str                         # "dealnews" | "slickdeals"
+    source_url: str
     title: str
-    store: str
-    terms: DealTerms               # hedge: "" (vs the store's own price or price history), "elsewhere" (vs other
-                                   # stores, per editors), "compare at" (list price), "no reference"
-    url: str                       # the deal post, which cites its evidence
-    store_url: str = ""
-    image_url: str = ""
-    posted: Optional[datetime] = None
-    expires: Optional[datetime] = None
-    votes: Optional[int] = None    # Slickdeals thumb score: the community's vetting
-    staff_pick: bool = False
-    code: str = ""                 # promo code the price needs
-    history: str = ""              # "best-ever price", "$9 below its previous low"
+    seller: str
+    price: float
+    industries: list[str]
+    industry_rule: str
     category: str = ""
-    headline: str = ""             # the post's own title, before the product name was cut out of it
-    elsewhere: list[PricePoint] = field(default_factory=list)
+    reference_price: Optional[float] = None
+    basis: str = "none"
+    basis_text: str = ""                # the post's own words for its reference ("That's a $65 savings")
+    pct: Optional[float] = None         # discount vs the post's own reference
+    product: Identity = field(default_factory=Identity)
+    comparisons: list[PricePoint] = field(default_factory=list)
+    market_median: Optional[float] = None
+    verified_pct: Optional[float] = None
+    conditions: list[str] = field(default_factory=list)
+    posted_at: Optional[datetime] = None
+    expires_at: Optional[datetime] = None
+    merchant_url: str = ""
+    image_url: str = ""
+    also_posted: list[dict] = field(default_factory=list)
+    store_check: dict = field(default_factory=dict)      # the seller's live page, when Plum read it
+    score: float = 0.0
+    raw: dict = field(default_factory=dict, repr=False)
+
+    @property
+    def discount_pct(self) -> Optional[float]:
+        return self.verified_pct if self.verified_pct is not None else self.pct
+
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d.pop("raw", None)
+        d["product"] = self.product.to_dict()
+        d["discount_pct"] = self.discount_pct
+        d["basis_label"] = BASIS_TEXT.get(self.basis, "")
+        return _clean(d)

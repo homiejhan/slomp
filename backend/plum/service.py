@@ -1,144 +1,148 @@
-"""Orchestration: one call turns a query into a ranked, explained set of offers."""
+"""PlumService: one entry point for the API, the CLI and the verification harness.
+
+Validates inputs against the fixed lists, runs the pipelines, merges restaurant promotions into the local result,
+and caches results for 30 minutes so repeat views are instant.
+"""
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+import asyncio
+import time
+from datetime import datetime
 from typing import Optional
 
-from . import coupons as C
-from .adapters.base import Adapter, AdapterOutcome, run_adapters
-from .adapters.checkout_probe import CheckoutProbe
-from .cache import TTLCache
-from .matching import ProductIndex, match
-from .models import (Condition, DealPost, Listing, MatchResult, ProbeResult, Product, Quote, RetailerPolicy,
-                     StoreEvent, Tier, utcnow)
-from .pricing import quote, shipping_cost
-from .ranking import is_period_low, rank_quotes
+from . import industries as ind
+from .config import Settings
+from .db import Store as DB
+from .http import PoliteClient
+from .local import LocalDeals, LocalResult, window_for
+from .models import City
+from .online import OnlineDeals, OnlineResult
+from .promos import RestaurantPromos
+from .reference import city as city_by_id, find_cities
+from .sources.feeds import DealFeeds
+from .sources.flipp import FlippClient
+from .sources.prices import PriceSources
+from .sources.stores import RestaurantLocator, StoreLocator
+
+RESULT_TTL_S = 30 * 60
+ONLINE_MAX = 100            # online deals kept per industry; requests take a slice
+RADII = (10.0, 25.0, 50.0)
 
 
-@dataclass
-class Skipped:
-    listing: Listing
-    match: MatchResult
-    why: str
+class InputError(ValueError):
+    """An input outside the fixed lists. `choices` helps the caller fix it."""
+
+    def __init__(self, message: str, choices: Optional[list] = None):
+        super().__init__(message)
+        self.choices = choices or []
 
 
-@dataclass
-class DealReport:
-    product: Optional[Product]
-    how: str
-    offers: list[Quote] = field(default_factory=list)
-    skipped: list[Skipped] = field(default_factory=list)
-    adapters: list[AdapterOutcome] = field(default_factory=list)
-    history: dict[str, list[float]] = field(default_factory=dict)   # retailer -> prices seen before this fetch
-
-    @property
-    def best(self) -> Optional[Quote]:
-        return self.offers[0] if self.offers else None
-
-    def is_low(self, q: Quote) -> bool:
-        return is_period_low(q.listing.price, self.history.get(q.listing.retailer, []))
+def resolve_city(city_id: str) -> City:
+    c = city_by_id(city_id)
+    if c:
+        return c
+    near = [x.id for x in find_cities(city_id, 5)]
+    raise InputError(f"unknown city {city_id!r}: choose a Texas city id from /api/v1/meta", near)
 
 
-class PriceHistoryStore:
-    """Observed prices per (product, retailer) over a rolling window. Swap for a time-series DB."""
-
-    def __init__(self, window: timedelta = timedelta(days=90)):
-        self.window = window
-        self._d: dict[tuple[str, str], list[tuple[datetime, float]]] = {}
-
-    def record(self, product_id: str, retailer: str, price: float, at: datetime) -> None:
-        pts = self._d.setdefault((product_id, retailer), [])
-        pts.append((at, price))
-        pts[:] = [(t, p) for t, p in pts if t >= at - self.window]
-
-    def series(self, product_id: str, retailer: str, before: datetime) -> list[float]:
-        """Prices observed in the window ending just before `before`."""
-        return [p for t, p in self._d.get((product_id, retailer), []) if before - self.window <= t < before]
+def resolve_industries(raw, allow_dining: bool = True) -> list[str]:
+    ok, bad = ind.parse_ids(raw)
+    if bad or not ok:
+        raise InputError(f"unknown industries {bad}" if bad else "choose at least one industry", list(ind.IDS))
+    return [i for i in dict.fromkeys(ok) if allow_dining or i != "dining"]
 
 
-@dataclass
-class _Fetch:
-    """One round of adapter calls. Prices are recorded once per fetch, however many searches reuse it."""
-    outcomes: list[AdapterOutcome]
-    at: datetime
-    prior: Optional[dict[str, list[float]]] = None
+class PlumService:
+    def __init__(self, settings: Optional[Settings] = None):
+        self.settings = settings or Settings()
+        self.db = DB(self.settings.db_path)
+        self.http = PoliteClient(self.db, self.settings)
+        self.flipp = FlippClient(self.http)
+        self.stores = StoreLocator()
+        self.feeds = DealFeeds(self.http)
+        self.prices = PriceSources(self.http, self.flipp)
+        self.local_deals = LocalDeals(self.flipp, self.stores)
+        self.online_deals = OnlineDeals(self.feeds, self.prices, self.db)
+        self.promos = RestaurantPromos(self.feeds, RestaurantLocator())
+        self._cache: dict[tuple, tuple[float, object]] = {}
+        self._locks: dict[tuple, asyncio.Lock] = {}
 
+    async def aclose(self) -> None:
+        await self.http.aclose()
 
-class DealService:
-    def __init__(self, products: list[Product], policies: dict[str, RetailerPolicy], adapters: list[Adapter],
-                 coupons: list[C.Coupon], probe: Optional[CheckoutProbe] = None, budget_s: float = 1.4):
-        self.index = ProductIndex(products)
-        self.policies = policies
-        self.adapters = adapters
-        self.coupons = C.dedupe(coupons)                 # copies, so probe results never leak into the caller's data
-        self.probe = probe
-        self.budget_s = budget_s
-        self.history = PriceHistoryStore()
-        self.verified: dict[str, Optional[str]] = {}     # listing id -> code that worked (or None)
-        self.cache: TTLCache[_Fetch] = TTLCache(ttl_s=300)
-        self.events: list[StoreEvent] = []
-        self.deals: list[DealPost] = []
+    async def _cached(self, key: tuple, make):
+        hit = self._cache.get(key)
+        if hit and time.time() - hit[0] < RESULT_TTL_S:
+            return hit[1]
+        lock = self._locks.setdefault(key, asyncio.Lock())
+        async with lock:                                  # one computation per key, however many callers
+            hit = self._cache.get(key)
+            if hit and time.time() - hit[0] < RESULT_TTL_S:
+                return hit[1]
+            value = await make()
+            self._cache[key] = (time.time(), value)
+            return value
 
-    async def _fetch(self, product: Product) -> _Fetch:
-        async def fresh() -> _Fetch:
-            return _Fetch(await run_adapters(self.adapters, product, self.budget_s), utcnow())
-        return await self.cache.get_or_fetch(product.id, fresh)
+    async def local(self, city_id: str, industries, radius_mi: float = 25.0,
+                    now: Optional[datetime] = None, use_cache: bool = True) -> LocalResult:
+        c = resolve_city(city_id)
+        inds = resolve_industries(industries)
+        radius = float(radius_mi)
+        if radius not in RADII:
+            raise InputError(f"radius must be one of {list(RADII)}", list(RADII))
 
-    async def find(self, query: str = "", include_used: bool = False, now: Optional[datetime] = None,
-                   product_id: Optional[str] = None) -> DealReport:
-        if product_id:
-            product, how = self.index.products.get(product_id), "id"
-        else:
-            product, how = self.index.find(query)
-        if product is None:
-            return DealReport(None, how if not product_id else "unknown id")
-        return self.assemble(product, how, await self._fetch(product), include_used, now)
+        async def make() -> LocalResult:
+            retail = [i for i in inds if i != "dining"]
+            if retail:
+                res = await self.local_deals.run(c, retail, radius, now, self.settings.window_days)
+            else:
+                start, end = window_for(c, now, self.settings.window_days)
+                res = LocalResult(c, inds, radius, start, end)
+            if "dining" in inds:
+                promos, sources = await self.promos.near(c, radius, res.window_start, res.window_end, res.excluded)
+                res.promotions = sorted(res.promotions + promos, key=lambda d: (-d.score, d.ends_in_days, d.title))
+                res.sources += sources
+            res.industries = inds
+            return res
+        if not use_cache or now is not None:
+            return await make()
+        return await self._cached(("local", c.id, tuple(sorted(inds)), radius), make)
 
-    async def listing(self, product_id: str, listing_id: str) -> tuple[Optional[Product], Optional[Listing]]:
-        """A listing from the product's current results (what a probe request refers to)."""
-        product = self.index.products.get(product_id)
-        if product is None:
-            return None, None
-        fetch = await self._fetch(product)
-        return product, next((l for o in fetch.outcomes for l in o.listings if l.id == listing_id), None)
+    async def online(self, industries, limit: int = 25, compare: bool = True,
+                     use_cache: bool = True) -> OnlineResult:
+        inds = resolve_industries(industries, allow_dining=False)
+        if not inds:
+            raise InputError("Restaurants & Dining has local promotions only; choose another industry for online deals",
+                             [i for i in ind.IDS if i != "dining"])
+        limit = max(1, min(int(limit), ONLINE_MAX))
+        if not use_cache:
+            return await self.online_deals.run(inds, limit=limit, compare=compare)
+        # Cached per industry at the largest size, so "tech" and "tech,fashion", any limit, and the warm-up all
+        # share one computation.
+        parts = await asyncio.gather(*(
+            self._cached(("online", i, compare),
+                         lambda i=i: self.online_deals.run([i], limit=ONLINE_MAX, compare=compare)) for i in inds))
+        merged = OnlineResult(inds)
+        names: set[str] = set()
+        for i, part in zip(inds, parts):
+            merged.deals[i] = part.deals.get(i, [])[:limit]
+            for k, v in part.excluded.items():          # shared feeds are counted once, not once per industry
+                merged.excluded[k] = max(merged.excluded[k], v)
+            merged.sources += [x for x in part.sources if x["name"] not in names]
+            names |= {x["name"] for x in part.sources}
+            merged.generated_at = min(merged.generated_at, part.generated_at)
+        return merged
 
-    def assemble(self, product: Product, how: str, fetch: _Fetch, include_used: bool,
-                 now: Optional[datetime] = None) -> DealReport:
-        report = DealReport(product, how, adapters=fetch.outcomes)
-        matched: list[tuple[Listing, MatchResult]] = []
-        for oc in fetch.outcomes:
-            for l in oc.listings:
-                m = match(product, l)
-                if m.tier == Tier.REJECTED:
-                    why = next((r for r in m.reasons if "words line up" not in r), "too little in common")
-                    report.skipped.append(Skipped(l, m, why))
-                elif l.retailer not in self.policies:
-                    report.skipped.append(Skipped(l, m, "unknown store (no shipping policy)"))
-                else:
-                    matched.append((l, m))
-        if fetch.prior is None:        # first look at this fetch: snapshot what came before, then record it
-            fetch.prior = {r: self.history.series(product.id, r, fetch.at) for r in {l.retailer for l, _ in matched}}
-            for l, _ in matched:
-                self.history.record(product.id, l.retailer, l.price, fetch.at)
-        report.history = fetch.prior
-        quotes: list[Quote] = []
-        for l, m in matched:
-            if not include_used and l.condition != Condition.NEW:
-                report.skipped.append(Skipped(l, m, f"{l.condition.value} (hidden)"))
-                continue
-            quotes.append(quote(l, product, m, self.policies[l.retailer], self.coupons, l.id in self.verified,
-                                self.verified.get(l.id), now))
-        report.offers = rank_quotes(quotes, self.policies)
-        return report
+    async def warm(self) -> None:
+        """Compute every industry's online deals in the background, one at a time (the price sources are slow by
+        design), so the first visitor doesn't wait for them."""
+        for i in ind.IDS:
+            if i != "dining":
+                try:
+                    await self.online(i)
+                except Exception:                         # warming is best-effort
+                    pass
 
-    async def test_codes(self, listing: Listing, product: Product) -> ProbeResult:
-        if self.probe is None:
-            raise RuntimeError("no checkout probe configured")
-        policy = self.policies.get(listing.retailer)
-        ship = shipping_cost(policy, listing) if policy else (listing.shipping or 0.0)
-        cands = [e.coupon for e in C.rank(self.coupons, listing, product, ship) if e.applicable]
-        res = await self.probe.try_codes(listing, product, cands)
-        self.verified[listing.id] = res.winner
-        self.cache.invalidate(product.id)
-        return res
+    def health(self) -> dict:
+        return {"hosts": self.http.health(), "store_map_built": self.stores.built(),
+                "cached_results": len(self._cache)}

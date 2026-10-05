@@ -1,133 +1,148 @@
 """Command line.
 
-  plum deals "Austin, TX"                         this week's best weekly-ad deals near a city or ZIP
-  plum search "chicken breast" --near 78701       one item across nearby stores' ads, cheapest first
-  plum online --near 78701                        the biggest online discounts, with the same product elsewhere
-  plum demo "sony xm5"                            the product engine on simulated stores (no network)
+    plum cities [QUERY]                                    find a city id
+    plum industries                                        the fixed industry list
+    plum local CITY -i tech,sports [-r 25] [--json]        Output 1: deals near CITY in the next 7 days
+    plum online -i tech,fashion [-n 15] [--json]           Output 2: biggest verified online discounts
+    plum verify --iteration N [--tests 200] [--seed S]     the live verification harness
+    plum serve [--port 8000]                               the web page and API
 """
 from __future__ import annotations
 
 import argparse
 import asyncio
+import errno
 import json
+import socket
 import sys
-from typing import Optional
 
-from .net import HttpError
-
-
-def _parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="plum", description="Find the plum deal near you.")
-    sub = p.add_subparsers(dest="cmd", required=True)
-
-    d = sub.add_parser("deals", help="this week's best weekly-ad deals near a city or ZIP")
-    d.add_argument("where", help='a US city ("Austin, TX") or ZIP code')
-    d.add_argument("--radius", type=float, default=25.0, help="miles around the city center (default 25)")
-    d.add_argument("--limit", type=int, default=25, help="deals to list (default 25)")
-    d.add_argument("--promos", type=int, default=10, help="promotions to list (default 10)")
-    d.add_argument("--per-store", type=int, default=3, help="most deals shown from one merchant (default 3)")
-    d.add_argument("--store", action="append", default=[], help="only this merchant; repeatable")
-    d.add_argument("--category", default="", help='an ad category such as "Groceries" or "Electronics"')
-    d.add_argument("--confirmed-only", action="store_true", help="only merchants with a mapped store in range")
-
-    s = sub.add_parser("search", help="one item across nearby stores' ads, cheapest first")
-    s.add_argument("query")
-    s.add_argument("--near", required=True, help='a US city ("Austin, TX") or ZIP code')
-    s.add_argument("--radius", type=float, default=25.0)
-    s.add_argument("--limit", type=int, default=20)
-    s.add_argument("--confirmed-only", action="store_true")
-
-    o = sub.add_parser("online", help="the biggest online discounts right now, with the same product elsewhere")
-    o.add_argument("--near", default="", help="a city or ZIP whose store ads to compare against (optional)")
-    o.add_argument("--min", type=float, default=30.0, help="smallest discount to list, in percent (default 30)")
-    o.add_argument("--limit", type=int, default=30)
-
-    for sp in (d, s, o):
-        sp.add_argument("--json", action="store_true", help="machine-readable output")
-        sp.add_argument("--no-cache", action="store_true", help="ignore cached responses")
-
-    m = sub.add_parser("demo", help="the product engine on simulated stores (no network)")
-    m.add_argument("query", nargs="*", default=["sony", "xm5"])
-    return p
+from . import industries as ind
+from .models import BASIS_TEXT
+from .reference import find_cities
+from .service import InputError, PlumService
 
 
-async def _online(args: argparse.Namespace) -> int:
-    from .net import DiskCache, HttpClient
-    from .local import POLITE_INTERVALS
-    from .online import OnlineDealService
-    from .render import jsonable, render_online
+def _money(v) -> str:
+    return f"${v:,.2f}" if isinstance(v, (int, float)) else "—"
 
-    svc = OnlineDealService(HttpClient(cache=None if args.no_cache else DiskCache(), min_interval_s=POLITE_INTERVALS))
+
+def print_local(res, limit: int) -> None:
+    c = res.city
+    print(f"\n{c.name}, TX (ZIP {c.zip}) · {', '.join(ind.BY_ID[i].name for i in res.industries)} · within "
+          f"{res.radius_mi:g} mi · {res.window_start:%a %b %-d} to {res.window_end:%a %b %-d}")
+    print(f"{len(res.deals)} deals, {len(res.promotions)} promotions, {len(res.unconfirmed)} with unconfirmed stores\n")
+    for title, rows in (("DEALS", res.deals), ("PROMOTIONS", res.promotions), ("STORE NOT CONFIRMED", res.unconfirmed)):
+        if not rows:
+            continue
+        print(title)
+        for d in rows[:limit]:
+            st = d.store
+            where = f"{st.distance_mi:g} mi" if st else "store not mapped"
+            ends = "ends today" if d.ends_in_days == 0 else f"ends {d.valid_to:%a %b %-d}"
+            starts = f"starts {d.valid_from:%a %b %-d}, " if d.starts_in_days > 0 else ""
+            print(f"  {d.terms.pct or 0:5.1f}%  {d.merchant} · {d.title[:70]}")
+            print(f"          {d.terms.summary}  [{BASIS_TEXT.get(d.terms.basis, '')}]  {starts}{ends} · {where}"
+                  f"{' · ' + ', '.join(d.terms.conditions) if d.terms.conditions else ''}")
+        print()
+    print("left out: " + ", ".join(f"{k} {v}" for k, v in res.excluded.most_common()))
+
+
+def print_online(res, limit: int) -> None:
+    for i, rows in res.deals.items():
+        print(f"\n{ind.BY_ID[i].name.upper()}: biggest discounts online")
+        for d in rows[:limit]:
+            print(f"  {d.discount_pct or 0:5.1f}%  {_money(d.price)} at {d.seller or '?'} · {d.title[:70]}")
+            ref = f"vs {_money(d.market_median)} median at other stores" if d.basis == "market" else (
+                f"vs {_money(d.reference_price)} ({BASIS_TEXT.get(d.basis, '')})" if d.reference_price else "")
+            cmp_ = "; ".join(f"{p.site} {_money(p.price)}" for p in d.comparisons[:4])
+            print(f"          {ref}{' · elsewhere: ' + cmp_ if cmp_ else ''} · {d.source}")
+    print("\nleft out: " + ", ".join(f"{k} {v}" for k, v in res.excluded.most_common()))
+
+
+async def _run(args) -> int:
+    svc = PlumService()
     try:
-        rep = await svc.deals(where=args.near, min_pct=args.min, limit=args.limit)
-    finally:
-        await svc.http.aclose()
-    print(json.dumps(jsonable(rep), indent=2) if args.json else render_online(rep))
-    return 0 if all(s.ok for s in rep.sources) else 1
-
-
-async def _local(args: argparse.Namespace) -> int:
-    from .local import LocalDealService
-    from .render import jsonable, render_deals, render_search
-
-    svc = LocalDealService.live(cache=not args.no_cache)
-    try:
-        if args.cmd == "deals":
-            rep = await svc.deals(args.where, radius_mi=args.radius, limit=args.limit, promo_limit=args.promos,
-                                  per_store=args.per_store, merchants=args.store, category=args.category,
-                                  confirmed_only=args.confirmed_only)
-            text = render_deals(rep)
-        else:
-            rep = await svc.search(args.query, args.near, radius_mi=args.radius, limit=args.limit,
-                                   confirmed_only=args.confirmed_only)
-            text = render_search(rep)
+        if args.cmd == "local":
+            res = await svc.local(args.city, args.industries, args.radius)
+            print(json.dumps(res.to_dict(), indent=1) if args.json else "", end="")
+            if not args.json:
+                print_local(res, args.limit)
+        elif args.cmd == "online":
+            res = await svc.online(args.industries, args.limit, compare=not args.no_compare)
+            print(json.dumps(res.to_dict(), indent=1) if args.json else "", end="")
+            if not args.json:
+                print_online(res, args.limit)
+    except InputError as e:
+        print(f"error: {e}" + (f"\n  try: {', '.join(map(str, e.choices[:12]))}" if e.choices else ""), file=sys.stderr)
+        return 2
     finally:
         await svc.aclose()
-    print(json.dumps(jsonable(rep), indent=2) if args.json else text)
-    return 0 if all(s.ok for s in rep.sources) else 1
-
-
-async def _demo(query: str) -> int:
-    from .demo_data import POLICIES, build_service
-
-    svc = build_service()
-    rep = await svc.find(query)
-    if rep.product is None:
-        print(f"No product matched ({rep.how})")
-        return 1
-    print(f"\n{rep.product.title}   (found by {rep.how}; SIMULATED stores, prices and codes)")
-    print("stores:", ", ".join(f"{a.retailer}:{a.status}/{len(a.listings)}" for a in rep.adapters))
-    for i, o in enumerate(rep.offers):
-        code = (f"code {o.best_coupon.coupon.code} -${o.code_discount:.2f} ({o.best_coupon.reliability:.0%} works)"
-                if o.best_coupon and o.code_discount else "no code")
-        print(f"{'BEST' if i == 0 else '    '} {POLICIES[o.listing.retailer].name:<10} sticker ${o.listing.price:>7.2f}  "
-              f"{code:<40} ship ${o.shipping:>5.2f}  pay ${o.pay_today:>7.2f}  net ${o.net:>7.2f}  [{o.match.tier.value}]")
-    for s in rep.skipped:
-        print(f"skip {s.listing.retailer:<10} ${s.listing.price:>7.2f}  {s.listing.title[:60]:<60} -> {s.why}")
-    if rep.best:
-        res = await svc.test_codes(rep.best.listing, rep.product)
-        print("\nprobe:", ", ".join(f"{s.code}:{'ok -$%.2f' % s.discount if s.ok else s.why}" for s in res.steps),
-              "| winner:", res.winner)
-        again = await svc.find(query)
-        print(f"after probe: pay ${again.best.pay_today:.2f} at {POLICIES[again.best.listing.retailer].name} "
-              f"(verified={again.best.verified})")
     return 0
 
 
-def main(argv: Optional[list[str]] = None) -> int:
-    args = _parser().parse_args(argv)
-    try:
-        if args.cmd == "demo":
-            return asyncio.run(_demo(" ".join(args.query)))
-        if args.cmd == "online":
-            return asyncio.run(_online(args))
-        return asyncio.run(_local(args))
-    except LookupError as e:
-        print(f"plum: {e}", file=sys.stderr)
-        return 2
-    except (HttpError, RuntimeError) as e:
-        print(f"plum: {e}", file=sys.stderr)
-        return 1
+PORT_BUSY = """\
+Port {port} is already in use, most likely by a `plum serve` started earlier.
+A running server keeps the code it started with, so it has to be stopped to pick up changes:
+press Ctrl+C in the terminal where it is running, then run `plum serve` again.
+To run a second copy beside it instead: plum serve --port {other}
+"""
+
+
+def port_busy(port: int, host: str = "127.0.0.1") -> bool:
+    """True when something already listens there, which uvicorn reports as "[Errno 48] address already in use"."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)    # as uvicorn binds, so a just-closed port is free
+        try:
+            s.bind((host, port))
+        except OSError as e:
+            return e.errno == errno.EADDRINUSE
+    return False
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(prog="plum", description="Deals near Texas cities, and the biggest online discounts.")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    c = sub.add_parser("cities", help="find a city id")
+    c.add_argument("query", nargs="?", default="")
+    sub.add_parser("industries", help="list the industries")
+    lo = sub.add_parser("local", help="deals near a city in the next 7 days")
+    lo.add_argument("city")
+    lo.add_argument("-i", "--industries", required=True)
+    lo.add_argument("-r", "--radius", type=float, default=25.0, choices=(10.0, 25.0, 50.0))
+    lo.add_argument("-n", "--limit", type=int, default=15)
+    lo.add_argument("--json", action="store_true")
+    on = sub.add_parser("online", help="biggest verified online discounts")
+    on.add_argument("-i", "--industries", required=True)
+    on.add_argument("-n", "--limit", type=int, default=15)
+    on.add_argument("--json", action="store_true")
+    on.add_argument("--no-compare", action="store_true", help="skip other-site price checks (faster)")
+    ve = sub.add_parser("verify", help="run the live verification harness")
+    ve.add_argument("--iteration", type=int, required=True)
+    ve.add_argument("--tests", type=int, default=200)
+    ve.add_argument("--seed", type=int, default=None)
+    se = sub.add_parser("serve", help="run the web page and API")
+    se.add_argument("--port", type=int, default=8000)
+    args = ap.parse_args(argv)
+
+    if args.cmd == "cities":
+        for x in find_cities(args.query, 25):
+            print(f"{x.id:28s} {x.name}, TX · {x.county} · pop {x.population or '?'} · ZIP {x.zip}")
+        return 0
+    if args.cmd == "industries":
+        for i in ind.INDUSTRIES:
+            print(f"{i.id:8s} {i.name:24s} {i.description}")
+        return 0
+    if args.cmd == "verify":
+        from .verify.runner import main as verify_main
+        return verify_main(args.iteration, args.tests, args.seed)
+    if args.cmd == "serve":
+        import uvicorn
+        if port_busy(args.port):
+            print(PORT_BUSY.format(port=args.port, other=args.port + 1), end="", file=sys.stderr)
+            return 1
+        uvicorn.run("plum.api:app", port=args.port)
+        return 0
+    return asyncio.run(_run(args))
 
 
 if __name__ == "__main__":

@@ -1,186 +1,373 @@
-"""Online deals: specific products at big discounts on web stores right now, with the same product's price elsewhere.
+"""Output 2: the products with the highest discounts online in each industry, checked against other websites.
 
-Sources (adapters/feeds.py): Slickdeals' front page and popular deals (community-vetted), dealnews (editor-checked,
-often with other stores' prices), camelcamelcamel (Amazon drops against Amazon's own price history). A deal counts only
-if it names one product at one price; storewide sales, memberships and services are left out.
-
-The same product elsewhere comes from three places, all current:
-  * dealnews editors: "You'd pay $5 more at Macy's", "the best price we found by $16"
-  * this week's ads from stores near you, matched on the model number. The big chains' ad prices are their web prices
-    too, and each ad item links to the retailer's page.
-  * the other feeds, when one carries the same model at another store
-Matching is on model numbers only (textfeatures.model_codes), so two different 1080p monitors never look alike.
+feeds -> single-product posts -> terms -> industry -> identity -> other sites' prices -> verified discount -> dedupe
+-> rank per industry.
 """
 from __future__ import annotations
 
 import asyncio
+import html as htmllib
 import re
+import statistics
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Callable, Optional
+from datetime import datetime, timedelta, timezone
+from typing import Optional
 
-from .adapters.feeds import FEEDS, DealFeeds
-from .adapters.flipp import FlippClient, end_day, search_deal
-from .geo import Geocoder
-from .local import SourceStatus
-from .models import OnlineDeal, Place, PricePoint, utcnow
-from .net import HttpClient, HttpError
-from .textfeatures import ACCESSORY, features, model_codes, near_code, tokens, unit_of
+from . import industries as ind
+from .config import TTL
+from .db import Store as DB
+from .http import FetchError, follow
+from .identity import identify, model_query, models_of
+from .models import BASIS_WEIGHT, OnlineDeal, PricePoint
+from .reference import norm
+from .sources.feeds import SOURCE_NAMES, DealFeeds, Post, plan, post_gone
+from .sources.prices import PriceSources, asins_in
+from .terms import conditions_of, hedge_of, is_storewide, pct, post_reference, title_price
 
-MAX_AGE = timedelta(days=5)        # older posts are usually sold out or repriced
-# Posts about many products: "Up to 50% off", "Eyewear Deals for $1", "Deals from $30", "$10 off $40", "Promo Code".
-_NOT_ONE_ITEM = re.compile(r"^\s*(?:up to\s+|at least\s+)?\d+%\s+off\b|\bsitewide\b|\bstorewide\b|^\s*select\s|"
-                           r"\bbuy\s+(?:one|two|\d+).{0,20}\bget\b|\bsale\s*(?:$|:)|\bdeals\b|\bfrom\s+\$|"
-                           r"\$\d[\d,.]*\s+off\s+\$\d|\bpromo code\b", re.I)
-_SERVICE = re.compile(r"\bmemberships?\b|\bbanking\b|\bchecking\b|\bcredit card\b|\bvacation\b|\bflights?\b|\bhotel\b|"
-                      r"\bcruise\b|\bauctions?\b|\bgiveaway\b|\bsubscription\b|\bgift cards?\b|\bfree\s+(?:kindle|e?books?)\b",
-                      re.I)
-_QUANTITY = re.compile(r"^\d+(?:-?(?:pk|pack|pc|piece|ct|count|oz|sheets?|in|inch|ft|gallon|quart))?$", re.I)
-# Screen and product sizes in inches: 43", 55-inch, 32 in., 65" Class. Within one TV or monitor series, the size is
-# what makes it a different product (a 43" and a 55" U8000H share the series name).
-_INCHES = re.compile(r"(?<![\d.])(\d{2,3}(?:\.\d)?)\s*(?:\"|”|″|''|-?\s*inch(?:es)?\b|\s?in\.?(?![a-z]))", re.I)
-
-
-def inches(title: str) -> set[str]:
-    return set(_INCHES.findall(title))
+CONDITIONAL = ("coupon required", "promo code", "Subscribe & Save", "Prime members", "mail-in rebate",
+               "discount applied in cart", "& more (price varies by option)", "price varies by size or color")
+MAX_AGE = timedelta(hours=72)        # a post older than this is stale unless it states a future end date
+COMPARE_PER_INDUSTRY = 10            # cross-site lookups for the leading candidates in each industry
+MIN_MARKET_SITES = 2                 # other sites needed before "vs other stores" becomes the discount basis
+PER_SELLER_CAP = 5                   # the most deals one seller can hold in an industry's list
 
 
 @dataclass
-class OnlineReport:
-    generated_at: datetime
-    deals: list[OnlineDeal] = field(default_factory=list)       # a stated discount of at least min_pct, biggest first
-    popular: list[OnlineDeal] = field(default_factory=list)     # community favorites that state no discount
-    compared_near: Optional[Place] = None
-    looked_up: int = 0                                          # deals with a model number checked against the ads
-    sources: list[SourceStatus] = field(default_factory=list)
-    skipped: Counter = field(default_factory=Counter)
+class OnlineResult:
+    industries: list[str]
+    deals: dict[str, list[OnlineDeal]] = field(default_factory=dict)
+    excluded: Counter = field(default_factory=Counter)
+    sources: list[dict] = field(default_factory=list)
+    generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
+    def all_deals(self) -> list[OnlineDeal]:
+        seen, out = set(), []
+        for lst in self.deals.values():
+            for d in lst:
+                if d.id not in seen:
+                    seen.add(d.id)
+                    out.append(d)
+        return out
+
+    def to_dict(self) -> dict:
+        return {"industries": self.industries, "generated_at": self.generated_at.isoformat(),
+                "deals": {k: [d.to_dict() for d in v] for k, v in self.deals.items()},
+                "counts": {k: len(v) for k, v in self.deals.items()},
+                "excluded": dict(self.excluded.most_common()), "sources": self.sources}
+
+
+def classify_post(p: Post) -> ind.Classification:
+    if p.source == "dealnews" and p.category:
+        c = ind.from_dealnews(p.category, p.feed_industries)
+        if c.industries:
+            return c
+    text = ind.from_text(p.title)
+    if p.source == "hip2save" and text.industries:
+        # Hip2Save's categories are broad ("beauty" includes vitamins): its feeds are hints, the title decides.
+        return ind.Classification(text.industries, f"keywords:{text.rule}+feed hint", p.category)
+    if p.feed_industries:
+        # A category feed is strong evidence; keywords may add a second industry, never replace the feed's.
+        extra = [i for i in text.industries if i not in p.feed_industries][:1] if text.industries else []
+        return ind.Classification(p.feed_industries + extra, f"feed:{','.join(p.feeds[:1])}" +
+                                  (f"+{text.rule}" if extra else ""), p.category)
+    if p.category and p.source == "dealcatcher":
+        cat = ind.from_text(p.category)
+        if cat.industries:
+            return ind.Classification(cat.industries, f"dealcatcher:{p.category}", p.category)
+    return text
+
+
+_EXACT = re.compile(r"(?:for|is|at|to|=|of|drops? to|down to)\s*\*?\s*\$\s?(\d[\d,]*\.\d\d)\b", re.I)
+_MULTI = re.compile(r"\b(\d{1,2}) for \$\s?(\d[\d,]*(?:\.\d\d)?)\b", re.I)
+
+
+def exact_price(text: str, price: float) -> float:
+    """Titles round ("$51", "$26.40"); the description usually has the exact figure ("$50.99", "= $26.39").
+    Use it when it's within a dollar of the title's."""
+    for m in _EXACT.finditer(text or ""):
+        v = float(m.group(1).replace(",", ""))
+        if abs(v - price) < 1.0 and v != price:
+            return v
+    return price
+
+
+def multi_qty(title: str, price: float) -> int:
+    """'3 for $15': the quantity the price buys."""
+    m = _MULTI.search(title or "")
+    if m and int(m.group(1)) > 1 and abs(float(m.group(2).replace(",", "")) - price) < 1.0:
+        return int(m.group(1))
+    return 1
 
 
 def score(d: OnlineDeal) -> float:
-    """Percent saved. A discount against other stores' prices or the store's own counts fully; against a list price,
-    a range, or no stated price at all it counts half."""
-    pct = d.terms.pct_off or 0.0
-    return pct if d.terms.hedge in ("", "elsewhere") else pct / 2
+    discount = d.discount_pct or 0.0
+    w = BASIS_WEIGHT.get(d.basis, 0.0)
+    conf = 1.0 - 0.08 * len([c for c in d.conditions if c not in ("Prime members",)])
+    if any("price varies" in c for c in d.conditions):
+        conf -= 0.2
+    if any(c.startswith(("store price now", "out of stock")) for c in d.conditions):
+        conf = 0.15
+    return round(discount * w * max(conf, 0.15), 2)
 
 
-def not_an_item(d: OnlineDeal) -> str:
-    """Why this post isn't one product at one price, or ""."""
-    said = f"{d.title} | {d.headline}"                # the headline keeps wording the product name drops ("$10 off $40")
-    if _SERVICE.search(said) or _SERVICE.search(d.category):
-        return "a service or membership"
-    if _NOT_ONE_ITEM.search(d.title) or _NOT_ONE_ITEM.search(d.headline):
-        return "a sale, not one item"
-    if d.terms.price is None:
-        return "no single price"
-    return ""
+class OnlineDeals:
+    def __init__(self, feeds: DealFeeds, prices: PriceSources, db: Optional[DB] = None):
+        self.feeds, self.prices, self.db = feeds, prices, db
 
+    async def run(self, industries: list[str], limit: int = 25, now: Optional[datetime] = None,
+                  compare: bool = True) -> OnlineResult:
+        now = now or datetime.now(timezone.utc)
+        res = OnlineResult(industries)
+        wanted = set(industries)
+        plans = plan([i for i in industries if i != "dining"])
+        results = await asyncio.gather(*(self.feeds.read(p) for p in plans))
+        posts: dict[str, Post] = {}
+        for p, (got, err) in zip(plans, results):
+            res.sources.append({"name": p.name, "ok": not err, "posts": len(got), **({"error": err} if err else {})})
+            for post in got:
+                if post.id in posts:                       # the same post from two feeds: merge the evidence
+                    have = posts[post.id]
+                    have.feeds += [f for f in post.feeds if f not in have.feeds]
+                    have.feed_industries += [i for i in post.feed_industries if i not in have.feed_industries]
+                else:
+                    posts[post.id] = post
 
-def same_product(a: str, b: str) -> bool:
-    """Same model number, no conflicting one (XM5 vs XM6), same size, and neither is an accessory for the other."""
-    ca, cb = model_codes(a), model_codes(b)
-    if not ca & cb:
-        return False
-    if any(near_code(x, y) for x in ca - cb for y in cb - ca):  # real model numbers only: joined word pairs such as
-        return False                                            # "u8000h43" vs "u8000h4k" would look like a conflict
-    fa, fb = features(a), features(b)
-    if (fa.bag & ACCESSORY) ^ (fb.bag & ACCESSORY):
-        return False
-    ia, ib = inches(a), inches(b)
-    if ia and ib and not ia & ib:
-        return False
-    return not any(unit_of(s) == unit_of(t) and s != t for s in fa.sizes for t in fb.sizes)
-
-
-def _search_terms(d: OnlineDeal) -> Optional[str]:
-    """Brand plus model number, the way a store's ad would name it: "Samsung U8000H"."""
-    codes = model_codes(d.title)
-    if not codes:
-        return None
-    words = [w for w in tokens(d.title) if not _QUANTITY.match(w)]
-    brand = next((w for w in words if w.isalpha() and len(w) > 2), "")
-    code = max(codes, key=len)
-    original = next((t for t in d.title.replace("(", " ").replace(")", " ").split() if t.lower().replace("-", "") == code),
-                    code)
-    return f"{brand} {original}".strip()
-
-
-def cross_link(deals: list[OnlineDeal]) -> None:
-    """The same model posted for another store in another feed is that store's price."""
-    for i, a in enumerate(deals):
-        for b in deals[i + 1:]:
-            if a.store.lower() != b.store.lower() and same_product(a.title, b.title):
-                a.elsewhere.append(PricePoint(b.store, b.terms.unit_price, f"{b.source} post", b.url))
-                b.elsewhere.append(PricePoint(a.store, a.terms.unit_price, f"{a.source} post", a.url))
-
-
-class OnlineDealService:
-    def __init__(self, http: HttpClient, *, lookups: int = 12, clock: Callable[[], datetime] = utcnow):
-        self.http = http
-        self.feeds = DealFeeds(http)
-        self.geocoder = Geocoder(http)
-        self.flipp = FlippClient(http)
-        self.lookups = lookups
-        self.clock = clock
-
-    async def _fetch(self, source: str, rep: OnlineReport) -> list[OnlineDeal]:
-        try:
-            deals = await self.feeds.fetch(source)
-        except HttpError as e:
-            rep.sources.append(SourceStatus(source, False, str(e)))
-            return []
-        rep.sources.append(SourceStatus(source, True, f"{len(deals)} posts"))
-        return deals
-
-    async def _compare_with_ads(self, d: OnlineDeal, place: Place, now: datetime) -> None:
-        q = _search_terms(d)
-        if not q:
-            return
-        try:
-            raws = await self.flipp.search(place.postal_code, q)
-        except HttpError:
-            return
-        for raw in raws:
-            item, why = search_deal(raw)
-            if why or item.valid_to < now or item.valid_from > now or item.terms.unit_price is None:
+        candidates: list[OnlineDeal] = []
+        for post in posts.values():
+            d = self._deal(post, now, res)
+            if d is None:
                 continue
-            if same_product(d.title, item.title) and item.merchant.lower() != d.store.lower():
-                d.elsewhere.append(PricePoint(item.merchant, round(item.terms.unit_price, 2), f"{item.merchant} weekly ad",
-                                              item.product_url or item.source_url,
-                                              note=f"ad runs through {end_day(item.valid_to)}"))
+            if not wanted & set(d.industries):
+                res.excluded["other industry"] += 1
+                continue
+            candidates.append(d)
 
-    async def deals(self, *, where: str = "", min_pct: float = 30.0, limit: int = 30, popular: int = 8) -> OnlineReport:
-        now = self.clock()
-        rep = OnlineReport(now)
-        batches = await asyncio.gather(*(self._fetch(s, rep) for s in FEEDS))
-        kept: list[OnlineDeal] = []
-        for d in (d for batch in batches for d in batch):
-            why = not_an_item(d)
-            if not why and d.expires and d.expires < now:
-                why = "deal has ended"
-            if not why and d.posted and now - d.posted > MAX_AGE:
-                why = "posted more than 5 days ago"
-            if why:
-                rep.skipped[why] += 1
-            else:
-                kept.append(d)
-        cross_link(kept)
-        ranked = sorted(kept, key=lambda d: (-score(d), -(d.votes or 0)))
-        rep.deals = [d for d in ranked if score(d) >= min_pct][:limit]
-        chosen = {d.id for d in rep.deals}
-        rep.popular = sorted((d for d in kept if d.id not in chosen and d.votes and not d.terms.pct_off),
-                             key=lambda d: -(d.votes or 0))[:popular]
-        if where.strip():
+        candidates = self._dedupe(candidates, res)
+        for d in candidates:
+            d.score = score(d)
+        if compare:
+            await self._compare(candidates, wanted)
+            live = []
+            for d in candidates:
+                if d.raw.get("gone"):
+                    res.excluded["expired (post removed or marked expired)"] += 1
+                else:
+                    live.append(d)
+            candidates = live
+        for d in candidates:
+            d.score = score(d)
+        for i in industries:
+            if i == "dining":
+                continue
+            pool = sorted((d for d in candidates if i in d.industries and d.discount_pct),
+                          key=lambda d: (-d.score, -(d.discount_pct or 0), d.title))
+            per_seller: Counter = Counter()
+            picked: list[OnlineDeal] = []
+            for d in pool:
+                if per_seller[norm(d.seller)] >= PER_SELLER_CAP:
+                    continue
+                per_seller[norm(d.seller)] += 1
+                picked.append(d)
+                if len(picked) >= limit:
+                    break
+            res.deals[i] = picked
+        return res
+
+    # -- one post -----------------------------------------------------------------------------------------------
+    def _deal(self, p: Post, now: datetime, res: OnlineResult) -> Optional[OnlineDeal]:
+        if p.deal_type == "sale" or is_storewide(p.title):
+            res.excluded["storewide sale or many products"] += 1
+            return None
+        if p.expires_stated and p.expires_at and p.expires_at < now:
+            res.excluded["expired"] += 1
+            return None
+        if re.search(r"\b(?:expired|sold out|dead deal|no longer available)\b", p.title, re.I):
+            res.excluded["expired"] += 1
+            return None
+        fresh = p.posted_at and now - p.posted_at <= MAX_AGE
+        future_end = p.expires_stated and p.expires_at and p.expires_at > now
+        if not (fresh or future_end):
+            res.excluded["older than 72 hours"] += 1
+            return None
+        tprice, hedge = title_price(p.title)
+        price = p.price or tprice
+        if not price:
+            res.excluded["no price"] += 1
+            return None
+        price = exact_price(p.text, price)
+        qty = multi_qty(p.title, price)
+        cls = classify_post(p)
+        if not cls.industries:
+            res.excluded["no industry"] += 1
+            return None
+        if p.reference and p.reference > price:
+            ref, basis, text = p.reference, "store_regular", f"Reg. ${p.reference:,.2f}"
+        elif p.pct_stated and 0 < p.pct_stated < 100:
+            ref, basis, text = round(price / (1 - p.pct_stated / 100), 2), "store_regular", f"{p.pct_stated:g}% off"
+        else:
+            ref, basis, text = post_reference(p.text, price)
+        conditions = conditions_of(p.title, p.text[:600])
+        hedge = hedge or hedge_of(p.title)
+        if hedge:
+            conditions.append(hedge)
+        if qty > 1:
+            conditions.append(f"price is for {qty} (${price / qty:,.2f} each)")
+        ident = identify(p.title)
+        posted_points = [PricePoint(site=st, price=pr, url=p.url, title=p.title, match="post",
+                                    observed_at=p.posted_at or now, via=f"per the {SOURCE_NAMES.get(p.source, p.source)} post")
+                         for st, pr in p.others]
+        if "fashion" in cls.industries and re.search(r"amazon|walmart|ebay", p.seller, re.I) and not ident.model:
+            conditions.append("price varies by size or color")
+        return OnlineDeal(
+            id=p.id, source=SOURCE_NAMES.get(p.source, p.source), source_url=p.url, title=p.title, seller=p.seller,
+            price=price, industries=cls.industries, industry_rule=cls.rule, category=cls.category or p.category,
+            reference_price=ref if ref and ref > price else None, basis=basis if ref and ref > price else (
+                "history" if basis == "history" else "none"),
+            basis_text=text, pct=pct(price, ref), product=ident, conditions=conditions, posted_at=p.posted_at,
+            expires_at=p.expires_at if p.expires_stated else None, merchant_url=p.merchant_link,
+            comparisons=posted_points,
+            image_url=p.image, raw={"feeds": p.feeds, "text": p.text[:1500], "links": p.links[:20]})
+
+    def _dedupe(self, deals: list[OnlineDeal], res: OnlineResult) -> list[OnlineDeal]:
+        """The same product posted by several sites: keep the lowest price, remember the others."""
+        best: dict[str, OnlineDeal] = {}
+        out: list[OnlineDeal] = []
+        for d in sorted(deals, key=lambda d: d.price):
+            key = d.product.key or f"title:{norm(d.title)[:60]}|{d.price:.2f}"
+            if key in best:
+                keep = best[key]
+                keep.also_posted.append({"source": d.source, "url": d.source_url, "price": d.price, "seller": d.seller})
+                keep.industries += [i for i in d.industries if i not in keep.industries]
+                res.excluded["same product posted elsewhere"] += 1
+                continue
+            best[key] = d
+            out.append(d)
+        return out
+
+    async def _compare(self, deals: list[OnlineDeal], wanted: set[str]) -> None:
+        """For the leading candidates in each industry: read the seller's live page when it's Amazon (identity from
+        its detail table, and whether the deal is still on), then look the product up on other sites."""
+        todo: list[OnlineDeal] = []
+        ids: set[str] = set()
+        for i in wanted:
+            pool = sorted((d for d in deals if i in d.industries and d.pct is not None),
+                          key=lambda d: -(d.score or (d.pct or 0)))
+            # the leading candidates, plus every deal with a real model number (those are the ones other sites list)
+            for d in pool[:COMPARE_PER_INDUSTRY] + [d for d in deals if i in d.industries and model_query(d.product)]:
+                if d.id not in ids:
+                    ids.add(d.id)
+                    todo.append(d)
+
+        async def one(d: OnlineDeal) -> None:
+            gone = await self._post_gone(d)
+            if gone:
+                d.raw["gone"] = gone
+                return
+            await self._enrich(d)
+            q = model_query(d.product)
+            if not q:
+                return
+            sites = ("amazon", "newegg", "flipp") if "tech" in d.industries else ("amazon", "flipp")
+            if norm(d.seller) == "amazon":
+                sites = tuple(x for x in sites if x != "amazon")
+            points, _ = await self.prices.compare(d.product, q, exclude_site=d.seller, near_price=d.price, sites=sites)
+            d.comparisons = points + [p for p in d.comparisons if p.site not in {x.site for x in points}]
+            if self.db and points:
+                self.db.observe_prices({"product_key": d.product.key, "site": pt.site, "title": pt.title,
+                                        "price": pt.price, "regular_price": pt.regular_price, "url": pt.url,
+                                        "match": pt.match} for pt in points)
+            if len(points) >= MIN_MARKET_SITES:                # Plum's own matches only, not the post's list
+                d.market_median = round(statistics.median(pt.price for pt in points), 2)
+                d.verified_pct = pct(d.price, d.market_median) if d.market_median > d.price else 0.0
+                d.basis = "market"
+        await asyncio.gather(*(one(d) for d in todo))
+
+    async def _post_gone(self, d: OnlineDeal) -> str:
+        if d.source in ("DealCatcher",):                  # behind a bot wall; can't be checked
+            return ""
+        try:
+            page = await self.prices.http.get(d.source_url, ttl_s=TTL["feed"], html=True)
+        except FetchError:
+            return ""
+        if page.status == 404:
+            return "the post was removed (404)"
+        return post_gone(d.source_url, page.final_url, page.text, d.title) if page.status == 200 else ""
+
+    async def _amazon_candidates(self, d: OnlineDeal) -> list[str]:
+        """Amazon products a deal may point to: product URLs in the post, its dealnews Buy Now link, or product
+        links on the post's own page (deal pages also link related products, so callers must validate)."""
+        found = asins_in(d.raw.get("text", ""), *d.raw.get("links", []), d.merchant_url)
+        if found:
+            return found
+        if d.source == "dealnews":
+            if norm(d.seller) != "amazon":
+                return []
             try:
-                rep.compared_near = await self.geocoder.resolve(where)
-            except (LookupError, HttpError) as e:
-                rep.sources.append(SourceStatus("Store ads near you", False, str(e)))
-            if rep.compared_near:
-                todo = [d for d in rep.deals + rep.popular if _search_terms(d)][:self.lookups]
-                rep.looked_up = len(todo)
-                await asyncio.gather(*(self._compare_with_ads(d, rep.compared_near, now) for d in todo))
-                rep.sources.append(SourceStatus("Store ads near you", True, f"{len(todo)} model numbers looked up near "
-                                                f"{rep.compared_near.name}"))
-        for d in rep.deals + rep.popular:
-            d.elsewhere.sort(key=lambda p: p.price or 0)
-        return rep
+                page = await self.prices.http.get(d.source_url, ttl_s=TTL["page"] * 6, html=True)
+            except FetchError:
+                return []
+            m = re.search(r'href="(https://www\.dealnews\.com/lw/click\.html\?[^"]+)"', page.text)
+            final = await follow(self.prices.http, htmllib.unescape(m.group(1))) if m else None
+            return asins_in(final or "")
+        if d.source in ("Slickdeals", "9to5Toys", "The Inventory", "Ben's Bargains") and norm(d.seller) in ("", "amazon"):
+            try:
+                page = await self.prices.http.get(d.source_url, ttl_s=TTL["page"] * 6, html=True)
+            except FetchError:
+                return []
+            return asins_in(page.text)[:3]
+        return []
+
+    async def _enrich(self, d: OnlineDeal) -> None:
+        """Read the Amazon page a deal points to: its identity (brand, model number, UPC) for cross-site lookups,
+        and, when Amazon is the seller, whether the deal price is still live."""
+        if norm(d.seller) not in ("", "amazon") and model_query(d.product):
+            return
+        item = None
+        for asin in await self._amazon_candidates(d):
+            try:
+                cand = await self.prices.amazon_item(asin)
+            except FetchError:
+                return
+            if cand and same_listing(d.title, cand.title, cand.brand):
+                item = cand
+                break
+        if not item:
+            return
+        if not d.seller:
+            d.seller = "Amazon"
+        if norm(d.seller) == "amazon" and item.price is not None:
+            unit = round(d.price / multi_qty(d.title, d.price), 2)
+            d.store_check = {"site": "Amazon", "url": item.url, "price": item.price, "unavailable": item.unavailable,
+                             "checked_at": datetime.now(timezone.utc).isoformat()}
+            conditional = any(c in d.conditions for c in CONDITIONAL)
+            if item.unavailable:
+                d.conditions.append("out of stock at the store when checked")
+            elif item.price > unit * 1.03 + 0.25 and not conditional:
+                d.conditions.append(f"store price now ${item.price:,.2f} (the deal may have ended)")
+        if not model_query(d.product):
+            models = [m for raw in item.models for m in models_of(raw, item.brand)]
+            ident = identify(f"{item.brand} {item.title}", item.brand, item.upc)
+            if models:
+                ident.model = models[0]
+                ident.attrs["models"] = ",".join(dict.fromkeys(models + [x for x in ident.attrs.get("models", "").split(",") if x]))
+            if ident.model and not ident.accessory:
+                ident.attrs["via"] = f"amazon:{item.asin}"
+                d.product = ident
+
+
+_STOP = {"with", "for", "and", "the", "free", "shipping", "shipped", "only", "just", "deal", "amazon", "prime", "members",
+         "pack", "count", "new", "set", "off", "now", "via", "from", "your", "this", "that"}
+
+
+def same_listing(post_title: str, amazon_title: str, brand: str) -> bool:
+    """Is this Amazon page the product the post is about? Most of the post title's distinctive words must appear on
+    the page, and the brand, when the post names it."""
+    def words(t: str) -> set[str]:
+        return {w for w in re.findall(r"[a-z0-9]{3,}", (t or "").lower()) if w not in _STOP and not w.isdigit()}
+    pw, aw = words(re.sub(r"\$\s?[\d,.]+", " ", post_title)), words(amazon_title)
+    if not pw or not aw:
+        return False
+    if brand and norm(brand) and norm(brand) in norm(post_title) and norm(brand) not in norm(amazon_title):
+        return False
+    return len(pw & aw) / len(pw) >= 0.5

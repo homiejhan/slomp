@@ -1,77 +1,63 @@
-"""Where is the shopper? A city or ZIP -> coordinates plus the ZIP code weekly ads are published for.
-
-Geocoding uses OpenStreetMap's Nominatim (keyless; usage policy: identify yourself, <= 1 request/s, cache results).
-"""
+"""Distances, and dates in a city's own time zone (El Paso and Hudspeth counties are on Mountain time)."""
 from __future__ import annotations
 
 import math
-import re
-from typing import Any, Optional
+from datetime import datetime, timedelta
+from typing import Optional
+from zoneinfo import ZoneInfo
 
-from .models import Place
-from .net import HttpClient
-
-NOMINATIM = "https://nominatim.openstreetmap.org"
-KM_PER_MILE = 1.609344
-_TTL_S = 30 * 86400                     # places don't move
-_ZIP = re.compile(r"\d{5}(?:-\d{4})?")
-_SETTLEMENTS = {"city", "town", "village", "hamlet", "municipality", "suburb", "borough", "neighbourhood"}
+EARTH_MI = 3958.8
+KM_PER_MI = 1.609344
 
 
-def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+def miles(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     p1, p2 = math.radians(lat1), math.radians(lat2)
-    dp, dl = p2 - p1, math.radians(lon2 - lon1)
-    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * 6371.0088 * math.asin(math.sqrt(a))
+    a = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2
+    return EARTH_MI * 2 * math.asin(min(1.0, math.sqrt(a)))
 
 
-def _zip5(raw: Any) -> Optional[str]:
-    m = re.search(r"\d{5}", str(raw or ""))
-    return m.group(0) if m else None
+def parse_time(raw) -> Optional[datetime]:
+    """An ISO timestamp with an offset; naive times can't be compared honestly with 'now', so they are rejected."""
+    if not raw:
+        return None
+    try:
+        d = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return d if d.tzinfo else None
 
 
-def _label(row: dict) -> str:
-    a = row.get("address") or {}
-    town = next((a[k] for k in ("city", "town", "village", "hamlet", "municipality") if a.get(k)), None)
-    parts = [p for p in (town, a.get("state")) if p]
-    return ", ".join(parts) or row.get("display_name", "")
+def local_day(d: datetime, tz: str) -> str:
+    return d.astimezone(ZoneInfo(tz)).strftime("%a %b %-d")
 
 
-class Geocoder:
-    def __init__(self, http: HttpClient):
-        self.http = http
+def _utc(d: datetime) -> bool:
+    return d.utcoffset() == timedelta(0)
 
-    async def resolve(self, where: str) -> Place:
-        where = " ".join(where.split())
-        if not where:
-            raise LookupError("say where: a city like 'Austin, TX' or a ZIP code")
-        if _ZIP.fullmatch(where):
-            return await self._zip(where[:5])
-        return await self._city(where)
 
-    async def _city(self, q: str) -> Place:
-        rows = await self.http.get_json(f"{NOMINATIM}/search", {
-            "q": q, "countrycodes": "us", "format": "jsonv2", "addressdetails": 1, "limit": 5}, ttl_s=_TTL_S)
-        if not rows:
-            raise LookupError(f"couldn't find a US place called {q!r}")
-        # "Austin" should mean the city, not Austin County or a street; fall back to the top hit otherwise.
-        row = next((r for r in rows if r.get("addresstype") in _SETTLEMENTS), rows[0])
-        lat, lon = float(row["lat"]), float(row["lon"])
-        zip_code = _zip5((row.get("address") or {}).get("postcode")) or await self._zip_at(lat, lon)
-        return Place(q, _label(row), lat, lon, zip_code)
+def ad_end_local(d: datetime, tz: str) -> datetime:
+    """Ads end at 11:59 PM on their last day in the store's own zone. Flipp states that in Eastern time
+    ('23:59:59-04:00', which is 22:59 Central) or in UTC ('03:59:59Z' the next morning); either way the last day is
+    the date the ad names, so the end becomes 11:59:59 PM of that date in the city's zone."""
+    if _utc(d) and d.hour < 12:
+        day = (d - timedelta(hours=12)).date()
+    elif d.hour == 23 and d.minute == 59:
+        day = d.date()
+    else:
+        return d.astimezone(ZoneInfo(tz))
+    return datetime(day.year, day.month, day.day, 23, 59, 59, tzinfo=ZoneInfo(tz))
 
-    async def _zip_at(self, lat: float, lon: float) -> str:
-        row = await self.http.get_json(f"{NOMINATIM}/reverse", {
-            "lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "format": "jsonv2", "addressdetails": 1, "zoom": 18}, ttl_s=_TTL_S)
-        z = _zip5(((row or {}).get("address") or {}).get("postcode"))
-        if not z:
-            raise LookupError("couldn't find a ZIP code for that place; pass a ZIP instead")
-        return z
 
-    async def _zip(self, z: str) -> Place:
-        rows = await self.http.get_json(f"{NOMINATIM}/search", {
-            "postalcode": z, "countrycodes": "us", "format": "jsonv2", "addressdetails": 1, "limit": 1}, ttl_s=_TTL_S)
-        if not rows:
-            raise LookupError(f"unknown US ZIP code {z}")
-        row = rows[0]
-        return Place(z, _label(row), float(row["lat"]), float(row["lon"]), z)
+def ad_start_local(d: datetime, tz: str) -> datetime:
+    """Ads start at midnight on their first day in the store's own zone ('00:00-04:00', or '04:00Z' the same day)."""
+    if (_utc(d) and 3 <= d.hour <= 8) or (d.hour == 0 and d.minute == 0):
+        day = d.date()
+    else:
+        return d.astimezone(ZoneInfo(tz))
+    return datetime(day.year, day.month, day.day, tzinfo=ZoneInfo(tz))
+
+
+def days_between(a: datetime, b: datetime, tz: str) -> int:
+    """Calendar days from a to b in the city's zone (0 = same day)."""
+    z = ZoneInfo(tz)
+    return (b.astimezone(z).date() - a.astimezone(z).date()).days

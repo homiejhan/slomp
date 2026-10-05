@@ -1,348 +1,317 @@
-"""Local deals: a city or ZIP -> this week's weekly-ad deals at stores near it.
+"""Output 1: every deal at stores near a Texas city that is valid at some point in the next 7 days.
 
-Pipeline: geocode -> ads for the ZIP -> items -> drop junk, expired, not-yet-started and duplicate items
-          -> rank by headline discount -> read the full ad record of the leaders -> re-rank on the exact terms
-          -> attach the nearest mapped store -> report, with every dropped item counted by reason.
-
-Full records are read until the ranking is provably stable. Exact terms only ever lower a score (a BOGO's effective
-saving is below its headline percent, a hedged "up to" saving is halved), apart from rounding in the headline percent,
-so once the N-th best exact score beats the next unread headline score by more than that rounding, nothing unread can
-enter the top N.
+city -> ZIP -> ads -> items (+ taxonomy) -> terms -> industry -> stores -> window -> rank -> detail pass.
 """
 from __future__ import annotations
 
 import asyncio
+import re
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Callable, Iterable, Optional
+from datetime import datetime, timedelta
+from typing import Optional
+from zoneinfo import ZoneInfo
 
-from urllib.parse import urlsplit
+from . import industries as ind
+from .geo import ad_end_local, ad_start_local, days_between, parse_time
+from .http import FetchError
+from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Store
+from .reference import merchant as merchant_entry, norm
+from .sources.flipp import FlippClient, Flyer, is_product_link, item_url, junk_reason
+from .sources.stores import StoreLocator, StoreMap
+from .terms import ad_terms, clean
 
-from .adapters.flipp import FlippClient, detailed_deal, listing_deal, search_deal
-from .adapters.osm import OVERPASS_MIRRORS, StoreLocator
-from .geo import KM_PER_MILE, Geocoder
-from .models import Flyer, LocalDeal, Place, Presence, StorePresence, utcnow
-from .net import DiskCache, HttpClient, HttpError
-from .terms import MAX_PLAUSIBLE_PCT
-from .textfeatures import features, near_code, tokens
-
-MIN_PCT = 5.0              # smaller "savings" are noise
-ROUNDING = 1.0             # headline percents are rounded; exact ones can exceed them by this much
-# Seconds between request starts per host: Nominatim's and Overpass's policies ask for about one a second.
-POLITE_INTERVALS = {"nominatim.openstreetmap.org": 1.1, "backflipp.wishabi.com": 0.12,
-                    **{urlsplit(u).netloc: 1.0 for u in OVERPASS_MIRRORS}}
-# Words that mark an accessory for the thing searched for (a "case" for AirPods is not AirPods).
-ACCESSORY_WORDS = {"case", "cover", "skin", "protector", "charger", "cable", "adapter", "replacement", "compatible",
-                   "strap", "mount", "earpads", "cushions", "sleeve", "holder"}
+DETAIL_TOP_N = 24           # full records read for the leading deals of each industry (the first page shown)
+DETAIL_ROUNDS = 3           # re-read the lead this many times as fine print reshuffles it
+PER_MERCHANT_SAMPLE = 1     # full records read per ad to learn whether its items come from the retailer's feed
 
 
 @dataclass
-class SourceStatus:
-    name: str
-    ok: bool
-    detail: str = ""
+class LocalResult:
+    city: City
+    industries: list[str]
+    radius_mi: float
+    window_start: datetime
+    window_end: datetime
+    deals: list[LocalDeal] = field(default_factory=list)
+    promotions: list[LocalDeal] = field(default_factory=list)
+    unconfirmed: list[LocalDeal] = field(default_factory=list)
+    excluded: Counter = field(default_factory=Counter)
+    excluded_items: dict[int, str] = field(default_factory=dict)     # item id -> why it isn't shown
+    merchants: list[dict] = field(default_factory=list)
+    sources: list[dict] = field(default_factory=list)
+
+    def all_deals(self) -> list[LocalDeal]:
+        return self.deals + self.promotions + self.unconfirmed
+
+    def to_dict(self) -> dict:
+        return {
+            "city": {"id": self.city.id, "name": self.city.name, "county": self.city.county, "zip": self.city.zip,
+                     "tz": self.city.tz, "lat": self.city.lat, "lon": self.city.lon},
+            "industries": self.industries, "radius_mi": self.radius_mi,
+            "window": {"start": self.window_start.isoformat(), "end": self.window_end.isoformat()},
+            "counts": {"deals": len(self.deals), "promotions": len(self.promotions),
+                       "unconfirmed": len(self.unconfirmed)},
+            "deals": [d.to_dict() for d in self.deals],
+            "promotions": [d.to_dict() for d in self.promotions],
+            "unconfirmed": [d.to_dict() for d in self.unconfirmed],
+            "excluded": dict(self.excluded.most_common()),
+            "merchants": self.merchants, "sources": self.sources,
+            # when nothing is close enough: which advertising stores a wider radius would reach
+            "beyond_radius": sorted(({"merchant": m["merchant"], "nearest_mi": m["nearest_mi"]} for m in self.merchants
+                                     if m["status"] == "far" and m["nearest_mi"]), key=lambda x: x["nearest_mi"]),
+        }
 
 
-@dataclass
-class LocalReport:
-    place: Place
-    radius_km: float
-    generated_at: datetime
-    deals: list[LocalDeal] = field(default_factory=list)      # firm price, saving vs the store's own regular price
-    promos: list[LocalDeal] = field(default_factory=list)     # % off, BOGO, hedged or unreferenced savings
-    flyers: list[Flyer] = field(default_factory=list)         # ads running now
-    upcoming: list[Flyer] = field(default_factory=list)       # ads that haven't started yet
-    presence: dict[str, StorePresence] = field(default_factory=dict)
-    skipped: Counter = field(default_factory=Counter)         # reason -> items dropped for it
-    sources: list[SourceStatus] = field(default_factory=list)
-    items_seen: int = 0
-    details_read: int = 0
-    complete: bool = True      # False when the full-record budget ran out before the ranking was provably stable
-
-
-@dataclass
-class SearchReport:
-    query: str
-    place: Place
-    radius_km: float
-    generated_at: datetime
-    results: list[LocalDeal] = field(default_factory=list)    # cheapest unit price first, grouped by unit
-    presence: dict[str, StorePresence] = field(default_factory=dict)
-    skipped: Counter = field(default_factory=Counter)
-    sources: list[SourceStatus] = field(default_factory=list)
+def window_for(city: City, now: Optional[datetime], days: int) -> tuple[datetime, datetime]:
+    now = (now or datetime.now(ZoneInfo(city.tz))).astimezone(ZoneInfo(city.tz))
+    return now, now + timedelta(days=days)
 
 
 def score(d: LocalDeal) -> float:
-    """Effective percent saved. A hedged saving ("up to", compare-at, no stated regular price) counts half, so a
-    promised 30% outranks an "up to 50%"."""
-    pct = d.terms.pct_off or 0.0
-    return pct / 2 if d.terms.hedge else pct
-
-
-def is_firm_deal(d: LocalDeal) -> bool:
-    """A price you can walk in and pay, with a saving the ad states outright."""
     t = d.terms
-    return t.price is not None and not t.hedge and (t.pct_off or 0) >= MIN_PCT
+    pct = t.pct or 0.0
+    w = BASIS_WEIGHT.get(t.basis, 0.0)
+    if t.hedge:
+        w *= 0.5
+    conf = 1.0 - 0.1 * len([c for c in t.conditions if c not in ("in store only",)])
+    return round(pct * w * max(conf, 0.5), 2)
 
 
-def top(deals: Iterable[LocalDeal], limit: int, per_store: int) -> list[LocalDeal]:
-    out: list[LocalDeal] = []
-    per: Counter = Counter()
-    for d in sorted(deals, key=lambda d: (-score(d), -(d.terms.dollars_off or 0), d.merchant, d.title)):
-        if per[d.merchant] < per_store:
-            out.append(d)
-            per[d.merchant] += 1
-            if len(out) == limit:
-                break
-    return out
+def _merge(listing: dict, hit: Optional[dict]) -> dict:
+    """One record from the ad listing (price, headline %, dates) and the search hit (taxonomy, original price,
+    sale story, price text). The listing wins on price and dates: it is the ad as published."""
+    raw = dict(hit or {})
+    for k in ("id", "flyer_id", "name", "brand", "valid_from", "valid_to", "cutout_image_url", "discount",
+              "display_type"):
+        if listing.get(k) not in (None, ""):
+            raw[k] = listing[k]
+    if listing.get("price") not in (None, ""):
+        raw["current_price"] = listing["price"]
+    return raw
 
 
-def _word_match(w: str, t: str) -> bool:
-    return t == w or t in (w + "s", w + "es") or w in (t + "s", t + "es") or (w.endswith("y") and t == w[:-1] + "ies")
+class LocalDeals:
+    def __init__(self, flipp: FlippClient, stores: StoreLocator):
+        self.flipp, self.stores = flipp, stores
+        self._feed_cache: dict[int, bool] = {}
 
-
-def matches_query(query: str, title: str) -> str:
-    """Why `title` is not what `query` asks for, or "" if it is."""
-    q, t = tokens(query), tokens(title)
-    qc, tc = features(query).codes, features(title).codes
-    if any(near_code(a, b) for a in qc for b in tc) and not qc & tc:
-        return "a different model"                 # XM6 when you asked for XM5
-    if any(not any(_word_match(w, x) for x in t) for w in q):
-        return "doesn't match the search"
-    acc = next((x for x in t if x in ACCESSORY_WORDS or x.rstrip("s") in ACCESSORY_WORDS), None)
-    if acc and not any(_word_match(acc, w) for w in q):
-        return "an accessory, not the item"
-    return ""
-
-
-def _dedupe_key(d: LocalDeal) -> tuple:
-    return d.merchant, " ".join(tokens(d.title)), d.terms.price, d.terms.quantity, d.terms.pct_off
-
-
-def _timing(d: LocalDeal, now: datetime) -> str:
-    if d.valid_to < now:
-        return "ad has ended"
-    if d.valid_from > now:
-        return "ad hasn't started yet"
-    return ""
-
-
-class LocalDealService:
-    def __init__(self, http: HttpClient, *, detail_budget: int = 200, batch: int = 8,
-                 clock: Callable[[], datetime] = utcnow):
-        self.http = http
-        self.geocoder = Geocoder(http)
-        self.flipp = FlippClient(http)
-        self.stores = StoreLocator(http)
-        self.detail_budget = detail_budget
-        self.batch = batch
-        self.clock = clock
-
-    @classmethod
-    def live(cls, *, cache: bool = True, **kw) -> "LocalDealService":
-        return cls(HttpClient(cache=DiskCache() if cache else None, min_interval_s=POLITE_INTERVALS), **kw)
-
-    async def aclose(self) -> None:
-        await self.http.aclose()
-
-    # --- sources ---------------------------------------------------------------------------------------------------
-
-    async def _presence(self, place: Place, merchants: set[str], radius_km: float,
-                        sources: list[SourceStatus]) -> dict[str, StorePresence]:
+    async def run(self, city: City, industries: list[str], radius_mi: float = 25.0,
+                  now: Optional[datetime] = None, days: int = 7) -> LocalResult:
+        start, end = window_for(city, now, days)
+        res = LocalResult(city, industries, radius_mi, start, end)
+        wanted = set(industries)
         try:
-            pres = await self.stores.presence(place, merchants, radius_km)
-        except HttpError as e:
-            sources.append(SourceStatus(self.stores.name, False, f"{e}; store locations not checked"))
-            return {m: StorePresence(m, Presence.UNCHECKED) for m in merchants}
-        near = sum(p.status == Presence.CONFIRMED for p in pres.values())
-        sources.append(SourceStatus(self.stores.name, True, f"{near} of {len(pres)} merchants have a mapped store in range"))
-        return pres
+            flyers = await self.flipp.flyers(city.zip)
+            res.sources.append({"name": "Flipp weekly ads", "ok": True, "ads": len(flyers)})
+        except FetchError as e:
+            res.sources.append({"name": "Flipp weekly ads", "ok": False, "error": e.reason})
+            return res
 
-    async def _items(self, flyers: list[Flyer], rep: LocalReport) -> list[tuple[Flyer, dict]]:
-        async def one(f: Flyer) -> list[tuple[Flyer, dict]]:
-            try:
-                return [(f, raw) for raw in await self.flipp.flyer_items(f.id)]
-            except HttpError as e:
-                rep.sources.append(SourceStatus(f"{self.flipp.name}: {f.merchant}", False, str(e)))
-                return []
-        return [x for chunk in await asyncio.gather(*(one(f) for f in flyers)) for x in chunk]
+        live: list[Flyer] = []
+        for f in flyers:
+            if min(ad_end_local(f.valid_to, city.tz), f.valid_to) < start or ad_start_local(f.valid_from, city.tz) > end:
+                res.excluded["ad outside the 7-day window"] += 1
+            else:
+                live.append(f)
+        entries = {f.merchant: merchant_entry(f.merchant) for f in live}
 
-    async def _detail(self, d: LocalDeal, flyer: Optional[Flyer]) -> tuple[Optional[LocalDeal], str]:
-        try:
-            raw = await self.flipp.item(d.id.split(":", 1)[1])
-        except HttpError:
-            return None, "couldn't read the full ad record"
-        return detailed_deal(raw, flyer) if raw else (None, "full ad record missing")
+        store_map: StoreMap = self.stores.near(city, list({m.name: m for m in entries.values()}.values()))
+        res.sources.append({"name": "OpenStreetMap stores", "ok": store_map.source_ok, "built": store_map.built,
+                            **({"error": store_map.error} if store_map.error else {})})
+        hits_by_merchant = await self._merchant_hits(city.zip, sorted(entries))
+        listings = await asyncio.gather(*(self._listing(f) for f in live))
 
-    # --- deals -----------------------------------------------------------------------------------------------------
-
-    async def deals(self, where: str, *, radius_mi: float = 25.0, limit: int = 25, promo_limit: int = 10,
-                    per_store: int = 3, merchants: Iterable[str] = (), category: str = "",
-                    confirmed_only: bool = False) -> LocalReport:
-        now = self.clock()
-        place = await self.geocoder.resolve(where)
-        rep = LocalReport(place, radius_mi * KM_PER_MILE, now)
-        rep.sources.append(SourceStatus(place.source, True, f"{place.name} -> ZIP {place.postal_code}"))
-        try:
-            flyers = await self.flipp.flyers(place.postal_code)
-        except HttpError as e:
-            rep.sources.append(SourceStatus(self.flipp.name, False, str(e)))
-            return rep
-        wanted = {m.lower() for m in merchants}
-        flyers = [f for f in flyers if (not wanted or f.merchant.lower() in wanted)
-                  and (not category or any(category.lower() == c.lower() for c in f.categories))]
-        rep.flyers = [f for f in flyers if f.active(now)]
-        rep.upcoming = [f for f in flyers if f.valid_from > now]
-        rep.sources.append(SourceStatus(self.flipp.name, True, f"{len(rep.flyers)} ads running for ZIP {place.postal_code}"
-                                        f" ({len(rep.upcoming)} start later)"))
-        if not rep.flyers:
-            return rep
-        items, rep.presence = await asyncio.gather(
-            self._items(rep.flyers, rep),
-            self._presence(place, {f.merchant for f in rep.flyers}, rep.radius_km, rep.sources))
-
-        by_flyer = {f.id: f for f in rep.flyers}
-        seen: set[tuple] = set()
         candidates: list[LocalDeal] = []
-        for flyer, raw in items:
-            rep.items_seen += 1
-            d, why = listing_deal(raw, flyer)
-            why = why or _timing(d, now)
-            if not why and confirmed_only and rep.presence[d.merchant].status != Presence.CONFIRMED:
-                why = "no store mapped in range"
-            if not why and not d.terms.pct_off:
-                why = "price only, no saving stated" if d.terms.price is not None else "no price or saving in the ad"
-            if not why and _dedupe_key(d) in seen:
-                why = "same item in another ad"
-            if why:
-                rep.skipped[why] += 1
-                continue
-            seen.add(_dedupe_key(d))
-            candidates.append(d)
-
-        rep.deals, rep.promos, rep.complete = await self._rank(candidates, by_flyer, limit, promo_limit, per_store, rep)
-        for d in rep.deals + rep.promos:
-            self._annotate(d, rep)
-        return rep
-
-    async def _rank(self, cands: list[LocalDeal], flyers: dict[int, Flyer], limit: int, promo_limit: int,
-                    per_store: int, rep: LocalReport) -> tuple[list[LocalDeal], list[LocalDeal], bool]:
-        """Firm deals come from items listed with a price, promotions from items without one. An item whose full
-        record turns out hedged or compare-at moves to the promotions list."""
-        firm: list[LocalDeal] = []
-        loose: list[LocalDeal] = []
-        by_score = sorted(cands, key=score, reverse=True)
-        stable = await self._read([c for c in by_score if c.terms.price is not None], firm, limit, per_store,
-                                  firm, loose, flyers, rep)
-        stable &= await self._read([c for c in by_score if c.terms.price is None], loose, promo_limit, per_store,
-                                   firm, loose, flyers, rep)
-        return top(firm, limit, per_store), top(loose, promo_limit, per_store), stable
-
-    async def _read(self, pool: list[LocalDeal], target: list[LocalDeal], n: int, per_store: int,
-                    firm: list[LocalDeal], loose: list[LocalDeal], flyers: dict[int, Flyer], rep: LocalReport) -> bool:
-        """Read full records from `pool` (best headline first) until `target`'s top n can't change.
-
-        Returns True when that point is reached, False when the read budget ran out first."""
-        if n <= 0:
-            return True
-        i = 0
-        while True:
-            best = top(target, n, per_store)
-            floor = score(best[-1]) if len(best) == n else None
-            batch: list[LocalDeal] = []
-            while i < len(pool) and len(batch) < self.batch:
-                c = pool[i]
-                if floor is not None and floor > score(c) + ROUNDING:
-                    return True                  # the pool is sorted, so nothing further down can enter either
-                i += 1
-                mine = sorted((score(d) for d in target if d.merchant == c.merchant), reverse=True)[:per_store]
-                if len(mine) == per_store and mine[-1] > score(c) + ROUNDING:
-                    continue                     # can't beat this merchant's own best `per_store`
-                batch.append(c)
-            if not batch:
-                return True
-            room = self.detail_budget - rep.details_read
-            if room <= 0:
-                return False
-            batch = batch[:room]
-            rep.details_read += len(batch)
-            for d, why in await asyncio.gather(*(self._detail(c, flyers.get(c.flyer_id)) for c in batch)):
-                if d is not None and (d.terms.pct_off or 0) > MAX_PLAUSIBLE_PCT:
-                    why = "implausible discount"
-                elif d is not None and not d.terms.pct_off:
-                    why = "no saving in the full ad"
+        seen: dict[tuple, LocalDeal] = {}
+        for flyer, items in zip(live, listings):
+            m = entries[flyer.merchant]
+            hits = hits_by_merchant.get(flyer.merchant, {})
+            for raw_listing in items:
+                why = junk_reason(raw_listing)
                 if why:
-                    rep.skipped[why] += 1
-                elif is_firm_deal(d):
-                    firm.append(d)
-                elif score(d) >= MIN_PCT:
-                    loose.append(d)
-                else:
-                    rep.skipped["saving too small"] += 1
+                    res.excluded[why] += 1
+                    continue
+                raw = _merge(raw_listing, hits.get(raw_listing.get("id")))
+                deal = self._deal(raw, flyer, m, city, start, end, res)
+                if deal is None:
+                    continue
+                if not wanted & set(deal.industries):
+                    res.excluded["other industry"] += 1
+                    res.excluded_items[deal.item_id] = f"other industry ({','.join(deal.industries)}; {deal.industry_rule})"
+                    continue
+                key = (m.name, norm(deal.title), deal.terms.price, deal.terms.pct)
+                if key in seen:
+                    # The same item at the same price in two overlapping ads: show the copy that runs longer, as is.
+                    keep = seen[key]
+                    res.excluded["same item in another ad"] += 1
+                    if deal.valid_to > keep.valid_to:
+                        candidates[candidates.index(keep)] = deal
+                        seen[key] = deal
+                        keep, deal = deal, keep
+                    res.excluded_items[deal.item_id] = f"same item in another ad ({keep.item_id})"
+                    continue
+                seen[key] = deal
+                candidates.append(deal)
 
-    def _annotate(self, d: LocalDeal, rep: "LocalReport | SearchReport") -> None:
-        p = rep.presence.get(d.merchant)
-        miles = rep.radius_km / KM_PER_MILE
-        if p is None or p.status == Presence.UNCHECKED:
-            d.flags.append("store locations weren't checked")
-        elif p.status == Presence.CONFIRMED:
-            d.store = p.nearest
-        elif p.status == Presence.FAR and p.nearest:
-            d.flags.append(f"nearest mapped {d.merchant} is {p.nearest.distance_km / KM_PER_MILE:.0f} mi away"
-                           f" (maps can be incomplete)")
-        else:
-            d.flags.append(f"no {d.merchant} mapped within {miles:.0f} mi; check the store locator")
+        await self._learn_feeds(candidates)
+        for d in candidates:
+            self._attach_store(d, entries[d.merchant] if d.merchant in entries else merchant_entry(d.merchant),
+                               store_map, radius_mi, res)
+        kept = [d for d in candidates if d.store_status in ("nearby", "unmapped")]
+        for d in kept:
+            d.score = score(d)
+        order = lambda d: (-d.score, -(d.terms.savings or 0), d.title)     # noqa: E731
+        kept.sort(key=order)
+        for _ in range(DETAIL_ROUNDS):          # fine print can lower a deal, which lets unread ones into the lead
+            if not await self._detail_pass(kept, wanted):
+                break
+            kept.sort(key=order)
 
-    # --- search ----------------------------------------------------------------------------------------------------
+        for d in kept:
+            if d.store_status == "unmapped":
+                res.unconfirmed.append(d)
+            elif d.kind == "promotion":
+                res.promotions.append(d)
+            else:
+                res.deals.append(d)
+        res.merchants = self._merchant_table(entries, store_map, radius_mi)
+        return res
 
-    async def search(self, query: str, where: str, *, radius_mi: float = 25.0, limit: int = 20,
-                     confirmed_only: bool = False) -> SearchReport:
-        now = self.clock()
-        place = await self.geocoder.resolve(where)
-        rep = SearchReport(query, place, radius_mi * KM_PER_MILE, now)
-        rep.sources.append(SourceStatus(place.source, True, f"{place.name} -> ZIP {place.postal_code}"))
+    # -- fetching -----------------------------------------------------------------------------------------------
+    async def _listing(self, flyer: Flyer) -> list[dict]:
         try:
-            raws = await self.flipp.search(place.postal_code, query)
-        except HttpError as e:
-            rep.sources.append(SourceStatus(self.flipp.name, False, str(e)))
-            return rep
-        rep.sources.append(SourceStatus(self.flipp.name, True, f"{len(raws)} ad items for {query!r}"))
-        found: list[LocalDeal] = []
-        seen: set[tuple] = set()
-        for raw in raws:
-            d, why = search_deal(raw)
-            why = why or _timing(d, now) or matches_query(query, d.title)
-            if not why and d.terms.price is None:
-                why = "no price in the ad"
-            if not why and _dedupe_key(d) in seen:
-                why = "same item in another ad"
-            if why:
-                rep.skipped[why] += 1
-                continue
-            seen.add(_dedupe_key(d))
-            found.append(d)
-        rep.presence = await self._presence(place, {d.merchant for d in found}, rep.radius_km, rep.sources)
-        if confirmed_only:
-            kept = [d for d in found if rep.presence[d.merchant].status == Presence.CONFIRMED]
-            rep.skipped["no store mapped in range"] += len(found) - len(kept)
-            found = kept
-        # Read the full record of what we'll show: exact conditions and the retailer's own link.
-        shown = _by_unit_price(found)[:limit]
-        exact = [e if e is not None else d for d, (e, _) in zip(shown, await asyncio.gather(
-            *(self._detail(d, None) for d in shown)))]
-        unpriced = sum(d.terms.price is None for d in exact)          # e.g. a "$5 OFF" that had been read as a price
-        if unpriced:
-            rep.skipped["no price in the full ad"] += unpriced
-        rep.results = _by_unit_price([d for d in exact if d.terms.price is not None])
-        for d in rep.results:
-            self._annotate(d, rep)
-        return rep
+            return await self.flipp.flyer_items(flyer.id)
+        except FetchError:
+            return []
 
+    async def _merchant_hits(self, zip_code: str, merchants: list[str]) -> dict[str, dict[int, dict]]:
+        async def one(name: str) -> tuple[str, dict[int, dict]]:
+            try:
+                return name, {i.get("id"): i for i in await self.flipp.merchant_items(zip_code, name) if i.get("id")}
+            except FetchError:
+                return name, {}
+        return dict(await asyncio.gather(*(one(n) for n in merchants)))
 
-def _by_unit_price(deals: list[LocalDeal]) -> list[LocalDeal]:
-    """Cheapest unit price first, keeping per-lb and per-item prices apart (the most common unit leads)."""
-    common = Counter(d.terms.unit for d in deals).most_common(1)
-    lead = common[0][0] if common else ""
-    return sorted(deals, key=lambda d: (d.terms.unit != lead, d.terms.unit, d.terms.hedge != "",
-                                        d.terms.unit_price or 0.0, d.merchant))
+    # -- one item -----------------------------------------------------------------------------------------------
+    def _deal(self, raw: dict, flyer: Flyer, m: Merchant, city: City, start: datetime, end: datetime,
+              res: LocalResult) -> Optional[LocalDeal]:
+        vf = parse_time(raw.get("valid_from")) or flyer.valid_from
+        vt = parse_time(raw.get("valid_to")) or flyer.valid_to
+        vf_l, vt_l = ad_start_local(vf, city.tz), ad_end_local(vt, city.tz)
+        iid = int(raw.get("id") or 0)
+        # Flipp writes "through Oct 4" as 11:59 PM Eastern and pulls the item then (10:59 PM Central): the item is
+        # gone from the source at the earlier of that instant and the end of the day locally.
+        if min(vt_l, vt) < start:
+            return self._skip(res, iid, "item already ended")
+        if vf_l > end:
+            return self._skip(res, iid, "item starts after the 7-day window")
+        title = clean(raw.get("name"))
+        brand = clean(raw.get("brand"))
+        cls = ind.classify_ad_item(raw.get("_L1"), raw.get("_L2"), title, brand, m.industries, m.exclusive,
+                                   m.sells, m.food)
+        if not cls.industries:
+            return self._skip(res, iid, "no industry")
+        terms = ad_terms(raw, feed=self._feed_cache.get(flyer.id, False), merchant_membership=m.membership)
+        if terms.rejected:
+            return self._skip(res, iid, f"implausible saving ({terms.rejected})")
+        if terms.basis == "none" and not terms.promo:
+            return self._skip(res, iid, "ad price with no saving stated")
+        if not (terms.pct or terms.savings):
+            return self._skip(res, iid, "no saving amount")
+        return LocalDeal(
+            id=f"flipp:{raw.get('id')}", item_id=int(raw.get("id")), flyer_id=flyer.id, title=title,
+            merchant=m.name, brand=brand, industries=cls.industries, industry_rule=cls.rule, category=cls.category,
+            terms=terms, valid_from=vf_l, valid_to=vt_l, source_url=item_url(raw.get("id")),
+            # the item as it appears in the ad (Flipp has no separate product photo); always over https
+            image_url=str(raw.get("cutout_image_url") or raw.get("clean_image_url") or "").replace("http://", "https://", 1),
+            starts_in_days=max(0, days_between(start, vf_l, city.tz)), ends_in_days=days_between(start, vt_l, city.tz),
+            raw=raw)
+
+    @staticmethod
+    def _skip(res: LocalResult, item_id: int, why: str) -> None:
+        res.excluded[why] += 1
+        res.excluded_items[item_id] = why
+        return None
+
+    def _reterm(self, d: LocalDeal, feed: bool) -> None:
+        m = merchant_entry(d.merchant)
+        d.terms = ad_terms(d.raw, feed=feed, merchant_membership=m.membership)
+
+    async def _learn_feeds(self, deals: list[LocalDeal]) -> None:
+        """Whether each ad's items come from the retailer's own product feed (savings vs its regular price) or were
+        transcribed from print (a saving may be a compare-at claim). Learned from one full record per ad."""
+        todo: dict[int, LocalDeal] = {}
+        for d in deals:
+            if d.flyer_id not in self._feed_cache and d.flyer_id not in todo:
+                todo[d.flyer_id] = d
+
+        async def one(d: LocalDeal) -> None:
+            try:
+                rec = await self.flipp.item(d.item_id)
+            except FetchError:
+                return
+            m = merchant_entry(d.merchant)
+            self._feed_cache[d.flyer_id] = is_product_link(str(rec.get("ttm_url") or ""), m.domains)
+        await asyncio.gather(*(one(d) for d in todo.values()))
+        for d in deals:
+            if self._feed_cache.get(d.flyer_id):
+                d.feed = True
+                self._reterm(d, True)
+
+    async def _detail_pass(self, deals: list[LocalDeal], wanted: set[str]) -> int:
+        """Read the full record (retailer link, fine print, buy-one-get-one terms) of the leading deals in each
+        requested industry: the ones a user sees first. Returns how many were read."""
+        async def one(d: LocalDeal) -> None:
+            try:
+                rec = await self.flipp.item(d.item_id)
+            except FetchError:
+                return
+            if not rec:
+                d.detailed = True                # the source has nothing more for this item
+                return
+            merged = {**d.raw, **{k: v for k, v in rec.items() if v not in (None, "", [])}}
+            merged["current_price"] = rec.get("current_price") or d.raw.get("current_price")
+            link = str(rec.get("ttm_url") or "")
+            m = merchant_entry(d.merchant)
+            feed = self._feed_cache.get(d.flyer_id, False) or is_product_link(link, m.domains)
+            d.raw, d.detailed, d.feed = merged, True, feed
+            d.retailer_url = link if is_product_link(link, m.domains) else ""   # not a coupons or deals landing page
+            self._reterm(d, feed)
+            d.score = score(d)
+        todo: dict[int, LocalDeal] = {}
+        for i in wanted:
+            for d in [d for d in deals if i in d.industries][:DETAIL_TOP_N]:
+                if not d.detailed:
+                    todo[d.item_id] = d
+        await asyncio.gather(*(one(d) for d in todo.values()))
+        return len(todo)                         # a failed read stays unread and is retried in the next round
+
+    # -- stores -------------------------------------------------------------------------------------------------
+    def _attach_store(self, d: LocalDeal, m: Merchant, store_map: StoreMap, radius_mi: float,
+                      res: LocalResult) -> None:
+        near = store_map.nearest(m.name)
+        if near and near.distance_mi <= radius_mi:
+            d.store, d.store_status = near, "nearby"
+        elif near:
+            d.store, d.store_status = near, "far"
+            res.excluded[f"nearest store beyond {radius_mi:g} mi"] += 1
+            res.excluded_items[d.item_id] = f"nearest store {near.distance_mi:g} mi away"
+        elif not store_map.source_ok or m.map_coverage == "sparse" or (not m.wikidata and not self.stores.known(m)):
+            d.store_status = "unmapped"            # the map can't confirm or rule out a store: shown, flagged
+        else:
+            d.store_status = "far"
+            res.excluded["no store within 50 mi"] += 1
+            res.excluded_items[d.item_id] = "no store within 50 mi"
+
+    def _merchant_table(self, entries: dict[str, Merchant], store_map: StoreMap, radius_mi: float) -> list[dict]:
+        rows = []
+        for name, m in sorted(entries.items()):
+            near = store_map.nearest(m.name)
+            status = ("nearby" if near and near.distance_mi <= radius_mi else
+                      "unmapped" if m.map_coverage == "sparse" or (not m.wikidata and not self.stores.known(m))
+                      else "far")
+            rows.append({"merchant": m.name, "flipp_name": name, "status": status,
+                         "nearest_mi": near.distance_mi if near else None,
+                         "store": near.to_dict() if near else None})
+        return rows

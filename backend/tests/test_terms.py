@@ -1,119 +1,73 @@
-"""Deal-terms parsing. Every case is a real Austin weekly-ad item (Sept 2026) checked against its printed ad image."""
-import pytest
-
-from plum.terms import bogo, clean, money, pack_lb, parse_terms, price_is_discount
+from plum.terms import ad_terms, bogo_of, is_storewide, post_reference, title_price
 
 
-def test_money_and_clean():
-    assert money("$1,299.99") == 1299.99 and money(3.99) == 3.99 and money("3.99") == 3.99
-    assert money("") is None and money("0") is None and money(None) is None and money(True) is None
-    assert clean("Regular Fit\u200b\u200b Shirt*  ") == "Regular Fit Shirt"
+def test_feed_item_saving_is_firm():
+    t = ad_terms({"current_price": "999.99", "dollars_off": 200, "percent_off": 17}, feed=True)
+    assert (t.price, t.regular, t.basis) == (999.99, 1199.99, "store_regular")
+    assert t.pct == 16.7
 
 
-def test_feed_backed_price_cut_reconstructs_the_regular_price():
-    # Cabela's (retailer feed): $59.98, $30.01 off, 33% -> reg $89.99, as on cabelas.com
-    t = parse_terms(price="59.98", pct=33.0, dollars=30.01, story="Footwear Deals")
-    assert (t.price, t.was, t.pct_off, t.hedge, t.offer) == (59.98, 89.99, 33.3, "", "")
-    # Best Buy: the feed's regular price wins; the rounded headline percent is recomputed from exact dollars
-    t = parse_terms(price="248.99", pct=31.0, dollars=110.01, story="Headphones")
-    assert (t.was, t.pct_off) == (359.0, 30.6)
+def test_print_ad_saving_without_regular_price_is_only_claimed():
+    # v0.2: CVS "You save 76.00" turned out to be a department-store compare-at value
+    t = ad_terms({"current_price": "24.99", "dollars_off": 76}, feed=False)
+    assert t.basis == "claimed_savings" and t.savings == 76.0
 
 
-def test_multi_buy_keeps_the_quantity():
-    # CVS: "2/$8.00 or reg retail ea. WITH CARD": $4 each only when you buy two
-    t = parse_terms(price="8.0", pre="2/", post="or reg retail ea. WITH CARD", feed=False)
-    assert (t.price, t.quantity, t.unit_price) == (8.0, 2, 4.0)
-    assert t.conditions == ("loyalty card", "buy 2") and t.offer.startswith("2 for $8.00")
-    # Sprouts "2 FOR $6": no single-price alternative printed, so no "buy 2" requirement is invented
-    t = parse_terms(price="6.0", pre="2 FOR")
-    assert (t.quantity, t.unit_price, t.conditions) == (2, 3.0, ())
+def test_compare_at_value_is_list_basis():
+    t = ad_terms({"current_price": "24.99", "original_price": "101.00", "sale_story": "Depart. store value 101.00"},
+                 feed=False)
+    assert t.basis == "list"
 
 
-@pytest.mark.parametrize("story,expected_pct,needs", [
-    ("Buy 1 get 1 50% OFF* WITH CARD", 25.0, "buy 2"),      # CVS: headline says 50, you save 25%
-    ("BUY 3 GET 3 FREE", 50.0, "buy 6"),                    # Randalls
-    ("BUY 2 GET 1 FREE**", 33.3, "buy 3"),                  # Dollar General
-    ("Buy one get one free", 50.0, "buy 2"),
-])
-def test_bogo_counts_the_effective_saving(story, expected_pct, needs):
-    t = parse_terms(story=story, pct=50.0, feed=False)
-    assert t.pct_off == expected_pct and needs in t.conditions and t.was is None and t.price is None
+def test_reg_price_in_text_is_firm():
+    t = ad_terms({"current_price": "3.99", "sale_story": "Reg. $5.49"}, feed=False)
+    assert (t.regular, t.basis) == (5.49, "store_regular")
 
 
-def test_bogo_shorthand():
-    assert bogo("B1G1 50%") == (1, 1, 50.0) and bogo("BOGO") == (1, 1, 100.0) and bogo("Buy 2 save") is None
+def test_multibuy_keeps_quantity():
+    t = ad_terms({"current_price": "8.00", "pre_price_text": "2/", "original_price": "10.98"}, feed=True)
+    assert (t.qty, t.bundle_price, t.price) == (2, 8.0, 4.0)
+    assert "2 for $8.00 ($4.00 ea)" in t.summary
 
 
-def test_hedges():
-    # H-E-B: "$6.97 lb. SAVE up to $1 per lb.": the saving is a ceiling, so no regular price is claimed
-    t = parse_terms(price="6.97", post="lb.", story="SAVE up to $1 per lb.", pct=13.0, dollars=1.0, feed=False)
-    assert (t.unit, t.hedge, t.was) == ("lb", "up to", None)
-    assert parse_terms(price="5.0", pre="Starting at").hedge == "starting at"
-    assert parse_terms(story="Up to 50% off", pct=50.0).hedge == "up to"
+def test_bogo_half_off_is_quarter_saving():
+    assert bogo_of("Buy 1 Get 1 50% Off") == ("buy 1 get 1 50% off", 25.0)
+    assert bogo_of("BOGO FREE") == ("buy 1 get 1 free", 50.0)
+    assert bogo_of("Buy 2, Get 1 Free") == ("buy 2 get 1 free", 33.3)
 
 
-def test_compare_at_value_is_not_a_regular_price():
-    # CVS: "Depart store value 103.00 You save 73.00"
-    t = parse_terms(price="29.99", post="WITH CARD", story="Depart store value 103.00 You save 73.00", pct=71.0,
-                    dollars=73.0, feed=False)
-    assert t.hedge == "compare at" and "loyalty card" in t.conditions
+def test_dollars_off_printed_as_price_is_a_saving():
+    t = ad_terms({"current_price": "50", "post_price_text": "OFF"}, feed=False)
+    assert t.price is None and t.savings == 50.0 and t.promo
 
 
-def test_transcribed_saving_without_a_regular_price_is_hedged():
-    # CVS So De La Renta: data says only "You save 76.00"; the printed ad compares to a department-store value
-    t = parse_terms(price="24.99", post="WITH CARD", story="You save 76.00", pct=75.0, dollars=76.01, feed=False)
-    assert (t.hedge, t.was, t.dollars_off) == ("no reference", None, 76.0)    # the ad's own $76.00, not 76.01
-    # The same numbers from a retailer feed are trusted
-    assert parse_terms(price="24.99", story="You save 76.00", pct=75.0, dollars=76.01).hedge == ""
+def test_case_price_per_pound_is_not_a_discount():
+    # v0.2: gyro kones $4.62/lb with an "original" $184.95 that was the 40 lb case
+    t = ad_terms({"current_price": "4.62", "post_price_text": "/lb", "original_price": "184.95"}, feed=True)
+    assert t.basis == "none" and t.pct is None
 
 
-def test_transcribed_saving_with_a_stated_regular_price_is_firm():
-    # ALDI: "PRICE DROPS $4.29 Per Lb. Was $4.79"
-    t = parse_terms(price="4.29", original="4.79", pre="PRICE DROPS", post="Per Lb.", pct=10.0, dollars=0.5, feed=False)
-    assert (t.was, t.pct_off, t.unit, t.hedge, t.offer) == (4.79, 10.4, "lb", "", "PRICE DROPS")
+def test_up_to_is_a_hedge():
+    t = ad_terms({"pre_price_text": "Up to 40% off", "name": "deals for members"}, feed=False)
+    assert t.promo and t.hedge == "up to" and t.pct == 40.0
 
 
-def test_garbled_transcription_is_dropped():
-    # Restaurant Depot avocado pulp: the ad says "$28.20 cs only, $2.35 lb"; the data says 2.8 vs 12.35 (77% off)
-    t = parse_terms(price="2.8", original="12.35", post="cs only", pct=77.0, dollars=9.55, description="6/2 lb",
-                    merchant="Restaurant Depot", feed=False)
-    assert (t.was, t.pct_off, t.dollars_off, t.unit) == (None, None, None, "")
-    assert t.conditions == ("full case only", "business membership")
+def test_title_price():
+    assert title_price('15.3" Apple MacBook Air M5 $1299 & More + Free S&H') == (1299.0, "& more (price varies by option)")
+    assert title_price("2-Pk 6-Oz Olay Lotion w/ SPF 15 $11.05 w/ S&S")[0] == 11.05
+    assert title_price("Samsung 65\" QN90F $1,299.99 + Free Shipping")[0] == 1299.99
 
 
-def test_dollars_off_recorded_as_the_price():
-    # Restaurant Depot: "10\" STICK BLENDER $50 OFF" arrives as price 50, 50% off
-    t = parse_terms(price="50.0", story="$50 OFF", pct=50.0, dollars=50.0, feed=False)
-    assert (t.price, t.dollars_off, t.pct_off) == (None, 50.0, None)
-    assert price_is_discount(2.0, "", "/CS", "200 OFF/CS")                   # "200 OFF" = $2.00 off
-    assert price_is_discount(5.0, "", "off", "")
-    assert not price_is_discount(19.99, "", "", "$5 off")
+def test_post_references():
+    assert post_reference("You'd pay $65 elsewhere.", 29.0)[:2] == (65.0, "editor_compare")
+    assert post_reference("It's the best price we could find by $2.", 13.0)[:2] == (15.0, "editor_compare")
+    assert post_reference("That's $419 (about 60%) off the $703 list price.", 284.0)[:2] == (703.0, "list")
+    assert post_reference("That's a $41 low.", 45.0)[:2] == (86.0, "history")
+    assert post_reference("Amazon [ amazon.com ] has it for $12.99 - 10% when you clip the coupon = $11.05 .",
+                          11.05)[:2] == (12.99, "store_regular")
 
 
-def test_case_price_compared_with_a_per_lb_price_is_not_a_discount():
-    # Restaurant Depot gyro kones: $4.62/lb, "original" $184.95 is the 40 lb case at the same rate
-    t = parse_terms(price="4.62", original="184.95", post="lb", pct=98.0, dollars=180.33, description="40 lb 36280")
-    assert (t.was, t.pct_off, t.dollars_off) == (None, None, None)
-    assert pack_lb("6/2 lb 961072") == 12.0 and pack_lb("Jumbo Bag") is None
-
-
-def test_conditions_and_fine_print():
-    t = parse_terms(price="1.79", post="lb", disclaimer="Limit 10 lbs. Each", feed=False)
-    assert t.conditions == ("limit 10 lb",)
-    t = parse_terms(price="6.0", post="Final Price With Coupon", story="Save $4 with DG DIGITAL COUPONS", pct=40.0,
-                    dollars=4.0)
-    assert (t.was, "coupon" in t.conditions) == (10.0, True)
-    t = parse_terms(price="15.49", pre="Online Price", pct=18.0, dollars=3.5, merchant="Costco ")
-    assert t.conditions == ("online price", "membership")                  # "Costco " has a trailing space in the feed
-    t = parse_terms(price="11.99", post="ea", story="10% OFF When You Buy 6 or More", feed=False)
-    assert "buy 6+" in t.conditions and t.hedge == "no reference"
-    assert "members only" in parse_terms(story="15% off, MyLowe's Pro Rewards Members Only Spend $2,500 Save $200",
-                                         pct=15.0).conditions
-    assert parse_terms(story="15% off, Spend $2,500 Save $200", pct=15.0).dollars_off is None   # a reward, not a price cut
-
-
-def test_bundle_and_price_only_in_the_story():
-    t = parse_terms(price="5.0", pre="BUNDLE", story="YOU SAVE $1.78", pct=26.0, dollars=1.78, feed=False)
-    assert "bundle" in t.conditions and t.hedge == "no reference"
-    assert parse_terms(story="$3499.99** ea.").price == 3499.99
-    assert parse_terms(story="$2 off 1").price is None                     # "$2 off" is a saving, not a $2 price
+def test_storewide():
+    assert is_storewide("Best Buy Labor Day Sale: Up to 70% off + free shipping")
+    assert is_storewide("Academy Sports + Outdoors Deal Days: Extra 20% to 30% off")
+    assert not is_storewide("Bose SoundLink Max SE Portable Bluetooth Speaker for $229")

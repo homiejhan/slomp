@@ -1,160 +1,97 @@
-"""FastAPI surface. `pip install 'plum[api]'` then `uvicorn plum.api:app --reload`.
+"""HTTP API and the web page.
 
-  /                                  the web page (static/index.html)
-  /local/deals?where=Austin,TX       live weekly-ad deals near a city or ZIP
-  /local/search?q=eggs&where=78701   one item across nearby stores' ads
-  /online/deals?where=78701          the biggest online discounts, with the same product elsewhere
-  /search, /probe, /coupons, /deals  the product engine (the default app runs it on simulated demo data)
+    uvicorn plum.api:app --app-dir backend --port 8000
+
+  GET /                     the web page
+  GET /api/v1/meta          the fixed lists: Texas cities, industries, radii
+  GET /api/v1/local         ?city=austin&industries=tech,sports&radius_mi=25     Output 1
+  GET /api/v1/online        ?industries=tech,fashion&limit=25                   Output 2
+  GET /api/v1/search        both, in one response
+  GET /api/v1/health        per-source status
 """
 from __future__ import annotations
 
+import asyncio
 import os
 from contextlib import asynccontextmanager
-from dataclasses import asdict
 from pathlib import Path
-from typing import Any, AsyncIterator, Optional
 
-from . import __version__
-from .coupons import reliability
-from .local import LocalDealService
-from .net import HttpError
-from .online import OnlineDealService
-from .ranking import deal_heat, rank_deals
-from .render import jsonable
-from .service import DealService
+from fastapi import FastAPI, Query, Request
+from fastapi.responses import FileResponse, JSONResponse
 
-try:
-    from fastapi import FastAPI, HTTPException, Query
-    from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.responses import FileResponse
-except ImportError as e:  # pragma: no cover
-    raise ImportError("the API needs FastAPI: pip install 'plum[api]'") from e
+from . import industries as ind
+from .reference import cities
+from .service import RADII, InputError, PlumService
 
-PAGE = Path(__file__).with_name("static") / "index.html"
+STATIC = Path(__file__).parent / "static"
 
 
-def _quote(q: Any) -> dict:
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.plum = PlumService()
+    warm = asyncio.create_task(app.state.plum.warm()) if os.environ.get("PLUM_WARM", "1") != "0" else None
+    yield
+    if warm:
+        warm.cancel()
+    await app.state.plum.aclose()
+
+
+app = FastAPI(title="Plum", version="1.0.0", lifespan=lifespan,
+              description="Deals near any Texas city in the next 7 days, and the biggest verified online discounts.")
+
+
+@app.exception_handler(InputError)
+async def input_error(_: Request, exc: InputError) -> JSONResponse:
+    return JSONResponse(status_code=422, content={"error": str(exc), "choices": exc.choices})
+
+
+def svc(request: Request) -> PlumService:
+    return request.app.state.plum
+
+
+@app.get("/", include_in_schema=False)
+async def page() -> FileResponse:
+    # "no-cache" makes browsers revalidate, so an updated page shows up on the next load instead of a stale copy.
+    return FileResponse(STATIC / "index.html", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/api/v1/meta")
+async def meta() -> dict:
     return {
-        "listing": asdict(q.listing), "match": asdict(q.match),
-        "shipping": q.shipping, "ship_cost": q.ship_cost,
-        "code": q.best_coupon.coupon.code if q.best_coupon else None, "code_discount": q.code_discount,
-        "code_reliability": q.best_coupon.reliability if q.best_coupon else None,
-        "pay_today": q.pay_today, "cashback": q.cashback, "net": q.net, "verified": q.verified,
-        "codes": [{"code": e.coupon.code, "type": e.coupon.type.value, "applicable": e.applicable, "why": e.why,
-                   "reliability": round(e.reliability, 3), "discount": e.discount, "expected": e.expected,
-                   "note": e.coupon.note, "source": e.coupon.source} for e in q.coupon_evals],
+        "cities": [{"id": c.id, "name": c.name, "county": c.county, "population": c.population, "zip": c.zip,
+                    "kind": c.kind} for c in cities()],
+        "industries": [{"id": i.id, "name": i.name, "description": i.description,
+                        "online": i.id != "dining"} for i in ind.INDUSTRIES],
+        "radii_mi": list(RADII),
     }
 
 
-def create_app(service: DealService, local: Optional[LocalDealService] = None,
-               online: Optional[OnlineDealService] = None) -> FastAPI:
-    state: dict[str, Any] = {"local": local, "online": online}
-
-    @asynccontextmanager
-    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-        yield
-        if local is None and state["local"] is not None:     # only close what this app opened
-            await state["local"].aclose()
-
-    def live() -> LocalDealService:
-        if state["local"] is None:
-            state["local"] = LocalDealService.live()
-        return state["local"]
-
-    def web() -> OnlineDealService:
-        if state["online"] is None:                        # shares the local service's client, cache and pacing
-            state["online"] = OnlineDealService(live().http)
-        return state["online"]
-
-    app = FastAPI(title="Plum", version=__version__, lifespan=lifespan)
-    origins = [o.strip() for o in os.getenv("PLUM_CORS_ORIGINS", "*").split(",") if o.strip()]
-    app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"], allow_headers=["*"])
-
-    @app.get("/", include_in_schema=False)
-    async def home():
-        return FileResponse(PAGE, media_type="text/html")
-
-    @app.get("/health")
-    async def health():
-        return {"ok": True, "version": __version__, "stores": [a.retailer for a in service.adapters]}
-
-    @app.get("/local/deals")
-    async def local_deals(where: str, radius_mi: float = Query(25.0, gt=0, le=100), limit: int = Query(25, ge=1, le=100),
-                          promos: int = Query(10, ge=0, le=100), per_store: int = Query(3, ge=1, le=100),
-                          store: list[str] = Query(default=[]), category: str = "", confirmed_only: bool = False):
-        try:
-            rep = await live().deals(where, radius_mi=radius_mi, limit=limit, promo_limit=promos, per_store=per_store,
-                                     merchants=store, category=category, confirmed_only=confirmed_only)
-        except LookupError as e:
-            raise HTTPException(404, str(e))
-        except HttpError as e:
-            raise HTTPException(502, str(e))
-        return jsonable(rep)
-
-    @app.get("/local/search")
-    async def local_search(q: str, where: str, radius_mi: float = Query(25.0, gt=0, le=100),
-                           limit: int = Query(20, ge=1, le=100), confirmed_only: bool = False):
-        try:
-            rep = await live().search(q, where, radius_mi=radius_mi, limit=limit, confirmed_only=confirmed_only)
-        except LookupError as e:
-            raise HTTPException(404, str(e))
-        except HttpError as e:
-            raise HTTPException(502, str(e))
-        return jsonable(rep)
-
-    @app.get("/online/deals")
-    async def online_deals(where: str = "", min_pct: float = Query(30.0, ge=0, lt=100), limit: int = Query(30, ge=1, le=100)):
-        return jsonable(await web().deals(where=where, min_pct=min_pct, limit=limit))
-
-    @app.get("/retailers")
-    async def retailers():
-        return {r: asdict(p) for r, p in service.policies.items()}
-
-    @app.get("/search")
-    async def search(q: str = "", include_used: bool = False, product_id: Optional[str] = None):
-        rep = await service.find(q, include_used, product_id=product_id)
-        if rep.product is None:
-            raise HTTPException(404, {"how": rep.how, "message": "no product matched"})
-        return {
-            "product": asdict(rep.product), "how": rep.how,
-            "adapters": [{"retailer": a.retailer, "status": a.status, "ms": a.ms, "count": len(a.listings),
-                          "error": a.error} for a in rep.adapters],
-            "offers": [dict(_quote(x), lowest_90d=rep.is_low(x)) for x in rep.offers],
-            "skipped": [{"id": s.listing.id, "title": s.listing.title, "retailer": s.listing.retailer,
-                         "price": s.listing.price, "condition": s.listing.condition.value, "why": s.why}
-                        for s in rep.skipped],
-        }
-
-    @app.post("/probe/{listing_id}")
-    async def probe(listing_id: str, product_id: str):
-        product, listing = await service.listing(product_id, listing_id)
-        if product is None:
-            raise HTTPException(404, "unknown product")
-        if listing is None:
-            raise HTTPException(404, "listing not in current results")
-        return asdict(await service.test_codes(listing, product))
-
-    @app.get("/coupons/{retailer}")
-    async def coupons(retailer: str):
-        return [dict(asdict(c), type=c.type.value, scope=c.scope.value, reliability=round(reliability(c), 3))
-                for c in service.coupons if c.retailer == retailer]
-
-    @app.get("/deals")
-    async def deals():
-        products = service.index.products
-        return {
-            "events": [asdict(e) for e in service.events],
-            "deals": [dict(asdict(d), product_title=products[d.product_id].title if d.product_id in products else d.product_id,
-                           glyph=products[d.product_id].glyph if d.product_id in products else "", heat=round(deal_heat(d), 4))
-                      for d in rank_deals(service.deals)],
-        }
-
-    return app
+@app.get("/api/v1/local")
+async def local(request: Request, city: str = Query(..., description="city id from /api/v1/meta"),
+                industries: str = Query(..., description="comma-separated industry ids"),
+                radius_mi: float = Query(25.0)) -> dict:
+    res = await svc(request).local(city, industries, radius_mi)
+    return res.to_dict()
 
 
-def _default_app() -> FastAPI:
-    from .demo_data import build_service
-    return create_app(build_service())
+@app.get("/api/v1/online")
+async def online(request: Request, industries: str = Query(...), limit: int = Query(25, ge=1, le=100)) -> dict:
+    res = await svc(request).online(industries, limit)
+    return res.to_dict()
 
 
-app = _default_app()
+@app.get("/api/v1/search")
+async def search(request: Request, city: str = Query(...), industries: str = Query(...),
+                 radius_mi: float = Query(25.0), limit: int = Query(25, ge=1, le=100)) -> dict:
+    s = svc(request)
+    online_inds = [i for i in ind.parse_ids(industries)[0] if i != "dining"]
+    local_task = s.local(city, industries, radius_mi)
+    if online_inds:
+        loc, onl = await asyncio.gather(local_task, s.online(",".join(online_inds), limit))
+        return {"local": loc.to_dict(), "online": onl.to_dict()}
+    return {"local": (await local_task).to_dict(), "online": None}
+
+
+@app.get("/api/v1/health")
+async def health(request: Request) -> dict:
+    return svc(request).health()

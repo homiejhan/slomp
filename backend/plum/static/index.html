@@ -3,514 +3,874 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plum · local deals</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='17' r='13' fill='%236e2b5f'/%3E%3Ccircle cx='11' cy='12' r='4' fill='%23c77fb4' opacity='.8'/%3E%3Cpath d='M16 4c0-2 2-3 4-3' stroke='%233f7a3f' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light dark">
+<title>Plum · Texas deals</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='19.5' rx='10' ry='9.5' fill='%238e3a76'/%3E%3Cpath d='M16 10.5c.2-2.6 1.3-4.6 3.3-6' stroke='%236b4a2b' stroke-width='1.8' stroke-linecap='round' fill='none'/%3E%3Cpath d='M18.6 6.6c2.2-2.9 5.6-3.6 8.4-2.6-.8 3-3.6 5.3-8.4 2.6z' fill='%234c9a61'/%3E%3C/svg%3E">
 <style>
+/* ---- tokens ---------------------------------------------------------------------------------------------- */
+:root {
+  --bg: #faf7f9; --surface: #ffffff; --ink: #211a20; --muted: #6d6370; --faint: #978d99;
+  --line: #ece5ea; --line-strong: #dcd2d9;
+  --accent: #7b2d64; --accent-hover: #6a2456; --on-accent: #ffffff; --accent-soft: #f6e9f2; --accent-ink: #6a2456;
+  --tile: #f5f1f4; --plum: #7b2d64;
+  --urgent: #b42318; --warn-bg: #fff4de; --warn-ink: #8a5300;
+  --shadow-sm: 0 1px 2px rgba(33, 26, 32, .06);
+  --shadow-md: 0 8px 28px rgba(33, 26, 32, .10);
+  --shadow-lg: 0 24px 64px rgba(33, 26, 32, .26);
+  --r-sm: 10px; --r-md: 14px; --r-lg: 20px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #f8f4f2;
-    --surface: #ffffff;
-    --surface-2: #f3ecf0;
-    --text: #2b1f2b;
-    --muted: #7a6b78;
-    --line: #e9dfe6;
-    --plum: #6e2b5f;
-    --plum-strong: #571f4b;
-    --plum-soft: #f4e6f0;
-    --gold: #9a6414;
-    --gold-soft: #fbf0d9;
-    --green: #2f7a4f;
-    --red: #b3463f;
-    --red-soft: #fbe7e5;
-    --shadow: 0 1px 2px rgba(43, 31, 43, .05), 0 10px 28px -14px rgba(43, 31, 43, .22);
-    --serif: "Fraunces", Georgia, "Times New Roman", serif;
-    --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --bg: #141115; --surface: #1e1a1f; --ink: #f4eff3; --muted: #aba0ac; --faint: #807682;
+    --line: #2f2830; --line-strong: #40373f;
+    --accent: #e3a9d1; --accent-hover: #edbfe0; --on-accent: #2b1124; --accent-soft: #35212f; --accent-ink: #edbfe0;
+    --tile: #ebe5ea; --plum: #c56aae;
+    --urgent: #ff9a8f; --warn-bg: #3a2c12; --warn-ink: #f3c276;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 8px 28px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, .65);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #161117; --surface: #201823; --surface-2: #2b2130; --text: #f4ecf2; --muted: #a798a5; --line: #382d3d;
-      --plum: #dba6cd; --plum-strong: #ecc3e0; --plum-soft: #3a2541; --gold: #e6b65e; --gold-soft: #3d3220;
-      --green: #82c9a0; --red: #e8918a; --red-soft: #4a2a2a;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 32px -16px rgba(0, 0, 0, .7);
-    }
-  }
-  * { box-sizing: border-box; }
-  [hidden] { display: none !important; }
-  html { background: var(--bg); color: var(--text); font: 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
-  body { margin: 0; min-height: 100vh; background:
-    radial-gradient(900px 420px at 12% -8%, var(--plum-soft), transparent 65%),
-    radial-gradient(700px 360px at 95% 0%, var(--gold-soft), transparent 60%); }
-  a { color: var(--plum); }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+}
 
-  /* Hero and search */
-  .hero { padding: 40px 0 28px; }
-  .brand { display: inline-flex; align-items: center; gap: 10px; }
-  .brand .dot { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c77fb4, var(--plum) 60%, #3f1536); box-shadow: 0 2px 6px rgba(87, 31, 75, .35); }
-  .brand .name { font: 600 26px/1 var(--serif); letter-spacing: -.02em; color: var(--plum); }
-  h1 { font: 500 clamp(32px, 4.6vw, 46px)/1.08 var(--serif); letter-spacing: -.02em; margin: 26px 0 10px; }
-  .lede { margin: 0; color: var(--muted); font-size: 17px; max-width: 58ch; }
-  .search { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 18px; }
-  .mode { display: inline-flex; gap: 2px; background: var(--surface-2); border-radius: 999px; padding: 4px; margin-bottom: 14px; }
-  .mode button { border: 0; background: transparent; color: var(--muted); font: 600 14px var(--sans); padding: 8px 16px; border-radius: 999px; cursor: pointer; }
-  .mode button[aria-selected="true"] { background: var(--surface); color: var(--plum); box-shadow: 0 1px 3px rgba(43, 31, 43, .15); }
-  .fields { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
-  .field { display: flex; flex-direction: column; gap: 6px; min-width: 130px; }
-  .field.grow { flex: 1 1 240px; }
-  .field > span { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  input, select { height: 46px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: 16px var(--sans); width: 100%; }
-  input:focus, select:focus { outline: none; border-color: var(--plum); box-shadow: 0 0 0 4px var(--plum-soft); }
-  .go { height: 46px; padding: 0 22px; border: 0; border-radius: 12px; background: var(--plum); color: #fff; font: 600 15px var(--sans); cursor: pointer; white-space: nowrap; }
-  .go:hover { background: var(--plum-strong); }
-  .go:disabled { opacity: .6; cursor: progress; }
-  @media (prefers-color-scheme: dark) { .go { color: #1b1020; } }
-  .examples { margin: 14px 0 0; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .examples button { border: 1px solid var(--line); background: var(--surface); color: var(--plum); font: 500 13px var(--sans); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
-  .examples button:hover { border-color: var(--plum); }
+/* ---- base ------------------------------------------------------------------------------------------------ */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html:has(dialog[open]) { overflow: hidden; }
+body {
+  margin: 0; color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased;
+  background: linear-gradient(180deg, var(--accent-soft), transparent 320px) no-repeat, var(--bg);
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.muted { color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+legend { padding: 0; }
 
-  /* Status */
-  .status { margin: 28px 0; padding: 22px 24px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; gap: 16px; align-items: center; }
-  .status.error { border-color: var(--red); background: var(--red-soft); }
-  .spinner { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--plum-soft); border-top-color: var(--plum); animation: spin .9s linear infinite; flex: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .status strong { display: block; }
-  .status .note { color: var(--muted); font-size: 14px; margin: 2px 0 0; }
-  .status .icon svg { width: 26px; height: 26px; color: var(--red); display: block; }
+/* ---- header ---------------------------------------------------------------------------------------------- */
+.top { display: flex; align-items: center; gap: 6px 16px; flex-wrap: wrap; padding: 28px 0 20px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none;
+         font-size: 24px; font-weight: 750; letter-spacing: -0.02em; }
+.brand svg { width: 28px; height: 28px; }
+.tagline { margin: 0; color: var(--muted); font-size: 15px; }
 
-  /* Results */
-  .results { padding-bottom: 60px; }
-  .meta { margin: 28px 0 6px; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
-  .meta h2 { font: 500 30px/1.15 var(--serif); letter-spacing: -.02em; margin: 0; }
-  .meta .facts { color: var(--muted); font-size: 14px; }
-  .notice { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
-  .section { margin-top: 34px; }
-  .section-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .section-head h3 { font: 500 24px/1.2 var(--serif); letter-spacing: -.015em; margin: 0; }
-  .count { font-size: 13px; font-weight: 600; color: var(--plum); background: var(--plum-soft); padding: 2px 10px; border-radius: 999px; }
-  .sub { color: var(--muted); font-size: 14px; margin: 4px 0 16px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+/* ---- search panel ---------------------------------------------------------------------------------------- */
+.panel { display: grid; gap: 18px; padding: 20px; background: var(--surface); border: 1px solid var(--line);
+         border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+.fields { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
+.label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.combo { position: relative; }
+.combo > svg { position: absolute; left: 13px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%);
+               color: var(--faint); pointer-events: none; }
+.combo input { width: 100%; height: 46px; padding: 0 14px 0 40px; font: inherit; color: var(--ink);
+               background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.combo input::placeholder { color: var(--faint); }
+.combo input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.listbox { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px;
+           list-style: none; max-height: 336px; overflow: auto; background: var(--surface);
+           border: 1px solid var(--line-strong); border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.listbox li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 10px;
+              border-radius: 8px; font-size: 15px; cursor: pointer; }
+.listbox li small { color: var(--faint); font-size: 13px; white-space: nowrap; }
+.listbox li[aria-selected="true"], .listbox li[data-i]:hover { background: var(--accent-soft); }
+.listbox li.none { color: var(--muted); cursor: default; }
 
-  /* Cards */
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; transition: transform .15s ease, box-shadow .15s ease; }
-  .card:hover { transform: translateY(-2px); }
-  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-  .merchant { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 999px; background: var(--plum); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
-  .badge.soft { background: var(--gold-soft); color: var(--gold); }
-  @media (prefers-color-scheme: dark) { .badge { color: #1b1020; } .badge.soft { color: var(--gold); } }
-  .card-body { display: flex; gap: 14px; align-items: flex-start; }
-  .card-text { flex: 1; min-width: 0; }
-  .thumb { flex: none; width: 84px; height: 84px; border-radius: 12px; background: var(--surface-2); object-fit: contain; padding: 4px; }
-  .pricing { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .price { font-size: 28px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .each { color: var(--muted); font-size: 14px; }
-  .was { color: var(--muted); font-size: 14px; }
-  .offer { font-size: 20px; font-weight: 600; line-height: 1.2; color: var(--gold); }
-  .title { margin: 6px 0 0; font-size: 15px; font-weight: 500; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .chip { font-size: 12px; color: var(--muted); background: var(--surface-2); padding: 3px 9px; border-radius: 8px; }
-  .chip.needs { background: transparent; padding-left: 0; padding-right: 2px; font-weight: 600; }
-  .chip.warn { color: var(--gold); background: var(--gold-soft); }
-  .store { margin: 0; font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: flex-start; }
-  .store svg { flex: none; width: 14px; height: 14px; margin-top: 3px; }
-  .store.flag { color: var(--gold); }
-  .links { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); display: flex; gap: 18px; }
-  .links a { font-size: 13px; font-weight: 600; text-decoration: none; }
-  .links a:hover { text-decoration: underline; }
+.seg { display: inline-flex; gap: 2px; height: 46px; padding: 4px; background: var(--bg);
+       border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.seg label { position: relative; }
+.seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.seg span { display: grid; place-items: center; height: 100%; padding: 0 14px; border-radius: 7px;
+            font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
 
-  /* Footer of a report */
-  .aside { margin-top: 30px; color: var(--muted); font-size: 14px; display: grid; gap: 10px; }
-  .aside details summary { cursor: pointer; color: var(--plum); font-weight: 600; }
-  .aside ul { margin: 6px 0 0; padding-left: 20px; }
-  .src { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; }
-  .src i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
-  .src.bad i { background: var(--red); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 46px; padding: 0 22px;
+       border: 0; border-radius: var(--r-sm); font: inherit; font-weight: 650; text-decoration: none; cursor: pointer;
+       white-space: nowrap; transition: background .12s, border-color .12s; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn.ghost:hover { border-color: var(--accent); }
+.btn.small { height: 38px; padding: 0 16px; font-size: 14px; }
+.btn[disabled] { opacity: .65; cursor: progress; }
 
-  /* Online deals */
-  .source { font-size: 12px; font-weight: 600; color: var(--muted); display: inline-flex; gap: 6px; align-items: center; }
-  .source b { color: var(--plum); font-weight: 700; }
-  .basis { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
-  .code { font: 600 12px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .04em; color: var(--plum);
-          border: 1px dashed var(--plum); background: var(--plum-soft); padding: 2px 8px; border-radius: 8px; }
-  .chip.history { color: var(--green); background: transparent; border: 1px solid var(--line); }
-  .compare { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .compare-head { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
-                  padding: 8px 12px; background: var(--surface-2); }
-  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 12px; font-size: 14px;
-         border-top: 1px solid var(--line); }
-  .row .who { min-width: 0; }
-  .row .via { display: block; font-size: 12px; color: var(--muted); }
-  .row .amt { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .row.here { background: var(--plum-soft); }
-  .row.here .amt { color: var(--plum); }
-  .tag { font-size: 11px; font-weight: 700; color: var(--green); margin-left: 6px; }
-  .tag.worse { color: var(--gold); }
-  .compared { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
-  .foot { padding: 30px 24px 40px; color: var(--muted); font-size: 13px; }
-  .empty { margin: 40px 0; color: var(--muted); }
+.chips, .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 13px; font: inherit;
+        font-size: 14px; font-weight: 500; color: var(--ink); background: var(--surface);
+        border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; white-space: nowrap;
+        transition: background .12s, border-color .12s; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"], .chip[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent);
+        color: var(--accent-ink); font-weight: 650; }
+.chip .ico { font-size: 15px; line-height: 1; }
+.chip .n { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.chip[aria-selected="true"] .n { color: inherit; }
+.form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
+
+/* ---- results --------------------------------------------------------------------------------------------- */
+.tabs { display: flex; gap: 28px; margin-top: 32px; border-bottom: 1px solid var(--line); }
+.tab { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 12px 2px; font: inherit;
+       font-size: 17px; font-weight: 650; color: var(--muted); background: none; border: 0;
+       border-bottom: 3px solid transparent; cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab .n { padding: 2px 8px; border-radius: 999px; font-size: 13px; background: var(--line); color: var(--muted); }
+.tab[aria-selected="true"] .n { background: var(--accent-soft); color: var(--accent-ink); }
+.subhead { display: grid; gap: 14px; margin: 20px 0 18px; }
+.context { margin: 0; font-size: 14px; color: var(--muted); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface);
+        border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer;
+        transition: transform .14s ease, box-shadow .14s ease, border-color .14s; }
+.card:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+.thumb { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden;
+         background: var(--tile); container-type: size; }
+.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 10px; object-fit: contain;
+             mix-blend-mode: multiply; }
+.thumb.cover img { padding: 0; object-fit: cover; mix-blend-mode: normal; }
+.thumb img { opacity: 0; transition: opacity .2s ease; }      /* fade in once loaded, instead of popping in */
+.thumb img.ok { opacity: 1; }
+/* Ads built from a retailer's product feed are product cards: the picture on top, the ad's own price text below.
+   The clip box shows just the picture, fitted to the tile; --r is set when the image loads. */
+.clip { width: min(100cqw - 20px, (100cqh - 20px) * var(--r, 1.6)); aspect-ratio: var(--r, 1.6); overflow: hidden; }
+.thumb .clip img { position: static; display: block; width: 100%; height: auto; padding: 0; }
+.thumb .ph { font-size: 44px; line-height: 1; }
+.thumb.has-img .ph { display: none; }
+/* Badges sit on the picture tile, which is light in both themes, so their colors don't follow the theme. */
+.badge { position: absolute; left: 10px; top: 10px; padding: 4px 9px; border-radius: 999px; font-size: 13px;
+         font-weight: 700; line-height: 1.3; background: #7b2d64; color: #fff; box-shadow: 0 1px 2px rgba(33, 26, 32, .18); }
+.badge.soft { background: #fff; color: #6a2456; box-shadow: inset 0 0 0 1px #7b2d64; }
+.badge.inline { position: static; background: var(--accent); color: var(--on-accent); box-shadow: none; }
+.badge.inline.soft { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.body { display: grid; flex: 1; gap: 6px; align-content: start; padding: 14px 14px 16px; }
+.meta { display: flex; gap: 6px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.meta strong { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--ink); }
+.meta span { flex: none; }
+.title { display: -webkit-box; margin: 0; overflow: hidden; font-size: 15px; font-weight: 600; line-height: 1.35;
+         -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.title.long { -webkit-line-clamp: 3; }      /* an offer with no price line: the title is the offer */
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-variant-numeric: tabular-nums; }
+.price b { font-size: 20px; font-weight: 750; letter-spacing: -0.01em; }
+.price s { font-size: 14px; color: var(--faint); }
+.price small { font-size: 13px; color: var(--muted); }
+.offer { font-size: 15px; font-weight: 650; }
+.info .offer { font-size: 20px; font-weight: 750; }
+.info .price { gap: 4px 10px; }
+.when { font-size: 13px; color: var(--muted); }
+.when.urgent { font-weight: 600; color: var(--urgent); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.tag { padding: 5px 8px; border-radius: 999px; font-size: 12px; line-height: 1; white-space: nowrap;
+       color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
+.tag.warn { color: var(--warn-ink); background: var(--warn-bg); border-color: transparent; }
+.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 28px; font-size: 14px; }
+
+.notice { display: flex; gap: 10px; margin: 20px 0 0; padding: 12px 14px; border-radius: var(--r-sm);
+          font-size: 14px; color: var(--warn-ink); background: var(--warn-bg); }
+.empty { padding: 48px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong);
+         border-radius: var(--r-md); }
+.empty .big { font-size: 40px; line-height: 1; }
+.empty h3 { margin: 12px 0 6px; font-size: 18px; color: var(--ink); }
+.empty p { max-width: 520px; margin: 0 auto 16px; }
+.leftout { margin-top: 28px; font-size: 14px; color: var(--muted); }
+.leftout summary { width: fit-content; cursor: pointer; }
+.leftout ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px 28px;
+              margin: 12px 0 0; padding: 0; list-style: none; }
+.leftout li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 4px;
+              border-bottom: 1px dotted var(--line-strong); }
+.leftout b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---- welcome and loading --------------------------------------------------------------------------------- */
+.welcome { padding: 56px 20px 16px; text-align: center; }
+.strip { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
+.strip span { display: grid; place-items: center; width: 56px; height: 56px; font-size: 26px; background: var(--surface);
+              border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-sm); }
+.strip span:nth-child(odd) { transform: rotate(-4deg) translateY(4px); }
+.strip span:nth-child(even) { transform: rotate(3deg); }
+.welcome h2 { margin: 12px 0 6px; font-size: 24px; letter-spacing: -0.02em; }
+.welcome p { max-width: 540px; margin: 0 auto 20px; color: var(--muted); }
+.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+.status { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 15px; color: var(--muted); }
+.spin { flex: none; width: 16px; height: 16px; border: 2px solid var(--line-strong); border-top-color: var(--accent);
+        border-radius: 50%; animation: spin .8s linear infinite; }
+.skel { cursor: default; pointer-events: none; }
+.skel .thumb, .skel .bar { background: linear-gradient(90deg, var(--line) 25%, var(--bg) 37%, var(--line) 63%);
+                           background-size: 400% 100%; animation: shimmer 1.4s ease infinite; }
+.skel .bar { height: 12px; border-radius: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { from { background-position: 100% 50%; } to { background-position: 0 50%; } }
+
+/* ---- details --------------------------------------------------------------------------------------------- */
+dialog.sheet { width: min(780px, calc(100vw - 32px)); padding: 0; overflow: hidden; color: var(--ink);
+               background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+               box-shadow: var(--shadow-lg); }
+dialog.sheet::backdrop { background: rgba(20, 14, 19, .55); }
+.sheet-scroll { max-height: min(88vh, 860px); overflow: auto; }
+.sheet-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.pic { display: grid; place-items: center; min-height: 300px; padding: 24px; background: var(--tile); }
+.pic img { max-width: 100%; max-height: 440px; object-fit: contain; mix-blend-mode: multiply; }
+.pic.cover { padding: 0; }
+.pic.cover img { width: 100%; height: 100%; max-height: none; object-fit: cover; mix-blend-mode: normal; }
+.pic .ph { font-size: 72px; line-height: 1; }
+.pic.has-img .ph { display: none; }
+.info { display: grid; gap: 14px; align-content: start; padding: 28px 28px 24px; }
+.eyebrow { margin: 0 36px 0 0; font-size: 13px; font-weight: 650; color: var(--muted); }
+.info h2 { margin: 0; font-size: 20px; line-height: 1.3; letter-spacing: -0.01em; }
+.info .price b { font-size: 26px; }
+.info .price s { font-size: 16px; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 16px; margin: 0; font-size: 14px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.facts .tags { margin: 0; }
+.cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.cmp td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+.cmp td:last-child { text-align: right; font-weight: 600; }
+.cmp small { color: var(--faint); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.actions.center { justify-content: center; }
+.close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; place-items: center; width: 36px;
+         height: 36px; padding: 0; font: inherit; font-size: 20px; line-height: 1; color: var(--ink);
+         background: var(--surface); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
+
+footer { margin: 56px 0 32px; font-size: 13px; text-align: center; color: var(--faint); }
+footer p { max-width: 720px; margin: 0 auto; }
+
+/* ---- small screens --------------------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+  .top { padding: 20px 0 16px; }
+  .panel { padding: 16px; }
+  .fields { grid-template-columns: 1fr auto; }
+  .fields > :first-child { grid-column: 1 / -1; }
+  .tabs { margin-top: 24px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .body { padding: 12px; }
+  .price b { font-size: 18px; }
+  .thumb .ph { font-size: 36px; }
+  .sheet-grid { grid-template-columns: 1fr; }
+  .pic { min-height: 220px; }
+  .pic img { max-height: 260px; }
+  .info { padding: 20px; }
+  .welcome { padding-top: 40px; }
+}
+@media (max-width: 520px) {
+  .fields { grid-template-columns: 1fr; }
+  .seg { display: flex; }
+  .seg label { flex: 1; }
+  #go { width: 100%; }
+  .tab { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .btn, .chip, .thumb img { transition: none; }
+  .card:hover { transform: none; }
+  .spin, .skel .thumb, .skel .bar { animation: none; }
+}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="wrap">
-    <div class="brand"><span class="dot"></span><span class="name">Plum</span></div>
-    <h1>Find the plum deal</h1>
-    <p class="lede">This week's store ads near you and the biggest discounts online, read for what they actually promise: real prices, real savings, and the fine print that goes with them.</p>
-    <form id="form" class="search" autocomplete="off">
-      <div class="mode" role="tablist" aria-label="What to look for">
-        <button type="button" role="tab" data-mode="deals" aria-selected="true">Best deals near you</button>
-        <button type="button" role="tab" data-mode="search" aria-selected="false">Find an item</button>
-        <button type="button" role="tab" data-mode="online" aria-selected="false">Online deals</button>
-      </div>
-      <div class="fields">
-        <label class="field grow"><span id="wherelabel">Where</span><input id="where" placeholder="City or ZIP, e.g. Austin, TX" required></label>
-        <label class="field grow" id="qfield" hidden><span>Item</span><input id="q" placeholder="e.g. chicken breast"></label>
-        <label class="field" id="catfield"><span>Category</span>
-          <select id="category">
-            <option value="">All categories</option>
-            <option>Groceries</option><option>Electronics</option><option>Home &amp; Garden</option><option>Pharmacy</option>
-            <option>General Merchandise</option><option>Fashion</option><option>Sporting Goods</option><option>Pets</option>
-            <option>Baby &amp; Kids</option><option>Office</option><option>Automotive</option><option>Specialty</option>
-          </select></label>
-        <label class="field" id="radfield"><span>Radius</span>
-          <select id="radius"><option value="10">10 mi</option><option value="25" selected>25 mi</option><option value="50">50 mi</option></select></label>
-        <label class="field" id="minfield" hidden><span>At least</span>
-          <select id="minpct"><option value="20">20% off</option><option value="30" selected>30% off</option><option value="50">50% off</option><option value="70">70% off</option></select></label>
-        <button class="go" id="go" type="submit">Find deals</button>
-      </div>
-      <p class="examples">Try: <button type="button" data-example="Austin, TX">Austin, TX</button><button type="button" data-example="78704">78704</button><button type="button" data-example="Portland, OR">Portland, OR</button></p>
-    </form>
-  </div>
-</header>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/" aria-label="Plum, start over">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <ellipse cx="16" cy="19.5" rx="10" ry="9.5" fill="var(--plum)"/>
+        <path d="M10.2 17.2c.7-2 2.2-3.3 4.2-3.9" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M16 10.5c.2-2.6 1.3-4.6 3.3-6" fill="none" stroke="#8a6238" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M18.6 6.6c2.2-2.9 5.6-3.6 8.4-2.6-.8 3-3.6 5.3-8.4 2.6z" fill="#4c9a61"/>
+      </svg>
+      <span>Plum</span>
+    </a>
+    <p class="tagline">Deals near any Texas city this week, plus the biggest discounts online.</p>
+  </header>
 
-<main class="wrap">
-  <section id="status" class="status" hidden aria-live="polite"></section>
-  <section id="results" class="results" hidden></section>
-  <p id="empty" class="empty">Enter a city or ZIP to see what's on sale this week.</p>
-</main>
-<footer class="wrap foot">Ads from Flipp; store locations from OpenStreetMap. Prices and stock can change after an ad is published, so open the store page before you go.</footer>
+  <main>
+    <form id="search" class="panel" novalidate>
+      <div class="fields">
+        <div>
+          <label class="label" for="city">City</label>
+          <div class="combo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <input id="city" type="text" role="combobox" aria-expanded="false" aria-controls="city-list"
+                   aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Search Texas cities">
+            <ul id="city-list" class="listbox" role="listbox" aria-label="Texas cities" hidden></ul>
+          </div>
+        </div>
+        <fieldset>
+          <legend class="label">Distance</legend>
+          <div class="seg" id="radius"></div>
+        </fieldset>
+        <button class="btn primary" id="go" type="submit">Find deals</button>
+      </div>
+      <fieldset>
+        <legend class="label">What are you shopping for?</legend>
+        <div class="chips" id="chips"></div>
+      </fieldset>
+      <p class="form-msg" id="form-msg" role="alert" hidden></p>
+    </form>
+
+    <p id="sr" class="sr-only" role="status"></p>
+    <section id="results" aria-label="Results"></section>
+  </main>
+
+  <footer>
+    <p>Local prices are the ads retailers publish (via Flipp) and can change, so check at the store. Online deals come
+       from public deal sites. Store locations © OpenStreetMap contributors.</p>
+  </footer>
+</div>
+
+<dialog id="detail" class="sheet" aria-labelledby="detail-title">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <div class="sheet-scroll" id="detail-body"></div>
+</dialog>
 
 <script>
-  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const KM_PER_MI = 1.609344;
-  const UNIT = { lb: '/lb', each: ' ea', case: '/case' };
-  const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-  const WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
-  const STEPS = ['Finding the place on the map', "Reading this week's ads for the ZIP", 'Checking the full ad records of the front-runners', 'Confirming which stores are nearby'];
-  const ONLINE_STEPS = ['Reading Slickdeals, dealnews and camelcamelcamel', 'Working out what each discount is measured against', 'Looking for the same models in store ads near you'];
+"use strict";
+const PAGE = 24;
+const ICON = {tech: "💻", sports: "⚽", fashion: "👕", home: "🏡", beauty: "💄", health: "💊", grocery: "🛒",
+              toys: "🧸", baby: "🍼", pets: "🐾", auto: "🚗", office: "✏️", dining: "🍽️"};
+const SHORT = {tech: "Tech", sports: "Sports", fashion: "Fashion", home: "Home", beauty: "Beauty", health: "Health",
+               grocery: "Grocery", toys: "Toys", baby: "Baby & Kids", pets: "Pets", auto: "Auto", office: "Office",
+               dining: "Dining"};
+// What a discount is measured against: [short label for cards, sentence for the details view].
+const BASIS = {
+  market: ["vs. other stores", "Measured against the median price at other stores Plum checked itself."],
+  store_regular: ["vs. regular price", "Measured against this store's own regular price."],
+  editor_compare: ["vs. other stores", "Measured against other stores' prices, per the deal site's editor."],
+  claimed_savings: ["saving per the ad", "The ad states this saving but not the regular price it is measured from."],
+  history: ["vs. price history", "Measured against this product's own price history."],
+  list: ["vs. list price", "Measured against a list price, which stores rarely charge."],
+};
+const PHOTO_FEEDS = new Set(["Hip2Save", "9to5Toys", "The Inventory"]);   // photos fill the tile; cut-outs are fitted
+const PICTURE_PART = 0.58;   // product-card ad clippings: the picture is the top part; the ad's price text starts at ~62%
 
-  const $ = (s) => document.querySelector(s);
-  let mode = 'deals';
+const S = {cities: [], byId: {}, byLabel: {}, industries: {}, radii: [10, 25, 50], sel: null, inds: new Set(["tech"]),
+           radius: 25, auto: false, data: null, near: [], tab: "near", ind: {near: null, online: null},
+           shown: {near: PAGE, online: PAGE}, view: [], req: 0};
 
-  function h(tag, attrs = {}, ...kids) {
-    const el = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs)) {
-      if (v == null || v === false) continue;
-      if (k === 'class') el.className = v;
-      else if (k === 'svg') el.innerHTML = v;              // only the SVG constants above
-      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
-      else el.setAttribute(k, v === true ? '' : v);
-    }
-    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : String(kid));
-    return el;
+/* ---- helpers --------------------------------------------------------------------------------------------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const money = v => v == null ? "" : "$" + Number(v).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const whole = s => s.replace(/\.00$/, "");
+const link = u => /^https?:\/\//i.test(u || "") ? u : "";                  // web links only, never javascript:
+const pic = u => link(u).replace(/^http:\/\//i, "https://");
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : "";
+const compact = n => n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e4 ? Math.round(n / 1e3) + "K" : n.toLocaleString("en-US");
+const day = (iso, tz) => new Date(iso).toLocaleDateString("en-US", {weekday: "short", month: "short", day: "numeric", timeZone: tz});
+const short = id => SHORT[id] || S.industries[id]?.name || id;
+const full = id => S.industries[id]?.name || id;
+const norm = s => s.toLowerCase().replace(/\(.*\)\s*$/, "").replace(/,?\s*(tx|texas)\s*$/, "").replace(/[^a-z0-9]/g, "");
+function ago(iso) {
+  const h = Math.max(1, Math.round((Date.now() - new Date(iso)) / 36e5));
+  return h < 24 ? `${h} h ago` : `${Math.round(h / 24)} d ago`;
+}
+
+/* ---- start-up -------------------------------------------------------------------------------------------- */
+async function boot() {
+  let meta;
+  try {
+    meta = await (await fetch("/api/v1/meta")).json();
+  } catch {
+    $("#results").innerHTML = emptyHtml("🔌", "Can't reach Plum", "The server isn't answering. Check that it's running, then reload.");
+    return;
   }
-  const money = (v) => '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const dateLabel = (iso) => { const [, m, d] = iso.slice(0, 10).split('-').map(Number); return `${MONTHS[m - 1]} ${d}`; };
-  // An ad ending "11:59 PM Sep 28" in a US time zone is early Sep 29 in UTC, which is how search results report it.
-  const endLabel = (iso) => {
-    if (!/(\+00:00|Z)$/.test(iso) || Number(iso.slice(11, 13)) >= 12) return dateLabel(iso);
-    return dateLabel(new Date(Date.parse(iso.slice(0, 10) + 'T00:00:00Z') - 864e5).toISOString());
+  const names = {};
+  meta.cities.forEach(c => { names[c.name] = (names[c.name] || 0) + 1; });
+  S.cities = meta.cities.map(c => ({...c, key: norm(c.name), label: `${c.name}, TX` + (names[c.name] > 1 ? ` (${c.county})` : "")}));
+  S.cities.forEach(c => { S.byId[c.id] = c; S.byLabel[c.label.toLowerCase()] = c; });
+  meta.industries.forEach(i => { S.industries[i.id] = i; });
+  S.radii = meta.radii_mi || S.radii;
+  restore();
+  $("#city").placeholder = `Search ${S.cities.length.toLocaleString("en-US")} Texas cities`;
+  drawRadius();
+  drawChips();
+  setupCity();
+  if (S.auto && S.sel) run(); else welcome();
+}
+
+function restore() {
+  const q = new URLSearchParams(location.search);
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem("plum.search") || "{}"); } catch {}
+  const city = S.byId[q.get("city") || saved.city];
+  if (city) pick(city);
+  const fromUrl = (q.get("industries") || "").split(",").filter(i => S.industries[i]);
+  const inds = fromUrl.length ? fromUrl : (saved.industries || []).filter(i => S.industries[i]);
+  if (inds.length) S.inds = new Set(inds);
+  const r = Number(q.get("radius") || saved.radius);
+  if (S.radii.includes(r)) S.radius = r;
+  S.auto = !!q.get("city");
+}
+
+function drawRadius() {
+  const box = $("#radius");
+  box.innerHTML = S.radii.map(r => `<label><input type="radio" name="radius" value="${r}"${r === S.radius ? " checked" : ""}><span>${r} mi</span></label>`).join("");
+  box.addEventListener("change", e => { S.radius = Number(e.target.value); });
+}
+
+function drawChips() {
+  const box = $("#chips");
+  box.innerHTML = Object.values(S.industries).map(i =>
+    `<button type="button" class="chip" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" title="${esc(i.name + ": " + i.description)}">` +
+    `<span class="ico" aria-hidden="true">${ICON[i.id] || "🏷️"}</span>${esc(short(i.id))}</button>`).join("");
+  box.addEventListener("click", e => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    const on = chip.getAttribute("aria-pressed") !== "true";
+    chip.setAttribute("aria-pressed", on);
+    if (on) S.inds.add(chip.dataset.id); else S.inds.delete(chip.dataset.id);
+    msg("");
+  });
+}
+
+/* ---- city picker ----------------------------------------------------------------------------------------- */
+function findCities(text, limit = 8) {
+  const n = norm(text || "");
+  if (!n) return S.cities.slice(0, limit);                 // the list is ordered by population
+  const starts = [], inside = [];
+  for (const c of S.cities) {
+    if (c.key.startsWith(n)) starts.push(c);
+    else if (inside.length < limit && c.key.includes(n)) inside.push(c);
+    if (starts.length >= limit) break;
+  }
+  return starts.concat(inside).slice(0, limit);
+}
+
+function resolveCity(text) {
+  const t = (text || "").trim().toLowerCase();
+  if (!t) return null;
+  return S.byLabel[t] || S.byLabel[t + ", tx"] || findCities(t, 1)[0] || null;
+}
+
+function pick(city) {
+  S.sel = city;
+  $("#city").value = city.label;
+  msg("");
+}
+
+function setupCity() {
+  const input = $("#city"), list = $("#city-list");
+  let items = [], active = -1;
+  const close = () => { list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
+  const mark = i => {
+    active = i;
+    [...list.children].forEach((li, k) => li.setAttribute("aria-selected", k === i));
+    if (i < 0) return;
+    const li = list.children[i];
+    input.setAttribute("aria-activedescendant", li.id);
+    if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop;
+    else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight;
   };
-  const miles = (km) => (km / KM_PER_MI).toFixed(1) + ' mi';
-  const chip = (text, cls = '') => h('span', { class: 'chip ' + cls }, text);
-
-  function setMode(m) {
-    mode = m;
-    const online = m === 'online';
-    for (const b of document.querySelectorAll('.mode button')) b.setAttribute('aria-selected', b.dataset.mode === m);
-    $('#qfield').hidden = m !== 'search';
-    $('#catfield').hidden = m !== 'deals';
-    $('#radfield').hidden = online;
-    $('#minfield').hidden = !online;
-    $('#q').required = m === 'search';
-    $('#where').required = !online;
-    $('#wherelabel').textContent = online ? 'Compare with stores near (optional)' : 'Where';
-    $('#go').textContent = m === 'search' ? 'Compare prices' : online ? 'Find online deals' : 'Find deals';
-  }
-
-  // The saving as a short label; "soft" when it's hedged or measured against something other than the regular price.
-  function saving(t) {
-    if (t.hedge === 'no reference' && (t.dollars_off || t.pct_off))
-      return { text: t.dollars_off ? `saves ${money(t.dollars_off)}` : `${Math.round(t.pct_off)}% off`, soft: true };
-    if (!t.pct_off) return null;
-    const pct = `${Math.round(t.pct_off)}% off`;
-    if (t.hedge === 'up to') return { text: `up to ${pct}`, soft: true };
-    if (t.hedge === 'compare at') return { text: `${Math.round(t.pct_off)}% below compare-at`, soft: true };
-    return { text: pct, soft: false };
-  }
-
-  function badge(t) {
-    const s = saving(t);
-    return s && h('span', { class: 'badge' + (s.soft ? ' soft' : '') }, s.text);
-  }
-
-  // A card leads with its price; an offer without one leads with the ad's own words for the deal.
-  function headline(t) {
-    if (t.price == null) {
-      const s = saving(t);
-      return h('div', { class: 'offer' }, t.offer || (s ? s.text : ''));
+  const open = () => {
+    items = findCities(input.value);
+    list.innerHTML = items.length
+      ? items.map((c, i) => `<li role="option" id="city-opt-${i}" data-i="${i}"><span>${esc(c.label)}</span><small>${esc(c.county)}${c.population ? " · " + compact(c.population) : ""}</small></li>`).join("")
+      : `<li class="none">No Texas city matches</li>`;
+    list.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    mark(items.length ? 0 : -1);
+  };
+  input.addEventListener("input", () => { S.sel = null; msg(""); open(); });
+  input.addEventListener("focus", () => { input.select(); if (!S.sel) open(); });
+  input.addEventListener("blur", () => setTimeout(close, 120));
+  input.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (list.hidden) open();
+      else if (items.length) mark((active + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length);
+    } else if (e.key === "Enter" && !list.hidden && active >= 0) {
+      e.preventDefault();
+      pick(items[active]);
+      close();
+    } else if (e.key === "Escape") {
+      close();
     }
-    const main = t.quantity > 1 ? `${t.quantity} for ${money(t.price)}` : money(t.price) + (UNIT[t.unit] || '');
-    const bits = [h('span', { class: 'price' }, (t.hedge === 'starting at' ? 'from ' : '') + main)];
-    if (t.quantity > 1) bits.push(h('span', { class: 'each' }, `${money(t.price / t.quantity)} ea`));
-    if (t.was != null) bits.push(h('s', { class: 'was', title: t.hedge === 'compare at' ? 'compare-at value' : 'regular price' }, money(t.was)));
-    return h('div', { class: 'pricing' }, bits);
-  }
+  });
+  list.addEventListener("mousedown", e => {
+    const li = e.target.closest("li[data-i]");
+    if (!li) return;
+    e.preventDefault();
+    pick(items[Number(li.dataset.i)]);
+    close();
+  });
+}
 
-  const squash = (s) => s.toLowerCase().replace(/[^a-z0-9%$.]/g, '');
-  function restates(offer, t) {          // "You save 76.00" next to a "saves $76.00" badge says nothing new
-    const s = saving(t);
-    return /^(you\s+)?save\s+\$?\s*[\d,]+(\.\d+)?$/i.test(offer) || (s != null && squash(offer) === squash(s.text));
-  }
+/* ---- searching ------------------------------------------------------------------------------------------- */
+function msg(text) {
+  const el = $("#form-msg");
+  el.textContent = text;
+  el.hidden = !text;
+}
 
-  function chips(d) {
-    const t = d.terms, out = [];
-    if (t.offer && t.price != null && !restates(t.offer, t)) out.push(chip(t.offer));
-    if (t.hedge === 'no reference') out.push(chip('no regular price stated', 'warn'));
-    if (t.hedge === 'compare at') out.push(chip('vs. a compare-at value', 'warn'));
-    if (t.conditions.length) { out.push(chip('needs', 'needs')); t.conditions.forEach((c) => out.push(chip(c))); }
-    out.push(chip('ends ' + endLabel(d.valid_to)));
-    return h('div', { class: 'chips' }, out);
-  }
+function busy(on) {
+  const b = $("#go");
+  b.disabled = on;
+  b.textContent = on ? "Searching…" : "Find deals";
+}
 
-  function store(d) {
-    if (d.store) {
-      const s = d.store;
-      return h('p', { class: 'store' }, h('span', { svg: PIN }), `${s.name}${s.address ? ', ' + s.address : ''} · ${miles(s.distance_km)}`);
-    }
-    if (d.flags.length) return h('p', { class: 'store flag' }, h('span', { svg: WARN }), d.flags.join('; '));
-    return null;
+async function run() {
+  if (!S.sel) {
+    const typed = $("#city").value.trim(), city = resolveCity(typed);
+    if (city) pick(city);
+    else { msg(typed ? `No Texas city matches “${typed}”.` : "Choose a city to start."); $("#city").focus(); return; }
   }
-
-  function card(d) {
-    const img = d.image_url && h('img', { class: 'thumb', src: d.image_url, alt: '', loading: 'lazy', onerror: (e) => e.target.remove() });
-    return h('article', { class: 'card' },
-      h('div', { class: 'card-top' }, h('span', { class: 'merchant' }, d.merchant), d.terms.price != null && badge(d.terms)),
-      h('div', { class: 'card-body' },
-        h('div', { class: 'card-text' }, headline(d.terms), h('p', { class: 'title' }, d.title)),
-        img),
-      chips(d),
-      store(d),
-      h('div', { class: 'links' },
-        h('a', { href: d.source_url, target: '_blank', rel: 'noopener' }, 'View the ad ↗'),
-        d.product_url && h('a', { href: d.product_url, target: '_blank', rel: 'noopener' }, 'Store page ↗')));
+  const inds = Object.keys(S.industries).filter(i => S.inds.has(i));
+  if (!inds.length) { msg("Choose at least one thing you're shopping for."); return; }
+  msg("");
+  try { localStorage.setItem("plum.search", JSON.stringify({city: S.sel.id, industries: inds, radius: S.radius})); } catch {}
+  history.replaceState(null, "", `?city=${S.sel.id}&industries=${inds.join(",")}&radius=${S.radius}`);
+  const token = ++S.req;
+  busy(true);
+  loading();
+  try {
+    const q = new URLSearchParams({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
+    let r, data;
+    try { r = await fetch("/api/v1/search?" + q); } catch { throw new Error("Plum's server isn't answering. Check that it's still running."); }
+    try { data = await r.json(); } catch { throw new Error("The server sent something unexpected. Try again in a moment."); }
+    if (token !== S.req) return;
+    if (!r.ok) throw new Error(data.error || "Something went wrong.");
+    prepare(data);
+    render();
+    $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}` + (data.online ? `, ${onlineCount()} online.` : ".");
+  } catch (e) {
+    if (token === S.req) failed(e.message);
+  } finally {
+    if (token === S.req) busy(false);
   }
+}
 
-  function section(title, sub, deals, make = card) {
-    if (!deals.length) return null;
-    return h('section', { class: 'section' },
-      h('div', { class: 'section-head' }, h('h3', {}, title), h('span', { class: 'count' }, deals.length)),
-      h('p', { class: 'sub' }, sub),
-      h('div', { class: 'grid' }, deals.map(make)));
+function prepare(data) {
+  S.data = data;
+  const L = data.local, O = data.online;
+  // One list per place: firm deals, promotions and unconfirmed stores together, biggest effective discount first.
+  S.near = [...L.deals, ...L.promotions, ...L.unconfirmed]
+    .sort((a, b) => (b.score - a.score) || ((b.terms.savings || 0) - (a.terms.savings || 0)));
+  const onInds = O ? Object.keys(O.deals) : [];
+  S.ind.near = L.industries.find(i => S.near.some(d => d.industries.includes(i))) || L.industries[0];
+  S.ind.online = onInds.find(i => O.deals[i].length) || onInds[0] || null;
+  S.shown = {near: PAGE, online: PAGE};
+  S.tab = "near";
+}
+
+function onlineCount() {
+  const O = S.data && S.data.online;
+  return O ? new Set(Object.values(O.deals).flat().map(d => d.id)).size : 0;
+}
+
+/* ---- results --------------------------------------------------------------------------------------------- */
+function render() {
+  const {local: L, online: O} = S.data;
+  const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${text}<span class="n">${n}</span></button>`;
+  $("#results").innerHTML =
+    `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${O ? tab("online", "Online", onlineCount()) : ""}</div>` +
+    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === "near" ? nearPanel(L) : onlinePanel(O)}</div>`;
+}
+
+function pillsHtml(inds, current, count) {
+  if (inds.length < 2) return "";
+  return `<div class="pills" role="tablist" aria-label="Category">` + inds.map(i =>
+    `<button type="button" class="chip" role="tab" aria-selected="${i === current}" data-ind="${i}">` +
+    `<span class="ico" aria-hidden="true">${ICON[i] || "🏷️"}</span>${esc(short(i))}<span class="n">${count(i)}</span></button>`).join("") + `</div>`;
+}
+
+function nearPanel(L) {
+  const cur = S.ind.near, tz = L.city.tz;
+  const count = i => S.near.filter(d => d.industries.includes(i)).length;
+  const list = S.view = S.near.filter(d => d.industries.includes(cur));
+  const down = (L.sources || []).filter(s => !s.ok).map(s => s.name);
+  const notice = down.length ? noticeHtml(`Plum couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
+  const context = `Within ${L.radius_mi} mi of ${esc(L.city.name)} · ${day(L.window.start, tz)} to ${day(L.window.end, tz)}`;
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
+    : nearEmpty(L, cur);
+  return notice + `<div class="subhead">${pillsHtml(L.industries, cur, count)}<p class="context">${context}</p></div>` + body + leftoutHtml(L.excluded);
+}
+
+function onlinePanel(O) {
+  const inds = Object.keys(O.deals), cur = S.ind.online;
+  const list = S.view = O.deals[cur] || [];
+  const down = (O.sources || []).filter(s => !s.ok).length;
+  const notice = down ? noticeHtml(`${down} of ${O.sources.length} deal feeds couldn't be read just now, so this list may be incomplete.`) : "";
+  const context = "Biggest discounts first. Where another store sells the same product, the discount is measured against its price.";
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
+    : emptyHtml(ICON[cur] || "🏷️", `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
+  return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}<p class="context">${context}</p></div>` + body + leftoutHtml(O.excluded);
+}
+
+function nearEmpty(L, cur) {
+  const far = (L.beyond_radius || []).slice(0, 4).map(m => `${esc(m.merchant)} (${m.nearest_mi} mi)`).join(", ");
+  const hint = L.radius_mi < 50 && far && cur !== "dining" ? `<p>Stores with ads a little farther out: ${far}.</p>` : "";
+  const wider = L.radius_mi < 50 ? `<button type="button" class="btn ghost small" data-wider>Search within 50 mi</button>` : "";
+  const n = onlineCount();
+  const online = n ? `<button type="button" class="btn ghost small" data-tab="online">See ${n} online ${n === 1 ? "deal" : "deals"}</button>` : "";
+  return emptyHtml(ICON[cur] || "🏷️", `Nothing for ${esc(full(cur))} within ${L.radius_mi} mi of ${esc(L.city.name)} this week`, "",
+                   hint + `<div class="actions center">${wider}${online}</div>`);
+}
+
+const noticeHtml = text => `<p class="notice"><span aria-hidden="true">⚠️</span><span>${esc(text)}</span></p>`;
+const emptyHtml = (icon, title, text, extra = "") =>
+  `<div class="empty"><div class="big" aria-hidden="true">${icon}</div><h3>${title}</h3>${text ? `<p>${text}</p>` : ""}${extra}</div>`;
+const moreHtml = (total, shown) => total > shown
+  ? `<div class="more"><button type="button" class="btn ghost small" id="more">Show ${Math.min(PAGE, total - shown)} more</button><span class="muted" id="more-count">${shown} of ${total}</span></div>` : "";
+
+function leftoutHtml(excluded) {
+  const rows = Object.entries(excluded || {}).sort((a, b) => b[1] - a[1]);
+  if (!rows.length) return "";
+  return `<details class="leftout"><summary>What Plum left out, and why</summary><ul>` +
+    rows.map(([why, n]) => `<li><span>${esc(cap(why))}</span><b>${n.toLocaleString("en-US")}</b></li>`).join("") + `</ul></details>`;
+}
+
+/* ---- cards ----------------------------------------------------------------------------------------------- */
+function thumbHtml(d, badge, photo) {
+  const src = pic(d.image_url), icon = ICON[(d.industries || [])[0]] || "🏷️";
+  const img = src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "";
+  return `<div class="thumb${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+    (img && d.feed ? `<div class="clip">${img}</div>` : img) +      // feed ads: show the product, not the ad's price text
+    (badge ? `<span class="badge${badge.soft ? " soft" : ""}">${esc(badge.text)}</span>` : "") + `</div>`;
+}
+
+function shortCondition(c) {
+  if (c.startsWith("store price now")) return "price may have changed";
+  if (c.startsWith("out of stock")) return "out of stock";
+  if (c.startsWith("& more")) return "price varies";
+  if (c.startsWith("price is for")) return c.replace(/^price is for (\d+).*$/, "price is for $1");
+  return {"loyalty card / rewards price": "rewards price", "discount applied in cart": "discount in cart",
+          "price varies by size or color": "varies by size"}[c] || c;
+}
+const isWarning = c => /^(store price now|out of stock)/.test(c);
+
+function tagsHtml(tags, limit = 2) {
+  if (!tags.length) return "";
+  const shown = tags.slice(0, limit).map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(shortCondition(c))}</span>`).join("");
+  return `<div class="tags">${shown}${tags.length > limit ? `<span class="tag">+${tags.length - limit}</span>` : ""}</div>`;
+}
+
+function localBadge(d) {
+  const t = d.terms;
+  if (t.bogo) return {text: "BOGO", soft: true};
+  if (t.pct) return {text: `${t.hedge === "up to" ? "Up to " : ""}${Math.round(t.pct)}% off`, soft: !!(t.promo || t.hedge)};
+  if (t.savings) return {text: `${whole(money(t.savings))} off`, soft: true};
+  return null;
+}
+
+// The price line: "$3.50 /lb  $5.50", "2 for $8 · $4.00 each", or "" when the offer has no single price.
+function priceLine(t) {
+  if (t.qty > 1 && t.bundle_price) return `<b>${t.qty} for ${whole(money(t.bundle_price))}</b><small>${money(t.bundle_price / t.qty)} each</small>`;
+  if (t.price == null) return "";
+  const unit = t.unit && t.unit !== "ea" ? `<small>/${esc(t.unit)}</small>` : "";
+  const was = t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list") ? `<s>${money(t.regular)}</s>` : "";
+  const claim = t.basis === "claimed_savings" && t.savings ? `<small>save ${whole(money(t.savings))} per the ad</small>` : "";
+  return `<b>${money(t.price)}</b>${unit}${was}${claim}`;
+}
+
+function localPrice(t) {
+  const line = priceLine(t);
+  if (line) return `<div class="price">${line}</div>`;
+  return t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>` : "";
+}
+
+function when(d, tz) {
+  if ((d.terms.conditions || []).includes("dates not stated")) return {text: "No end date given", urgent: false};
+  if (d.starts_in_days > 0) {
+    const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
+    return {text: oneDay ? `${day(d.valid_from, tz)} only` : `Starts ${day(d.valid_from, tz)}`, urgent: false};
   }
+  if (d.ends_in_days <= 0) return {text: "Ends today", urgent: true};
+  if (d.ends_in_days === 1) return {text: "Ends tomorrow", urgent: false};
+  return {text: `Ends ${day(d.valid_to, tz)}`, urgent: false};
+}
 
-  /* Online deals */
-  function ago(iso) {
-    if (!iso) return null;
-    const hrs = Math.floor((Date.now() - new Date(iso)) / 3.6e6);
-    return hrs < 1 ? 'posted just now' : hrs < 48 ? `posted ${hrs} h ago` : `posted ${Math.floor(hrs / 24)} days ago`;
+function localTags(d) {
+  const t = d.terms, tags = [];
+  if (d.store_status === "unmapped") tags.push("store not confirmed");
+  if (t.basis === "list") tags.push("vs. list price");
+  if (t.hedge && t.hedge !== "up to") tags.push(t.hedge);
+  return tags.concat((t.conditions || []).filter(c => c !== "dates not stated"));   // the date line already says so
+}
+
+function localCard(d, i, tz) {
+  const w = when(d, tz), where = d.store ? `${d.store.distance_mi} mi` : "location unknown", price = localPrice(d.terms);
+  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, localBadge(d), false)}<div class="body">` +
+    `<div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${where}</span></div>` +
+    `<h3 class="title${price ? "" : " long"}">${esc(d.title)}</h3>${price}` +
+    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${tagsHtml(localTags(d))}</div></article>`;
+}
+
+// Deal-post titles repeat the price and shipping ("… for $45 + free shipping"); the card shows those separately.
+// Headline-style titles (9to5Toys) are sentences, not product names, and are left as written.
+function productName(d) {
+  const title = d.title;
+  if (d.source === "9to5Toys") return title;
+  const t = title
+    .replace(/^(?:\*hot\*|hot!|go!|wow!)\s*/i, "")
+    .replace(/^(?:prime members?:|select accts?:|\[prime\])\s*/i, "")
+    .replace(/^\$[\d,.]+\*?\s*\|?\s*/, "")
+    .replace(/\s+(?:for \d+ )?(?:for|only|just|from|under)\s+\$[\d,.]+.*$/i, "")
+    .replace(/\s+\d{1,2}% off\b.*$/i, "")
+    .replace(/\s+\$[\d,.]+\*?(?:\s*(?:\+|w\/|&|\(|at\b|on\b|via\b).*)?$/i, "")
+    .replace(/\s+(?:is|are|now|at|to|hits|drops?|falls?)$/i, "")
+    .replace(/[\s:–—-]+$/, "");
+  return t.length >= 8 ? t : title;
+}
+
+function onlineBadge(d) {
+  return d.discount_pct ? {text: `${Math.round(d.discount_pct)}% off`, soft: d.basis === "list" || d.basis === "history"} : null;
+}
+const onlineRef = d => d.basis === "market" && d.market_median ? d.market_median : d.reference_price;
+
+function onlineCard(d, i) {
+  const ref = onlineRef(d), note = (BASIS[d.basis] || [""])[0];
+  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source))}<div class="body">` +
+    `<div class="meta"><strong>${esc(d.seller || "Online")}</strong>${d.posted_at ? `<span>·</span><span>${ago(d.posted_at)}</span>` : ""}</div>` +
+    `<h3 class="title">${esc(productName(d))}</h3>` +
+    `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}</div>` +
+    `<div class="when">${esc(note)}${d.basis === "market" ? " ✓" : ""}</div>${tagsHtml(d.conditions || [])}</div></article>`;
+}
+
+/* ---- details --------------------------------------------------------------------------------------------- */
+const factsHtml = rows => `<dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
+const allTags = tags => `<div class="tags">${tags.map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(c)}</span>`).join("")}</div>`;
+const actionHtml = (href, text, primary) => link(href)
+  ? `<a class="btn small ${primary ? "primary" : "ghost"}" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${text} <span aria-hidden="true">↗</span></a>` : "";
+const badgeInline = b => b ? `<span class="badge inline${b.soft ? " soft" : ""}">${esc(b.text)}</span>` : "";
+
+function sheetHtml(d, photo, info) {
+  const src = pic(d.image_url), icon = ICON[(d.industries || [])[0]] || "🏷️";
+  return `<div class="sheet-grid"><div class="pic${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+    (src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : "") + `</div><div class="info">${info}</div></div>`;
+}
+
+function localDetail(d) {
+  const L = S.data.local, tz = L.city.tz, t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
+  const rows = [], line = priceLine(t), badge = localBadge(d);
+  // Headline: the price with its badge; a buy-one-get-one offer in words; or the badge alone ("40% off").
+  const headline = line ? `<div class="price">${line}${badgeInline(badge)}</div>`
+    : t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>`
+    : badge ? `<div class="price">${badgeInline(badge)}</div>` : "";
+  const said = `${line} ${t.bogo} ${badge ? badge.text : ""}`.toLowerCase().replace(/<[^>]+>/g, " ");
+  if (!promo && t.summary && (t.qty > 1 || t.hedge) && !said.includes(t.summary.toLowerCase())) rows.push(["Offer", esc(cap(t.summary))]);
+  if (!promo && BASIS[t.basis]) rows.push(["Discount", esc(t.bogo ? "Measured against buying the same items at this store's regular price." : BASIS[t.basis][1])]);
+  const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
+  rows.push(["Valid", (t.conditions || []).includes("dates not stated") ? "The post doesn't give dates"
+    : oneDay ? `${day(d.valid_from, tz)} only`
+    : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
+  rows.push(["Where", st
+    ? `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}`
+    : `<span class="muted">This store isn't on the map, so Plum can't confirm one is nearby.</span>`]);
+  const tags = localTags(d);
+  if (tags.length) rows.push(["Conditions", allTags(tags)]);
+  if (promo) rows.push(["Note", `<span class="muted">A national promotion. Participation can vary by location.</span>`]);
+  const kind = !promo && d.category ? ` · ${esc(d.category.split(" > ").pop())}` : "";
+  return sheetHtml(d, false,
+    `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
+    factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}</div>`);
+}
+
+function onlineDetail(d) {
+  const ref = onlineRef(d), rows = [];
+  if (BASIS[d.basis]) {
+    const quote = d.basis_text && d.basis !== "market" ? `<br><span class="muted">“${esc(d.basis_text.length > 190 ? d.basis_text.slice(0, 190) + "…" : d.basis_text)}”</span>` : "";
+    rows.push(["Discount", esc(BASIS[d.basis][1]) + quote]);
   }
+  rows.push(["Other stores", (d.comparisons || []).length
+    ? `<table class="cmp">${d.comparisons.map(p => `<tr><td>${link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.site)}</a>` : esc(p.site)}${p.via ? ` <small>${esc(p.via)}</small>` : ""}</td><td>${money(p.price)}</td></tr>`).join("")}</table>`
+    : `<span class="muted">No exact match found at other stores.</span>`]);
+  const sc = d.store_check || {};
+  if (sc.price != null) rows.push(["Store check", `${esc(sc.site)} showed ${sc.unavailable ? "it out of stock" : money(sc.price)} when Plum looked${sc.checked_at ? ` (${ago(sc.checked_at)})` : ""}.`]);
+  if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
+  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => (link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.source)}</a>` : esc(p.source)) + ` ${money(p.price)}`).join(", ")]);
+  rows.push(["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}`]);
+  return sheetHtml(d, PHOTO_FEEDS.has(d.source),
+    `<p class="eyebrow">${esc(d.seller || "Online")}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
+    `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}${badgeInline(onlineBadge(d))}</div>` +
+    factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}</div>`);
+}
 
-  function sourceLabel(d) {
-    if (d.source === 'Slickdeals') return h('span', { class: 'source' }, 'Slickdeals', d.votes != null && h('b', { title: 'thumb score: the community’s vote' }, `+${d.votes}`));
-    if (d.source === 'dealnews') return h('span', { class: 'source' }, d.staff_pick ? 'dealnews staff pick' : 'dealnews');
-    return h('span', { class: 'source' }, 'camelcamelcamel price tracker');
-  }
+function openDetail(d) {
+  $("#detail-body").innerHTML = "seller" in d ? onlineDetail(d) : localDetail(d);
+  $("#detail-body").scrollTop = 0;
+  $("#detail").showModal();
+}
 
-  function onlineBadge(t) {
-    if (!t.pct_off) return null;
-    const firm = t.hedge === '' || t.hedge === 'elsewhere';
-    return h('span', { class: 'badge' + (firm ? '' : ' soft'), title: firm ? '' : 'measured against a list price or an unstated one' }, `${Math.round(t.pct_off)}% off`);
-  }
+/* ---- welcome, loading, errors ---------------------------------------------------------------------------- */
+function welcome() {
+  const strip = ["tech", "fashion", "home", "grocery", "toys", "dining"].map(i => `<span>${ICON[i]}</span>`).join("");
+  $("#results").innerHTML = `<div class="welcome"><div class="strip" aria-hidden="true">${strip}</div>` +
+    `<h2>Find this week's deals near you</h2>` +
+    `<p>Pick a Texas city and what you're shopping for. Plum reads this week's store ads and today's deal posts, and tells you what each discount is measured against.</p>` +
+    `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div></div>`;
+}
 
-  // The deal next to the same product's price at other stores, cheapest first.
-  function compareBlock(d) {
-    const t = d.terms;
-    const others = d.elsewhere.filter((p) => p.price != null);
-    if (!others.length || t.price == null) return null;
-    const rows = [{ who: d.store || 'This deal', via: 'this deal', amt: t.price / t.quantity, here: true }]
-      .concat(others.map((p) => ({ who: p.store, via: p.source + (p.note ? ' · ' + p.note : ''), amt: p.price, url: p.url,
-                                   mark: p.at_least ? 'at least ' : p.approx ? 'about ' : '' })))
-      .sort((a, b) => a.amt - b.amt);
-    return h('div', { class: 'compare' },
-      h('div', { class: 'compare-head' }, 'Same product, other stores'),
-      rows.map((r, i) => h('div', { class: 'row' + (r.here ? ' here' : '') },
-        h('span', { class: 'who' },
-          r.url ? h('a', { href: r.url, target: '_blank', rel: 'noopener' }, r.who) : r.who,
-          i === 0 && h('span', { class: 'tag' + (r.here ? '' : ' worse') }, r.here ? 'cheapest' : 'cheaper here'),
-          h('span', { class: 'via' }, r.via)),
-        h('span', { class: 'amt' }, (r.mark || '') + money(r.amt)))));
-  }
+function loading() {
+  const card = `<div class="card skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:45%"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div><div class="bar" style="width:35%;height:18px;margin-top:6px"></div></div></div>`;
+  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>Reading this week's ads and today's deal posts. A city's first search can take up to a minute.</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
+  $("#sr").textContent = "Searching.";
+}
 
-  function onlineCard(d) {
-    const t = d.terms;
-    const img = d.image_url && h('img', { class: 'thumb', src: d.image_url, alt: '', loading: 'lazy', onerror: (e) => e.target.remove() });
-    const pricing = t.price == null ? null : h('div', { class: 'pricing' },
-      h('span', { class: 'price' }, (t.hedge === 'starting at' ? 'from ' : '') + (t.quantity > 1 ? `${t.quantity} for ${money(t.price)}` : money(t.price))),
-      t.quantity > 1 && h('span', { class: 'each' }, `${money(t.price / t.quantity)} ea`),
-      t.was != null && t.hedge === '' && h('s', { class: 'was' }, money(t.was)));
-    return h('article', { class: 'card' },
-      h('div', { class: 'card-top' }, h('span', { class: 'merchant' }, d.store || 'Online'), onlineBadge(t)),
-      h('div', { class: 'card-body' },
-        h('div', { class: 'card-text' }, pricing, h('p', { class: 'title' }, d.title), d.basis && h('p', { class: 'basis' }, d.basis)),
-        img),
-      h('div', { class: 'chips' },
-        d.code && h('span', { class: 'code', title: 'promo code this price needs' }, d.code),
-        t.conditions.filter((c) => !c.startsWith('code ')).map((c) => chip(c)),
-        d.history && chip(d.history, 'history'),
-        ago(d.posted) && chip(ago(d.posted))),
-      compareBlock(d),
-      h('div', { class: 'links' },
-        h('a', { href: d.url, target: '_blank', rel: 'noopener' }, 'Deal post ↗'),
-        d.store_url && h('a', { href: d.store_url, target: '_blank', rel: 'noopener' }, 'Store page ↗'),
-        h('span', { style: 'margin-left:auto' }, sourceLabel(d))));
-  }
+function failed(message) {
+  $("#results").innerHTML = emptyHtml("😕", "That search didn't work", esc(message), `<button type="button" class="btn ghost small" id="retry">Try again</button>`);
+}
 
-  function renderOnline(rep) {
-    const when = new Date(rep.generated_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    const near = rep.compared_near;
-    return [
-      h('div', { class: 'meta' }, h('h2', {}, 'Online deals'),
-        h('span', { class: 'facts' }, `${rep.deals.length} big discounts · from Slickdeals, dealnews and camelcamelcamel · as of ${when}`)),
-      h('p', { class: 'notice' }, 'Specific products at big discounts right now. Prices move fast online and codes run out, so open the deal post before you buy.'),
-      section('Biggest discounts', `One product at one price, at least ${$('#minpct').value}% off. Each card says what its discount is measured against.`, rep.deals, onlineCard),
-      section('Popular, no stated discount', 'Community favorites whose post doesn’t give a regular price to measure against.', rep.popular, onlineCard),
-      !rep.deals.length && !rep.popular.length && h('p', { class: 'empty' }, 'No online deals right now at that discount.'),
-      h('div', { class: 'aside' },
-        h('p', { class: 'compared' }, near
-          ? `Other stores’ prices come from dealnews’ price checks, plus ${rep.looked_up} model-number lookups in this week’s store ads near ${near.name}. A store shows up only when it has the exact model.`
-          : 'Other stores’ prices come from dealnews’ price checks. Add a city or ZIP to also check this week’s store ads near you.'),
-        leftOut(rep.skipped),
-        sources(rep.sources)),
-    ];
-  }
+function showMore() {
+  const key = S.tab, from = S.shown[key], tz = S.data.local.city.tz;
+  S.shown[key] = from + PAGE;
+  const cards = S.view.slice(from, S.shown[key]).map((d, k) => key === "near" ? localCard(d, from + k, tz) : onlineCard(d, from + k)).join("");
+  $("#panel .grid").insertAdjacentHTML("beforeend", cards);
+  if (S.shown[key] >= S.view.length) { $(".more").remove(); return; }
+  $("#more").textContent = `Show ${Math.min(PAGE, S.view.length - S.shown[key])} more`;
+  $("#more-count").textContent = `${S.shown[key]} of ${S.view.length}`;
+}
 
-  function sources(list) {
-    return h('div', {}, list.map((s) => h('span', { class: 'src' + (s.ok ? '' : ' bad'), title: s.detail }, h('i'), `${s.name}: ${s.ok ? 'ok' : 'failed'}`)));
-  }
+/* ---- events ---------------------------------------------------------------------------------------------- */
+$("#search").addEventListener("submit", e => { e.preventDefault(); run(); });
 
-  function leftOut(skipped) {
-    const entries = Object.entries(skipped).sort((a, b) => b[1] - a[1]);
-    if (!entries.length) return null;
-    const total = entries.reduce((n, [, c]) => n + c, 0);
-    return h('details', {}, h('summary', {}, `What was left out (${total.toLocaleString()} items)`),
-      h('ul', {}, entries.map(([why, n]) => h('li', {}, `${n.toLocaleString()} · ${why}`))));
-  }
+$("#results").addEventListener("click", e => {
+  const hit = sel => e.target.closest(sel);
+  let el;
+  if ((el = hit("[data-tab]"))) { S.tab = el.dataset.tab; render(); }
+  else if ((el = hit("[data-ind]"))) { S.ind[S.tab] = el.dataset.ind; S.shown[S.tab] = PAGE; render(); }
+  else if (hit("#more")) showMore();
+  else if (hit("#retry")) run();
+  else if (hit("[data-wider]")) { S.radius = 50; drawRadiusValue(); run(); }
+  else if ((el = hit("[data-city]"))) { pick(S.byId[el.dataset.city]); run(); }
+  else if ((el = hit(".card[data-i]"))) openDetail(S.view[Number(el.dataset.i)]);
+});
 
-  function renderDeals(rep) {
-    const when = new Date(rep.generated_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    const far = Object.values(rep.presence).filter((p) => p.status === 'far' || p.status === 'unmapped').map((p) => p.merchant).sort();
-    return [
-      h('div', { class: 'meta' }, h('h2', {}, rep.place.name),
-        h('span', { class: 'facts' }, `ZIP ${rep.place.postal_code} · ${Math.round(rep.radius_km / KM_PER_MI)} mi · ${rep.flyers.length} ads running · ${rep.items_seen.toLocaleString()} items read · as of ${when}`)),
-      h('p', { class: 'notice' }, 'Prices are what each retailer’s weekly ad says. They can change after an ad is published, so open the store page before you go.'),
-      section('Best deals', 'A firm price, and a saving against the store’s own regular price.', rep.deals),
-      section('Other offers', 'Percent-off and multi-buy promos, “up to” savings, and savings without a stated regular price.', rep.promos),
-      !rep.deals.length && !rep.promos.length && h('p', { class: 'empty' }, 'No deals found in this week’s ads.'),
-      h('div', { class: 'aside' },
-        !rep.complete && h('p', {}, 'Stopped reading full ad records at the budget; lower-ranked deals may be missing.'),
-        far.length > 0 && h('p', {}, `No store mapped within range for ${far.join(', ')}; their deals are flagged rather than dropped, because maps miss some chains.`),
-        rep.upcoming.length > 0 && h('p', {}, 'Starting soon: ' + rep.upcoming.map((f) => `${f.merchant} (${dateLabel(f.valid_from)})`).join(', ')),
-        leftOut(rep.skipped),
-        sources(rep.sources)),
-    ];
-  }
+$("#results").addEventListener("keydown", e => {
+  const card = e.target.closest && e.target.closest(".card[data-i]");
+  if (card && e.target === card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(S.view[Number(card.dataset.i)]); }
+});
 
-  function renderSearch(rep) {
-    return [
-      h('div', { class: 'meta' }, h('h2', {}, `“${rep.query}” near ${rep.place.name}`),
-        h('span', { class: 'facts' }, `ZIP ${rep.place.postal_code} · ${Math.round(rep.radius_km / KM_PER_MI)} mi · cheapest first`)),
-      rep.results.length ? h('section', { class: 'section' }, h('div', { class: 'grid' }, rep.results.map(card)))
-                         : h('p', { class: 'empty' }, 'Nothing in this week’s ads matches.'),
-      h('div', { class: 'aside' }, leftOut(rep.skipped), sources(rep.sources)),
-    ];
-  }
+function drawRadiusValue() {
+  document.querySelectorAll('#radius input').forEach(r => { r.checked = Number(r.value) === S.radius; });
+}
 
-  function showStatus(kind, title, note) {
-    const el = $('#status');
-    el.className = 'status ' + kind;
-    el.replaceChildren(kind === 'loading' ? h('div', { class: 'spinner' }) : h('span', { svg: WARN, class: 'icon' }),
-      h('div', {}, h('strong', {}, title), note && h('p', { class: 'note' }, note)));
-    el.hidden = false;
-  }
+const dialog = $("#detail");
+$(".close", dialog).addEventListener("click", () => dialog.close());
+dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });   // a click on the backdrop
 
-  async function run() {
-    const where = $('#where').value.trim();
-    const params = new URLSearchParams();
-    let url;
-    if (mode === 'online') {
-      if (where) params.set('where', where);
-      params.set('min_pct', $('#minpct').value);
-      url = '/online/deals?' + params;
-    } else {
-      if (!where) return;
-      params.set('where', where);
-      params.set('radius_mi', $('#radius').value);
-      if (mode === 'search') {
-        const q = $('#q').value.trim();
-        if (!q) return;
-        params.set('q', q);
-        url = '/local/search?' + params;
-      } else {
-        if ($('#category').value) params.set('category', $('#category').value);
-        url = '/local/deals?' + params;
-      }
-    }
-    history.replaceState(null, '', '?' + new URLSearchParams({ mode, ...Object.fromEntries(params) }));
-    $('#empty').hidden = true;
-    $('#results').hidden = true;
-    $('#go').disabled = true;
-    let step = 0;
-    const steps = mode === 'online' ? ONLINE_STEPS : STEPS;
-    const note = mode === 'online' ? 'This takes a few seconds.' : 'The first run for a place takes about a minute. Later runs take a second or two.';
-    showStatus('loading', steps[0] + '…', note);
-    const ticker = setInterval(() => { step = Math.min(step + 1, steps.length - 1); showStatus('loading', steps[step] + '…', note); }, mode === 'online' ? 3000 : 9000);
-    try {
-      const r = await fetch(url);
-      const body = await r.json().catch(() => ({}));
-      if (!r.ok) {
-        const detail = typeof body.detail === 'string' ? body.detail : 'Something went wrong.';
-        showStatus('error', r.status === 404 ? 'Couldn’t find that place' : 'A source didn’t answer', detail);
-        return;
-      }
-      $('#status').hidden = true;
-      const render = mode === 'search' ? renderSearch : mode === 'online' ? renderOnline : renderDeals;
-      $('#results').replaceChildren(...render(body).flat().filter(Boolean));
-      $('#results').hidden = false;
-    } catch (e) {
-      showStatus('error', 'Couldn’t reach Plum', 'Is the server running? ' + e.message);
-    } finally {
-      clearInterval(ticker);
-      $('#go').disabled = false;
-    }
-  }
+// Picture events don't bubble, so listen in the capture phase.
+// A picture that fails to load gives way to the placeholder icon.
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement)) return;
+  const box = img.closest(".thumb, .pic");
+  if (box) { box.classList.remove("has-img", "cover"); (img.closest(".clip") || img).remove(); }
+}, true);
+// Once a product-card clipping loads, size its clip box to the picture part.
+document.addEventListener("load", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || !img.naturalHeight) return;
+  img.classList.add("ok");
+  const clip = img.parentElement;
+  if (clip && clip.classList.contains("clip")) clip.style.setProperty("--r", (img.naturalWidth / (PICTURE_PART * img.naturalHeight)).toFixed(3));
+}, true);
 
-  document.querySelectorAll('.mode button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
-  document.querySelectorAll('[data-example]').forEach((b) => b.addEventListener('click', () => { $('#where').value = b.dataset.example; setMode('deals'); run(); }));
-  $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
-
-  const qs = new URLSearchParams(location.search);
-  if (qs.get('where') || qs.get('mode') === 'online') {
-    $('#where').value = qs.get('where') || '';
-    if (qs.get('radius_mi')) $('#radius').value = qs.get('radius_mi');
-    if (qs.get('category')) $('#category').value = qs.get('category');
-    if (qs.get('min_pct')) $('#minpct').value = qs.get('min_pct');
-    if (qs.get('q')) $('#q').value = qs.get('q');
-    setMode(['search', 'online'].includes(qs.get('mode')) ? qs.get('mode') : 'deals');
-    run();
-  }
+boot();
 </script>
 </body>
 </html>

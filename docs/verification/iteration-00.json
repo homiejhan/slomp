@@ -1,0 +1,693 @@
+{
+ "iteration": 0,
+ "seed": 7,
+ "run_id": "it00-202610042138",
+ "run_at": "2026-10-05T02:38:44.007981+00:00",
+ "queries": [
+  [
+   "laredo",
+   [
+    "baby",
+    "sports"
+   ]
+  ],
+  [
+   "austin",
+   [
+    "fashion",
+    "tech"
+   ]
+  ],
+  [
+   "arlington",
+   [
+    "health",
+    "home"
+   ]
+  ],
+  [
+   "pearland",
+   [
+    "dining",
+    "home"
+   ]
+  ],
+  [
+   "conroe",
+   [
+    "beauty",
+    "auto"
+   ]
+  ],
+  [
+   "watauga",
+   [
+    "office",
+    "auto"
+   ]
+  ],
+  [
+   "mcgregor",
+   [
+    "toys",
+    "pets"
+   ]
+  ],
+  [
+   "pecan-hill",
+   [
+    "auto",
+    "tech"
+   ]
+  ],
+  [
+   "bridge-city",
+   [
+    "pets",
+    "grocery"
+   ]
+  ],
+  [
+   "goree",
+   [
+    "grocery",
+    "tech"
+   ]
+  ]
+ ],
+ "plum": {
+  "local": [
+   {
+    "city": "laredo",
+    "industries": [
+     "baby",
+     "sports"
+    ],
+    "deals": 5,
+    "promotions": 14,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 89,
+     "ad price with no saving stated": 2188,
+     "other industry": 1480,
+     "page element, not an item": 700,
+     "item starts after the 7-day window": 1,
+     "no store within 50 mi": 84
+    }
+   },
+   {
+    "city": "austin",
+    "industries": [
+     "fashion",
+     "tech"
+    ],
+    "deals": 399,
+    "promotions": 56,
+    "unconfirmed": 0,
+    "excluded": {
+     "page element, not an item": 779,
+     "other industry": 1170,
+     "ad price with no saving stated": 3177,
+     "no industry": 74,
+     "same item in another ad": 11,
+     "no item name": 3,
+     "item starts after the 7-day window": 1,
+     "item already ended": 6,
+     "no store within 50 mi": 32
+    }
+   },
+   {
+    "city": "arlington",
+    "industries": [
+     "health",
+     "home"
+    ],
+    "deals": 358,
+    "promotions": 223,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 87,
+     "ad price with no saving stated": 3922,
+     "other industry": 1293,
+     "page element, not an item": 913,
+     "item already ended": 28,
+     "no item name": 3,
+     "same item in another ad": 17,
+     "item starts after the 7-day window": 2,
+     "nearest store beyond 25 mi": 26
+    }
+   },
+   {
+    "city": "pearland",
+    "industries": [
+     "dining",
+     "home"
+    ],
+    "deals": 303,
+    "promotions": 123,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 91,
+     "ad price with no saving stated": 5053,
+     "other industry": 1318,
+     "page element, not an item": 808,
+     "no item name": 5,
+     "same item in another ad": 28,
+     "item starts after the 7-day window": 1,
+     "item already ended": 30,
+     "no store within 50 mi": 12,
+     "promotion: gift card, subscription, game or merchandise": 9,
+     "promotion: not a mapped restaurant chain": 34,
+     "promotion: no dates and posted over 3 days ago": 6,
+     "promotion: outside the 7-day window": 12
+    }
+   },
+   {
+    "city": "conroe",
+    "industries": [
+     "beauty",
+     "auto"
+    ],
+    "deals": 119,
+    "promotions": 83,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 90,
+     "ad price with no saving stated": 3611,
+     "other industry": 1557,
+     "page element, not an item": 814,
+     "item starts after the 7-day window": 1,
+     "item already ended": 28,
+     "same item in another ad": 2,
+     "no store within 50 mi": 1
+    }
+   },
+   {
+    "city": "watauga",
+    "industries": [
+     "office",
+     "auto"
+    ],
+    "deals": 46,
+    "promotions": 4,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 87,
+     "ad price with no saving stated": 4004,
+     "other industry": 1869,
+     "page element, not an item": 913,
+     "item already ended": 28,
+     "no item name": 3,
+     "item starts after the 7-day window": 2,
+     "nearest store beyond 25 mi": 4
+    }
+   },
+   {
+    "city": "mcgregor",
+    "industries": [
+     "toys",
+     "pets"
+    ],
+    "deals": 72,
+    "promotions": 29,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 93,
+     "ad price with no saving stated": 2540,
+     "other industry": 1638,
+     "page element, not an item": 709,
+     "item starts after the 7-day window": 1,
+     "same item in another ad": 1
+    }
+   },
+   {
+    "city": "pecan-hill",
+    "industries": [
+     "auto",
+     "tech"
+    ],
+    "deals": 162,
+    "promotions": 8,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 87,
+     "ad price with no saving stated": 4965,
+     "other industry": 1768,
+     "page element, not an item": 907,
+     "no item name": 5,
+     "item already ended": 28,
+     "same item in another ad": 4,
+     "item starts after the 7-day window": 2,
+     "no store within 50 mi": 6,
+     "nearest store beyond 25 mi": 2
+    }
+   },
+   {
+    "city": "bridge-city",
+    "industries": [
+     "pets",
+     "grocery"
+    ],
+    "deals": 129,
+    "promotions": 131,
+    "unconfirmed": 34,
+    "excluded": {
+     "no industry": 152,
+     "ad price with no saving stated": 2758,
+     "other industry": 1311,
+     "page element, not an item": 722,
+     "same item in another ad": 8,
+     "item starts after the 7-day window": 1,
+     "item already ended": 1,
+     "no store within 50 mi": 78
+    }
+   },
+   {
+    "city": "goree",
+    "industries": [
+     "grocery",
+     "tech"
+    ],
+    "deals": 28,
+    "promotions": 22,
+    "unconfirmed": 0,
+    "excluded": {
+     "no industry": 72,
+     "ad price with no saving stated": 1871,
+     "other industry": 991,
+     "page element, not an item": 542,
+     "item already ended": 1,
+     "same item in another ad": 7,
+     "item starts after the 7-day window": 1,
+     "no store within 50 mi": 245,
+     "nearest store beyond 25 mi": 35
+    }
+   }
+  ],
+  "online": {
+   "auto": 6,
+   "baby": 11,
+   "beauty": 8,
+   "fashion": 25,
+   "grocery": 12,
+   "health": 5,
+   "home": 22,
+   "office": 6,
+   "pets": 6,
+   "sports": 14,
+   "tech": 17,
+   "toys": 11
+  }
+ },
+ "tests": [
+  {
+   "id": "L-WIN-000",
+   "category": "L-WIN time window",
+   "subject": "[laredo] H-E-B: Baby Diapers, Wipes, Training Pants, Food or Snack Items",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Wed Sep 30-Tue Oct 06"
+   }
+  },
+  {
+   "id": "L-WIN-001",
+   "category": "L-WIN time window",
+   "subject": "[austin] Office Depot OfficeMax: HP Color LaserJet Pro 3201dw Wireless Laser Color Printer",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "valid": "Mon Sep 28-Sun Oct 04"
+   }
+  },
+  {
+   "id": "L-GEO-002",
+   "category": "L-GEO vicinity",
+   "subject": "[laredo] Target",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 3.8,
+    "locator_store": "1910 Bob Bullock Loop, Laredo",
+    "plum_store_mi": 0.9,
+    "plum_store": "7501 San Dario Avenue, Laredo",
+    "plum_store_confirmed_within_mi": 4.73
+   }
+  },
+  {
+   "id": "L-GEO-003",
+   "category": "L-GEO vicinity",
+   "subject": "[austin] JCPenney",
+   "verdict": "pass",
+   "detail": {
+    "locator_nearest_mi": 4.3,
+    "locator_store": "2901 S Capitol Of Texas Hwy, Austin",
+    "plum_store_mi": 4.2,
+    "plum_store": "",
+    "plum_store_confirmed_within_mi": 0.1
+   }
+  },
+  {
+   "id": "L-MATH-004",
+   "category": "L-MATH terms and math",
+   "subject": "[laredo] Walgreens: Desitin or Johnson's Baby Care",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "summary": "$2.00 off"
+   }
+  },
+  {
+   "id": "L-REC-005",
+   "category": "L-REC recall",
+   "subject": "[mcgregor] toys",
+   "verdict": "pass",
+   "detail": {
+    "item": "VTECH SNAP & SURPRISE CAMERA",
+    "merchant": "Ollie's Bargain Outlet",
+    "taxonomy": "Toys & Games > Toys",
+    "shown_as": "deal"
+   }
+  },
+  {
+   "id": "L-REC-006",
+   "category": "L-REC recall",
+   "subject": "[conroe] beauty",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no beauty item with a stated saving in this city's ads"
+   }
+  },
+  {
+   "id": "L-REC-007",
+   "category": "L-REC recall",
+   "subject": "[pecan-hill] tech",
+   "verdict": "pass",
+   "detail": {
+    "item": "Toniebox 2 screenfree interactive audio players & starter sets",
+    "merchant": "Target",
+    "taxonomy": "Electronics > Audio",
+    "shown_as": "promotion"
+   }
+  },
+  {
+   "id": "L-IND-008",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pending",
+   "subject": "[laredo] Walgreens: Huggies Baby Wipes",
+   "detail": {
+    "shown_under": "baby",
+    "plum_industries": [
+     "baby"
+    ],
+    "rule": "taxonomy:Baby & Toddler > Diapering"
+   }
+  },
+  {
+   "id": "L-IND-009",
+   "category": "L-IND industry (blind judge)",
+   "verdict": "pending",
+   "subject": "[austin] JCPenney: 8-1/4 to 8-1/2 ct. t.w. lab-grown diamond; 6 or 7 ct. center stone\u25ca",
+   "detail": {
+    "shown_under": "fashion",
+    "plum_industries": [
+     "fashion"
+    ],
+    "rule": "keywords:fashion"
+   }
+  },
+  {
+   "id": "L-FID-010",
+   "category": "L-FID source fidelity",
+   "subject": "[laredo] Walgreens: Cerave Baby Care",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": null,
+    "shown_price": null
+   }
+  },
+  {
+   "id": "L-FID-011",
+   "category": "L-FID source fidelity",
+   "subject": "[austin] JCPenney: 3 to 5 ct. t.w. lab-grown diamond\u00a7",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 599.99,
+    "shown_price": 599.99
+   }
+  },
+  {
+   "id": "L-FID-012",
+   "category": "L-FID source fidelity",
+   "subject": "[arlington] Tractor Supply Company: American Farm Works 0.1 J 5 Mile Solar-Powered Electric Fence Energize",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 129.99,
+    "shown_price": 129.99
+   }
+  },
+  {
+   "id": "L-FID-013",
+   "category": "L-FID source fidelity",
+   "subject": "[pearland] Marshalls: GOBLIN & GHOUL 12x9 Marble Jack-o-lantern Serving Board",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "source_price": 11.0,
+    "shown_price": 11.0
+   }
+  },
+  {
+   "id": "O-MER-014",
+   "category": "O-MER merchant link",
+   "subject": "[auto] dealnews: Groundspeed Voyager HP All Season 225/45ZR17 94W Passenger Tire for $5",
+   "verdict": "fail",
+   "detail": {
+    "link": "https://www.dealnews.com/lw/click.html?20,2,22234564",
+    "store_from_link": "dealnews.com",
+    "seller_shown": "Walmart",
+    "why": "the link goes to a different store than the one shown"
+   }
+  },
+  {
+   "id": "O-MER-015",
+   "category": "O-MER merchant link",
+   "subject": "[baby] Hip2Save: The Night Before Christmas Hardcover Book Only $8 on Amazon (Reg. $20)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-016",
+   "category": "O-MER merchant link",
+   "subject": "[beauty] Hip2Save: WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-017",
+   "category": "O-MER merchant link",
+   "subject": "[fashion] Hip2Save: Old Navy Joggers Just $12 for Girls & $15 for Women \u2013 Today Only!",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-018",
+   "category": "O-MER merchant link",
+   "subject": "[grocery] Hip2Save: 365 Whole Foods Organic Chocolate Almond Milk 32oz Only $1.76 Shipped ",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-019",
+   "category": "O-MER merchant link",
+   "subject": "[health] Hip2Save: MAREE Toner Pads Just $7 Shipped on Amazon (Reg. $25)",
+   "verdict": "inconclusive",
+   "detail": {
+    "why": "no direct store link in the post"
+   }
+  },
+  {
+   "id": "O-MER-020",
+   "category": "O-MER merchant link",
+   "subject": "[home] dealnews: Greenworks 24V 135 CFM Cordless Leaf Blower w/ 2Ah Battery & Charger f",
+   "verdict": "fail",
+   "detail": {
+    "link": "https://www.dealnews.com/lw/click.html?20,2,22242686",
+    "store_from_link": "dealnews.com",
+    "seller_shown": "eBay",
+    "why": "the link goes to a different store than the one shown"
+   }
+  },
+  {
+   "id": "O-CMP-021",
+   "category": "O-CMP cross-site comparison",
+   "subject": "Amazon for adidas Men's Ultimate365 Solid Golf Polo Shirt (White) $14.4",
+   "verdict": "pass",
+   "detail": {
+    "site": "Amazon",
+    "shown_price": 12.8,
+    "url": "https://www.amazon.com/dp/B0FDSB4YCR",
+    "deal": "adidas Men's Ultimate365 Solid Golf Polo Shirt (White) $14.40 + Free S&H",
+    "page_title": "adidas Women's Ultimate365 Sleeveless Mock Neck Top",
+    "page_price": 12.8,
+    "issues": []
+   }
+  },
+  {
+   "id": "O-CMP-022",
+   "category": "O-CMP cross-site comparison",
+   "subject": "Amazon for 20-in-1 Bundle Case for Nintendo Switch 2 (Black)",
+   "verdict": "pass",
+   "detail": {
+    "site": "Amazon",
+    "shown_price": 24.99,
+    "url": "https://www.amazon.com/dp/B0DJ2W38WK",
+    "deal": "20-in-1 Bundle Case for Nintendo Switch 2 (Black)",
+    "page_title": "CoBak Large Capacity Carrying Case for Nintendo Switch 2 (2025)",
+    "page_price": 24.99,
+    "issues": []
+   }
+  },
+  {
+   "id": "O-RANK-023",
+   "category": "O-RANK ranking and quality",
+   "subject": "[auto] dealnews: Vevor 44\" Mechanic Garage Creeper for $45 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "rank": 4,
+    "score": 26.33
+   }
+  },
+  {
+   "id": "O-IND-024",
+   "category": "O-IND industry (blind judge)",
+   "verdict": "pending",
+   "subject": "[auto] Slickdeals: 5000A Soulor Portable Car Jump Starter w/ 9-in-1 Functions & LCD Displ",
+   "detail": {
+    "shown_under": "auto",
+    "plum_industries": [
+     "auto"
+    ],
+    "rule": "keywords:auto"
+   }
+  },
+  {
+   "id": "O-FID-025",
+   "category": "O-FID source fidelity",
+   "subject": "[auto] dealnews: Vevor 44\" Mechanic Garage Creeper for $45 + free shipping",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://www.dealnews.com/products/Vevor/Vevor-44-Mechanic-Garage-Creeper/540153.html"
+   }
+  },
+  {
+   "id": "O-FID-026",
+   "category": "O-FID source fidelity",
+   "subject": "[baby] Hip2Save: Pok\u00e9mon Tumblers Only $14.98 on Amazon (Reg. $32)",
+   "verdict": "pass",
+   "detail": {
+    "issues": [],
+    "page": "https://hip2save.com/deals/pokemon-tumblers/"
+   }
+  }
+ ],
+ "summary": {
+  "conclusive": 18,
+  "pass": 16,
+  "fail": 2,
+  "inconclusive": 6,
+  "pending": 3,
+  "pass_rate": 0.889,
+  "by_category": {
+   "L-FID source fidelity": {
+    "pass": 4,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-GEO vicinity": {
+    "pass": 2,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-IND industry (blind judge)": {
+    "pass": 0,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 2,
+    "pass_rate": null
+   },
+   "L-MATH terms and math": {
+    "pass": 1,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-REC recall": {
+    "pass": 2,
+    "fail": 0,
+    "inconclusive": 1,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "L-WIN time window": {
+    "pass": 2,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-CMP cross-site comparison": {
+    "pass": 2,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-FID source fidelity": {
+    "pass": 2,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "O-IND industry (blind judge)": {
+    "pass": 0,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 1,
+    "pass_rate": null
+   },
+   "O-MER merchant link": {
+    "pass": 0,
+    "fail": 2,
+    "inconclusive": 5,
+    "pending": 0,
+    "pass_rate": 0.0
+   },
+   "O-RANK ranking and quality": {
+    "pass": 1,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   }
+  }
+ }
+}
