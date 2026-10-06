@@ -530,3 +530,63 @@ the page was served in two versions. It now reads such a page three times instea
 With that, the last audit of all 195 regular deals near the three cities passed the evidence test for all 194 that
 cite a page, the schedule test for all 411 cards, and the location test for 176 chain-and-city pairs, with none
 failing (71 could not be judged).
+
+## The published site
+
+The published site ([DESIGN-static-site.md](DESIGN-static-site.md)) answers each search in the browser, from data
+files a scheduled build writes, with `engine.js`: a second implementation of the per-search part of Slomp (which ads
+a city gets, nearest store or branch, radius, the next 7 days in the city's own time zone, duplicates, order).
+`python -m slomp.verify.site_check` checks it against the server. It builds the site, then answers 60 searches twice
+from the same data at the same moment, once with the server and once with `engine.js` run in Node, and compares every
+field of every deal: the deals in each list and their order, stores, distances, dates, terms, scores and kinds;
+regular deals and their next dates; restaurant promotions; online deals.
+
+Half the searches are in anchor cities, which read their own ZIP's ads on the site, so everything must match. The
+other half are in other cities, where regular deals, promotions and online deals must match, and the weekly ads are
+measured: the server reads the city's own ZIP, the page its nearest anchor's.
+
+| Run | Searches | Match | Anchor cities | Other cities | Other cities' weekly ads: share of the server's deals the page shows |
+|---|---|---|---|---|---|
+| 1 (seed 7) | 60 | 38 | 0 of 22 | 38 of 38 | 95.1% |
+| 3 (seed 7, after the fixes) | 60 | **60** | 22 of 22 | 38 of 38 | 97.9% |
+| 4 (seed 11, a new sample) | 60 | **60** | 22 of 22 | 38 of 38 | 96.9% |
+
+Run 2 was stopped partway, once it had shown the last of the problems below.
+
+**What runs 1 and 2 found, and what changed.**
+
+- **A build bug: ads from a retailer's own product feed.** Whether an ad's items come from the retailer's product feed
+  changes what counts as a saving. The server learns it from the first search that shows the ad, then reads the ad's
+  items knowing it. The build read every item before learning it, so some feed items with real savings were left out
+  as "no saving stated" (a $0.02 clearance plush at Waco, among others). The build now reads those ads' items again
+  once it knows (114 of 364 ads).
+- **Weekly ads for the biggest cities.** Run 1's anchors were the largest city, then the largest not yet within
+  20 mi of one. That left Plano, Irving, Denton, Odessa and Pearland using a smaller neighbour's ads. Every city of
+  50,000 people or more is now an anchor and reads its own ZIP's ads (303 anchors instead of 269).
+- **Flipp's item search returns at most ~150 items per merchant, and which ones differs by ZIP.** For example, Family
+  Dollar's weekly ad has 137 items, and a search at a ZIP returns either 113 or 123 of them, with no pattern by
+  region or time. An item with no search result often has no saving to show and is left out. That applies to the
+  server too, from whatever its own ZIP's search returned. The build keeps every result from every search it makes,
+  and searches again where items are still missing. Even so, about 20% of the items in Texas ads still have no search
+  result after the build's searches (Walgreens' ads run to 420 items).
+- **Two problems in the check itself, not the site.** The check's server was reading more fine print than the build
+  had. Two deals tied on every sort key can come in either order. Since run 3, the server in the check reads exactly
+  the fine print the build read and uses the item search results the build collected; what each of those costs is
+  counted separately (below). Ties on every key are accepted in either order.
+
+**What the site gives up, measured.** Two kinds of difference are not the engine's doing:
+
+- **Fine print.** The build reads the leading deals' fine print for every anchor at each radius. Across run 4's
+  60 searches, 10 deals in a search's lead had not been read.
+- **Item search results.** A city's own search returned 1,669 items that the build's searches had not.
+
+**Against the server as it is (run 5).** This is what a user would see differ. It reran run 4's 60 searches with the
+server reading its own fine print and doing its own item searches, as `slomp serve` does:
+
+| | Weekly-ad deals the server shows that the page also shows | Page's deals that the server also shows |
+|---|---|---|
+| Anchor cities (22 searches, 1,994 deals) | 99.9% | 99.9% |
+| Other cities (38 searches, 5,730 deals) | 95.7% | 95.4% |
+
+Regular deals, restaurant promotions and online deals matched in all 60 searches. The reports are
+`docs/verification/site-NN.json`.

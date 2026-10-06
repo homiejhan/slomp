@@ -168,6 +168,9 @@ class PoliteClient:
         """GET with cache. `html=True` marks a web page: robots.txt is checked and bot walls are detected.
         `timeout_s` overrides the per-attempt timeout for sources that are slow by design (Overpass)."""
         key = cache_key(url, params)
+        if self.settings.assistant and not key.endswith("/robots.txt") and await self.turns_away_ai(key):
+            # An AI assistant is running Slomp, and this site tells AI assistants by name to keep out.
+            raise Disallowed(key, "the site's robots.txt turns away AI assistants")
         cached = self.store.cache_get(key) if use_cache else None
         if cached and (cached.fresh or self.settings.offline):
             return self._from_cache(cached)

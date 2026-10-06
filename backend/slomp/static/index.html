@@ -317,7 +317,7 @@ footer p { max-width: 720px; margin: 0 auto; }
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="/" aria-label="Slomp, start over">
+    <a class="brand" href="./" aria-label="Slomp, start over">
       <svg viewBox="0 0 32 32" aria-hidden="true">
         <path d="M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z" fill="var(--brand)"/>
         <circle cx="10.6" cy="10.6" r="2.3" fill="#fff"/>
@@ -418,13 +418,30 @@ function ago(iso) {
   return h < 24 ? `${h} h ago` : `${Math.round(h / 24)} d ago`;
 }
 
+/* ---- where the answers come from ------------------------------------------------------------------------ */
+// Slomp's server, or on the published site (GitHub Pages) engine.js, which works from the data files a scheduled
+// build writes. Both answer in the same shape.
+const STATIC = typeof SlompStatic !== "undefined";
+const api = STATIC ? SlompStatic : {
+  async meta() { return (await fetch("/api/v1/meta")).json(); },
+  async search(params) {
+    let r, data;
+    try { r = await fetch("/api/v1/search?" + new URLSearchParams(params)); } catch { throw new Error("Slomp's server isn't answering. Check that it's still running."); }
+    try { data = await r.json(); } catch { throw new Error("The server sent something unexpected. Try again in a moment."); }
+    if (!r.ok) throw new Error(data.error || "Something went wrong.");
+    return data;
+  },
+};
+
 /* ---- start-up -------------------------------------------------------------------------------------------- */
 async function boot() {
   let meta;
   try {
-    meta = await (await fetch("/api/v1/meta")).json();
+    meta = await api.meta();
   } catch {
-    $("#results").innerHTML = emptyHtml("🔌", "Can't reach Slomp", "The server isn't answering. Check that it's running, then reload.");
+    $("#results").innerHTML = STATIC
+      ? emptyHtml("📡", "Can't load Slomp's deals", "Check your connection, then reload the page.")
+      : emptyHtml("🔌", "Can't reach Slomp", "The server isn't answering. Check that it's running, then reload.");
     return;
   }
   const names = {};
@@ -577,12 +594,8 @@ async function run() {
   busy(true);
   loading();
   try {
-    const q = new URLSearchParams({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
-    let r, data;
-    try { r = await fetch("/api/v1/search?" + q); } catch { throw new Error("Slomp's server isn't answering. Check that it's still running."); }
-    try { data = await r.json(); } catch { throw new Error("The server sent something unexpected. Try again in a moment."); }
+    const data = await api.search({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
     if (token !== S.req) return;
-    if (!r.ok) throw new Error(data.error || "Something went wrong.");
     prepare(data);
     render();
     $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` + (data.online ? `, ${onlineCount()} online.` : ".");
@@ -666,9 +679,18 @@ const sortHtml = () => `<label class="sort">Sort <select id="sort">` +
 function render() {
   const {local: L, online: O} = S.data;
   const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${text}<span class="n">${n}</span></button>`;
-  $("#results").innerHTML =
+  $("#results").innerHTML = staleHtml(L) +
     `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}</div>` +
-    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === "near" ? nearPanel(L) : S.tab === "regulars" ? regularsPanel(L) : onlinePanel(O)}</div>`;
+    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === "near" ? nearPanel(L) : S.tab === "regulars" ? regularsPanel(L) : onlinePanel(O)}</div>` +
+    (STATIC && L.built ? `<p class="fine">Slomp read these deals from their sources ${readAgo(L.built)}; the site reads them again every 6 hours.</p>` : "");
+}
+
+const readAgo = iso => Date.now() - new Date(iso) < 36e5 ? "less than an hour ago" : ago(iso);
+
+// The published site works from data read on a schedule; say so when that data is more than a day old.
+function staleHtml(L) {
+  const hours = STATIC && L.built ? (Date.now() - new Date(L.built)) / 36e5 : 0;
+  return hours > 24 ? noticeHtml(`These deals were read ${readAgo(L.built)}, so some may have ended and newer ones are missing.`) : "";
 }
 
 function pillsHtml(inds, current, count) {
@@ -684,7 +706,9 @@ function nearPanel(L) {
   const list = S.view = sortDeals(S.near.filter(d => d.industries.includes(cur)));
   const down = (L.sources || []).filter(s => !s.ok).map(s => s.name);
   const notice = down.length ? noticeHtml(`Slomp couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
-  const context = `Within ${L.radius_mi} mi of ${esc(L.city.name)} · ${day(L.window.start, tz)} to ${day(L.window.end, tz)}`;
+  const context = `Within ${L.radius_mi} mi of ${esc(L.city.name)} · ${day(L.window.start, tz)} to ${day(L.window.end, tz)}` +
+    // the published site reads the weekly ads for the nearest of a set of cities (docs/DESIGN-static-site.md)
+    (L.ads_from ? `<br><span class="muted">Weekly ads as published for ${esc(L.ads_from.name)}, ${L.ads_from.mi} mi away</span>` : "");
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
     : nearEmpty(L, cur);
@@ -714,7 +738,7 @@ function regularsPanel(L) {
     ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
     : emptyHtml("📅", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
                 S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
-  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing unless you add it to your own list (see the README). Participation can vary by location.</p>`;
+  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing${STATIC ? "" : " unless you add it to your own list (see the README)"}. Participation can vary by location.</p>`;
   return notice + `<div class="subhead">${days}${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + fine;
 }
 
@@ -1023,7 +1047,7 @@ function welcome() {
 
 function loading() {
   const card = `<div class="card skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:45%"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div><div class="bar" style="width:35%;height:18px;margin-top:6px"></div></div></div>`;
-  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>Reading this week's ads and today's deal posts. A city's first search can take up to a minute.</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
+  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>${STATIC ? "Loading this week's deals." : "Reading this week's ads and today's deal posts. A city's first search can take up to a minute."}</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
   $("#sr").textContent = "Searching.";
 }
 

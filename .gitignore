@@ -8,3 +8,6 @@ venv/
 build/
 dist/
 .DS_Store
+
+# the published site, built by slomp site build (GitHub Actions publishes it)
+site/

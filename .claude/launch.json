@@ -15,6 +15,12 @@
                       "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
                       "python", "-m", "uvicorn", "slomp.api:app", "--app-dir", "backend", "--port", "8010"],
       "port": 8010
+    },
+    {
+      "name": "slomp-site",
+      "runtimeExecutable": "/opt/anaconda3/bin/python",
+      "runtimeArgs": ["-m", "http.server", "8020", "--bind", "127.0.0.1", "--directory", "site"],
+      "port": 8020
     }
   ]
 }

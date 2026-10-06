@@ -1,0 +1,1001 @@
+{
+ "now": "2026-10-06T00:59:37.154487+00:00",
+ "summary": {
+  "ads": {
+   "ads": 364,
+   "anchors_read": 303,
+   "anchors": 303,
+   "searches": 401,
+   "items without a search result": 7888
+  },
+  "regulars": 217,
+  "promotions": 27,
+  "online": {
+   "tech": 12,
+   "sports": 7,
+   "fashion": 29,
+   "home": 19,
+   "beauty": 7,
+   "health": 5,
+   "grocery": 13,
+   "toys": 16,
+   "baby": 6,
+   "pets": 5,
+   "auto": 3,
+   "office": 3
+  },
+  "seconds": 26,
+  "requests": {
+   "www.amctheatres.com": 1,
+   "www.regmovies.com": 2,
+   "www.rosascafe.com": 1,
+   "backflipp.wishabi.com": 53
+  },
+  "files": 383,
+  "bytes": 7765709
+ },
+ "results": [
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 90,
+   "page_ads": 90,
+   "both": 90,
+   "case": {
+    "city": "tyler",
+    "industries": "entertainment,pets,auto,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "tyler",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 26,
+   "page_ads": 26,
+   "both": 26,
+   "case": {
+    "city": "weslaco",
+    "industries": "tech",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "pharr",
+   "anchor_mi": 12.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 43,
+   "page_ads": 43,
+   "both": 43,
+   "case": {
+    "city": "corpus-christi",
+    "industries": "toys",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "corpus-christi",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "richwood",
+    "industries": "dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lake-jackson",
+   "anchor_mi": 3.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 168,
+   "page_ads": 168,
+   "both": 168,
+   "case": {
+    "city": "laredo",
+    "industries": "entertainment,beauty,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "laredo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 54,
+   "page_ads": 54,
+   "both": 54,
+   "case": {
+    "city": "bellaire",
+    "industries": "sports",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "houston",
+   "anchor_mi": 7.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 64,
+   "page_ads": 65,
+   "both": 64,
+   "case": {
+    "city": "dallas",
+    "industries": "pets",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "dallas",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 158,
+   "page_ads": 158,
+   "both": 158,
+   "case": {
+    "city": "highland-haven",
+    "industries": "tech",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "marble-falls",
+   "anchor_mi": 7.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 159,
+   "page_ads": 158,
+   "both": 155,
+   "case": {
+    "city": "melissa",
+    "industries": "health,pets,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mckinney",
+   "anchor_mi": 8.6
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 58,
+   "page_ads": 62,
+   "both": 58,
+   "case": {
+    "city": "dripping-springs",
+    "industries": "pets",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "kyle",
+   "anchor_mi": 18.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "schertz",
+    "industries": "entertainment",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "new-braunfels",
+   "anchor_mi": 12.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 20,
+   "page_ads": 20,
+   "both": 20,
+   "case": {
+    "city": "universal-city",
+    "industries": "auto",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "san-antonio",
+   "anchor_mi": 14.5
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 316,
+   "page_ads": 316,
+   "both": 313,
+   "case": {
+    "city": "los-fresnos",
+    "industries": "home,pets,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "brownsville",
+   "anchor_mi": 5.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 269,
+   "page_ads": 269,
+   "both": 269,
+   "case": {
+    "city": "brownsville",
+    "industries": "fashion",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "brownsville",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 20,
+   "page_ads": 20,
+   "both": 20,
+   "case": {
+    "city": "mertzon",
+    "industries": "auto",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "mertzon",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 377,
+   "page_ads": 379,
+   "both": 311,
+   "case": {
+    "city": "cockrell-hill",
+    "industries": "pets,sports,grocery",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "dallas",
+   "anchor_mi": 8.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "northlake",
+    "industries": "sports,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "flower-mound",
+   "anchor_mi": 8.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 329,
+   "page_ads": 329,
+   "both": 329,
+   "case": {
+    "city": "wichita-falls",
+    "industries": "home,office",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "wichita-falls",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 330,
+   "page_ads": 331,
+   "both": 330,
+   "case": {
+    "city": "portland",
+    "industries": "beauty,grocery,pets",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "taft",
+   "anchor_mi": 7.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 315,
+   "page_ads": 315,
+   "both": 315,
+   "case": {
+    "city": "katy",
+    "industries": "baby,fashion",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "fulshear",
+   "anchor_mi": 7.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 328,
+   "page_ads": 328,
+   "both": 328,
+   "case": {
+    "city": "hewitt",
+    "industries": "fashion,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "waco",
+   "anchor_mi": 7.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 107,
+   "page_ads": 109,
+   "both": 106,
+   "case": {
+    "city": "heartland",
+    "industries": "baby,auto,pets",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mesquite",
+   "anchor_mi": 9.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 177,
+   "page_ads": 178,
+   "both": 177,
+   "case": {
+    "city": "duncanville",
+    "industries": "beauty",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "desoto",
+   "anchor_mi": 4.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 21,
+   "page_ads": 21,
+   "both": 21,
+   "case": {
+    "city": "abilene",
+    "industries": "office",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "abilene",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 170,
+   "page_ads": 170,
+   "both": 170,
+   "case": {
+    "city": "midland",
+    "industries": "beauty,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "midland",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 240,
+   "page_ads": 240,
+   "both": 240,
+   "case": {
+    "city": "west-odessa",
+    "industries": "home,tech,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "odessa",
+   "anchor_mi": 9.5
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 87,
+   "page_ads": 87,
+   "both": 78,
+   "case": {
+    "city": "dawson",
+    "industries": "health,baby",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "hubbard",
+   "anchor_mi": 6.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 55,
+   "page_ads": 55,
+   "both": 55,
+   "case": {
+    "city": "aldine",
+    "industries": "sports",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "houston",
+   "anchor_mi": 8.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 53,
+   "page_ads": 52,
+   "both": 52,
+   "case": {
+    "city": "hurst",
+    "industries": "toys,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "north-richland-hills",
+   "anchor_mi": 2.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 65,
+   "page_ads": 65,
+   "both": 65,
+   "case": {
+    "city": "keller",
+    "industries": "pets",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "north-richland-hills",
+   "anchor_mi": 5.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 54,
+   "page_ads": 54,
+   "both": 54,
+   "case": {
+    "city": "anna",
+    "industries": "toys",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mckinney",
+   "anchor_mi": 12.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 156,
+   "page_ads": 156,
+   "both": 156,
+   "case": {
+    "city": "amarillo",
+    "industries": "tech,entertainment",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "amarillo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 53,
+   "page_ads": 52,
+   "both": 52,
+   "case": {
+    "city": "the-colony",
+    "industries": "toys,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lewisville",
+   "anchor_mi": 4.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 381,
+   "page_ads": 378,
+   "both": 378,
+   "case": {
+    "city": "prosper",
+    "industries": "health,fashion",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "celina",
+   "anchor_mi": 5.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 55,
+   "page_ads": 54,
+   "both": 54,
+   "case": {
+    "city": "bedford",
+    "industries": "toys",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "euless",
+   "anchor_mi": 3.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 50,
+   "page_ads": 50,
+   "both": 50,
+   "case": {
+    "city": "brackettville",
+    "industries": "office,tech",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "brackettville",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "el-paso",
+    "industries": "dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "el-paso",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 28,
+   "page_ads": 28,
+   "both": 28,
+   "case": {
+    "city": "bastrop",
+    "industries": "sports,auto",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "bastrop",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "san-angelo",
+    "industries": "entertainment",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "san-angelo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "waco",
+    "industries": "entertainment",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "waco",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 63,
+   "page_ads": 64,
+   "both": 63,
+   "case": {
+    "city": "lancaster",
+    "industries": "pets,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "desoto",
+   "anchor_mi": 5.2
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 399,
+   "page_ads": 427,
+   "both": 305,
+   "case": {
+    "city": "uncertain",
+    "industries": "grocery,pets,tech",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "marshall",
+   "anchor_mi": 16.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 1,
+   "page_ads": 1,
+   "both": 1,
+   "case": {
+    "city": "channelview",
+    "industries": "sports",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "baytown",
+   "anchor_mi": 9.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 190,
+   "page_ads": 184,
+   "both": 170,
+   "case": {
+    "city": "mission-bend",
+    "industries": "beauty",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "sugar-land",
+   "anchor_mi": 7.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 54,
+   "page_ads": 40,
+   "both": 40,
+   "case": {
+    "city": "goree",
+    "industries": "grocery,office,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "munday",
+   "anchor_mi": 6.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 61,
+   "page_ads": 59,
+   "both": 59,
+   "case": {
+    "city": "joshua",
+    "industries": "toys,entertainment,baby",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "burleson",
+   "anchor_mi": 5.2
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 180,
+   "page_ads": 180,
+   "both": 180,
+   "case": {
+    "city": "austin",
+    "industries": "beauty",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "austin",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 23,
+   "page_ads": 23,
+   "both": 23,
+   "case": {
+    "city": "nederland",
+    "industries": "toys",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "port-arthur",
+   "anchor_mi": 8.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 20,
+   "page_ads": 20,
+   "both": 20,
+   "case": {
+    "city": "beaumont",
+    "industries": "office,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "beaumont",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 95,
+   "page_ads": 95,
+   "both": 95,
+   "case": {
+    "city": "houston",
+    "industries": "dining,pets,auto",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "houston",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 250,
+   "page_ads": 249,
+   "both": 249,
+   "case": {
+    "city": "glenn-heights",
+    "industries": "tech,health",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "desoto",
+   "anchor_mi": 3.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 27,
+   "page_ads": 27,
+   "both": 27,
+   "case": {
+    "city": "san-antonio",
+    "industries": "auto",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "san-antonio",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 13,
+   "page_ads": 12,
+   "both": 12,
+   "case": {
+    "city": "fort-worth",
+    "industries": "baby,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "fort-worth",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 74,
+   "page_ads": 74,
+   "both": 74,
+   "case": {
+    "city": "leon-valley",
+    "industries": "auto,toys",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "san-antonio",
+   "anchor_mi": 5.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 14,
+   "page_ads": 14,
+   "both": 14,
+   "case": {
+    "city": "de-kalb",
+    "industries": "health",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "de-kalb",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 440,
+   "page_ads": 446,
+   "both": 413,
+   "case": {
+    "city": "edgecliff-village",
+    "industries": "home,auto",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "fort-worth",
+   "anchor_mi": 8.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 420,
+   "page_ads": 422,
+   "both": 420,
+   "case": {
+    "city": "southlake",
+    "industries": "home,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "grapevine",
+   "anchor_mi": 4.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 66,
+   "page_ads": 66,
+   "both": 66,
+   "case": {
+    "city": "waller",
+    "industries": "pets",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "prairie-view",
+   "anchor_mi": 3.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 237,
+   "page_ads": 237,
+   "both": 237,
+   "case": {
+    "city": "lubbock",
+    "industries": "fashion",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "lubbock",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 221,
+   "page_ads": 221,
+   "both": 221,
+   "case": {
+    "city": "freeport",
+    "industries": "health,tech,office",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lake-jackson",
+   "anchor_mi": 9.4
+  }
+ ],
+ "lead_unread": 0,
+ "hits_missed": []
+}

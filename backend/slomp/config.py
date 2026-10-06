@@ -3,6 +3,8 @@
   SLOMP_CACHE_DIR   where the SQLite cache lives (default ~/.cache/slomp)
   SLOMP_CONTACT     a URL or email appended to the User-Agent, as some API usage policies ask (default: none)
   SLOMP_REGULARS    your own regular deals, a JSON file (default ~/.config/slomp/regulars.json)
+  SLOMP_ASSISTANT   set to 1 when an AI assistant runs Slomp: sites whose robots.txt turns AI assistants away by name
+                    are then not read at all, from the network or from the cache
 """
 from __future__ import annotations
 
@@ -50,6 +52,10 @@ def _contact() -> str:
     return os.environ.get("SLOMP_CONTACT", "").strip()
 
 
+def _assistant() -> bool:
+    return os.environ.get("SLOMP_ASSISTANT", "").strip().lower() in ("1", "true", "yes")
+
+
 @dataclass(frozen=True)
 class Settings:
     cache_dir: Path = field(default_factory=lambda: Path(os.environ.get("SLOMP_CACHE_DIR",
@@ -65,6 +71,7 @@ class Settings:
     breaker_threshold: int = 5         # consecutive failures before a host's circuit opens
     breaker_cooldown_s: float = 60.0
     offline: bool = False              # serve only from cache (tests, demos)
+    assistant: bool = field(default_factory=_assistant)   # an AI assistant is running Slomp (SLOMP_ASSISTANT)
 
     @property
     def user_agent(self) -> str:

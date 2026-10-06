@@ -514,3 +514,14 @@ pages are parsed automatically, a curated registry points at company pages and t
 card names its evidence, and deals announced only on social media can be added by hand. The fourteenth industry,
 Movies & Entertainment, is local-only like Restaurants & Dining. Two 200-test runs in the Austin, Houston and Dallas
 areas and an audit of every regular deal are in [VERIFICATION.md](VERIFICATION.md#regular-deals).
+
+
+## 11. Addendum: the published site (Oct 5, 2026)
+
+Slomp also runs as a static site on GitHub Pages, so it opens with nothing to install:
+[DESIGN-static-site.md](DESIGN-static-site.md). The pipelines are unchanged. A scheduled GitHub Actions job runs them
+for the whole state (weekly ads for 303 anchor ZIPs: every city of 50,000+ people, and every Texas city within 20 mi
+of one) and writes data files;
+the page's `engine.js` does the per-search part (nearest store or branch, radius, the next 7 days in the city's own
+time zone, duplicates, order) and returns the server's `/api/v1/search` shape. A parity check
+(`python -m slomp.verify.site_check`) compares the two on the same data.

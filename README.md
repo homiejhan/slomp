@@ -13,6 +13,13 @@ Everything comes from public, keyless sources. [docs/DESIGN.md](docs/DESIGN.md) 
 behind it, and [docs/DESIGN-regular-deals.md](docs/DESIGN-regular-deals.md) does the same for regular deals.
 [docs/VERIFICATION.md](docs/VERIFICATION.md) has the results of the live accuracy tests.
 
+## Open it
+
+**[homiejhan.github.io/slomp](https://homiejhan.github.io/slomp/)**: nothing to install or start. A scheduled job
+reads the sources every 6 hours and the page does each search in your browser (see [The published
+site](#the-published-site) below). To run Slomp on your own computer instead, with every source read at the moment
+you search, follow the next section.
+
 ## Run it
 
 ```bash
@@ -30,6 +37,8 @@ pytest                                        # offline unit tests
 slomp verify --iteration 1                     # 200 live accuracy tests (about 30 minutes)
 slomp verify --iteration 1 --plan regulars     # 200 live tests of regular deals (Austin, Houston, Dallas areas)
 python -m slomp.verify.regulars_run --audit    # every regular deal near those cities, not a sample
+slomp site build --out ../site                 # the published site's files (see below)
+python -m slomp.verify.site_check --out ../site  # the site's page against the server on 60 searches (needs Node)
 ```
 
 ## The web page
@@ -80,6 +89,41 @@ the link. `site`, the place's own website, lets `scripts/build_logos.py` find it
 
 The first search for a city reads about 150 source pages (about 10–60 seconds). Results are cached in
 `~/.cache/slomp` (`SLOMP_CACHE_DIR` moves it). Set `SLOMP_CONTACT` to a URL or email to add it to the User-Agent.
+
+## The published site
+
+[.github/workflows/pages.yml](.github/workflows/pages.yml) runs `slomp site build` every 6 hours and publishes the
+result on GitHub Pages. The build reads every source once for the whole state and writes data files; the page's
+`engine.js` then answers any search itself, in the same shape as the server's API, so the page looks and works the
+same in both places. [docs/DESIGN-static-site.md](docs/DESIGN-static-site.md) has the design. How it differs from
+`slomp serve`:
+
+- **Data age.** Up to about 6 hours old. Dates still count from the moment you search, so a deal that ended an hour
+  ago is gone. The page says when its data was read, and warns when that was more than a day ago.
+- **Weekly ads by area.** Flipp lists ads by ZIP code. The build reads the ads for 303 anchor cities: every city of
+  50,000 people or more, plus enough others that every Texas city is within 20 mi of one. A smaller city shows its
+  nearest anchor's ads, with distances measured from the city itself, and the page names that anchor.
+- **Your own regular deals** (`~/.config/slomp/regulars.json`) stay on your computer and only show in `slomp serve`.
+
+To refresh it now: the repository's **Actions** tab, **Publish the site**, **Run workflow**. Or:
+
+```bash
+gh workflow run pages.yml
+```
+
+GitHub pauses a public repository's scheduled workflows after 60 days without activity (a push counts). If the page
+warns that its deals are old, turn the workflow back on from the Actions tab, or:
+
+```bash
+gh workflow enable pages.yml
+```
+
+To build and look at the site on your computer:
+
+```bash
+cd backend && slomp site build --out ../site      # about 15 minutes the first time, a minute after that
+python3 -m http.server 8020 --directory ../site   # then open http://localhost:8020
+```
 
 ## Rebuilding the reference data
 

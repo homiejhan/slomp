@@ -8,6 +8,7 @@
     slomp verify --iteration N [--tests 200] [--seed S]     the live verification harness
     slomp verify --iteration N --plan regulars              the same for regular deals (Austin, Houston, Dallas areas)
     slomp serve [--port 8000]                               the web page and API
+    slomp site build [--out site]                           the published site: data files the page searches itself
 """
 from __future__ import annotations
 
@@ -184,6 +185,12 @@ def main(argv=None) -> int:
     ve.add_argument("--key", type=Path, default=None, help="regulars: the answer key for the recall tests")
     se = sub.add_parser("serve", help="run the web page and API")
     se.add_argument("--port", type=int, default=8000)
+    si = sub.add_parser("site", help="build the published site (GitHub Pages)")
+    si.add_argument("action", choices=("build",))
+    si.add_argument("--out", type=Path, default=Path("site"), help="where to write it (replaced)")
+    si.add_argument("--anchor-mi", type=float, default=None, help="every city within this distance of an anchor ZIP")
+    si.add_argument("--no-online", action="store_true", help="leave out the online deals (faster, for testing)")
+    si.add_argument("--prune-cache", action="store_true", help="drop cached responses 3 days past their lifetime")
     args = ap.parse_args(argv)
 
     if args.cmd == "cities":
@@ -202,6 +209,11 @@ def main(argv=None) -> int:
             return regulars_main(args.iteration, args.tests, args.seed, args.key)
         from .verify.runner import main as verify_main
         return verify_main(args.iteration, args.tests, args.seed)
+    if args.cmd == "site":
+        from .site import ANCHOR_MI, build
+        asyncio.run(build(args.out.resolve(), anchor_mi=args.anchor_mi or ANCHOR_MI, online=not args.no_online,
+                          prune=args.prune_cache, log=lambda m: print(m, flush=True)))
+        return 0
     if args.cmd == "serve":
         import uvicorn
         if port_busy(args.port):

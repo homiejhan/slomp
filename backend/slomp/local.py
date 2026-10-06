@@ -264,6 +264,16 @@ class LocalDeals:
     async def _detail_pass(self, deals: list[LocalDeal], wanted: set[str]) -> int:
         """Read the full record (retailer link, fine print, buy-one-get-one terms) of the leading deals in each
         requested industry: the ones a user sees first. Returns how many were read."""
+        todo: dict[int, LocalDeal] = {}
+        for i in wanted:
+            for d in [d for d in deals if i in d.industries][:DETAIL_TOP_N]:
+                if not d.detailed:
+                    todo[d.item_id] = d
+        await self.read_details(list(todo.values()))
+        return len(todo)                         # a failed read stays unread and is retried in the next round
+
+    async def read_details(self, deals: list[LocalDeal]) -> None:
+        """Read the full records of these deals, retermed and rescored from what they say."""
         async def one(d: LocalDeal) -> None:
             try:
                 rec = await self.flipp.item(d.item_id)
@@ -281,13 +291,7 @@ class LocalDeals:
             d.retailer_url = link if is_product_link(link, m.domains) else ""   # not a coupons or deals landing page
             self._reterm(d, feed)
             d.score = score(d)
-        todo: dict[int, LocalDeal] = {}
-        for i in wanted:
-            for d in [d for d in deals if i in d.industries][:DETAIL_TOP_N]:
-                if not d.detailed:
-                    todo[d.item_id] = d
-        await asyncio.gather(*(one(d) for d in todo.values()))
-        return len(todo)                         # a failed read stays unread and is retried in the next round
+        await asyncio.gather(*(one(d) for d in deals))
 
     # -- stores -------------------------------------------------------------------------------------------------
     def _attach_store(self, d: LocalDeal, m: Merchant, store_map: StoreMap, radius_mi: float,

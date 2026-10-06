@@ -1,0 +1,5492 @@
+{
+ "now": "2026-10-06T00:39:45.958780+00:00",
+ "summary": {
+  "ads": {
+   "ads": 364,
+   "anchors_read": 303,
+   "anchors": 303,
+   "searches": 465,
+   "items without a search result": 7898
+  },
+  "regulars": 217,
+  "promotions": 27,
+  "online": {
+   "tech": 12,
+   "sports": 7,
+   "fashion": 29,
+   "home": 20,
+   "beauty": 7,
+   "health": 5,
+   "grocery": 13,
+   "toys": 16,
+   "baby": 6,
+   "pets": 6,
+   "auto": 2,
+   "office": 3
+  },
+  "seconds": 28,
+  "requests": {
+   "www.dealnews.com": 1,
+   "slickdeals.net": 2,
+   "www.amctheatres.com": 1,
+   "www.regmovies.com": 2,
+   "www.rosascafe.com": 1,
+   "backflipp.wishabi.com": 54
+  },
+  "files": 383,
+  "bytes": 7764133
+ },
+ "results": [
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 49,
+   "page_ads": 51,
+   "both": 49,
+   "case": {
+    "city": "horseshoe-bay",
+    "industries": "sports,fashion,toys,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "marble-falls",
+   "anchor_mi": 6.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 308,
+   "page_ads": 308,
+   "both": 308,
+   "case": {
+    "city": "wichita-falls",
+    "industries": "fashion,grocery",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "wichita-falls",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 202,
+   "page_ads": 202,
+   "both": 202,
+   "case": {
+    "city": "austin",
+    "industries": "office,grocery",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "austin",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 636,
+   "page_ads": 636,
+   "both": 636,
+   "case": {
+    "city": "sienna",
+    "industries": "home,fashion,sports",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "missouri-city",
+   "anchor_mi": 5.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 367,
+   "page_ads": 367,
+   "both": 367,
+   "case": {
+    "city": "lubbock",
+    "industries": "home,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "lubbock",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 159,
+   "page_ads": 159,
+   "both": 159,
+   "case": {
+    "city": "katy",
+    "industries": "tech",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "fulshear",
+   "anchor_mi": 7.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 168,
+   "page_ads": 168,
+   "both": 166,
+   "case": {
+    "city": "port-neches",
+    "industries": "beauty",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "port-arthur",
+   "anchor_mi": 5.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 290,
+   "page_ads": 290,
+   "both": 290,
+   "case": {
+    "city": "venus",
+    "industries": "fashion",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mansfield",
+   "anchor_mi": 11.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 65,
+   "page_ads": 65,
+   "both": 65,
+   "case": {
+    "city": "beaumont",
+    "industries": "pets,entertainment,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "beaumont",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 22,
+   "page_ads": 22,
+   "both": 22,
+   "case": {
+    "city": "horizon-city",
+    "industries": "office",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "san-elizario",
+   "anchor_mi": 8.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 28,
+   "page_ads": 28,
+   "both": 28,
+   "case": {
+    "city": "san-angelo",
+    "industries": "toys",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "san-angelo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 136,
+   "page_ads": 133,
+   "both": 115,
+   "case": {
+    "city": "schertz",
+    "industries": "grocery,entertainment,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "new-braunfels",
+   "anchor_mi": 12.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 493,
+   "page_ads": 447,
+   "both": 447,
+   "case": {
+    "city": "heath",
+    "industries": "auto,grocery,tech,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "rockwall",
+   "anchor_mi": 4.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 370,
+   "page_ads": 368,
+   "both": 364,
+   "case": {
+    "city": "buda",
+    "industries": "home",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "kyle",
+   "anchor_mi": 5.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 55,
+   "page_ads": 55,
+   "both": 55,
+   "case": {
+    "city": "houston",
+    "industries": "sports",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "houston",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 1,
+   "page_ads": 1,
+   "both": 1,
+   "case": {
+    "city": "tyler",
+    "industries": "sports",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "tyler",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 11,
+   "page_ads": 11,
+   "both": 11,
+   "case": {
+    "city": "waco",
+    "industries": "baby,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "waco",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 76,
+   "page_ads": 76,
+   "both": 76,
+   "case": {
+    "city": "seguin",
+    "industries": "pets,tech",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "new-braunfels",
+   "anchor_mi": 11.6
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 62,
+   "page_ads": 62,
+   "both": 62,
+   "case": {
+    "city": "midland",
+    "industries": "pets",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "midland",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 27,
+   "page_ads": 27,
+   "both": 27,
+   "case": {
+    "city": "seagoville",
+    "industries": "auto",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mesquite",
+   "anchor_mi": 7.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 145,
+   "page_ads": 145,
+   "both": 145,
+   "case": {
+    "city": "alton",
+    "industries": "pets,health,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mission",
+   "anchor_mi": 5.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 1,
+   "page_ads": 1,
+   "both": 1,
+   "case": {
+    "city": "new-boston",
+    "industries": "sports",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "de-kalb",
+   "anchor_mi": 11.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 232,
+   "page_ads": 232,
+   "both": 232,
+   "case": {
+    "city": "the-colony",
+    "industries": "toys,entertainment,beauty",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lewisville",
+   "anchor_mi": 4.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 89,
+   "page_ads": 88,
+   "both": 88,
+   "case": {
+    "city": "humble",
+    "industries": "sports",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "atascocita",
+   "anchor_mi": 4.2
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 196,
+   "page_ads": 196,
+   "both": 196,
+   "case": {
+    "city": "san-antonio",
+    "industries": "office,beauty,dining",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "san-antonio",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 12,
+   "page_ads": 12,
+   "both": 12,
+   "case": {
+    "city": "southlake",
+    "industries": "baby",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "grapevine",
+   "anchor_mi": 4.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 8,
+   "page_ads": 6,
+   "both": 4,
+   "case": {
+    "city": "commerce",
+    "industries": "baby",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "pecan-gap",
+   "anchor_mi": 13.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 22,
+   "page_ads": 22,
+   "both": 22,
+   "case": {
+    "city": "keller",
+    "industries": "office",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "north-richland-hills",
+   "anchor_mi": 5.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "abilene",
+    "industries": "dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "abilene",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 29,
+   "page_ads": 29,
+   "both": 29,
+   "case": {
+    "city": "corpus-christi",
+    "industries": "auto,sports",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "corpus-christi",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 91,
+   "page_ads": 94,
+   "both": 76,
+   "case": {
+    "city": "angleton",
+    "industries": "baby,health",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lake-jackson",
+   "anchor_mi": 8.5
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 363,
+   "page_ads": 363,
+   "both": 363,
+   "case": {
+    "city": "el-paso",
+    "industries": "dining,home",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "el-paso",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 150,
+   "page_ads": 150,
+   "both": 150,
+   "case": {
+    "city": "cactus",
+    "industries": "auto,home,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "dumas",
+   "anchor_mi": 12.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "weslaco",
+    "industries": "dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "pharr",
+   "anchor_mi": 12.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 356,
+   "page_ads": 355,
+   "both": 355,
+   "case": {
+    "city": "fate",
+    "industries": "office,dining,home",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "rockwall",
+   "anchor_mi": 3.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 224,
+   "page_ads": 221,
+   "both": 221,
+   "case": {
+    "city": "prosper",
+    "industries": "health,office,tech",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "celina",
+   "anchor_mi": 5.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 140,
+   "page_ads": 140,
+   "both": 140,
+   "case": {
+    "city": "cibolo",
+    "industries": "toys,beauty,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "new-braunfels",
+   "anchor_mi": 10.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 2,
+   "page_ads": 2,
+   "both": 2,
+   "case": {
+    "city": "freer",
+    "industries": "toys,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "freer",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 72,
+   "page_ads": 73,
+   "both": 70,
+   "case": {
+    "city": "anna",
+    "industries": "health,sports",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mckinney",
+   "anchor_mi": 12.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 368,
+   "page_ads": 367,
+   "both": 367,
+   "case": {
+    "city": "ransom-canyon",
+    "industries": "home",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "lubbock",
+   "anchor_mi": 11.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 91,
+   "page_ads": 91,
+   "both": 88,
+   "case": {
+    "city": "farmers-branch",
+    "industries": "health,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "carrollton",
+   "anchor_mi": 4.4
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 225,
+   "page_ads": 225,
+   "both": 225,
+   "case": {
+    "city": "dallas",
+    "industries": "pets,entertainment,tech",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "dallas",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 6,
+   "page_ads": 6,
+   "both": 6,
+   "case": {
+    "city": "dripping-springs",
+    "industries": "dining,auto",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "kyle",
+   "anchor_mi": 18.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 270,
+   "page_ads": 268,
+   "both": 249,
+   "case": {
+    "city": "alvin",
+    "industries": "grocery",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "league-city",
+   "anchor_mi": 8.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 43,
+   "page_ads": 43,
+   "both": 43,
+   "case": {
+    "city": "laredo",
+    "industries": "toys,dining",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "laredo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 102,
+   "page_ads": 102,
+   "both": 102,
+   "case": {
+    "city": "iowa-colony",
+    "industries": "dining,auto,health",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "pearland",
+   "anchor_mi": 10.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 164,
+   "page_ads": 164,
+   "both": 164,
+   "case": {
+    "city": "brownsville",
+    "industries": "toys,grocery,office",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "brownsville",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 249,
+   "page_ads": 249,
+   "both": 249,
+   "case": {
+    "city": "white-settlement",
+    "industries": "fashion",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "fort-worth",
+   "anchor_mi": 6.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 323,
+   "page_ads": 323,
+   "both": 323,
+   "case": {
+    "city": "forney",
+    "industries": "fashion,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "mesquite",
+   "anchor_mi": 7.7
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 269,
+   "page_ads": 269,
+   "both": 269,
+   "case": {
+    "city": "amarillo",
+    "industries": "dining,auto,fashion",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "amarillo",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 459,
+   "page_ads": 459,
+   "both": 459,
+   "case": {
+    "city": "fort-worth",
+    "industries": "auto,health,fashion",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "fort-worth",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 154,
+   "page_ads": 154,
+   "both": 154,
+   "case": {
+    "city": "dean",
+    "industries": "tech",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "wichita-falls",
+   "anchor_mi": 7.3
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 7,
+   "page_ads": 7,
+   "both": 7,
+   "case": {
+    "city": "falfurrias",
+    "industries": "baby,dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "falfurrias",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 266,
+   "page_ads": 264,
+   "both": 264,
+   "case": {
+    "city": "murphy",
+    "industries": "grocery",
+    "radius_mi": 10.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "wylie",
+   "anchor_mi": 4.8
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 160,
+   "page_ads": 160,
+   "both": 160,
+   "case": {
+    "city": "santa-fe",
+    "industries": "tech",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "league-city",
+   "anchor_mi": 7.1
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 170,
+   "page_ads": 170,
+   "both": 170,
+   "case": {
+    "city": "edinburg",
+    "industries": "beauty",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "edinburg",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 0,
+   "page_ads": 0,
+   "both": 0,
+   "case": {
+    "city": "nash",
+    "industries": "dining",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "texarkana",
+   "anchor_mi": 2.9
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 180,
+   "page_ads": 180,
+   "both": 179,
+   "case": {
+    "city": "san-juan",
+    "industries": "beauty,baby",
+    "radius_mi": 25.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "pharr",
+   "anchor_mi": 3.2
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 162,
+   "page_ads": 162,
+   "both": 162,
+   "case": {
+    "city": "stephenville",
+    "industries": "tech",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": true,
+   "anchor_city": "stephenville",
+   "anchor_mi": 0.0
+  },
+  {
+   "ok": true,
+   "problems": [],
+   "server_ads": 85,
+   "page_ads": 85,
+   "both": 85,
+   "case": {
+    "city": "forest-hill",
+    "industries": "toys,auto",
+    "radius_mi": 50.0,
+    "limit": 48
+   },
+   "anchor": false,
+   "anchor_city": "arlington",
+   "anchor_mi": 8.7
+  }
+ ],
+ "lead_unread": 9,
+ "hits_missed": [
+  [
+   "Ace Hardware",
+   1040465899
+  ],
+  [
+   "Ace Hardware",
+   1040466205
+  ],
+  [
+   "Ace Hardware",
+   1040466218
+  ],
+  [
+   "Ace Hardware",
+   1040466875
+  ],
+  [
+   "Ace Hardware",
+   1040466876
+  ],
+  [
+   "Ace Hardware",
+   1040466879
+  ],
+  [
+   "Ace Hardware",
+   1040466880
+  ],
+  [
+   "Ace Hardware",
+   1040620349
+  ],
+  [
+   "Ace Hardware",
+   1040620352
+  ],
+  [
+   "Ace Hardware",
+   1040620353
+  ],
+  [
+   "Ace Hardware",
+   1040620355
+  ],
+  [
+   "Ace Hardware",
+   1040620356
+  ],
+  [
+   "Ace Hardware",
+   1040620364
+  ],
+  [
+   "Ace Hardware",
+   1040620367
+  ],
+  [
+   "Ace Hardware",
+   1040620370
+  ],
+  [
+   "Ace Hardware",
+   1040620373
+  ],
+  [
+   "Ace Hardware",
+   1040620377
+  ],
+  [
+   "Ace Hardware",
+   1040620378
+  ],
+  [
+   "Ace Hardware",
+   1040620384
+  ],
+  [
+   "Ace Hardware",
+   1040620385
+  ],
+  [
+   "Ace Hardware",
+   1040620386
+  ],
+  [
+   "Ace Hardware",
+   1040620387
+  ],
+  [
+   "Brookshire's",
+   1043069462
+  ],
+  [
+   "Brookshire's",
+   1043069463
+  ],
+  [
+   "Brookshire's",
+   1043069485
+  ],
+  [
+   "Brookshire's",
+   1043069525
+  ],
+  [
+   "Brookshire's",
+   1043069825
+  ],
+  [
+   "Brookshire's",
+   1043069846
+  ],
+  [
+   "Brookshire's",
+   1043069847
+  ],
+  [
+   "Brookshire's",
+   1043069849
+  ],
+  [
+   "Brookshire's",
+   1043069897
+  ],
+  [
+   "Brookshire's",
+   1043070544
+  ],
+  [
+   "Brookshire's",
+   1043070628
+  ],
+  [
+   "Brookshire's",
+   1043070826
+  ],
+  [
+   "Brookshire's",
+   1043070844
+  ],
+  [
+   "Brookshire's",
+   1043071060
+  ],
+  [
+   "Brookshire's",
+   1043071073
+  ],
+  [
+   "Brookshire's",
+   1043071075
+  ],
+  [
+   "Brookshire's",
+   1043071131
+  ],
+  [
+   "Brookshire's",
+   1043071186
+  ],
+  [
+   "Brookshire's",
+   1043071232
+  ],
+  [
+   "Brookshire's",
+   1043071289
+  ],
+  [
+   "Brookshire's",
+   1043071295
+  ],
+  [
+   "Brookshire's",
+   1043071523
+  ],
+  [
+   "Brookshire's",
+   1043071609
+  ],
+  [
+   "Brookshire's",
+   1043071695
+  ],
+  [
+   "Brookshire's",
+   1043071701
+  ],
+  [
+   "Brookshire's",
+   1043071708
+  ],
+  [
+   "Brookshire's",
+   1043071710
+  ],
+  [
+   "Brookshire's",
+   1043071767
+  ],
+  [
+   "Brookshire's",
+   1043071768
+  ],
+  [
+   "Brookshire's",
+   1043071772
+  ],
+  [
+   "Brookshire's",
+   1043071774
+  ],
+  [
+   "Brookshire's",
+   1043071778
+  ],
+  [
+   "Brookshire's",
+   1043071797
+  ],
+  [
+   "Brookshire's",
+   1043071799
+  ],
+  [
+   "Brookshire's",
+   1043071807
+  ],
+  [
+   "Brookshire's",
+   1043071819
+  ],
+  [
+   "Brookshire's",
+   1043071822
+  ],
+  [
+   "Brookshire's",
+   1043071866
+  ],
+  [
+   "Brookshire's",
+   1043071869
+  ],
+  [
+   "Brookshire's",
+   1043071873
+  ],
+  [
+   "Brookshire's",
+   1043071877
+  ],
+  [
+   "Brookshire's",
+   1043071882
+  ],
+  [
+   "Brookshire's",
+   1043071885
+  ],
+  [
+   "Brookshire's",
+   1043071896
+  ],
+  [
+   "Brookshire's",
+   1043071985
+  ],
+  [
+   "Brookshire's",
+   1043072014
+  ],
+  [
+   "Brookshire's",
+   1043073047
+  ],
+  [
+   "Brookshire's",
+   1043073052
+  ],
+  [
+   "Brookshire's",
+   1043073053
+  ],
+  [
+   "Brookshire's",
+   1043073055
+  ],
+  [
+   "Brookshire's",
+   1043073069
+  ],
+  [
+   "Brookshire's",
+   1043073073
+  ],
+  [
+   "Brookshire's",
+   1043073078
+  ],
+  [
+   "Brookshire's",
+   1043073082
+  ],
+  [
+   "Brookshire's",
+   1043073088
+  ],
+  [
+   "Brookshire's",
+   1043073095
+  ],
+  [
+   "Brookshire's",
+   1043073110
+  ],
+  [
+   "Brookshire's",
+   1043073183
+  ],
+  [
+   "Brookshire's",
+   1043073225
+  ],
+  [
+   "Brookshire's",
+   1043073261
+  ],
+  [
+   "Brookshire's",
+   1043073271
+  ],
+  [
+   "Brookshire's",
+   1043073295
+  ],
+  [
+   "Brookshire's",
+   1043073333
+  ],
+  [
+   "Brookshire's",
+   1043073342
+  ],
+  [
+   "Brookshire's",
+   1043073351
+  ],
+  [
+   "Brookshire's",
+   1043073361
+  ],
+  [
+   "Brookshire's",
+   1043073379
+  ],
+  [
+   "Brookshire's",
+   1043073388
+  ],
+  [
+   "Brookshire's",
+   1043073397
+  ],
+  [
+   "Brookshire's",
+   1043073405
+  ],
+  [
+   "Brookshire's",
+   1043073412
+  ],
+  [
+   "Brookshire's",
+   1043073422
+  ],
+  [
+   "Brookshire's",
+   1043073430
+  ],
+  [
+   "Brookshire's",
+   1043073438
+  ],
+  [
+   "Brookshire's",
+   1043073445
+  ],
+  [
+   "Brookshire's",
+   1043073454
+  ],
+  [
+   "Brookshire's",
+   1043073471
+  ],
+  [
+   "Brookshire's",
+   1043073495
+  ],
+  [
+   "Brookshire's",
+   1043073501
+  ],
+  [
+   "Brookshire's",
+   1043073525
+  ],
+  [
+   "Brookshire's",
+   1043073533
+  ],
+  [
+   "Brookshire's",
+   1043073542
+  ],
+  [
+   "Brookshire's",
+   1043073551
+  ],
+  [
+   "Brookshire's",
+   1043073560
+  ],
+  [
+   "Brookshire's",
+   1043073601
+  ],
+  [
+   "Brookshire's",
+   1043073610
+  ],
+  [
+   "Brookshire's",
+   1043073619
+  ],
+  [
+   "Brookshire's",
+   1043073648
+  ],
+  [
+   "Brookshire's",
+   1043073656
+  ],
+  [
+   "Brookshire's",
+   1043073671
+  ],
+  [
+   "Brookshire's",
+   1043073677
+  ],
+  [
+   "Brookshire's",
+   1043073682
+  ],
+  [
+   "Brookshire's",
+   1043073689
+  ],
+  [
+   "Brookshire's",
+   1043073720
+  ],
+  [
+   "Brookshire's",
+   1043073725
+  ],
+  [
+   "Brookshire's",
+   1043073731
+  ],
+  [
+   "Brookshire's",
+   1043073747
+  ],
+  [
+   "Brookshire's",
+   1043073755
+  ],
+  [
+   "Brookshire's",
+   1043073761
+  ],
+  [
+   "Brookshire's",
+   1043073775
+  ],
+  [
+   "Brookshire's",
+   1043073780
+  ],
+  [
+   "Brookshire's",
+   1043073784
+  ],
+  [
+   "Brookshire's",
+   1043073789
+  ],
+  [
+   "Brookshire's",
+   1043073794
+  ],
+  [
+   "Brookshire's",
+   1043073799
+  ],
+  [
+   "Brookshire's",
+   1043073804
+  ],
+  [
+   "Brookshire's",
+   1043073821
+  ],
+  [
+   "Brookshire's",
+   1043073829
+  ],
+  [
+   "Brookshire's",
+   1043073869
+  ],
+  [
+   "Brookshire's",
+   1043073881
+  ],
+  [
+   "CVS Pharmacy",
+   1043563505
+  ],
+  [
+   "Dollar General",
+   1045047801
+  ],
+  [
+   "Family Dollar",
+   1044826135
+  ],
+  [
+   "Family Dollar",
+   1044826148
+  ],
+  [
+   "Family Dollar",
+   1044826173
+  ],
+  [
+   "Family Dollar",
+   1044826416
+  ],
+  [
+   "Family Dollar",
+   1044826459
+  ],
+  [
+   "Family Dollar",
+   1044826600
+  ],
+  [
+   "Family Dollar",
+   1044826620
+  ],
+  [
+   "Family Dollar",
+   1044826770
+  ],
+  [
+   "Family Dollar",
+   1044826847
+  ],
+  [
+   "Family Dollar",
+   1044826860
+  ],
+  [
+   "Home Depot",
+   1045643174
+  ],
+  [
+   "Home Depot",
+   1045643302
+  ],
+  [
+   "Home Depot",
+   1045643387
+  ],
+  [
+   "Home Depot",
+   1045643405
+  ],
+  [
+   "Home Depot",
+   1045643994
+  ],
+  [
+   "Home Depot",
+   1045644335
+  ],
+  [
+   "Home Depot",
+   1045644526
+  ],
+  [
+   "Home Depot",
+   1045644804
+  ],
+  [
+   "Home Depot",
+   1045645003
+  ],
+  [
+   "Home Depot",
+   1045645157
+  ],
+  [
+   "Home Depot",
+   1045645230
+  ],
+  [
+   "Home Depot",
+   1045645894
+  ],
+  [
+   "Home Depot",
+   1045646173
+  ],
+  [
+   "Home Depot",
+   1045646443
+  ],
+  [
+   "Home Depot",
+   1045647452
+  ],
+  [
+   "Home Depot",
+   1045648035
+  ],
+  [
+   "Home Depot",
+   1045648258
+  ],
+  [
+   "Home Depot",
+   1045648500
+  ],
+  [
+   "Home Depot",
+   1045648837
+  ],
+  [
+   "Home Depot",
+   1045649720
+  ],
+  [
+   "Home Depot",
+   1045649754
+  ],
+  [
+   "Home Depot",
+   1045649775
+  ],
+  [
+   "Home Depot",
+   1045649812
+  ],
+  [
+   "Home Depot",
+   1045649883
+  ],
+  [
+   "Home Depot",
+   1045649912
+  ],
+  [
+   "Home Depot",
+   1045649925
+  ],
+  [
+   "Home Depot",
+   1045650031
+  ],
+  [
+   "Home Depot",
+   1045651038
+  ],
+  [
+   "Home Depot",
+   1045651254
+  ],
+  [
+   "Home Depot",
+   1045651732
+  ],
+  [
+   "Home Depot",
+   1045654415
+  ],
+  [
+   "Home Depot",
+   1045654446
+  ],
+  [
+   "Home Depot",
+   1045654483
+  ],
+  [
+   "Home Depot",
+   1045654521
+  ],
+  [
+   "Home Depot",
+   1045654652
+  ],
+  [
+   "Home Depot",
+   1045654666
+  ],
+  [
+   "Home Depot",
+   1045654710
+  ],
+  [
+   "Home Depot",
+   1045654863
+  ],
+  [
+   "Home Depot",
+   1045654900
+  ],
+  [
+   "Home Depot",
+   1045654902
+  ],
+  [
+   "Home Depot",
+   1045654905
+  ],
+  [
+   "Home Depot",
+   1045654986
+  ],
+  [
+   "Home Depot",
+   1045655008
+  ],
+  [
+   "Home Depot",
+   1045655096
+  ],
+  [
+   "Home Depot",
+   1045655118
+  ],
+  [
+   "Home Depot",
+   1045655146
+  ],
+  [
+   "Home Depot",
+   1045655169
+  ],
+  [
+   "Home Depot",
+   1045655180
+  ],
+  [
+   "Home Depot",
+   1045655210
+  ],
+  [
+   "Home Depot",
+   1045655235
+  ],
+  [
+   "Home Depot",
+   1045655280
+  ],
+  [
+   "Home Depot",
+   1045655348
+  ],
+  [
+   "Home Depot",
+   1045655368
+  ],
+  [
+   "Home Depot",
+   1045655382
+  ],
+  [
+   "Home Depot",
+   1045655496
+  ],
+  [
+   "Home Depot",
+   1045655528
+  ],
+  [
+   "Home Depot",
+   1045655550
+  ],
+  [
+   "Home Depot",
+   1045655562
+  ],
+  [
+   "Home Depot",
+   1045655607
+  ],
+  [
+   "Home Depot",
+   1045655662
+  ],
+  [
+   "Home Depot",
+   1045655705
+  ],
+  [
+   "Home Depot",
+   1045655715
+  ],
+  [
+   "Home Depot",
+   1045655740
+  ],
+  [
+   "Home Depot",
+   1045655870
+  ],
+  [
+   "Home Depot",
+   1045655880
+  ],
+  [
+   "Home Depot",
+   1045655910
+  ],
+  [
+   "Home Depot",
+   1045655918
+  ],
+  [
+   "Home Depot",
+   1045655941
+  ],
+  [
+   "Home Depot",
+   1045655944
+  ],
+  [
+   "Home Depot",
+   1045655979
+  ],
+  [
+   "Home Depot",
+   1045655990
+  ],
+  [
+   "Home Depot",
+   1045655999
+  ],
+  [
+   "Home Depot",
+   1045656010
+  ],
+  [
+   "Home Depot",
+   1045656041
+  ],
+  [
+   "Home Depot",
+   1045656054
+  ],
+  [
+   "Home Depot",
+   1045656070
+  ],
+  [
+   "Home Depot",
+   1045656092
+  ],
+  [
+   "Home Depot",
+   1045656195
+  ],
+  [
+   "Home Depot",
+   1045656246
+  ],
+  [
+   "Home Depot",
+   1045656281
+  ],
+  [
+   "Home Depot",
+   1045656356
+  ],
+  [
+   "Home Depot",
+   1045656372
+  ],
+  [
+   "Home Depot",
+   1045656414
+  ],
+  [
+   "Home Depot",
+   1045656546
+  ],
+  [
+   "Home Depot",
+   1045656561
+  ],
+  [
+   "Home Depot",
+   1045656590
+  ],
+  [
+   "Home Depot",
+   1045656618
+  ],
+  [
+   "Home Depot",
+   1045656644
+  ],
+  [
+   "Home Depot",
+   1045656790
+  ],
+  [
+   "Home Depot",
+   1045656791
+  ],
+  [
+   "Home Depot",
+   1045656793
+  ],
+  [
+   "Home Depot",
+   1045656823
+  ],
+  [
+   "Home Depot",
+   1045656886
+  ],
+  [
+   "Home Depot",
+   1045656989
+  ],
+  [
+   "Home Depot",
+   1045656996
+  ],
+  [
+   "Home Depot",
+   1045657029
+  ],
+  [
+   "Home Depot",
+   1045657066
+  ],
+  [
+   "Home Depot",
+   1045657075
+  ],
+  [
+   "Home Depot",
+   1045657206
+  ],
+  [
+   "Home Depot",
+   1045657219
+  ],
+  [
+   "Home Depot",
+   1045657222
+  ],
+  [
+   "Home Depot",
+   1045657243
+  ],
+  [
+   "Home Depot",
+   1045657251
+  ],
+  [
+   "Home Depot",
+   1045657288
+  ],
+  [
+   "Home Depot",
+   1045657371
+  ],
+  [
+   "Home Depot",
+   1045657448
+  ],
+  [
+   "Home Depot",
+   1045657469
+  ],
+  [
+   "Home Depot",
+   1045657484
+  ],
+  [
+   "Home Depot",
+   1045657566
+  ],
+  [
+   "Home Depot",
+   1045657671
+  ],
+  [
+   "Home Depot",
+   1045657733
+  ],
+  [
+   "Home Depot",
+   1045657871
+  ],
+  [
+   "Home Depot",
+   1045657873
+  ],
+  [
+   "Home Depot",
+   1045657893
+  ],
+  [
+   "Home Depot",
+   1045657941
+  ],
+  [
+   "Home Depot",
+   1045658073
+  ],
+  [
+   "Home Depot",
+   1045658137
+  ],
+  [
+   "Home Depot",
+   1045658203
+  ],
+  [
+   "Home Depot",
+   1045658216
+  ],
+  [
+   "Home Depot",
+   1045658337
+  ],
+  [
+   "Home Depot",
+   1045658390
+  ],
+  [
+   "Home Depot",
+   1045658412
+  ],
+  [
+   "Home Depot",
+   1045658453
+  ],
+  [
+   "Home Depot",
+   1045658496
+  ],
+  [
+   "Home Depot",
+   1045658513
+  ],
+  [
+   "Home Depot",
+   1045658541
+  ],
+  [
+   "Home Depot",
+   1045658575
+  ],
+  [
+   "Home Depot",
+   1045658576
+  ],
+  [
+   "Home Depot",
+   1045658609
+  ],
+  [
+   "Home Depot",
+   1045658686
+  ],
+  [
+   "Home Depot",
+   1045658722
+  ],
+  [
+   "Home Depot",
+   1045658742
+  ],
+  [
+   "Home Depot",
+   1045658747
+  ],
+  [
+   "Home Depot",
+   1045658757
+  ],
+  [
+   "Home Depot",
+   1045658877
+  ],
+  [
+   "Home Depot",
+   1045658883
+  ],
+  [
+   "Home Depot",
+   1045658892
+  ],
+  [
+   "Home Depot",
+   1045658908
+  ],
+  [
+   "Home Depot",
+   1045658913
+  ],
+  [
+   "Home Depot",
+   1045659004
+  ],
+  [
+   "Home Depot",
+   1045659049
+  ],
+  [
+   "Home Depot",
+   1045659091
+  ],
+  [
+   "Home Depot",
+   1045659093
+  ],
+  [
+   "Home Depot",
+   1045659119
+  ],
+  [
+   "Home Depot",
+   1045659160
+  ],
+  [
+   "Home Depot",
+   1045659257
+  ],
+  [
+   "Home Depot",
+   1045659277
+  ],
+  [
+   "Home Depot",
+   1045659292
+  ],
+  [
+   "Home Depot",
+   1045659395
+  ],
+  [
+   "Home Depot",
+   1045659467
+  ],
+  [
+   "Home Depot",
+   1045659728
+  ],
+  [
+   "Home Depot",
+   1045659828
+  ],
+  [
+   "Home Depot",
+   1045659864
+  ],
+  [
+   "Home Depot",
+   1045659871
+  ],
+  [
+   "Home Depot",
+   1045659885
+  ],
+  [
+   "Home Depot",
+   1045659927
+  ],
+  [
+   "Home Depot",
+   1045660128
+  ],
+  [
+   "Home Depot",
+   1045660145
+  ],
+  [
+   "Home Depot",
+   1045660158
+  ],
+  [
+   "Home Depot",
+   1045660243
+  ],
+  [
+   "Home Depot",
+   1045660265
+  ],
+  [
+   "Home Depot",
+   1045660296
+  ],
+  [
+   "Home Depot",
+   1045660324
+  ],
+  [
+   "Home Depot",
+   1045660332
+  ],
+  [
+   "Home Depot",
+   1045660458
+  ],
+  [
+   "Home Depot",
+   1045660466
+  ],
+  [
+   "Home Depot",
+   1045660480
+  ],
+  [
+   "Home Depot",
+   1045660541
+  ],
+  [
+   "Home Depot",
+   1045660555
+  ],
+  [
+   "Home Depot",
+   1045660593
+  ],
+  [
+   "Home Depot",
+   1045660637
+  ],
+  [
+   "Home Depot",
+   1045660833
+  ],
+  [
+   "Home Depot",
+   1045660928
+  ],
+  [
+   "Home Depot",
+   1045660982
+  ],
+  [
+   "Home Depot",
+   1045660990
+  ],
+  [
+   "Home Depot",
+   1045660999
+  ],
+  [
+   "Home Depot",
+   1045661031
+  ],
+  [
+   "Home Depot",
+   1045661101
+  ],
+  [
+   "Home Depot",
+   1045661172
+  ],
+  [
+   "Home Depot",
+   1045661229
+  ],
+  [
+   "Home Depot",
+   1045661274
+  ],
+  [
+   "Home Depot",
+   1045661289
+  ],
+  [
+   "Home Depot",
+   1045661295
+  ],
+  [
+   "Home Depot",
+   1045661358
+  ],
+  [
+   "Home Depot",
+   1045661393
+  ],
+  [
+   "Home Depot",
+   1045661417
+  ],
+  [
+   "Home Depot",
+   1045661425
+  ],
+  [
+   "Home Depot",
+   1045661455
+  ],
+  [
+   "Home Depot",
+   1045661476
+  ],
+  [
+   "Home Depot",
+   1045661534
+  ],
+  [
+   "Home Depot",
+   1045661537
+  ],
+  [
+   "Home Depot",
+   1045661654
+  ],
+  [
+   "Home Depot",
+   1045661783
+  ],
+  [
+   "Home Depot",
+   1045661838
+  ],
+  [
+   "Home Depot",
+   1045661873
+  ],
+  [
+   "Home Depot",
+   1045661907
+  ],
+  [
+   "Home Depot",
+   1045661929
+  ],
+  [
+   "Home Depot",
+   1045661941
+  ],
+  [
+   "Home Depot",
+   1045661960
+  ],
+  [
+   "Home Depot",
+   1045661976
+  ],
+  [
+   "Home Depot",
+   1045662038
+  ],
+  [
+   "Home Depot",
+   1045662051
+  ],
+  [
+   "Home Depot",
+   1045662054
+  ],
+  [
+   "Home Depot",
+   1045662175
+  ],
+  [
+   "Home Depot",
+   1045662314
+  ],
+  [
+   "Home Depot",
+   1045662467
+  ],
+  [
+   "Home Depot",
+   1045662653
+  ],
+  [
+   "Home Depot",
+   1045662661
+  ],
+  [
+   "Home Depot",
+   1045662811
+  ],
+  [
+   "Home Depot",
+   1045662823
+  ],
+  [
+   "Home Depot",
+   1045662900
+  ],
+  [
+   "Home Depot",
+   1045662959
+  ],
+  [
+   "Home Depot",
+   1045662965
+  ],
+  [
+   "Home Depot",
+   1045663066
+  ],
+  [
+   "Home Depot",
+   1045663097
+  ],
+  [
+   "Home Depot",
+   1045663246
+  ],
+  [
+   "Home Depot",
+   1045663299
+  ],
+  [
+   "Home Depot",
+   1045663331
+  ],
+  [
+   "Home Depot",
+   1045663509
+  ],
+  [
+   "Home Depot",
+   1045663623
+  ],
+  [
+   "Home Depot",
+   1045663713
+  ],
+  [
+   "Home Depot",
+   1045663747
+  ],
+  [
+   "Home Depot",
+   1045663781
+  ],
+  [
+   "Home Depot",
+   1045663811
+  ],
+  [
+   "Home Depot",
+   1045663841
+  ],
+  [
+   "Home Depot",
+   1045663857
+  ],
+  [
+   "Home Depot",
+   1045663868
+  ],
+  [
+   "Home Depot",
+   1045663898
+  ],
+  [
+   "Home Depot",
+   1045663921
+  ],
+  [
+   "Home Depot",
+   1045663926
+  ],
+  [
+   "Home Depot",
+   1045663936
+  ],
+  [
+   "Home Depot",
+   1045663945
+  ],
+  [
+   "Home Depot",
+   1045663959
+  ],
+  [
+   "Home Depot",
+   1045664070
+  ],
+  [
+   "Home Depot",
+   1045664409
+  ],
+  [
+   "Home Depot",
+   1045664507
+  ],
+  [
+   "Home Depot",
+   1045664562
+  ],
+  [
+   "Home Depot",
+   1045664569
+  ],
+  [
+   "Home Depot",
+   1045664885
+  ],
+  [
+   "Home Depot",
+   1045664887
+  ],
+  [
+   "Home Depot",
+   1045664894
+  ],
+  [
+   "Home Depot",
+   1045664933
+  ],
+  [
+   "Home Depot",
+   1045664997
+  ],
+  [
+   "Home Depot",
+   1045665195
+  ],
+  [
+   "Home Depot",
+   1045665232
+  ],
+  [
+   "Home Depot",
+   1045665252
+  ],
+  [
+   "Home Depot",
+   1045665298
+  ],
+  [
+   "Home Depot",
+   1045665339
+  ],
+  [
+   "Home Depot",
+   1045665356
+  ],
+  [
+   "Home Depot",
+   1045665373
+  ],
+  [
+   "Home Depot",
+   1045665387
+  ],
+  [
+   "Home Depot",
+   1045665401
+  ],
+  [
+   "Home Depot",
+   1045665421
+  ],
+  [
+   "Home Depot",
+   1045665422
+  ],
+  [
+   "Home Depot",
+   1045665559
+  ],
+  [
+   "Home Depot",
+   1045665585
+  ],
+  [
+   "Home Depot",
+   1045665626
+  ],
+  [
+   "Home Depot",
+   1045665642
+  ],
+  [
+   "Home Depot",
+   1045665688
+  ],
+  [
+   "Home Depot",
+   1045665706
+  ],
+  [
+   "Home Depot",
+   1045665813
+  ],
+  [
+   "Home Depot",
+   1045665973
+  ],
+  [
+   "Home Depot",
+   1045665993
+  ],
+  [
+   "Home Depot",
+   1045666038
+  ],
+  [
+   "Home Depot",
+   1045666053
+  ],
+  [
+   "Home Depot",
+   1045666393
+  ],
+  [
+   "Home Depot",
+   1045666411
+  ],
+  [
+   "Home Depot",
+   1045666413
+  ],
+  [
+   "Home Depot",
+   1045666430
+  ],
+  [
+   "Home Depot",
+   1045666451
+  ],
+  [
+   "Home Depot",
+   1045666473
+  ],
+  [
+   "Home Depot",
+   1045666552
+  ],
+  [
+   "Home Depot",
+   1045666692
+  ],
+  [
+   "Home Depot",
+   1045666737
+  ],
+  [
+   "Home Depot",
+   1045666752
+  ],
+  [
+   "Home Depot",
+   1045666788
+  ],
+  [
+   "Home Depot",
+   1045666873
+  ],
+  [
+   "Home Depot",
+   1045667116
+  ],
+  [
+   "Home Depot",
+   1045667119
+  ],
+  [
+   "Home Depot",
+   1045667206
+  ],
+  [
+   "Home Depot",
+   1045667230
+  ],
+  [
+   "Home Depot",
+   1045667362
+  ],
+  [
+   "Home Depot",
+   1045667667
+  ],
+  [
+   "Home Depot",
+   1045667749
+  ],
+  [
+   "Home Depot",
+   1045668075
+  ],
+  [
+   "Home Depot",
+   1045668090
+  ],
+  [
+   "Home Depot",
+   1045668093
+  ],
+  [
+   "Home Depot",
+   1045668135
+  ],
+  [
+   "Home Depot",
+   1045668152
+  ],
+  [
+   "Home Depot",
+   1045668190
+  ],
+  [
+   "Home Depot",
+   1045668210
+  ],
+  [
+   "Home Depot",
+   1045668268
+  ],
+  [
+   "Home Depot",
+   1045668308
+  ],
+  [
+   "Home Depot",
+   1045668309
+  ],
+  [
+   "Home Depot",
+   1045668331
+  ],
+  [
+   "Home Depot",
+   1045668413
+  ],
+  [
+   "Home Depot",
+   1045668545
+  ],
+  [
+   "Home Depot",
+   1045668546
+  ],
+  [
+   "Home Depot",
+   1045668686
+  ],
+  [
+   "Home Depot",
+   1045668939
+  ],
+  [
+   "Home Depot",
+   1045668945
+  ],
+  [
+   "Home Depot",
+   1045668946
+  ],
+  [
+   "Home Depot",
+   1045669075
+  ],
+  [
+   "Home Depot",
+   1045669082
+  ],
+  [
+   "Home Depot",
+   1045669103
+  ],
+  [
+   "Home Depot",
+   1045669127
+  ],
+  [
+   "Home Depot",
+   1045669193
+  ],
+  [
+   "Home Depot",
+   1045669234
+  ],
+  [
+   "Home Depot",
+   1045669238
+  ],
+  [
+   "Home Depot",
+   1045669270
+  ],
+  [
+   "Home Depot",
+   1045669325
+  ],
+  [
+   "Home Depot",
+   1045669358
+  ],
+  [
+   "Home Depot",
+   1045669413
+  ],
+  [
+   "Home Depot",
+   1045669434
+  ],
+  [
+   "Home Depot",
+   1045669500
+  ],
+  [
+   "Home Depot",
+   1045669610
+  ],
+  [
+   "Home Depot",
+   1045669632
+  ],
+  [
+   "Home Depot",
+   1045669633
+  ],
+  [
+   "Home Depot",
+   1045669664
+  ],
+  [
+   "Home Depot",
+   1045669682
+  ],
+  [
+   "Home Depot",
+   1045669706
+  ],
+  [
+   "Home Depot",
+   1045669871
+  ],
+  [
+   "Home Depot",
+   1045669889
+  ],
+  [
+   "Home Depot",
+   1045669908
+  ],
+  [
+   "Home Depot",
+   1045669915
+  ],
+  [
+   "Home Depot",
+   1045669932
+  ],
+  [
+   "Home Depot",
+   1045669967
+  ],
+  [
+   "Home Depot",
+   1045669971
+  ],
+  [
+   "Home Depot",
+   1045669975
+  ],
+  [
+   "Home Depot",
+   1045670006
+  ],
+  [
+   "Home Depot",
+   1045670016
+  ],
+  [
+   "Home Depot",
+   1045670094
+  ],
+  [
+   "Home Depot",
+   1045670101
+  ],
+  [
+   "Home Depot",
+   1045670134
+  ],
+  [
+   "Home Depot",
+   1045670173
+  ],
+  [
+   "Home Depot",
+   1045670186
+  ],
+  [
+   "Home Depot",
+   1045670248
+  ],
+  [
+   "Home Depot",
+   1045670270
+  ],
+  [
+   "Home Depot",
+   1045670290
+  ],
+  [
+   "Home Depot",
+   1045670348
+  ],
+  [
+   "Home Depot",
+   1045670874
+  ],
+  [
+   "Home Depot",
+   1045670878
+  ],
+  [
+   "Home Depot",
+   1045670899
+  ],
+  [
+   "Home Depot",
+   1045671033
+  ],
+  [
+   "Home Depot",
+   1045671152
+  ],
+  [
+   "Home Depot",
+   1045671186
+  ],
+  [
+   "Home Depot",
+   1045671385
+  ],
+  [
+   "Home Depot",
+   1045671561
+  ],
+  [
+   "Home Depot",
+   1045671585
+  ],
+  [
+   "Home Depot",
+   1045671633
+  ],
+  [
+   "Home Depot",
+   1045671681
+  ],
+  [
+   "Home Depot",
+   1045671698
+  ],
+  [
+   "Home Depot",
+   1045671799
+  ],
+  [
+   "Home Depot",
+   1045671820
+  ],
+  [
+   "Home Depot",
+   1045671852
+  ],
+  [
+   "Home Depot",
+   1045671981
+  ],
+  [
+   "Home Depot",
+   1045672026
+  ],
+  [
+   "Home Depot",
+   1045672132
+  ],
+  [
+   "Home Depot",
+   1045672153
+  ],
+  [
+   "Home Depot",
+   1045672268
+  ],
+  [
+   "Home Depot",
+   1045672309
+  ],
+  [
+   "Home Depot",
+   1045672352
+  ],
+  [
+   "Home Depot",
+   1045672518
+  ],
+  [
+   "Home Depot",
+   1045672735
+  ],
+  [
+   "Home Depot",
+   1045672755
+  ],
+  [
+   "Home Depot",
+   1045672802
+  ],
+  [
+   "Home Depot",
+   1045672804
+  ],
+  [
+   "Home Depot",
+   1045672941
+  ],
+  [
+   "Home Depot",
+   1045673113
+  ],
+  [
+   "Home Depot",
+   1045673272
+  ],
+  [
+   "Home Depot",
+   1045673373
+  ],
+  [
+   "Home Depot",
+   1045673387
+  ],
+  [
+   "Home Depot",
+   1045673463
+  ],
+  [
+   "Home Depot",
+   1045673488
+  ],
+  [
+   "Home Depot",
+   1045673490
+  ],
+  [
+   "Home Depot",
+   1045673514
+  ],
+  [
+   "Home Depot",
+   1045673624
+  ],
+  [
+   "Home Depot",
+   1045673661
+  ],
+  [
+   "Home Depot",
+   1045673663
+  ],
+  [
+   "Home Depot",
+   1045673695
+  ],
+  [
+   "Home Depot",
+   1045673953
+  ],
+  [
+   "Home Depot",
+   1045674057
+  ],
+  [
+   "Home Depot",
+   1045674074
+  ],
+  [
+   "Home Depot",
+   1045674091
+  ],
+  [
+   "Home Depot",
+   1045674167
+  ],
+  [
+   "Home Depot",
+   1045674330
+  ],
+  [
+   "Home Depot",
+   1045674343
+  ],
+  [
+   "Home Depot",
+   1045674366
+  ],
+  [
+   "Home Depot",
+   1045674392
+  ],
+  [
+   "Home Depot",
+   1045674470
+  ],
+  [
+   "Home Depot",
+   1045674742
+  ],
+  [
+   "Home Depot",
+   1045674754
+  ],
+  [
+   "Home Depot",
+   1045674755
+  ],
+  [
+   "Home Depot",
+   1045674830
+  ],
+  [
+   "Home Depot",
+   1045675065
+  ],
+  [
+   "Home Depot",
+   1045675142
+  ],
+  [
+   "Home Depot",
+   1045675170
+  ],
+  [
+   "Home Depot",
+   1045675193
+  ],
+  [
+   "Home Depot",
+   1045675230
+  ],
+  [
+   "Home Depot",
+   1045675263
+  ],
+  [
+   "Home Depot",
+   1045675295
+  ],
+  [
+   "Home Depot",
+   1045675298
+  ],
+  [
+   "Home Depot",
+   1045675328
+  ],
+  [
+   "Home Depot",
+   1045675392
+  ],
+  [
+   "Home Depot",
+   1045675423
+  ],
+  [
+   "Home Depot",
+   1045675450
+  ],
+  [
+   "Home Depot",
+   1045675458
+  ],
+  [
+   "Home Depot",
+   1045675463
+  ],
+  [
+   "Home Depot",
+   1045675491
+  ],
+  [
+   "Home Depot",
+   1045675586
+  ],
+  [
+   "Home Depot",
+   1045675595
+  ],
+  [
+   "Home Depot",
+   1045675658
+  ],
+  [
+   "Home Depot",
+   1045675662
+  ],
+  [
+   "Home Depot",
+   1045675706
+  ],
+  [
+   "Home Depot",
+   1045675846
+  ],
+  [
+   "Home Depot",
+   1045675956
+  ],
+  [
+   "Home Depot",
+   1045675971
+  ],
+  [
+   "Home Depot",
+   1045675984
+  ],
+  [
+   "Home Depot",
+   1045676097
+  ],
+  [
+   "Home Depot",
+   1045676170
+  ],
+  [
+   "Home Depot",
+   1045676176
+  ],
+  [
+   "Home Depot",
+   1045676203
+  ],
+  [
+   "Home Depot",
+   1045676248
+  ],
+  [
+   "Home Depot",
+   1045676349
+  ],
+  [
+   "Home Depot",
+   1045676350
+  ],
+  [
+   "Home Depot",
+   1045676363
+  ],
+  [
+   "Home Depot",
+   1045676376
+  ],
+  [
+   "Home Depot",
+   1045676465
+  ],
+  [
+   "Home Depot",
+   1045676469
+  ],
+  [
+   "Home Depot",
+   1045676476
+  ],
+  [
+   "Home Depot",
+   1045676488
+  ],
+  [
+   "Home Depot",
+   1045676494
+  ],
+  [
+   "Home Depot",
+   1045676508
+  ],
+  [
+   "Home Depot",
+   1045676635
+  ],
+  [
+   "Home Depot",
+   1045676784
+  ],
+  [
+   "Home Depot",
+   1045676792
+  ],
+  [
+   "Home Depot",
+   1045676813
+  ],
+  [
+   "Home Depot",
+   1045676881
+  ],
+  [
+   "Home Depot",
+   1045676895
+  ],
+  [
+   "Home Depot",
+   1045676924
+  ],
+  [
+   "Home Depot",
+   1045676965
+  ],
+  [
+   "Home Depot",
+   1045676966
+  ],
+  [
+   "Home Depot",
+   1045677016
+  ],
+  [
+   "Home Depot",
+   1045677041
+  ],
+  [
+   "Home Depot",
+   1045677069
+  ],
+  [
+   "Home Depot",
+   1045677148
+  ],
+  [
+   "Home Depot",
+   1045677177
+  ],
+  [
+   "Home Depot",
+   1045677201
+  ],
+  [
+   "Home Depot",
+   1045677335
+  ],
+  [
+   "Home Depot",
+   1045677347
+  ],
+  [
+   "Home Depot",
+   1045677369
+  ],
+  [
+   "Home Depot",
+   1045677448
+  ],
+  [
+   "Home Depot",
+   1045677481
+  ],
+  [
+   "Home Depot",
+   1045677518
+  ],
+  [
+   "Home Depot",
+   1045677547
+  ],
+  [
+   "Home Depot",
+   1045677661
+  ],
+  [
+   "Home Depot",
+   1045677690
+  ],
+  [
+   "Home Depot",
+   1045677701
+  ],
+  [
+   "Home Depot",
+   1045677762
+  ],
+  [
+   "Home Depot",
+   1045677800
+  ],
+  [
+   "Home Depot",
+   1045677814
+  ],
+  [
+   "Home Depot",
+   1045677866
+  ],
+  [
+   "Home Depot",
+   1045677869
+  ],
+  [
+   "Home Depot",
+   1045677891
+  ],
+  [
+   "Home Depot",
+   1045677912
+  ],
+  [
+   "Home Depot",
+   1045677954
+  ],
+  [
+   "Home Depot",
+   1045677995
+  ],
+  [
+   "Home Depot",
+   1045678028
+  ],
+  [
+   "Home Depot",
+   1045678065
+  ],
+  [
+   "Home Depot",
+   1045678090
+  ],
+  [
+   "Home Depot",
+   1045678093
+  ],
+  [
+   "Home Depot",
+   1045678154
+  ],
+  [
+   "Home Depot",
+   1045678239
+  ],
+  [
+   "Home Depot",
+   1045678350
+  ],
+  [
+   "Home Depot",
+   1045678352
+  ],
+  [
+   "Home Depot",
+   1045678355
+  ],
+  [
+   "Home Depot",
+   1045678378
+  ],
+  [
+   "Home Depot",
+   1045678383
+  ],
+  [
+   "Home Depot",
+   1045678456
+  ],
+  [
+   "Home Depot",
+   1045678470
+  ],
+  [
+   "Home Depot",
+   1045678491
+  ],
+  [
+   "Home Depot",
+   1045678506
+  ],
+  [
+   "Home Depot",
+   1045678524
+  ],
+  [
+   "Home Depot",
+   1045678528
+  ],
+  [
+   "Home Depot",
+   1045678553
+  ],
+  [
+   "Home Depot",
+   1045678623
+  ],
+  [
+   "Home Depot",
+   1045678636
+  ],
+  [
+   "Home Depot",
+   1045678675
+  ],
+  [
+   "Home Depot",
+   1045678677
+  ],
+  [
+   "Home Depot",
+   1045678708
+  ],
+  [
+   "Home Depot",
+   1045678751
+  ],
+  [
+   "Home Depot",
+   1045678772
+  ],
+  [
+   "Home Depot",
+   1045678776
+  ],
+  [
+   "Home Depot",
+   1045678781
+  ],
+  [
+   "Home Depot",
+   1045678875
+  ],
+  [
+   "Home Depot",
+   1045678880
+  ],
+  [
+   "Home Depot",
+   1045678892
+  ],
+  [
+   "Home Depot",
+   1045678925
+  ],
+  [
+   "Home Depot",
+   1045678963
+  ],
+  [
+   "Home Depot",
+   1045679184
+  ],
+  [
+   "Home Depot",
+   1045679237
+  ],
+  [
+   "Home Depot",
+   1045679240
+  ],
+  [
+   "Home Depot",
+   1045679301
+  ],
+  [
+   "Home Depot",
+   1045679322
+  ],
+  [
+   "Home Depot",
+   1045679324
+  ],
+  [
+   "Home Depot",
+   1045679464
+  ],
+  [
+   "Home Depot",
+   1045679669
+  ],
+  [
+   "Home Depot",
+   1045679696
+  ],
+  [
+   "Home Depot",
+   1045679719
+  ],
+  [
+   "Home Depot",
+   1045679724
+  ],
+  [
+   "Home Depot",
+   1045679762
+  ],
+  [
+   "Home Depot",
+   1045679776
+  ],
+  [
+   "Home Depot",
+   1045679797
+  ],
+  [
+   "Home Depot",
+   1045679969
+  ],
+  [
+   "Home Depot",
+   1045680071
+  ],
+  [
+   "Home Depot",
+   1045680279
+  ],
+  [
+   "Home Depot",
+   1045680446
+  ],
+  [
+   "Home Depot",
+   1045680484
+  ],
+  [
+   "Home Depot",
+   1045680668
+  ],
+  [
+   "Home Depot",
+   1045680816
+  ],
+  [
+   "Home Depot",
+   1045680890
+  ],
+  [
+   "Home Depot",
+   1045680893
+  ],
+  [
+   "Home Depot",
+   1045681232
+  ],
+  [
+   "Home Depot",
+   1045681238
+  ],
+  [
+   "Home Depot",
+   1045681390
+  ],
+  [
+   "Home Depot",
+   1045681700
+  ],
+  [
+   "Home Depot",
+   1045681720
+  ],
+  [
+   "Home Depot",
+   1045681829
+  ],
+  [
+   "Home Depot",
+   1045681855
+  ],
+  [
+   "Home Depot",
+   1045681857
+  ],
+  [
+   "Home Depot",
+   1045681866
+  ],
+  [
+   "Home Depot",
+   1045681934
+  ],
+  [
+   "Home Depot",
+   1045681986
+  ],
+  [
+   "Home Depot",
+   1045682054
+  ],
+  [
+   "Home Depot",
+   1045682098
+  ],
+  [
+   "Home Depot",
+   1045682168
+  ],
+  [
+   "Home Depot",
+   1045682617
+  ],
+  [
+   "Home Depot",
+   1045682665
+  ],
+  [
+   "Home Depot",
+   1045682875
+  ],
+  [
+   "Home Depot",
+   1045683048
+  ],
+  [
+   "Home Depot",
+   1045683102
+  ],
+  [
+   "Home Depot",
+   1045683225
+  ],
+  [
+   "Home Depot",
+   1045683804
+  ],
+  [
+   "Home Depot",
+   1045683856
+  ],
+  [
+   "Home Depot",
+   1045683963
+  ],
+  [
+   "Home Depot",
+   1045684213
+  ],
+  [
+   "Home Depot",
+   1045684246
+  ],
+  [
+   "Home Depot",
+   1045684730
+  ],
+  [
+   "Home Depot",
+   1045684872
+  ],
+  [
+   "Home Depot",
+   1045684946
+  ],
+  [
+   "Home Depot",
+   1045684989
+  ],
+  [
+   "Home Depot",
+   1045685444
+  ],
+  [
+   "Home Depot",
+   1045685723
+  ],
+  [
+   "Home Depot",
+   1045685902
+  ],
+  [
+   "Home Depot",
+   1045686107
+  ],
+  [
+   "Home Depot",
+   1045686137
+  ],
+  [
+   "Home Depot",
+   1045686163
+  ],
+  [
+   "Home Depot",
+   1045686205
+  ],
+  [
+   "Kroger",
+   1041764567
+  ],
+  [
+   "Kroger",
+   1041764630
+  ],
+  [
+   "Kroger",
+   1041764636
+  ],
+  [
+   "Kroger",
+   1041764647
+  ],
+  [
+   "Kroger",
+   1041764648
+  ],
+  [
+   "Kroger",
+   1041764649
+  ],
+  [
+   "Kroger",
+   1041764669
+  ],
+  [
+   "Kroger",
+   1041764678
+  ],
+  [
+   "Kroger",
+   1041764694
+  ],
+  [
+   "Kroger",
+   1041764703
+  ],
+  [
+   "Kroger",
+   1041764727
+  ],
+  [
+   "Kroger",
+   1041764731
+  ],
+  [
+   "Kroger",
+   1041764762
+  ],
+  [
+   "Kroger",
+   1041764783
+  ],
+  [
+   "Kroger",
+   1041764806
+  ],
+  [
+   "Kroger",
+   1041764815
+  ],
+  [
+   "Kroger",
+   1041764821
+  ],
+  [
+   "Kroger",
+   1041764825
+  ],
+  [
+   "Kroger",
+   1041764848
+  ],
+  [
+   "Kroger",
+   1041764865
+  ],
+  [
+   "Kroger",
+   1041764878
+  ],
+  [
+   "Kroger",
+   1041764918
+  ],
+  [
+   "Kroger",
+   1041764930
+  ],
+  [
+   "Kroger",
+   1041764943
+  ],
+  [
+   "Kroger",
+   1041764952
+  ],
+  [
+   "Kroger",
+   1041764953
+  ],
+  [
+   "Kroger",
+   1041764959
+  ],
+  [
+   "Kroger",
+   1041764966
+  ],
+  [
+   "Kroger",
+   1041764975
+  ],
+  [
+   "Kroger",
+   1041764984
+  ],
+  [
+   "Kroger",
+   1041764995
+  ],
+  [
+   "Kroger",
+   1041765001
+  ],
+  [
+   "Kroger",
+   1041765008
+  ],
+  [
+   "Kroger",
+   1041765019
+  ],
+  [
+   "Kroger",
+   1041765028
+  ],
+  [
+   "Kroger",
+   1041765039
+  ],
+  [
+   "Kroger",
+   1041765053
+  ],
+  [
+   "Kroger",
+   1041765065
+  ],
+  [
+   "Kroger",
+   1041765076
+  ],
+  [
+   "Kroger",
+   1041765100
+  ],
+  [
+   "Kroger",
+   1041765112
+  ],
+  [
+   "Kroger",
+   1041765127
+  ],
+  [
+   "Kroger",
+   1041765135
+  ],
+  [
+   "Kroger",
+   1041765147
+  ],
+  [
+   "Kroger",
+   1041765157
+  ],
+  [
+   "Kroger",
+   1041765169
+  ],
+  [
+   "Kroger",
+   1041765183
+  ],
+  [
+   "Kroger",
+   1041765196
+  ],
+  [
+   "Kroger",
+   1041765204
+  ],
+  [
+   "Kroger",
+   1041765215
+  ],
+  [
+   "Kroger",
+   1041765225
+  ],
+  [
+   "Kroger",
+   1041765237
+  ],
+  [
+   "Kroger",
+   1041765245
+  ],
+  [
+   "Kroger",
+   1041765309
+  ],
+  [
+   "Kroger",
+   1041765398
+  ],
+  [
+   "Kroger",
+   1041765405
+  ],
+  [
+   "Kroger",
+   1041765408
+  ],
+  [
+   "Kroger",
+   1041765414
+  ],
+  [
+   "Kroger",
+   1041765424
+  ],
+  [
+   "Kroger",
+   1041765431
+  ],
+  [
+   "Kroger",
+   1041765439
+  ],
+  [
+   "Kroger",
+   1041765448
+  ],
+  [
+   "Kroger",
+   1041765455
+  ],
+  [
+   "Kroger",
+   1041765462
+  ],
+  [
+   "Kroger",
+   1041765471
+  ],
+  [
+   "Kroger",
+   1041765481
+  ],
+  [
+   "Kroger",
+   1041765490
+  ],
+  [
+   "Kroger",
+   1041765501
+  ],
+  [
+   "Kroger",
+   1041765508
+  ],
+  [
+   "Kroger",
+   1041765509
+  ],
+  [
+   "Kroger",
+   1041765519
+  ],
+  [
+   "Kroger",
+   1041765527
+  ],
+  [
+   "Kroger",
+   1041765534
+  ],
+  [
+   "Kroger",
+   1041765536
+  ],
+  [
+   "Kroger",
+   1041765546
+  ],
+  [
+   "Kroger",
+   1041765557
+  ],
+  [
+   "Kroger",
+   1041765591
+  ],
+  [
+   "Kroger",
+   1041765626
+  ],
+  [
+   "Kroger",
+   1041765637
+  ],
+  [
+   "Kroger",
+   1041765647
+  ],
+  [
+   "Kroger",
+   1041765661
+  ],
+  [
+   "Kroger",
+   1041765674
+  ],
+  [
+   "Kroger",
+   1041765685
+  ],
+  [
+   "Kroger",
+   1041765712
+  ],
+  [
+   "Kroger",
+   1041765722
+  ],
+  [
+   "Kroger",
+   1041765730
+  ],
+  [
+   "Kroger",
+   1041765741
+  ],
+  [
+   "Kroger",
+   1041765752
+  ],
+  [
+   "Kroger",
+   1041765764
+  ],
+  [
+   "Kroger",
+   1041765775
+  ],
+  [
+   "Kroger",
+   1041765787
+  ],
+  [
+   "Kroger",
+   1041765797
+  ],
+  [
+   "Kroger",
+   1041765807
+  ],
+  [
+   "Kroger",
+   1041765815
+  ],
+  [
+   "Kroger",
+   1041765824
+  ],
+  [
+   "Kroger",
+   1041765833
+  ],
+  [
+   "Kroger",
+   1041765841
+  ],
+  [
+   "Kroger",
+   1041765851
+  ],
+  [
+   "Kroger",
+   1041765861
+  ],
+  [
+   "Kroger",
+   1041765870
+  ],
+  [
+   "Kroger",
+   1041765882
+  ],
+  [
+   "Kroger",
+   1041765897
+  ],
+  [
+   "Kroger",
+   1041765903
+  ],
+  [
+   "Kroger",
+   1041765912
+  ],
+  [
+   "Kroger",
+   1041765924
+  ],
+  [
+   "Kroger",
+   1041765931
+  ],
+  [
+   "Kroger",
+   1041765945
+  ],
+  [
+   "Kroger",
+   1041765954
+  ],
+  [
+   "Kroger",
+   1041765962
+  ],
+  [
+   "Kroger",
+   1041765968
+  ],
+  [
+   "Kroger",
+   1041765979
+  ],
+  [
+   "Kroger",
+   1041765986
+  ],
+  [
+   "Kroger",
+   1041765995
+  ],
+  [
+   "Kroger",
+   1041766014
+  ],
+  [
+   "Kroger",
+   1041766021
+  ],
+  [
+   "Kroger",
+   1041766030
+  ],
+  [
+   "Kroger",
+   1041766041
+  ],
+  [
+   "Kroger",
+   1041766050
+  ],
+  [
+   "Kroger",
+   1041766061
+  ],
+  [
+   "Kroger",
+   1041766067
+  ],
+  [
+   "Kroger",
+   1041766077
+  ],
+  [
+   "Kroger",
+   1041766084
+  ],
+  [
+   "Kroger",
+   1041766092
+  ],
+  [
+   "Kroger",
+   1041766101
+  ],
+  [
+   "Kroger",
+   1041766112
+  ],
+  [
+   "Kroger",
+   1041766120
+  ],
+  [
+   "Kroger",
+   1041766134
+  ],
+  [
+   "Kroger",
+   1041766142
+  ],
+  [
+   "Kroger",
+   1041766153
+  ],
+  [
+   "Kroger",
+   1041766164
+  ],
+  [
+   "Kroger",
+   1041766171
+  ],
+  [
+   "Kroger",
+   1041766179
+  ],
+  [
+   "Kroger",
+   1041766188
+  ],
+  [
+   "Kroger",
+   1041766199
+  ],
+  [
+   "Kroger",
+   1041766207
+  ],
+  [
+   "Kroger",
+   1041766213
+  ],
+  [
+   "Kroger",
+   1041766224
+  ],
+  [
+   "Kroger",
+   1041766232
+  ],
+  [
+   "Kroger",
+   1041766249
+  ],
+  [
+   "Kroger",
+   1041766258
+  ],
+  [
+   "Kroger",
+   1041766268
+  ],
+  [
+   "Kroger",
+   1041766282
+  ],
+  [
+   "Kroger",
+   1041766292
+  ],
+  [
+   "Kroger",
+   1041766299
+  ],
+  [
+   "Kroger",
+   1041766309
+  ],
+  [
+   "Kroger",
+   1041766316
+  ],
+  [
+   "Kroger",
+   1041766325
+  ],
+  [
+   "Kroger",
+   1041766345
+  ],
+  [
+   "Kroger",
+   1041766352
+  ],
+  [
+   "Kroger",
+   1041766361
+  ],
+  [
+   "Kroger",
+   1041766371
+  ],
+  [
+   "Kroger",
+   1041766378
+  ],
+  [
+   "Kroger",
+   1041766387
+  ],
+  [
+   "Kroger",
+   1041766396
+  ],
+  [
+   "Kroger",
+   1041766405
+  ],
+  [
+   "Kroger",
+   1041766414
+  ],
+  [
+   "Kroger",
+   1041766423
+  ],
+  [
+   "Kroger",
+   1041766432
+  ],
+  [
+   "Kroger",
+   1041766443
+  ],
+  [
+   "Kroger",
+   1041766455
+  ],
+  [
+   "Kroger",
+   1041766466
+  ],
+  [
+   "Kroger",
+   1041766477
+  ],
+  [
+   "Kroger",
+   1041766488
+  ],
+  [
+   "Kroger",
+   1041766499
+  ],
+  [
+   "Kroger",
+   1041766507
+  ],
+  [
+   "Kroger",
+   1041766525
+  ],
+  [
+   "Kroger",
+   1041766534
+  ],
+  [
+   "Kroger",
+   1041766548
+  ],
+  [
+   "Kroger",
+   1041766557
+  ],
+  [
+   "Kroger",
+   1041766570
+  ],
+  [
+   "Kroger",
+   1042799488
+  ],
+  [
+   "Kroger",
+   1042799497
+  ],
+  [
+   "Kroger",
+   1042799512
+  ],
+  [
+   "Kroger",
+   1042799522
+  ],
+  [
+   "Kroger",
+   1042799535
+  ],
+  [
+   "Kroger",
+   1042799536
+  ],
+  [
+   "Kroger",
+   1042799537
+  ],
+  [
+   "Kroger",
+   1042799546
+  ],
+  [
+   "Kroger",
+   1042799555
+  ],
+  [
+   "Kroger",
+   1042799572
+  ],
+  [
+   "Kroger",
+   1042799579
+  ],
+  [
+   "Kroger",
+   1042799595
+  ],
+  [
+   "Kroger",
+   1042799608
+  ],
+  [
+   "Kroger",
+   1042799616
+  ],
+  [
+   "Kroger",
+   1042799631
+  ],
+  [
+   "Kroger",
+   1042799635
+  ],
+  [
+   "Kroger",
+   1042799646
+  ],
+  [
+   "Kroger",
+   1042799660
+  ],
+  [
+   "Kroger",
+   1042799662
+  ],
+  [
+   "Kroger",
+   1042799664
+  ],
+  [
+   "Kroger",
+   1042799667
+  ],
+  [
+   "Kroger",
+   1042799672
+  ],
+  [
+   "Kroger",
+   1042799673
+  ],
+  [
+   "Kroger",
+   1042799674
+  ],
+  [
+   "Kroger",
+   1042799685
+  ],
+  [
+   "Kroger",
+   1042799688
+  ],
+  [
+   "Kroger",
+   1042799697
+  ],
+  [
+   "Kroger",
+   1042799703
+  ],
+  [
+   "Kroger",
+   1042799768
+  ],
+  [
+   "Kroger",
+   1042799810
+  ],
+  [
+   "Kroger",
+   1042799830
+  ],
+  [
+   "Kroger",
+   1042799835
+  ],
+  [
+   "Kroger",
+   1042799841
+  ],
+  [
+   "Kroger",
+   1042799842
+  ],
+  [
+   "Kroger",
+   1042799846
+  ],
+  [
+   "Kroger",
+   1042799847
+  ],
+  [
+   "Kroger",
+   1042799850
+  ],
+  [
+   "Kroger",
+   1042799854
+  ],
+  [
+   "Kroger",
+   1042799855
+  ],
+  [
+   "Kroger",
+   1042799873
+  ],
+  [
+   "Kroger",
+   1042799880
+  ],
+  [
+   "Kroger",
+   1042799884
+  ],
+  [
+   "Kroger",
+   1042799885
+  ],
+  [
+   "Kroger",
+   1042799892
+  ],
+  [
+   "Kroger",
+   1042799894
+  ],
+  [
+   "Kroger",
+   1042799914
+  ],
+  [
+   "Kroger",
+   1042799923
+  ],
+  [
+   "Kroger",
+   1042799934
+  ],
+  [
+   "Kroger",
+   1042799952
+  ],
+  [
+   "Kroger",
+   1042799976
+  ],
+  [
+   "Kroger",
+   1042799987
+  ],
+  [
+   "Kroger",
+   1042799999
+  ],
+  [
+   "Kroger",
+   1042800010
+  ],
+  [
+   "Kroger",
+   1042800024
+  ],
+  [
+   "Kroger",
+   1042800034
+  ],
+  [
+   "Kroger",
+   1042800046
+  ],
+  [
+   "Kroger",
+   1042800051
+  ],
+  [
+   "Kroger",
+   1042800058
+  ],
+  [
+   "Kroger",
+   1042800062
+  ],
+  [
+   "Kroger",
+   1042800066
+  ],
+  [
+   "Kroger",
+   1042800072
+  ],
+  [
+   "Kroger",
+   1042800076
+  ],
+  [
+   "Kroger",
+   1042800082
+  ],
+  [
+   "Kroger",
+   1042800123
+  ],
+  [
+   "Kroger",
+   1042800154
+  ],
+  [
+   "Kroger",
+   1042800165
+  ],
+  [
+   "Kroger",
+   1042800198
+  ],
+  [
+   "Kroger",
+   1042800210
+  ],
+  [
+   "Kroger",
+   1042800220
+  ],
+  [
+   "Kroger",
+   1042800229
+  ],
+  [
+   "Kroger",
+   1042800237
+  ],
+  [
+   "Kroger",
+   1042800242
+  ],
+  [
+   "Kroger",
+   1042800250
+  ],
+  [
+   "Kroger",
+   1042800259
+  ],
+  [
+   "Kroger",
+   1042800265
+  ],
+  [
+   "Kroger",
+   1042800272
+  ],
+  [
+   "Kroger",
+   1042800276
+  ],
+  [
+   "Kroger",
+   1042800282
+  ],
+  [
+   "Kroger",
+   1042800294
+  ],
+  [
+   "Kroger",
+   1042800303
+  ],
+  [
+   "Kroger",
+   1042800310
+  ],
+  [
+   "Kroger",
+   1042800384
+  ],
+  [
+   "Kroger",
+   1042800393
+  ],
+  [
+   "Kroger",
+   1042800405
+  ],
+  [
+   "Kroger",
+   1042800413
+  ],
+  [
+   "Kroger",
+   1042800440
+  ],
+  [
+   "Kroger",
+   1042800450
+  ],
+  [
+   "Kroger",
+   1042800459
+  ],
+  [
+   "Kroger",
+   1042800469
+  ],
+  [
+   "Kroger",
+   1042800476
+  ],
+  [
+   "Kroger",
+   1042800485
+  ],
+  [
+   "Kroger",
+   1042800499
+  ],
+  [
+   "Kroger",
+   1042800507
+  ],
+  [
+   "Kroger",
+   1042800516
+  ],
+  [
+   "Kroger",
+   1042800526
+  ],
+  [
+   "Kroger",
+   1042800534
+  ],
+  [
+   "Kroger",
+   1042800545
+  ],
+  [
+   "Kroger",
+   1042800555
+  ],
+  [
+   "Kroger",
+   1042800566
+  ],
+  [
+   "Kroger",
+   1042800576
+  ],
+  [
+   "Kroger",
+   1042800584
+  ],
+  [
+   "Kroger",
+   1042800598
+  ],
+  [
+   "Kroger",
+   1042800610
+  ],
+  [
+   "Kroger",
+   1042800641
+  ],
+  [
+   "Kroger",
+   1042800651
+  ],
+  [
+   "Kroger",
+   1042800658
+  ],
+  [
+   "Kroger",
+   1042800667
+  ],
+  [
+   "Kroger",
+   1042800674
+  ],
+  [
+   "Kroger",
+   1042800682
+  ],
+  [
+   "Kroger",
+   1042800691
+  ],
+  [
+   "Kroger",
+   1042800699
+  ],
+  [
+   "Kroger",
+   1042800705
+  ],
+  [
+   "Kroger",
+   1042800713
+  ],
+  [
+   "Kroger",
+   1042800735
+  ],
+  [
+   "Kroger",
+   1042800746
+  ],
+  [
+   "Kroger",
+   1042800756
+  ],
+  [
+   "Kroger",
+   1042800765
+  ],
+  [
+   "Kroger",
+   1042800772
+  ],
+  [
+   "Kroger",
+   1042800782
+  ],
+  [
+   "Kroger",
+   1042800791
+  ],
+  [
+   "Kroger",
+   1042800802
+  ],
+  [
+   "Kroger",
+   1042800812
+  ],
+  [
+   "Kroger",
+   1042800824
+  ],
+  [
+   "Kroger",
+   1042800836
+  ],
+  [
+   "Kroger",
+   1042800846
+  ],
+  [
+   "Kroger",
+   1042800856
+  ],
+  [
+   "Kroger",
+   1042800873
+  ],
+  [
+   "Kroger",
+   1042800883
+  ],
+  [
+   "Kroger",
+   1042800894
+  ],
+  [
+   "Kroger",
+   1042800905
+  ],
+  [
+   "Kroger",
+   1042800917
+  ],
+  [
+   "Kroger",
+   1042800925
+  ],
+  [
+   "Kroger",
+   1042800934
+  ],
+  [
+   "Kroger",
+   1042800943
+  ],
+  [
+   "Kroger",
+   1042800954
+  ],
+  [
+   "Kroger",
+   1042800966
+  ],
+  [
+   "Kroger",
+   1042800977
+  ],
+  [
+   "Kroger",
+   1042800987
+  ],
+  [
+   "Kroger",
+   1042800997
+  ],
+  [
+   "Kroger",
+   1042801008
+  ],
+  [
+   "Kroger",
+   1042801021
+  ],
+  [
+   "Kroger",
+   1042801038
+  ],
+  [
+   "Kroger",
+   1042801051
+  ],
+  [
+   "Kroger",
+   1042801061
+  ],
+  [
+   "Kroger",
+   1042801073
+  ],
+  [
+   "Kroger",
+   1042801083
+  ],
+  [
+   "Kroger",
+   1042801093
+  ],
+  [
+   "Kroger",
+   1042801119
+  ],
+  [
+   "Kroger",
+   1042801130
+  ],
+  [
+   "Kroger",
+   1042801142
+  ],
+  [
+   "Kroger",
+   1042801152
+  ],
+  [
+   "Kroger",
+   1042801165
+  ],
+  [
+   "Kroger",
+   1042801176
+  ],
+  [
+   "Kroger",
+   1042801186
+  ],
+  [
+   "Kroger",
+   1042801197
+  ],
+  [
+   "Kroger",
+   1042801205
+  ],
+  [
+   "Kroger",
+   1042801225
+  ],
+  [
+   "Kroger",
+   1042801238
+  ],
+  [
+   "Kroger",
+   1042801248
+  ],
+  [
+   "Kroger",
+   1042801264
+  ],
+  [
+   "Kroger",
+   1042801274
+  ],
+  [
+   "Kroger",
+   1042801284
+  ],
+  [
+   "Kroger",
+   1042801292
+  ],
+  [
+   "Kroger",
+   1042801300
+  ],
+  [
+   "Kroger",
+   1042801311
+  ],
+  [
+   "Kroger",
+   1042801327
+  ],
+  [
+   "Kroger",
+   1042801335
+  ],
+  [
+   "Kroger",
+   1042801347
+  ],
+  [
+   "Kroger",
+   1042801358
+  ],
+  [
+   "Kroger",
+   1042801365
+  ],
+  [
+   "Kroger",
+   1045420439
+  ],
+  [
+   "Kroger",
+   1045420517
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056556
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056589
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056608
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056616
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056624
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056632
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056633
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056643
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056648
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056662
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056666
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056669
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056673
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056674
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056685
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056711
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056716
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056723
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056732
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043056773
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057020
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057094
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057138
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057388
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057461
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057685
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057777
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057946
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057959
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057971
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057975
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043057996
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058044
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058050
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058118
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058126
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058142
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058253
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058288
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058291
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058294
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058301
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058304
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058307
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058313
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058323
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058326
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058331
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058336
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058344
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058349
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058359
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058377
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058382
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058387
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058411
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058439
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058446
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058459
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058467
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058471
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058479
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058485
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058492
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058499
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058505
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058511
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058527
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058533
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058555
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058565
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058578
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058584
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058593
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058598
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058604
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058611
+  ],
+  [
+   "Super 1 Foods & Discount Pharmacy",
+   1043058707
+  ]
+ ]
+}
