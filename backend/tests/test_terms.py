@@ -71,3 +71,36 @@ def test_storewide():
     assert is_storewide("Best Buy Labor Day Sale: Up to 70% off + free shipping")
     assert is_storewide("Academy Sports + Outdoors Deal Days: Extra 20% to 30% off")
     assert not is_storewide("Bose SoundLink Max SE Portable Bluetooth Speaker for $229")
+
+
+# Oct 6, 2026, found while building the share card: words after an ad's price were read as the price itself.
+def test_a_price_with_an_extra_coupon_is_not_a_percent():
+    # JCPenney "$149.99 + Extra 10% Off* with coupon" was shown as "149.99% off"
+    t = ad_terms({"current_price": "149.99", "post_price_text": "+ Extra 10% Off* with coupon"}, feed=False)
+    assert t.price == 149.99 and t.pct is None and not t.promo
+
+
+def test_store_coupon_amount_comes_off_the_ad_price():
+    # Family Dollar "$8.95 with $1 OFF Smart Coupon" was shown as "$8.95 off"
+    t = ad_terms({"price": "8.95", "post_price_text": "with $1 OFF Smart Coupon†"}, feed=False)
+    assert (t.price, t.regular, t.savings, t.basis) == (7.95, 8.95, 1.0, "claimed_savings")
+    assert "coupon required" in t.conditions
+
+
+def test_bogo_percent_above_a_price_keeps_the_price():
+    t = ad_terms({"current_price": "12.99", "pre_price_text": "BOGO 25% Off"}, feed=False)
+    assert t.bogo == "buy 1 get 1 25% off" and t.regular == 12.99 and t.pct == 12.5
+
+
+def test_percent_printed_where_the_price_goes():
+    t = ad_terms({"current_price": "40", "pre_price_text": "Up to", "post_price_text": "% OFF"}, feed=False)
+    assert t.price is None and t.pct == 40.0 and t.promo and t.hedge == "up to"
+
+
+def test_multi_buy_with_a_word_in_front():
+    # "Sale! 2/ $9" was read as $9 each
+    t = ad_terms({"current_price": "9", "pre_price_text": "Sale! 2/"}, feed=False)
+    assert (t.qty, t.bundle_price, t.price) == (2, 9.0, 4.5)
+    for pre in ("SALE 3 for", "BUY 2 FOR", "Sale Price 4 FOR", "— ONLY — 2/"):
+        assert ad_terms({"current_price": "9", "pre_price_text": pre}, feed=False).qty > 1
+    assert ad_terms({"current_price": "9", "pre_price_text": "Buy 2, Get 1"}, feed=False).qty == 1

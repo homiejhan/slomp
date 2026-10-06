@@ -137,11 +137,13 @@ def bogo_of(*texts: str) -> tuple[str, Optional[float]]:
     return "", None
 
 
-_MULTI_PRE = re.compile(r"^\s*(\d{1,2})\s*(?:/|for\b)", re.I)
+# "2/", "3 for", and with a word in front as many ads print it: "Sale! 2/", "SALE 2 for", "BUY 2 FOR", "— ONLY — 2/".
+_MULTI_PRE = re.compile(r"^\s*(?:(?:sale(?:\s+price)?|buy|—?\s*only\s*—?)\W*)?(\d{1,2})\s*(?:/|for\b)", re.I)
 _MULTI_TEXT = re.compile(r"\b(\d{1,2})\s*(?:/|for)\s*" + _MONEY, re.I)
 _UNIT = re.compile(r"(?:/|\bper\s|\b)(lb|lbs|oz|ea|each|ct|pk|kg)\b\.?", re.I)
 _PCT_OFF = re.compile(r"(\d{1,3})\s?%\*?\s?off", re.I)
 _DOLLARS_OFF = re.compile(r"\$\s?(\d+(?:\.\d\d)?)\s?off\b|\bsave \$\s?(\d+(?:\.\d\d)?)", re.I)
+_COUPON_OFF = re.compile(r"\bwith (?:an? )?\$\s?(\d+(?:\.\d\d)?) off\b[^.]{0,40}?\bcoupon", re.I)
 _REG = re.compile(r"\b(?:reg(?:ular(?:ly)?)?\.?|was|orig(?:inal(?:ly)?)?\.?|normally|retail)\s*(?:price)?\s*:?\s*"
                   + _MONEY, re.I)
 _LIST = re.compile(r"\b(?:compare at|comp\.? value|compare value|value|msrp|list(?: price)?|depart(?:ment)?\.? store value)"
@@ -192,13 +194,16 @@ def ad_terms(raw: dict, *, feed: bool, merchant_membership: str = "") -> Terms:
         t.conditions.append(merchant_membership)
     t.unit = _unit(post, pre)
 
-    # "$50 OFF" printed where the price goes: a saving with no price.
-    if price is not None and re.search(r"\boff\b", f"{pre} {post}", re.I) and not original:
-        if "%" in f"{pre} {post}":
-            t.pct, t.promo, t.price = float(price), True, None
-        else:
+    # "40% OFF" or "$50 OFF" printed where the price goes: the number Flipp gives as the price is the saving, and the
+    # text right after it says so. A price followed by other words is a price: "$149.99 + Extra 10% Off* with coupon",
+    # "$5.25 with $1 OFF Smart Coupon", "BOGO 25% Off" above $12.99.
+    if price is not None and not original and re.match(r"(?:%\s*)?off\b", post, re.I):
+        if not post.startswith("%"):
             t.savings, t.promo, t.price = price, True, None
-        price = None
+        elif price <= 100:
+            t.pct, t.promo, t.price = float(price), True, None
+        if t.promo:
+            price = None
 
     # Multi-buy: "2/" or "2 for" before the price -> per-unit price.
     m = _MULTI_PRE.match(pre) if pre else None
@@ -210,6 +215,12 @@ def ad_terms(raw: dict, *, feed: bool, merchant_membership: str = "") -> Terms:
         if mt and int(mt.group(1)) > 1:
             t.qty, t.bundle_price = int(mt.group(1)), money(mt.group(2))
             price = round(t.bundle_price / t.qty, 2) if t.bundle_price else None
+    # "$8.95 with $1 OFF Smart Coupon": the store's own coupon takes a stated amount off the ad's price.
+    mc = _COUPON_OFF.search(f"{pre} {post}")
+    if mc and price is not None and t.qty == 1 and not original and not dollars_off:
+        off = money(mc.group(1))
+        if off and off < price:
+            dollars_off, price = off, round(price - off, 2)
     t.price = price if t.price is None and not t.promo else t.price
 
     label, eff = bogo_of(story, name, pre, post)
