@@ -119,6 +119,12 @@ build. To make that possible the build reads one day further ahead than the serv
   quotes from evidence pages), always with a link to the source.
 - **Your own regular deals** (`~/.config/slomp/regulars.json`) stay on your computer: they appear in `slomp serve`, not
   on the public site.
+- **Some company sites turn away GitHub's servers.** The build runs in GitHub's data centers, and several company
+  sites answer requests from there with a bot check, which Slomp never works around. On Oct 5, 2026 it was 13 sites
+  (Cinemark, Uchi, Goodwill Central Texas, Chuck E. Cheese, Ross, The Modern, the Nasher, Mexic-Arte, The Contemporary
+  Austin, The Health Museum, Star Cinema Grill, AMC and Regal), whose pages confirm 18 regular deals. Those deals are
+  missing from the published site unless a deal list also carries them; `slomp serve` at home still shows them. The
+  build log names every evidence page it couldn't read, and why.
 - **GitHub pauses a schedule after 60 days without repository activity.** Any push resets it, and the workflow can be
   re-enabled from the Actions tab or with `gh workflow enable`. The page shows when its data was built and warns when
   it is more than a day old. (Workarounds that fake activity exist; the best known one was taken down by GitHub for

@@ -590,3 +590,8 @@ server reading its own fine print and doing its own item searches, as `slomp ser
 
 Regular deals, restaurant promotions and online deals matched in all 60 searches. The reports are
 `docs/verification/site-NN.json`.
+
+**On GitHub's servers.** The checks above ran on a home connection. The first build in GitHub Actions read every
+anchor's ads, every deal feed and both deal lists, but 13 company sites answered GitHub's data centers with a bot check
+(the build log names them), so the 18 regular deals only their pages confirm are missing from the published site: 200
+regular deals instead of 217. Chuck E. Cheese's and Fuzzy's offers still show, as listed by the deal sites.

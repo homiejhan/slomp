@@ -104,6 +104,9 @@ same in both places. [docs/DESIGN-static-site.md](docs/DESIGN-static-site.md) ha
   50,000 people or more, plus enough others that every Texas city is within 20 mi of one. A smaller city shows its
   nearest anchor's ads, with distances measured from the city itself, and the page names that anchor.
 - **Your own regular deals** (`~/.config/slomp/regulars.json`) stay on your computer and only show in `slomp serve`.
+- **Some company sites turn away GitHub's servers** with a bot check (Cinemark, Uchi, Goodwill Central Texas and about
+  ten more on Oct 5, 2026). The regular deals only their pages confirm, about 18, are missing from the published
+  site; `slomp serve` shows them. The workflow's log lists the pages it couldn't read.
 
 To refresh it now: the repository's **Actions** tab, **Publish the site**, **Run workflow**. Or:
 

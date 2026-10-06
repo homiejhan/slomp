@@ -738,7 +738,7 @@ function regularsPanel(L) {
     ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
     : emptyHtml("📅", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
                 S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
-  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing${STATIC ? "" : " unless you add it to your own list (see the README)"}. Participation can vary by location.</p>`;
+  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing${STATIC ? ". Some company sites also turn away the servers this site is built on, so a few deals only they confirm are missing here" : " unless you add it to your own list (see the README)"}. Participation can vary by location.</p>`;
   return notice + `<div class="subhead">${days}${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + fine;
 }
 
