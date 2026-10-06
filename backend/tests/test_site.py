@@ -204,3 +204,42 @@ def test_engine_regular_deal_whose_hours_are_over_shows_next_week(tmp_path):
     reg = late["local"]["regulars"][0]
     assert reg["regular"]["next"] == ["2026-10-13"] and reg["starts_in_days"] == 7
     assert late["online"] is None and late["local"]["deals"] == []
+
+
+# --- item searches cached before a merchant's new ad came out ----------------------------------------------------
+class _Http:
+    """Answers Flipp's item search from a 'cache' (yesterday's answer) or 'fresh' (today's), and records which."""
+
+    def __init__(self, cached: list[dict], fresh: list[dict] | None):
+        self.cached, self.fresh, self.calls = cached, fresh, []
+
+    async def get(self, url, params=None, *, ttl_s, use_cache=True, **kw):
+        from slomp.http import FetchError, Response
+        self.calls.append("cache" if use_cache else "fresh")
+        if not use_cache and self.fresh is None:
+            raise FetchError(url, "network error")
+        items = self.cached if use_cache else self.fresh
+        return Response(url, url, 200, "application/json", json.dumps({"items": items}).encode(), 0.0,
+                        from_cache=use_cache)
+
+
+def _item(i: int, flyer: int, merchant: str = "Sprouts Farmers Market") -> dict:
+    return {"id": i, "flyer_id": flyer, "merchant_name": merchant}
+
+
+def test_a_cached_search_from_before_a_new_ad_is_read_again():
+    import asyncio
+    from slomp.sources.flipp import FlippClient
+    yesterday = [_item(1, 10), _item(2, 10), _item(3, 99, "Other Store")]
+    today = yesterday[:2] + [_item(4, 11)]
+    http = _Http(yesterday, today)
+    got = asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {10, 11}))
+    assert [i["id"] for i in got] == [1, 2, 4] and http.calls == ["cache", "fresh"]
+    # nothing new expected: the cached answer stands
+    http = _Http(yesterday, today)
+    assert [i["id"] for i in asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {10}))] \
+        == [1, 2] and http.calls == ["cache"]
+    # the fresh read fails: yesterday's answer is still the best there is
+    http = _Http(yesterday, None)
+    assert [i["id"] for i in asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {10, 11}))] \
+        == [1, 2] and http.calls == ["cache", "fresh"]

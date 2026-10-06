@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 from zoneinfo import ZoneInfo
 
 from . import industries as ind
@@ -162,11 +162,11 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
     where: dict[str, list[tuple]] = defaultdict(list)   # merchant -> (its ads at an anchor, anchor order, ZIP, the ads)
     ads.hits = hits
 
-    async def search(name: str, zip_code: str) -> Optional[list[dict]]:
+    async def search(name: str, zip_code: str, expect: Iterable[int] = ()) -> Optional[list[dict]]:
         searched.add((name, zip_code))
         ads.stats["searches"] += 1
         try:
-            items = await flipp.merchant_items(zip_code, name)
+            items = await flipp.merchant_items(zip_code, name, expect)
         except FetchError:
             ads.stats["searches failed"] += 1
             return None
@@ -179,7 +179,8 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
         for m, ids in mine.items():
             where[m].append((len(ids), k, a.zip, frozenset(ids)))
         todo = sorted(m for m, ids in mine.items() if not ids <= covered[m])
-        for m, items in zip(todo, await asyncio.gather(*(search(m, a.zip) for m in todo))):
+        found = await asyncio.gather(*(search(m, a.zip, {f for f in mine[m] if items_of[f]}) for m in todo))
+        for m, items in zip(todo, found):
             if items is not None:                 # a failed search is tried again at the next anchor with these ads
                 covered[m] |= mine[m]
 
@@ -197,7 +198,7 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
             if (m, zip_code) in searched or not missing:
                 continue
             extra += 1
-            await search(m, zip_code)
+            await search(m, zip_code, {f for f in ids if items_of[f]})
             dry = 0 if missing & hits[m].keys() else dry + 1      # this search found some of them, or none
     await asyncio.gather(*(complete(m) for m in where))
     unsearched = sum(len(items_of[f] - hits[ads.flyers[f].merchant].keys()) for f in fids)

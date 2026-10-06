@@ -121,7 +121,10 @@ class LocalDeals:
         store_map: StoreMap = self.stores.near(city, list({m.name: m for m in entries.values()}.values()))
         res.sources.append({"name": "OpenStreetMap stores", "ok": store_map.source_ok, "built": store_map.built,
                             **({"error": store_map.error} if store_map.error else {})})
-        hits_by_merchant = await self._merchant_hits(city.zip, sorted(entries))
+        ads_of: dict[str, set[int]] = {}
+        for f in live:
+            ads_of.setdefault(f.merchant, set()).add(f.id)
+        hits_by_merchant = await self._merchant_hits(city.zip, sorted(entries), ads_of)
         listings = await asyncio.gather(*(self._listing(f) for f in live))
 
         candidates: list[LocalDeal] = []
@@ -187,10 +190,12 @@ class LocalDeals:
         except FetchError:
             return []
 
-    async def _merchant_hits(self, zip_code: str, merchants: list[str]) -> dict[str, dict[int, dict]]:
+    async def _merchant_hits(self, zip_code: str, merchants: list[str],
+                             ads_of: Optional[dict[str, set[int]]] = None) -> dict[str, dict[int, dict]]:
         async def one(name: str) -> tuple[str, dict[int, dict]]:
             try:
-                return name, {i.get("id"): i for i in await self.flipp.merchant_items(zip_code, name) if i.get("id")}
+                items = await self.flipp.merchant_items(zip_code, name, (ads_of or {}).get(name, ()))
+                return name, {i.get("id"): i for i in items if i.get("id")}
             except FetchError:
                 return name, {}
         return dict(await asyncio.gather(*(one(n) for n in merchants)))

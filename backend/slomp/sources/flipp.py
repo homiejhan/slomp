@@ -14,11 +14,11 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
 
 from ..config import TTL
 from ..geo import parse_time
-from ..http import PoliteClient
+from ..http import FetchError, PoliteClient
 from ..terms import clean
 
 API = "https://backflipp.wishabi.com/flipp"
@@ -104,17 +104,32 @@ class FlippClient:
         return list((r.json() if r.status == 200 else {}).get("items") or [])
 
     async def search(self, postal_code: str, query: str, ttl_s: Optional[float] = None) -> dict:
-        r = await self.http.get(f"{API}/items/search", {"locale": self.locale, "postal_code": postal_code, "q": query,
-                                                       "limit": SEARCH_LIMIT}, ttl_s=ttl_s or TTL["flipp_search"])
-        return r.json() if r.status == 200 else {}
+        return (await self._search(postal_code, query, ttl_s))[0]
 
-    async def merchant_items(self, postal_code: str, merchant: str) -> list[dict]:
+    async def _search(self, postal_code: str, query: str, ttl_s: Optional[float] = None,
+                      use_cache: bool = True) -> tuple[dict, bool]:
+        r = await self.http.get(f"{API}/items/search", {"locale": self.locale, "postal_code": postal_code, "q": query,
+                                                       "limit": SEARCH_LIMIT}, ttl_s=ttl_s or TTL["flipp_search"],
+                                use_cache=use_cache)
+        return (r.json() if r.status == 200 else {}), r.from_cache
+
+    async def merchant_items(self, postal_code: str, merchant: str, expect: Iterable[int] = ()) -> list[dict]:
         """That merchant's ad items with taxonomy labels. Searching the name also matches other merchants' items
-        that mention it, so only the merchant's own items are kept."""
-        data = await self.search(postal_code, merchant, ttl_s=TTL["merchant_search"])
+        that mention it, so only the merchant's own items are kept. `expect` is the merchant's ads at that ZIP: a
+        result from the cache with nothing from one of them was read before that ad came out, so it is read again."""
         key = re.sub(r"[^a-z0-9]", "", merchant.lower())
-        return [i for i in data.get("items") or []
-                if re.sub(r"[^a-z0-9]", "", str(i.get("merchant_name") or "").lower()) == key]
+
+        def own(data: dict) -> list[dict]:
+            return [i for i in data.get("items") or []
+                    if re.sub(r"[^a-z0-9]", "", str(i.get("merchant_name") or "").lower()) == key]
+        data, cached = await self._search(postal_code, merchant, TTL["merchant_search"])
+        items = own(data)
+        if cached and set(expect) - {i.get("flyer_id") for i in items}:
+            try:
+                items = own((await self._search(postal_code, merchant, TTL["merchant_search"], use_cache=False))[0])
+            except FetchError:
+                pass                                # the older answer is still the best there is
+        return items
 
     async def item(self, item_id: Any) -> dict:
         r = await self.http.get(f"{API}/items/{item_id}", ttl_s=TTL["item"])

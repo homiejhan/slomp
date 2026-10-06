@@ -191,8 +191,8 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
     built_hits, own_hits = seen["ads"].hits, LocalDeals._merchant_hits
     hits_missed: set = set()
 
-    async def merchant_hits(self, zip_code, merchants):
-        own = await own_hits(self, zip_code, merchants)
+    async def merchant_hits(self, zip_code, merchants, ads_of=None):
+        own = await own_hits(self, zip_code, merchants, ads_of)
         for m in merchants:
             if m in built_hits:
                 hits_missed.update((m, i) for i in own.get(m, {}).keys() - built_hits[m].keys())

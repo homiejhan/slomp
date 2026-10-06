@@ -61,7 +61,10 @@ which ones depends on what else the merchant advertises at that ZIP (Family Doll
 returns 113 or 123 of them, by ZIP). An item without a search result often has no saving to show and is left out, by
 the server too. So for a merchant whose items still lack results, the build searches again at other anchors that have
 those items, up to 6 more times and until three searches in a row find none of them. About 20% of the items in Texas
-ads still have no result (Walgreens' ads run to 420 items); the server, searching one ZIP, has the same gap.
+ads still have no result (Walgreens' ads run to 420 items); the server, searching one ZIP, has the same gap. A search
+is cached for a day, so one read before a merchant's new ad came out has none of that ad's items; when a cached result
+has nothing from one of the merchant's current ads, it is read again. The server does the same since Oct 6, when the
+published runs were found to miss about 600 deals from that week's new ads for that reason.
 
 **Fine print (the detail pass).** The server reads the full record of the 24 leading deals per industry for the
 searched city. The build does the same for every anchor at each radius (10, 25 and 50 mi) and reads the union, with
