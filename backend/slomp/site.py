@@ -34,7 +34,7 @@ from .local import DETAIL_ROUNDS, DETAIL_TOP_N, LocalResult, _merge, score
 from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Terms
 from .promos import _NOT_A_PROMO, brand_in, promo_dates, recurring_days
 from .reference import cities, merchant as merchant_entry, norm
-from .regulars import Regular, status_text
+from .regulars import Regular, host_of, status_text
 from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
@@ -377,9 +377,23 @@ def _regular(r: Regular, today: date) -> dict:
     return out
 
 
-async def regulars_file(svc: SlompService, now: datetime) -> dict:
+async def regulars_file(svc: SlompService, now: datetime, log=print) -> dict:
     now = now.astimezone(ZoneInfo(CENTRAL))           # "today" is a Texas date, wherever the build runs
-    rset = await svc.regulars.all(now=now)
+    unread: Counter = Counter()
+    check = svc.regulars.check
+
+    async def noted(spec: dict, *args, **kwargs):      # which evidence pages couldn't be read here, and why
+        ev = await check(spec, *args, **kwargs)
+        if not ev.found:
+            unread[(host_of(str(spec.get("url") or "")), ev.note or "the page no longer says this")] += 1
+        return ev
+    svc.regulars.check = noted
+    try:
+        rset = await svc.regulars.all(now=now)
+    finally:
+        svc.regulars.check = check
+    for (host, why), n in unread.most_common():
+        log(f"regular deals: evidence not read at {host}: {why}" + (f" ({n} pages)" if n > 1 else ""))
     today = now.date()
     # Your own file stays on your computer: the published site never shows it.
     shown = [r for r in rset.regulars if r.origin != "yours"]
@@ -493,7 +507,7 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
     t0 = clock.time()
     try:
         ads_task = asyncio.create_task(build_ads(svc, anchor_list, now, log))
-        regs_task = asyncio.create_task(regulars_file(svc, now))
+        regs_task = asyncio.create_task(regulars_file(svc, now, log))
         promos_task = asyncio.create_task(promos_file(svc, now))
         online_task = asyncio.create_task(online_files(svc, log)) if online else None
         ads = await ads_task
