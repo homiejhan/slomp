@@ -11,7 +11,7 @@
     {
       "name": "slomp-preview",
       "runtimeExecutable": "/usr/bin/env",
-      "runtimeArgs": ["SLOMP_WARM=0", "/Users/homiejhan/.local/bin/uv", "run", "--no-project", "--python", "3.12",
+      "runtimeArgs": ["SLOMP_WARM=0", "SLOMP_ASSISTANT=1", "/Users/homiejhan/.local/bin/uv", "run", "--no-project", "--python", "3.12",
                       "--with", "fastapi", "--with", "uvicorn", "--with", "httpx",
                       "python", "-m", "uvicorn", "slomp.api:app", "--app-dir", "backend", "--port", "8010"],
       "port": 8010

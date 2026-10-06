@@ -281,6 +281,44 @@ dialog.sheet::backdrop { background: rgba(20, 14, 19, .55); }
 footer { margin: 56px 0 32px; font-size: 13px; text-align: center; color: var(--faint); }
 footer p { max-width: 720px; margin: 0 auto; }
 
+/* ---- your card ------------------------------------------------------------------------------------------- */
+/* Each deal tile sits in a cell with its "Add to card" button beside it (not inside: the tile is itself a button). */
+.cell { position: relative; display: grid; }
+.add { position: absolute; z-index: 1; top: 8px; right: 8px; display: grid; place-items: center; width: 36px;
+       height: 36px; padding: 0; font: inherit; font-size: 22px; font-weight: 600; line-height: 1; color: #6a2456;
+       background: #fff; border: 1px solid #dcd2d9; border-radius: 999px; box-shadow: 0 1px 3px rgba(33, 26, 32, .2);
+       cursor: pointer; transition: background .12s, color .12s, border-color .12s, transform .12s; }
+.add:hover { border-color: #7b2d64; transform: scale(1.07); }
+.add[aria-pressed="true"] { background: #7b2d64; border-color: #7b2d64; color: #fff; font-size: 18px; }
+.cell .rcard + .add { top: auto; right: 14px; bottom: 14px; }
+.fab { position: fixed; z-index: 40; right: 20px; bottom: 20px; display: inline-flex; align-items: center; gap: 8px;
+       height: 50px; padding: 0 16px 0 18px; font: inherit; font-weight: 700; color: var(--on-accent);
+       background: var(--accent); border: 0; border-radius: 999px; box-shadow: var(--shadow-md); cursor: pointer; }
+.fab:hover { background: var(--accent-hover); }
+.fab[hidden], .toast[hidden] { display: none; }
+.fab svg { width: 20px; height: 20px; }
+.fab .n { min-width: 26px; padding: 2px 8px; border-radius: 999px; font-size: 14px; text-align: center;
+          color: var(--accent); background: var(--on-accent); }
+body.has-card footer { padding-bottom: 64px; }
+.toast { position: fixed; z-index: 50; left: 50%; bottom: 86px; max-width: calc(100vw - 32px); padding: 10px 16px;
+         transform: translateX(-50%); font-size: 14px; font-weight: 600; text-align: center; color: var(--bg);
+         background: var(--ink); border-radius: 999px; box-shadow: var(--shadow-md); }
+#card-sheet { width: min(620px, calc(100vw - 32px)); }
+.sc { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 24px; }
+.sc h2 { margin: 0 40px 0 0; font-size: 22px; letter-spacing: -0.01em; }
+.sc-head p { margin: 4px 0 0; font-size: 14px; }
+.sc-preview { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 180px;
+              padding: 12px; background: var(--tile); border-radius: var(--r-md); }
+.sc-preview img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: var(--shadow-sm); }
+.sc-wait { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #6d6370; }
+.sc-list { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
+.sc-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0;
+              font-size: 14px; border-bottom: 1px solid var(--line); }
+.sc-list li:last-child { border-bottom: 0; }
+.sc-list li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-list b { font-weight: 600; }
+.sc .empty { padding: 32px 16px; }
+
 /* ---- small screens --------------------------------------------------------------------------------------- */
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
@@ -308,8 +346,8 @@ footer p { max-width: 720px; margin: 0 auto; }
   .tab { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .rcard, .btn, .chip, .day, .thumb img { transition: none; }
-  .card:hover, .rcard:hover { transform: none; }
+  .card, .rcard, .btn, .chip, .day, .thumb img, .add { transition: none; }
+  .card:hover, .rcard:hover, .add:hover { transform: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
 }
 </style>
@@ -367,6 +405,17 @@ footer p { max-width: 720px; margin: 0 auto; }
   <button class="close" type="button" aria-label="Close">×</button>
   <div class="sheet-scroll" id="detail-body"></div>
 </dialog>
+
+<dialog id="card-sheet" class="sheet" aria-labelledby="card-title">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <div class="sheet-scroll" id="card-body"></div>
+</dialog>
+
+<button type="button" class="fab" id="card-fab" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 10h7M7 14h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  Your card <span class="n" id="card-n">0</span>
+</button>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 "use strict";
@@ -856,10 +905,10 @@ function localTags(d) {
 
 function localCard(d, i, tz) {
   const w = when(d, tz), where = d.store ? `${d.store.distance_mi} mi` : "location unknown", price = localPrice(d.terms);
-  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, localBadge(d), false)}<div class="body">` +
+  return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, localBadge(d), false)}<div class="body">` +
     `<div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${where}</span></div>` +
     `<h3 class="title${price ? "" : " long"}">${esc(d.title)}</h3>${price}` +
-    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${tagsHtml(localTags(d))}</div></article>`;
+    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${tagsHtml(localTags(d))}</div></article>${addHtml(d, i)}</div>`;
 }
 
 /* ---- regular deals --------------------------------------------------------------------------------------- */
@@ -897,11 +946,11 @@ function regularCard(d, i) {
   const r = d.regular, offer = regularOffer(d.terms), badge = localBadge(d);
   const cond = (d.terms.conditions || []).slice(0, 1).map(c => `<span class="tag">${esc(c)}</span>`).join("");
   const more = (d.terms.conditions || []).length > 1 ? `<span class="tag">+${d.terms.conditions.length - 1}</span>` : "";
-  return `<article class="rcard" role="button" tabindex="0" data-i="${i}">` +
+  return `<div class="cell"><article class="rcard" role="button" tabindex="0" data-i="${i}">` +
     `${regularThumb(d)}<div class="body">` +
     `<div class="head"><div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${d.store.distance_mi} mi</span></div>${badgeInline(badge)}</div>` +
     `<h3 class="title long">${esc(d.title)}</h3>${badge ? "" : offer}` +
-    `<div class="when">${esc(runsText(r) + untilText(r))}</div><div class="tags">${proofTag(r)}${cond}${more}</div></div></article>`;
+    `<div class="when">${esc(runsText(r) + untilText(r))}</div><div class="tags">${proofTag(r)}${cond}${more}</div></div></article>${addHtml(d, i)}</div>`;
 }
 
 function proofHtml(e) {
@@ -935,7 +984,7 @@ function regularDetail(d) {
   const shown = d.image_url || !r.logo ? d : {...d, image_url: logoSrc(r.logo.url)};
   return sheetHtml(shown, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind ? " · " + kind : ""}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline + factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, "Open the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}</div>`);
+    `<div class="actions">${actionHtml(d.source_url, "Open the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}${cardToggleHtml(d)}</div>`);
 }
 
 // Deal-post titles repeat the price and shipping ("… for $45 + free shipping"); the card shows those separately.
@@ -962,11 +1011,11 @@ const onlineRef = d => d.basis === "market" && d.market_median ? d.market_median
 
 function onlineCard(d, i) {
   const ref = onlineRef(d), note = (BASIS[d.basis] || [""])[0];
-  return `<article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source))}<div class="body">` +
+  return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source))}<div class="body">` +
     `<div class="meta"><strong>${esc(d.seller || "Online")}</strong>${d.posted_at ? `<span>·</span><span>${ago(d.posted_at)}</span>` : ""}</div>` +
     `<h3 class="title">${esc(productName(d))}</h3>` +
     `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}</div>` +
-    `<div class="when">${esc(note)}${d.basis === "market" ? " ✓" : ""}</div>${tagsHtml(d.conditions || [])}</div></article>`;
+    `<div class="when">${esc(note)}${d.basis === "market" ? " ✓" : ""}</div>${tagsHtml(d.conditions || [])}</div></article>${addHtml(d, i)}</div>`;
 }
 
 /* ---- details --------------------------------------------------------------------------------------------- */
@@ -1006,7 +1055,7 @@ function localDetail(d) {
   return sheetHtml(d, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
     factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}</div>`);
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${cardToggleHtml(d)}</div>`);
 }
 
 function onlineDetail(d) {
@@ -1027,10 +1076,11 @@ function onlineDetail(d) {
     `<p class="eyebrow">${esc(d.seller || "Online")}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
     `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}${badgeInline(onlineBadge(d))}</div>` +
     factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}</div>`);
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}${cardToggleHtml(d)}</div>`);
 }
 
 function openDetail(d) {
+  S.detail = d;
   $("#detail-body").innerHTML = "seller" in d ? onlineDetail(d) : d.regular ? regularDetail(d) : localDetail(d);
   $("#detail-body").scrollTop = 0;
   $("#detail").showModal();
@@ -1065,13 +1115,404 @@ function showMore() {
   $("#more-count").textContent = `${S.shown[key]} of ${S.view.length}`;
 }
 
+/* ---- your card ------------------------------------------------------------------------------------------- */
+// Deals put on a card to share as one picture (PNG or JPG). The card lives in this browser and empties at midnight,
+// by this device's clock. Each deal is kept as it looked when it was added. docs/DESIGN-share-card.md
+const CARD_MAX = 12, CARD_KEY = "slomp.card";
+const localDay = (t = new Date()) => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+let card = {day: localDay(), items: []};
+let cardDrawn = 0, cardPicture = null;          // the latest drawing of the card: {png, jpg, url}
+
+function loadCard() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CARD_KEY) || "null");
+    if (saved && typeof saved.day === "string" && Array.isArray(saved.items)) card = {day: saved.day, items: saved.items};
+  } catch {}
+  freshDay();
+}
+function saveCard() { try { localStorage.setItem(CARD_KEY, JSON.stringify(card)); } catch {} }
+
+// A card from an earlier day starts over empty: checked when the page opens, when it comes back into view, before a
+// deal is added, and at midnight while the page stays open.
+function freshDay() {
+  if (card.day === localDay()) return false;
+  card = {day: localDay(), items: []};
+  saveCard();
+  return true;
+}
+function watchMidnight() {
+  const now = new Date(), next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  setTimeout(() => { if (freshDay()) cardChanged(); watchMidnight(); }, Math.min(next - now + 1000, 6 * 36e5));
+}
+
+// One deal is one entry; a nearby or regular deal is also tied to the city it was found near.
+const cardKey = d => "seller" in d ? d.id : `${d.id}@${S.data.local.city.id}`;
+const onCard = d => !!S.data && card.items.some(x => x.key === cardKey(d));
+
+const addHtml = (d, i) => {
+  const on = onCard(d);
+  return `<button type="button" class="add" data-add="${i}" aria-pressed="${on}" aria-label="Add to card: ${esc(d.title)}" title="${on ? "On your card" : "Add to card"}">${on ? "✓" : "+"}</button>`;
+};
+const cardToggleHtml = d => `<button type="button" class="btn small ghost" data-card-toggle aria-pressed="${onCard(d)}">${onCard(d) ? "✓ On your card" : "+ Add to card"}</button>`;
+
+// The deal as the card shows it: what, where, the price and when, in words, with its picture.
+function snapshot(d) {
+  const L = S.data.local, online = "seller" in d, r = d.regular, t = d.terms || {};
+  const badge = online ? onlineBadge(d) : localBadge(d);
+  let price = "", was = "", note = "";
+  if (online) {
+    price = money(d.price);
+    const ref = onlineRef(d);
+    if (ref && ref > d.price) was = money(ref);
+  } else if (r) {
+    if (t.bogo) price = cap(t.bogo);
+    else if (t.summary && !/^\$[\d.,]+$/.test(t.summary) && !t.pct) price = cap(t.summary);
+    else if (t.price != null) { price = money(t.price); if (t.regular) was = money(t.regular); }
+  } else if (t.qty > 1 && t.bundle_price) {
+    price = `${t.qty} for ${whole(money(t.bundle_price))}`;
+    note = `${money(t.bundle_price / t.qty)} each`;
+  } else if (t.price != null) {
+    price = money(t.price) + (t.unit && t.unit !== "ea" ? `/${t.unit}` : "");
+    if (t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list")) was = money(t.regular);
+    else if (t.basis === "claimed_savings" && t.savings) note = `save ${whole(money(t.savings))} per the ad`;
+  } else if (t.bogo) price = cap(t.bogo);
+  const w = online || r ? null : when(d, L.city.tz);
+  const logo = r && r.logo ? logoSrc(r.logo.url) : "";
+  return {
+    key: cardKey(d), kind: online ? "online" : r ? "regular" : "near", merchant: online ? d.seller || "Online" : d.merchant,
+    title: online ? productName(d) : d.title, badge: badge ? badge.text : "", soft: !!(badge && badge.soft),
+    price, was, note,
+    where: online ? "Online" : d.store ? `${d.store.distance_mi} mi from ${L.city.name}` : `near ${L.city.name}`,
+    when: online ? (d.expires_at ? `Ends ${day(d.expires_at)}` : d.posted_at ? `Posted ${ago(d.posted_at)}` : "")
+      : r ? runsText(r) + untilText(r) : w.text,
+    urgent: !!(w && w.urgent),
+    image: logo || pic(d.image_url), cover: logo ? r.logo.fit === "cover" : online && PHOTO_FEEDS.has(d.source),
+    clip: !online && !r && !!d.feed, icon: iconOf(d), city: online ? "" : L.city.name, url: d.source_url || "",
+  };
+}
+
+function toggleCard(d) {
+  freshDay();
+  const key = cardKey(d), at = card.items.findIndex(x => x.key === key);
+  if (at >= 0) { card.items.splice(at, 1); toast("Taken off your card"); }
+  else if (card.items.length >= CARD_MAX) { toast(`Your card holds ${CARD_MAX} deals. Take one off to add another.`); return; }
+  else {
+    const item = snapshot(d);
+    card.items.push(item);
+    if (item.image) loadPicture(item.image);
+    toast(`Added to your card (${card.items.length} of ${CARD_MAX})`);
+  }
+  saveCard();
+  cardChanged();
+}
+
+// Everything that shows the card follows it: the count, the + buttons, the details view, the open card.
+function cardChanged() {
+  const n = card.items.length;
+  $("#card-fab").hidden = !n;
+  $("#card-n").textContent = n;
+  document.body.classList.toggle("has-card", n > 0);
+  document.querySelectorAll("#results [data-add]").forEach(b => {
+    const d = S.view[Number(b.dataset.add)];
+    if (!d) return;
+    const on = onCard(d);
+    b.setAttribute("aria-pressed", on);
+    b.title = on ? "On your card" : "Add to card";
+    b.textContent = on ? "✓" : "+";
+  });
+  const t = $("#detail [data-card-toggle]");
+  if (t && S.detail) { t.setAttribute("aria-pressed", onCard(S.detail)); t.textContent = onCard(S.detail) ? "✓ On your card" : "+ Add to card"; }
+  if ($("#card-sheet").open) openCard();
+}
+
+let toastTimer = 0;
+function toast(text) {
+  const el = $("#toast");
+  el.textContent = text;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.hidden = true; }, 2600);
+}
+
+// Sharing files: Safari, Chrome and Edge (phones and computers), Firefox on Android.
+const canShareFiles = () => {
+  try { return !!(navigator.canShare && navigator.canShare({files: [new File([""], "x.png", {type: "image/png"})]})); }
+  catch { return false; }
+};
+const cardFile = ext => `slomp-deals-${card.day}.${ext}`;
+
+function openCard() {
+  freshDay();
+  const n = card.items.length, sheet = $("#card-sheet");
+  const day = dateText(card.day, {weekday: "long", month: "long", day: "numeric"});
+  const head = `<div class="sc-head"><h2 id="card-title">Your card</h2><p class="muted">${esc(day)} · ` +
+    (n ? `${n} ${n === 1 ? "deal" : "deals"} · it empties at midnight` : "it empties at midnight") + `</p></div>`;
+  $("#card-body").innerHTML = `<div class="sc">${head}` + (n
+    ? `<div class="actions">` +
+      (canShareFiles() ? `<button type="button" class="btn small primary" data-share disabled>Share</button>` : "") +
+      `<button type="button" class="btn small ${canShareFiles() ? "ghost" : "primary"}" data-save="png" disabled>Save PNG</button>` +
+      `<button type="button" class="btn small ghost" data-save="jpg" disabled>Save JPG</button>` +
+      `<button type="button" class="btn small ghost" data-clear>Clear</button></div>` +
+      `<div class="sc-preview" id="card-preview"><div class="sc-wait"><span class="spin" aria-hidden="true"></span>Drawing your card…</div></div>` +
+      `<ul class="sc-list">${card.items.map((x, k) => `<li><span><b>${esc(x.merchant)}</b> · ${esc(x.title)}</span>` +
+        `<button type="button" class="btn small ghost" data-remove="${k}">Remove</button></li>`).join("")}</ul>`
+    : emptyHtml("🗂️", "Your card is empty", "Tap + on any deal to put it on your card, then share the card as a picture.")) + `</div>`;
+  if (!sheet.open) sheet.showModal();
+  if (n) drawCardPicture();
+}
+
+// The picture is drawn when the card opens, so Share and Save answer at once (a share sheet must open right when the
+// button is pressed).
+async function drawCardPicture() {
+  const token = ++cardDrawn;
+  try {
+    const canvas = await drawCard(card);
+    const [png, jpg] = await Promise.all([blobOf(canvas, "image/png"), blobOf(canvas, "image/jpeg", 0.92)]);
+    if (token !== cardDrawn) return;
+    if (cardPicture) URL.revokeObjectURL(cardPicture.url);
+    cardPicture = {png, jpg, url: URL.createObjectURL(png)};
+    const box = $("#card-preview");
+    if (!box) return;
+    box.innerHTML = `<img src="${cardPicture.url}" alt="Your card: ${card.items.length} deals, ready to share">`;
+    document.querySelectorAll("#card-body [data-share], #card-body [data-save]").forEach(b => { b.disabled = false; });
+  } catch (e) {
+    if (token !== cardDrawn) return;
+    const box = $("#card-preview");
+    if (box) box.innerHTML = `<p class="sc-wait">The picture couldn't be drawn just now. Close the card and try again.</p>`;
+  }
+}
+const blobOf = (canvas, type, quality) => new Promise((ok, no) =>
+  canvas.toBlob(b => b ? ok(b) : no(new Error("no picture")), type, quality));
+
+function saveBlob(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+}
+
+async function shareCard() {
+  if (!cardPicture) return;
+  const file = new File([cardPicture.png], cardFile("png"), {type: "image/png"});
+  try {
+    await navigator.share({files: [file], title: "My deals from Slomp"});
+  } catch (e) {
+    if (e && e.name === "AbortError") return;          // the share sheet was closed
+    saveBlob(cardPicture.png, cardFile("png"));         // sharing isn't allowed here: save it instead
+  }
+}
+
+/* The picture: 1,080 px wide, a header in the brand color, one row per deal, and a footer. */
+const CARD_W = 1080, CARD_PAD = 40, CARD_ROW = 250, CARD_GAP = 20, CARD_HEAD = 236, CARD_FOOT = 128;
+const TAG_PATH = "M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z";
+
+async function drawCard(c) {
+  const items = c.items, font = getComputedStyle(document.body).fontFamily;
+  const f = (weight, size) => `${weight} ${size}px ${font}`;
+  const h = CARD_HEAD + CARD_PAD + items.length * (CARD_ROW + CARD_GAP) - CARD_GAP + CARD_PAD + CARD_FOOT;
+  const canvas = document.createElement("canvas");
+  canvas.width = CARD_W;
+  canvas.height = h;
+  const g = canvas.getContext("2d");
+  g.textBaseline = "alphabetic";
+  g.fillStyle = "#faf7f9";                             // JPG has no transparency: every pixel gets a color
+  g.fillRect(0, 0, CARD_W, h);
+
+  // Header: the tag mark, "My deals", the day and where.
+  g.fillStyle = "#7b2d64";
+  g.fillRect(0, 0, CARD_W, CARD_HEAD);
+  g.save();
+  g.translate(CARD_PAD, 38);
+  g.scale(52 / 32, 52 / 32);
+  g.fillStyle = "#fff";
+  g.fill(new Path2D(TAG_PATH));
+  g.fillStyle = "#7b2d64";
+  g.beginPath(); g.arc(10.6, 10.6, 2.3, 0, Math.PI * 2); g.fill();
+  g.restore();
+  g.fillStyle = "#fff";
+  g.font = f(750, 36);
+  g.fillText("Slomp", CARD_PAD + 66, 78);
+  g.font = f(750, 62);
+  g.fillText("My deals", CARD_PAD, 160);
+  const cities = [...new Set(items.map(x => x.city).filter(Boolean))];
+  const near = cities.length === 1 ? `near ${cities[0]}, TX` : cities.length === 2 ? `near ${cities[0]} and ${cities[1]}` : cities.length ? "around Texas" : "online";
+  g.font = f(500, 30);
+  g.fillStyle = "rgba(255,255,255,.86)";
+  g.fillText(fitText(g, `${dateText(c.day, {weekday: "long", month: "long", day: "numeric"})} · ${near}`, CARD_W - 2 * CARD_PAD), CARD_PAD, 208);
+
+  const pictures = await Promise.all(items.map(x => x.image ? loadPicture(x.image) : null));
+  items.forEach((x, k) => drawRow(g, f, x, pictures[k], CARD_PAD, CARD_HEAD + CARD_PAD + k * (CARD_ROW + CARD_GAP)));
+
+  // Footer: where it came from.
+  const site = STATIC ? (location.host + location.pathname).replace(/\/(index\.html)?$/, "") : "";
+  g.textAlign = "center";
+  g.fillStyle = "#6d6370";
+  g.font = f(600, 28);
+  g.fillText(`Found with Slomp${site ? " · " + site : ""}`, CARD_W / 2, h - 76);
+  g.fillStyle = "#978d99";
+  g.font = f(400, 23);
+  g.fillText("Prices are what the stores and deal sites published. Check before you go.", CARD_W / 2, h - 38);
+  g.textAlign = "left";
+  return canvas;
+}
+
+function drawRow(g, f, x, picture, left, top) {
+  const width = CARD_W - 2 * left, tile = 196, tx = left + 26, ty = top + (CARD_ROW - tile) / 2;
+  roundRect(g, left, top, width, CARD_ROW, 26);
+  g.fillStyle = "#fff"; g.fill();
+  g.strokeStyle = "#ece5ea"; g.lineWidth = 2; g.stroke();
+
+  // The picture tile, light in any theme, with the badge on it.
+  roundRect(g, tx, ty, tile, tile, 20);
+  g.fillStyle = "#f5f1f4"; g.fill();
+  if (picture) drawPicture(g, picture, x, tx, ty, tile);
+  else {
+    g.font = `92px ${getComputedStyle(document.body).fontFamily}`;
+    g.textAlign = "center";
+    g.fillStyle = "#211a20";
+    g.fillText(x.icon || "🏷️", tx + tile / 2, ty + tile / 2 + 32);
+    g.textAlign = "left";
+  }
+  if (x.badge) {
+    g.font = f(750, 25);
+    const bw = g.measureText(x.badge).width + 26, bx = tx + 10, by = ty + 10;
+    roundRect(g, bx, by, bw, 42, 21);
+    g.fillStyle = x.soft ? "#fff" : "#7b2d64"; g.fill();
+    if (x.soft) { g.strokeStyle = "#7b2d64"; g.lineWidth = 2; g.stroke(); }
+    g.fillStyle = x.soft ? "#6a2456" : "#fff";
+    g.fillText(x.badge, bx + 13, by + 30);
+  }
+
+  // The words: who and where, what, the price, when.
+  const tx2 = tx + tile + 30, tw = left + width - 28 - tx2;
+  let y = top + 58;
+  g.font = f(700, 28);
+  g.fillStyle = "#211a20";
+  const who = fitText(g, x.merchant, tw * 0.6);
+  g.fillText(who, tx2, y);
+  const ww = g.measureText(who).width;
+  g.font = f(500, 26);
+  g.fillStyle = "#6d6370";
+  g.fillText(fitText(g, ` · ${x.where}`, tw - ww), tx2 + ww, y);
+  g.font = f(650, 32);
+  g.fillStyle = "#211a20";
+  for (const line of wrapText(g, x.title, tw, x.price ? 2 : 3)) { y += 42; g.fillText(line, tx2, y); }
+  if (x.price) {
+    y += 54;
+    g.font = f(800, 40);
+    g.fillStyle = "#211a20";
+    const main = fitText(g, x.price, tw);
+    g.fillText(main, tx2, y);
+    let px = tx2 + g.measureText(main).width + 16;
+    if (x.was) {
+      g.font = f(500, 28);
+      g.fillStyle = "#978d99";
+      g.fillText(x.was, px, y);
+      const sw = g.measureText(x.was).width;
+      g.fillRect(px, y - 10, sw, 2.5);                 // struck through, like the page
+      px += sw + 16;
+    }
+    if (x.note && px < tx2 + tw - 60) {
+      g.font = f(500, 26);
+      g.fillStyle = "#6d6370";
+      g.fillText(fitText(g, x.note, tx2 + tw - px), px, y);
+    }
+  }
+  if (x.when) {
+    y += 42;
+    g.font = f(x.urgent ? 650 : 500, 26);
+    g.fillStyle = x.urgent ? "#b42318" : "#6d6370";
+    g.fillText(fitText(g, x.when, tw), tx2, y);
+  }
+}
+
+// Ad clippings and logos fit inside the tile on its light color (as on the page); photos fill it.
+function drawPicture(g, img, x, tx, ty, tile) {
+  const sw = img.naturalWidth, sh = img.naturalHeight * (x.clip ? PICTURE_PART : 1);
+  const pad = x.cover ? 0 : 16, box = tile - 2 * pad;
+  const scale = x.cover ? Math.max(tile / sw, tile / sh) : Math.min(box / sw, box / sh);
+  const dw = sw * scale, dh = sh * scale;
+  g.save();
+  roundRect(g, tx, ty, tile, tile, 20);
+  g.clip();
+  if (!x.cover) g.globalCompositeOperation = "multiply";
+  g.drawImage(img, 0, 0, sw, sh, tx + (tile - dw) / 2, ty + (tile - dh) / 2, dw, dh);
+  g.restore();
+}
+
+// A picture from another site can go on the card only if that site allows it (CORS), or the card couldn't be saved;
+// one that doesn't load that way is drawn as the deal's icon instead. Each is loaded once, starting when its deal is
+// added, so the card is quick to draw.
+const cardPictures = new Map();
+function loadPicture(url) {
+  if (!cardPictures.has(url)) {
+    // The browser may answer from the copy it keeps for the page, which wasn't fetched for drawing: then fetch afresh.
+    const p = fetchPicture(url).then(img => (img || /^data:/.test(url)) ? img
+      : fetchPicture(url + (url.includes("?") ? "&" : "?") + "card=1"));
+    cardPictures.set(url, p);
+    p.then(img => { if (!img) cardPictures.delete(url); });     // tried again next time
+  }
+  return cardPictures.get(url);
+}
+function fetchPicture(url, ms = 8000) {
+  return new Promise(done => {
+    const img = new Image();
+    let over = false;
+    const end = v => { if (!over) { over = true; done(v); } };
+    img.crossOrigin = "anonymous";
+    img.referrerPolicy = "no-referrer";
+    img.onload = () => end(img.naturalWidth ? img : null);
+    img.onerror = () => end(null);
+    setTimeout(() => end(null), ms);
+    img.src = url;
+  });
+}
+
+function roundRect(g, x, y, w, h, r) {
+  g.beginPath();
+  g.moveTo(x + r, y);
+  g.arcTo(x + w, y, x + w, y + h, r);
+  g.arcTo(x + w, y + h, x, y + h, r);
+  g.arcTo(x, y + h, x, y, r);
+  g.arcTo(x, y, x + w, y, r);
+  g.closePath();
+}
+
+function fitText(g, text, width) {
+  let t = String(text || "");
+  if (g.measureText(t).width <= width) return t;
+  while (t.length > 1 && g.measureText(t + "…").width > width) t = t.slice(0, -1);
+  return t.trimEnd() + "…";
+}
+
+function wrapText(g, text, width, max) {
+  const words = String(text || "").split(/\s+/).filter(Boolean), lines = [];
+  let line = "";
+  for (let k = 0; k < words.length; k++) {
+    const next = line ? `${line} ${words[k]}` : words[k];
+    if (g.measureText(next).width <= width) { line = next; continue; }
+    if (line) lines.push(line);
+    line = words[k];
+    if (lines.length === max - 1) {                    // the last line takes the rest, cut short if it must be
+      lines.push(fitText(g, words.slice(k).join(" "), width));
+      return lines;
+    }
+  }
+  if (line) lines.push(fitText(g, line, width));
+  return lines.slice(0, max);
+}
+
 /* ---- events ---------------------------------------------------------------------------------------------- */
 $("#search").addEventListener("submit", e => { e.preventDefault(); run(); });
 
 $("#results").addEventListener("click", e => {
   const hit = sel => e.target.closest(sel);
   let el;
-  if ((el = hit("[data-tab]"))) { S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render(); }
+  if ((el = hit("[data-add]"))) { const d = S.view[Number(el.dataset.add)]; if (d) toggleCard(d); }
+  else if ((el = hit("[data-tab]"))) { S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render(); }
   else if ((el = hit("[data-day]"))) { S.day = el.dataset.day; S.shown.regulars = PAGE; render(); }
   else if ((el = hit("[data-ind]"))) { S.ind[S.tab] = el.dataset.ind; S.shown[S.tab] = PAGE; render(); }
   else if (hit("#more")) showMore();
@@ -1101,7 +1542,27 @@ function drawRadiusValue() {
 
 const dialog = $("#detail");
 $(".close", dialog).addEventListener("click", () => dialog.close());
-dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });   // a click on the backdrop
+dialog.addEventListener("click", e => {
+  if (e.target === dialog) dialog.close();                                            // a click on the backdrop
+  else if (e.target.closest("[data-card-toggle]") && S.detail) toggleCard(S.detail);
+});
+
+const cardSheet = $("#card-sheet");
+$("#card-fab").addEventListener("click", openCard);
+$(".close", cardSheet).addEventListener("click", () => cardSheet.close());
+cardSheet.addEventListener("click", e => {
+  const hit = sel => e.target.closest(sel);
+  let el;
+  if (e.target === cardSheet) cardSheet.close();
+  else if (hit("[data-share]")) shareCard();
+  else if ((el = hit("[data-save]")) && cardPicture) saveBlob(cardPicture[el.dataset.save], cardFile(el.dataset.save));
+  else if ((el = hit("[data-remove]"))) { card.items.splice(Number(el.dataset.remove), 1); saveCard(); cardChanged(); }
+  else if (hit("[data-clear]") && confirm(`Take all ${card.items.length} deals off your card?`)) {
+    card.items = []; saveCard(); cardChanged(); cardSheet.close();
+  }
+});
+// A page left open overnight, or in a background tab, starts the new day with an empty card.
+document.addEventListener("visibilitychange", () => { if (!document.hidden && freshDay()) cardChanged(); });
 
 // Picture events don't bubble, so listen in the capture phase.
 // A picture that fails to load gives way to the placeholder icon.
@@ -1121,6 +1582,9 @@ document.addEventListener("load", e => {
   if (clip && clip.classList.contains("clip")) clip.style.setProperty("--r", (img.naturalWidth / (PICTURE_PART * img.naturalHeight)).toFixed(3));
 }, true);
 
+loadCard();
+cardChanged();
+watchMidnight();
 boot();
 </script>
 </body>

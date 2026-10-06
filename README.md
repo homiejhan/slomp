@@ -53,6 +53,11 @@ Each tab has a **Sort** menu: best deal first (the biggest discount on the card'
 off, or 50% when it takes a purchase), ending soonest, or the company's name A–Z or Z–A. The page remembers the
 choice.
 
+**Your card.** Tap **+** on any deal, or **Add to card** in its details, to put it on your card (up to 12). **Your
+card**, at the bottom right, shows them as one picture, with each deal's photo, price, place and dates, to **Share**
+(your phone's or computer's share menu) or **Save** as a PNG or JPG. The card is kept in your browser, nowhere else,
+and empties at midnight. [docs/DESIGN-share-card.md](docs/DESIGN-share-card.md) has the design.
+
 ## Regular deals
 
 The **Regulars** tab shows the deals that repeat every week, one button per day of the coming week. Each card shows
