@@ -6,7 +6,8 @@
   GET /api/v1/meta          the fixed lists: Texas cities, industries, radii
   GET /api/v1/local         ?city=austin&industries=tech,sports&radius_mi=25     Output 1
   GET /api/v1/online        ?industries=tech,fashion&limit=25                   Output 2
-  GET /api/v1/search        both, in one response
+  GET /api/v1/sales         ?industries=fashion,home                            sales at online stores
+  GET /api/v1/search        all three, in one response
   GET /api/v1/health        per-source status
 """
 from __future__ import annotations
@@ -37,7 +38,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Slomp", version="1.0.0", lifespan=lifespan,
-              description="Deals near any Texas city in the next 7 days, and the biggest verified online discounts.")
+              description="Deals near any Texas city in the next 7 days, the biggest verified online discounts, and "
+                          "online stores' sales.")
 
 
 @app.exception_handler(InputError)
@@ -80,6 +82,11 @@ async def online(request: Request, industries: str = Query(...), limit: int = Qu
     return res.to_dict()
 
 
+@app.get("/api/v1/sales")
+async def sales(request: Request, industries: str = Query(..., description="comma-separated industry ids")) -> dict:
+    return await svc(request).sales(industries)
+
+
 @app.get("/api/v1/search")
 async def search(request: Request, city: str = Query(...), industries: str = Query(...),
                  radius_mi: float = Query(25.0), limit: int = Query(25, ge=1, le=100)) -> dict:
@@ -87,9 +94,10 @@ async def search(request: Request, city: str = Query(...), industries: str = Que
     online_inds = [i for i in ind.parse_ids(industries)[0] if ind.BY_ID[i].online]
     local_task = s.local(city, industries, radius_mi)
     if online_inds:
-        loc, onl = await asyncio.gather(local_task, s.online(",".join(online_inds), limit))
-        return {"local": loc.to_dict(), "online": onl.to_dict()}
-    return {"local": (await local_task).to_dict(), "online": None}
+        loc, onl, sal = await asyncio.gather(local_task, s.online(",".join(online_inds), limit),
+                                             s.sales(",".join(online_inds)))
+        return {"local": loc.to_dict(), "online": onl.to_dict(), "sales": sal}
+    return {"local": (await local_task).to_dict(), "online": None, "sales": None}
 
 
 @app.get("/api/v1/health")

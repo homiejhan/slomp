@@ -11,6 +11,7 @@ publishes the files. The page's engine.js answers each search in the browser fro
   regular deals   the statewide set with its evidence, schedules and branch locations
   promotions      restaurant-chain offers, their dates and the chains' locations
   online deals    the ranked result for each industry
+  store sales     every sale at an online store that hasn't ended (the same for every city)
 """
 from __future__ import annotations
 
@@ -35,6 +36,7 @@ from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Terms
 from .promos import _NOT_A_PROMO, brand_in, promo_dates, recurring_days
 from .reference import cities, merchant as merchant_entry, norm
 from .regulars import Regular, host_of, status_text
+from .sales import stores_payload
 from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
@@ -460,6 +462,19 @@ async def online_files(svc: SlompService, log=print) -> dict[str, dict]:
     return files
 
 
+# --- online stores' sales ----------------------------------------------------------------------------------------
+async def sales_file(svc: SlompService, log=print) -> dict:
+    """Every sale not yet ended when read; engine.js applies the industries and the moment of the search, as
+    sales.select does on the server."""
+    t0 = clock.time()
+    res = await svc.sales_result()
+    log(f"store sales: {len(res.sales)} sales at {len({s.store or s.store_name for s in res.sales})} online stores "
+        f"({clock.time() - t0:.0f}s)")
+    return {"built": res.generated_at.isoformat(timespec="seconds"), "generated_at": res.generated_at.isoformat(),
+            "sales": [s.to_dict() for s in res.sales], "stores": res.stores or stores_payload(),
+            "excluded": dict(res.excluded.most_common()), "sources": res.sources}
+
+
 # --- the site ---------------------------------------------------------------------------------------------------
 def meta_file(anchor_list: list[City], built: datetime, parts: dict) -> dict:
     out = []
@@ -511,11 +526,13 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         regs_task = asyncio.create_task(regulars_file(svc, now, log))
         promos_task = asyncio.create_task(promos_file(svc, now))
         online_task = asyncio.create_task(online_files(svc, log)) if online else None
+        sales_task = asyncio.create_task(sales_file(svc, log)) if online else None
         ads = await ads_task
         if inspect is not None:
             inspect["ads"] = ads
         regs, promos = await regs_task, await promos_task
         onl = await online_task if online_task else {}
+        sal = await sales_task if sales_task else None
         log(f"regular deals: {len(regs['regulars'])}; promotions: {len(promos['items'])} offers")
         files: dict[str, dict | str] = {}
         files.update({f"data/{k}": v for k, v in ad_files(ads).items()})
@@ -523,11 +540,14 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         files["data/regulars.json"] = regs
         files["data/promos.json"] = promos
         files.update({f"data/{k}": v for k, v in onl.items()})
+        if sal is not None:
+            files["data/sales.json"] = sal
         parts = {"ads": {"ads": len(ads.flyers), "anchors_read": sum(v is not None for v in ads.at.values()),
                          "anchors": len(anchor_list), **dict(ads.stats)},
                  "regulars": len(regs["regulars"]), "promotions": len(promos["items"]),
                  "online": {k.split("/")[1].removesuffix(".json"): len(next(iter(v["deals"].values()), []))
                             for k, v in onl.items()},
+                 "sales": len(sal["sales"]) if sal else 0,
                  "seconds": round(clock.time() - t0), "requests": {h: s.get("requests", 0)
                                                                   for h, s in svc.http.stats.items()}}
         files["data/meta.json"] = meta_file(anchor_list, now, parts)

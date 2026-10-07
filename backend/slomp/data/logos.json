@@ -1,7 +1,1440 @@
 {
  "built": "2026-10-05",
- "about": "A logo for each chain and place a regular deal can be shown at, keyed like the venue lookup (r: Wikidata id of a restaurant chain, s: store, v: venue, place: a single place's folded name). `url` is where the picture lives; `fit` says whether it fills its tile (a square app icon) or is fitted into it. Built by scripts/build_logos.py from each company's own website, or its Wikidata logo on Wikimedia Commons.",
+ "about": "A logo for each chain and place a regular deal can be shown at, keyed like the venue lookup (r: Wikidata id of a restaurant chain, s: store, v: venue, place: a single place's folded name). `url` is where the picture lives; `fit` says whether it fills its tile (a square app icon) or is fitted into it. Built by scripts/build_logos.py from each company's own website, or its Wikidata logo on Wikimedia Commons. Online stores: o: its own site's icon, ow: its Wikidata logo (scripts/build_logos.py --stores).",
  "logos": {
+  "o:1800flowers": {
+   "brand": "1-800-Flowers",
+   "url": "https://www.1800flowers.com/static/favicons/18F/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.1800flowers.com"
+  },
+  "o:abercrombie": {
+   "brand": "Abercrombie & Fitch",
+   "url": "https://www.abercrombie.com/favicon.ico",
+   "fit": "contain",
+   "px": 128,
+   "from": "site",
+   "site": "www.abercrombie.com"
+  },
+  "o:academy": {
+   "brand": "Academy Sports + Outdoors",
+   "url": "https://www.academy.com/static-assets/prod1east_component_registry_vol/assets/icons/favicon/favicon-144.png?v=3",
+   "fit": "cover",
+   "px": 144,
+   "from": "site",
+   "site": "www.academy.com"
+  },
+  "o:aliexpress": {
+   "brand": "AliExpress",
+   "url": "https://ae-pic-a1.aliexpress-media.com/images/eng/wholesale/icon/aliexpress.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.aliexpress.us"
+  },
+  "o:americaneagle": {
+   "brand": "American Eagle",
+   "url": "https://www.ae.com/agwa-ugp-assets/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.ae.com"
+  },
+  "o:anthropologie": {
+   "brand": "Anthropologie",
+   "url": "https://static.anthropologie.com/static/v3/apple-touch/itunes_artwork_x3.png",
+   "fit": "cover",
+   "px": 1024,
+   "from": "site",
+   "site": "www.anthropologie.com"
+  },
+  "o:apple": {
+   "brand": "Apple",
+   "url": "https://www.apple.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.apple.com"
+  },
+  "o:ashford": {
+   "brand": "Ashford",
+   "url": "https://www.ashford.com/cdn/shop/files/Ashford-favicon-48.webp?crop=center&height=32&v=1748031459&width=32",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.ashford.com"
+  },
+  "o:bananarepublic": {
+   "brand": "Banana Republic",
+   "url": "https://bananarepublic.gap.com/static_content/onesitecategory/components/mfe/_next/static/media/br-favicon-2026.1uj4-b1amx3vy.ico",
+   "fit": "contain",
+   "px": 256,
+   "from": "site",
+   "site": "bananarepublic.gap.com"
+  },
+  "o:bathbodyworks": {
+   "brand": "Bath & Body Works",
+   "url": "https://www.bathandbodyworks.com/mobify/bundle/380/static/ico/favicon.ico",
+   "fit": "cover",
+   "px": 32,
+   "from": "site",
+   "site": "www.bathandbodyworks.com"
+  },
+  "o:bedbathbeyond": {
+   "brand": "Bed Bath & Beyond",
+   "url": "https://ak1.ostkcdn.com/img/mxc/20240325-BBB-Icon.svg",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.bedbathandbeyond.com"
+  },
+  "o:belk": {
+   "brand": "Belk",
+   "url": "https://belk.scene7.com/is/image/Belk/wk51_2021_blk_web_icon_167x167?&amp;$DWP_GRAPHIC$",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.belk.com"
+  },
+  "o:bestbuy": {
+   "brand": "Best Buy",
+   "url": "https://www.bestbuy.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.bestbuy.com"
+  },
+  "o:birkenstock": {
+   "brand": "Birkenstock",
+   "url": "https://www.birkenstock.com/on/demandware.static/Sites-US-Site/-/default/dw62d99a5b/images/favicons/apple-icon-180x180.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.birkenstock.com"
+  },
+  "o:boscovs": {
+   "brand": "Boscov's",
+   "url": "https://www.boscovs.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.boscovs.com"
+  },
+  "o:bose": {
+   "brand": "Bose",
+   "url": "https://www.bose.com/on/demandware.static/Sites-Bose_US-Site/-/default/dwf290f311/images/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 512,
+   "from": "site",
+   "site": "www.bose.com"
+  },
+  "o:calvinklein": {
+   "brand": "Calvin Klein",
+   "url": "https://media1.calvinklein.com/images/static/e-comm20-09/apple/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 57,
+   "from": "site",
+   "site": "www.calvinklein.us"
+  },
+  "o:coachoutlet": {
+   "brand": "Coach Outlet",
+   "url": "https://assets.coach.com/icons/coach/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.coach.com"
+  },
+  "o:costco": {
+   "brand": "Costco",
+   "url": "https://www.costco.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.costco.com"
+  },
+  "o:crateandbarrel": {
+   "brand": "Crate & Barrel",
+   "url": "https://cb.scene7.com/is/image/Crate/icon_180x180/fmt=png-alpha/261006205318/icon_180x180.jpg",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.crateandbarrel.com"
+  },
+  "o:cvs": {
+   "brand": "CVS",
+   "url": "https://www.cvs.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.cvs.com"
+  },
+  "o:dell": {
+   "brand": "Dell",
+   "url": "https://www.dell.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.dell.com"
+  },
+  "o:dillards": {
+   "brand": "Dillard's",
+   "url": "https://dimg.dillards.com/is/image/DillardsZoom/apple-touch-icon?fmt=png-alpha&bfc=on&wid=57&hei=57&qlt=90,1&resMode=sharp2",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.dillards.com"
+  },
+  "o:disneystore": {
+   "brand": "Disney Store",
+   "url": "https://www.disneystore.com/on/demandware.static/Sites-shopDisney-Site/-/default/dwc5d63e9d/images/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.disneystore.com"
+  },
+  "o:dsw": {
+   "brand": "DSW",
+   "url": "https://www.dsw.com/apple-touch-icon.e876b0ad88.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.dsw.com"
+  },
+  "o:fanatics": {
+   "brand": "Fanatics",
+   "url": "https://www.fanatics.com/content/assets/appleicon180x180-1750286542143.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.fanatics.com"
+  },
+  "o:finishline": {
+   "brand": "Finish Line",
+   "url": "https://www.finishline.com/fnl.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.finishline.com"
+  },
+  "o:footlocker": {
+   "brand": "Foot Locker",
+   "url": "https://www.footlocker.com/images/FL/favicon.png",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.footlocker.com"
+  },
+  "o:freepeople": {
+   "brand": "Free People",
+   "url": "https://static.freepeople.com/static/v3/apple-touch/itunes_artwork_x3.png",
+   "fit": "cover",
+   "px": 1024,
+   "from": "site",
+   "site": "www.freepeople.com"
+  },
+  "o:gapfactory": {
+   "brand": "Gap Factory",
+   "url": "https://www.gapfactory.com/static_content/onesitecategory/components/mfe/_next/static/media/gapfs-newlogo-2024-favicon.0gqbgl-bw536a.ico",
+   "fit": "contain",
+   "px": 64,
+   "from": "site",
+   "site": "www.gapfactory.com"
+  },
+  "o:harborfreight": {
+   "brand": "Harbor Freight",
+   "url": "https://www.harborfreight.com/public/images/apple-touch-icon.882ab3e7..png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.harborfreight.com"
+  },
+  "o:hoka": {
+   "brand": "HOKA",
+   "url": "https://www.hoka.com/on/demandware.static/Sites-HOKA-US-Site/-/default/dwbddc9ef1/images/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.hoka.com"
+  },
+  "o:homedepot": {
+   "brand": "Home Depot",
+   "url": "https://www.homedepot.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.homedepot.com"
+  },
+  "o:hp": {
+   "brand": "HP",
+   "url": "https://www.hp.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.hp.com"
+  },
+  "o:hsn": {
+   "brand": "HSN",
+   "url": "https://www.hsn.com/cassette.axd/file/apple-touch-icon-57x57-d05493c98548dc286bd544ab3e847f4900acdbf8.png",
+   "fit": "cover",
+   "px": 57,
+   "from": "site",
+   "site": "www.hsn.com"
+  },
+  "o:ikea": {
+   "brand": "IKEA",
+   "url": "https://www.ikea.com/global/en/images/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.ikea.com"
+  },
+  "o:jcpenney": {
+   "brand": "JCPenney",
+   "url": "https://www.static-jcpenney.com/prod7/yoda-home/assets/static/apple-touch-icon-57x57.png",
+   "fit": "cover",
+   "px": 57,
+   "from": "site",
+   "site": "www.jcpenney.com"
+  },
+  "o:jcrew": {
+   "brand": "J.Crew",
+   "url": "https://www.jcrew.com/next-static/images/apple-touch-icon-jcrew.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.jcrew.com"
+  },
+  "o:jcrewfactory": {
+   "brand": "J.Crew Factory",
+   "url": "https://factory.jcrew.com/next-static/images/apple-touch-icon-factory.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "factory.jcrew.com"
+  },
+  "o:jomashop": {
+   "brand": "Jomashop",
+   "url": "https://www.jomashop.com/assets/joma/icons/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.jomashop.com"
+  },
+  "o:josabank": {
+   "brand": "Jos. A. Bank",
+   "url": "https://www.josbank.com/wcsstore/JABAuroraStorefrontAssetStore/images/touch-icon-180px.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.josbank.com"
+  },
+  "o:katespade": {
+   "brand": "Kate Spade",
+   "url": "https://assets.katespade.com/icons/kate-spade/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.katespade.com"
+  },
+  "o:kitchenaid": {
+   "brand": "KitchenAid",
+   "url": "https://www.kitchenaid.com/countertop-appliances/shared-homepage/favicon/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.kitchenaid.com"
+  },
+  "o:landsend": {
+   "brand": "Lands' End",
+   "url": "https://www.landsend.com/lighthouse.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.landsend.com"
+  },
+  "o:lenovo": {
+   "brand": "Lenovo",
+   "url": "https://www.lenovo.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.lenovo.com"
+  },
+  "o:llbean": {
+   "brand": "L.L.Bean",
+   "url": "https://www.llbean.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.llbean.com"
+  },
+  "o:logitech": {
+   "brand": "Logitech",
+   "url": "https://www.logitech.com/etc.clientlibs/logitech/clientlibs/common/resources/images/favicon.ico",
+   "fit": "contain",
+   "px": 144,
+   "from": "site",
+   "site": "www.logitech.com"
+  },
+  "o:menswearhouse": {
+   "brand": "Men's Wearhouse",
+   "url": "https://www.menswearhouse.com/favicon-64x64.png",
+   "fit": "contain",
+   "px": 64,
+   "from": "site",
+   "site": "www.menswearhouse.com"
+  },
+  "o:michaels": {
+   "brand": "Michaels",
+   "url": "https://static.platform.michaels.com/michaels-favicon.webp",
+   "fit": "contain",
+   "from": "site",
+   "site": "www.michaels.com"
+  },
+  "o:microsoft": {
+   "brand": "Microsoft Store",
+   "url": "https://www.microsoft.com/favicon.ico?v2",
+   "fit": "contain",
+   "px": 128,
+   "from": "site",
+   "site": "www.microsoft.com"
+  },
+  "o:newbalance": {
+   "brand": "New Balance",
+   "url": "https://www.newbalance.com/on/demandware.static/Sites-NBUS-Site/-/default/dw1f9b7035/images/favicons/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.newbalance.com"
+  },
+  "o:newegg": {
+   "brand": "Newegg",
+   "url": "https://c1.neweggimages.com/WebResource/ngm/newegg.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.newegg.com"
+  },
+  "o:nike": {
+   "brand": "Nike",
+   "url": "https://www.nike.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.nike.com"
+  },
+  "o:nordstrom": {
+   "brand": "Nordstrom",
+   "url": "https://www.nordstrom.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.nordstrom.com"
+  },
+  "o:nordstromrack": {
+   "brand": "Nordstrom Rack",
+   "url": "https://www.nordstromrack.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 152,
+   "from": "site",
+   "site": "www.nordstromrack.com"
+  },
+  "o:officedepot": {
+   "brand": "Office Depot",
+   "url": "https://media.officedepot.com/w_96,h_96/od_favicon.png",
+   "fit": "contain",
+   "px": 96,
+   "from": "site",
+   "site": "www.officedepot.com"
+  },
+  "o:oldnavy": {
+   "brand": "Old Navy",
+   "url": "https://oldnavy.gap.com/static_content/onesitecategory/components/mfe/_next/static/media/on-favicon-2025.25vcomlzd46s6.ico",
+   "fit": "contain",
+   "px": 196,
+   "from": "site",
+   "site": "oldnavy.gap.com"
+  },
+  "o:overstock": {
+   "brand": "Overstock",
+   "url": "https://www.overstock.com/favicon.ico?favicon.084sm7wwa~luy.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.overstock.com"
+  },
+  "o:patagonia": {
+   "brand": "Patagonia",
+   "url": "https://www.patagonia.com/on/demandware.static/Sites-patagonia-us-Site/-/default/dwea82cfde/images/patagonia-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.patagonia.com"
+  },
+  "o:potterybarn": {
+   "brand": "Pottery Barn",
+   "url": "https://www.potterybarn.com/.static/202638/503132281/img/favicons/pb.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.potterybarn.com"
+  },
+  "o:qvc": {
+   "brand": "QVC",
+   "url": "https://qvc.scene7.com/is/image/QVC/pic/favicon/rebrand/apple-touch-icon-144x144.png?fmt=png-alpha",
+   "fit": "cover",
+   "px": 144,
+   "from": "site",
+   "site": "www.qvc.com"
+  },
+  "o:rei": {
+   "brand": "REI",
+   "url": "https://www.rei.com/icon-192x192.png",
+   "fit": "cover",
+   "px": 192,
+   "from": "site",
+   "site": "www.rei.com"
+  },
+  "o:samsclub": {
+   "brand": "Sam's Club",
+   "url": "https://www.samsclub.com/favicon.ico?v=1",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.samsclub.com"
+  },
+  "o:samsung": {
+   "brand": "Samsung",
+   "url": "https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/pwa/icon/pwa_icon_192x192.png",
+   "fit": "cover",
+   "px": 192,
+   "from": "site",
+   "site": "www.samsung.com"
+  },
+  "o:sephora": {
+   "brand": "Sephora",
+   "url": "https://www.sephora.com/img/ufe/favicon.ico",
+   "fit": "contain",
+   "px": 48,
+   "from": "site",
+   "site": "www.sephora.com"
+  },
+  "o:shein": {
+   "brand": "SHEIN",
+   "url": "https://sc.ltwebstatic.com/she_dist/images/touch-icon-ipad-144-47ceee2d97.png",
+   "fit": "cover",
+   "px": 144,
+   "from": "site",
+   "site": "us.shein.com"
+  },
+  "o:shopsimon": {
+   "brand": "Shop Simon",
+   "url": "https://shop.simon.com/cdn/shop/files/ShopSimonFavicon_32x32.png?v=1725648782",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "shop.simon.com"
+  },
+  "o:shutterfly": {
+   "brand": "Shutterfly",
+   "url": "https://www.shutterfly.com/favicon.ico",
+   "fit": "contain",
+   "px": 64,
+   "from": "site",
+   "site": "www.shutterfly.com"
+  },
+  "o:skechers": {
+   "brand": "Skechers",
+   "url": "https://www.skechers.com/on/demandware.static/Sites-USSkechers-Site/-/default/dw862abc8b/images/favicons/apple-touch-icon.png",
+   "fit": "cover",
+   "from": "site",
+   "site": "www.skechers.com"
+  },
+  "o:staples": {
+   "brand": "Staples",
+   "url": "https://www.staples.com/sbd/img/ico/favicon.ico",
+   "fit": "cover",
+   "px": 256,
+   "from": "site",
+   "site": "www.staples.com"
+  },
+  "o:target": {
+   "brand": "Target",
+   "url": "https://assets.targetimg1.com/static/images/apple-touch-icon-precomposed.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.target.com"
+  },
+  "o:temu": {
+   "brand": "Temu",
+   "url": "https://aimg.kwcdn.com/upload_aimg/web/c9653751-0a91-46f1-806a-b639dd32931b.png.slim.png",
+   "fit": "cover",
+   "px": 512,
+   "from": "site",
+   "site": "www.temu.com"
+  },
+  "o:thenorthface": {
+   "brand": "The North Face",
+   "url": "https://www.thenorthface.com/touch-icon-iphone-retina.png?v=2",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.thenorthface.com"
+  },
+  "o:tirerack": {
+   "brand": "Tire Rack",
+   "url": "https://www.tirerack.com/images/favicon/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.tirerack.com"
+  },
+  "o:ugg": {
+   "brand": "UGG",
+   "url": "https://www.ugg.com/on/demandware.static/Sites-UGG-US-Site/-/default/dw316b4a64/images/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.ugg.com"
+  },
+  "o:ulta": {
+   "brand": "Ulta Beauty",
+   "url": "https://www.ulta.com/favicon.ico",
+   "fit": "contain",
+   "px": 1024,
+   "from": "site",
+   "site": "www.ulta.com"
+  },
+  "o:underarmour": {
+   "brand": "Under Armour",
+   "url": "https://www.underarmour.com/favicon.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.underarmour.com"
+  },
+  "o:urbanoutfitters": {
+   "brand": "Urban Outfitters",
+   "url": "https://static.urbanoutfitters.com/static/v3/apple-touch/itunes_artwork_x3.png",
+   "fit": "cover",
+   "px": 1024,
+   "from": "site",
+   "site": "www.urbanoutfitters.com"
+  },
+  "o:vevor": {
+   "brand": "VEVOR",
+   "url": "https://adsimg.vevorstatic.com/upload/vevor/custom/new-soa/static/icon/144.png",
+   "fit": "cover",
+   "px": 144,
+   "from": "site",
+   "site": "www.vevor.com"
+  },
+  "o:vistaprint": {
+   "brand": "Vistaprint",
+   "url": "https://www.vistaprint.com/assets/ubik/web/@vp/swan/3.41.1/systemjs/web/systemjs/brands/vistaprint/favicon.ico",
+   "fit": "contain",
+   "px": 96,
+   "from": "site",
+   "site": "www.vistaprint.com"
+  },
+  "o:walgreens": {
+   "brand": "Walgreens",
+   "url": "https://www.walgreens.com/apple-touch-icon.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.walgreens.com"
+  },
+  "o:westelm": {
+   "brand": "West Elm",
+   "url": "https://www.westelm.com/.static/202638/503132281/img/favicons/we.ico",
+   "fit": "contain",
+   "px": 32,
+   "from": "site",
+   "site": "www.westelm.com"
+  },
+  "o:woot": {
+   "brand": "Woot",
+   "url": "https://d3rqdbvvokrlbl.cloudfront.net/lib/Images/favicon/apple-touch-icon.5.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.woot.com"
+  },
+  "o:zappos": {
+   "brand": "Zappos",
+   "url": "https://m.media-amazon.com/images/G/01/zappos/ui/apple-touch-icon._CB1752870887_.png",
+   "fit": "cover",
+   "px": 180,
+   "from": "site",
+   "site": "www.zappos.com"
+  },
+  "ow:1800flowers": {
+   "brand": "1-800-Flowers",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/1-800-FLOWERS.COM,_Inc._Logo_.jpg/500px-1-800-FLOWERS.COM,_Inc._Logo_.jpg",
+   "fit": "contain",
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:academy": {
+   "brand": "Academy Sports + Outdoors",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Academy_Sports_%2B_Outdoors_Logo.svg/500px-Academy_Sports_%2B_Outdoors_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:adidas": {
+   "brand": "adidas",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Adidas_2022_logo.svg/500px-Adidas_2022_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:advanceauto": {
+   "brand": "Advance Auto Parts",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Logo_of_Advance_Auto_Parts.svg/500px-Logo_of_Advance_Auto_Parts.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:aliexpress": {
+   "brand": "AliExpress",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/AliExpress_2024.svg/500px-AliExpress_2024.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:amazon": {
+   "brand": "Amazon",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/500px-Amazon_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:americaneagle": {
+   "brand": "American Eagle",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/American_Eagle_Outfitters_text_logo.svg/500px-American_Eagle_Outfitters_text_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:apple": {
+   "brand": "Apple",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Apple_Store.png/500px-Apple_Store.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:autozone": {
+   "brand": "AutoZone",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Logo_of_AutoZone.png/500px-Logo_of_AutoZone.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:bananarepublic": {
+   "brand": "Banana Republic",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Banana_Republic.svg/500px-Banana_Republic.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:belk": {
+   "brand": "Belk",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Belk_logo_2010.svg/500px-Belk_logo_2010.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:bestbuy": {
+   "brand": "Best Buy",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Best_Buy_logo_2018.svg/500px-Best_Buy_logo_2018.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:bhphoto": {
+   "brand": "B&H Photo",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/B%26H_Photo_Video_logo_2021.svg/500px-B%26H_Photo_Video_logo_2021.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:birkenstock": {
+   "brand": "Birkenstock",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Birkenstock_2021_logo.svg/500px-Birkenstock_2021_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:boscovs": {
+   "brand": "Boscov's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Boscov's_Logo.svg/500px-Boscov's_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:bose": {
+   "brand": "Bose",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Bose_logo.svg/500px-Bose_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:calvinklein": {
+   "brand": "Calvin Klein",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Calvin_klein_logo_old.svg/500px-Calvin_klein_logo_old.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:carters": {
+   "brand": "Carter's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Carter's_logo.svg/500px-Carter's_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:chewy": {
+   "brand": "Chewy",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Chewy_Pet_Food_Logo.png/500px-Chewy_Pet_Food_Logo.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:childrensplace": {
+   "brand": "The Children's Place",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/The_Children's_Place_Logo.svg/500px-The_Children's_Place_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:coachoutlet": {
+   "brand": "Coach Outlet",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Coach_New_Logo.svg/500px-Coach_New_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:columbia": {
+   "brand": "Columbia",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Columbia_Sportswear_Co_logo.svg/500px-Columbia_Sportswear_Co_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:costco": {
+   "brand": "Costco",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Costco_Wholesale_logo_2010-10-26.svg/500px-Costco_Wholesale_logo_2010-10-26.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:crateandbarrel": {
+   "brand": "Crate & Barrel",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CrateandBarrelLogo.svg/500px-CrateandBarrelLogo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:crocs": {
+   "brand": "Crocs",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Crocs_wordmark.svg/500px-Crocs_wordmark.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:cvs": {
+   "brand": "CVS",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/CVS_Logo_2016.svg/500px-CVS_Logo_2016.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:dell": {
+   "brand": "Dell",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Dell_logo_2016.svg/500px-Dell_logo_2016.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:dillards": {
+   "brand": "Dillard's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Dillard's_Logo.svg/500px-Dillard's_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:disneystore": {
+   "brand": "Disney Store",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Disney_Store.png/500px-Disney_Store.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:dsw": {
+   "brand": "DSW",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Designer_Shoe_Warehouse_alternate_logo.svg/500px-Designer_Shoe_Warehouse_alternate_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:ebay": {
+   "brand": "eBay",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/500px-EBay_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:etsy": {
+   "brand": "Etsy",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Etsy_logo.svg/500px-Etsy_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:famousfootwear": {
+   "brand": "Famous Footwear",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Famous_Footwear_logo.svg/500px-Famous_Footwear_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:fanatics": {
+   "brand": "Fanatics",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Fanatics_inc_blacklogo.svg/500px-Fanatics_inc_blacklogo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:finishline": {
+   "brand": "Finish Line",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Finish_Line,_Inc._logo.svg/500px-Finish_Line,_Inc._logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:footlocker": {
+   "brand": "Foot Locker",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Foot_Locker_wordmark_1988.svg/500px-Foot_Locker_wordmark_1988.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:gamestop": {
+   "brand": "GameStop",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/GameStop_Logo_(2000%E2%80%932012).svg/500px-GameStop_Logo_(2000%E2%80%932012).svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:gap": {
+   "brand": "Gap",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/New_Gap_logo.svg/500px-New_Gap_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:gapfactory": {
+   "brand": "Gap Factory",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/New_Gap_logo.svg/500px-New_Gap_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:harborfreight": {
+   "brand": "Harbor Freight",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Harbor_Freight_Tools_logo.png/500px-Harbor_Freight_Tools_logo.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:hm": {
+   "brand": "H&M",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/500px-H%26M-Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:homedepot": {
+   "brand": "Home Depot",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/The_Home_Depot_logo.svg/500px-The_Home_Depot_logo.svg.png",
+   "fit": "contain",
+   "px": 503,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:hp": {
+   "brand": "HP",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Hindustan_Petroleum_logo.svg/500px-Hindustan_Petroleum_logo.svg.png",
+   "fit": "contain",
+   "px": 636,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:hsn": {
+   "brand": "HSN",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/HSN_logo.svg/500px-HSN_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:ikea": {
+   "brand": "IKEA",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ikea_logo.svg/500px-Ikea_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:jcpenney": {
+   "brand": "JCPenney",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JCPenney_logo.svg/500px-JCPenney_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:jcrew": {
+   "brand": "J.Crew",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/JCrewLogo.png/500px-JCrewLogo.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:jcrewfactory": {
+   "brand": "J.Crew Factory",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/JCrewLogo.png/500px-JCrewLogo.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:josabank": {
+   "brand": "Jos. A. Bank",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Jos_A_Bank.svg/500px-Jos_A_Bank.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:katespade": {
+   "brand": "Kate Spade",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kate_Spade_New_York_logo.svg/500px-Kate_Spade_New_York_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:kohls": {
+   "brand": "Kohl's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Kohl's_logo.svg/500px-Kohl's_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:landsend": {
+   "brand": "Lands' End",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/LandsEnd_Logo.svg/500px-LandsEnd_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:lego": {
+   "brand": "LEGO",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/500px-LEGO_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:lenovo": {
+   "brand": "Lenovo",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Lenovo_Logo.svg/500px-Lenovo_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:levis": {
+   "brand": "Levi's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Levi's_logo.svg/500px-Levi's_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:llbean": {
+   "brand": "L.L.Bean",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/L.L.Bean_wordmark.svg/500px-L.L.Bean_wordmark.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:logitech": {
+   "brand": "Logitech",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Logitech_logo.svg/500px-Logitech_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:lowes": {
+   "brand": "Lowe's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Lowes_Companies_Logo.svg/500px-Lowes_Companies_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:lululemon": {
+   "brand": "lululemon",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Lululemon_Athletica_logo.svg/500px-Lululemon_Athletica_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:macys": {
+   "brand": "Macy's",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Macy's_Logo_2019.png/500px-Macy's_Logo_2019.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:michaels": {
+   "brand": "Michaels",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Michaels_logo.svg/500px-Michaels_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:microcenter": {
+   "brand": "Micro Center",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Micro_Center_logo.svg/500px-Micro_Center_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:microsoft": {
+   "brand": "Microsoft Store",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Microsoft_Store_Fluent_Design_icon.png/500px-Microsoft_Store_Fluent_Design_icon.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:newbalance": {
+   "brand": "New Balance",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/New_Balance_logo.svg/500px-New_Balance_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:nike": {
+   "brand": "Nike",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/500px-Logo_NIKE.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:nordstrom": {
+   "brand": "Nordstrom",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Nordstrom_Logo_1991.svg/500px-Nordstrom_Logo_1991.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:nordstromrack": {
+   "brand": "Nordstrom Rack",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Current_Nordstrom_Rack_Logo.jpg/500px-Current_Nordstrom_Rack_Logo.jpg",
+   "fit": "contain",
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:northerntool": {
+   "brand": "Northern Tool",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Northern_Tool_%2B_Equipment_logo.svg/500px-Northern_Tool_%2B_Equipment_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:officedepot": {
+   "brand": "Office Depot",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Office-Depot-Logo.svg/500px-Office-Depot-Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:oldnavy": {
+   "brand": "Old Navy",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Old_Navy_Logo.svg/500px-Old_Navy_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:patagonia": {
+   "brand": "Patagonia",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Patagonia_(Unternehmen)_logo.svg/500px-Patagonia_(Unternehmen)_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:petco": {
+   "brand": "Petco",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Petco_Logo.svg/500px-Petco_Logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:petsmart": {
+   "brand": "PetSmart",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/PetSmart.svg/500px-PetSmart.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:qvc": {
+   "brand": "QVC",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/QVC.svg/500px-QVC.svg.png",
+   "fit": "contain",
+   "px": 545,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:rtic": {
+   "brand": "RTIC Outdoors",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/RTIC_logo_(2024).png/500px-RTIC_logo_(2024).png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:samsclub": {
+   "brand": "Sam's Club",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sam's_Club_1994.svg/500px-Sam's_Club_1994.svg.png",
+   "fit": "contain",
+   "px": 501,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:samsung": {
+   "brand": "Samsung",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Samsung_wordmark.svg/500px-Samsung_wordmark.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:sephora": {
+   "brand": "Sephora",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Sephora_logo.svg/500px-Sephora_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:shein": {
+   "brand": "SHEIN",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Shein_Logo_2017.svg/500px-Shein_Logo_2017.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:shopsimon": {
+   "brand": "Shop Simon",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Simon_Property_Group_Logo_2014.svg/500px-Simon_Property_Group_Logo_2014.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:shutterfly": {
+   "brand": "Shutterfly",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Shutterfly,_Inc._logo.svg/500px-Shutterfly,_Inc._logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:skechers": {
+   "brand": "Skechers",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Skechers.svg/500px-Skechers.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:staples": {
+   "brand": "Staples",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Staples_2019.svg/500px-Staples_2019.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:target": {
+   "brand": "Target",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Target_logo.svg/500px-Target_logo.svg.png",
+   "fit": "contain",
+   "px": 665,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:temu": {
+   "brand": "Temu",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Temu_logo.svg/500px-Temu_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:thenorthface": {
+   "brand": "The North Face",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/TheNorthFace_logo.svg/500px-TheNorthFace_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:tirerack": {
+   "brand": "Tire Rack",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Tire_Rack_logo.png/500px-Tire_Rack_logo.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:ugg": {
+   "brand": "UGG",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/UGG_Australia_logo.svg/500px-UGG_Australia_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:ulta": {
+   "brand": "Ulta Beauty",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ulta_Beauty_logo.svg/500px-Ulta_Beauty_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:underarmour": {
+   "brand": "Under Armour",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Under_armour_logo.svg/500px-Under_armour_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:vistaprint": {
+   "brand": "Vistaprint",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Vistaprint_logo14.png/500px-Vistaprint_logo14.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:walgreens": {
+   "brand": "Walgreens",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Walgreens_1990_logo_text.svg/500px-Walgreens_1990_logo_text.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:walmart": {
+   "brand": "Walmart",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Walmart_logo_(2025).svg/500px-Walmart_logo_(2025).svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:wayfair": {
+   "brand": "Wayfair",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Wayfair_2024_logo.svg/500px-Wayfair_2024_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:westelm": {
+   "brand": "West Elm",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/West_Elm_logo.svg/500px-West_Elm_logo.svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
+  "ow:woot": {
+   "brand": "Woot",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Woot_logo_(2025).svg/500px-Woot_logo_(2025).svg.png",
+   "fit": "contain",
+   "px": 500,
+   "from": "wikidata",
+   "site": "commons.wikimedia.org"
+  },
   "place:betterhalfcoffeeandcocktails": {
    "brand": "Better Half Coffee & Cocktails",
    "url": "https://images.squarespace-cdn.com/content/v1/594bffe5197aeafbe96113c2/1498191937791-RQOOVVS2Y7CMRFPYFL7W/favicon.ico?format=100w",

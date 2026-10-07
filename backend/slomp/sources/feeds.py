@@ -154,6 +154,22 @@ def dealnews_url(cid: int) -> str:
     return f"https://www.dealnews.com/c{cid}/{dealnews_paths().get(cid, '')}/?rss=1"
 
 
+PLACEHOLDER_DAYS = (7, 30, 90)       # dealnews' made-up expiries: this many days after posting
+
+
+def dealnews_stated(expires: Optional[datetime], posted: Optional[datetime], raw: str = "") -> bool:
+    """Is a dealnews expiry the deal's real end? Every post has one. An editor sets the real ones, usually at a round
+    time (11:59 PM, midnight Pacific as 02:59 or 03:00 Eastern, 1:00 AM); the rest are a placeholder a fixed number
+    of days after posting at the posting's own time, give or take the hour a clock change moves it. Of 1,127 posts
+    read on Oct 6, 2026, 695 had a placeholder; only 146 of the 432 real ends were at 23:59:00, the old test."""
+    if not expires:
+        return False
+    if not posted:
+        return raw[11:19] == "23:59:00"
+    d = (expires - posted).total_seconds()
+    return not any(abs(d - n * 86400 - shift) < 120 for n in PLACEHOLDER_DAYS for shift in (0, 3600, -3600))
+
+
 # --- per-source parsers ----------------------------------------------------------------------------------------
 def parse_dealnews(xml_bytes: bytes, feed: str, industries: list[str]) -> list[Post]:
     out = []
@@ -162,10 +178,11 @@ def parse_dealnews(xml_bytes: bytes, feed: str, industries: list[str]) -> list[P
         m = re.search(r"/(\d{5,})(?:\.html)?$", link)
         exp_raw = clean(it.findtext(DN + "expires"))
         exp = parse_time(exp_raw)
+        posted = _when(it.findtext("pubDate"))
         out.append(Post(
             source="dealnews", id=f"dealnews:{m.group(1) if m else link}", url=link, title=clean(it.findtext("title")),
-            text=_plain(it.findtext("description")), posted_at=_when(it.findtext("pubDate")),
-            expires_at=exp, expires_stated=bool(exp and exp_raw[11:19] == "23:59:00"),
+            text=_plain(it.findtext("description")), posted_at=posted,
+            expires_at=exp, expires_stated=dealnews_stated(exp, posted, exp_raw),
             price=money(it.findtext(DN + "price")), seller=clean(it.findtext(DN + "retailer")),
             deal_type=clean(it.findtext(DN + "dealType")).lower(), category=clean(it.findtext(DN + "category")),
             feeds=[feed], feed_industries=list(industries),

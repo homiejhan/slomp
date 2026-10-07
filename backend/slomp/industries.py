@@ -115,7 +115,12 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"grooming|clippers|brush(?:es)?|fountains?|feeders?|leash(?:es)?)", r"kibble", r"cat litter", r"litter box",
                  r"bird ?seed", r"aquarium", r"leash(?:es)?", r"dog bed", r"chew toys?", r"flea", r"heartgard",
                  r"nexgard", r"reptiles?", r"reptile terrariums?", r"aquariums?", r"fish tanks?", r"hamsters?", r"guinea pigs?", r"bird cages?", r"(?:pet|dog) gates?", r"purina", r"pedigree", r"blue buffalo", r"meow mix", r"friskies", r"milk-bone",
-                 r"greenies", r"temptations"), ["pets"]),
+                 r"greenies", r"temptations", r"cosequin", r"dasuquin",
+                 r"(?:supplements?|vitamins?|chews?|treats?|medicine|shampoo|food|toys?|beds?) for (?:dogs?|cats?|pets?|puppies|kittens)"),
+     ["pets"]),
+    # Toy lines whose names say "baby" (sales verification, run 1: "ZURU My Mini Baby Sets" were filed under Baby)
+    ("toy-brand", _rx(r"zuru", r"my mini baby", r"mini brands", r"baby alive", r"cry babies", r"l\.?o\.?l\.? surprise"),
+     ["toys"]),
     ("baby", _rx(r"itzy ritzy", r"(?:baby|safety|mesh|walk-?thru|pressure[- ]mounted|stair) gates?", r"diapers?", r"baby", r"babies", r"infants?", r"toddlers?", r"newborn", r"strollers?",
                  r"car seats?", r"cribs?", r"pacifiers?", r"infant formula", r"baby formula", r"onesies?",
                  r"sippy", r"pampers", r"huggies", r"luvs", r"similac", r"enfamil", r"gerber", r"kids'? clothing",
@@ -233,7 +238,7 @@ APPAREL_CUE = re.compile(r"\b(?:men'?s|women'?s|juniors'?|misses'?|girls'?|boys'
 TEXT_RULE_ORDER = tuple(r[0] for r in KEYWORD_RULES)
 
 # A health word next to a tech word ("smart watch blood pressure") is ambiguous; these words win outright.
-_DOMINANT = {"tech-brand": "tech"}
+_DOMINANT = {"tech-brand": "tech", "toy-brand": "toys"}
 
 
 @dataclass

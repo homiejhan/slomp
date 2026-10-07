@@ -20,6 +20,7 @@ from .online import OnlineDeals, OnlineResult
 from .promos import RestaurantPromos
 from .regulars import Regulars
 from .reference import city as city_by_id, find_cities
+from .sales import SalesResult, StoreSales, to_payload
 from .sources.feeds import DealFeeds
 from .sources.flipp import FlippClient
 from .sources.prices import PriceSources
@@ -66,6 +67,7 @@ class SlompService:
         self.online_deals = OnlineDeals(self.feeds, self.prices, self.db)
         self.promos = RestaurantPromos(self.feeds, RestaurantLocator())
         self.regulars = Regulars(self.http, self.db, self.settings)
+        self.store_sales = StoreSales(self.feeds, self.http)
         self._cache: dict[tuple, tuple[float, object]] = {}
         self._locks: dict[tuple, asyncio.Lock] = {}
 
@@ -138,12 +140,30 @@ class SlompService:
             merged.generated_at = min(merged.generated_at, part.generated_at)
         return merged
 
+    async def sales_result(self, use_cache: bool = True) -> SalesResult:
+        """Every sale at an online store that hasn't ended: the same for every city, so computed once."""
+        if not use_cache:
+            return await self.store_sales.run()
+        return await self._cached(("sales",), self.store_sales.run)
+
+    async def sales(self, industries, now: Optional[datetime] = None, use_cache: bool = True) -> dict:
+        """Sales at online stores in the chosen industries, live at `now` (the moment of the request)."""
+        inds = resolve_industries(industries, online_only=True)
+        if not inds:
+            raise InputError("Restaurants & Dining and Movies & Entertainment have local deals only; choose another "
+                             "industry for online stores' sales", [i for i in ind.IDS if ind.BY_ID[i].online])
+        return to_payload(await self.sales_result(use_cache), inds, now)
+
     async def warm(self) -> None:
         """Compute every industry's online deals in the background, one at a time (the price sources are slow by
         design), so the first visitor doesn't wait for them."""
         try:
             await self.regulars.all()                     # regular deals are the same for every city
         except Exception:                                 # warming is best-effort
+            pass
+        try:
+            await self.sales_result()                     # so are online stores' sales
+        except Exception:
             pass
         for i in ind.IDS:
             if ind.BY_ID[i].online:

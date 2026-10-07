@@ -217,6 +217,10 @@ class PoliteClient:
                     r = await self._http().get(url, params=params, headers=headers,
                                                timeout=httpx.Timeout(min(timeout_s, remaining), connect=10.0))
                     self._count(host, "requests")
+                except httpx.TooManyRedirects:
+                    self._count(host, "errors")
+                    self._fail(st)
+                    raise FetchError(url, "the site redirects in a loop")
                 except (httpx.TimeoutException, httpx.TransportError, OSError) as e:
                     self._count(host, "errors")
                     if isinstance(e, ssl.SSLCertVerificationError) or "CERTIFICATE_VERIFY_FAILED" in str(e):

@@ -1,0 +1,3378 @@
+{
+ "plan": "sales",
+ "iteration": 3,
+ "seed": 3013,
+ "run_id": "sales03-202610062205",
+ "run_at": "2026-10-07T03:05:07.783631+00:00",
+ "slomp": {
+  "sales": 206,
+  "stores": 49,
+  "by_source": {
+   "dealnews": 150,
+   "Hip2Save": 37,
+   "Slickdeals": 6,
+   "9to5Toys": 12,
+   "The Inventory": 1
+  },
+  "with_a_code": 49,
+  "with_an_end": 136,
+  "left_out": {
+   "not a store sale: no discount stated": 2176,
+   "sale: posted over 30 days ago": 307,
+   "not a store sale: one product, not a sale": 198,
+   "sale: no end date and posted over 7 days ago": 73,
+   "sale: ended": 47,
+   "not a store sale: a gift card": 40,
+   "not a store sale: pickup only": 31,
+   "sale: store not identified": 29,
+   "sale: same sale posted elsewhere": 26,
+   "not a store sale: digital, not shipped": 20,
+   "not a store sale: a discount for a group of people": 17,
+   "not a store sale: travel": 8,
+   "not a store sale: a roundup of other deals": 8,
+   "sale: no industry": 7,
+   "not a store sale: a subscription": 6,
+   "not a store sale: a membership": 6,
+   "not a store sale: a sign-up offer": 6,
+   "not a store sale: in stores only": 4,
+   "not a store sale: a local service": 4,
+   "not a store sale: a trade-in": 4,
+   "not a store sale: an auction": 3,
+   "not a store sale: a credit card offer": 2,
+   "sale: the post doesn't say the store ships": 1,
+   "not a store sale: a giveaway": 1
+  },
+  "feeds_failing": [],
+  "searches": [
+   {
+    "industries": [
+     "home"
+    ],
+    "sales": 47,
+    "stores": 16
+   },
+   {
+    "industries": [
+     "baby"
+    ],
+    "sales": 1,
+    "stores": 1
+   },
+   {
+    "industries": [
+     "office"
+    ],
+    "sales": 5,
+    "stores": 3
+   },
+   {
+    "industries": [
+     "beauty"
+    ],
+    "sales": 16,
+    "stores": 7
+   },
+   {
+    "industries": [
+     "grocery"
+    ],
+    "sales": 13,
+    "stores": 5
+   },
+   {
+    "industries": [
+     "health"
+    ],
+    "sales": 7,
+    "stores": 6
+   },
+   {
+    "industries": [
+     "sports"
+    ],
+    "sales": 18,
+    "stores": 10
+   },
+   {
+    "industries": [
+     "fashion"
+    ],
+    "sales": 75,
+    "stores": 27
+   },
+   {
+    "industries": [
+     "pets"
+    ],
+    "sales": 2,
+    "stores": 2
+   },
+   {
+    "industries": [
+     "tech"
+    ],
+    "sales": 39,
+    "stores": 13
+   },
+   {
+    "industries": [
+     "toys"
+    ],
+    "sales": 20,
+    "stores": 8
+   },
+   {
+    "industries": [
+     "auto"
+    ],
+    "sales": 2,
+    "stores": 2
+   },
+   {
+    "industries": [
+     "pets",
+     "toys"
+    ],
+    "sales": 22,
+    "stores": 8
+   },
+   {
+    "industries": [
+     "auto",
+     "fashion",
+     "sports"
+    ],
+    "sales": 91,
+    "stores": 31
+   },
+   {
+    "industries": [
+     "baby",
+     "office",
+     "tech"
+    ],
+    "sales": 43,
+    "stores": 15
+   },
+   {
+    "industries": [
+     "auto",
+     "health",
+     "home",
+     "sports"
+    ],
+    "sales": 69,
+    "stores": 23
+   }
+  ]
+ },
+ "tests": [
+  {
+   "id": "S-END-000",
+   "category": "S-END dates",
+   "subject": "Target: 40% Off Halloween Decorations at Target [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 7th\u201d",
+    "posted_at": "2026-10-06 12:24:00+00:00",
+    "url": "https://hip2save.com/deals/target-halloween-decorations/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-001",
+   "category": "S-END dates",
+   "subject": "Bath & Body Works: Up to 75% Off Bath & Body Works Sale | Hand Soap, Wallflowers & More from $3 [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-25 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 25th\u201d",
+    "posted_at": "2026-10-06 02:30:00+00:00",
+    "url": "https://hip2save.com/deals/bath-body-works-promo-code/",
+    "page_ends": [
+     "2026-10-25"
+    ],
+    "slomp_end_day": "2026-10-25"
+   }
+  },
+  {
+   "id": "S-END-002",
+   "category": "S-END dates",
+   "subject": "Fanatics: Fanatics NFL Deals: Up to 83% off + 10% to 35% off + shipping varies [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-06 23:59:59-05:00",
+    "ends_how": "the post says \u201ctoday only\u201d",
+    "posted_at": "2026-10-06 10:03:47-04:00",
+    "url": "https://www.dealnews.com/Fanatics-NFL-Deals-Up-to-83-off-10-to-35-off-shipping-varies/22249574.html",
+    "page_ends": [
+     "2026-10-06"
+    ],
+    "slomp_end_day": "2026-10-06"
+   }
+  },
+  {
+   "id": "S-END-003",
+   "category": "S-END dates",
+   "subject": "Woot: Amazon Essentials Mega Apparel Discount: Buy More, Save More on 4+ Apparel Extra [Slickdeals]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-13 23:59:59-05:00",
+    "ends_how": "the post says \u201cvalid through 10/13/26\u201d",
+    "posted_at": "2026-10-02 13:10:56+00:00",
+    "url": "https://slickdeals.net/f/20086923-amazon-essentials-mega-apparel-discount-buy-more-save-more-on-4-apparel-extra-40-off-free-s-h-w-amazon-prime",
+    "page_ends": [
+     "2026-10-13"
+    ],
+    "slomp_end_day": "2026-10-13"
+   }
+  },
+  {
+   "id": "S-END-004",
+   "category": "S-END dates",
+   "subject": "Best Buy: Up to 50% Off Best Buy TVs, Laptops & More [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-11 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 11th\u201d",
+    "posted_at": "2026-10-05 17:25:00+00:00",
+    "url": "https://hip2save.com/deals/best-buy-sale/",
+    "page_ends": [
+     "2026-10-05",
+     "2026-10-11"
+    ],
+    "slomp_end_day": "2026-10-11"
+   }
+  },
+  {
+   "id": "S-END-005",
+   "category": "S-END dates",
+   "subject": "Target: 30% Off Halloween Costumes at Target | Disney, KPop Demon Hunters, Diet Coke & M [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 7th\u201d",
+    "posted_at": "2026-10-06 17:50:00+00:00",
+    "url": "https://hip2save.com/deals/target-halloween-costumes/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-006",
+   "category": "S-END dates",
+   "subject": "Woot: Up to 75% Off Toys + Free Prime Shipping | Prices from $7.79 Shipped [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-06 23:59:59-05:00",
+    "ends_how": "the post says \u201cthrough today, October 6th\u201d",
+    "posted_at": "2026-10-06 22:35:00+00:00",
+    "url": "https://hip2save.com/deals/woot-toys/",
+    "page_ends": [
+     "2026-10-06"
+    ],
+    "slomp_end_day": "2026-10-06"
+   }
+  },
+  {
+   "id": "S-END-007",
+   "category": "S-END dates",
+   "subject": "Kohl's: Kohl\u2019s Today-Only Deals: Up to 60% Off + RARE Free Shipping & Earn Kohl\u2019s Cash! [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-08 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 8th\u201d",
+    "posted_at": "2026-10-06 10:56:00+00:00",
+    "url": "https://hip2save.com/deals/kohls-deal-days/",
+    "page_ends": [
+     "2026-10-06",
+     "2026-10-08",
+     "2026-10-18"
+    ],
+    "slomp_end_day": "2026-10-08"
+   }
+  },
+  {
+   "id": "S-END-008",
+   "category": "S-END dates",
+   "subject": "Amazon: Amazon Prime Big Deal Days 2026: Up to 70% off w/ Prime + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cends on October 7\u201d",
+    "posted_at": "2026-10-06 03:09:36-04:00",
+    "url": "https://www.dealnews.com/Amazon-Prime-Big-Deal-Days-2026-Up-to-70-off-w-Prime-free-shipping/22248905.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-009",
+   "category": "S-END dates",
+   "subject": "Target: 40% Off Christmas Decor for Target Circle Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 7th\u201d",
+    "posted_at": "2026-10-06 10:45:00+00:00",
+    "url": "https://hip2save.com/deals/target-christmas-decorations/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-010",
+   "category": "S-END dates",
+   "subject": "Amazon: Up to 70% Off Team-Fave medicube Beauty Products for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 7th\u201d",
+    "posted_at": "2026-10-06 11:53:00+00:00",
+    "url": "https://hip2save.com/deals/medicube/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-011",
+   "category": "S-END dates",
+   "subject": "Target: 40% Off Our Generation Dolls & Accessories at Target [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cThrough October 7th\u201d",
+    "posted_at": "2026-10-06 17:25:00+00:00",
+    "url": "https://hip2save.com/deals/our-generation-dolls/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-012",
+   "category": "S-END dates",
+   "subject": "Amazon: Amazon Prime Big Deal Days Apparel, Shoes, & Accessories Deals: Up to 80% off w/ [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cends October 7\u201d",
+    "posted_at": "2026-10-06 05:43:40-04:00",
+    "url": "https://www.dealnews.com/Amazon-Prime-Big-Deal-Days-Apparel-Shoes-Accessories-Deals-Up-to-80-off-w-Prime-free-shipping/22249174.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-013",
+   "category": "S-END dates",
+   "subject": "Kohl's: Up to 55% Off Kohl\u2019s Kitchen Items + RARE Free Shipping [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-08 23:59:59-05:00",
+    "ends_how": "the post says \u201cthrough October 8th\u201d",
+    "posted_at": "2026-10-06 17:40:00+00:00",
+    "url": "https://hip2save.com/deals/kohls-kitchen/",
+    "page_ends": [
+     "2026-10-08"
+    ],
+    "slomp_end_day": "2026-10-08"
+   }
+  },
+  {
+   "id": "S-END-014",
+   "category": "S-END dates",
+   "subject": "Sephora: Up to 40% Off Name-Brand Hair Care at Sephora + Free Same-Day Delivery [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:59-05:00",
+    "ends_how": "the post says \u201cthrough October 7th\u201d",
+    "posted_at": "2026-10-04 17:50:12+00:00",
+    "url": "https://hip2save.com/deals/sephora-hair-care-sale/",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-015",
+   "category": "S-END dates",
+   "subject": "Amazon: Score up to 48% Fall Prime Day savings on Greenworks electric tools at some of t [9to5Toys]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": null,
+    "ends_how": "",
+    "posted_at": "2026-10-06 16:39:30+00:00",
+    "url": "https://9to5toys.com/2026/10/06/greenworks-outdoor-power-equipment-deals/",
+    "page_ends": []
+   }
+  },
+  {
+   "id": "S-END-016",
+   "category": "S-END dates",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-09 02:00:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 07:07:38-04:00",
+    "url": "https://www.dealnews.com/Kohls-Deal-Days-Sale-Up-to-60-off-extra-25-off-free-shipping/22249306.html",
+    "page_ends": [
+     "2026-10-08"
+    ],
+    "slomp_end_day": "2026-10-08"
+   }
+  },
+  {
+   "id": "S-END-017",
+   "category": "S-END dates",
+   "subject": "Welax: Welax S3 Ergonomic Office Chair: $45 OFF + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-31 23:59:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-09-22 08:00:00-04:00",
+    "url": "https://www.dealnews.com/Welax-S3-Ergonomic-Office-Chair-45-OFF-free-shipping/22203447.html",
+    "page_ends": [
+     "2026-10-31"
+    ],
+    "slomp_end_day": "2026-10-31"
+   }
+  },
+  {
+   "id": "S-END-018",
+   "category": "S-END dates",
+   "subject": "Amazon: Dude Wipes Prime Big Deal Days Deals at Amazon: Up to 33% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": null,
+    "ends_how": "",
+    "posted_at": "2026-10-06 15:55:05-04:00",
+    "url": "https://www.dealnews.com/Dude-Wipes-Prime-Big-Deal-Days-Deals-at-Amazon-Up-to-33-off-free-shipping/22249985.html",
+    "page_ends": []
+   }
+  },
+  {
+   "id": "S-END-019",
+   "category": "S-END dates",
+   "subject": "Target: Target Deal Days Halloween Trick-or-Treat Candy Bags Deals: Buy 1 get 1 25% off  [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-11 02:59:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 11:03:43-04:00",
+    "url": "https://www.dealnews.com/Target-Deal-Days-Halloween-Trick-or-Treat-Candy-Bags-Deals-Buy-1-get-1-25-off-free-shipping-w-35/22249702.html",
+    "page_ends": [
+     "2026-10-10"
+    ],
+    "slomp_end_day": "2026-10-10"
+   }
+  },
+  {
+   "id": "S-END-020",
+   "category": "S-END dates",
+   "subject": "Best Buy: Best Buy Top 100 Techtober Deals: Up to $1,200 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-12 01:00:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 04:31:36-04:00",
+    "url": "https://www.dealnews.com/Best-Buy-Top-100-Techtober-Deals-Up-to-1-200-off-free-shipping/22249060.html",
+    "page_ends": [
+     "2026-10-11"
+    ],
+    "slomp_end_day": "2026-10-11"
+   }
+  },
+  {
+   "id": "S-END-021",
+   "category": "S-END dates",
+   "subject": "RTIC Outdoors: RTIC Outdoors Fall Flash Sale: Up to 50% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 07:31:39-04:00",
+    "url": "https://www.dealnews.com/RTIC-Outdoors-Fall-Flash-Sale-Up-to-50-off-free-shipping-w-35/22249347.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-022",
+   "category": "S-END dates",
+   "subject": "Amazon: Amazon Outlet Prime Big Deal Days Sale: Up to 80% off + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-08 03:00:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 03:50:07-04:00",
+    "url": "https://www.dealnews.com/Amazon-Outlet-Prime-Big-Deal-Days-Sale-Up-to-80-off-free-shipping-w-Prime/22248982.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-023",
+   "category": "S-END dates",
+   "subject": "Woot: Pet Products Sale at Woot: Up to 70% off + extra 20% off 3+ items + free shippin [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-09 00:58:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-09-30 05:42:23-04:00",
+    "url": "https://www.dealnews.com/Pet-Products-Sale-at-Woot-Up-to-70-off-extra-20-off-3-items-free-shipping-w-Prime/22229479.html",
+    "page_ends": [
+     "2026-10-08"
+    ],
+    "slomp_end_day": "2026-10-08"
+   }
+  },
+  {
+   "id": "S-END-024",
+   "category": "S-END dates",
+   "subject": "Amazon: Official fall Prime Day AirPods deals now live at up to $120 off [9to5Toys]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": null,
+    "ends_how": "",
+    "posted_at": "2026-10-06 14:39:55+00:00",
+    "url": "https://9to5toys.com/2026/10/06/fall-prime-day-airpods-deals-now-live/",
+    "page_ends": []
+   }
+  },
+  {
+   "id": "S-END-025",
+   "category": "S-END dates",
+   "subject": "Amazon: Amazon Prime Big Deal Days Toys & Games Deals: Up to 70% off w/ Prime + free shi [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-08 03:00:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 05:34:49-04:00",
+    "url": "https://www.dealnews.com/Amazon-Prime-Big-Deal-Days-Toys-Games-Deals-Up-to-70-off-w-Prime-free-shipping/22249168.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-END-026",
+   "category": "S-END dates",
+   "subject": "Harbor Freight: Harbor Freight Instant Savings Sale: Up to 44% off + shipping from $7 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-09 03:00:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-09-07 18:46:43-04:00",
+    "url": "https://www.dealnews.com/Harbor-Freight-Instant-Savings-Sale-Up-to-44-off-shipping-from-7/22155223.html",
+    "page_ends": [
+     "2026-10-08"
+    ],
+    "slomp_end_day": "2026-10-08"
+   }
+  },
+  {
+   "id": "S-END-027",
+   "category": "S-END dates",
+   "subject": "Amazon: Up to 45% Off Learning Resources Toys on Amazon | Fine Motor Hippo Just $9.70! [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": null,
+    "ends_how": "",
+    "posted_at": "2026-10-03 15:39:53+00:00",
+    "url": "https://hip2save.com/deals/learning-resources-toys/",
+    "page_ends": []
+   }
+  },
+  {
+   "id": "S-END-028",
+   "category": "S-END dates",
+   "subject": "adidas: adidas Men's T-Shirt Deals: Up to 60% off + extra 15% off select + Free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": null,
+    "ends_how": "",
+    "posted_at": "2026-10-05 11:01:27-04:00",
+    "url": "https://www.dealnews.com/adidas-Mens-T-Shirt-Deals-Up-to-60-off-extra-15-off-select-Free-shipping/22246547.html",
+    "page_ends": []
+   }
+  },
+  {
+   "id": "S-END-029",
+   "category": "S-END dates",
+   "subject": "Target: Apple Deal Days at Target: Up to $100 off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "ends_at": "2026-10-07 23:59:00-04:00",
+    "ends_how": "dealnews gives this end date",
+    "posted_at": "2026-10-06 09:06:46-04:00",
+    "url": "https://www.dealnews.com/Apple-Deal-Days-at-Target-Up-to-100-off-free-shipping-w-35/22249486.html",
+    "page_ends": [
+     "2026-10-07"
+    ],
+    "slomp_end_day": "2026-10-07"
+   }
+  },
+  {
+   "id": "S-STORE-030",
+   "category": "S-STORE store",
+   "subject": "Macy's: Macy's Star Deals Week: Up to 80% off + free shipping w/ $39 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Macy's",
+    "said": [
+     "Macy's"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Macy's"
+    ],
+    "url": "https://www.dealnews.com/Macys-Star-Deals-Week-Up-to-80-off-free-shipping-w-39/22249223.html"
+   }
+  },
+  {
+   "id": "S-STORE-031",
+   "category": "S-STORE store",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Kohl's",
+    "said": [
+     "Kohl's"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Kohl's"
+    ],
+    "url": "https://www.dealnews.com/Kohls-Deal-Days-Sale-Up-to-60-off-extra-25-off-free-shipping/22249306.html"
+   }
+  },
+  {
+   "id": "S-STORE-032",
+   "category": "S-STORE store",
+   "subject": "Staples: Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Staples",
+    "said": [
+     "Staples Copy & Print",
+     "Staples"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Staples"
+    ],
+    "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Printing-Sale-Extra-60-off-free-shipping-w-35/22246037.html"
+   }
+  },
+  {
+   "id": "S-STORE-033",
+   "category": "S-STORE store",
+   "subject": "Amazon: Up to 50% Off La Roche Posay Cleansers on Amazon [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [
+     "amazon.com"
+    ],
+    "title_starts": [],
+    "url": "https://hip2save.com/deals/la-roche-posay/"
+   }
+  },
+  {
+   "id": "S-STORE-034",
+   "category": "S-STORE store",
+   "subject": "Staples: K-Cup Deals at Staples: Buy 1, get extra 75% off 2nd + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Staples",
+    "said": [
+     "Staples"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/K-Cup-Deals-at-Staples-Buy-1-get-extra-75-off-2-nd-free-shipping/22249092.html"
+   }
+  },
+  {
+   "id": "S-STORE-035",
+   "category": "S-STORE store",
+   "subject": "Amazon: Premier Protein Prime Big Deals at Amazon: Up to 40% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/Premier-Protein-Prime-Big-Deals-at-Amazon-Up-to-40-off-free-shipping/22249421.html"
+   }
+  },
+  {
+   "id": "S-STORE-036",
+   "category": "S-STORE store",
+   "subject": "adidas: adidas Fall Kick Off Sale: Up to 60% off + extra 15% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "adidas",
+    "said": [
+     "adidas",
+     "Adidas"
+    ],
+    "linked": [],
+    "title_starts": [
+     "adidas"
+    ],
+    "url": "https://www.dealnews.com/adidas-Fall-Kick-Off-Sale-Up-to-60-off-extra-15-off-free-shipping/22232099.html"
+   }
+  },
+  {
+   "id": "S-STORE-037",
+   "category": "S-STORE store",
+   "subject": "Kohl's: Kohl\u2019s Today-Only Deals: Up to 60% Off + RARE Free Shipping & Earn Kohl\u2019s Cash! [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Kohl's",
+    "said": [],
+    "linked": [
+     "kohls.com"
+    ],
+    "title_starts": [
+     "Kohl\u2019s"
+    ],
+    "url": "https://hip2save.com/deals/kohls-deal-days/"
+   }
+  },
+  {
+   "id": "S-STORE-038",
+   "category": "S-STORE store",
+   "subject": "Woot: Pet Products Sale at Woot: Up to 70% off + extra 20% off 3+ items + free shippin [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Woot",
+    "said": [
+     "Woot! An Amazon Company",
+     "Woot!",
+     "Woot"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/Pet-Products-Sale-at-Woot-Up-to-70-off-extra-20-off-3-items-free-shipping-w-Prime/22229479.html"
+   }
+  },
+  {
+   "id": "S-STORE-039",
+   "category": "S-STORE store",
+   "subject": "Amazon: Official fall Prime Day AirPods deals now live at up to $120 off [9to5Toys]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [
+     "amzn.to"
+    ],
+    "title_starts": [],
+    "url": "https://9to5toys.com/2026/10/06/fall-prime-day-airpods-deals-now-live/"
+   }
+  },
+  {
+   "id": "S-STORE-040",
+   "category": "S-STORE store",
+   "subject": "Best Buy: LEGO Techtober Deals at Best Buy: Up to 30% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Best Buy",
+    "said": [
+     "Best Buy"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/LEGO-Techtober-Deals-at-Best-Buy-Up-to-30-off-free-shipping/22249935.html"
+   }
+  },
+  {
+   "id": "S-STORE-041",
+   "category": "S-STORE store",
+   "subject": "Harbor Freight: Harbor Freight Instant Savings Sale: Up to 44% off + shipping from $7 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Harbor Freight",
+    "said": [
+     "Harbor Freight Tools",
+     "Harbor Freight"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Harbor Freight"
+    ],
+    "url": "https://www.dealnews.com/Harbor-Freight-Instant-Savings-Sale-Up-to-44-off-shipping-from-7/22155223.html"
+   }
+  },
+  {
+   "id": "S-STORE-042",
+   "category": "S-STORE store",
+   "subject": "Woot: Woot Wootober Promo Code: Extra 22% off daily deals + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Woot",
+    "said": [
+     "Woot! An Amazon Company",
+     "Woot!",
+     "Woot"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Woot"
+    ],
+    "url": "https://www.dealnews.com/Woot-Wootober-Promo-Code-Extra-22-off-daily-deals-free-shipping-w-Prime/22249016.html"
+   }
+  },
+  {
+   "id": "S-STORE-043",
+   "category": "S-STORE store",
+   "subject": "Crocs: Up to 60% Off Crocs + FREE Shipping | Styles from $16.99 Shipped [Hip2Save]",
+   "verdict": "fail",
+   "detail": {
+    "store": "Crocs",
+    "said": [],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://hip2save.com/deals/ebay-crocs/"
+   }
+  },
+  {
+   "id": "S-STORE-044",
+   "category": "S-STORE store",
+   "subject": "Amazon: Govee Prime Big Deals at Amazon: Up to 50% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/Govee-Prime-Big-Deals-at-Amazon-Up-to-50-off-free-shipping/22249555.html"
+   }
+  },
+  {
+   "id": "S-STORE-045",
+   "category": "S-STORE store",
+   "subject": "Home Depot: Home Depot Deals of the Day: Up to 55% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Home Depot",
+    "said": [
+     "Home Depot"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Home Depot"
+    ],
+    "url": "https://www.dealnews.com/Home-Depot-Deals-of-the-Day-Up-to-55-off-free-shipping/22248918.html"
+   }
+  },
+  {
+   "id": "S-STORE-046",
+   "category": "S-STORE store",
+   "subject": "Target: 40% Off Christmas Decor for Target Circle Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Target",
+    "said": [
+     "Target.com",
+     "Target"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://hip2save.com/deals/target-christmas-decorations/"
+   }
+  },
+  {
+   "id": "S-STORE-047",
+   "category": "S-STORE store",
+   "subject": "Staples: Staples Filing & Organization Deals: Up to 56% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Staples",
+    "said": [
+     "Staples"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Staples"
+    ],
+    "url": "https://www.dealnews.com/Staples-Filing-Organization-Deals-Up-to-56-off-free-shipping-w-35/22232224.html"
+   }
+  },
+  {
+   "id": "S-STORE-048",
+   "category": "S-STORE store",
+   "subject": "Amazon: Cleaning & Laundry Supplies at Amazon: Buy 3, get 20% off + free shipping w/ Pri [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/Cleaning-Laundry-Supplies-at-Amazon-Buy-3-get-20-off-free-shipping-w-Prime/22229608.html"
+   }
+  },
+  {
+   "id": "S-STORE-049",
+   "category": "S-STORE store",
+   "subject": "Best Buy: Best Buy Top 100 Techtober Deals: Up to $1,200 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Best Buy",
+    "said": [
+     "Best Buy"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Best Buy"
+    ],
+    "url": "https://www.dealnews.com/Best-Buy-Top-100-Techtober-Deals-Up-to-1-200-off-free-shipping/22249060.html"
+   }
+  },
+  {
+   "id": "S-STORE-050",
+   "category": "S-STORE store",
+   "subject": "Amazon: CAP Barbell Weightlifting Prime Big Deals at Amazon: Up to 68% off + free shippi [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [],
+    "title_starts": [],
+    "url": "https://www.dealnews.com/CAP-Barbell-Weightlifting-Prime-Big-Deals-at-Amazon-Up-to-68-off-free-shipping-w-Prime/22249964.html"
+   }
+  },
+  {
+   "id": "S-STORE-051",
+   "category": "S-STORE store",
+   "subject": "lululemon: lululemon Legging Specials: Up to 62% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "lululemon",
+    "said": [
+     "lululemon",
+     "Lululemon"
+    ],
+    "linked": [],
+    "title_starts": [
+     "lululemon"
+    ],
+    "url": "https://www.dealnews.com/lululemon-Legging-Specials-Up-to-62-off-free-shipping/22234705.html"
+   }
+  },
+  {
+   "id": "S-STORE-052",
+   "category": "S-STORE store",
+   "subject": "Amazon: Up to 40% off Native Pet Supplements for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [
+     "Amazon"
+    ],
+    "linked": [
+     "amazon.com"
+    ],
+    "title_starts": [],
+    "url": "https://hip2save.com/deals/native-pet/"
+   }
+  },
+  {
+   "id": "S-STORE-053",
+   "category": "S-STORE store",
+   "subject": "Costco: Costco October Online Savings: Up to $1,200 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Costco",
+    "said": [
+     "Costco"
+    ],
+    "linked": [],
+    "title_starts": [
+     "Costco"
+    ],
+    "url": "https://www.dealnews.com/Costco-October-Online-Savings-Up-to-1-200-off-free-shipping/22232102.html"
+   }
+  },
+  {
+   "id": "S-STORE-054",
+   "category": "S-STORE store",
+   "subject": "Amazon: Fall Prime Day LEGO deals now live at up to 51% off: Star Wars, Marvel, Botanica [9to5Toys]",
+   "verdict": "pass",
+   "detail": {
+    "store": "Amazon",
+    "said": [],
+    "linked": [
+     "amazon.com",
+     "amzn.to"
+    ],
+    "title_starts": [],
+    "url": "https://9to5toys.com/2026/10/06/lego-building-set-deals/"
+   }
+  },
+  {
+   "id": "S-OFFER-055",
+   "category": "S-OFFER offer and code",
+   "subject": "Belk: Belk Flash Sale: Up to 50% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Belk Flash Sale: Up to 50% off + free shipping",
+    "badge": "Up to 50%",
+    "offer": "Up to 50% off",
+    "code": "BESTDRESSED",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-056",
+   "category": "S-OFFER offer and code",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping",
+    "badge": "Extra 25%",
+    "offer": "Up to 60% off + extra 25% off",
+    "code": "TAKE25",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-057",
+   "category": "S-OFFER offer and code",
+   "subject": "Staples: Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35",
+    "badge": "Up to 60%",
+    "offer": "Up to 60% off",
+    "code": "82092",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-058",
+   "category": "S-OFFER offer and code",
+   "subject": "Woot: Woot Wootober Promo Code: Extra 22% off daily deals + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Woot Wootober Promo Code: Extra 22% off daily deals + free shipping w/ Prime",
+    "badge": "Extra 22%",
+    "offer": "Extra 22% off",
+    "code": "WOOTOBER",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-059",
+   "category": "S-OFFER offer and code",
+   "subject": "Staples: K-Cup Deals at Staples: Buy 1, get extra 75% off 2nd + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "K-Cup Deals at Staples: Buy 1, get extra 75% off 2nd + free shipping",
+    "badge": "BOGO 75%",
+    "offer": "Buy 1 get 1 75% off",
+    "code": "82092",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-060",
+   "category": "S-OFFER offer and code",
+   "subject": "Ulta Beauty: Ulta Beauty Sitewide Promo Code: Extra 20% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Ulta Beauty Sitewide Promo Code: Extra 20% off + free shipping w/ $35",
+    "badge": "Extra 20%",
+    "offer": "Extra 20% off",
+    "code": "SAVE20",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-061",
+   "category": "S-OFFER offer and code",
+   "subject": "Woot: Woot Last Chance Sports & Outdoors Clearance: Up to 91% off + extra 22% off + fr [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Woot Last Chance Sports & Outdoors Clearance: Up to 91% off + extra 22% off + free shipping w/ Prime",
+    "badge": "Extra 22%",
+    "offer": "Up to 91% off + extra 22% off",
+    "code": "WOOTOBER",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-062",
+   "category": "S-OFFER offer and code",
+   "subject": "adidas: adidas Men's T-Shirt Deals: Up to 60% off + extra 15% off select + Free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "adidas Men's T-Shirt Deals: Up to 60% off + extra 15% off select + Free shipping",
+    "badge": "Extra 15%",
+    "offer": "Up to 60% off + extra 15% off",
+    "code": "DN15",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-063",
+   "category": "S-OFFER offer and code",
+   "subject": "Woot: Up to 75% Off Toys + Free Prime Shipping | Prices from $7.79 Shipped [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Up to 75% Off Toys + Free Prime Shipping | Prices from $7.79 Shipped",
+    "badge": "Up to 75%",
+    "offer": "Up to 75% off",
+    "code": "WOOTOBER",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-064",
+   "category": "S-OFFER offer and code",
+   "subject": "Kohl's: Kohl\u2019s Deal Days Luggage Sale: 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Kohl\u2019s Deal Days Luggage Sale: 60% off + extra 25% off + free shipping",
+    "badge": "60% off",
+    "offer": "60% off + extra 25% off",
+    "code": "TAKE25",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-065",
+   "category": "S-OFFER offer and code",
+   "subject": "Amazon: Amazon Outlet Prime Big Deal Days Sale: Up to 80% off + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Amazon Outlet Prime Big Deal Days Sale: Up to 80% off + free shipping w/ Prime",
+    "badge": "Up to 80%",
+    "offer": "Up to 80% off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-066",
+   "category": "S-OFFER offer and code",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping",
+    "badge": "Extra 25%",
+    "offer": "Up to 60% off + extra 25% off",
+    "code": "TAKE25",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-067",
+   "category": "S-OFFER offer and code",
+   "subject": "Welax: Welax S3 Ergonomic Office Chair: $45 OFF + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Welax S3 Ergonomic Office Chair: $45 OFF + free shipping",
+    "badge": "$45 off",
+    "offer": "$45 off",
+    "code": "DEALNEWS15",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-068",
+   "category": "S-OFFER offer and code",
+   "subject": "Amazon: Up to 70% Off Team-Fave medicube Beauty Products for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Up to 70% Off Team-Fave medicube Beauty Products for Amazon Prime Members",
+    "badge": "Up to 70%",
+    "offer": "Up to 70% off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-069",
+   "category": "S-OFFER offer and code",
+   "subject": "Amazon: $10 Off $30 Coca-Cola Products Purchase on Amazon | Includes Smartwater, TopoChi [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "title": "$10 Off $30 Coca-Cola Products Purchase on Amazon | Includes Smartwater, TopoChico & More",
+    "badge": "$10 off",
+    "offer": "$10 off $30+",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-070",
+   "category": "S-OFFER offer and code",
+   "subject": "Best Buy: Best Buy Top 100 Techtober Deals: Up to $1,200 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Best Buy Top 100 Techtober Deals: Up to $1,200 off + free shipping",
+    "badge": "Up to $1,200",
+    "offer": "Up to $1,200 off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-071",
+   "category": "S-OFFER offer and code",
+   "subject": "Amazon: Coleman Prime Big Deal Days Deals at Amazon: Up to 37% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Coleman Prime Big Deal Days Deals at Amazon: Up to 37% off + free shipping",
+    "badge": "Up to 37%",
+    "offer": "Up to 37% off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-072",
+   "category": "S-OFFER offer and code",
+   "subject": "Macy's: Macy's Jewelry Flash Sale: Up to 70% off + free shipping w/ $39 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Macy's Jewelry Flash Sale: Up to 70% off + free shipping w/ $39",
+    "badge": "Up to 70%",
+    "offer": "Up to 70% off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-073",
+   "category": "S-OFFER offer and code",
+   "subject": "Amazon: Up to 40% off Native Pet Supplements for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Up to 40% off Native Pet Supplements for Amazon Prime Members",
+    "badge": "Up to 40%",
+    "offer": "Up to 40% off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-OFFER-074",
+   "category": "S-OFFER offer and code",
+   "subject": "Costco: Costco October Online Savings: Up to $1,200 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "title": "Costco October Online Savings: Up to $1,200 off + free shipping",
+    "badge": "Up to $1,200",
+    "offer": "Up to $1,200 off",
+    "code": "",
+    "problems": []
+   }
+  },
+  {
+   "id": "S-SHIP-075",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "DealNews: The Best Amazon Prime Big Deal Days Deals: Up to 80% off + free shipping w/ Prim [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22184835",
+    "judge": {
+     "qid": "S-SHIP-075",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-076",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "baby"
+    ],
+    "slomp_industries": [
+     "fashion",
+     "home",
+     "beauty",
+     "baby"
+    ],
+    "sale": "sale:dealnews:22249306",
+    "judge": {
+     "qid": "S-SHIP-076",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-077",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Staples: Staples Filing & Organization Deals: Up to 56% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "office"
+    ],
+    "sale": "sale:dealnews:22232224",
+    "judge": {
+     "qid": "S-SHIP-077",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-078",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Wootober Promo Code: Extra 22% off daily deals + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "beauty"
+    ],
+    "slomp_industries": [
+     "tech",
+     "fashion",
+     "home",
+     "beauty",
+     "toys"
+    ],
+    "sale": "sale:dealnews:22249016",
+    "judge": {
+     "qid": "S-SHIP-078",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-079",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Lavazza Coffee Prime Big Deals at Amazon: Up to 46% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:dealnews:22250025",
+    "judge": {
+     "qid": "S-SHIP-079",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-080",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Ulta Beauty: Ulta Beauty Sitewide Promo Code: Extra 20% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "health"
+    ],
+    "slomp_industries": [
+     "beauty",
+     "health"
+    ],
+    "sale": "sale:dealnews:22249301",
+    "judge": {
+     "qid": "S-SHIP-080",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-081",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: CAP Barbell Weightlifting Prime Big Deals at Amazon: Up to 68% off + free shippi [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "sports"
+    ],
+    "sale": "sale:dealnews:22249964",
+    "judge": {
+     "qid": "S-SHIP-081",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-082",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 70% Off Team-Fave medicube Beauty Products for Amazon Prime Members [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "fashion"
+    ],
+    "slomp_industries": [
+     "fashion",
+     "beauty"
+    ],
+    "sale": "sale:hip2save:11756266",
+    "judge": {
+     "qid": "S-SHIP-082",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-083",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Pet Products Sale at Woot: Up to 70% off + extra 20% off 3+ items + free shippin [dealnews]",
+   "detail": {
+    "shown_under": [
+     "pets"
+    ],
+    "slomp_industries": [
+     "pets"
+    ],
+    "sale": "sale:dealnews:22229479",
+    "judge": {
+     "qid": "S-SHIP-083",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-084",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Cherry Gaming Keyboards, Mice, and Mousepads (various products) Extra $5 Off + F [Slickdeals]",
+   "detail": {
+    "shown_under": [
+     "tech"
+    ],
+    "slomp_industries": [
+     "tech"
+    ],
+    "sale": "sale:slickdeals:20077452",
+    "judge": {
+     "qid": "S-SHIP-084",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-085",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 55% Off Board Games for Amazon Prime Members [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "toys"
+    ],
+    "slomp_industries": [
+     "toys"
+    ],
+    "sale": "sale:hip2save:10715190",
+    "judge": {
+     "qid": "S-SHIP-085",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-086",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Harbor Freight: Harbor Freight Instant Savings Sale: Up to 44% off + shipping from $7 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "auto"
+    ],
+    "slomp_industries": [
+     "home",
+     "auto"
+    ],
+    "sale": "sale:dealnews:22155223",
+    "judge": {
+     "qid": "S-SHIP-086",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-087",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "RTIC Outdoors: RTIC Outdoors Fall Flash Sale: Up to 50% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "sports",
+     "home"
+    ],
+    "sale": "sale:dealnews:22249347",
+    "judge": {
+     "qid": "S-SHIP-087",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-088",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Wayfair: Life-Size Horror Characters Cardboard Standups at Wayfair: Up to 25% off + free  [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22231996",
+    "judge": {
+     "qid": "S-SHIP-088",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-089",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Lowe's: Lowe's Back Aisle Sale & Clearance Deals: Up to 50% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22169590",
+    "judge": {
+     "qid": "S-SHIP-089",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-090",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Staples: Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "office"
+    ],
+    "sale": "sale:dealnews:22246037",
+    "judge": {
+     "qid": "S-SHIP-090",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-091",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 55% Off Team-Fave Style Edit Haircare on Amazon [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "beauty"
+    ],
+    "slomp_industries": [
+     "beauty"
+    ],
+    "sale": "sale:hip2save:11863691",
+    "judge": {
+     "qid": "S-SHIP-091",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-092",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Grocery/Pantry Products: Cheerios, Reese's Puff, Chex, Nature Valley, Pillsbury  [Slickdeals]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:slickdeals:20082162",
+    "judge": {
+     "qid": "S-SHIP-092",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-093",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Costco: Costco Member Appreciation Deals: Up to $1,200 off + free shipping w/ select ite [dealnews]",
+   "detail": {
+    "shown_under": [
+     "health"
+    ],
+    "slomp_industries": [
+     "tech",
+     "home",
+     "health"
+    ],
+    "sale": "sale:dealnews:22246376",
+    "judge": {
+     "qid": "S-SHIP-093",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-SHIP-094",
+   "category": "S-SHIP ships (blind judge)",
+   "verdict": "pass",
+   "subject": "Fanatics: Fanatics NFL Deals: Up to 83% off + 10% to 35% off + shipping varies [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "sports"
+    ],
+    "sale": "sale:dealnews:22249574",
+    "judge": {
+     "qid": "S-SHIP-094",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-095",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Kohl's: Kohl\u2019s Today-Only Deals: Up to 60% Off + RARE Free Shipping & Earn Kohl\u2019s Cash! [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "fashion",
+     "home"
+    ],
+    "sale": "sale:hip2save:11942131",
+    "judge": {
+     "qid": "S-MANY-095",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-096",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "baby"
+    ],
+    "slomp_industries": [
+     "fashion",
+     "home",
+     "beauty",
+     "baby"
+    ],
+    "sale": "sale:dealnews:22249306",
+    "judge": {
+     "qid": "S-MANY-096",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-097",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Staples: Staples Filing & Organization Deals: Up to 56% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "office"
+    ],
+    "sale": "sale:dealnews:22232224",
+    "judge": {
+     "qid": "S-MANY-097",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-098",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 50% Off La Roche Posay Cleansers on Amazon [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "beauty"
+    ],
+    "slomp_industries": [
+     "beauty"
+    ],
+    "sale": "sale:hip2save:11720510",
+    "judge": {
+     "qid": "S-MANY-098",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-099",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Cleaning & Laundry Supplies at Amazon: Buy 3, get 20% off + free shipping w/ Pri [dealnews]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:dealnews:22229608",
+    "judge": {
+     "qid": "S-MANY-099",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-100",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Best Buy: Best Buy Techtober Health, Wellness, & Personal Care Deals: Up to $400 off + fre [dealnews]",
+   "detail": {
+    "shown_under": [
+     "health"
+    ],
+    "slomp_industries": [
+     "health"
+    ],
+    "sale": "sale:dealnews:22249885",
+    "judge": {
+     "qid": "S-MANY-100",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-101",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Coleman Prime Big Deal Days Deals at Amazon: Up to 37% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "sports"
+    ],
+    "sale": "sale:dealnews:22249375",
+    "judge": {
+     "qid": "S-MANY-101",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-102",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Samsonite luggage drops as low as $64 for Prime Day (Up to 64% off) [9to5Toys]",
+   "detail": {
+    "shown_under": [
+     "fashion"
+    ],
+    "slomp_industries": [
+     "fashion"
+    ],
+    "sale": "sale:9to5toys:1235566",
+    "judge": {
+     "qid": "S-MANY-102",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-103",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 40% off Native Pet Supplements for Amazon Prime Members [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "pets"
+    ],
+    "slomp_industries": [
+     "pets"
+    ],
+    "sale": "sale:hip2save:11343353",
+    "judge": {
+     "qid": "S-MANY-103",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-104",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Official fall Prime Day AirPods deals now live at up to $120 off [9to5Toys]",
+   "detail": {
+    "shown_under": [
+     "tech"
+    ],
+    "slomp_industries": [
+     "tech"
+    ],
+    "sale": "sale:9to5toys:1235347",
+    "judge": {
+     "qid": "S-MANY-104",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-105",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 40% Off ZURU My Mini Baby Sets w/ Amazon Prime [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "toys"
+    ],
+    "slomp_industries": [
+     "toys"
+    ],
+    "sale": "sale:hip2save:11970934",
+    "judge": {
+     "qid": "S-MANY-105",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-106",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Tools & Auto Deals: Up to 72% off + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "auto"
+    ],
+    "slomp_industries": [
+     "auto"
+    ],
+    "sale": "sale:dealnews:22232017",
+    "judge": {
+     "qid": "S-MANY-106",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-107",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Target: 40% Off Our Generation Dolls & Accessories at Target [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "toys"
+    ],
+    "slomp_industries": [
+     "toys"
+    ],
+    "sale": "sale:hip2save:10670044",
+    "judge": {
+     "qid": "S-MANY-107",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-108",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Macy's: Polo Ralph Lauren Star Deals at Macy's: Up to 60% off + free shipping w/ $39 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "fashion"
+    ],
+    "slomp_industries": [
+     "fashion"
+    ],
+    "sale": "sale:dealnews:22249234",
+    "judge": {
+     "qid": "S-MANY-108",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-109",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "fail",
+   "subject": "Amazon: Toniebox Prime Big Deals at Amazon: Up to 43% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "tech"
+    ],
+    "slomp_industries": [
+     "tech"
+    ],
+    "sale": "sale:dealnews:22249607",
+    "judge": {
+     "qid": "S-MANY-109",
+     "answer": "no",
+     "why": "Toniebox 2 bundles, one model at $120"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-110",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Air Care Deals: Up to 68% off + extra 22% off + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22249037",
+    "judge": {
+     "qid": "S-MANY-110",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-111",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Tools, Lawn, & Home Deals: Up to 78% off + extra 22% off + free shipping w/ [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22249029",
+    "judge": {
+     "qid": "S-MANY-111",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-112",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Staples: Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "office"
+    ],
+    "sale": "sale:dealnews:22246037",
+    "judge": {
+     "qid": "S-MANY-112",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-113",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: $10 Off $30 Coca-Cola Products Purchase on Amazon | Includes Smartwater, TopoChi [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:hip2save:11328699",
+    "judge": {
+     "qid": "S-MANY-113",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-MANY-114",
+   "category": "S-MANY a sale (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Prime Exclusive Deals: Up to 73% off + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "health"
+    ],
+    "slomp_industries": [
+     "tech",
+     "fashion",
+     "home",
+     "health",
+     "office"
+    ],
+    "sale": "sale:dealnews:22246031",
+    "judge": {
+     "qid": "S-MANY-114",
+     "answer": "yes"
+    }
+   }
+  },
+  {
+   "id": "S-IND-115",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Lowe's: Lowe's Back Aisle Sale & Clearance Deals: Up to 50% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22169590",
+    "judge": {
+     "qid": "S-IND-115",
+     "industries": [
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-116",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "baby"
+    ],
+    "slomp_industries": [
+     "fashion",
+     "home",
+     "beauty",
+     "baby"
+    ],
+    "sale": "sale:dealnews:22249306",
+    "judge": {
+     "qid": "S-IND-116",
+     "industries": [
+      "fashion",
+      "home",
+      "beauty",
+      "baby"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-117",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "fail",
+   "subject": "Woot: Woot Prime Exclusive Deals: Up to 73% off + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "tech",
+     "fashion",
+     "home",
+     "health",
+     "office"
+    ],
+    "sale": "sale:dealnews:22246031",
+    "judge": {
+     "qid": "S-IND-117",
+     "industries": [
+      "tech",
+      "fashion",
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-118",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Bath & Body Works: Up to 75% Off Bath & Body Works Sale | Hand Soap, Wallflowers & More from $3 [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "beauty"
+    ],
+    "slomp_industries": [
+     "beauty"
+    ],
+    "sale": "sale:hip2save:11177093",
+    "judge": {
+     "qid": "S-IND-118",
+     "industries": [
+      "beauty",
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-119",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Household Essentials at Amazon for $15 off $50 + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:dealnews:22234579",
+    "judge": {
+     "qid": "S-IND-119",
+     "industries": [
+      "grocery"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-120",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "High Test Gummies: High Test Gummies Sitewide Sale: Extra 20% off + free shipping w/ $50 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "health"
+    ],
+    "slomp_industries": [
+     "health"
+    ],
+    "sale": "sale:dealnews:22231894",
+    "judge": {
+     "qid": "S-IND-120",
+     "industries": [
+      "health"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-121",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Dick's Sporting Goods: Pickleball Equipment Sale at Dick's Sporting Goods: Up to 64% off + free shippin [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "sports"
+    ],
+    "sale": "sale:dealnews:22246709",
+    "judge": {
+     "qid": "S-IND-121",
+     "industries": [
+      "sports"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-122",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Fanatics: Fanatics College Deals: Up to 35% off + shipping varies [dealnews]",
+   "detail": {
+    "shown_under": [
+     "fashion"
+    ],
+    "slomp_industries": [
+     "fashion"
+    ],
+    "sale": "sale:dealnews:22249504",
+    "judge": {
+     "qid": "S-IND-122",
+     "industries": [
+      "sports",
+      "fashion"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-123",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 40% off Native Pet Supplements for Amazon Prime Members [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "pets"
+    ],
+    "slomp_industries": [
+     "pets"
+    ],
+    "sale": "sale:hip2save:11343353",
+    "judge": {
+     "qid": "S-IND-123",
+     "industries": [
+      "pets"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-124",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Amazon Prime Big Deal Days 2026: Up to 70% off w/ Prime + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "tech"
+    ],
+    "slomp_industries": [
+     "tech",
+     "fashion",
+     "home"
+    ],
+    "sale": "sale:dealnews:22248905",
+    "judge": {
+     "qid": "S-IND-124",
+     "industries": [
+      "tech",
+      "sports",
+      "fashion",
+      "home",
+      "beauty",
+      "health",
+      "grocery",
+      "toys",
+      "baby",
+      "pets",
+      "auto",
+      "office"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-125",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 45% Off Learning Resources Toys on Amazon | Fine Motor Hippo Just $9.70! [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "toys"
+    ],
+    "slomp_industries": [
+     "toys"
+    ],
+    "sale": "sale:hip2save:10794812",
+    "judge": {
+     "qid": "S-IND-125",
+     "industries": [
+      "toys"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-126",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Woot: Woot Tools & Auto Deals: Up to 72% off + free shipping w/ Prime [dealnews]",
+   "detail": {
+    "shown_under": [
+     "auto"
+    ],
+    "slomp_industries": [
+     "auto"
+    ],
+    "sale": "sale:dealnews:22232017",
+    "judge": {
+     "qid": "S-IND-126",
+     "industries": [
+      "auto",
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-127",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Up to 55% Off Board Games for Amazon Prime Members [Hip2Save]",
+   "detail": {
+    "shown_under": [
+     "toys"
+    ],
+    "slomp_industries": [
+     "toys"
+    ],
+    "sale": "sale:hip2save:10715190",
+    "judge": {
+     "qid": "S-IND-127",
+     "industries": [
+      "toys"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-128",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Costco: Costco October Online Savings: Up to $1,200 off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "sports"
+    ],
+    "slomp_industries": [
+     "tech",
+     "sports",
+     "home"
+    ],
+    "sale": "sale:dealnews:22232102",
+    "judge": {
+     "qid": "S-IND-128",
+     "industries": [
+      "home",
+      "tech",
+      "office",
+      "sports"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-129",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Best Buy: Samsung Accessory Deals at Best Buy: Up to 60% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "tech"
+    ],
+    "slomp_industries": [
+     "tech"
+    ],
+    "sale": "sale:dealnews:22249909",
+    "judge": {
+     "qid": "S-IND-129",
+     "industries": [
+      "tech"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-130",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Home Depot: Home Depot Deals of the Day: Up to 55% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22248918",
+    "judge": {
+     "qid": "S-IND-130",
+     "industries": [
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-131",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Best Buy: Best Buy Techtober Appliance Deals: Up to 40% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "home"
+    ],
+    "slomp_industries": [
+     "home"
+    ],
+    "sale": "sale:dealnews:22248989",
+    "judge": {
+     "qid": "S-IND-131",
+     "industries": [
+      "home"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-132",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Staples: Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35 [dealnews]",
+   "detail": {
+    "shown_under": [
+     "office"
+    ],
+    "slomp_industries": [
+     "office"
+    ],
+    "sale": "sale:dealnews:22246037",
+    "judge": {
+     "qid": "S-IND-132",
+     "industries": [
+      "office"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-133",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Amazon: Sol de Janeiro Beauty Savings at Amazon: Up to 53% off + free shipping [dealnews]",
+   "detail": {
+    "shown_under": [
+     "beauty"
+    ],
+    "slomp_industries": [
+     "beauty"
+    ],
+    "sale": "sale:dealnews:22249679",
+    "judge": {
+     "qid": "S-IND-133",
+     "industries": [
+      "beauty"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-IND-134",
+   "category": "S-IND industry (blind judge)",
+   "verdict": "pass",
+   "subject": "Walmart: Walmart Deals & More Grocery Sale: Up to 56% off + shipping varies [dealnews]",
+   "detail": {
+    "shown_under": [
+     "grocery"
+    ],
+    "slomp_industries": [
+     "grocery"
+    ],
+    "sale": "sale:dealnews:22245989",
+    "judge": {
+     "qid": "S-IND-134",
+     "industries": [
+      "grocery"
+     ]
+    }
+   }
+  },
+  {
+   "id": "S-QUAL-135",
+   "category": "S-QUAL quality",
+   "subject": "home: duplicates",
+   "verdict": "pass",
+   "detail": {
+    "check": "duplicates",
+    "sales": 47,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-136",
+   "category": "S-QUAL quality",
+   "subject": "home: fresh",
+   "verdict": "pass",
+   "detail": {
+    "check": "fresh",
+    "sales": 47,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-137",
+   "category": "S-QUAL quality",
+   "subject": "home: order",
+   "verdict": "pass",
+   "detail": {
+    "check": "order",
+    "sales": 47,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-138",
+   "category": "S-QUAL quality",
+   "subject": "baby: duplicates",
+   "verdict": "pass",
+   "detail": {
+    "check": "duplicates",
+    "sales": 1,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-139",
+   "category": "S-QUAL quality",
+   "subject": "baby: fresh",
+   "verdict": "pass",
+   "detail": {
+    "check": "fresh",
+    "sales": 1,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-140",
+   "category": "S-QUAL quality",
+   "subject": "baby: order",
+   "verdict": "pass",
+   "detail": {
+    "check": "order",
+    "sales": 1,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-141",
+   "category": "S-QUAL quality",
+   "subject": "office: duplicates",
+   "verdict": "pass",
+   "detail": {
+    "check": "duplicates",
+    "sales": 5,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-142",
+   "category": "S-QUAL quality",
+   "subject": "office: fresh",
+   "verdict": "pass",
+   "detail": {
+    "check": "fresh",
+    "sales": 5,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-143",
+   "category": "S-QUAL quality",
+   "subject": "office: order",
+   "verdict": "pass",
+   "detail": {
+    "check": "order",
+    "sales": 5,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-144",
+   "category": "S-QUAL quality",
+   "subject": "beauty: duplicates",
+   "verdict": "pass",
+   "detail": {
+    "check": "duplicates",
+    "sales": 16,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-145",
+   "category": "S-QUAL quality",
+   "subject": "beauty: fresh",
+   "verdict": "pass",
+   "detail": {
+    "check": "fresh",
+    "sales": 16,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-146",
+   "category": "S-QUAL quality",
+   "subject": "beauty: order",
+   "verdict": "pass",
+   "detail": {
+    "check": "order",
+    "sales": 16,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-147",
+   "category": "S-QUAL quality",
+   "subject": "grocery: duplicates",
+   "verdict": "pass",
+   "detail": {
+    "check": "duplicates",
+    "sales": 13,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-148",
+   "category": "S-QUAL quality",
+   "subject": "grocery: fresh",
+   "verdict": "pass",
+   "detail": {
+    "check": "fresh",
+    "sales": 13,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-QUAL-149",
+   "category": "S-QUAL quality",
+   "subject": "grocery: order",
+   "verdict": "pass",
+   "detail": {
+    "check": "order",
+    "sales": 13,
+    "problems": []
+   }
+  },
+  {
+   "id": "S-SRC-150",
+   "category": "S-SRC source fidelity",
+   "subject": "Belk: Belk Flash Sale: Up to 50% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Belk-Flash-Sale-Up-to-50-off-free-shipping/22249967.html",
+    "offer": "Up to 50% off",
+    "code": "BESTDRESSED"
+   }
+  },
+  {
+   "id": "S-SRC-151",
+   "category": "S-SRC source fidelity",
+   "subject": "Kohl's: Kohl's Deal Days Sale: Up to 60% off + extra 25% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Kohls-Deal-Days-Sale-Up-to-60-off-extra-25-off-free-shipping/22249306.html",
+    "offer": "Up to 60% off + extra 25% off",
+    "code": "TAKE25"
+   }
+  },
+  {
+   "id": "S-SRC-152",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Woot Prime Exclusive Deals: Up to 73% off + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Woot-Prime-Exclusive-Deals-Up-to-73-off-free-shipping-w-Prime/22246031.html",
+    "offer": "Up to 73% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-153",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Sol de Janeiro Beauty Savings at Amazon: Up to 53% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Sol-de-Janeiro-Beauty-Savings-at-Amazon-Up-to-53-off-free-shipping/22249679.html",
+    "offer": "Up to 53% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-154",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Lavazza Coffee Prime Big Deals at Amazon: Up to 46% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Lavazza-Coffee-Prime-Big-Deals-at-Amazon-Up-to-46-off-free-shipping/22250025.html",
+    "offer": "Up to 46% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-155",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Premier Protein Prime Big Deals at Amazon: Up to 40% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Premier-Protein-Prime-Big-Deals-at-Amazon-Up-to-40-off-free-shipping/22249421.html",
+    "offer": "Up to 40% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-156",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Plano Outdoors Prime Big Deals at Amazon: Up to 58% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Plano-Outdoors-Prime-Big-Deals-at-Amazon-Up-to-58-off-free-shipping/22249804.html",
+    "offer": "Up to 58% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-157",
+   "category": "S-SRC source fidelity",
+   "subject": "Target: 40% Off Kids Activewear for Target Circle Members | Styles from $4.80 [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/target-kids-activewear/",
+    "offer": "40% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-158",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Pet Products Sale at Woot: Up to 70% off + extra 20% off 3+ items + free shippin [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Pet-Products-Sale-at-Woot-Up-to-70-off-extra-20-off-3-items-free-shipping-w-Prime/22229479.html",
+    "offer": "Up to 70% off + extra 20% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-159",
+   "category": "S-SRC source fidelity",
+   "subject": "Costco: Costco Member Appreciation Deals: Up to $1,200 off + free shipping w/ select ite [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Costco-Member-Appreciation-Deals-Up-to-1-200-off-free-shipping-w-select-items/22246376.html",
+    "offer": "Up to $1,200 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-160",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Up to 55% Off Board Games for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/amazon-board-games/",
+    "offer": "Up to 55% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-161",
+   "category": "S-SRC source fidelity",
+   "subject": "Harbor Freight: Harbor Freight Instant Savings Sale: Up to 44% off + shipping from $7 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Harbor-Freight-Instant-Savings-Sale-Up-to-44-off-shipping-from-7/22155223.html",
+    "offer": "Up to 44% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-162",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Woot Toy Clearance: Up to 69% off + extra 22% off + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Woot-Toy-Clearance-Up-to-69-off-extra-22-off-free-shipping-w-Prime/22249068.html",
+    "offer": "Up to 69% off + extra 22% off",
+    "code": "WOOTOBER"
+   }
+  },
+  {
+   "id": "S-SRC-163",
+   "category": "S-SRC source fidelity",
+   "subject": "Costco: Costco Members: Savings on Select Apparel: Buy 10, Save $50 or Buy 5, Save $20 & [Slickdeals]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://slickdeals.net/f/20076909-costco-members-select-men-s-apparel-10-for-50-5-each-free-shipping",
+    "offer": "$50 off when you buy 10",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-164",
+   "category": "S-SRC source fidelity",
+   "subject": "Costco: Costco Member Appreciation Day Sale: Up to $1,600 off for members [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Costco-Member-Appreciation-Day-Sale-Up-to-1-600-off-for-members/22248922.html",
+    "offer": "Up to $1,600 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-165",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Amazon Prime Big Deal Days 2026: Up to 70% off w/ Prime + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Amazon-Prime-Big-Deal-Days-2026-Up-to-70-off-w-Prime-free-shipping/22248905.html",
+    "offer": "Up to 70% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-166",
+   "category": "S-SRC source fidelity",
+   "subject": "Home Depot: Home Depot Deals of the Day: Up to 55% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Home-Depot-Deals-of-the-Day-Up-to-55-off-free-shipping/22248918.html",
+    "offer": "Up to 55% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-167",
+   "category": "S-SRC source fidelity",
+   "subject": "Staples: Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Printing-Sale-Extra-60-off-free-shipping-w-35/22246037.html",
+    "offer": "Extra 60% off",
+    "code": "38170"
+   }
+  },
+  {
+   "id": "S-SRC-168",
+   "category": "S-SRC source fidelity",
+   "subject": "Ulta Beauty: Ulta Beauty Rewards Member Promo Code: 20% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Ulta-Beauty-Rewards-Member-Promo-Code-20-off-free-shipping-w-35/22249835.html",
+    "offer": "20% off",
+    "code": "SAVE20"
+   }
+  },
+  {
+   "id": "S-SRC-169",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Cleaning & Laundry Supplies at Amazon: Buy 3, get 20% off + free shipping w/ Pri [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Cleaning-Laundry-Supplies-at-Amazon-Buy-3-get-20-off-free-shipping-w-Prime/22229608.html",
+    "offer": "20% off when you buy 3",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-170",
+   "category": "S-SRC source fidelity",
+   "subject": "Fanatics: Fanatics NFL Deals: Up to 83% off + 10% to 35% off + shipping varies [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Fanatics-NFL-Deals-Up-to-83-off-10-to-35-off-shipping-varies/22249574.html",
+    "offer": "Up to 83% off + extra 10\u201335% off",
+    "code": "FALL"
+   }
+  },
+  {
+   "id": "S-SRC-171",
+   "category": "S-SRC source fidelity",
+   "subject": "lululemon: lululemon Men's Shorts Specials: Up to 56% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/lululemon-Mens-Shorts-Specials-Up-to-56-off-free-shipping/22249441.html",
+    "offer": "Up to 56% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-172",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Up to 40% off Native Pet Supplements for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/native-pet/",
+    "offer": "Up to 40% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-173",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Official fall Prime Day AirPods deals now live at up to $120 off [9to5Toys]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://9to5toys.com/2026/10/06/fall-prime-day-airpods-deals-now-live/",
+    "offer": "Up to $120 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-174",
+   "category": "S-SRC source fidelity",
+   "subject": "eBay: Dave & Adam's Card World Sports & Gaming Card Deals at eBay: Up to 64% off + shi [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Dave-Adams-Card-World-Sports-Gaming-Card-Deals-at-eBay-Up-to-64-off-shipping-varies/22234606.html",
+    "offer": "Up to 64% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-175",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Woot Tools & Auto Deals: Up to 72% off + free shipping w/ Prime [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Woot-Tools-Auto-Deals-Up-to-72-off-free-shipping-w-Prime/22232017.html",
+    "offer": "Up to 72% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-176",
+   "category": "S-SRC source fidelity",
+   "subject": "Best Buy: LEGO Techtober Deals at Best Buy: Up to 30% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/LEGO-Techtober-Deals-at-Best-Buy-Up-to-30-off-free-shipping/22249935.html",
+    "offer": "Up to 30% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-177",
+   "category": "S-SRC source fidelity",
+   "subject": "lululemon: lululemon Men's Trouser Specials: Up to 57% off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/lululemon-Mens-Trouser-Specials-Up-to-57-off-free-shipping/22249442.html",
+    "offer": "Up to 57% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-178",
+   "category": "S-SRC source fidelity",
+   "subject": "Target: Apple Deal Days at Target: Up to $100 off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Apple-Deal-Days-at-Target-Up-to-100-off-free-shipping-w-35/22249486.html",
+    "offer": "Up to $100 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-179",
+   "category": "S-SRC source fidelity",
+   "subject": "Wayfair: Life-Size Horror Characters Cardboard Standups at Wayfair: Up to 25% off + free  [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Life-Size-Horror-Characters-Cardboard-Standups-at-Wayfair-Up-to-25-off-free-shipping/22231996.html",
+    "offer": "Up to 25% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-180",
+   "category": "S-SRC source fidelity",
+   "subject": "Staples: Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Sale-Up-to-60-off-free-shipping-w-35/22246010.html",
+    "offer": "Up to 60% off",
+    "code": "82092"
+   }
+  },
+  {
+   "id": "S-SRC-181",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: *RARE* Up to 45% Off Team-Fave ELEMIS Skincare on Amazon [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/elemis-amazon/",
+    "offer": "Up to 45% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-182",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Up to 50% Off Tide Detergents on Amazon After Rebate [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/tide-detergents-on-sale/",
+    "offer": "Up to 50% off",
+    "code": "PGSTOCKUP33"
+   }
+  },
+  {
+   "id": "S-SRC-183",
+   "category": "S-SRC source fidelity",
+   "subject": "High Test Gummies: High Test Gummies Sitewide Sale: Extra 20% off + free shipping w/ $50 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/High-Test-Gummies-Sitewide-Sale-Extra-20-off-free-shipping-w-50/22231894.html",
+    "offer": "Extra 20% off",
+    "code": "DEALNEWS20"
+   }
+  },
+  {
+   "id": "S-SRC-184",
+   "category": "S-SRC source fidelity",
+   "subject": "Fanatics: Fanatics MLB Deals: Up to 89% off + 10% to 35% off + shipping varies [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Fanatics-MLB-Deals-Up-to-89-off-10-to-35-off-shipping-varies/22249551.html",
+    "offer": "Up to 89% off + extra 10\u201335% off",
+    "code": "FALL"
+   }
+  },
+  {
+   "id": "S-SRC-185",
+   "category": "S-SRC source fidelity",
+   "subject": "Macy's: Macy's Watch Flash Deals: 50% to 80% off + free shipping w/ $39 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Macys-Watch-Flash-Deals-50-to-80-off-free-shipping-w-39/22249225.html",
+    "offer": "50\u201380% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-186",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Woot Docking Stations Sale: Up to 74% off + extra 22% off + free shipping w/ Pri [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Woot-Docking-Stations-Sale-Up-to-74-off-extra-22-off-free-shipping-w-Prime/22249044.html",
+    "offer": "Up to 74% off + extra 22% off",
+    "code": "WOOTOBER"
+   }
+  },
+  {
+   "id": "S-SRC-187",
+   "category": "S-SRC source fidelity",
+   "subject": "GameStop: GameStop Marvel Collectibles Deals: Up to 66% off + free shipping w/ $79 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Game-Stop-Marvel-Collectibles-Deals-Up-to-66-off-free-shipping-w-79/22229517.html",
+    "offer": "Up to 66% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-188",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Up to 40% Off LEGO Harry Potter Sets on Amazon [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/lego-harry-potter/",
+    "offer": "Up to 40% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-189",
+   "category": "S-SRC source fidelity",
+   "subject": "Macy's: Hugo Boss Men's Star Week Deals at Macy's: Up to 70% off + free shipping w/ $39 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Hugo-Boss-Mens-Star-Week-Deals-at-Macys-Up-to-70-off-free-shipping-w-39/22249856.html",
+    "offer": "Up to 70% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-190",
+   "category": "S-SRC source fidelity",
+   "subject": "Target: Target Circle Day Hearth & Hand w/ Magnolia Home Deals: Up to 30% off + free shi [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Target-Circle-Day-Hearth-Hand-w-Magnolia-Home-Deals-Up-to-30-off-free-shipping-w-exclusions/22249936.html",
+    "offer": "Up to 30% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-191",
+   "category": "S-SRC source fidelity",
+   "subject": "Welax: Welax S3 Ergonomic Office Chair: $45 OFF + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Welax-S3-Ergonomic-Office-Chair-45-OFF-free-shipping/22203447.html",
+    "offer": "$45 off",
+    "code": "DEALNEWS15"
+   }
+  },
+  {
+   "id": "S-SRC-192",
+   "category": "S-SRC source fidelity",
+   "subject": "Amazon: Up to 50% Off Sol de Janeiro for Amazon Prime Members [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/sol-de-janeiro/",
+    "offer": "Up to 50% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-193",
+   "category": "S-SRC source fidelity",
+   "subject": "Staples: K-Cup Deals at Staples: Buy 1, get extra 75% off 2nd + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/K-Cup-Deals-at-Staples-Buy-1-get-extra-75-off-2-nd-free-shipping/22249092.html",
+    "offer": "Buy 1 get 1 75% off",
+    "code": "82092"
+   }
+  },
+  {
+   "id": "S-SRC-194",
+   "category": "S-SRC source fidelity",
+   "subject": "Best Buy: Best Buy Techtober Health, Wellness, & Personal Care Deals: Up to $400 off + fre [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Best-Buy-Techtober-Health-Wellness-Personal-Care-Deals-Up-to-400-off-free-shipping/22249885.html",
+    "offer": "Up to $400 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-195",
+   "category": "S-SRC source fidelity",
+   "subject": "REI: REI Outlet Handpicked Deals: Up to 60% off + free shipping w/ $100 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/REI-Outlet-Handpicked-Deals-Up-to-60-off-free-shipping-w-100/22234941.html",
+    "offer": "Up to 60% off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-196",
+   "category": "S-SRC source fidelity",
+   "subject": "Kohl's: WOW! Up to 85% Off Kohl\u2019s Clearance Clothing & Shoes + FREE Shipping [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/kohls-clearance/",
+    "offer": "Up to 85% off",
+    "code": "TAKE25"
+   }
+  },
+  {
+   "id": "S-SRC-197",
+   "category": "S-SRC source fidelity",
+   "subject": "Best Buy: Apple Techtober Deals at Best Buy: Up to $260 off + free shipping [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Apple-Techtober-Deals-at-Best-Buy-Up-to-260-off-free-shipping/22249046.html",
+    "offer": "Up to $260 off",
+    "code": ""
+   }
+  },
+  {
+   "id": "S-SRC-198",
+   "category": "S-SRC source fidelity",
+   "subject": "Woot: Up to 75% Off Toys + Free Prime Shipping | Prices from $7.79 Shipped [Hip2Save]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://hip2save.com/deals/woot-toys/",
+    "offer": "Up to 75% off",
+    "code": "WOOTOBER"
+   }
+  },
+  {
+   "id": "S-SRC-199",
+   "category": "S-SRC source fidelity",
+   "subject": "Target: Target Circle Deal Days Sale: 30% to 40% off most items + free shipping w/ $35 [dealnews]",
+   "verdict": "pass",
+   "detail": {
+    "problems": [],
+    "url": "https://www.dealnews.com/Target-Circle-Deal-Days-Sale-30-to-40-off-most-items-free-shipping-w-35/22249376.html",
+    "offer": "30\u201340% off",
+    "code": ""
+   }
+  }
+ ],
+ "summary": {
+  "conclusive": 200,
+  "pass": 197,
+  "fail": 3,
+  "inconclusive": 0,
+  "pending": 0,
+  "pass_rate": 0.985,
+  "by_category": {
+   "S-END dates": {
+    "pass": 30,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "S-IND industry (blind judge)": {
+    "pass": 19,
+    "fail": 1,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.95
+   },
+   "S-MANY a sale (blind judge)": {
+    "pass": 19,
+    "fail": 1,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.95
+   },
+   "S-OFFER offer and code": {
+    "pass": 20,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "S-QUAL quality": {
+    "pass": 15,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "S-SHIP ships (blind judge)": {
+    "pass": 20,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "S-SRC source fidelity": {
+    "pass": 50,
+    "fail": 0,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 1.0
+   },
+   "S-STORE store": {
+    "pass": 24,
+    "fail": 1,
+    "inconclusive": 0,
+    "pending": 0,
+    "pass_rate": 0.96
+   }
+  }
+ }
+}

@@ -23,6 +23,7 @@ from .models import BASIS_WEIGHT, OnlineDeal, PricePoint
 from .reference import norm
 from .sources.feeds import SOURCE_NAMES, DealFeeds, Post, plan, post_gone
 from .sources.prices import PriceSources, asins_in
+from .stores_online import store_named
 from .terms import conditions_of, hedge_of, is_storewide, pct, post_reference, title_price
 
 CONDITIONAL = ("coupon required", "promo code", "Subscribe & Save", "Prime members", "mail-in rebate",
@@ -157,6 +158,8 @@ class OnlineDeals:
             candidates = live
         for d in candidates:
             d.score = score(d)
+            shop = store_named(d.seller)
+            d.store_key = shop.key if shop else ""
         for i in industries:
             if not ind.BY_ID[i].online:
                 continue

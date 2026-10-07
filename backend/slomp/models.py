@@ -215,6 +215,7 @@ class OnlineDeal:
     image_url: str = ""
     also_posted: list[dict] = field(default_factory=list)
     store_check: dict = field(default_factory=dict)      # the seller's live page, when Slomp read it
+    store_key: str = ""                 # the seller in the online-store registry (data/online_stores.json), if there
     score: float = 0.0
     raw: dict = field(default_factory=dict, repr=False)
 
@@ -228,4 +229,69 @@ class OnlineDeal:
         d["product"] = self.product.to_dict()
         d["discount_pct"] = self.discount_pct
         d["basis_label"] = BASIS_TEXT.get(self.basis, "")
+        return _clean(d)
+
+
+@dataclass(frozen=True)
+class OnlineStore:
+    """A store that sells online and ships anywhere in Texas (data/online_stores.json)."""
+    key: str
+    name: str
+    aliases: tuple[str, ...] = ()
+    domains: tuple[str, ...] = ()
+    dealnews: str = ""                 # its store feed on dealnews: "318/Target"
+    sells: tuple[str, ...] = ()        # industries a store-wide sale there counts for; empty = anything
+    site: str = ""
+    brand: bool = False                # also a brand other stores sell: its name alone doesn't place a sale
+    events: tuple[str, ...] = ()       # sale events only this store runs ("Prime Big Deal Days")
+
+    @property
+    def names(self) -> tuple[str, ...]:
+        return (self.name, *self.aliases)
+
+
+@dataclass
+class StoreSale:
+    """A sale on many products at an online store: store-wide, a category, a brand, or a sale event."""
+    id: str
+    store: str                          # registry key; "" for a store the registry doesn't know
+    store_name: str
+    title: str                          # the post's own title
+    name: str                           # the sale in a few words, without the store or the offer
+    offer: str                          # the offer in words, written from the parts below
+    badge: str                          # the offer in one short label: "Up to 60% off", "Extra 20% off"
+    badge_soft: bool = False            # the badge is a ceiling or needs a purchase ("Up to 60%", "$15 off")
+    pct: Optional[float] = None         # firm percent off
+    upto: Optional[float] = None        # a ceiling: "up to 60% off"
+    extra: Optional[float] = None       # an extra percent off, usually on sale prices
+    extra_upto: Optional[float] = None  # the top of an extra percent that varies ("extra 10% to 35% off")
+    off: Optional[float] = None         # dollars off
+    off_upto: bool = False              # "up to $260 off"
+    min_spend: Optional[float] = None   # "$10 off $30": the order the dollars need
+    bogo: str = ""                      # "buy 1 get 1 50% off"
+    bogo_pct: Optional[float] = None    # its saving per item when buying the set
+    code: str = ""                      # a promo code the post states
+    code_note: str = ""                 # what the code is for, when not the discount itself ("for free delivery")
+    conditions: list[str] = field(default_factory=list)
+    shipping: str = ""                  # "Free shipping on $35+", "Free shipping with Prime"
+    sitewide: bool = False
+    starts_at: Optional[datetime] = None
+    ends_at: Optional[datetime] = None
+    ends_how: str = ""                  # where the end comes from: "dealnews gives this end date", "the post says …"
+    posted_at: Optional[datetime] = None
+    source: str = ""                    # "dealnews", "Hip2Save", ...
+    source_url: str = ""
+    image_url: str = ""
+    industries: list[str] = field(default_factory=list)
+    industry_rule: str = ""
+    also_posted: list[dict] = field(default_factory=list)
+    checked_at: Optional[datetime] = None   # when Slomp last read the post page and found it live
+    discount_pct: Optional[float] = None    # what "best deal first" ranks by (docs/DESIGN-online-stores.md 4.5)
+    score: float = 0.0
+    raw: dict = field(default_factory=dict, repr=False)
+
+    def to_dict(self) -> dict:
+        d = asdict(self)
+        d.pop("raw", None)
+        d["kind"] = "sale"
         return _clean(d)

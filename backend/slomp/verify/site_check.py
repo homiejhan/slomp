@@ -3,12 +3,12 @@
     python -m slomp.verify.site_check --out site --cases 60 [--seed 7] [--report report.json]
 
 Builds the site, then answers the same searches twice, from the same data at the same moment: with the server
-(SlompService.local and .online) and with the page's engine (engine.js, run with Node).
+(SlompService.local, .online and .sales) and with the page's engine (engine.js, run with Node).
 
   * A city that is its own anchor reads the same ads either way, so every part must match: the same deals in the same
     order, with the same stores, distances, dates, terms and scores; the same regular deals with the same next dates;
-    the same promotions; the same online deals.
-  * Any other city: regular deals, promotions and online deals must still match. The server reads the weekly ads for
+    the same promotions; the same online deals; the same online stores' sales.
+  * Any other city: regular deals, promotions, online deals and sales must still match. The server reads the weekly ads for
     the city's own ZIP and the page uses its anchor's, so those are measured instead: the share of the server's deals
     the page also shows, and the share of the page's deals the server also shows.
 
@@ -152,6 +152,19 @@ def compare(case: dict, server: dict, page: dict, anchor: bool) -> dict:
     elif so:
         for i in so["deals"]:
             diff_list(so["deals"][i], po["deals"].get(i, []), f"online {i}", out)
+    ss, ps = server.get("sales"), page.get("sales")
+    if (ss is None) != (ps is None):
+        out.append(f"sales: server {'none' if ss is None else 'some'}, page {'none' if ps is None else 'some'}")
+    elif ss:
+        if [d["id"] for d in ss["sales"]] != [d["id"] for d in ps["sales"]]:
+            out.append(f"sales: {len(ss['sales'])} server vs {len(ps['sales'])} page (or a different order)")
+        by = {d["id"]: d for d in ps["sales"]}
+        for d in ss["sales"]:
+            if d["id"] in by:
+                diff_deal(d, by[d["id"]], f"sales {d['id']}", out)
+        for k in ("counts", "excluded", "stores", "industries"):
+            if ss.get(k) != ps.get(k):
+                out.append(f"sales {k}: server {json.dumps(ss.get(k))[:160]} page {json.dumps(ps.get(k))[:160]}")
     sids, pids = {d["id"] for d in flipp(sl)}, {d["id"] for d in flipp(pl)}
     return {"ok": not out, "problems": out, "server_ads": len(sids), "page_ads": len(pids), "both": len(sids & pids)}
 
@@ -213,7 +226,8 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
         online_inds = [i for i in c["industries"].split(",") if ind.BY_ID[i].online]
         loc = await svc.local(c["city"], c["industries"], c["radius_mi"], now=now)
         onl = await svc.online(",".join(online_inds), c["limit"]) if online_inds else None
-        server = {"local": loc.to_dict(), "online": onl.to_dict() if onl else None}
+        sal = await svc.sales(",".join(online_inds), now=now) if online_inds else None
+        server = {"local": loc.to_dict(), "online": onl.to_dict() if onl else None, "sales": sal}
         r = compare(c, json.loads(json.dumps(server, default=str)), page, is_anchor and not as_is)
         city = next(x for x in cities() if x.id == c["city"])
         a, mi = nearest_anchor(city, anchor_list)
@@ -235,7 +249,7 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
                   f"server's {a_s} deals; {a_b / max(a_p, 1):.1%} of the page's {a_p} are among them.")
     s_ads, p_ads, both = (sum(r.get(k, 0) for r in non) for k in ("server_ads", "page_ads", "both"))
     print(f"\n{n_ok}/{len(results)} searches match. Anchor cities: {sum(r['ok'] for r in results if r['anchor'])}/"
-          f"{sum(r['anchor'] for r in results)}. Other cities (regulars, promotions, online): "
+          f"{sum(r['anchor'] for r in results)}. Other cities (regulars, promotions, online, sales): "
           f"{sum(r['ok'] for r in non)}/{len(non)}.")
     if s_ads:
         print(f"Weekly ads in other cities: the page shows {both / s_ads:.1%} of the {s_ads} deals the server finds "

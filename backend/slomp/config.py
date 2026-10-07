@@ -24,10 +24,13 @@ RATE_LIMITS: dict[str, float] = {
     "slickdeals.net": 1.0,
     "www.amazon.com": 0.5,
     "www.newegg.com": 1.0,
+    "upload.wikimedia.org": 0.5,       # logos (scripts/build_logos.py); faster gets HTTP 429
+    "www.wikidata.org": 0.5,
 }
 DEFAULT_RATE = 1.0
 # Simultaneous requests per host.
-CONCURRENCY: dict[str, int] = {"backflipp.wishabi.com": 4, "overpass-api.de": 1, "overpass.kumi.systems": 1}
+CONCURRENCY: dict[str, int] = {"backflipp.wishabi.com": 4, "overpass-api.de": 1, "overpass.kumi.systems": 1,
+                               "upload.wikimedia.org": 1}
 DEFAULT_CONCURRENCY = 2
 
 TTL = {

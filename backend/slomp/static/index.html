@@ -110,8 +110,10 @@ legend { padding: 0; }
 .form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
 
 /* ---- results --------------------------------------------------------------------------------------------- */
-.tabs { display: flex; gap: 28px; margin-top: 32px; border-bottom: 1px solid var(--line); }
-.tab { display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 12px 2px; font: inherit;
+.tabs { display: flex; gap: 28px; margin-top: 32px; overflow-x: auto; border-bottom: 1px solid var(--line);
+        scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }      /* five tabs scroll sideways on a phone */
+.tab { display: inline-flex; flex: none; align-items: center; gap: 8px; margin-bottom: -1px; padding: 12px 2px; font: inherit;
        font-size: 17px; font-weight: 650; color: var(--muted); background: none; border: 0;
        border-bottom: 3px solid transparent; cursor: pointer; }
 .tab:hover { color: var(--ink); }
@@ -224,6 +226,36 @@ legend { padding: 0; }
 .leftout li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 4px;
               border-bottom: 1px dotted var(--line-strong); }
 .leftout b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---- online stores ------------------------------------------------------------------------------------------ */
+/* A sale's own picture fills its tile with the store's logo in a corner; a sale with no picture shows the logo. */
+.thumb.logo img { padding: 16% 14%; mix-blend-mode: normal; }
+.lchip { position: absolute; left: 10px; bottom: 10px; width: 36px; height: 36px; overflow: hidden; background: #fff;
+         border-radius: 10px; box-shadow: 0 1px 3px rgba(33, 26, 32, .28); }
+.thumb .lchip img { padding: 4px; object-fit: contain; mix-blend-mode: normal; }
+.lchip.wide { width: 84px; height: 32px; border-radius: 8px; }    /* a store known only by its wordmark */
+.thumb .lchip.wide img { padding: 5px 7px; }
+.tag.code { color: var(--accent-ink); background: var(--accent-soft); border-color: transparent; font-weight: 650;
+            letter-spacing: .02em; }
+/* Store tiles: the logo on white, in both themes, then what the store has on. */
+.slogo { position: relative; display: grid; place-items: center; aspect-ratio: 2 / 1; overflow: hidden; background: #fff;
+         border-bottom: 1px solid var(--line); }
+.slogo img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 14% 20%; object-fit: contain;
+             background: #fff; opacity: 0; transition: opacity .2s ease; }
+.slogo img.ok { opacity: 1; }
+.slogo .initial { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: #7b2d64; }
+.scard .offer { font-size: 14.5px; }
+.shead { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.sid { display: flex; align-items: center; gap: 14px; margin-right: auto; min-width: 0; }
+.sid .slogo { flex: none; width: 104px; border: 1px solid var(--line); border-radius: 12px; }
+.sid .slogo .initial { font-size: 22px; }
+.sid h2 { margin: 0; font-size: 22px; line-height: 1.25; letter-spacing: -0.01em; }
+.sid p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+.sec { margin: 28px 0 14px; font-size: 17px; }
+.sec .muted { font-weight: 400; font-size: 14px; }
+.codebox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.codebox code { padding: 4px 10px; font: 700 15px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em;
+                color: var(--accent-ink); background: var(--accent-soft); border: 1px dashed var(--accent); border-radius: 8px; }
 
 /* ---- welcome and loading --------------------------------------------------------------------------------- */
 .welcome { padding: 56px 20px 16px; text-align: center; }
@@ -355,7 +387,7 @@ dialog.tour::backdrop { background: transparent; }
   .panel { padding: 16px; }
   .fields { grid-template-columns: 1fr auto; }
   .fields > :first-child { grid-column: 1 / -1; }
-  .tabs { margin-top: 24px; }
+  .tabs { gap: 22px; margin-top: 24px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .rgrid { grid-template-columns: 1fr; gap: 10px; }
   .body { padding: 12px; }
@@ -375,7 +407,7 @@ dialog.tour::backdrop { background: transparent; }
   .tab { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .rcard, .btn, .chip, .day, .thumb img, .add, .tour-spot, dialog.tour { transition: none; }
+  .card, .rcard, .btn, .chip, .day, .thumb img, .slogo img, .add, .tour-spot, dialog.tour { transition: none; }
   .card:hover, .rcard:hover, .add:hover { transform: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
 }
@@ -391,7 +423,7 @@ dialog.tour::backdrop { background: transparent; }
       </svg>
       <span>Slomp</span>
     </a>
-    <p class="tagline">Deals near any Texas city this week, plus the biggest discounts online.</p>
+    <p class="tagline">Deals near any Texas city this week, plus the best online discounts and online stores' sales.</p>
     <button type="button" class="tour-btn" id="tour-btn"><span class="q" aria-hidden="true">?</span>Tour</button>
   </header>
 
@@ -426,8 +458,9 @@ dialog.tour::backdrop { background: transparent; }
 
   <footer>
     <p>Local prices are the ads retailers publish (via Flipp) and can change, so check at the store. Regular deals come
-       from company pages and the day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals come from
-       public deal sites. Store locations © OpenStreetMap contributors.</p>
+       from company pages and the day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals and online
+       stores' sales come from public deal sites (dealnews, Slickdeals, Hip2Save and others). Store locations ©
+       OpenStreetMap contributors.</p>
   </footer>
 </div>
 
@@ -490,8 +523,9 @@ const PICTURE_PART = 0.58;   // product-card ad clippings: the picture is the to
 
 const S = {cities: [], byId: {}, byLabel: {}, industries: {}, radii: [10, 25, 50], sel: null, inds: new Set(["tech"]),
            radius: 25, auto: false, data: null, near: [], regulars: [], days: [], day: null, tab: "near",
-           ind: {near: null, regulars: "all", online: null}, shown: {near: PAGE, regulars: PAGE, online: PAGE},
-           view: [], req: 0, sort: "best"};
+           ind: {near: null, regulars: "all", online: null, sales: "all"},
+           shown: {near: PAGE, regulars: PAGE, online: PAGE, sales: PAGE, stores: PAGE},
+           sales: [], stores: [], store: null, view: [], req: 0, sort: "best"};
 
 /* ---- helpers --------------------------------------------------------------------------------------------- */
 const $ = (s, r = document) => r.querySelector(s);
@@ -695,7 +729,8 @@ async function run() {
     prepare(data);
     render();
     maybeTour();
-    $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` + (data.online ? `, ${onlineCount()} online.` : ".");
+    $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
+      (data.online ? `, ${onlineCount()} online, ${S.sales.length} sales at ${S.stores.length} online stores.` : ".");
   } catch (e) {
     if (token === S.req) failed(e.message);
   } finally {
@@ -721,7 +756,12 @@ function prepare(data) {
   S.days = [...new Set(week.concat(S.regulars.flatMap(d => d.on)))].sort();
   S.day = S.days.find(x => S.regulars.some(d => d.on.includes(x))) || today;
   S.ind.regulars = "all";
-  S.shown = {near: PAGE, regulars: PAGE, online: PAGE};
+  // Online stores' sales, and the stores with something on: the same for every city.
+  S.sales = data.sales ? data.sales.sales : [];
+  S.stores = data.sales ? groupStores(data.sales, O) : [];
+  S.ind.sales = "all";
+  S.store = null;
+  S.shown = {near: PAGE, regulars: PAGE, online: PAGE, sales: PAGE, stores: PAGE};
   S.tab = S.near.length || !S.regulars.length ? "near" : "regulars";
 }
 
@@ -733,7 +773,8 @@ function onlineCount() {
 /* ---- sorting --------------------------------------------------------------------------------------------- */
 const SORTS = [["best", "Best deal first"], ["ending", "Ending soonest"], ["az", "Name A–Z"], ["za", "Name Z–A"]];
 const collator = new Intl.Collator("en", {sensitivity: "base", numeric: true});
-const nameOf = d => "seller" in d ? d.seller || "Online" : d.merchant || "";
+const isSale = d => d.kind === "sale";
+const nameOf = d => isSale(d) ? d.store_name : "seller" in d ? d.seller || "Online" : d.merchant || "";
 
 // How big a deal is: the percent on its badge. Something free is 100% off, or 50% when it takes a purchase
 // ("kids eat free with an adult entrée", "a free pizza when they buy one": like buy one, get one); a price with
@@ -751,6 +792,7 @@ function savePct(d) {
 // When a deal stops: a weekly ad's last day; a regular deal's stated end date, then the time its hours end on the
 // day shown; an online deal's stated expiry. No end at all sorts last.
 function endsAt(d) {
+  if (isSale(d)) return d.ends_at ? Date.parse(d.ends_at) : Infinity;
   if (d.regular) {
     const r = d.regular;
     return r.until || r.ends ? Date.parse(`${r.until || "9999-12-31"}T${r.ends || "23:59"}:00`) : Infinity;
@@ -759,9 +801,10 @@ function endsAt(d) {
   return (d.terms.conditions || []).includes("dates not stated") ? Infinity : Date.parse(d.valid_to);
 }
 
+const distOf = d => d.store && typeof d.store === "object" ? d.store.distance_mi : 1e9;   // a sale's store is a name
 function sortDeals(list) {
   const best = (a, b) => ((savePct(b) ?? -1) - (savePct(a) ?? -1)) || ((b.score || 0) - (a.score || 0)) ||
-    ((a.store ? a.store.distance_mi : 1e9) - (b.store ? b.store.distance_mi : 1e9)) || collator.compare(nameOf(a), nameOf(b));
+    (distOf(a) - distOf(b)) || collator.compare(nameOf(a), nameOf(b));
   const by = {best,
     ending: (a, b) => (endsAt(a) - endsAt(b)) || best(a, b),
     az: (a, b) => collator.compare(nameOf(a), nameOf(b)) || best(a, b),
@@ -774,12 +817,18 @@ const sortHtml = () => `<label class="sort">Sort <select id="sort">` +
 
 /* ---- results --------------------------------------------------------------------------------------------- */
 function render() {
-  const {local: L, online: O} = S.data;
+  const {local: L, online: O, sales: SL} = S.data;
   const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${text}<span class="n">${n}</span></button>`;
+  const panel = {near: () => nearPanel(L), regulars: () => regularsPanel(L), online: () => onlinePanel(O),
+                 sales: () => salesPanel(SL), stores: () => storesPanel(SL)}[S.tab];
   $("#results").innerHTML = staleHtml(L) +
-    `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}</div>` +
-    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === "near" ? nearPanel(L) : S.tab === "regulars" ? regularsPanel(L) : onlinePanel(O)}</div>` +
+    `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}` +
+    `${SL ? tab("sales", "Sales", S.sales.length) + tab("stores", "Stores", S.stores.length) : ""}</div>` +
+    `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${panel()}</div>` +
     (STATIC && L.built ? `<p class="fine">Slomp read these deals from their sources ${readAgo(L.built)}; the site reads them again every 6 hours.</p>` : "");
+  // On a phone the tabs scroll sideways: keep the chosen one in sight without moving the page.
+  const bar = $("#results .tabs"), on = $("#results .tab[aria-selected='true']");
+  if (bar && on && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = on.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2;
 }
 
 const readAgo = iso => Date.now() - new Date(iso) < 36e5 ? "less than an hour ago" : ago(iso);
@@ -849,6 +898,144 @@ function onlinePanel(O) {
     ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
     : emptyHtml(ICON[cur] || "🏷️", `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
   return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(O.excluded);
+}
+
+/* ---- online stores: their sales, and the stores ---------------------------------------------------------- */
+// Sales on many products at stores that ship anywhere in Texas: the same for every city. docs/DESIGN-online-stores.md
+const storeOf = d => (S.data && S.data.sales && S.data.sales.stores[d.store]) || null;   // the store's registry entry
+const hostOf = u => { try { return new URL(u).hostname.replace(/^www\d?\./, ""); } catch { return ""; } };
+const initials = name => name.replace(/[^A-Za-z0-9& ]/g, "").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase() || "?";
+
+// A sale that ends in the small hours (11:59 PM Pacific is 1:59 AM here) belongs to the day before.
+const SMALL_HOURS = 4 * 36e5;
+function saleWhen(d, tz) {
+  const now = Date.now();
+  if (d.starts_at && Date.parse(d.starts_at) > now) return {text: `Starts ${day(d.starts_at, tz)}`, urgent: false};
+  if (!d.ends_at) return {text: d.posted_at ? `Posted ${ago(d.posted_at)}` : "No end date given", urgent: false};
+  const at = Date.parse(d.ends_at), hour = Number(new Date(at).toLocaleString("en-US", {hour: "numeric", hourCycle: "h23", timeZone: tz}));
+  const end = day(new Date(hour < 4 ? at - SMALL_HOURS : at).toISOString(), tz);
+  if (end === day(new Date(now).toISOString(), tz)) return {text: "Ends today", urgent: true};
+  if (end === day(new Date(now + 864e5).toISOString(), tz)) return {text: "Ends tomorrow", urgent: false};
+  return {text: `Ends ${end}`, urgent: false};
+}
+
+function saleThumb(d) {
+  const st = storeOf(d), src = pic(d.image_url);
+  const logo = st && st.logo ? logoSrc(st.logo.url) : "", main = src || logo;
+  const chip = st && (st.icon || st.mark), wide = !!(st && !st.icon && st.mark);       // a square icon, else the wordmark
+  const ph = d.industries.length > 2 ? "🛍️" : ICON[d.industries[0]] || "🛍️";
+  const img = u => `<img src="${esc(u)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
+  return `<div class="thumb${main ? " has-img" : ""}${src && PHOTO_FEEDS.has(d.source) ? " cover" : ""}${!src && logo ? " logo" : ""}">` +
+    `<span class="ph" aria-hidden="true">${ph}</span>${main ? img(main) : ""}` +
+    (d.badge ? `<span class="badge${d.badge_soft ? " soft" : ""}">${esc(d.badge)}</span>` : "") +
+    (src && chip ? `<span class="lchip${wide ? " wide" : ""}">${img(logoSrc(chip.url))}</span>` : "") + `</div>`;
+}
+
+// The code first, then what the discount asks of you.
+function saleTagsHtml(d, limit = 2) {
+  const tags = (d.conditions || []).map(c => `<span class="tag">${esc(c)}</span>`);
+  if (d.code) tags.unshift(`<span class="tag code">Code ${esc(d.code)}</span>`);
+  return tags.length ? `<div class="tags">${tags.slice(0, limit).join("")}${tags.length > limit ? `<span class="tag">+${tags.length - limit}</span>` : ""}</div>` : "";
+}
+
+function saleCard(d, i) {
+  const w = saleWhen(d, S.data.local.city.tz);
+  return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${saleThumb(d)}<div class="body">` +
+    `<div class="meta"><strong>${esc(d.store_name)}</strong></div>` +
+    `<h3 class="title">${esc(d.name)}</h3><div class="offer">${esc(d.offer)}</div>` +
+    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${saleTagsHtml(d)}</div></article>${addHtml(d, i)}</div>`;
+}
+
+// What Slomp left out: only what concerns sales (the product posts in the same feeds are the Online tab's).
+const saleLeftout = ex => Object.fromEntries(Object.entries(ex || {})
+  .filter(([k]) => !/no discount stated|one product, not a sale/.test(k)).map(([k, n]) => [k.replace(/^sale: /, ""), n]));
+
+function salesPanel(SL) {
+  const cur = S.ind.sales, inInd = d => cur === "all" || d.industries.includes(cur);
+  const list = S.view = sortDeals(S.sales.filter(inInd));
+  const inds = SL.industries.filter(i => S.sales.some(d => d.industries.includes(i)));
+  const pills = inds.length < 2 ? "" : `<div class="pills" role="tablist" aria-label="Category">` +
+    [["all", "All", S.sales.length]].concat(inds.map(i => [i, short(i), S.sales.filter(d => d.industries.includes(i)).length])).map(([id, text, n]) =>
+      `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
+      (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
+  const down = (SL.sources || []).filter(s => !s.ok).length;
+  const notice = down ? noticeHtml(`${down} of ${SL.sources.length} deal feeds couldn't be read just now, so this list may be incomplete.`) : "";
+  const context = "Sales, promo codes and sale events at online stores that ship anywhere in Texas: the same for every city. Each links to the post it came from.";
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
+    : emptyHtml("🛍️", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
+  return notice + `<div class="subhead">${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(saleLeftout(SL.excluded));
+}
+
+// The online stores with something on in the chosen categories: their sales, and their product deals from the
+// Online tab (a deal carries its store's key; older data is matched by the store's names).
+function groupStores(SL, O) {
+  const info = SL.stores || {}, named = new Map(), byKey = new Map();
+  for (const [k, v] of Object.entries(info)) for (const n of v.names || [v.name]) named.set(norm(n), k);
+  const group = (key, name) => {
+    if (!byKey.has(key)) byKey.set(key, {key, name, info: info[key] || null, sales: [], deals: []});
+    return byKey.get(key);
+  };
+  for (const s of S.sales) group(s.store || "x:" + norm(s.store_name), s.store_name).sales.push(s);
+  const seen = new Set();
+  for (const d of O ? Object.values(O.deals).flat() : []) {
+    const key = d.store_key || named.get(norm(d.seller || ""));
+    if (!key || !info[key] || seen.has(d.id)) continue;
+    seen.add(d.id);
+    group(key, info[key].name).deals.push(d);
+  }
+  return [...byKey.values()];
+}
+
+const everything = g => g.sales.concat(g.deals);
+const storeBest = g => Math.max(-1, ...everything(g).map(d => savePct(d) ?? -1));
+function sortStores(list) {
+  const best = (a, b) => (storeBest(b) - storeBest(a)) || (everything(b).length - everything(a).length) || collator.compare(a.name, b.name);
+  const ends = g => Math.min(...everything(g).map(endsAt));
+  const by = {best, ending: (a, b) => (ends(a) - ends(b)) || best(a, b),
+              az: (a, b) => collator.compare(a.name, b.name), za: (a, b) => collator.compare(b.name, a.name)}[S.sort] || best;
+  return list.slice().sort(by);
+}
+
+const storeCounts = g => [g.sales.length ? `${g.sales.length} ${g.sales.length === 1 ? "sale" : "sales"}` : "",
+  g.deals.length ? `${g.deals.length} product ${g.deals.length === 1 ? "deal" : "deals"}` : ""].filter(Boolean).join(" · ");
+
+function storeLogo(g) {
+  const lg = g.info && g.info.logo, src = lg ? logoSrc(lg.url) : "";
+  return `<div class="slogo"><span class="initial" aria-hidden="true">${esc(initials(g.name))}</span>` +
+    (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") + `</div>`;
+}
+
+function storeCard(g) {
+  const top = sortDeals(g.sales)[0], deal = top ? null : sortDeals(g.deals)[0];
+  const line = top ? `<div class="offer">${esc(top.offer)}</div><div class="when">${esc(top.name)}</div>`
+    : deal ? `<div class="offer">${deal.discount_pct ? `${Math.round(deal.discount_pct)}% off` : money(deal.price)}</div><div class="when">${esc(productName(deal))}</div>` : "";
+  return `<div class="cell"><article class="card scard" role="button" tabindex="0" data-store="${esc(g.key)}" aria-label="${esc(g.name)}: ${esc(storeCounts(g))}">` +
+    `${storeLogo(g)}<div class="body"><h3 class="title">${esc(g.name)}</h3><div class="meta"><span>${esc(storeCounts(g))}</span></div>${line}</div></article></div>`;
+}
+
+function storesPanel(SL) {
+  const g = S.store && S.stores.find(x => x.key === S.store);
+  if (g) return storePage(g);
+  S.store = null;
+  const list = S.view = sortStores(S.stores);
+  const context = "Online stores that ship anywhere in Texas, with what each has on in your categories. Open one to see it all.";
+  const body = list.length
+    ? `<div class="grid">${list.slice(0, S.shown.stores).map(storeCard).join("")}</div>` + moreHtml(list.length, S.shown.stores)
+    : emptyHtml("🏬", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
+  return `<div class="subhead"><div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body;
+}
+
+// One store: its sales, then its product deals, in one list for the + buttons and the details view.
+function storePage(g) {
+  const sales = sortDeals(g.sales), deals = sortDeals(g.deals), site = g.info ? link(g.info.site) : "";
+  S.view = sales.concat(deals);
+  const head = `<div class="shead"><button type="button" class="btn ghost small" data-store-back>← All stores</button>` +
+    `<div class="sid">${storeLogo(g)}<div><h2>${esc(g.name)}</h2><p>${esc(storeCounts(g))}</p></div></div>` +
+    (site ? actionHtml(site, `Visit ${esc(hostOf(site))}`, false) : "") + `</div>`;
+  return `<div class="subhead">${head}<div class="ctx"><p class="context">Online, so the same for every city.</p>${sortHtml()}</div></div>` +
+    (sales.length ? `<h3 class="sec">Sales <span class="muted">${sales.length}</span></h3><div class="grid">${sales.map((d, k) => saleCard(d, k)).join("")}</div>` : "") +
+    (deals.length ? `<h3 class="sec">Product deals <span class="muted">${deals.length}</span></h3><div class="grid">${deals.map((d, k) => onlineCard(d, sales.length + k)).join("")}</div>` : "");
 }
 
 function nearEmpty(L, cur) {
@@ -1127,9 +1314,38 @@ function onlineDetail(d) {
     `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}${cardToggleHtml(d)}</div>`);
 }
 
+const endText = (iso, tz) => new Date(iso).toLocaleString("en-US", {weekday: "short", month: "short", day: "numeric",
+  hour: "numeric", minute: "2-digit", timeZone: tz, timeZoneName: "short"});
+
+function saleDetail(d) {
+  const tz = S.data.local.city.tz, st = storeOf(d), site = st ? link(st.site) : "";
+  const rows = [["Offer", esc(d.offer)]];
+  if (d.code) rows.push(["Code", `<span class="codebox"><code>${esc(d.code)}</code><button type="button" class="btn small ghost" data-copy="${esc(d.code)}">Copy</button></span>` +
+    (d.code_note ? `<br><span class="muted">${esc(cap(d.code_note))}</span>` : "")]);
+  if (d.starts_at && Date.parse(d.starts_at) > Date.now()) rows.push(["Starts", esc(day(d.starts_at, tz))]);
+  rows.push(["Ends", d.ends_at ? esc(endText(d.ends_at, tz)) + (d.ends_how ? `<br><span class="muted">${esc(d.ends_how.startsWith("the ") ? cap(d.ends_how) : d.ends_how)}</span>` : "")
+    : `<span class="muted">No end date given. Slomp shows it for 7 days after it was posted.</span>`]);
+  if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
+  if (d.shipping) rows.push(["Shipping", esc(d.shipping)]);
+  rows.push(["Store", site ? `<a href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(d.store_name)}</a>` : esc(d.store_name)]);
+  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.source)}</a>` : esc(p.source)).join(", ")]);
+  rows.push(["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
+    (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]);
+  const shown = d.image_url || !(st && st.logo) ? d : {...d, image_url: logoSrc(st.logo.url)};
+  return sheetHtml(shown, !!d.image_url && PHOTO_FEEDS.has(d.source),
+    `<p class="eyebrow">${esc(d.store_name)} · online store</p><h2 id="detail-title">${esc(d.title)}</h2>` +
+    (d.badge ? `<div class="price">${badgeInline({text: d.badge, soft: d.badge_soft})}</div>` : "") + factsHtml(rows) +
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>`);
+}
+
+async function copyCode(code) {
+  try { await navigator.clipboard.writeText(code); toast(`Copied ${code}`); }
+  catch { toast(`The code is ${code}`); }
+}
+
 function openDetail(d) {
   S.detail = d;
-  $("#detail-body").innerHTML = "seller" in d ? onlineDetail(d) : d.regular ? regularDetail(d) : localDetail(d);
+  $("#detail-body").innerHTML = isSale(d) ? saleDetail(d) : "seller" in d ? onlineDetail(d) : d.regular ? regularDetail(d) : localDetail(d);
   $("#detail-body").scrollTop = 0;
   $("#detail").showModal();
 }
@@ -1156,7 +1372,8 @@ function failed(message) {
 function showMore() {
   const key = S.tab, from = S.shown[key], tz = S.data.local.city.tz;
   S.shown[key] = from + PAGE;
-  const cards = S.view.slice(from, S.shown[key]).map((d, k) => key === "near" ? localCard(d, from + k, tz) : key === "regulars" ? regularCard(d, from + k) : onlineCard(d, from + k)).join("");
+  const draw = {near: (d, i) => localCard(d, i, tz), regulars: regularCard, online: onlineCard, sales: saleCard, stores: storeCard}[key];
+  const cards = S.view.slice(from, S.shown[key]).map((d, k) => draw(d, from + k)).join("");
   $("#panel .grid, #panel .rgrid").insertAdjacentHTML("beforeend", cards);
   if (S.shown[key] >= S.view.length) { $(".more").remove(); return; }
   $("#more").textContent = `Show ${Math.min(PAGE, S.view.length - S.shown[key])} more`;
@@ -1194,7 +1411,7 @@ function watchMidnight() {
 }
 
 // One deal is one entry; a nearby or regular deal is also tied to the city it was found near.
-const cardKey = d => "seller" in d ? d.id : `${d.id}@${S.data.local.city.id}`;
+const cardKey = d => "seller" in d || isSale(d) ? d.id : `${d.id}@${S.data.local.city.id}`;
 const onCard = d => !!S.data && card.items.some(x => x.key === cardKey(d));
 
 const addHtml = (d, i) => {
@@ -1205,6 +1422,7 @@ const cardToggleHtml = d => `<button type="button" class="btn small ghost" data-
 
 // The deal as the card shows it: what, where, the price and when, in words, with its picture.
 function snapshot(d) {
+  if (isSale(d)) return saleSnapshot(d);
   const L = S.data.local, online = "seller" in d, r = d.regular, t = d.terms || {};
   const badge = online ? onlineBadge(d) : localBadge(d);
   let price = "", was = "", note = "";
@@ -1237,6 +1455,15 @@ function snapshot(d) {
     image: logo || pic(d.image_url), cover: logo ? r.logo.fit === "cover" : online && PHOTO_FEEDS.has(d.source),
     clip: !online && !r && !!d.feed, icon: iconOf(d), city: online ? "" : L.city.name, url: d.source_url || "",
   };
+}
+
+// A sale on the card: its offer is the price line; its code goes with the dates, where there is room for it.
+function saleSnapshot(d) {
+  const w = saleWhen(d, S.data.local.city.tz), st = storeOf(d), logo = st && st.logo ? logoSrc(st.logo.url) : "";
+  return {key: cardKey(d), kind: "sale", merchant: d.store_name, title: d.name, badge: d.badge || "", soft: !!d.badge_soft,
+          price: d.offer, was: "", note: "", where: "Online", when: w.text + (d.code ? ` · code ${d.code}` : ""), urgent: w.urgent,
+          image: pic(d.image_url) || logo, cover: !!d.image_url && PHOTO_FEEDS.has(d.source), clip: false, icon: "🛍️",
+          city: "", url: d.source_url || ""};
 }
 
 function toggleCard(d) {
@@ -1649,7 +1876,12 @@ $("#results").addEventListener("click", e => {
   const hit = sel => e.target.closest(sel);
   let el;
   if ((el = hit("[data-add]"))) { const d = S.view[Number(el.dataset.add)]; if (d) toggleCard(d); }
-  else if ((el = hit("[data-tab]"))) { S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render(); }
+  else if ((el = hit("[data-tab]"))) {
+    if (el.dataset.tab === "stores" && S.tab === "stores") S.store = null;     // the Stores tab again: back to every store
+    S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render();
+  }
+  else if ((el = hit("[data-store]"))) { S.store = el.dataset.store; render(); $("#results .tabs").scrollIntoView({block: "nearest"}); }
+  else if (hit("[data-store-back]")) { S.store = null; render(); }
   else if ((el = hit("[data-day]"))) { S.day = el.dataset.day; S.shown.regulars = PAGE; render(); }
   else if ((el = hit("[data-ind]"))) { S.ind[S.tab] = el.dataset.ind; S.shown[S.tab] = PAGE; render(); }
   else if (hit("#more")) showMore();
@@ -1669,8 +1901,11 @@ $("#results").addEventListener("change", e => {
 });
 
 $("#results").addEventListener("keydown", e => {
-  const card = e.target.closest && e.target.closest(".card[data-i], .rcard[data-i]");
-  if (card && e.target === card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(S.view[Number(card.dataset.i)]); }
+  const card = e.target.closest && e.target.closest(".card[data-i], .rcard[data-i], .card[data-store]");
+  if (!card || e.target !== card || (e.key !== "Enter" && e.key !== " ")) return;
+  e.preventDefault();
+  if (card.dataset.store) { S.store = card.dataset.store; render(); }
+  else openDetail(S.view[Number(card.dataset.i)]);
 });
 
 function drawRadiusValue() {
@@ -1682,6 +1917,7 @@ $(".close", dialog).addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", e => {
   if (e.target === dialog) dialog.close();                                            // a click on the backdrop
   else if (e.target.closest("[data-card-toggle]") && S.detail) toggleCard(S.detail);
+  else if (e.target.closest("[data-copy]")) copyCode(e.target.closest("[data-copy]").dataset.copy);
 });
 
 const cardSheet = $("#card-sheet");
@@ -1723,7 +1959,7 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && fr
 document.addEventListener("error", e => {
   const img = e.target;
   if (!(img instanceof HTMLImageElement)) return;
-  if (img.closest(".rthumb")) { img.remove(); return; }
+  if (img.closest(".rthumb, .slogo, .lchip")) { (img.closest(".lchip") || img).remove(); return; }
   const box = img.closest(".thumb, .pic");
   if (box) { box.classList.remove("has-img", "cover"); (img.closest(".clip") || img).remove(); }
 }, true);

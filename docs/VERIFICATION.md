@@ -3,7 +3,8 @@
 Slomp is checked against the real sources, not against itself. Each iteration samples 10 Texas cities (3 with 200k+
 people, 3 with 20k–200k, 4 under 20k) and spreads all 13 industries across them. It runs Slomp the way a user would,
 then runs **200 live tests** that re-read each result from the source by a different route than the pipeline used.
-Regular deals, added on Oct 5, have their own plan and results in [their own section](#regular-deals) below.
+Regular deals, added on Oct 5, have their own plan and results in [their own section](#regular-deals) below, and so
+do online stores' sales, added on Oct 6 ([Online stores' sales](#online-stores-sales)).
 
 Slomp was called Plum until Oct 5, 2026. The reports in `docs/verification/` from before the rename keep the old
 name, in field names such as `plum_industries` and in the User-Agent they record (`Plum/1.0`).
@@ -595,3 +596,128 @@ Regular deals, restaurant promotions and online deals matched in all 60 searches
 anchor's ads, every deal feed and both deal lists, but 13 company sites answered GitHub's data centers with a bot check
 (the build log names them), so the 18 regular deals only their pages confirm are missing from the published site: 200
 regular deals instead of 217. Chuck E. Cheese's and Fuzzy's offers still show, as listed by the deal sites.
+
+
+## Online stores' sales
+
+Sales at online stores ([DESIGN-online-stores.md](DESIGN-online-stores.md)) make a third kind of claim: "this store
+has this sale, with this code, until this date". They are the same for every city, so a run reads every source once
+and searches by industry: each of the 12 online industries alone, then four mixes. Then it runs **200 live tests**
+(`slomp verify --iteration N --plan sales`), each reading its source again by its own route:
+
+| Test | Count | Passes when |
+|---|---|---|
+| S-SRC source fidelity | 50 | The post page, read now (only the post's own text, not the site's menus or the deals beside it), names the store and states every figure of the offer and the code, and is not taken down or marked expired |
+| S-END dates | 30 | The sale is live now; the end Slomp shows is one the post states (a source's own end date may be a time zone off); a sale with no end shown has none stated. Half go to ends read from the post's words |
+| S-STORE store | 25 | The post sends you to the store, names it as the seller ("Amazon is offering", "Shop Now at Kohl's"), or links to its site |
+| S-SHIP ships | 20 | A blind judge, given only the post, says it is from a store you can order from and have shipped |
+| S-MANY a sale | 20 | The judge says it is a sale on many products, not one product at one price |
+| S-IND industry | 20 | The judge picks an industry the sale was shown under in that search |
+| S-OFFER offer and code | 20 | Every figure on the badge and the offer line is in the post's title; a firm percent is not an "up to" one; the code is in the post as written. Half go to sales with a code |
+| S-QUAL quality | 15 | Across a search's whole list: no duplicates, nothing ended or stale, best-first order |
+
+The judge's prompt is in `backend/slomp/verify/JUDGE-SALES.md`. Full evidence is in `docs/verification/sales-NN.json`.
+
+**Results in short.** Four runs, 800 tests: **780 passed (97.5%)**, none inconclusive.
+
+| | Run 1 | Run 2 | Run 3 | Run 4 |
+|---|---|---|---|---|
+| All tests | 190 of 200 (95.0%) | 195 of 200 (97.5%) | 197 of 200 (98.5%) | 198 of 200 (99.0%) |
+| Slomp's own errors | 8 (industry) | 3 (industry 2, one product) | 1 (store) | 0 |
+| Judgment calls | 0 | 0 | 2 | 2 |
+| Test bugs | 2 | 2 | 0 | 0 |
+
+| Over the four runs | Passed |
+|---|---|
+| S-SRC: the post shows the store, every figure and the code, and is still up | 199 of 200 (the miss was a test bug) |
+| S-END: the end shown is the one the post states, and the sale is live | 118 of 120 (both misses test bugs) |
+| S-STORE: the post names or links the store shown | 98 of 100 (one Slomp bug, one test bug) |
+| S-OFFER: badge, offer line and code agree with the post | 80 of 80 |
+| S-QUAL: no duplicates, nothing ended or stale, best-first order | 60 of 60 |
+| S-SHIP: a store that ships (judge) | 80 of 80 |
+| S-MANY: a sale on many products (judge) | 78 of 80 |
+| S-IND: the industry (judge) | 67 of 80 |
+
+- **What a card says is accurate.** Across 200 post-fidelity, 120 date and 80 offer tests, every offer figure, code
+  and end date checked was right (the three misses there were in the tests), and every list was free of duplicates
+  and of ended or stale sales. The codes were also read one by one while building,
+  which led to the rule that a code's own sentence decides (below).
+- **Where to file a sale was the weak part, and it improved run by run** (12, 18, 19 and 18 of 20). The first version
+  gave a store-wide event every industry its store sells; it now counts for the goods its post names. What remains are
+  judgment calls: a store-wide event whose post mentions baby clothing or a desk in passing is also shown under Baby &
+  Kids or Office, where the judge would not look for it.
+
+### Run 1 (seed 1013, Oct 6)
+
+Slomp held 208 sales that had not ended, at 49 stores: 150 from dealnews, 39 Hip2Save, 12 9to5Toys, 6 Slickdeals and
+1 The Inventory; 49 with a code and 137 with an end date. Searches showed 11 (Pets) to 99 (Fashion, Grocery and Health)
+sales. Result: **190 of 200**, none inconclusive.
+
+| Category | Pass | Fail |
+|---|---|---|
+| S-SRC source fidelity | 49 | 1 |
+| S-END dates | 30 | 0 |
+| S-STORE store | 24 | 1 |
+| S-SHIP ships (judge) | 20 | 0 |
+| S-MANY a sale (judge) | 20 | 0 |
+| S-IND industry (judge) | 12 | 8 |
+| S-OFFER offer and code | 20 | 0 |
+| S-QUAL quality | 15 | 0 |
+
+Every store, offer, code and end date checked was right. Before this run, while building, the codes had been read one
+by one against their posts, which found three wrong ones and led to the rule that a code's own sentence decides: J.Crew's
+CARDLOVE is for its credit card's holders, a QVC code (JOLLYQ20) sat in a post about Birkenstocks at QVC, and Sephora's
+DELIVERED buys free delivery, not the discount. What the run found was about industries:
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| S-IND AliExpress Halloween Deals (under Pets); Costco Member Appreciation and October Online Savings (under Auto); Amazon Prime Big Deal Days (under Grocery); Walgreens Halloween Weekly Deals (under Baby & Kids) | A store-wide event counted for everything its store sells, which for Amazon, Costco or AliExpress is every industry | Slomp bug (×5) | A store-wide event counts for the kinds of goods its post names (its category and its words), kept to what the store sells |
+| S-IND Nutramax Cosequin supplements (under Health) | A dog joint supplement read as a vitamin | Slomp bug | "for dogs" and the brand name are pet words |
+| S-IND ZURU My Mini Baby sets (under Baby & Kids) | A toy line whose name says "baby" | Slomp bug | A rule for toy lines with "baby" in the name, ahead of the baby words |
+| S-IND Wayfair cardboard standups (under Office) | The post's category (party supplies) is outside what Wayfair sells, and the fallback was all three of Wayfair's lines | Slomp bug | The fallback is the store's own main line |
+| S-SRC 9to5Toys Fanttik tools (store not named) | The test read only the page's cut-off summary; the article names Amazon and links to it | Test bug | The test reads 9to5Toys' article body |
+| S-STORE Slickdeals grocery code (store not named) | The post opens "Amazon is offering…", a phrasing the test didn't accept | Test bug | The test accepts the seller named as the subject |
+
+### Run 2 (seed 2013, Oct 6), after those fixes
+
+The same 208 sales, now filed more narrowly: Pets went from 11 sales to 3 (Cosequin, Woot's pet sale, Native Pet) and
+Auto from 13 to 2. Result: **195 of 200**, none inconclusive. S-SRC, S-STORE, S-SHIP, S-OFFER and S-QUAL passed in
+full.
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| S-END Woot's Amazon Essentials apparel discount; Woot's tools and kitchen discount (both Slickdeals) | The test read only Slickdeals' summary, which leaves out "Offer valid through October 13, 2026"; the editors' notes on the page say it, and Slomp's dates were right | Test bug (×2) | The test reads the editors' notes, and passes on the date the post states rather than on its exact wording |
+| S-MANY Nutramax Cosequin supplements | The title says "Supplements", but the post prices one bottle | Slomp bug | A post whose text prices one item, with no sale words, "up to" or "extra" in its title, is one product |
+| S-IND Kohl's today-only deals; Gap Factory clearance (both under Baby & Kids) | Neither post names any goods, so each counted for every department its store has; the judge chose Fashion (and Home for Kohl's) | Slomp bug (×2) | An event that names no goods counts for the store's main line: a department store's first two departments, another store's first. Hip2Save's own category feeds no longer count as naming goods |
+
+### Run 3 (seed 3013, Oct 6), after those fixes
+
+206 sales at 49 stores. Searches showed 1 (Baby & Kids) to 91 (Auto, Fashion and Sports) sales. Result: **197 of
+200**, none inconclusive. S-SRC, S-END, S-SHIP, S-OFFER and S-QUAL passed in full.
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| S-STORE Crocs, "Up to 60% off" (Hip2Save) | The post sends you to "the official Crocs eBay Store"; Slomp showed it as a sale at Crocs. Its reader didn't take "official" before a name, nor a name in lower-then-capital letters (eBay), so the brand in the title won | Slomp bug | A store phrase may start "the official"; names like eBay and iHerb are read; a phrase naming a brand and a marketplace means the marketplace; the post's own "at …" outranks a brand the title names. Of the 206 sales, only this one changed store |
+| S-MANY Toniebox Prime Big Deals at Amazon | dealnews files it as a sale: bundles of one audio player and its figures. The judge saw one product | Judgment call | None |
+| S-IND Woot Prime Exclusive Deals (under Office) | The post's words name office goods among others; the judge chose Tech, Fashion and Home | Judgment call | None |
+
+The judge also noted, beside its answers, that one sale's store was "DealNews": dealnews names itself as the retailer
+of its own roundups ("The Best Amazon Prime Big Deal Days Deals"). Deal sites are no longer taken for a store, so that
+roundup is now Amazon's (by its sale event). Looking at every store outside the registry then found one more slip, a
+single office chair ("Welax S3 Ergonomic Office Chair: $45 OFF") taken for a sale: a post whose offer is only dollars
+off, with no sale words or kinds of goods in its subject, is now one product.
+
+### Run 4 (seed 4013, Oct 6), after all the fixes
+
+205 sales at 47 stores (148 dealnews, 38 Hip2Save, 12 9to5Toys, 6 Slickdeals, 1 The Inventory; 48 with a code, 135
+with an end). Result: **198 of 200**, none inconclusive. Every test passed except two industry calls:
+
+| Test | What happened | Kind | Fix |
+|---|---|---|---|
+| S-IND Kohl's Deal Days (under Baby & Kids) | The post names baby clothing (Jumping Beans) among its brands; the judge chose Fashion, Home and Beauty | Judgment call | None |
+| S-IND Woot Prime Exclusive Deals (under Office) | As in run 3: the post names a desk among its goods | Judgment call | None |
+
+**The published site.** `python -m slomp.verify.site_check` now compares the sales too: built from the same data at the
+same moment, the server's and the page's lists of sales matched in every field of every sale, with the same counts,
+left-out reasons and store list, in 24 of 24 searches (seed 7, during run 1) and 30 of 30 (seed 11, on the final code).
+

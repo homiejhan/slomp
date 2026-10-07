@@ -8,9 +8,13 @@ Pick a **Texas city** and one or more **industries**. Slomp returns:
    as BOGO Wednesdays or discount movie Tuesdays.
 2. **Biggest discounts online:** the products in each industry with the highest discounts right now. Where other
    stores sell the exact same product, the discount is measured against their prices rather than a list price.
+3. **Online stores' sales:** store-wide and category sales, promo codes and sale events at online stores that ship
+   anywhere in Texas (122 stores by name, from Amazon, eBay and Walmart to Kohl's and Best Buy), and the stores
+   themselves, each with what it has on. These are the same for every city.
 
 Everything comes from public, keyless sources. [docs/DESIGN.md](docs/DESIGN.md) covers the design and the research
-behind it, and [docs/DESIGN-regular-deals.md](docs/DESIGN-regular-deals.md) does the same for regular deals.
+behind it, [docs/DESIGN-regular-deals.md](docs/DESIGN-regular-deals.md) does the same for regular deals, and
+[docs/DESIGN-online-stores.md](docs/DESIGN-online-stores.md) for online stores' sales.
 [docs/VERIFICATION.md](docs/VERIFICATION.md) has the results of the live accuracy tests.
 
 ## Open it
@@ -32,10 +36,12 @@ slomp local alpine -i grocery,dining -r 50     # small towns: widen the radius
 slomp local austin -i dining,entertainment     # restaurant promotions and regular deals, by the day they next run
 slomp regulars                                 # every regular deal Slomp knows, with the state of its evidence
 slomp online -i tech,home -n 10                # biggest verified online discounts
+slomp sales -i fashion,home -n 20              # sales at online stores (the Sales and Stores tabs)
 slomp serve                                    # web page at http://localhost:8000, API docs at /docs
 pytest                                        # offline unit tests
 slomp verify --iteration 1                     # 200 live accuracy tests (about 30 minutes)
 slomp verify --iteration 1 --plan regulars     # 200 live tests of regular deals (Austin, Houston, Dallas areas)
+slomp verify --iteration 1 --plan sales        # 200 live tests of online stores' sales
 python -m slomp.verify.regulars_run --audit    # every regular deal near those cities, not a sample
 slomp site build --out ../site                 # the published site's files (see below)
 python -m slomp.verify.site_check --out ../site  # the site's page against the server on 60 searches (needs Node)
@@ -44,7 +50,7 @@ python -m slomp.verify.site_check --out ../site  # the site's page against the s
 ## The web page
 
 `slomp serve` opens a single page: search a city, tap a distance and what you're shopping for, and browse cards under
-three tabs, **Near you**, **Regulars** and **Online**. Click a card for the details: what the discount is measured
+five tabs, **Near you**, **Regulars**, **Online**, **Sales** and **Stores**. Click a card for the details: what the discount is measured
 against, dates, the nearest store, conditions, other stores' prices, and links to the ad or deal post. Searches are
 kept in the address bar, so a results page can be bookmarked or shared. Pictures are the ad clippings and deal-post
 photos, loaded from their sources.
@@ -60,6 +66,28 @@ visit.
 card**, at the bottom right, shows them as one picture, with each deal's photo, price, place and dates, to **Share**
 (your phone's or computer's share menu) or **Save** as a PNG or JPG. The card is kept in your browser, nowhere else,
 and empties at midnight. [docs/DESIGN-share-card.md](docs/DESIGN-share-card.md) has the design.
+
+## Online stores and their sales
+
+Online stores ship anywhere, so they belong to no city. Two tabs cover them, the same for every search:
+
+- **Sales**: one card per store-wide sale, category sale, promo code or sale event at an online store that ships,
+  in the categories you chose. Each shows the store's logo, the offer ("Up to 60% off + extra 25% off"), the promo
+  code when there is one (the details view has a **Copy** button), when it ends, and its conditions (Prime or rewards
+  members, minimum order, select items, in the app). Every card links to the post it came from.
+- **Stores**: the online stores with something on in your categories, as logo tiles. Open one to see its sales and
+  its product deals from the Online tab, with a link to its site.
+
+Where sales come from: dated posts by deal-site editors (dealnews, including each major store's own dealnews feed,
+Hip2Save, Slickdeals and 9to5Toys). Coupon-code sites are not used: their codes carry no dates. A promo code is shown
+only when the post states it, and only if its own sentence makes it this sale's code (not a cardholder's, another
+store's, or one whose day has passed). A sale is shown until its end (dealnews' own end date, or the post's words:
+"ends October 8", "through 10/13", "today only"); a sale with no end is shown for 7 days after it was posted, and
+nothing posted more than 30 days ago is shown, which keeps out the old "sitewide promo code" posts deal sites leave in
+their feeds. "Best deal first" counts an "up to" percentage at half its distance above what is certain, since it is a
+ceiling on a few items. The stores Slomp knows by name are in
+[backend/slomp/data/online_stores.json](backend/slomp/data/online_stores.json); their logos come from each store's own
+site or its Wikidata entry (`python scripts/build_logos.py --stores`).
 
 ## Regular deals
 
@@ -170,4 +198,8 @@ Movies & Entertainment. The last two are local only: promotions and regular deal
   article. A few sites tell AI assistants by name to keep out (the Fort Worth Zoo, the Bullock Museum, The
   Infatuation's guides). Their pages are not used, because the curated list is kept up with an AI assistant. Add
   those deals to your own file if you want them.
+- Online stores' sales come from deal sites' posts, not from the stores: Slomp re-reads each post to check it is
+  still up, but can't check the sale on the store's own site (a fifth of stores answer with a bot check, and Amazon's
+  and eBay's sites tell AI assistants by name to keep out). A sale that only a store's own site or email announces is
+  missing.
 - For personal research: respect each source's terms.

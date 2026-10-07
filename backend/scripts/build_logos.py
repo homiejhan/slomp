@@ -11,6 +11,10 @@ Where the website comes from, in order: the company page a registry entry is con
 venue rule names, the chain's Wikidata website, and the link a deal list gives for the chain.
 
     python scripts/build_logos.py          # after scripts/build_stores.py; rerun when new chains appear
+    python scripts/build_logos.py --stores # only the online stores (data/online_stores.json): keys o: and ow:
+
+An online store gets two pictures: its own site's icon (`o:`, square, for the corner of a sale's picture) and its
+Wikidata logo (`ow:`, usually a wordmark, for its tile on the Stores tab), each where it can be had.
 """
 from __future__ import annotations
 
@@ -42,6 +46,7 @@ NSI = Path.home() / ".cache" / "slomp" / "osm" / "nsi.min.json"     # the brand 
 TTL = 30 * 86400
 MIN_PX = 32
 MAX_ASPECT = 3.2          # a wordmark wider than this is unreadable in a square tile
+WORDMARK_ASPECT = 9.0     # a store's tile on the Stores tab is twice as wide as it is tall; Kohl's logo is 6.25:1
 # Wikidata logos found to be wrong. Wikidata records Cracker Barrel's August 2025 redesign, which the company withdrew.
 NOT_THIS_LOGO = {"Cracker Barrel": "Cracker_Barrel_logo_2025.svg"}
 # A website's icon that is the platform's, not the company's: WordPress shows its own logo on a site that set none.
@@ -116,7 +121,7 @@ def icon_links(page: str, base: str) -> list[tuple[float, int, str, str]]:
     return unique
 
 
-async def picture(c: PoliteClient, url: str, fit: str) -> Optional[dict]:
+async def picture(c: PoliteClient, url: str, fit: str, max_aspect: float = MAX_ASPECT) -> Optional[dict]:
     """The picture at `url`, if it is one and big enough to show; `fit` becomes "contain" for a picture that is not
     square, so a wide logo is fitted, not cropped."""
     if url.startswith("data:image/"):
@@ -133,7 +138,7 @@ async def picture(c: PoliteClient, url: str, fit: str) -> Optional[dict]:
     if r.status != 200 or len(r.body) < 100 or not (kind.startswith("image/") or url.lower().split("?")[0].endswith(".ico")):
         return None
     dims = image_size(r.body)
-    if dims and (min(dims) < MIN_PX or max(dims) > MAX_ASPECT * min(dims)):
+    if dims and (min(dims) < MIN_PX or max(dims) > max_aspect * min(dims)):
         return None
     if _PLATFORM_ICON.search(r.final_url or ""):
         return None                                  # /favicon.ico redirected to WordPress's own logo
@@ -206,16 +211,17 @@ async def wikidata(c: PoliteClient, qid: str) -> tuple[str, str]:
     return (site.group(1) if site else ""), (unquote(logo.group(1)) if logo else "")
 
 
-async def commons_logo(c: PoliteClient, name: str) -> Optional[dict]:
+async def commons_logo(c: PoliteClient, name: str, widths: tuple[int, ...] = (250, 120),
+                       max_aspect: float = MAX_ASPECT) -> Optional[dict]:
     """A Wikimedia Commons file as a thumbnail, addressed the way Commons stores it (Special:FilePath, the redirect
     service, is closed to automated readers)."""
     name = name.replace(" ", "_")
     h = hashlib.md5(name.encode("utf-8")).hexdigest()
     part = quote(name, safe="()_-.,'!")
-    for width in (250, 120):
+    for width in widths:
         url = (f"https://upload.wikimedia.org/wikipedia/commons/thumb/{h[0]}/{h[:2]}/{part}/{width}px-{part}" +
                (".png" if name.lower().endswith(".svg") else ""))
-        got = await picture(c, url, "contain")
+        got = await picture(c, url, "contain", max_aspect)
         if got:
             return {**got, "from": "wikidata", "site": "commons.wikimedia.org"}
     return None
@@ -305,14 +311,17 @@ async def main() -> None:
         results = await asyncio.gather(*(one(k, w) for k, w in want.items()))
 
     logos = {k: v for k, v, _ in sorted(results) if v}
+    if OUT.exists():                       # the online stores' logos (--stores) are built separately: keep them
+        logos.update({k: v for k, v in json.loads(OUT.read_text()).get("logos", {}).items() if k.startswith(("o:", "ow:"))})
     OUT.write_text(json.dumps({
         "built": today.isoformat(),
         "about": "A logo for each chain and place a regular deal can be shown at, keyed like the venue lookup "
                  "(r: Wikidata id of a restaurant chain, s: store, v: venue, place: a single place's folded name). "
                  "`url` is where the picture lives; `fit` says whether it fills its tile (a square app icon) or is "
                  "fitted into it. Built by scripts/build_logos.py from each company's own website, or its Wikidata "
-                 "logo on Wikimedia Commons.",
-        "logos": logos}, indent=1, ensure_ascii=False) + "\n")
+                 "logo on Wikimedia Commons. Online stores: o: its own site's icon, ow: its Wikidata logo "
+                 "(scripts/build_logos.py --stores).",
+        "logos": dict(sorted(logos.items()))}, indent=1, ensure_ascii=False) + "\n")
     print(f"{len(logos)} of {len(want)} chains and places have a logo "
           f"({sum(v['from'] == 'site' for v in logos.values())} from their own site, "
           f"{sum(v['from'] == 'wikidata' for v in logos.values())} from Wikidata)")
@@ -321,5 +330,48 @@ async def main() -> None:
             print(f"  none: {want[k]['brand']} ({k}): {'; '.join(notes)[:160]}")
 
 
+async def store_logos() -> None:
+    """Online stores: the icon on each store's own site (a site that turns AI assistants away by name, or answers
+    with a bot check, is left alone), and the logo its Wikidata item records. Merged into logos.json."""
+    rows = json.loads((ROOT / "slomp" / "data" / "online_stores.json").read_text())["stores"]
+    settings = Settings()
+    async with PoliteClient(Store(settings.db_path), settings) as c:
+        async def one(r: dict) -> tuple[str, Optional[dict], Optional[dict], list[str]]:
+            notes = []
+            icon = None
+            host = theirs(r.get("site", ""))
+            if host:
+                icon, why = await site_logo(c, host, r["name"])
+                if not icon:
+                    notes.append(f"{host}: {why}")
+            mark = None
+            if r.get("wikidata"):
+                _, logo_file = await wikidata(c, r["wikidata"])
+                if logo_file:
+                    mark = await commons_logo(c, logo_file, (500, 250), WORDMARK_ASPECT)
+                    if not mark:
+                        notes.append(f"Wikidata logo {logo_file}: not usable")
+                else:
+                    notes.append(f"Wikidata {r['wikidata']}: no logo")
+            return r["key"], icon and {"brand": r["name"], **icon}, mark and {"brand": r["name"], **mark}, notes
+        results = await asyncio.gather(*(one(r) for r in rows))
+    doc = json.loads(OUT.read_text()) if OUT.exists() else {"logos": {}}
+    logos = {k: v for k, v in doc.get("logos", {}).items() if not k.startswith(("o:", "ow:"))}
+    for key, icon, mark, _ in results:
+        if icon:
+            logos[f"o:{key}"] = icon
+        if mark:
+            logos[f"ow:{key}"] = mark
+    doc["logos"] = dict(sorted(logos.items()))
+    doc["about"] = doc.get("about", "").split(" Online stores:")[0] + (
+        " Online stores: o: its own site's icon, ow: its Wikidata logo (scripts/build_logos.py --stores).")
+    OUT.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
+    print(f"{sum(1 for _, i, m, _ in results if i or m)} of {len(rows)} online stores have a logo "
+          f"({sum(1 for _, i, _, _ in results if i)} site icons, {sum(1 for _, _, m, _ in results if m)} Wikidata logos)")
+    for key, icon, mark, notes in results:
+        if not (icon and mark):
+            print(f"  {key}: {'icon' if icon else 'no icon'}, {'logo' if mark else 'no logo'}; {'; '.join(notes)[:150]}")
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(store_logos() if "--stores" in sys.argv else main())

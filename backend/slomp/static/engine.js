@@ -352,6 +352,36 @@ async function online(inds, limit) {
           excluded: Object.fromEntries([...excluded.entries()].sort((a, b) => b[1] - a[1])), sources};
 }
 
+/* ---- online stores' sales (sales.select and sales.to_payload) ---------------------------------------------- */
+const POSTED_DAYS = 30, UNDATED_DAYS = 7, AHEAD_DAYS = 7;        // sales.py
+function liveReason(s, now) {              // sales.live_reason
+  const ends = s.ends_at ? Date.parse(s.ends_at) : null, posted = s.posted_at ? Date.parse(s.posted_at) : null;
+  if (ends !== null && ends < now) return "sale: ended";
+  if (posted !== null && now - posted > POSTED_DAYS * 864e5) return `sale: posted over ${POSTED_DAYS} days ago`;
+  if (ends === null && (posted === null || now - posted > UNDATED_DAYS * 864e5)) {
+    return `sale: no end date and posted over ${UNDATED_DAYS} days ago`;
+  }
+  if (s.starts_at && Date.parse(s.starts_at) > now + AHEAD_DAYS * 864e5) return `sale: starts after the next ${AHEAD_DAYS} days`;
+  return "";
+}
+
+async function storeSales(inds, now) {
+  const F = await load("sales.json"), wanted = new Set(inds), res = new Result(), shown = [];
+  for (const [why, n] of Object.entries(F.excluded)) res.add(why, n);
+  for (const s of F.sales) {
+    const why = liveReason(s, now);
+    if (why) res.add(why);
+    else if (!s.industries.some(i => wanted.has(i))) res.add("sale: other industry");
+    else shown.push(s);
+  }
+  const ends = s => s.ends_at ? Date.parse(s.ends_at) : Infinity;
+  shown.sort((a, b) => (b.score - a.score) || (ends(a) - ends(b)) ||
+    cmp(a.store_name.toLowerCase(), b.store_name.toLowerCase()) || cmp(a.id, b.id));
+  return {industries: inds, generated_at: F.generated_at, sales: shown,
+          counts: {sales: shown.length, stores: new Set(shown.map(s => s.store || s.store_name)).size},
+          stores: F.stores, excluded: res.counts(), sources: F.sources};
+}
+
 /* ---- the API the page calls ------------------------------------------------------------------------------- */
 let meta = null, cities = null;
 async function getMeta(check = false) {
@@ -372,7 +402,7 @@ async function getMeta(check = false) {
   return meta;
 }
 
-// /api/v1/search: {local, online}. `now` (an ISO time) is for the parity check; the page leaves it out.
+// /api/v1/search: {local, online, sales}. `now` (an ISO time) is for the parity check; the page leaves it out.
 async function search({city: cityId, industries, radius_mi = 25, limit = 25, now} = {}) {
   const M = await getMeta(true);
   const city = cities.get(String(cityId || "").trim().toLowerCase());
@@ -411,7 +441,10 @@ async function search({city: cityId, industries, radius_mi = 25, limit = 25, now
     built: M.built,
   };
   const onlineInds = inds.filter(i => !localOnly.has(i));
-  return {local, online: onlineInds.length ? await online(onlineInds, Math.max(1, Math.min(100, Number(limit) || 25))) : null};
+  const unread = {industries: onlineInds, generated_at: null, sales: [], counts: {sales: 0, stores: 0}, stores: {},
+                  excluded: {}, sources: [{name: "Online stores' sales", ok: false, error: "couldn't be loaded"}]};
+  return {local, online: onlineInds.length ? await online(onlineInds, Math.max(1, Math.min(100, Number(limit) || 25))) : null,
+          sales: onlineInds.length ? await storeSales(onlineInds, start).catch(() => unread) : null};
 }
 
 const SlompStatic = {

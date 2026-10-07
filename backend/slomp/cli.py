@@ -5,8 +5,10 @@
     slomp local CITY -i tech,sports [-r 25] [--json]        Output 1: deals near CITY in the next 7 days
     slomp regulars [--all]                                  the regular deals Slomp knows, with each one's evidence
     slomp online -i tech,fashion [-n 15] [--json]           Output 2: biggest verified online discounts
+    slomp sales -i fashion,home [-n 20] [--json]            sales at online stores (the Sales and Stores tabs)
     slomp verify --iteration N [--tests 200] [--seed S]     the live verification harness
     slomp verify --iteration N --plan regulars              the same for regular deals (Austin, Houston, Dallas areas)
+    slomp verify --iteration N --plan sales                 the same for online stores' sales
     slomp serve [--port 8000]                               the web page and API
     slomp site build [--out site]                           the published site: data files the page searches itself
 """
@@ -130,12 +132,31 @@ async def _run(args) -> int:
             print(json.dumps(res.to_dict(), indent=1) if args.json else "", end="")
             if not args.json:
                 print_online(res, args.limit)
+        elif args.cmd == "sales":
+            res = await svc.sales(args.industries)
+            if args.json:
+                print(json.dumps(res, indent=1))
+            else:
+                print_sales(res, args.limit)
     except InputError as e:
         print(f"error: {e}" + (f"\n  try: {', '.join(map(str, e.choices[:12]))}" if e.choices else ""), file=sys.stderr)
         return 2
     finally:
         await svc.aclose()
     return 0
+
+
+def print_sales(res: dict, limit: int) -> None:
+    sales = res["sales"]
+    print(f"{len(sales)} sales at {res['counts']['stores']} online stores in {', '.join(res['industries'])}")
+    for s in sales[:limit]:
+        ends = f"ends {s['ends_at'][:10]}" if s.get("ends_at") else f"posted {s['posted_at'][:10]}, no end given"
+        code = f"  code {s['code']}" + (f" ({s['code_note']})" if s.get("code_note") else "") if s.get("code") else ""
+        print(f"  {s['badge'] or '-':16} {s['store_name']}: {s['name']} · {s['offer']}{code}")
+        print(f"  {'':16} {ends} · {', '.join(s['conditions']) or 'no conditions stated'} · {s['source']} {s['source_url']}")
+    left = res.get("excluded") or {}
+    if left:
+        print("left out: " + ", ".join(f"{k} {v}" for k, v in list(left.items())[:8]))
 
 
 PORT_BUSY = """\
@@ -174,14 +195,19 @@ def main(argv=None) -> int:
     on.add_argument("-n", "--limit", type=int, default=15)
     on.add_argument("--json", action="store_true")
     on.add_argument("--no-compare", action="store_true", help="skip other-site price checks (faster)")
+    sa = sub.add_parser("sales", help="sales at online stores")
+    sa.add_argument("-i", "--industries", required=True)
+    sa.add_argument("-n", "--limit", type=int, default=20)
+    sa.add_argument("--json", action="store_true")
     rg = sub.add_parser("regulars", help="the regular deals Slomp knows, with each one's evidence")
     rg.add_argument("--all", action="store_true", help="include the ones known only from deal-site lists")
     ve = sub.add_parser("verify", help="run the live verification harness")
     ve.add_argument("--iteration", type=int, required=True)
     ve.add_argument("--tests", type=int, default=200)
     ve.add_argument("--seed", type=int, default=None)
-    ve.add_argument("--plan", choices=("standard", "regulars"), default="standard",
-                    help="regulars: the regular-deals tests in the Austin, Houston and Dallas areas")
+    ve.add_argument("--plan", choices=("standard", "regulars", "sales"), default="standard",
+                    help="regulars: the regular-deals tests in the Austin, Houston and Dallas areas; "
+                         "sales: online stores' sales")
     ve.add_argument("--key", type=Path, default=None, help="regulars: the answer key for the recall tests")
     se = sub.add_parser("serve", help="run the web page and API")
     se.add_argument("--port", type=int, default=8000)
@@ -207,6 +233,9 @@ def main(argv=None) -> int:
         if args.plan == "regulars":
             from .verify.regulars_run import main as regulars_main
             return regulars_main(args.iteration, args.tests, args.seed, args.key)
+        if args.plan == "sales":
+            from .verify.sales_run import main as sales_main
+            return sales_main(args.iteration, args.tests, args.seed)
         from .verify.runner import main as verify_main
         return verify_main(args.iteration, args.tests, args.seed)
     if args.cmd == "site":

@@ -525,3 +525,18 @@ of one) and writes data files;
 the page's `engine.js` does the per-search part (nearest store or branch, radius, the next 7 days in the city's own
 time zone, duplicates, order) and returns the server's `/api/v1/search` shape. A parity check
 (`python -m slomp.verify.site_check`) compares the two on the same data.
+
+
+## 12. Addendum: online stores and their sales (Oct 6, 2026)
+
+Online stores (Amazon, eBay and retailers that ship) belong to no city, and the Online tab holds only single products,
+so store-wide sales, promo codes and sale events were read and dropped ("storewide sale or many products"). Two tabs
+now show them, the same for every city: **Sales** (one card per sale) and **Stores** (the online stores with something
+on, each opening to its sales and its product deals). Design and research:
+[DESIGN-online-stores.md](DESIGN-online-stores.md). In short: dated editor posts only (dealnews with each major
+store's own feed, Hip2Save, Slickdeals, 9to5Toys), a registry of about 120 stores with the spellings deal sites use,
+offers and codes read from the post and checked against their own sentence, a sale shown until its stated end or 7
+days after posting and never past 30 days, and the post page re-read before it is shown. The research also found that
+dealnews' editor-set end dates were missed two times in three (only 11:59 PM was taken as stated); `parse_dealnews` now
+treats every expiry as stated unless it is dealnews' placeholder, which also corrects the Online tab.
+
