@@ -319,10 +319,39 @@ body.has-card footer { padding-bottom: 64px; }
 .sc-list b { font-weight: 600; }
 .sc .empty { padding: 32px 16px; }
 
+/* ---- guided tour ------------------------------------------------------------------------------------------ */
+.tour-btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; margin-left: auto; padding: 0 14px 0 9px;
+            font: inherit; font-size: 14px; font-weight: 650; color: var(--ink); background: var(--surface);
+            border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; }
+.tour-btn:hover { border-color: var(--accent); }
+.tour-btn .q { display: grid; place-items: center; width: 20px; height: 20px; font-size: 12px; font-weight: 800;
+               color: var(--on-accent); background: var(--accent); border-radius: 999px; }
+/* The highlighted part of the page: everything else is dimmed by the box's own shadow. */
+.tour-spot { position: fixed; z-index: 60; border-radius: 14px; pointer-events: none;
+             box-shadow: 0 0 0 3px var(--accent), 0 0 0 9999px rgba(20, 14, 19, .58);
+             transition: left .25s ease, top .25s ease, width .25s ease, height .25s ease; }
+.tour-spot.center { left: 50%; top: 50%; width: 0; height: 0; box-shadow: 0 0 0 9999px rgba(20, 14, 19, .58); }
+.tour-spot[hidden] { display: none; }
+dialog.tour { position: fixed; inset: auto; width: min(360px, calc(100vw - 32px)); margin: 0; padding: 18px 18px 14px;
+              color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+              box-shadow: var(--shadow-lg); transition: left .25s ease, top .25s ease; }
+dialog.tour::backdrop { background: transparent; }
+.tour .tour-n { margin: 0 0 4px; font-size: 12.5px; font-weight: 650; color: var(--muted); }
+.tour h2 { margin: 0 0 6px; font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; }
+.tour .tour-text { margin: 0; font-size: 15px; line-height: 1.45; }
+.tour-art { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.tour-art[hidden] { display: none; }
+.tour-art .add { position: static; flex: none; cursor: default; }
+.tour-art .fab { position: static; height: 38px; padding: 0 12px 0 14px; font-size: 14px; box-shadow: none; cursor: default; }
+.tour-nav { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+.tour-nav .grow { flex: 1; }
+.tour-nav [hidden] { display: none; }
+
 /* ---- small screens --------------------------------------------------------------------------------------- */
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
   .top { padding: 20px 0 16px; }
+  .top .tagline { order: 3; width: 100%; }
   .panel { padding: 16px; }
   .fields { grid-template-columns: 1fr auto; }
   .fields > :first-child { grid-column: 1 / -1; }
@@ -346,7 +375,7 @@ body.has-card footer { padding-bottom: 64px; }
   .tab { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .rcard, .btn, .chip, .day, .thumb img, .add { transition: none; }
+  .card, .rcard, .btn, .chip, .day, .thumb img, .add, .tour-spot, dialog.tour { transition: none; }
   .card:hover, .rcard:hover, .add:hover { transform: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
 }
@@ -363,6 +392,7 @@ body.has-card footer { padding-bottom: 64px; }
       <span>Slomp</span>
     </a>
     <p class="tagline">Deals near any Texas city this week, plus the biggest discounts online.</p>
+    <button type="button" class="tour-btn" id="tour-btn"><span class="q" aria-hidden="true">?</span>Tour</button>
   </header>
 
   <main>
@@ -416,6 +446,23 @@ body.has-card footer { padding-bottom: 64px; }
   Your card <span class="n" id="card-n">0</span>
 </button>
 <div class="toast" id="toast" role="status" hidden></div>
+
+<div class="tour-spot" id="tour-spot" hidden></div>
+<dialog class="tour" id="tour" aria-labelledby="tour-title" aria-describedby="tour-text">
+  <p class="tour-n" id="tour-n"></p>
+  <h2 id="tour-title"></h2>
+  <p class="tour-text" id="tour-text"></p>
+  <div class="tour-art" id="tour-art" aria-hidden="true" hidden>
+    <span class="add">+</span><span>then</span>
+    <span class="fab">Your card <span class="n">3</span></span>
+  </div>
+  <div class="tour-nav">
+    <button type="button" class="btn small ghost" data-tour="skip">Skip</button>
+    <span class="grow"></span>
+    <button type="button" class="btn small ghost" data-tour="back">Back</button>
+    <button type="button" class="btn small primary" data-tour="next">Next</button>
+  </div>
+</dialog>
 
 <script>
 "use strict";
@@ -504,7 +551,7 @@ async function boot() {
   drawRadius();
   drawChips();
   setupCity();
-  if (S.auto && S.sel) run(); else welcome();
+  if (S.auto && S.sel) run(); else { welcome(); maybeTour(); }
 }
 
 function restore() {
@@ -647,6 +694,7 @@ async function run() {
     if (token !== S.req) return;
     prepare(data);
     render();
+    maybeTour();
     $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` + (data.online ? `, ${onlineCount()} online.` : ".");
   } catch (e) {
     if (token === S.req) failed(e.message);
@@ -1505,6 +1553,95 @@ function wrapText(g, text, width, max) {
   return lines.slice(0, max);
 }
 
+/* ---- guided tour ----------------------------------------------------------------------------------------- */
+// Six short steps for a first visit; the Tour button starts it again any time. docs/DESIGN-tour.md
+const TOUR_KEY = "slomp.toured";
+const shown = el => el && el.getClientRects().length ? el : null;
+const TOUR = [
+  {title: "Welcome to Slomp 👋", next: "Show me",
+   text: "This week's deals near any Texas city, the deals that repeat every week, and the biggest discounts online. A quick tour?"},
+  {title: "Pick a city", at: () => $(".combo"),
+   text: "Type a few letters of any Texas city."},
+  {title: "What are you shopping for?", at: () => $("#chips").closest("fieldset"),
+   text: "Tap one or more categories, and choose how far you'll go."},
+  {title: "Find deals", at: () => shown($("#results .tabs")) || $("#go"),
+   text: "Your deals come in tabs: Near you (this week's store ads), Regulars (deals that repeat every week) and the online ones."},
+  {title: "Save the good ones", at: () => shown($("#results [data-add]")), art: true,
+   text: "Tap + on any deal to put it on your card, then share the card as a picture. It empties at midnight."},
+  {title: "That's it", at: () => $("#tour-btn"), next: "Done",
+   text: "Tap Tour any time to see this again."},
+];
+let tourAt = -1, tourAsked = false;
+
+function startTour() {
+  tourAt = 0;
+  $("#tour").showModal();
+  tourStep();
+}
+
+function endTour() {
+  tourAt = -1;
+  $("#tour-spot").hidden = true;
+  if ($("#tour").open) $("#tour").close();
+  try { localStorage.setItem(TOUR_KEY, "1"); } catch {}
+}
+
+function tourStep() {
+  const s = TOUR[tourAt], el = s.at ? s.at() : null, last = tourAt === TOUR.length - 1;
+  $("#tour-n").textContent = `${tourAt + 1} of ${TOUR.length}`;
+  $("#tour-title").textContent = s.title;
+  $("#tour-text").textContent = s.text;
+  $("#tour-art").hidden = !(s.art && !el);             // before any search there's no + to point at: show one
+  $('#tour [data-tour="back"]').hidden = tourAt === 0;
+  $('#tour [data-tour="skip"]').hidden = last;
+  $('#tour [data-tour="next"]').textContent = s.next || "Next";
+  const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (el) el.scrollIntoView({block: "center", behavior: smooth ? "smooth" : "auto"});
+  placeTour();
+  setTimeout(placeTour, smooth ? 400 : 0);              // again once the scroll has settled
+  $('#tour [data-tour="next"]').focus();
+}
+
+// The highlight goes around the step's element; the words go below it, or above when there isn't room.
+function placeTour() {
+  if (tourAt < 0) return;
+  const s = TOUR[tourAt], el = s.at ? s.at() : null, spot = $("#tour-spot"), box = $("#tour");
+  const vw = document.documentElement.clientWidth, vh = innerHeight, bw = box.offsetWidth, bh = box.offsetHeight;
+  spot.hidden = false;
+  if (!el) {
+    spot.className = "tour-spot center";
+    spot.removeAttribute("style");
+    box.style.left = `${(vw - bw) / 2}px`;
+    box.style.top = `${Math.max(16, (vh - bh) / 2)}px`;
+    return;
+  }
+  const r = el.getBoundingClientRect(), pad = 8, gap = 14;
+  spot.className = "tour-spot";
+  Object.assign(spot.style, {left: `${r.left - pad}px`, top: `${r.top - pad}px`, width: `${r.width + 2 * pad}px`,
+                             height: `${r.height + 2 * pad}px`});
+  let top = r.bottom + pad + gap;
+  if (top + bh > vh - 16) top = r.top - pad - gap - bh;
+  if (top < 16) top = Math.max(16, vh - bh - 16);
+  box.style.left = `${Math.min(Math.max(16, r.left + r.width / 2 - bw / 2), vw - bw - 16)}px`;
+  box.style.top = `${top}px`;
+}
+
+function tourGo(step) {
+  if (step >= TOUR.length) { endTour(); return; }
+  tourAt = Math.max(0, step);
+  tourStep();
+}
+
+// Once per visit, the first time: after the welcome, or after the results when the visit starts from a shared link.
+// Where storage is blocked it never opens by itself, so it can't open on every visit.
+function maybeTour() {
+  if (tourAsked) return;
+  tourAsked = true;
+  let seen = true;
+  try { seen = !!localStorage.getItem(TOUR_KEY); } catch {}
+  if (!seen && !document.querySelector("dialog[open]")) setTimeout(startTour, 350);
+}
+
 /* ---- events ---------------------------------------------------------------------------------------------- */
 $("#search").addEventListener("submit", e => { e.preventDefault(); run(); });
 
@@ -1561,6 +1698,23 @@ cardSheet.addEventListener("click", e => {
     card.items = []; saveCard(); cardChanged(); cardSheet.close();
   }
 });
+const tour = $("#tour");
+$("#tour-btn").addEventListener("click", startTour);
+tour.addEventListener("click", e => {
+  const b = e.target.closest("[data-tour]");
+  if (!b) return;
+  if (b.dataset.tour === "next") tourGo(tourAt + 1);
+  else if (b.dataset.tour === "back") tourGo(tourAt - 1);
+  else endTour();
+});
+tour.addEventListener("cancel", e => { e.preventDefault(); endTour(); });           // Esc
+tour.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") { e.preventDefault(); tourGo(tourAt + 1); }
+  else if (e.key === "ArrowLeft" && tourAt > 0) { e.preventDefault(); tourGo(tourAt - 1); }
+});
+addEventListener("resize", placeTour);
+addEventListener("scroll", placeTour, {passive: true});
+
 // A page left open overnight, or in a background tab, starts the new day with an empty card.
 document.addEventListener("visibilitychange", () => { if (!document.hidden && freshDay()) cardChanged(); });
 

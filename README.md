@@ -53,6 +53,9 @@ Each tab has a **Sort** menu: best deal first (the biggest discount on the card'
 off, or 50% when it takes a purchase), ending soonest, or the company's name A–Z or Z–A. The page remembers the
 choice.
 
+**New here?** The **Tour** button at the top walks through the page in six short steps. It opens by itself on a first
+visit.
+
 **Your card.** Tap **+** on any deal, or **Add to card** in its details, to put it on your card (up to 12). **Your
 card**, at the bottom right, shows them as one picture, with each deal's photo, price, place and dates, to **Share**
 (your phone's or computer's share menu) or **Save** as a PNG or JPG. The card is kept in your browser, nowhere else,
