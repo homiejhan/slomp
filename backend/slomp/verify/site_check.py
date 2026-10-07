@@ -11,6 +11,8 @@ Builds the site, then answers the same searches twice, from the same data at the
   * Any other city: regular deals, promotions, online deals and sales must still match. The server reads the weekly ads for
     the city's own ZIP and the page uses its anchor's, so those are measured instead: the share of the server's deals
     the page also shows, and the share of the page's deals the server also shows.
+  * The home page's biggest deals (SlompService.top, engine.top), which depend on no city: the same nine in the same
+    order.
 
 The build's inputs differ from one server search's in two ways that are not the engine's doing, so the server here is
 given the build's: the fine print the build read (the leading deals for every anchor and radius, where a search reads
@@ -53,6 +55,14 @@ engine.configure({loader: p => Promise.resolve(JSON.parse(fs.readFileSync(path.j
   }
   process.stdout.write(JSON.stringify(out));
 })();
+"""
+NODE_TOP = r"""
+const fs = require("fs"), path = require("path");
+const [site, now] = process.argv.slice(1);
+const engine = require(path.join(site, "engine.js"));
+engine.configure({loader: p => Promise.resolve(JSON.parse(fs.readFileSync(path.join(site, "data", p), "utf8")))});
+engine.top({now}).then(r => process.stdout.write(JSON.stringify(r)),
+                       e => process.stdout.write(JSON.stringify({error: String((e && e.stack) || e), deals: []})));
 """
 BIG = ("houston", "san-antonio", "dallas", "austin", "fort-worth", "el-paso", "lubbock", "amarillo", "corpus-christi",
        "laredo", "brownsville", "tyler", "waco", "beaumont", "midland", "abilene", "wichita-falls", "san-angelo")
@@ -239,6 +249,15 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
               f"{'anchor' if is_anchor else 'via ' + a.id + f' ({mi:.0f} mi)'}  {share}", flush=True)
         for p in r["problems"][:6]:
             print("      " + p, flush=True)
+    # The home page's biggest deals: the same nine, in the same order, from the build's file and from the server.
+    proc = subprocess.run(["node", "-e", NODE_TOP, str(out_dir), now.isoformat()], capture_output=True, text=True,
+                          check=True)
+    page_top = json.loads(proc.stdout)
+    server_top = json.loads(json.dumps(await svc.top(now, wait=True), default=str))
+    top_ids = ([d["id"] for d in server_top["deals"]], [d["id"] for d in page_top["deals"]])
+    top_ok = top_ids[0] == top_ids[1] and server_top["stores"] == page_top.get("stores")
+    print(f"{'ok  ' if top_ok else 'DIFF'} home page: {len(top_ids[0])} biggest deals"
+          + ("" if top_ok else f"; server {top_ids[0]}, page {top_ids[1]} {page_top.get('error', '')}"), flush=True)
     await svc.aclose()
     non = [r for r in results if not r["anchor"]]
     if as_is:
@@ -259,9 +278,10 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
         print(f"Items a city's own search returned that the build's searches hadn't: {len(hits_missed)}")
     if report:
         report.write_text(json.dumps({"now": now.isoformat(), "summary": summary, "results": results,
+                                      "top": {"ok": top_ok, "server": top_ids[0], "page": top_ids[1]},
                                       "lead_unread": len(lead_unread), "hits_missed": sorted(hits_missed)},
                                      indent=1, default=str))
-    return 0 if all(r["ok"] for r in results if r["anchor"]) else 1
+    return 0 if top_ok and all(r["ok"] for r in results if r["anchor"]) else 1
 
 
 async def _ready(value):

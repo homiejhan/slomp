@@ -6,6 +6,7 @@
     slomp regulars [--all]                                  the regular deals Slomp knows, with each one's evidence
     slomp online -i tech,fashion [-n 15] [--json]           Output 2: biggest verified online discounts
     slomp sales -i fashion,home [-n 20] [--json]            sales at online stores (the Sales and Stores tabs)
+    slomp top [--json]                                      the home page's biggest deals, the same anywhere in Texas
     slomp verify --iteration N [--tests 200] [--seed S]     the live verification harness
     slomp verify --iteration N --plan regulars              the same for regular deals (Austin, Houston, Dallas areas)
     slomp verify --iteration N --plan sales                 the same for online stores' sales
@@ -18,6 +19,7 @@ import argparse
 import asyncio
 import errno
 import json
+import re
 import socket
 import sys
 from collections import Counter
@@ -138,6 +140,12 @@ async def _run(args) -> int:
                 print(json.dumps(res, indent=1))
             else:
                 print_sales(res, args.limit)
+        elif args.cmd == "top":
+            res = await svc.top(wait=True)
+            if args.json:
+                print(json.dumps(res, indent=1))
+            else:
+                print_top(res)
     except InputError as e:
         print(f"error: {e}" + (f"\n  try: {', '.join(map(str, e.choices[:12]))}" if e.choices else ""), file=sys.stderr)
         return 2
@@ -157,6 +165,29 @@ def print_sales(res: dict, limit: int) -> None:
     left = res.get("excluded") or {}
     if left:
         print("left out: " + ", ".join(f"{k} {v}" for k, v in list(left.items())[:8]))
+
+
+def print_top(res: dict) -> None:
+    """The home page's deals, three to a line group as the page shows them, with each one's rank."""
+    deals = res["deals"]
+    print(f"{len(deals)} biggest deals at chains found all over Texas and at big online stores (the home page)")
+    for k, d in enumerate(deals):
+        t = d["top"]
+        if k and k % 3 == 0:
+            print()
+        if t["kind"] == "regular":
+            r = d["regular"]
+            what, when = d["title"], " · ".join(x for x in (r["days_text"], r["time_text"], r["status_text"]) if x)
+        elif t["kind"] == "promotion":
+            what = re.sub(rf"^{re.escape(t['brand'])}\s*[:–—-]\s*", "", d["title"], flags=re.I)
+            what, when = what[:1].upper() + what[1:], f"until {d['valid_to'][:10]}"
+        elif t["kind"] == "online":
+            what, when = f"{_money(d['price'])} · {d['title']}", f"{d['discount_pct'] or 0:.0f}% off, {d['basis_label']}"
+        else:
+            what = f"{d['badge'] or '-'} · {d['name']}: {d['offer']}" + (f" · code {d['code']}" if d.get("code") else "")
+            when = f"ends {d['ends_at'][:10]}" if d.get("ends_at") else "no end given"
+        print(f"  {t['rank']:5.1f}  {t['kind']:9s} {t['brand']}: {what[:96]}")
+        print(f"  {'':16} {when} · {d['source_url']}")
 
 
 PORT_BUSY = """\
@@ -199,6 +230,8 @@ def main(argv=None) -> int:
     sa.add_argument("-i", "--industries", required=True)
     sa.add_argument("-n", "--limit", type=int, default=20)
     sa.add_argument("--json", action="store_true")
+    tp = sub.add_parser("top", help="the home page's biggest deals")
+    tp.add_argument("--json", action="store_true")
     rg = sub.add_parser("regulars", help="the regular deals Slomp knows, with each one's evidence")
     rg.add_argument("--all", action="store_true", help="include the ones known only from deal-site lists")
     ve = sub.add_parser("verify", help="run the live verification harness")

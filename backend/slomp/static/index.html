@@ -333,15 +333,16 @@ details[open] > summary .chev { transform: rotate(180deg); }
 /* ---- welcome and loading --------------------------------------------------------------------------------- */
 .welcome { padding: 52px 0 8px; text-align: center; }
 .welcome h2 { margin: 0 0 8px; font: 800 clamp(27px, 4vw, 36px)/1.15 var(--round); letter-spacing: -0.025em; }
-.welcome > p { max-width: 520px; margin: 0 auto 30px; font-size: 16.5px; color: var(--muted); }
-.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin: 0 auto 32px; }
+.welcome > p { max-width: 520px; margin: 0 auto 18px; font-size: 16.5px; color: var(--muted); }
+.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin: 0 auto 8px; }
 .feat { display: grid; justify-items: center; align-content: start; gap: 4px; padding: 24px 18px 22px; text-align: center;
         background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card); }
 .feat .fi { display: grid; place-items: center; width: 62px; height: 62px; margin-bottom: 10px; font-size: 31px; line-height: 1;
             border-radius: 20px; background: hsl(var(--h) var(--tint-s) var(--tint-l)); }
 .feat b { font: 750 17.5px/1.25 var(--round); }
 .feat span { font-size: 14.5px; color: var(--muted); }
-.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-bottom: 40px;
+         font-size: 14px; }
 .status { display: flex; align-items: center; gap: 10px; margin: 30px 0 18px; font-size: 15px; color: var(--muted); }
 .spin { flex: none; width: 16px; height: 16px; border: 2px solid var(--line-strong); border-top-color: var(--accent);
         border-radius: 50%; animation: spin .8s linear infinite; }
@@ -485,6 +486,61 @@ dialog.tour::backdrop { background: transparent; }
 .tour-nav .grow { flex: 1; }
 .tour-nav [hidden] { display: none; }
 
+/* ---- the home page's biggest deals ----------------------------------------------------------------------------- */
+/* Nine deals, three at a time, that turn every 8 seconds until you do something with them (docs/DESIGN-top-deals.md). */
+.tops { margin: 0 0 36px; text-align: left; }
+.tops-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px 16px; margin-bottom: 12px; }
+.tops-head > div { min-width: 0; }
+.tops-head h3 { margin: 0; font: 800 22px/1.2 var(--round); letter-spacing: -0.015em; }
+.tops-head p { margin: 3px 0 0; font-size: 14.5px; color: var(--muted); }
+.tctl { display: flex; flex: none; gap: 8px; }
+.tbtn { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; color: var(--ink); cursor: pointer;
+        background: var(--surface); border: 1px solid var(--line-strong); border-radius: 999px; transition: border-color .12s; }
+.tbtn:hover { border-color: var(--accent); }
+.tbtn .i { width: 18px; height: 18px; }
+/* The pages sit side by side and snap into place; the padding leaves room for the cards' shadows. */
+.ttrack { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; column-gap: 18px; margin: -10px -10px -6px;
+          padding: 10px 10px 18px; scroll-padding-inline: 10px; overflow-x: auto; overscroll-behavior-x: contain;
+          scroll-snap-type: x mandatory; scrollbar-width: none; }
+.ttrack::-webkit-scrollbar { display: none; }
+.tpage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; scroll-snap-align: start;
+         scroll-snap-stop: always; }
+/* The card holds its own absolutely placed parts (the seal's words for screen readers): otherwise those of the pages
+   out of sight would sit outside the track's clipping and widen the whole page. */
+.tcard { position: relative; }
+.tcard .thumb { aspect-ratio: 2 / 1; }
+.tcard .thumb.logo { background: #fff; }               /* a company's logo, on white in both themes */
+.tcard .thumb.logo img { padding: 14% 24%; }
+.tby { display: flex; align-items: center; gap: 5px; min-width: 0; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.tby .i { width: 14px; height: 14px; color: var(--accent); }
+.tby b { overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: var(--ink); }
+.tcard .foot { justify-content: flex-start; gap: 6px 10px; }
+/* One dot per three deals. The current one fills over the 8 seconds; it stays full while the deals wait for you. */
+.tdots { display: flex; justify-content: center; }
+.tdot { display: grid; place-items: center; width: 24px; height: 26px; padding: 0; background: none; border: 0;
+        cursor: pointer; transition: width .25s ease; }
+.tdot b { position: relative; display: block; width: 8px; height: 8px; overflow: hidden; border-radius: 999px;
+          background: var(--line-strong); transition: width .25s ease, background-color .25s ease; }
+.tdot i { position: absolute; inset: 0; background: var(--accent); transform-origin: left center; transform: scaleX(0); }
+.tdot[aria-current="true"] { width: 48px; }
+.tdot[aria-current="true"] b { width: 34px; background: var(--accent-soft); }
+.tdot[aria-current="true"] i { transform: none; }
+.tdot:focus-visible { outline: none; }
+.tdot:focus-visible b { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) {
+  .tops { margin-bottom: 28px; }
+  .tops-head { align-items: flex-start; }
+  .tops-head h3 { font-size: 20px; }
+  .tbtn[data-tgo] { display: none; }                   /* a phone swipes them; the dots still go to any three */
+  /* A phone shows the three as rows: the picture at the left, the words beside it. */
+  .tpage { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .tcard { display: grid; grid-template-columns: 112px minmax(0, 1fr); }
+  .tcard .thumb { aspect-ratio: auto; min-height: 120px; }
+  .tcard .badge { left: 7px; top: 7px; padding: 3px 7px; font-size: 12px; }
+  .tcard .body { gap: 3px; padding: 10px 12px 11px; }
+  .tcard .title.long { -webkit-line-clamp: 2; }
+}
+
 /* ---- small screens --------------------------------------------------------------------------------------- */
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
@@ -532,13 +588,14 @@ dialog.tour::backdrop { background: transparent; }
   .pic img { max-height: 250px; }
   .info { padding: 20px 18px 22px; }
   .info .price b { font-size: 27px; }
-  .feats { grid-template-columns: 1fr; gap: 10px; margin-bottom: 26px; }
+  .feats { grid-template-columns: 1fr; gap: 10px; margin-bottom: 0; }
   .feat { grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto; justify-items: start; column-gap: 14px;
           row-gap: 0; padding: 14px 16px; text-align: left; }
   .feat .fi { grid-row: 1 / 3; width: 52px; height: 52px; margin: 0; font-size: 26px; border-radius: 16px; }
   .feat b { align-self: end; }
   .welcome { padding-top: 34px; }
-  .welcome > p { margin-bottom: 22px; }
+  .welcome > p { margin-bottom: 16px; }
+  .quick { margin-bottom: 30px; }
 }
 @media (max-width: 520px) {
   .fields { grid-template-columns: 1fr; }
@@ -550,7 +607,7 @@ dialog.tour::backdrop { background: transparent; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card, .rcard, .btn, .chip, .cat .ico, .day, .tab, .thumb img, .slogo img, .rthumb img, .add, .tour-spot, dialog.tour,
-  .chev { transition: none; }
+  .chev, .tbtn, .tdot, .tdot b { transition: none; }
   .card:hover, .rcard:hover, .add:hover, .cat:hover .ico { transform: none; }
   dialog.sheet[open] { animation: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
@@ -689,6 +746,10 @@ const ICONS = {
   info: icon('<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/>'),
   tag: icon('<path d="M3.5 12.6V5A1.5 1.5 0 0 1 5 3.5h7.6l8 8-9.1 9.1z"/><circle cx="8.2" cy="8.2" r="1.4"/>'),
   chev: icon('<path d="M6 9l6 6 6-6"/>', "chev"),
+  left: icon('<path d="M15 18l-6-6 6-6"/>'),
+  right: icon('<path d="M9 18l6-6-6-6"/>'),
+  pause: icon('<path d="M9 5.5v13M15 5.5v13"/>'),
+  play: icon('<path d="M8 5.5v13l10.5-6.5z"/>'),
 };
 // A check in a filled circle: the company's own site, or Slomp's own price check, confirms it.
 const SEAL = `<svg class="seal" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.6 12.4l3 3 5.8-6.3" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -699,7 +760,7 @@ const S = {cities: [], byId: {}, byLabel: {}, industries: {}, radii: [10, 25, 50
            radius: 25, auto: false, data: null, near: [], regulars: [], days: [], day: null, tab: "near",
            ind: {near: null, regulars: "all", online: null, sales: "all"},
            shown: {near: PAGE, regulars: PAGE, online: PAGE, sales: PAGE, stores: PAGE},
-           sales: [], stores: [], store: null, view: [], req: 0, sort: "best"};
+           sales: [], stores: [], store: null, view: [], req: 0, sort: "best", want: null};
 
 /* ---- helpers --------------------------------------------------------------------------------------------- */
 const $ = (s, r = document) => r.querySelector(s);
@@ -734,6 +795,11 @@ const api = STATIC ? SlompStatic : {
     try { data = await r.json(); } catch { throw new Error("The server sent something unexpected. Try again in a moment."); }
     if (!r.ok) throw new Error(data.error || "Something went wrong.");
     return data;
+  },
+  async top() {
+    const r = await fetch("/api/v1/top");
+    if (!r.ok) throw new Error("The home page's deals couldn't be loaded.");
+    return r.json();
   },
 };
 
@@ -901,6 +967,7 @@ async function run() {
     const data = await api.search({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
     if (token !== S.req) return;
     prepare(data);
+    if (S.want) { focusOn(S.want); S.want = null; }
     render();
     maybeTour();
     $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
@@ -953,7 +1020,7 @@ const nameOf = d => isSale(d) ? d.store_name : "seller" in d ? d.seller || "Onli
 // How big a deal is: the percent on its badge. Something free is 100% off, or 50% when it takes a purchase
 // ("kids eat free with an adult entrée", "a free pizza when they buy one": like buy one, get one); a price with
 // nothing to compare it to has no percent.
-const TAKES_PURCHASE = /\b(?:with|when (?:you|they))\b[^.]{0,40}\b(?:purchase|buy|order)|\b(?:with|per) (?:an? |each |every |any )?(?:adult|regular|full-priced)\b/i;
+const TAKES_PURCHASE = /\b(?:(?:with|when (?:you|they))\b|w\/)[^.]{0,40}\b(?:purchase|buy|order)|\b(?:with|per) (?:an? |each |every |any )?(?:adult|regular|full-priced)\b/i;
 function savePct(d) {
   if (d.discount_pct != null) return d.discount_pct;
   const t = d.terms || {};
@@ -1105,7 +1172,7 @@ function onlinePanel(O) {
 
 /* ---- online stores: their sales, and the stores ---------------------------------------------------------- */
 // Sales on many products at stores that ship anywhere in Texas: the same for every city. docs/DESIGN-online-stores.md
-const storeOf = d => (S.data && S.data.sales && S.data.sales.stores[d.store]) || null;   // the store's registry entry
+const storeOf = d => (S.data && S.data.sales && S.data.sales.stores[d.store]) || TOP.stores[d.store] || null;   // its registry entry
 const hostOf = u => { try { return new URL(u).hostname.replace(/^www\d?\./, ""); } catch { return ""; } };
 const initials = name => name.replace(/[^A-Za-z0-9& ]/g, "").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase() || "?";
 
@@ -1448,18 +1515,21 @@ function proofHtml(e) {
 }
 
 function regularDetail(d) {
-  const L = S.data.local, r = d.regular, t = d.terms, st = d.store, today = L.window.start.slice(0, 10);
+  const L = S.data && S.data.local, r = d.regular, t = d.terms, st = d.store;
+  const today = L ? L.window.start.slice(0, 10) : ymd(Date.now(), TOP_ZONE);
   const badge = localBadge(d), offer = regularHead(d);
   // A price takes its badge beside it; an offer in words ("Buy 1 get 1 free") already says what the badge would.
   const headline = offer.startsWith('<div class="price">') ? offer.replace("</div>", `${badgeInline(badge)}</div>`)
     : offer || (badge ? `<div class="price">${badgeInline(badge)}</div>` : "");
   const until = r.until ? `, through ${dateText(r.until)}` : "";
-  const next = r.next.map(x => x === today ? "Today" : dateText(x));
-  const chips = [hchip(ICONS.cal, esc([shortDays(r.days_text), r.time_text].filter(Boolean).join(" · "))),
-                 hchip(ICONS.clock, `Next: ${esc(next[0] || "")}`), hchip(ICONS.pin, `${st.distance_mi} mi away`)];
+  const next = r.next.filter(x => x >= today).map(x => x === today ? "Today" : dateText(x));
+  const chips = [hchip(ICONS.cal, esc([shortDays(r.days_text), r.time_text].filter(Boolean).join(" · ")))];
+  if (next.length) chips.push(hchip(ICONS.clock, `Next: ${esc(next[0])}`));
+  chips.push(hchip(ICONS.pin, st ? `${st.distance_mi} mi away` : "All over Texas"));
   if (r.status === "confirmed") chips.push(hchip(SEAL, "Confirmed by the company", "ok"));
-  const rows = [["Runs", esc(runsText(r) + until)], ["Next", esc(next.join(", "))]];
-  rows.push(["Where", `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}` +
+  const rows = [["Runs", esc(runsText(r) + until)]];
+  if (next.length) rows.push(["Next", esc(next.join(", "))]);
+  rows.push(["Where", !st ? chainWhere(d) : `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}` +
     (st.source === "osm" ? `<br><span class="muted">The nearest one on the map. Participation can vary by location.</span>` : "")]);
   if ((t.conditions || []).length) rows.push(["Conditions", allTags(t.conditions)]);
   if (BASIS[t.basis] && t.pct) rows.push(["Discount", esc(t.bogo ? "Compared with buying the same items at the regular price." : "Compared with the regular price, as the offer states it.")]);
@@ -1468,7 +1538,7 @@ function regularDetail(d) {
   return sheetHtml(shown, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind ? " · " + kind : ""}</p>${headline}<h2 id="detail-title" class="says">${esc(d.title)}</h2>` +
     `<div class="hero-chips">${chips.join("")}</div>` +
-    `<div class="actions">${actionHtml(d.source_url, "See the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}${cardToggleHtml(d)}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, "See the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}${st ? cardToggleHtml(d) : nearHtml()}</div>` +
     `<div class="drops">${dropHtml("Details", factsHtml(rows))}` +
     dropHtml("How we know", `<ul class="proof">${r.evidence.map(proofHtml).join("")}</ul>`, esc(proofText(r))) + `</div>`);
 }
@@ -1523,7 +1593,7 @@ function sheetHtml(d, photo, info) {
 }
 
 function localDetail(d) {
-  const L = S.data.local, tz = L.city.tz, t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
+  const L = S.data && S.data.local, tz = zone(), t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
   const rows = [], line = priceLine(t, false), badge = localBadge(d);
   // Headline: the price with its badge; a buy-one-get-one offer in words; or the badge alone ("40% off").
   const headline = line ? `<div class="price">${line}${badgeInline(badge)}</div>`
@@ -1537,7 +1607,7 @@ function localDetail(d) {
     : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
   rows.push(["Where", st
     ? `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}`
-    : `<span class="muted">This store isn't on the map, so Slomp can't confirm one is nearby.</span>`]);
+    : L ? `<span class="muted">This store isn't on the map, so Slomp can't confirm one is nearby.</span>` : chainWhere(d)]);
   const tags = localTags(d);
   if (tags.length) rows.push(["Conditions", allTags(tags)]);
   if (promo) rows.push(["Note", `<span class="muted">A national promotion. Participation can vary by location.</span>`]);
@@ -1545,14 +1615,15 @@ function localDetail(d) {
   const basis = !promo && BASIS[t.basis] ? esc(t.bogo ? "Compared with buying the same items at this store's regular price." : BASIS[t.basis][1]) +
     (t.basis === "claimed_savings" && t.savings ? ` It says you save ${whole(money(t.savings))}.` : "") : "";
   const w = when(d, tz), key = keyTag(tags);
-  const chips = [st ? hchip(ICONS.pin, `${st.distance_mi} mi away`) : hchip(ICONS.pin, "Store not on the map", "warn")];
+  const chips = [st ? hchip(ICONS.pin, `${st.distance_mi} mi away`) : L ? hchip(ICONS.pin, "Store not on the map", "warn")
+    : hchip(ICONS.pin, "All over Texas")];
   if (!undated) chips.push(hchip(ICONS.clock, esc(w.text), w.urgent ? "urgent" : ""));
   if (key) chips.push(key.replace('class="tag', 'class="hchip'));
   const kind = !promo && d.category ? ` · ${esc(d.category.split(" > ").pop())}` : "";
   return sheetHtml(d, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
     `<div class="hero-chips">${chips.join("")}</div>` +
-    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${cardToggleHtml(d)}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${L ? cardToggleHtml(d) : nearHtml()}</div>` +
     `<div class="drops">${dropHtml("Details", factsHtml(rows))}${dropHtml("About this price", basis ? `<p>${basis}</p>` : "", esc((BASIS[t.basis] || [""])[0]))}</div>`);
 }
 
@@ -1588,7 +1659,7 @@ const endText = (iso, tz) => new Date(iso).toLocaleString("en-US", {weekday: "sh
   hour: "numeric", minute: "2-digit", timeZone: tz, timeZoneName: "short"});
 
 function saleDetail(d) {
-  const tz = S.data.local.city.tz, st = storeOf(d), site = st ? link(st.site) : "";
+  const tz = zone(), st = storeOf(d), site = st ? link(st.site) : "";
   const rows = [["Offer", esc(d.offer)]];
   if (d.starts_at && Date.parse(d.starts_at) > Date.now()) rows.push(["Starts", esc(day(d.starts_at, tz))]);
   rows.push(["Ends", d.ends_at ? esc(endText(d.ends_at, tz)) + (d.ends_how ? `<br><span class="muted">${esc(d.ends_how.startsWith("the ") ? cap(d.ends_how) : d.ends_how)}</span>` : "")
@@ -1629,15 +1700,18 @@ function openDetail(d) {
 }
 
 /* ---- welcome, loading, errors ---------------------------------------------------------------------------- */
-// Before a search: what Slomp finds, as three pictures, and the biggest cities to start with.
+// Before a search: the biggest cities to start with, nine of the biggest deals that need no city, and what a search
+// finds, as three pictures.
 const FEATS = [["🏪", 28, "Store ads", "This week's deals at stores near you"],
                ["📅", 285, "Regulars", "Specials that repeat every week"],
                ["🛍️", 212, "Online", "Top discounts and store-wide sales"]];
 function welcome() {
   $("#results").innerHTML = `<div class="welcome"><h2>Find this week's best deals</h2>` +
     `<p>Pick a Texas city and what you're shopping for.</p>` +
-    `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat" style="--h: ${h}"><span class="fi" aria-hidden="true">${ico}</span><b>${b}</b><span>${t}</span></div>`).join("")}</div>` +
-    `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div></div>`;
+    `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div>` +
+    topsShell() +
+    `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat" style="--h: ${h}"><span class="fi" aria-hidden="true">${ico}</span><b>${b}</b><span>${t}</span></div>`).join("")}</div></div>`;
+  loadTop();
 }
 
 function loading() {
@@ -1660,6 +1734,217 @@ function showMore() {
   $("#more").textContent = `Show ${Math.min(PAGE, S.view.length - S.shown[key])} more`;
   $("#more-count").textContent = `${S.shown[key]} of ${S.view.length}`;
 }
+
+/* ---- the home page's biggest deals ----------------------------------------------------------------------- */
+// Before a search, nine of the biggest deals that need no city: regular deals and promotions at chains found all over
+// Texas, and online deals and sales at big online stores (slomp/top.py picks them). Three at a time, turning every 8
+// seconds. Anything you do with them (a swipe, a click, a key, the pointer moving over them) starts the 8 seconds
+// again, so they wait while you look and carry on 8 seconds after you stop. They also wait while a popup is open,
+// while the keyboard is on them, while the tab is hidden, and from Pause until Play. docs/DESIGN-top-deals.md
+const TOP_EVERY = 8000, TOP_PAGE = 3, TOP_ZONE = "America/Chicago";      // no city yet: Texas's time
+const TOP_KIND = {regular: [ICONS.repeat, "Every week"], promotion: [ICONS.tag, "Limited time"],
+                  online: [ICONS.globe, "Online"], sale: [ICONS.percent, "Online sale"]};
+const TOP = {list: [], stores: {}, at: 0, timer: 0, fill: null, paused: false, auto: false, settle: 0, poked: 0};
+const zone = () => S.data ? S.data.local.city.tz : TOP_ZONE;
+const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const topBox = () => { const box = $("#tops"); return box && box.dataset.ready ? box : null; };
+
+const topsHead = controls => `<div class="tops-head"><div><h3 id="tops-title">Biggest deals right now</h3>` +
+  `<p>No city needed: chains all over Texas and big online stores.</p></div>${controls}</div>`;
+function topsShell() {
+  const card = `<div class="card tcard skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:45%"></div><div class="bar" style="width:70%;height:18px"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:40%;margin-top:6px"></div></div></div>`;
+  return `<section class="tops" id="tops" aria-roledescription="carousel" aria-labelledby="tops-title">${topsHead("")}` +
+    `<div class="ttrack" aria-hidden="true"><div class="tpage">${card.repeat(TOP_PAGE)}</div></div></section>`;
+}
+
+async function loadTop() {
+  let res = null;
+  try { res = await api.top(); } catch {}
+  const box = $("#tops");
+  if (!box) return;                                        // a search started meanwhile
+  const deals = res && Array.isArray(res.deals) ? res.deals.slice(0, 9) : [];
+  if (deals.length < TOP_PAGE) { box.remove(); return; }   // too few to show: the welcome reads fine without them
+  for (const d of deals) {
+    if (d.top.kind !== "promotion") continue;            // its days count from now, not from when it was read
+    d.starts_in_days = Math.max(0, daysAway(d.valid_from, TOP_ZONE));
+    d.ends_in_days = daysAway(d.valid_to, TOP_ZONE);
+  }
+  Object.assign(TOP, {list: deals, stores: res.stores || {}, at: 0});
+  drawTops(box);
+}
+
+function drawTops(box) {
+  const n = TOP.list.length, pages = Math.ceil(n / TOP_PAGE);
+  const which = k => `Deals ${k * TOP_PAGE + 1} to ${Math.min(n, (k + 1) * TOP_PAGE)}`;
+  const controls = pages < 2 ? "" : `<div class="tctl">` +
+    `<button type="button" class="tbtn" data-tgo="-1" aria-label="Previous deals">${ICONS.left}</button>` +
+    `<button type="button" class="tbtn" data-tgo="1" aria-label="Next deals">${ICONS.right}</button>` +
+    `<button type="button" class="tbtn" data-tpause aria-label="Pause">${ICONS.pause}</button></div>`;
+  const page = k => `<div class="tpage" role="group" aria-roledescription="slide" aria-label="${which(k)} of ${n}">` +
+    TOP.list.slice(k * TOP_PAGE, (k + 1) * TOP_PAGE).map((d, j) => topCard(d, k * TOP_PAGE + j)).join("") + `</div>`;
+  const dots = pages < 2 ? "" : `<div class="tdots">` + Array.from({length: pages}, (_, k) =>
+    `<button type="button" class="tdot" data-tdot="${k}" aria-label="${which(k)}"><b><i></i></b></button>`).join("") + `</div>`;
+  box.innerHTML = topsHead(controls) +
+    `<div class="ttrack" aria-live="off">${Array.from({length: pages}, (_, k) => page(k)).join("")}</div>` + dots;
+  box.dataset.ready = "1";
+  wireTops(box);
+  topMark(box);
+  topArm();
+}
+
+// One deal: its picture and badge, then who and what kind, the offer in a few words, what it is, and when.
+function topCard(d, i) {
+  const k = d.top.kind, [ico, kind] = TOP_KIND[k] || TOP_KIND.online;
+  const seal = k === "regular" && d.regular.status === "confirmed" ? `${SEAL}<span class="sr-only">, confirmed by the company</span>` : "";
+  let head = "", title = "", foot = "";
+  if (k === "regular") {
+    const r = d.regular;
+    head = regularHead(d);                                // what the badge doesn't already say: a price, "Kids eat free"
+    if (localBadge(d) && !head.startsWith('<div class="price">')) head = "";
+    title = d.title;
+    foot = `<span class="end">${ICONS.cal}${esc([shortDays(r.days_text), r.time_text].filter(Boolean).join(" · "))}</span>`;
+  } else if (k === "promotion") {
+    title = unbranded(d.title, d.top.brand);
+    foot = endHtml(faceWhen(d, TOP_ZONE));
+  } else if (k === "online") {
+    const ref = onlineRef(d);
+    head = `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}</div>`;
+    title = productName(d);
+    foot = d.basis === "market" ? `<span class="checked">${SEAL}Checked against other stores</span>`
+      : `<span class="end">${esc((BASIS[d.basis] || [""])[0])}</span>`;
+  } else {
+    head = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
+    title = d.name;
+    foot = endHtml(saleFace(d, TOP_ZONE)) + (d.code ? `<span class="tag code">Code ${esc(d.code)}</span>` : "");
+  }
+  return `<article class="card tcard" role="button" tabindex="0" data-top="${i}">${topThumb(d)}<div class="body">` +
+    `<span class="tby">${ico}<b>${esc(d.top.brand)}</b>${seal}<span>· ${kind}</span></span>${head}` +
+    `<h3 class="title${head ? "" : " long"}">${esc(title)}</h3><div class="foot">${foot}</div></div></article>`;
+}
+
+// A post's title that starts with the chain's name ("Wendy's: Free Jr. Cheeseburger"), without it: the card names it.
+const unbranded = (title, brand) => {
+  const t = title.toLowerCase().startsWith(brand.toLowerCase()) ? title.slice(brand.length).replace(/^\s*[:–—-]\s*/, "") : "";
+  return t && t !== title.slice(brand.length) ? cap(t) : title;
+};
+
+// A regular deal shows its company's logo, on white; the other kinds their own picture, as in their tabs.
+function topThumb(d) {
+  const k = d.top.kind, lg = d.regular && d.regular.logo, logo = lg && !d.image_url ? logoSrc(lg.url) : "";
+  if (k === "sale") return saleThumb(d);
+  if (k === "online") return thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source));
+  if (!logo) return thumbHtml(d, localBadge(d), false);
+  const b = localBadge(d);
+  return `<div class="thumb has-img logo"><span class="ph" aria-hidden="true">${iconOf(d)}</span>` +
+    `<img src="${esc(logo)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` +
+    (b ? `<span class="badge${b.soft ? " soft" : ""}">${esc(b.text)}</span>` : "") + `</div>`;
+}
+
+// Anything the person does with the deals starts the 8 seconds again; the pointer counts at most 4 times a second.
+function wireTops(box) {
+  const track = box.querySelector(".ttrack");
+  const poke = () => { TOP.poked = Date.now(); topArm(); };
+  for (const type of ["pointerdown", "keydown", "wheel", "touchstart"]) box.addEventListener(type, poke, {passive: true});
+  box.addEventListener("pointermove", () => { if (Date.now() - TOP.poked > 250) poke(); }, {passive: true});
+  box.addEventListener("focusin", () => topArm());
+  box.addEventListener("focusout", () => setTimeout(topArm));
+  track.addEventListener("scroll", () => {
+    if (!TOP.auto) poke();                                // a swipe, or a scroll of a mouse or trackpad
+    clearTimeout(TOP.settle);
+    TOP.settle = setTimeout(() => {                       // the scroll has stopped: on which three?
+      TOP.auto = false;
+      const k = topPageAt(box);
+      if (k !== TOP.at) { TOP.at = k; topMark(box); topArm(); }
+    }, 120);
+  }, {passive: true});
+}
+
+function topPageAt(box) {
+  const track = box.querySelector(".ttrack"), pages = box.querySelectorAll(".tpage");
+  const step = pages.length > 1 ? pages[1].offsetLeft - pages[0].offsetLeft : 1;
+  return Math.min(pages.length - 1, Math.max(0, Math.round(track.scrollLeft / step)));
+}
+
+// Show the k-th three (after the last, the first again).
+function topGo(k, jump = false) {
+  const box = topBox();
+  if (!box) return;
+  const track = box.querySelector(".ttrack"), pages = box.querySelectorAll(".tpage");
+  TOP.at = (k % pages.length + pages.length) % pages.length;
+  const left = pages[TOP.at].offsetLeft - pages[0].offsetLeft;
+  if (Math.abs(track.scrollLeft - left) > 1) {
+    TOP.auto = true;                                      // the scroll this starts isn't the person's
+    track.scrollTo({left, behavior: jump || calm() ? "auto" : "smooth"});
+  }
+  topMark(box);
+}
+
+// The dots follow; the three not shown are out of reach of Tab and of screen readers until they are.
+function topMark(box) {
+  box.querySelectorAll(".tpage").forEach((p, k) => { p.inert = k !== TOP.at; });
+  box.querySelectorAll(".tdot").forEach((b, k) => b.setAttribute("aria-current", k === TOP.at));
+}
+
+const topHeld = box => TOP.paused || document.hidden || !!document.querySelector("dialog[open]") ||
+  (box.contains(document.activeElement) && document.activeElement.matches(":focus-visible"));
+
+// The 8 seconds start again from now, unless something holds the deals where they are.
+function topArm() {
+  clearTimeout(TOP.timer);
+  if (TOP.fill) { TOP.fill.cancel(); TOP.fill = null; }
+  const box = topBox();
+  if (!box || box.querySelectorAll(".tpage").length < 2) return;
+  const held = topHeld(box), pause = box.querySelector("[data-tpause]");
+  box.querySelector(".ttrack").setAttribute("aria-live", held ? "polite" : "off");
+  if (pause.dataset.paused !== String(TOP.paused)) {
+    pause.dataset.paused = TOP.paused;
+    pause.innerHTML = TOP.paused ? ICONS.play : ICONS.pause;
+    pause.setAttribute("aria-label", TOP.paused ? "Play" : "Pause");
+  }
+  if (held) return;
+  TOP.timer = setTimeout(topTick, TOP_EVERY);
+  const bar = box.querySelector('.tdot[aria-current="true"] i');
+  if (bar && bar.animate && !calm()) TOP.fill = bar.animate([{transform: "scaleX(0)"}, {transform: "scaleX(1)"}], {duration: TOP_EVERY});
+}
+
+function topTick() {
+  const box = topBox();
+  if (!box) return;                                       // a search replaced the welcome
+  if (!topHeld(box)) topGo(TOP.at + 1);
+  topArm();
+}
+
+function openTop(i) {
+  const d = TOP.list[i];
+  if (!d) return;
+  openDetail(d);
+  topArm();                                               // they wait while its details are open
+}
+
+// A chain's deal from the home page: search near the chosen city with the deal's categories added, or ask for a city.
+function findNear(d) {
+  $("#detail").close();
+  for (const i of d.industries || []) if (S.industries[i]) S.inds.add(i);
+  document.querySelectorAll("#chips .cat").forEach(c => c.setAttribute("aria-pressed", S.inds.has(c.dataset.id)));
+  S.want = d;
+  if (S.sel) run();
+  else $("#city").focus();
+}
+
+// Once the search is in: the tab, the day and the category where that deal is.
+function focusOn(d) {
+  if (d.regular) {
+    const hit = S.regulars.find(x => x.id === d.id);
+    S.tab = "regulars";
+    S.ind.regulars = "all";
+    if (hit) S.day = hit.on[0];
+  } else if (S.near.some(x => x.id === d.id)) {
+    S.tab = "near";
+    S.ind.near = "dining";
+  }
+}
+const nearHtml = () => `<button type="button" class="btn small ghost" data-near>Find one near you</button>`;
+const chainWhere = d => `${esc(d.merchant)} branches all over Texas<br><span class="muted">Search your city to find the nearest one. Participation can vary by location.</span>`;
 
 /* ---- your card ------------------------------------------------------------------------------------------- */
 // Deals put on a card to share as one picture (PNG or JPG). The card lives in this browser and empties at midnight,
@@ -1693,7 +1978,7 @@ function watchMidnight() {
 
 // One deal is one entry; a nearby or regular deal is also tied to the city it was found near.
 const cardKey = d => "seller" in d || isSale(d) ? d.id : `${d.id}@${S.data.local.city.id}`;
-const onCard = d => !!S.data && card.items.some(x => x.key === cardKey(d));
+const onCard = d => ("seller" in d || isSale(d) || !!S.data) && card.items.some(x => x.key === cardKey(d));
 
 const addHtml = (d, i) => {
   const on = onCard(d);
@@ -1704,7 +1989,7 @@ const cardToggleHtml = d => `<button type="button" class="btn small ghost" data-
 // The deal as the card shows it: what, where, the price and when, in words, with its picture.
 function snapshot(d) {
   if (isSale(d)) return saleSnapshot(d);
-  const L = S.data.local, online = "seller" in d, r = d.regular, t = d.terms || {};
+  const L = S.data && S.data.local, online = "seller" in d, r = d.regular, t = d.terms || {};
   const badge = online ? onlineBadge(d) : localBadge(d);
   let price = "", was = "", note = "";
   if (online) {
@@ -1740,7 +2025,7 @@ function snapshot(d) {
 
 // A sale on the card: its offer is the price line; its code goes with the dates, where there is room for it.
 function saleSnapshot(d) {
-  const w = saleWhen(d, S.data.local.city.tz), st = storeOf(d), logo = st && st.logo ? logoSrc(st.logo.url) : "";
+  const w = saleWhen(d, zone()), st = storeOf(d), logo = st && st.logo ? logoSrc(st.logo.url) : "";
   return {key: cardKey(d), kind: "sale", merchant: d.store_name, title: d.name, badge: d.badge || "", soft: !!d.badge_soft,
           price: d.offer, was: "", note: "", where: "Online", when: w.text + (d.code ? ` · code ${d.code}` : ""), urgent: w.urgent,
           image: pic(d.image_url) || logo, cover: !!d.image_url && PHOTO_FEEDS.has(d.source), clip: false, icon: "🛍️",
@@ -2168,6 +2453,10 @@ $("#results").addEventListener("click", e => {
   const hit = sel => e.target.closest(sel);
   let el;
   if ((el = hit("[data-add]"))) { const d = S.view[Number(el.dataset.add)]; if (d) toggleCard(d); }
+  else if ((el = hit("[data-tgo]"))) { topGo(TOP.at + Number(el.dataset.tgo)); topArm(); }
+  else if ((el = hit("[data-tdot]"))) { topGo(Number(el.dataset.tdot)); topArm(); }
+  else if (hit("[data-tpause]")) { TOP.paused = !TOP.paused; topArm(); }
+  else if ((el = hit(".card[data-top]"))) openTop(Number(el.dataset.top));
   else if ((el = hit("[data-tab]"))) {
     if (el.dataset.tab === "stores" && S.tab === "stores") S.store = null;     // the Stores tab again: back to every store
     S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render();
@@ -2193,10 +2482,11 @@ $("#results").addEventListener("change", e => {
 });
 
 $("#results").addEventListener("keydown", e => {
-  const card = e.target.closest && e.target.closest(".card[data-i], .rcard[data-i], .card[data-store]");
+  const card = e.target.closest && e.target.closest(".card[data-i], .rcard[data-i], .card[data-store], .card[data-top]");
   if (!card || e.target !== card || (e.key !== "Enter" && e.key !== " ")) return;
   e.preventDefault();
   if (card.dataset.store) { S.store = card.dataset.store; render(); }
+  else if (card.dataset.top) openTop(Number(card.dataset.top));
   else openDetail(S.view[Number(card.dataset.i)]);
 });
 
@@ -2210,6 +2500,7 @@ dialog.addEventListener("click", e => {
   if (e.target === dialog) dialog.close();                                            // a click on the backdrop
   else if (e.target.closest("[data-card-toggle]") && S.detail) toggleCard(S.detail);
   else if (e.target.closest("[data-copy]")) copyCode(e.target.closest("[data-copy]").dataset.copy);
+  else if (e.target.closest("[data-near]") && S.detail) findNear(S.detail);
 });
 
 const cardSheet = $("#card-sheet");
@@ -2245,6 +2536,10 @@ addEventListener("scroll", placeTour, {passive: true});
 
 // A page left open overnight, or in a background tab, starts the new day with an empty card.
 document.addEventListener("visibilitychange", () => { if (!document.hidden && freshDay()) cardChanged(); });
+// The home page's deals wait while the tab is hidden or a popup is open, and start their 8 seconds again after.
+document.addEventListener("visibilitychange", topArm);
+document.querySelectorAll("dialog").forEach(d => d.addEventListener("close", topArm));
+addEventListener("resize", () => { if (topBox()) topGo(TOP.at, true); });
 
 // Picture events don't bubble, so listen in the capture phase.
 // A picture that fails to load gives way to the placeholder icon.

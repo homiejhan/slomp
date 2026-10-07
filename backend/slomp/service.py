@@ -7,10 +7,11 @@ from __future__ import annotations
 
 import asyncio
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from . import industries as ind
+from . import top as top_deals
 from .config import Settings
 from .db import Store as DB
 from .http import PoliteClient
@@ -70,8 +71,11 @@ class SlompService:
         self.store_sales = StoreSales(self.feeds, self.http)
         self._cache: dict[tuple, tuple[float, object]] = {}
         self._locks: dict[tuple, asyncio.Lock] = {}
+        self._refreshing: Optional[asyncio.Task] = None
 
     async def aclose(self) -> None:
+        if self._refreshing:
+            self._refreshing.cancel()
         await self.http.aclose()
 
     async def _cached(self, key: tuple, make):
@@ -124,11 +128,7 @@ class SlompService:
         limit = max(1, min(int(limit), ONLINE_MAX))
         if not use_cache:
             return await self.online_deals.run(inds, limit=limit, compare=compare)
-        # Cached per industry at the largest size, so "tech" and "tech,fashion", any limit, and the warm-up all
-        # share one computation.
-        parts = await asyncio.gather(*(
-            self._cached(("online", i, compare),
-                         lambda i=i: self.online_deals.run([i], limit=ONLINE_MAX, compare=compare)) for i in inds))
+        parts = await asyncio.gather(*(self._online_part(i, compare) for i in inds))
         merged = OnlineResult(inds)
         names: set[str] = set()
         for i, part in zip(inds, parts):
@@ -139,6 +139,51 @@ class SlompService:
             names |= {x["name"] for x in part.sources}
             merged.generated_at = min(merged.generated_at, part.generated_at)
         return merged
+
+    def _online_part(self, i: str, compare: bool = True):
+        """One industry's online deals, cached at the largest size, so "tech" and "tech,fashion", any limit, the
+        warm-up and the home page all share one computation."""
+        return self._cached(("online", i, compare),
+                            lambda: self.online_deals.run([i], limit=ONLINE_MAX, compare=compare))
+
+    async def _online_ready(self) -> list[OnlineResult]:
+        """The online industries already computed, however long ago. The missing and expired ones are computed in
+        the background, one at a time as warm() does, for the next request."""
+        parts, due = [], []
+        for i in top_deals.ONLINE_IDS:
+            hit = self._cache.get(("online", i, True))
+            if hit:
+                parts.append(hit[1])
+            if not hit or time.time() - hit[0] >= RESULT_TTL_S:
+                due.append(i)
+        if due and (self._refreshing is None or self._refreshing.done()):
+            self._refreshing = asyncio.create_task(self._refresh_online(due))
+        return parts
+
+    async def _refresh_online(self, inds: list[str]) -> None:
+        for i in inds:
+            try:
+                await self._online_part(i)
+            except Exception:                             # best-effort, like warming
+                pass
+
+    async def top_pool(self, now: Optional[datetime] = None, wait: bool = True, online: bool = True) -> list[dict]:
+        """The deals the home page picks from (top.candidates): regular deals and promotions at chains found all over
+        Texas, and online deals and sales at the big online stores. `wait`: compute every online industry first (the
+        CLI, the published site's build); else use the ones already computed."""
+        now = now or datetime.now(timezone.utc)
+        rset = await self.regulars.all(now=now)
+        posts, _ = await self.promos.posts()
+        parts, sales = [], None
+        if online:
+            parts = [await self._online_part(i) for i in top_deals.ONLINE_IDS] if wait else await self._online_ready()
+            sales = await self.sales_result()
+        return top_deals.candidates(now, rset.regulars, self.promos, posts, parts, sales)
+
+    async def top(self, now: Optional[datetime] = None, wait: bool = False) -> dict:
+        """The home page's biggest deals at `now` (the API's /api/v1/top)."""
+        now = now or datetime.now(timezone.utc)
+        return top_deals.payload(await self.top_pool(now, wait), now)
 
     async def sales_result(self, use_cache: bool = True) -> SalesResult:
         """Every sale at an online store that hasn't ended: the same for every city, so computed once."""

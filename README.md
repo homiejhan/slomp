@@ -37,6 +37,7 @@ slomp local austin -i dining,entertainment     # restaurant promotions and regul
 slomp regulars                                 # every regular deal Slomp knows, with the state of its evidence
 slomp online -i tech,home -n 10                # biggest verified online discounts
 slomp sales -i fashion,home -n 20              # sales at online stores (the Sales and Stores tabs)
+slomp top                                      # the home page's 9 biggest deals, the same anywhere in Texas
 slomp serve                                    # web page at http://localhost:8000, API docs at /docs
 pytest                                        # offline unit tests
 slomp verify --iteration 1                     # 200 live accuracy tests (about 30 minutes)
@@ -58,6 +59,14 @@ photos, loaded from their sources.
 Each tab has a **Sort** menu: best deal first (the biggest discount on the card's badge; something free counts as 100%
 off, or 50% when it takes a purchase), ending soonest, or the company's name A–Z or Z–A. The page remembers the
 choice.
+
+**Before you search,** the home page shows **Biggest deals right now**: nine of the biggest deals that need no city,
+at chains with branches all over Texas (their regular deals and promotions) and at the big online stores (their deals
+and sales). Three show at a time and the next three slide in every 8 seconds. Anything you do with them (a swipe, a
+click, a key, the pointer moving over them) starts the 8 seconds again, so they wait while you look and carry on 8
+seconds after you stop; they also wait while a deal's details are open, and **Pause** stops them until **Play**. Tap
+one for its details; a chain's deal has **Find one near you**, which searches your city and opens the deal at the
+nearest branch. [docs/DESIGN-top-deals.md](docs/DESIGN-top-deals.md) has which deals count and how they're ranked.
 
 **New here?** The **Tour** button at the top walks through the page in six short steps. It opens by itself on a first
 visit.

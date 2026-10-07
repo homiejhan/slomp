@@ -4,8 +4,9 @@
  * so a scheduled build (`slomp site build`, slomp/site.py) reads the sources ahead of time and writes data files, and
  * this script does the rest of each search in the browser: which ads the city gets, the nearest store or branch, the
  * radius, the next 7 days from now in the city's own time zone, duplicates and order. It returns what the server's
- * /api/v1/search returns, so the page itself doesn't change. Each part names the Python it mirrors; the site's
- * parity check (slomp/verify/site_check.py) compares the two. Design: docs/DESIGN-static-site.md.
+ * /api/v1/search returns, so the page itself doesn't change; the home page's biggest deals likewise (/api/v1/top).
+ * Each part names the Python it mirrors; the site's parity check (slomp/verify/site_check.py) compares the two.
+ * Design: docs/DESIGN-static-site.md.
  */
 (function (root) {
 "use strict";
@@ -382,6 +383,41 @@ async function storeSales(inds, now) {
           stores: F.stores, excluded: res.counts(), sources: F.sources};
 }
 
+/* ---- the home page's biggest deals (top.pick) ------------------------------------------------------------- */
+// The build ranked the candidates (top.candidates); which of them to show depends on the moment, so it's done here.
+const TOP_N = 9, TOP_PAGE = 3, TOP_PER_KIND = 3;                // top.py
+const liveAt = (d, now) => (!d.top.from || Date.parse(d.top.from) <= now) && (!d.top.until || now <= Date.parse(d.top.until));
+const byRank = (a, b) => (b.top.rank - a.top.rank) || cmp(a.top.key, b.top.key) || cmp(a.id, b.id);
+function pick(pool, now, n = TOP_N) {
+  const ranked = pool.filter(d => liveAt(d, now)).sort(byRank);
+  const chosen = [], brands = new Set(), kinds = new Map();
+  for (const capped of [true, false]) {
+    for (const d of ranked) {
+      if (chosen.length >= n) break;
+      const t = d.top;
+      if (brands.has(t.key) || (capped && (kinds.get(t.kind) || 0) >= TOP_PER_KIND)) continue;
+      chosen.push(d);
+      brands.add(t.key);
+      kinds.set(t.kind, (kinds.get(t.kind) || 0) + 1);
+    }
+  }
+  chosen.sort(byRank);
+  const out = [];
+  while (chosen.length) {                  // each group of three takes a kind it doesn't have yet, when there is one
+    const page = new Set(out.slice(out.length - out.length % TOP_PAGE).map(d => d.top.kind));
+    out.push(chosen.splice(Math.max(0, chosen.findIndex(d => !page.has(d.top.kind))), 1)[0]);
+  }
+  return out;
+}
+
+// /api/v1/top: {generated_at, deals, stores}. `now` (an ISO time) is for the tests; the page leaves it out.
+async function top({now} = {}) {
+  await getMeta();
+  const T = await load("top.json"), deals = pick(T.candidates, now ? Date.parse(now) : Date.now());
+  const used = new Set(deals.map(d => d.top.kind === "online" ? d.store_key : d.top.kind === "sale" ? d.store : null));
+  return {generated_at: T.built, deals, stores: Object.fromEntries(Object.entries(T.stores).filter(([k]) => used.has(k)))};
+}
+
 /* ---- the API the page calls ------------------------------------------------------------------------------- */
 let meta = null, cities = null;
 async function getMeta(check = false) {
@@ -448,7 +484,7 @@ async function search({city: cityId, industries, radius_mi = 25, limit = 25, now
 }
 
 const SlompStatic = {
-  meta: () => getMeta(), search,
+  meta: () => getMeta(), search, top,
   configure(opts) { if (opts.loader) { loader = opts.loader; memo.clear(); meta = null; } },
 };
 root.SlompStatic = SlompStatic;

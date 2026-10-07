@@ -83,6 +83,7 @@ data/stores.json      every mapped store of the merchants that advertise
 data/regulars.json    the statewide regular deals, their evidence, schedules and branch locations
 data/promos.json      restaurant promotions and the branch locations of their chains
 data/online/<id>.json the ranked online deals for one industry
+data/top.json         what the home page picks its 9 biggest deals from, picked in the browser (DESIGN-top-deals.md)
 ```
 
 One file per ad, not per anchor: neighbouring anchors share most ads, so per-anchor files would repeat them, and the

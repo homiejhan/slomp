@@ -8,6 +8,7 @@
   GET /api/v1/online        ?industries=tech,fashion&limit=25                   Output 2
   GET /api/v1/sales         ?industries=fashion,home                            sales at online stores
   GET /api/v1/search        all three, in one response
+  GET /api/v1/top           the home page's biggest deals: chains found all over Texas, big online stores
   GET /api/v1/health        per-source status
 """
 from __future__ import annotations
@@ -98,6 +99,12 @@ async def search(request: Request, city: str = Query(...), industries: str = Que
                                              s.sales(",".join(online_inds)))
         return {"local": loc.to_dict(), "online": onl.to_dict(), "sales": sal}
     return {"local": (await local_task).to_dict(), "online": None, "sales": None}
+
+
+@app.get("/api/v1/top")
+async def top(request: Request) -> dict:
+    """The deals the home page shows before a search: the same anywhere in Texas (slomp/top.py)."""
+    return await svc(request).top()
 
 
 @app.get("/api/v1/health")
