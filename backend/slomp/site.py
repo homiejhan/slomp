@@ -12,6 +12,7 @@ publishes the files. The page's engine.js answers each search in the browser fro
   promotions      restaurant-chain offers, their dates and the chains' locations
   online deals    the ranked result for each industry
   store sales     every sale at an online store that hasn't ended (the same for every city)
+  top deals       what the home page picks its biggest deals from (top.candidates)
 """
 from __future__ import annotations
 
@@ -41,6 +42,7 @@ from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
 from .terms import clean
+from .top import stores_of
 
 ANCHOR_MI = 20.0             # every city is within this distance of an anchor ZIP whose ads it uses
 ANCHOR_POP = 50_000          # and every city this big is an anchor itself: its own ZIP's ads, as the server reads them
@@ -475,6 +477,14 @@ async def sales_file(svc: SlompService, log=print) -> dict:
             "excluded": dict(res.excluded.most_common()), "sources": res.sources}
 
 
+# --- the home page's biggest deals -------------------------------------------------------------------------------
+async def top_file(svc: SlompService, now: datetime, online: bool = True) -> dict:
+    """What the home page picks its biggest deals from (top.candidates). engine.js picks the ones live at the moment
+    the page is opened, as top.pick does on the server. Built last, from what the other parts read."""
+    pool = await svc.top_pool(now, wait=True, online=online)
+    return {"built": now.isoformat(timespec="seconds"), "candidates": pool, "stores": stores_of(pool)}
+
+
 # --- the site ---------------------------------------------------------------------------------------------------
 def meta_file(anchor_list: list[City], built: datetime, parts: dict) -> dict:
     out = []
@@ -533,7 +543,9 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         regs, promos = await regs_task, await promos_task
         onl = await online_task if online_task else {}
         sal = await sales_task if sales_task else None
-        log(f"regular deals: {len(regs['regulars'])}; promotions: {len(promos['items'])} offers")
+        top = await top_file(svc, now, online)
+        log(f"regular deals: {len(regs['regulars'])}; promotions: {len(promos['items'])} offers; "
+            f"home page: {len(top['candidates'])} candidates for its biggest deals")
         files: dict[str, dict | str] = {}
         files.update({f"data/{k}": v for k, v in ad_files(ads).items()})
         files["data/stores.json"] = store_file(ads)
@@ -542,12 +554,13 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         files.update({f"data/{k}": v for k, v in onl.items()})
         if sal is not None:
             files["data/sales.json"] = sal
+        files["data/top.json"] = top
         parts = {"ads": {"ads": len(ads.flyers), "anchors_read": sum(v is not None for v in ads.at.values()),
                          "anchors": len(anchor_list), **dict(ads.stats)},
                  "regulars": len(regs["regulars"]), "promotions": len(promos["items"]),
                  "online": {k.split("/")[1].removesuffix(".json"): len(next(iter(v["deals"].values()), []))
                             for k, v in onl.items()},
-                 "sales": len(sal["sales"]) if sal else 0,
+                 "sales": len(sal["sales"]) if sal else 0, "top": len(top["candidates"]),
                  "seconds": round(clock.time() - t0), "requests": {h: s.get("requests", 0)
                                                                   for h, s in svc.http.stats.items()}}
         files["data/meta.json"] = meta_file(anchor_list, now, parts)

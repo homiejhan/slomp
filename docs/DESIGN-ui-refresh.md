@@ -57,7 +57,8 @@ drop alone (`slomp-mark.svg`), an app icon (`slomp-icon.svg`: the white drop on 
 ### Welcome (before a search)
 
 A headline, one line of instruction, three picture tiles for what you get (store ads, regulars, online deals and
-sales) and the popular cities. No paragraph.
+sales) and the popular cities. No paragraph. (Since Oct 7 the popular cities come right after the instruction, and the
+biggest deals that need no city sit between them and the tiles: [DESIGN-top-deals.md](DESIGN-top-deals.md).)
 
 ### Results
 

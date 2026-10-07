@@ -131,62 +131,73 @@ class RestaurantPromos:
                     posts.append(post)
         return posts, sources
 
+    def offer(self, p: Post, tz: ZoneInfo, start: datetime, end: datetime,
+              excluded: Counter) -> Optional[tuple[str, LocalDeal]]:
+        """One post as a mapped restaurant chain's promotion whose dates overlap [start, end], before any branch is
+        looked up: (the chain's Wikidata id, the deal), or None with the reason counted in `excluded`."""
+        if _NOT_A_PROMO.search(p.title):
+            excluded["promotion: gift card, subscription, game or merchandise"] += 1
+            return None
+        qid = None
+        if p.seller:
+            hit = self.locator.brand(p.seller)
+            qid = hit[0] if hit else None
+        qid = qid or brand_in(p.title)
+        if not qid:
+            excluded["promotion: not a mapped restaurant chain"] += 1
+            return None
+        posted = (p.posted_at or start).astimezone(tz).date()
+        text = f"{p.title}. {p.text[:400]}"
+        first, last, how = promo_dates(text, posted)
+        if p.expires_stated and p.expires_at:
+            stated = p.expires_at.astimezone(tz).date()
+            if not first or stated >= first:          # an expiry before the stated start is a feed error
+                last, how = stated, how or "stated expiry"
+        recur = recurring_days(text)
+        if recur and not first:
+            # "Every Tuesday": the next such day in the window.
+            d0 = start.date()
+            nxt = min((d0 + timedelta(days=(wd - d0.weekday()) % 7) for wd in recur))
+            first, last, how = nxt, last or end.date(), "recurring weekday"
+        if not (first or last):
+            age_days = (start.date() - posted).days
+            if age_days > 3:
+                excluded["promotion: no dates and posted over 3 days ago"] += 1
+                return None
+            first, last, how = posted, None, "no dates stated"
+        if first and last and last < first:
+            last = first
+        vf = datetime.combine(first or posted, time.min, tz)
+        vt = datetime.combine(last, time(23, 59, 59), tz) if last else end
+        if vt < start or vf > end:
+            excluded["promotion: outside the 7-day window"] += 1
+            return None
+        name = _restaurants()["brands"][qid]["name"]
+        terms = Terms(promo=True, basis="none", summary=clean(p.title)[:140],
+                      conditions=[c for c in ("dates not stated" if how == "no dates stated" else "",
+                                              "in the app" if re.search(r"\bapp\b", text, re.I) else "",
+                                              "dine-in only" if re.search(r"dine-?in", text, re.I) else "") if c])
+        return qid, LocalDeal(
+            id=f"promo:{p.id}", item_id=0, flyer_id=0, title=clean(p.title), merchant=name, brand=name,
+            industries=["dining"], industry_rule="restaurant chain", category="Restaurants", terms=terms, valid_from=vf,
+            valid_to=vt, source_url=p.url, image_url=p.image,
+            starts_in_days=max(0, days_between(start, vf, tz.key)), ends_in_days=days_between(start, vt, tz.key),
+            raw={"source": p.source, "dates": how, "posted": posted.isoformat(), "text": p.text[:600]})
+
     async def near(self, city: City, radius_mi: float, start: datetime, end: datetime,
                    excluded: Counter) -> tuple[list[LocalDeal], list[dict]]:
         posts, sources = await self.posts()
         tz = ZoneInfo(city.tz)
         out: list[LocalDeal] = []
         for p in posts:
-            if _NOT_A_PROMO.search(p.title):
-                excluded["promotion: gift card, subscription, game or merchandise"] += 1
+            got = self.offer(p, tz, start, end, excluded)
+            if not got:
                 continue
-            qid = None
-            if p.seller:
-                hit = self.locator.brand(p.seller)
-                qid = hit[0] if hit else None
-            qid = qid or brand_in(p.title)
-            if not qid:
-                excluded["promotion: not a mapped restaurant chain"] += 1
-                continue
-            posted = (p.posted_at or start).astimezone(tz).date()
-            text = f"{p.title}. {p.text[:400]}"
-            first, last, how = promo_dates(text, posted)
-            if p.expires_stated and p.expires_at:
-                stated = p.expires_at.astimezone(tz).date()
-                if not first or stated >= first:          # an expiry before the stated start is a feed error
-                    last, how = stated, how or "stated expiry"
-            recur = recurring_days(text)
-            if recur and not first:
-                # "Every Tuesday": the next such day in the window.
-                d0 = start.date()
-                nxt = min((d0 + timedelta(days=(wd - d0.weekday()) % 7) for wd in recur))
-                first, last, how = nxt, last or end.date(), "recurring weekday"
-            if not (first or last):
-                age_days = (start.date() - posted).days
-                if age_days > 3:
-                    excluded["promotion: no dates and posted over 3 days ago"] += 1
-                    continue
-                first, last, how = posted, None, "no dates stated"
-            if first and last and last < first:
-                last = first
-            vf = datetime.combine(first or posted, time.min, tz)
-            vt = datetime.combine(last, time(23, 59, 59), tz) if last else end
-            if vt < start or vf > end:
-                excluded["promotion: outside the 7-day window"] += 1
-                continue
+            qid, d = got
             branch = self.locator.nearest(qid, city)
             if not branch or branch.distance_mi > radius_mi:
                 excluded["promotion: no branch nearby"] += 1
                 continue
-            terms = Terms(promo=True, basis="none", summary=clean(p.title)[:140],
-                          conditions=[c for c in ("dates not stated" if how == "no dates stated" else "",
-                                                  "in the app" if re.search(r"\bapp\b", text, re.I) else "",
-                                                  "dine-in only" if re.search(r"dine-?in", text, re.I) else "") if c])
-            out.append(LocalDeal(
-                id=f"promo:{p.id}", item_id=0, flyer_id=0, title=clean(p.title), merchant=branch.merchant,
-                brand=branch.merchant, industries=["dining"], industry_rule="restaurant chain", category="Restaurants",
-                terms=terms, valid_from=vf, valid_to=vt, source_url=p.url, image_url=p.image, store=branch,
-                store_status="nearby",
-                starts_in_days=max(0, days_between(start, vf, city.tz)), ends_in_days=days_between(start, vt, city.tz),
-                raw={"source": p.source, "dates": how, "posted": posted.isoformat(), "text": p.text[:600]}))
+            d.store, d.store_status, d.merchant, d.brand = branch, "nearby", branch.merchant, branch.merchant
+            out.append(d)
         return out, sources
