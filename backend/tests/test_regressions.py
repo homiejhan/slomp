@@ -303,7 +303,8 @@ def test_a_site_whose_certificate_cannot_be_verified_is_a_failed_read_not_a_cras
             Broken.calls += 1
             raise ssl.SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] unable to get local issuer certificate")
 
-    client = PoliteClient(Store(tmp_path / "slomp.db"), Settings(cache_dir=tmp_path))
+    # assistant=False: with SLOMP_ASSISTANT set, the client would first read robots.txt through the same broken client
+    client = PoliteClient(Store(tmp_path / "slomp.db"), Settings(cache_dir=tmp_path, assistant=False))
     client._client = Broken()
     with pytest.raises(FetchError) as err:
         asyncio.run(client.get("https://example.test/page", ttl_s=60))

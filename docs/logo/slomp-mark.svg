@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256">
+  <title>Slomp</title>
+  <defs><linearGradient id="drop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b13f91"/><stop offset="1" stop-color="#6e2459"/></linearGradient></defs>
+  <path fill="url(#drop)" fill-rule="evenodd" d="M32 3C39 13 51 26 51 40A19 19 0 1 1 13 40C13 26 25 13 32 3ZM26.8 23a5.2 5.2 0 1 0 10.4 0a5.2 5.2 0 1 0-10.4 0Z"/>
+</svg>

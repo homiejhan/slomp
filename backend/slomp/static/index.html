@@ -5,30 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Slomp · Texas deals</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z' fill='%237b2d64'/%3E%3Ccircle cx='10.6' cy='10.6' r='2.3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23b13f91'/%3E%3Cstop offset='1' stop-color='%236e2459'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' fill-rule='evenodd' d='M32 3C39 13 51 26 51 40A19 19 0 1 1 13 40C13 26 25 13 32 3ZM26.8 23a5.2 5.2 0 1 0 10.4 0a5.2 5.2 0 1 0-10.4 0Z'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#fbf8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131016" media="(prefers-color-scheme: dark)">
 <style>
 /* ---- tokens ---------------------------------------------------------------------------------------------- */
 :root {
-  --bg: #faf7f9; --surface: #ffffff; --ink: #211a20; --muted: #6d6370; --faint: #978d99;
-  --line: #ece5ea; --line-strong: #dcd2d9;
-  --accent: #7b2d64; --accent-hover: #6a2456; --on-accent: #ffffff; --accent-soft: #f6e9f2; --accent-ink: #6a2456;
-  --tile: #f5f1f4; --brand: #7b2d64;
-  --urgent: #b42318; --warn-bg: #fff4de; --warn-ink: #8a5300; --ok-bg: #e4f3e8; --ok-ink: #1d6a3a;
-  --shadow-sm: 0 1px 2px rgba(33, 26, 32, .06);
-  --shadow-md: 0 8px 28px rgba(33, 26, 32, .10);
-  --shadow-lg: 0 24px 64px rgba(33, 26, 32, .26);
-  --r-sm: 10px; --r-md: 14px; --r-lg: 20px;
+  --bg: #fbf8fa; --surface: #ffffff; --ink: #1f1a21; --muted: #675e6b; --faint: #978d9b;
+  --line: #eee7ec; --line-strong: #ddd3da;
+  --accent: #8a2c72; --accent-hover: #74235f; --on-accent: #ffffff; --accent-soft: #f8ebf4; --accent-ink: #7a2765;
+  --grad: linear-gradient(135deg, #b13f91, #6e2459);           /* white text on it: 5.2:1 or more */
+  --grad-shadow: 0 6px 16px rgba(110, 36, 89, .26);
+  --logo-a: #b13f91; --logo-b: #6e2459;
+  --tile: #f6f2f5; --tint-s: 85%; --tint-l: 94%;                 /* category tiles: hsl(hue, s, l) */
+  --urgent: #c2410c; --urgent-bg: #fff1e8; --soon: #a15c00;
+  --warn-bg: #fff4de; --warn-ink: #8a5300; --ok-bg: #e3f4e8; --ok-ink: #18703a;
+  --shadow-sm: 0 1px 2px rgba(31, 26, 33, .06);
+  --shadow-card: 0 1px 2px rgba(31, 26, 33, .05), 0 4px 18px rgba(31, 26, 33, .06);
+  --shadow-md: 0 12px 32px rgba(31, 26, 33, .13);
+  --shadow-lg: 0 24px 64px rgba(31, 26, 33, .28);
+  --r-sm: 12px; --r-md: 18px; --r-lg: 24px;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Headings, prices and badges: the system's rounded face where there is one (Safari on Apple devices). */
+  --round: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #141115; --surface: #1e1a1f; --ink: #f4eff3; --muted: #aba0ac; --faint: #807682;
-    --line: #2f2830; --line-strong: #40373f;
-    --accent: #e3a9d1; --accent-hover: #edbfe0; --on-accent: #2b1124; --accent-soft: #35212f; --accent-ink: #edbfe0;
-    --tile: #ebe5ea; --brand: #c56aae;
-    --urgent: #ff9a8f; --warn-bg: #3a2c12; --warn-ink: #f3c276; --ok-bg: #16301f; --ok-ink: #93d6a8;
+    --bg: #131016; --surface: #1d1920; --ink: #f3eef4; --muted: #aca2af; --faint: #82788a;
+    --line: #2d2731; --line-strong: #3e3542;
+    --accent: #e6a9d4; --accent-hover: #f0c1e3; --on-accent: #2a1023; --accent-soft: #34202f; --accent-ink: #efbfe0;
+    --grad-shadow: 0 6px 16px rgba(0, 0, 0, .4);
+    --logo-a: #d670bb; --logo-b: #9a3a84;
+    --tile: #ece6eb; --tint-s: 30%; --tint-l: 25%;
+    --urgent: #ff9e7d; --urgent-bg: #3b1e12; --soon: #f3c276;
+    --warn-bg: #3a2c12; --warn-ink: #f3c276; --ok-bg: #16301f; --ok-ink: #93d6a8;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
-    --shadow-md: 0 8px 28px rgba(0, 0, 0, .45);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, .35), 0 4px 18px rgba(0, 0, 0, .25);
+    --shadow-md: 0 12px 32px rgba(0, 0, 0, .5);
     --shadow-lg: 0 24px 64px rgba(0, 0, 0, .65);
   }
 }
@@ -39,235 +52,297 @@ html { -webkit-text-size-adjust: 100%; }
 html:has(dialog[open]) { overflow: hidden; }
 body {
   margin: 0; color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased;
-  background: linear-gradient(180deg, var(--accent-soft), transparent 320px) no-repeat, var(--bg);
+  background: radial-gradient(1100px 420px at 50% -140px, var(--accent-soft), transparent 72%) no-repeat, var(--bg);
 }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 a { color: var(--accent-ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .muted { color: var(--muted); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 legend { padding: 0; }
+/* Small line icons, drawn in the text color. */
+.i { width: 1em; height: 1em; flex: none; }
+.seal { width: 15px; height: 15px; flex: none; color: var(--ok-ink); }
+.seal path { stroke: var(--surface); }
 
 /* ---- header ---------------------------------------------------------------------------------------------- */
-.top { display: flex; align-items: center; gap: 6px 16px; flex-wrap: wrap; padding: 28px 0 20px; }
-.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none;
-         font-size: 24px; font-weight: 750; letter-spacing: -0.02em; }
-.brand svg { width: 28px; height: 28px; }
+.top { display: flex; align-items: center; gap: 8px 18px; flex-wrap: wrap; padding: 24px 0 20px; }
+.brand { display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; border-radius: 10px; }
+.brand svg { display: block; width: auto; height: 40px; }
 .tagline { margin: 0; color: var(--muted); font-size: 15px; }
 
 /* ---- search panel ---------------------------------------------------------------------------------------- */
-.panel { display: grid; gap: 18px; padding: 20px; background: var(--surface); border: 1px solid var(--line);
-         border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+.panel { display: grid; gap: 20px; padding: 22px; background: var(--surface); border: 1px solid var(--line);
+         border-radius: var(--r-lg); box-shadow: var(--shadow-card); }
 .fields { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
-.label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.label { display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 650; color: var(--muted); }
 .combo { position: relative; }
-.combo > svg { position: absolute; left: 13px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%);
-               color: var(--faint); pointer-events: none; }
-.combo input { width: 100%; height: 46px; padding: 0 14px 0 40px; font: inherit; color: var(--ink);
-               background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
-.combo input::placeholder { color: var(--faint); }
+.combo > svg { position: absolute; left: 16px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%);
+               color: var(--accent); pointer-events: none; }
+.combo input { width: 100%; height: 50px; padding: 0 18px 0 44px; font: inherit; font-weight: 550; color: var(--ink);
+               background: var(--bg); border: 1px solid var(--line-strong); border-radius: 999px; }
+.combo input::placeholder { color: var(--faint); font-weight: 400; }
 .combo input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.listbox { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px;
+.listbox { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 8px); margin: 0; padding: 6px;
            list-style: none; max-height: 336px; overflow: auto; background: var(--surface);
-           border: 1px solid var(--line-strong); border-radius: var(--r-md); box-shadow: var(--shadow-md); }
-.listbox li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 10px;
-              border-radius: 8px; font-size: 15px; cursor: pointer; }
-.listbox li small { color: var(--faint); font-size: 13px; white-space: nowrap; }
+           border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.listbox li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 12px;
+              border-radius: 12px; font-size: 15px; cursor: pointer; }
+.listbox li small { color: var(--muted); font-size: 13px; white-space: nowrap; }
 .listbox li[aria-selected="true"], .listbox li[data-i]:hover { background: var(--accent-soft); }
 .listbox li.none { color: var(--muted); cursor: default; }
 
-.seg { display: inline-flex; gap: 2px; height: 46px; padding: 4px; background: var(--bg);
-       border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.seg { display: inline-flex; gap: 2px; height: 50px; padding: 4px; background: var(--bg);
+       border: 1px solid var(--line-strong); border-radius: 999px; }
 .seg label { position: relative; }
 .seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.seg span { display: grid; place-items: center; height: 100%; padding: 0 14px; border-radius: 7px;
-            font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
-.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+.seg span { display: grid; place-items: center; height: 100%; padding: 0 16px; border-radius: 999px;
+            font-size: 14.5px; font-weight: 650; color: var(--muted); white-space: nowrap; }
+.seg input:checked + span { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(31, 26, 33, .14); }
 .seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 46px; padding: 0 22px;
-       border: 0; border-radius: var(--r-sm); font: inherit; font-weight: 650; text-decoration: none; cursor: pointer;
-       white-space: nowrap; transition: background .12s, border-color .12s; }
-.btn.primary { background: var(--accent); color: var(--on-accent); }
-.btn.primary:hover { background: var(--accent-hover); }
-.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 50px; padding: 0 26px;
+       border: 0; border-radius: 999px; font: 700 16px/1 var(--round); text-decoration: none; cursor: pointer;
+       white-space: nowrap; transition: background .12s, border-color .12s, filter .12s, transform .12s; }
+.btn.primary { background: var(--grad); color: #fff; box-shadow: var(--grad-shadow); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.primary:active { transform: translateY(1px); }
+.btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); }
 .btn.ghost:hover { border-color: var(--accent); }
-.btn.small { height: 38px; padding: 0 16px; font-size: 14px; }
+.btn.small { height: 40px; padding: 0 18px; font-size: 14.5px; }
 .btn[disabled] { opacity: .65; cursor: progress; }
+.btn .i { width: 16px; height: 16px; }
 
-.chips, .pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 13px; font: inherit;
-        font-size: 14px; font-weight: 500; color: var(--ink); background: var(--surface);
+/* What you're shopping for: a round picture per category, a check on the chosen ones. */
+.cats { display: flex; flex-wrap: wrap; gap: 10px 2px; }
+.cat { display: grid; justify-items: center; align-content: start; gap: 7px; min-width: 70px; padding: 4px 4px 2px;
+       font: inherit; color: var(--muted); background: none; border: 0; border-radius: 14px; cursor: pointer;
+       -webkit-tap-highlight-color: transparent; }
+.cat .ico { position: relative; display: grid; place-items: center; width: 54px; height: 54px; font-size: 26px;
+            line-height: 1; border-radius: 50%; background: hsl(var(--h, 320) var(--tint-s) var(--tint-l));
+            transition: transform .15s ease, box-shadow .15s ease; }
+.cat .lbl { font-size: 13px; font-weight: 600; line-height: 1.2; white-space: nowrap; }
+.cat:hover .ico { transform: translateY(-2px); }
+.cat[aria-pressed="true"] { color: var(--ink); }
+.cat[aria-pressed="true"] .lbl { font-weight: 750; }
+.cat[aria-pressed="true"] .ico { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
+.cat[aria-pressed="true"] .ico::after { content: "✓"; position: absolute; top: -4px; right: -4px; display: grid;
+       place-items: center; width: 21px; height: 21px; font: 900 11px/1 var(--font); color: var(--on-accent);
+       background: var(--accent); border: 2px solid var(--surface); border-radius: 50%; }
+.cat:focus-visible { outline: none; }
+.cat:focus-visible .ico { outline: 2px solid var(--accent); outline-offset: 7px; }
+.form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
+
+/* Filter chips inside a tab. */
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; font: inherit;
+        font-size: 14px; font-weight: 550; color: var(--ink); background: var(--surface);
         border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; white-space: nowrap;
         transition: background .12s, border-color .12s; }
 .chip:hover { border-color: var(--accent); }
 .chip[aria-pressed="true"], .chip[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent);
-        color: var(--accent-ink); font-weight: 650; }
+        color: var(--accent-ink); font-weight: 700; }
 .chip .ico { font-size: 15px; line-height: 1; }
 .chip .n { font-size: 12.5px; font-weight: 600; color: var(--muted); }
 .chip[aria-selected="true"] .n { color: inherit; }
-.form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
 
 /* ---- results --------------------------------------------------------------------------------------------- */
-.tabs { display: flex; gap: 28px; margin-top: 32px; overflow-x: auto; border-bottom: 1px solid var(--line);
+/* The tabs: a pill bar, the chosen tab filled. It scrolls sideways when it doesn't fit (a phone). */
+.tabs { display: flex; gap: 4px; width: fit-content; max-width: 100%; margin-top: 32px; padding: 5px; overflow-x: auto;
+        background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow-sm);
         scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }      /* five tabs scroll sideways on a phone */
-.tab { display: inline-flex; flex: none; align-items: center; gap: 8px; margin-bottom: -1px; padding: 12px 2px; font: inherit;
-       font-size: 17px; font-weight: 650; color: var(--muted); background: none; border: 0;
-       border-bottom: 3px solid transparent; cursor: pointer; }
-.tab:hover { color: var(--ink); }
-.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-.tab .n { padding: 2px 8px; border-radius: 999px; font-size: 13px; background: var(--line); color: var(--muted); }
-.tab[aria-selected="true"] .n { background: var(--accent-soft); color: var(--accent-ink); }
-.subhead { display: grid; gap: 14px; margin: 20px 0 18px; }
-.context { margin: 0; font-size: 14px; color: var(--muted); }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { display: inline-flex; flex: none; align-items: center; gap: 7px; height: 42px; padding: 0 15px 0 13px;
+       font: 650 15.5px/1 var(--round); color: var(--muted); background: none; border: 0; border-radius: 999px;
+       cursor: pointer; transition: background .15s, color .15s; }
+.tab .i { width: 18px; height: 18px; }
+.tab:hover { color: var(--ink); background: var(--accent-soft); }
+.tab[aria-selected="true"] { color: #fff; background: var(--grad); box-shadow: var(--grad-shadow); }
+.tab .n { padding: 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 700; background: var(--line);
+          color: var(--muted); }
+.tab[aria-selected="true"] .n { background: rgba(255, 255, 255, .22); color: #fff; }
+.subhead { display: grid; gap: 14px; margin: 22px 0 20px; }
+.ctx { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.ctx-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.cchip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; font-size: 13.5px;
+         font-weight: 550; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+         border-radius: 999px; white-space: nowrap; }
+.cchip .i { width: 15px; height: 15px; color: var(--accent); }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-.card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface);
-        border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer;
-        transition: transform .14s ease, box-shadow .14s ease, border-color .14s; }
-.card:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
-.thumb { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden;
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 22px 18px; }
+.card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface); border: 1px solid var(--line);
+        border-radius: var(--r-md); box-shadow: var(--shadow-card); cursor: pointer;
+        transition: transform .16s ease, box-shadow .16s ease; }
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.thumb { position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; overflow: hidden;
          background: var(--tile); container-type: size; }
-.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 10px; object-fit: contain;
+.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 14px; object-fit: contain;
              mix-blend-mode: multiply; }
 .thumb.cover img { padding: 0; object-fit: cover; mix-blend-mode: normal; }
 .thumb img { opacity: 0; transition: opacity .2s ease; }      /* fade in once loaded, instead of popping in */
 .thumb img.ok { opacity: 1; }
 /* Ads built from a retailer's product feed are product cards: the picture on top, the ad's own price text below.
    The clip box shows just the picture, fitted to the tile; --r is set when the image loads. */
-.clip { width: min(100cqw - 20px, (100cqh - 20px) * var(--r, 1.6)); aspect-ratio: var(--r, 1.6); overflow: hidden; }
+.clip { width: min(100cqw - 28px, (100cqh - 28px) * var(--r, 1.6)); aspect-ratio: var(--r, 1.6); overflow: hidden; }
 .thumb .clip img { position: static; display: block; width: 100%; height: auto; padding: 0; }
-.thumb .ph { font-size: 44px; line-height: 1; }
+.thumb .ph { font-size: 48px; line-height: 1; }
 .thumb.has-img .ph { display: none; }
 /* Badges sit on the picture tile, which is light in both themes, so their colors don't follow the theme. */
-.badge { position: absolute; left: 10px; top: 10px; padding: 4px 9px; border-radius: 999px; font-size: 13px;
-         font-weight: 700; line-height: 1.3; background: #7b2d64; color: #fff; box-shadow: 0 1px 2px rgba(33, 26, 32, .18); }
-.badge.soft { background: #fff; color: #6a2456; box-shadow: inset 0 0 0 1px #7b2d64; }
-.badge.inline { position: static; background: var(--accent); color: var(--on-accent); box-shadow: none; }
-.badge.inline.soft { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1px var(--accent); }
-.body { display: grid; flex: 1; gap: 6px; align-content: start; padding: 14px 14px 16px; }
-.meta { display: flex; gap: 6px; font-size: 13px; color: var(--muted); white-space: nowrap; }
-.meta strong { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--ink); }
-.meta span { flex: none; }
-.title { display: -webkit-box; margin: 0; overflow: hidden; font-size: 15px; font-weight: 600; line-height: 1.35;
+.badge { position: absolute; left: 10px; top: 10px; padding: 5px 10px; border-radius: 999px;
+         font: 800 14px/1.2 var(--round); letter-spacing: -0.01em; color: #fff;
+         background: linear-gradient(135deg, #b13f91, #6e2459); box-shadow: 0 2px 6px rgba(110, 36, 89, .3); }
+.badge.soft { color: #7a2765; background: #fff; box-shadow: inset 0 0 0 1.5px #8a2c72, 0 1px 3px rgba(31, 26, 33, .12); }
+.badge.inline { position: static; align-self: center; box-shadow: none; }
+.badge.inline.soft { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.body { display: flex; flex: 1; flex-direction: column; gap: 5px; padding: 13px 15px 14px; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-variant-numeric: tabular-nums; }
+.price b { font: 800 22px/1.15 var(--round); letter-spacing: -0.02em; }
+.price s { font-size: 14px; color: var(--muted); }
+.price small { font-size: 13px; color: var(--muted); }
+.offer { font: 750 17px/1.25 var(--round); letter-spacing: -0.01em; color: var(--accent-ink); }
+.title { display: -webkit-box; margin: 0; overflow: hidden; font-size: 14.5px; font-weight: 550; line-height: 1.38;
          -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .title.long { -webkit-line-clamp: 3; }      /* an offer with no price line: the title is the offer */
-.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-variant-numeric: tabular-nums; }
-.price b { font-size: 20px; font-weight: 750; letter-spacing: -0.01em; }
-.price s { font-size: 14px; color: var(--faint); }
-.price small { font-size: 13px; color: var(--muted); }
-.offer { font-size: 15px; font-weight: 650; }
-.info .offer { font-size: 20px; font-weight: 750; }
-.info .price { gap: 4px 10px; }
-.when { font-size: 13px; color: var(--muted); }
-.when.urgent { font-weight: 600; color: var(--urgent); }
+/* The card's last line: who and how far, and when it ends. */
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 3px 10px;
+        margin-top: auto; padding-top: 6px; font-size: 13px; color: var(--muted); }
+.who { display: inline-flex; align-items: center; gap: 5px; min-width: 0; max-width: 100%; white-space: nowrap; }
+.who b { overflow: hidden; text-overflow: ellipsis; font-weight: 650; color: var(--ink); }
+.end { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.end .i { width: 13px; height: 13px; }
+.end.urgent { font-weight: 700; color: var(--urgent); }
+.end.soon { font-weight: 650; color: var(--soon); }
+.checked { display: inline-flex; align-items: center; gap: 4px; font-weight: 650; color: var(--ok-ink); white-space: nowrap; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-.tag { padding: 5px 8px; border-radius: 999px; font-size: 12px; line-height: 1; white-space: nowrap;
+.tag { padding: 4px 9px; border-radius: 999px; font-size: 12px; font-weight: 550; line-height: 1.2; white-space: nowrap;
        color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
 .tag.warn { color: var(--warn-ink); background: var(--warn-bg); border-color: transparent; }
-.tag.ok { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; font-weight: 600; }
+.tag.ok { color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; font-weight: 650; }
+.tag.code { color: var(--accent-ink); background: var(--accent-soft); border: 1px dashed var(--accent); font-weight: 700;
+            letter-spacing: .03em; }
+.body > .tag { align-self: flex-start; }
+
 /* Regular deals: one button per day of the coming week. */
-.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px; margin: -2px; scrollbar-width: none; }
+.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: -2px; scrollbar-width: none; }
 .days::-webkit-scrollbar { display: none; }
-.day { display: grid; flex: none; justify-items: center; gap: 1px; min-width: 68px; padding: 8px 12px; font: inherit;
-       color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-sm);
-       cursor: pointer; transition: background .12s, border-color .12s; }
+.day { display: grid; flex: none; justify-items: center; gap: 1px; min-width: 66px; padding: 9px 12px 8px; font: inherit;
+       color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+       box-shadow: var(--shadow-sm); cursor: pointer; transition: background .12s, border-color .12s; }
 .day:hover { border-color: var(--accent); }
-.day b { font-size: 14px; font-weight: 650; white-space: nowrap; }
-.day small { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.day[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
-.day[aria-selected="true"] small { color: inherit; }
-.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
-.rcard { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px;
-         background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); cursor: pointer;
-         transition: transform .14s ease, box-shadow .14s ease, border-color .14s; }
-.rcard:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
-.rthumb { position: relative; display: grid; place-items: center; width: 56px; height: 56px; font-size: 28px;
-          line-height: 1; background: var(--accent-soft); border-radius: 14px; overflow: hidden; }
+.day b { font: 700 14.5px/1.25 var(--round); white-space: nowrap; }
+.day small { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day[aria-selected="true"] { color: #fff; background: var(--grad); border-color: transparent; box-shadow: var(--grad-shadow); }
+.day[aria-selected="true"] small { color: rgba(255, 255, 255, .86); }
+.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+.rcard { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 16px 18px;
+         background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card);
+         cursor: pointer; transition: transform .16s ease, box-shadow .16s ease; }
+.rcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.rthumb { position: relative; display: grid; place-items: center; width: 64px; height: 64px; font-size: 30px;
+          line-height: 1; background: var(--accent-soft); border-radius: 18px; overflow: hidden; }
 /* A company's logo covers the icon once it loads; a square app icon fills the tile, other logos sit on white. */
-.rthumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 7px; object-fit: contain;
+.rthumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 8px; object-fit: contain;
               background: #fff; border: 1px solid var(--line); border-radius: inherit; opacity: 0;
               transition: opacity .2s ease; }
 .rthumb.cover img { padding: 0; object-fit: cover; border: 0; }
 .rthumb img.ok { opacity: 1; }
-.ctx { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.rcard .body { gap: 3px; padding: 0 34px 0 0; }        /* room for the + button */
+.rcard .who { font-size: 13.5px; color: var(--muted); }
+.rcard .offer { font-size: 21px; line-height: 1.2; }
+.rcard .price b { font-size: 21px; color: var(--accent-ink); }
+.rcard .title { font-size: 14px; font-weight: 450; color: var(--muted); }
+.sched { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 7px; padding: 5px 11px;
+         font-size: 13px; font-weight: 650; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; }
+.sched .i { width: 14px; height: 14px; }
+.ctx .sort { margin-left: auto; }
 .sort { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
-.sort select { padding: 7px 34px 7px 14px; font: inherit; font-size: 14px; color: var(--ink); cursor: pointer;
-               background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23978d99' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center / 11px 8px;
+.sort select { padding: 7px 34px 7px 14px; font: inherit; font-size: 14px; font-weight: 550; color: var(--ink); cursor: pointer;
+               background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23978d9b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center / 11px 8px;
                border: 1px solid var(--line-strong); border-radius: 999px; -webkit-appearance: none; appearance: none; }
 .sort select:hover { border-color: var(--accent); }
 .sort select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.rcard .body { gap: 5px; padding: 0; }
-.rcard .head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.rcard .head .meta { min-width: 0; }
-.rcard .badge { flex: none; }
-.rcard .title { font-size: 15.5px; }
 .proof { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .proof li { display: grid; gap: 2px; }
-.proof .how { font-weight: 600; }
+.proof .how { display: inline-flex; align-items: center; gap: 6px; font-weight: 650; }
 .proof .how.off { font-weight: 400; color: var(--muted); }
 .proof q { color: var(--muted); quotes: "“" "”"; }
-.fine { margin: 24px 0 0; font-size: 14px; color: var(--muted); }
-.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 28px; font-size: 14px; }
+.fine { margin: 26px 0 0; font-size: 13.5px; color: var(--muted); }
+.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 30px; font-size: 14px; }
 
-.notice { display: flex; gap: 10px; margin: 20px 0 0; padding: 12px 14px; border-radius: var(--r-sm);
+.notice { display: flex; gap: 10px; margin: 20px 0 0; padding: 12px 16px; border-radius: var(--r-sm);
           font-size: 14px; color: var(--warn-ink); background: var(--warn-bg); }
-.empty { padding: 48px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong);
-         border-radius: var(--r-md); }
-.empty .big { font-size: 40px; line-height: 1; }
-.empty h3 { margin: 12px 0 6px; font-size: 18px; color: var(--ink); }
+.empty { padding: 48px 20px; text-align: center; color: var(--muted); background: var(--surface);
+         border: 1px dashed var(--line-strong); border-radius: var(--r-md); }
+.empty .big { font-size: 44px; line-height: 1; }
+.empty h3 { margin: 14px 0 6px; font: 750 19px/1.3 var(--round); color: var(--ink); }
 .empty p { max-width: 520px; margin: 0 auto 16px; }
-.leftout { margin-top: 28px; font-size: 14px; color: var(--muted); }
-.leftout summary { width: fit-content; cursor: pointer; }
-.leftout ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px 28px;
-              margin: 12px 0 0; padding: 0; list-style: none; }
+
+/* "About these deals": how a tab works, its fine print and what was left out, folded away. */
+.about { margin-top: 36px; border-top: 1px solid var(--line); }
+.about > summary, .drop > summary, footer summary { list-style: none; cursor: pointer; }
+.about > summary::-webkit-details-marker, .drop > summary::-webkit-details-marker,
+footer summary::-webkit-details-marker { display: none; }
+.about > summary { display: inline-flex; align-items: center; gap: 8px; padding: 16px 2px; font-size: 14.5px;
+                   font-weight: 650; color: var(--muted); }
+.about > summary:hover { color: var(--ink); }
+.about > summary .i { width: 17px; height: 17px; }
+.chev { transition: transform .2s ease; }
+details[open] > summary .chev { transform: rotate(180deg); }
+.about-body { display: grid; gap: 10px; max-width: 760px; padding: 0 2px 6px; font-size: 14px; color: var(--muted); }
+.about-body p { margin: 0; }
+.about-body h4 { margin: 8px 0 0; font-size: 14px; color: var(--ink); }
+.leftout { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 6px 28px; margin: 4px 0 0;
+           padding: 0; list-style: none; }
 .leftout li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 4px;
               border-bottom: 1px dotted var(--line-strong); }
 .leftout b { font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* ---- online stores ------------------------------------------------------------------------------------------ */
 /* A sale's own picture fills its tile with the store's logo in a corner; a sale with no picture shows the logo. */
-.thumb.logo img { padding: 16% 14%; mix-blend-mode: normal; }
-.lchip { position: absolute; left: 10px; bottom: 10px; width: 36px; height: 36px; overflow: hidden; background: #fff;
-         border-radius: 10px; box-shadow: 0 1px 3px rgba(33, 26, 32, .28); }
+.thumb.logo img { padding: 18% 14%; mix-blend-mode: normal; }
+.lchip { position: absolute; left: 10px; bottom: 10px; width: 38px; height: 38px; overflow: hidden; background: #fff;
+         border-radius: 11px; box-shadow: 0 1px 4px rgba(31, 26, 33, .28); }
 .thumb .lchip img { padding: 4px; object-fit: contain; mix-blend-mode: normal; }
-.lchip.wide { width: 84px; height: 32px; border-radius: 8px; }    /* a store known only by its wordmark */
+.lchip.wide { width: 86px; height: 34px; border-radius: 9px; }    /* a store known only by its wordmark */
 .thumb .lchip.wide img { padding: 5px 7px; }
-.tag.code { color: var(--accent-ink); background: var(--accent-soft); border-color: transparent; font-weight: 650;
-            letter-spacing: .02em; }
 /* Store tiles: the logo on white, in both themes, then what the store has on. */
 .slogo { position: relative; display: grid; place-items: center; aspect-ratio: 2 / 1; overflow: hidden; background: #fff;
          border-bottom: 1px solid var(--line); }
 .slogo img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 14% 20%; object-fit: contain;
              background: #fff; opacity: 0; transition: opacity .2s ease; }
 .slogo img.ok { opacity: 1; }
-.slogo .initial { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: #7b2d64; }
-.scard .offer { font-size: 14.5px; }
+.slogo .initial { font: 800 30px/1 var(--round); letter-spacing: -0.02em; color: #8a2c72; }
+.slogo .count { position: absolute; right: 8px; bottom: 8px; padding: 3px 9px; border-radius: 999px; font-size: 12px;
+                font-weight: 700; color: #675e6b; background: #f6f2f5; }
+.scard .title { font-size: 15.5px; font-weight: 700; -webkit-line-clamp: 1; }
+.scard .offer { font-size: 16px; }
+.scard .on { overflow: hidden; font-size: 13px; color: var(--muted); white-space: nowrap; text-overflow: ellipsis; }
 .shead { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 .sid { display: flex; align-items: center; gap: 14px; margin-right: auto; min-width: 0; }
-.sid .slogo { flex: none; width: 104px; border: 1px solid var(--line); border-radius: 12px; }
+.sid .slogo { flex: none; width: 108px; border: 1px solid var(--line); border-radius: 14px; }
 .sid .slogo .initial { font-size: 22px; }
-.sid h2 { margin: 0; font-size: 22px; line-height: 1.25; letter-spacing: -0.01em; }
+.sid h2 { margin: 0; font: 750 23px/1.25 var(--round); letter-spacing: -0.015em; }
 .sid p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
-.sec { margin: 28px 0 14px; font-size: 17px; }
-.sec .muted { font-weight: 400; font-size: 14px; }
+.sec { display: flex; align-items: baseline; gap: 8px; margin: 30px 0 14px; font: 750 18px/1.3 var(--round); }
+.sec .muted { font-weight: 600; font-size: 14px; }
 .codebox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
-.codebox code { padding: 4px 10px; font: 700 15px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em;
-                color: var(--accent-ink); background: var(--accent-soft); border: 1px dashed var(--accent); border-radius: 8px; }
+.codebox code { padding: 6px 12px; font: 700 16px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .05em;
+                color: var(--accent-ink); background: var(--accent-soft); border: 1.5px dashed var(--accent); border-radius: 10px; }
 
 /* ---- welcome and loading --------------------------------------------------------------------------------- */
-.welcome { padding: 56px 20px 16px; text-align: center; }
-.strip { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
-.strip span { display: grid; place-items: center; width: 56px; height: 56px; font-size: 26px; background: var(--surface);
-              border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-sm); }
-.strip span:nth-child(odd) { transform: rotate(-4deg) translateY(4px); }
-.strip span:nth-child(even) { transform: rotate(3deg); }
-.welcome h2 { margin: 12px 0 6px; font-size: 24px; letter-spacing: -0.02em; }
-.welcome p { max-width: 540px; margin: 0 auto 20px; color: var(--muted); }
+.welcome { padding: 52px 0 8px; text-align: center; }
+.welcome h2 { margin: 0 0 8px; font: 800 clamp(27px, 4vw, 36px)/1.15 var(--round); letter-spacing: -0.025em; }
+.welcome > p { max-width: 520px; margin: 0 auto 30px; font-size: 16.5px; color: var(--muted); }
+.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin: 0 auto 32px; }
+.feat { display: grid; justify-items: center; align-content: start; gap: 4px; padding: 24px 18px 22px; text-align: center;
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card); }
+.feat .fi { display: grid; place-items: center; width: 62px; height: 62px; margin-bottom: 10px; font-size: 31px; line-height: 1;
+            border-radius: 20px; background: hsl(var(--h) var(--tint-s) var(--tint-l)); }
+.feat b { font: 750 17.5px/1.25 var(--round); }
+.feat span { font-size: 14.5px; color: var(--muted); }
 .quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
-.status { display: flex; align-items: center; gap: 10px; margin: 28px 0 16px; font-size: 15px; color: var(--muted); }
+.status { display: flex; align-items: center; gap: 10px; margin: 30px 0 18px; font-size: 15px; color: var(--muted); }
 .spin { flex: none; width: 16px; height: 16px; border: 2px solid var(--line-strong); border-top-color: var(--accent);
         border-radius: 50%; animation: spin .8s linear infinite; }
 .skel { cursor: default; pointer-events: none; }
@@ -278,88 +353,119 @@ legend { padding: 0; }
 @keyframes shimmer { from { background-position: 100% 50%; } to { background-position: 0 50%; } }
 
 /* ---- details --------------------------------------------------------------------------------------------- */
-dialog.sheet { width: min(780px, calc(100vw - 32px)); padding: 0; overflow: hidden; color: var(--ink);
-               background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-               box-shadow: var(--shadow-lg); }
-dialog.sheet::backdrop { background: rgba(20, 14, 19, .55); }
-.sheet-scroll { max-height: min(88vh, 860px); overflow: auto; }
+dialog.sheet { width: min(840px, calc(100vw - 32px)); max-width: none; padding: 0; overflow: hidden; color: var(--ink);
+               background: var(--surface); border: 0; border-radius: var(--r-lg); box-shadow: var(--shadow-lg); }
+dialog.sheet[open] { animation: rise .22s ease-out; }
+dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); }
+@keyframes rise { from { opacity: .4; transform: translateY(18px); } }
+.sheet-scroll { max-height: min(90vh, 880px); overflow: auto; overscroll-behavior: contain; }
 .sheet-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
-.pic { display: grid; place-items: center; min-height: 300px; padding: 24px; background: var(--tile); }
+.pic { position: relative; display: grid; place-items: center; min-height: 340px; padding: 28px; background: var(--tile); }
 .pic img { max-width: 100%; max-height: 440px; object-fit: contain; mix-blend-mode: multiply; }
 .pic.cover { padding: 0; }
 .pic.cover img { width: 100%; height: 100%; max-height: none; object-fit: cover; mix-blend-mode: normal; }
-.pic .ph { font-size: 72px; line-height: 1; }
+.pic .ph { font-size: 76px; line-height: 1; }
 .pic.has-img .ph { display: none; }
-.info { display: grid; gap: 14px; align-content: start; padding: 28px 28px 24px; }
-.eyebrow { margin: 0 36px 0 0; font-size: 13px; font-weight: 650; color: var(--muted); }
-.info h2 { margin: 0; font-size: 20px; line-height: 1.3; letter-spacing: -0.01em; }
-.info .price b { font-size: 26px; }
+.info { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 30px 28px 26px; }
+.eyebrow { display: flex; align-items: center; gap: 6px; margin: 0 40px 0 0; font-size: 13.5px; font-weight: 650; color: var(--muted); }
+.info h2 { margin: -6px 0 0; font: 750 21px/1.3 var(--round); letter-spacing: -0.015em; }
+.info h2.says { margin: -8px 0 0; font: 450 16px/1.45 var(--font); letter-spacing: 0; color: var(--muted); }   /* a regular deal's own words, under its offer */
+.info .price { gap: 4px 10px; }
+.info .price b { font-size: 30px; }
 .info .price s { font-size: 16px; }
+.info .offer { font-size: 24px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.hchip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 6px 12px; font-size: 13.5px;
+         font-weight: 550; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; }
+.hchip .i { width: 15px; height: 15px; color: var(--accent); }
+.hchip.urgent { font-weight: 700; color: var(--urgent); background: var(--urgent-bg); border-color: transparent; }
+.hchip.urgent .i { color: inherit; }
+.hchip.ok { font-weight: 650; color: var(--ok-ink); background: var(--ok-bg); border-color: transparent; }
+.hchip.warn { color: var(--warn-ink); background: var(--warn-bg); border-color: transparent; }
+.drops { border-top: 1px solid var(--line); }
+.drop { border-bottom: 1px solid var(--line); }
+.drop > summary { display: flex; align-items: center; gap: 10px; padding: 14px 2px; font-weight: 650; }
+.drop > summary > span:first-child { flex: none; }
+.drop > summary:hover { color: var(--accent-ink); }
+.drop > summary .note { margin-left: auto; overflow: hidden; font-size: 13px; font-weight: 500; color: var(--muted);
+                        white-space: nowrap; text-overflow: ellipsis; }
+.drop > summary .chev { width: 18px; height: 18px; color: var(--muted); }
+.drop > summary .note + .chev { margin-left: 0; }
+.drop > summary > span:first-child + .chev { margin-left: auto; }
+.drop-body { padding: 0 2px 16px; font-size: 14.5px; }
+.drop-body > p { margin: 0 0 8px; }
 .facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 16px; margin: 0; font-size: 14px; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; }
 .facts .tags { margin: 0; }
 .facts .tag { white-space: normal; line-height: 1.3; border-radius: 12px; }   /* a long condition wraps in the details view */
 .cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-.cmp td { padding: 5px 0; border-bottom: 1px solid var(--line); }
-.cmp td:last-child { text-align: right; font-weight: 600; }
-.cmp small { color: var(--faint); }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.cmp td { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.cmp td:last-child { text-align: right; font-weight: 650; }
+.cmp small { color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .actions.center { justify-content: center; }
-.close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; place-items: center; width: 36px;
-         height: 36px; padding: 0; font: inherit; font-size: 20px; line-height: 1; color: var(--ink);
-         background: var(--surface); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
+.close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; place-items: center; width: 38px;
+         height: 38px; padding: 0; font: inherit; font-size: 21px; line-height: 1; color: var(--ink);
+         background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow-sm);
+         cursor: pointer; }
 
-footer { margin: 56px 0 32px; font-size: 13px; text-align: center; color: var(--faint); }
-footer p { max-width: 720px; margin: 0 auto; }
+footer { margin: 64px 0 32px; font-size: 13px; text-align: center; color: var(--muted); }
+footer p { max-width: 720px; margin: 0 auto 6px; }
+footer details { max-width: 720px; margin: 0 auto; }
+footer summary { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
+footer summary:hover { color: var(--ink); }
+footer summary .i { width: 14px; height: 14px; }
+footer details p { margin-top: 8px; }
 
 /* ---- your card ------------------------------------------------------------------------------------------- */
 /* Each deal tile sits in a cell with its "Add to card" button beside it (not inside: the tile is itself a button). */
 .cell { position: relative; display: grid; }
-.add { position: absolute; z-index: 1; top: 8px; right: 8px; display: grid; place-items: center; width: 36px;
-       height: 36px; padding: 0; font: inherit; font-size: 22px; font-weight: 600; line-height: 1; color: #6a2456;
-       background: #fff; border: 1px solid #dcd2d9; border-radius: 999px; box-shadow: 0 1px 3px rgba(33, 26, 32, .2);
+.add { position: absolute; z-index: 1; top: 9px; right: 9px; display: grid; place-items: center; width: 38px;
+       height: 38px; padding: 0; font: inherit; font-size: 23px; font-weight: 600; line-height: 1; color: #7a2765;
+       background: #fff; border: 1px solid #e6dce3; border-radius: 999px; box-shadow: 0 2px 6px rgba(31, 26, 33, .18);
        cursor: pointer; transition: background .12s, color .12s, border-color .12s, transform .12s; }
-.add:hover { border-color: #7b2d64; transform: scale(1.07); }
-.add[aria-pressed="true"] { background: #7b2d64; border-color: #7b2d64; color: #fff; font-size: 18px; }
-.cell .rcard + .add { top: auto; right: 14px; bottom: 14px; }
+.add:hover { border-color: #8a2c72; transform: scale(1.07); }
+.add[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, #b13f91, #6e2459); border-color: transparent;
+                            font-size: 18px; }
+.cell .rcard + .add { top: 12px; right: 12px; }
 .fab { position: fixed; z-index: 40; right: 20px; bottom: 20px; display: inline-flex; align-items: center; gap: 8px;
-       height: 50px; padding: 0 16px 0 18px; font: inherit; font-weight: 700; color: var(--on-accent);
-       background: var(--accent); border: 0; border-radius: 999px; box-shadow: var(--shadow-md); cursor: pointer; }
-.fab:hover { background: var(--accent-hover); }
+       height: 52px; padding: 0 16px 0 18px; font: 750 16px/1 var(--round); color: #fff; background: var(--grad);
+       border: 0; border-radius: 999px; box-shadow: 0 10px 26px rgba(110, 36, 89, .38); cursor: pointer; }
+.fab:hover { filter: brightness(1.08); }
 .fab[hidden], .toast[hidden] { display: none; }
 .fab svg { width: 20px; height: 20px; }
-.fab .n { min-width: 26px; padding: 2px 8px; border-radius: 999px; font-size: 14px; text-align: center;
-          color: var(--accent); background: var(--on-accent); }
+.fab .n { min-width: 26px; padding: 3px 8px; border-radius: 999px; font-size: 14px; text-align: center;
+          color: #7a2765; background: #fff; }
 body.has-card footer { padding-bottom: 64px; }
-.toast { position: fixed; z-index: 50; left: 50%; bottom: 86px; max-width: calc(100vw - 32px); padding: 10px 16px;
+.toast { position: fixed; z-index: 50; left: 50%; bottom: 88px; max-width: calc(100vw - 32px); padding: 10px 18px;
          transform: translateX(-50%); font-size: 14px; font-weight: 600; text-align: center; color: var(--bg);
          background: var(--ink); border-radius: 999px; box-shadow: var(--shadow-md); }
 #card-sheet { width: min(620px, calc(100vw - 32px)); }
 .sc { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 24px; }
-.sc h2 { margin: 0 40px 0 0; font-size: 22px; letter-spacing: -0.01em; }
+.sc h2 { margin: 0 40px 0 0; font: 750 23px/1.25 var(--round); letter-spacing: -0.015em; }
 .sc-head p { margin: 4px 0 0; font-size: 14px; }
 .sc-preview { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 180px;
               padding: 12px; background: var(--tile); border-radius: var(--r-md); }
 .sc-preview img { display: block; width: 100%; height: auto; border-radius: 10px; box-shadow: var(--shadow-sm); }
-.sc-wait { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #6d6370; }
+.sc-wait { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #675e6b; }
 .sc-list { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
 .sc-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0;
               font-size: 14px; border-bottom: 1px solid var(--line); }
 .sc-list li:last-child { border-bottom: 0; }
 .sc-list li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sc-list b { font-weight: 600; }
+.sc-list b { font-weight: 650; }
 .sc .empty { padding: 32px 16px; }
 
 /* ---- guided tour ------------------------------------------------------------------------------------------ */
-.tour-btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; margin-left: auto; padding: 0 14px 0 9px;
-            font: inherit; font-size: 14px; font-weight: 650; color: var(--ink); background: var(--surface);
+.tour-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; margin-left: auto; padding: 0 15px 0 9px;
+            font: 650 14.5px/1 var(--round); color: var(--ink); background: var(--surface);
             border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; }
 .tour-btn:hover { border-color: var(--accent); }
-.tour-btn .q { display: grid; place-items: center; width: 20px; height: 20px; font-size: 12px; font-weight: 800;
-               color: var(--on-accent); background: var(--accent); border-radius: 999px; }
+.tour-btn .q { display: grid; place-items: center; width: 21px; height: 21px; font-size: 12px; font-weight: 800;
+               color: #fff; background: var(--grad); border-radius: 999px; }
 /* The highlighted part of the page: everything else is dimmed by the box's own shadow. */
-.tour-spot { position: fixed; z-index: 60; border-radius: 14px; pointer-events: none;
+.tour-spot { position: fixed; z-index: 60; border-radius: 16px; pointer-events: none;
              box-shadow: 0 0 0 3px var(--accent), 0 0 0 9999px rgba(20, 14, 19, .58);
              transition: left .25s ease, top .25s ease, width .25s ease, height .25s ease; }
 .tour-spot.center { left: 50%; top: 50%; width: 0; height: 0; box-shadow: 0 0 0 9999px rgba(20, 14, 19, .58); }
@@ -369,7 +475,7 @@ dialog.tour { position: fixed; inset: auto; width: min(360px, calc(100vw - 32px)
               box-shadow: var(--shadow-lg); transition: left .25s ease, top .25s ease; }
 dialog.tour::backdrop { background: transparent; }
 .tour .tour-n { margin: 0 0 4px; font-size: 12.5px; font-weight: 650; color: var(--muted); }
-.tour h2 { margin: 0 0 6px; font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; }
+.tour h2 { margin: 0 0 6px; font: 750 18.5px/1.3 var(--round); letter-spacing: -0.01em; }
 .tour .tour-text { margin: 0; font-size: 15px; line-height: 1.45; }
 .tour-art { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; color: var(--muted); }
 .tour-art[hidden] { display: none; }
@@ -382,33 +488,71 @@ dialog.tour::backdrop { background: transparent; }
 /* ---- small screens --------------------------------------------------------------------------------------- */
 @media (max-width: 760px) {
   .wrap { padding: 0 16px; }
-  .top { padding: 20px 0 16px; }
-  .top .tagline { order: 3; width: 100%; }
-  .panel { padding: 16px; }
+  .top { padding: 18px 0 14px; }
+  .brand svg { height: 36px; }
+  .top .tagline { order: 3; width: 100%; font-size: 14.5px; }
+  .panel { gap: 18px; padding: 16px; }
   .fields { grid-template-columns: 1fr auto; }
   .fields > :first-child { grid-column: 1 / -1; }
-  .tabs { gap: 22px; margin-top: 24px; }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-  .rgrid { grid-template-columns: 1fr; gap: 10px; }
-  .body { padding: 12px; }
-  .price b { font-size: 18px; }
-  .thumb .ph { font-size: 36px; }
+  /* The categories are one row that scrolls sideways; the fade at the edge says there's more. */
+  .cats { flex-wrap: nowrap; gap: 2px; margin: 0 -16px; padding: 6px 12px 4px; overflow-x: auto; scrollbar-width: none;
+          scroll-snap-type: x proximity; scroll-padding: 0 12px;
+          -webkit-mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 28px), transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 28px), transparent); }
+  .cats::-webkit-scrollbar { display: none; }
+  .cat { flex: none; min-width: 66px; scroll-snap-align: start; }
+  .cat .ico { width: 50px; height: 50px; font-size: 24px; }
+  .tabs { margin-top: 24px; }
+  .tab { height: 40px; padding: 0 13px 0 11px; font-size: 15px; }
+  /* A tab's category chips: one row that scrolls sideways, like the tabs. */
+  .subhead .pills { flex-wrap: nowrap; margin: 0 -16px; padding: 2px 16px; overflow-x: auto; scrollbar-width: none; }
+  .subhead .pills::-webkit-scrollbar { display: none; }
+  .subhead .pills .chip { flex: none; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; }
+  .rgrid { grid-template-columns: 1fr; gap: 12px; }
+  .body { padding: 11px 12px 12px; }
+  .price b { font-size: 19px; }
+  .offer { font-size: 16px; }
+  .title { font-size: 14px; }
+  .thumb .ph { font-size: 38px; }
+  .badge { left: 8px; top: 8px; padding: 4px 8px; font-size: 13px; }
+  .add { top: 7px; right: 7px; width: 34px; height: 34px; font-size: 21px; }
+  .lchip { width: 32px; height: 32px; left: 8px; bottom: 8px; }
+  .lchip.wide { width: 72px; height: 30px; }
+  .rcard { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; padding: 14px 14px 16px; }
+  .rthumb { width: 56px; height: 56px; border-radius: 16px; font-size: 26px; }
+  .rcard .offer, .rcard .price b { font-size: 19px; }
+  /* The details rise from the bottom of the screen, as a sheet. */
+  dialog.sheet { width: 100%; margin: auto 0 0; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  #card-sheet { width: 100%; }
+  .sheet-scroll { max-height: 92vh; }
   .sheet-grid { grid-template-columns: 1fr; }
-  .pic { min-height: 220px; }
-  .pic img { max-height: 260px; }
-  .info { padding: 20px; }
-  .welcome { padding-top: 40px; }
+  .pic { min-height: 230px; padding: 20px; }
+  .pic:not(.has-img) { min-height: 150px; }
+  .pic img { max-height: 250px; }
+  .info { padding: 20px 18px 22px; }
+  .info .price b { font-size: 27px; }
+  .feats { grid-template-columns: 1fr; gap: 10px; margin-bottom: 26px; }
+  .feat { grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto; justify-items: start; column-gap: 14px;
+          row-gap: 0; padding: 14px 16px; text-align: left; }
+  .feat .fi { grid-row: 1 / 3; width: 52px; height: 52px; margin: 0; font-size: 26px; border-radius: 16px; }
+  .feat b { align-self: end; }
+  .welcome { padding-top: 34px; }
+  .welcome > p { margin-bottom: 22px; }
 }
 @media (max-width: 520px) {
   .fields { grid-template-columns: 1fr; }
   .seg { display: flex; }
   .seg label { flex: 1; }
   #go { width: 100%; }
-  .tab { font-size: 16px; }
+  .ctx .sort { margin-left: 0; }
+  .cchip.legend { display: none; }      /* what the check means: in "About these deals" and the details instead */
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .rcard, .btn, .chip, .day, .thumb img, .slogo img, .add, .tour-spot, dialog.tour { transition: none; }
-  .card:hover, .rcard:hover, .add:hover { transform: none; }
+  .card, .rcard, .btn, .chip, .cat .ico, .day, .tab, .thumb img, .slogo img, .rthumb img, .add, .tour-spot, dialog.tour,
+  .chev { transition: none; }
+  .card:hover, .rcard:hover, .add:hover, .cat:hover .ico { transform: none; }
+  dialog.sheet[open] { animation: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
 }
 </style>
@@ -417,13 +561,19 @@ dialog.tour::backdrop { background: transparent; }
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./" aria-label="Slomp, start over">
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z" fill="var(--brand)"/>
-        <circle cx="10.6" cy="10.6" r="2.3" fill="#fff"/>
+      <!-- The logo: "slomp" in rounded strokes; its "o" is a drop with a price tag's hole (docs/DESIGN-ui-refresh.md). -->
+      <svg viewBox="0 6 120 52" aria-hidden="true">
+        <defs><linearGradient id="logo-drop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: var(--logo-a)"/><stop offset="1" style="stop-color: var(--logo-b)"/></linearGradient></defs>
+        <g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15.95 25.06A6 4.625 0 1 0 10.75 32A6 4.625 0 1 1 5.55 38.94"/>
+          <path d="M26 10.75V41.25"/>
+          <path d="M63.5 41.25V28.75A6 6 0 0 1 75.5 28.75V41.25M75.5 28.75A6 6 0 0 1 87.5 28.75V41.25"/>
+          <path d="M97 22.75V53.25"/><circle cx="106.25" cy="32" r="9.25"/>
+        </g>
+        <path fill="url(#logo-drop)" fill-rule="evenodd" d="M44.75 8.63C49.17 14.95 56.75 23.16 56.75 32A12 12 0 1 1 32.75 32C32.75 23.16 40.33 14.95 44.75 8.63ZM41.47 21.26a3.28 3.28 0 1 0 6.56 0a3.28 3.28 0 1 0-6.56 0Z"/>
       </svg>
-      <span>Slomp</span>
     </a>
-    <p class="tagline">Deals near any Texas city this week, plus the best online discounts and online stores' sales.</p>
+    <p class="tagline">This week's deals near you and online, all in one place.</p>
     <button type="button" class="tour-btn" id="tour-btn"><span class="q" aria-hidden="true">?</span>Tour</button>
   </header>
 
@@ -447,7 +597,7 @@ dialog.tour::backdrop { background: transparent; }
       </div>
       <fieldset>
         <legend class="label">What are you shopping for?</legend>
-        <div class="chips" id="chips"></div>
+        <div class="cats" id="chips"></div>
       </fieldset>
       <p class="form-msg" id="form-msg" role="alert" hidden></p>
     </form>
@@ -457,10 +607,14 @@ dialog.tour::backdrop { background: transparent; }
   </main>
 
   <footer>
-    <p>Local prices are the ads retailers publish (via Flipp) and can change, so check at the store. Regular deals come
-       from company pages and the day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals and online
-       stores' sales come from public deal sites (dealnews, Slickdeals, Hip2Save and others). Store locations ©
-       OpenStreetMap contributors.</p>
+    <p>Prices come from store ads and deal sites and can change. Check before you go.</p>
+    <details>
+      <summary>Where the deals come from <svg class="i chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <p>Local prices are the ads retailers publish (via Flipp). Regular deals come from company pages and the
+         day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals and online stores' sales come from
+         public deal sites (dealnews, Slickdeals, Hip2Save and others).</p>
+    </details>
+    <p>Store locations © OpenStreetMap contributors.</p>
   </footer>
 </div>
 
@@ -509,15 +663,35 @@ const SHORT = {tech: "Tech", sports: "Sports", fashion: "Fashion", home: "Home",
 const KIND = {cinema: ["🎬", "Cinema"], golf: ["⛳", "Golf"], bowling: ["🎳", "Bowling"], museum: ["🏛️", "Museum"],
               zoo: ["🦒", "Zoo"], bar: ["🍸", "Bar"], cafe: ["☕", "Café"], restaurant: ["🍽️", "Restaurant"],
               store: ["🛍️", "Store"]};
-// What a discount is measured against: [short label for cards, sentence for the details view].
+// A soft tint for each category's round tile (a hue; the theme sets how light).
+const HUE = {tech: 212, sports: 140, fashion: 330, home: 28, beauty: 350, health: 175, grocery: 92, toys: 48, baby: 196,
+             pets: 36, auto: 222, office: 258, dining: 12, entertainment: 285};
+// What a discount is measured against: [short label, sentence for the details view].
 const BASIS = {
-  market: ["vs. other stores", "Measured against the median price at other stores Slomp checked itself."],
-  store_regular: ["vs. regular price", "Measured against this store's own regular price."],
-  editor_compare: ["vs. other stores", "Measured against other stores' prices, per the deal site's editor."],
-  claimed_savings: ["saving per the ad", "The ad states this saving but not the regular price it is measured from."],
-  history: ["vs. price history", "Measured against this product's own price history."],
-  list: ["vs. list price", "Measured against a list price, which stores rarely charge."],
+  market: ["vs. other stores", "Compared with what other stores charge for the same product. Slomp checked those prices itself."],
+  store_regular: ["vs. regular price", "Compared with this store's own regular price."],
+  editor_compare: ["vs. other stores", "Compared with other stores' prices, according to the deal site's editor."],
+  claimed_savings: ["saving per the ad", "The ad states this saving but not the regular price it's measured from."],
+  history: ["vs. price history", "Compared with this product's own past prices."],
+  list: ["vs. list price", "Compared with a list price (MSRP), which stores rarely charge."],
 };
+// Small line icons, drawn in the text color.
+const icon = (paths, cls = "") => `<svg class="i${cls ? " " + cls : ""}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+const ICONS = {
+  pin: icon('<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+  clock: icon('<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/>'),
+  cal: icon('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+  repeat: icon('<path d="M17 2.5l3 3-3 3"/><path d="M4 11.5v-1a5 5 0 0 1 5-5h11"/><path d="M7 21.5l-3-3 3-3"/><path d="M20 12.5v1a5 5 0 0 1-5 5H4"/>'),
+  globe: icon('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>'),
+  percent: icon('<path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>'),
+  store: icon('<path d="M4.5 10v10h15V10"/><path d="M3 4h18l-1.6 4.6a2.6 2.6 0 0 1-4.9.1 2.6 2.6 0 0 1-5 0 2.6 2.6 0 0 1-5-.1z"/><path d="M10 20v-5h4v5"/>'),
+  truck: icon('<path d="M2.5 6.5h11v10h-11zM13.5 10h4.2l3.3 3.4v3.1h-7.5"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>'),
+  info: icon('<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/>'),
+  tag: icon('<path d="M3.5 12.6V5A1.5 1.5 0 0 1 5 3.5h7.6l8 8-9.1 9.1z"/><circle cx="8.2" cy="8.2" r="1.4"/>'),
+  chev: icon('<path d="M6 9l6 6 6-6"/>', "chev"),
+};
+// A check in a filled circle: the company's own site, or Slomp's own price check, confirms it.
+const SEAL = `<svg class="seal" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.6 12.4l3 3 5.8-6.3" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const PHOTO_FEEDS = new Set(["Hip2Save", "9to5Toys", "The Inventory"]);   // photos fill the tile; cut-outs are fitted
 const PICTURE_PART = 0.58;   // product-card ad clippings: the picture is the top part; the ad's price text starts at ~62%
 
@@ -612,10 +786,10 @@ function drawRadius() {
 function drawChips() {
   const box = $("#chips");
   box.innerHTML = Object.values(S.industries).map(i =>
-    `<button type="button" class="chip" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" title="${esc(i.name + ": " + i.description)}">` +
-    `<span class="ico" aria-hidden="true">${ICON[i.id] || "🏷️"}</span>${esc(short(i.id))}</button>`).join("");
+    `<button type="button" class="cat" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" style="--h: ${HUE[i.id] ?? 320}" title="${esc(i.name + ": " + i.description)}">` +
+    `<span class="ico" aria-hidden="true">${ICON[i.id] || "🏷️"}</span><span class="lbl">${esc(short(i.id))}</span></button>`).join("");
   box.addEventListener("click", e => {
-    const chip = e.target.closest(".chip");
+    const chip = e.target.closest(".cat");
     if (!chip) return;
     const on = chip.getAttribute("aria-pressed") !== "true";
     chip.setAttribute("aria-pressed", on);
@@ -816,16 +990,18 @@ const sortHtml = () => `<label class="sort">Sort <select id="sort">` +
   SORTS.map(([k, text]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${text}</option>`).join("") + `</select></label>`;
 
 /* ---- results --------------------------------------------------------------------------------------------- */
+const TAB_ICON = {near: ICONS.pin, regulars: ICONS.repeat, online: ICONS.globe, sales: ICONS.percent, stores: ICONS.store};
+
 function render() {
   const {local: L, online: O, sales: SL} = S.data;
-  const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${text}<span class="n">${n}</span></button>`;
+  const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${TAB_ICON[id]}${text}<span class="n">${n}</span></button>`;
   const panel = {near: () => nearPanel(L), regulars: () => regularsPanel(L), online: () => onlinePanel(O),
                  sales: () => salesPanel(SL), stores: () => storesPanel(SL)}[S.tab];
   $("#results").innerHTML = staleHtml(L) +
     `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}` +
     `${SL ? tab("sales", "Sales", S.sales.length) + tab("stores", "Stores", S.stores.length) : ""}</div>` +
     `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${panel()}</div>` +
-    (STATIC && L.built ? `<p class="fine">Slomp read these deals from their sources ${readAgo(L.built)}; the site reads them again every 6 hours.</p>` : "");
+    (STATIC && L.built ? `<p class="fine">Deals updated ${readAgo(L.built)}. The site gets fresh ones every 6 hours.</p>` : "");
   // On a phone the tabs scroll sideways: keep the chosen one in sight without moving the page.
   const bar = $("#results .tabs"), on = $("#results .tab[aria-selected='true']");
   if (bar && on && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = on.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2;
@@ -836,7 +1012,20 @@ const readAgo = iso => Date.now() - new Date(iso) < 36e5 ? "less than an hour ag
 // The published site works from data read on a schedule; say so when that data is more than a day old.
 function staleHtml(L) {
   const hours = STATIC && L.built ? (Date.now() - new Date(L.built)) / 36e5 : 0;
-  return hours > 24 ? noticeHtml(`These deals were read ${readAgo(L.built)}, so some may have ended and newer ones are missing.`) : "";
+  return hours > 24 ? noticeHtml(`These deals were last updated ${readAgo(L.built)}, so some may have ended and newer ones are missing.`) : "";
+}
+
+// Under the tabs: where and when, as two small chips.
+const cchip = (ico, text, title = "", cls = "") => `<span class="cchip${cls ? " " + cls : ""}"${title ? ` title="${esc(title)}"` : ""}>${ico}${text}</span>`;
+const ctxHtml = chips => `<div class="ctx"><div class="ctx-chips">${chips.join("")}</div>${sortHtml()}</div>`;
+
+// At the bottom of a tab: how it works, its fine print and what was left out, folded away.
+function aboutHtml(paras, excluded) {
+  const rows = Object.entries(excluded || {}).sort((a, b) => b[1] - a[1]);
+  const left = rows.length ? `<h4>What we left out, and why</h4><ul class="leftout">` +
+    rows.map(([why, n]) => `<li><span>${esc(cap(why))}</span><b>${n.toLocaleString("en-US")}</b></li>`).join("") + `</ul>` : "";
+  return `<details class="about"><summary>${ICONS.info}About these deals${ICONS.chev}</summary>` +
+    `<div class="about-body">${paras.filter(Boolean).map(p => `<p>${p}</p>`).join("")}${left}</div></details>`;
 }
 
 function pillsHtml(inds, current, count) {
@@ -851,14 +1040,20 @@ function nearPanel(L) {
   const count = i => S.near.filter(d => d.industries.includes(i)).length;
   const list = S.view = sortDeals(S.near.filter(d => d.industries.includes(cur)));
   const down = (L.sources || []).filter(s => !s.ok).map(s => s.name);
-  const notice = down.length ? noticeHtml(`Slomp couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
-  const context = `Within ${L.radius_mi} mi of ${esc(L.city.name)} · ${day(L.window.start, tz)} to ${day(L.window.end, tz)}` +
-    // the published site reads the weekly ads for the nearest of a set of cities (docs/DESIGN-static-site.md)
-    (L.ads_from ? `<br><span class="muted">Weekly ads as published for ${esc(L.ads_from.name)}, ${L.ads_from.mi} mi away</span>` : "");
+  const notice = down.length ? noticeHtml(`We couldn't reach ${down.join(", ")} just now, so some deals may be missing.`) : "";
+  const dates = `${day(L.window.start, tz)} to ${day(L.window.end, tz)}`;
+  const chips = [cchip(ICONS.pin, `Within ${L.radius_mi} mi of ${esc(L.city.name)}`), cchip(ICONS.cal, "Next 7 days", dates)];
+  // the published site reads the weekly ads for the nearest of a set of cities (docs/DESIGN-static-site.md)
+  if (L.ads_from) chips.push(cchip(ICONS.store, `Ads from ${esc(L.ads_from.name)}`, `Weekly ads as published for ${L.ads_from.name}, ${L.ads_from.mi} mi away`));
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
     : nearEmpty(L, cur);
-  return notice + `<div class="subhead">${pillsHtml(L.industries, cur, count)}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(L.excluded);
+  const about = aboutHtml([
+    `Prices from the weekly ads of stores within ${L.radius_mi} mi of ${esc(L.city.name)}, for ${esc(dates)}. Ads can change, so check at the store.`,
+    L.ads_from ? `This site reads weekly ads for a set of Texas cities. ${esc(L.city.name)} gets the ads published for ${esc(L.ads_from.name)}, ${L.ads_from.mi} mi away.` : "",
+    "Tap a deal for its dates, its store's address and what its discount is measured against.",
+  ], L.excluded);
+  return notice + `<div class="subhead">${pillsHtml(L.industries, cur, count)}${ctxHtml(chips)}</div>` + body + about;
 }
 
 function regularsPanel(L) {
@@ -877,27 +1072,35 @@ function regularsPanel(L) {
       `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
       (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
   const down = (L.sources || []).filter(s => !s.ok && /Krazy|EatDrink|registry/i.test(s.name)).map(s => s.name);
-  const notice = down.length ? noticeHtml(`Slomp couldn't read ${down.join(", ")} just now, so this list may be incomplete.`) : "";
-  const context = `Deals that repeat every week, within ${L.radius_mi} mi of ${esc(L.city.name)}. Each one says how Slomp knows about it.`;
+  const notice = down.length ? noticeHtml(`We couldn't reach ${down.join(", ")} just now, so some deals may be missing.`) : "";
+  const chips = [cchip(ICONS.pin, `Within ${L.radius_mi} mi of ${esc(L.city.name)}`), cchip(SEAL, "Confirmed by the company", "", "legend")];
   const what = cur === "all" ? "" : ` for ${esc(full(cur))}`;
   const body = list.length
     ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
     : emptyHtml("📅", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
                 S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
-  const fine = `<p class="fine">Slomp can't read social media, so a deal announced only there is missing${STATIC ? ". Some company sites also turn away the servers this site is built on, so a few deals only they confirm are missing here" : " unless you add it to your own list (see the README)"}. Participation can vary by location.</p>`;
-  return notice + `<div class="subhead">${days}${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + fine;
+  const about = aboutHtml([
+    `Deals that repeat every week at places within ${L.radius_mi} mi of ${esc(L.city.name)}.`,
+    `${SEAL} marks a deal its company's own website confirms. The others come from day-of-week deal lists (The Krazy Coupon Lady, EatDrinkDeals) or news reports. Tap a deal to see every source.`,
+    `Slomp can't read social media, so a deal announced only there is missing${STATIC ? ". Some company sites also turn away the servers this site is built on, so a few deals only they confirm are missing here" : " unless you add it to your own list (see the README)"}. Participation can vary by location.`,
+  ]);
+  return notice + `<div class="subhead">${days}${pills}${ctxHtml(chips)}</div>` + body + about;
 }
 
 function onlinePanel(O) {
   const inds = Object.keys(O.deals), cur = S.ind.online;
   const list = S.view = sortDeals(O.deals[cur] || []);
   const down = (O.sources || []).filter(s => !s.ok).length;
-  const notice = down ? noticeHtml(`${down} of ${O.sources.length} deal feeds couldn't be read just now, so this list may be incomplete.`) : "";
-  const context = "Where another store sells the same product, the discount is measured against its price.";
+  const notice = down ? noticeHtml(`${down} of ${O.sources.length} deal sites couldn't be reached just now, so some deals may be missing.`) : "";
+  const chips = [cchip(ICONS.globe, "Online, the same for every city", "", "legend"), cchip(SEAL, "Checked against other stores", "", "legend")];
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
     : emptyHtml(ICON[cur] || "🏷️", `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
-  return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(O.excluded);
+  const about = aboutHtml([
+    "The biggest discounts posted on deal sites (dealnews, Slickdeals and others).",
+    `Where another store sells the same product, the discount is measured against that store's price, and the deal is marked ${SEAL} Checked. Tap a deal to compare prices and see where it was posted.`,
+  ], O.excluded);
+  return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}${ctxHtml(chips)}</div>` + body + about;
 }
 
 /* ---- online stores: their sales, and the stores ---------------------------------------------------------- */
@@ -913,10 +1116,19 @@ function saleWhen(d, tz) {
   if (d.starts_at && Date.parse(d.starts_at) > now) return {text: `Starts ${day(d.starts_at, tz)}`, urgent: false};
   if (!d.ends_at) return {text: d.posted_at ? `Posted ${ago(d.posted_at)}` : "No end date given", urgent: false};
   const at = Date.parse(d.ends_at), hour = Number(new Date(at).toLocaleString("en-US", {hour: "numeric", hourCycle: "h23", timeZone: tz}));
-  const end = day(new Date(hour < 4 ? at - SMALL_HOURS : at).toISOString(), tz);
-  if (end === day(new Date(now).toISOString(), tz)) return {text: "Ends today", urgent: true};
-  if (end === day(new Date(now + 864e5).toISOString(), tz)) return {text: "Ends tomorrow", urgent: false};
-  return {text: `Ends ${end}`, urgent: false};
+  const last = new Date(hour < 4 ? at - SMALL_HOURS : at).toISOString(), end = day(last, tz);
+  if (end === day(new Date(now).toISOString(), tz)) return {text: "Ends today", urgent: true, last};
+  if (end === day(new Date(now + 864e5).toISOString(), tz)) return {text: "Ends tomorrow", urgent: false, last};
+  return {text: `Ends ${end}`, urgent: false, last};
+}
+
+// The same, as short as a card's last line has room for: "Ends Sat", "Ends Oct 21", "Starts Thu". A sale with no end
+// says nothing there (its details say when it was posted).
+function saleFace(d, tz) {
+  if (d.starts_at && Date.parse(d.starts_at) > Date.now()) return {text: `Starts ${shortDay(d.starts_at, tz)}`};
+  const w = saleWhen(d, tz);
+  if (!w.last) return null;
+  return w.urgent ? w : w.text === "Ends tomorrow" ? {...w, soon: true} : {text: `Ends ${shortDay(w.last, tz)}`};
 }
 
 function saleThumb(d) {
@@ -931,19 +1143,15 @@ function saleThumb(d) {
     (src && chip ? `<span class="lchip${wide ? " wide" : ""}">${img(logoSrc(chip.url))}</span>` : "") + `</div>`;
 }
 
-// The code first, then what the discount asks of you.
-function saleTagsHtml(d, limit = 2) {
-  const tags = (d.conditions || []).map(c => `<span class="tag">${esc(c)}</span>`);
-  if (d.code) tags.unshift(`<span class="tag code">Code ${esc(d.code)}</span>`);
-  return tags.length ? `<div class="tags">${tags.slice(0, limit).join("")}${tags.length > limit ? `<span class="tag">+${tags.length - limit}</span>` : ""}</div>` : "";
-}
-
+// A sale's card: the offer in words only when it says more than the badge ("60% off + extra 25% off"), the sale's
+// name, its code (what you need at checkout) or else a membership it needs, and the store and the end.
+const sameOffer = (a, b) => norm(a || "").replace(/off/g, "") === norm(b || "").replace(/off/g, "");
 function saleCard(d, i) {
-  const w = saleWhen(d, S.data.local.city.tz);
+  const w = saleFace(d, S.data.local.city.tz);
+  const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
+  const key = d.code ? `<span class="tag code">Code ${esc(d.code)}</span>` : keyTag(d.conditions || []);
   return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${saleThumb(d)}<div class="body">` +
-    `<div class="meta"><strong>${esc(d.store_name)}</strong></div>` +
-    `<h3 class="title">${esc(d.name)}</h3><div class="offer">${esc(d.offer)}</div>` +
-    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${saleTagsHtml(d)}</div></article>${addHtml(d, i)}</div>`;
+    `${offer}<h3 class="title">${esc(d.name)}</h3>${key}${footHtml(d.store_name, "", w)}</div></article>${addHtml(d, i)}</div>`;
 }
 
 // What Slomp left out: only what concerns sales (the product posts in the same feeds are the Online tab's).
@@ -959,12 +1167,15 @@ function salesPanel(SL) {
       `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
       (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
   const down = (SL.sources || []).filter(s => !s.ok).length;
-  const notice = down ? noticeHtml(`${down} of ${SL.sources.length} deal feeds couldn't be read just now, so this list may be incomplete.`) : "";
-  const context = "Sales, promo codes and sale events at online stores that ship anywhere in Texas: the same for every city. Each links to the post it came from.";
+  const notice = down ? noticeHtml(`${down} of ${SL.sources.length} deal sites couldn't be reached just now, so some sales may be missing.`) : "";
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
     : emptyHtml("🛍️", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
-  return notice + `<div class="subhead">${pills}<div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body + leftoutHtml(saleLeftout(SL.excluded));
+  const about = aboutHtml([
+    "Sales, promo codes and sale events at online stores that ship anywhere in Texas. They're the same for every city.",
+    "Each one links to the deal post it came from. Tap a sale for its code, its conditions and when it ends.",
+  ], saleLeftout(SL.excluded));
+  return notice + `<div class="subhead">${pills}${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` + body + about;
 }
 
 // The online stores with something on in the chosen categories: their sales, and their product deals from the
@@ -1000,18 +1211,21 @@ function sortStores(list) {
 const storeCounts = g => [g.sales.length ? `${g.sales.length} ${g.sales.length === 1 ? "sale" : "sales"}` : "",
   g.deals.length ? `${g.deals.length} product ${g.deals.length === 1 ? "deal" : "deals"}` : ""].filter(Boolean).join(" · ");
 
-function storeLogo(g) {
+function storeLogo(g, corner = "") {
   const lg = g.info && g.info.logo, src = lg ? logoSrc(lg.url) : "";
   return `<div class="slogo"><span class="initial" aria-hidden="true">${esc(initials(g.name))}</span>` +
-    (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") + `</div>`;
+    (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") +
+    (corner ? `<span class="count" aria-hidden="true">${esc(corner)}</span>` : "") + `</div>`;
 }
 
+// A store's tile: its logo with how many deals it has, its name, and its best offer and what that's on.
 function storeCard(g) {
-  const top = sortDeals(g.sales)[0], deal = top ? null : sortDeals(g.deals)[0];
-  const line = top ? `<div class="offer">${esc(top.offer)}</div><div class="when">${esc(top.name)}</div>`
-    : deal ? `<div class="offer">${deal.discount_pct ? `${Math.round(deal.discount_pct)}% off` : money(deal.price)}</div><div class="when">${esc(productName(deal))}</div>` : "";
+  const top = sortDeals(g.sales)[0], deal = top ? null : sortDeals(g.deals)[0], n = everything(g).length;
+  const offer = top ? top.offer : deal ? (deal.discount_pct ? `${Math.round(deal.discount_pct)}% off` : money(deal.price)) : "";
+  const on = top ? top.name : deal ? productName(deal) : "";
   return `<div class="cell"><article class="card scard" role="button" tabindex="0" data-store="${esc(g.key)}" aria-label="${esc(g.name)}: ${esc(storeCounts(g))}">` +
-    `${storeLogo(g)}<div class="body"><h3 class="title">${esc(g.name)}</h3><div class="meta"><span>${esc(storeCounts(g))}</span></div>${line}</div></article></div>`;
+    `${storeLogo(g, `${n} ${n === 1 ? "deal" : "deals"}`)}<div class="body"><h3 class="title">${esc(g.name)}</h3>` +
+    (offer ? `<div class="offer">${esc(offer)}</div>` : "") + (on ? `<div class="on">${esc(on)}</div>` : "") + `</div></article></div>`;
 }
 
 function storesPanel(SL) {
@@ -1019,11 +1233,11 @@ function storesPanel(SL) {
   if (g) return storePage(g);
   S.store = null;
   const list = S.view = sortStores(S.stores);
-  const context = "Online stores that ship anywhere in Texas, with what each has on in your categories. Open one to see it all.";
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.stores).map(storeCard).join("")}</div>` + moreHtml(list.length, S.shown.stores)
     : emptyHtml("🏬", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
-  return `<div class="subhead"><div class="ctx"><p class="context">${context}</p>${sortHtml()}</div></div>` + body;
+  const about = aboutHtml(["Online stores that ship anywhere in Texas, with what each has on in your categories: its sales and its product deals from the Online tab. Tap a store to see it all."]);
+  return `<div class="subhead">${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` + body + about;
 }
 
 // One store: its sales, then its product deals, in one list for the + buttons and the details view.
@@ -1033,7 +1247,7 @@ function storePage(g) {
   const head = `<div class="shead"><button type="button" class="btn ghost small" data-store-back>← All stores</button>` +
     `<div class="sid">${storeLogo(g)}<div><h2>${esc(g.name)}</h2><p>${esc(storeCounts(g))}</p></div></div>` +
     (site ? actionHtml(site, `Visit ${esc(hostOf(site))}`, false) : "") + `</div>`;
-  return `<div class="subhead">${head}<div class="ctx"><p class="context">Online, so the same for every city.</p>${sortHtml()}</div></div>` +
+  return `<div class="subhead">${head}${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` +
     (sales.length ? `<h3 class="sec">Sales <span class="muted">${sales.length}</span></h3><div class="grid">${sales.map((d, k) => saleCard(d, k)).join("")}</div>` : "") +
     (deals.length ? `<h3 class="sec">Product deals <span class="muted">${deals.length}</span></h3><div class="grid">${deals.map((d, k) => onlineCard(d, sales.length + k)).join("")}</div>` : "");
 }
@@ -1056,13 +1270,6 @@ const emptyHtml = (icon, title, text, extra = "") =>
 const moreHtml = (total, shown) => total > shown
   ? `<div class="more"><button type="button" class="btn ghost small" id="more">Show ${Math.min(PAGE, total - shown)} more</button><span class="muted" id="more-count">${shown} of ${total}</span></div>` : "";
 
-function leftoutHtml(excluded) {
-  const rows = Object.entries(excluded || {}).sort((a, b) => b[1] - a[1]);
-  if (!rows.length) return "";
-  return `<details class="leftout"><summary>What Slomp left out, and why</summary><ul>` +
-    rows.map(([why, n]) => `<li><span>${esc(cap(why))}</span><b>${n.toLocaleString("en-US")}</b></li>`).join("") + `</ul></details>`;
-}
-
 /* ---- cards ----------------------------------------------------------------------------------------------- */
 // Regular deals: a restaurant chain's deal on games is entertainment, so its tile is a ticket, not a plate.
 const iconOf = d => d.regular && !(d.regular.kind === "restaurant" && d.industries[0] !== "dining")
@@ -1084,13 +1291,34 @@ function shortCondition(c) {
   return {"loyalty card / rewards price": "rewards price", "discount applied in cart": "discount in cart",
           "price varies by size or color": "varies by size"}[c] || c;
 }
-const isWarning = c => /^(store price now|out of stock)/.test(c);
+const isWarning = c => /^(store price now|out of stock|store not confirmed)/.test(c);
 
-function tagsHtml(tags, limit = 2) {
-  if (!tags.length) return "";
-  const shown = tags.slice(0, limit).map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(shortCondition(c))}</span>`).join("");
-  return `<div class="tags">${shown}${tags.length > limit ? `<span class="tag">+${tags.length - limit}</span>` : ""}</div>`;
+// The one condition a card shows: a warning, else something you need to get the price (a membership, a rewards card,
+// a coupon, the app). The rest are in the details.
+const NEEDS = /member|rewards|loyalty|coupon|promo code|subscribe|in the app|\bapp only|circle/i;
+function keyTag(tags) {
+  const c = tags.find(isWarning) || tags.find(t => NEEDS.test(t));
+  return c ? `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(cap(shortCondition(c)))}</span>` : "";
 }
+
+// When, as short as a card's last line has room for: "Ends today", "Ends tomorrow", "Ends Sat", "Ends Oct 21".
+const ymd = (t, tz) => new Date(t).toLocaleDateString("en-CA", {timeZone: tz});            // "2026-10-07"
+const daysAway = (iso, tz) => Math.round((Date.parse(ymd(iso, tz)) - Date.parse(ymd(Date.now(), tz))) / 864e5);
+const shortDay = (iso, tz) => new Date(iso).toLocaleDateString("en-US",
+  daysAway(iso, tz) < 7 ? {weekday: "short", timeZone: tz} : {month: "short", day: "numeric", timeZone: tz});
+function faceWhen(d, tz) {
+  if ((d.terms.conditions || []).includes("dates not stated")) return null;
+  if (d.starts_in_days > 0) {
+    const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
+    return {text: oneDay ? `${shortDay(d.valid_from, tz)} only` : `Starts ${shortDay(d.valid_from, tz)}`};
+  }
+  if (d.ends_in_days <= 0) return {text: "Ends today", urgent: true};
+  if (d.ends_in_days === 1) return {text: "Ends tomorrow", soon: true};
+  return {text: `Ends ${shortDay(d.valid_to, tz)}`};
+}
+const endHtml = w => w ? `<span class="end${w.urgent ? " urgent" : w.soon ? " soon" : ""}">${ICONS.clock}${esc(w.text)}</span>` : "";
+// A card's last line: who (and how far), and when it ends.
+const footHtml = (who, more, w) => `<div class="foot"><span class="who"><b>${esc(who)}</b>${more}</span>${endHtml(w)}</div>`;
 
 function localBadge(d) {
   const t = d.terms;
@@ -1103,18 +1331,19 @@ function localBadge(d) {
   return null;
 }
 
-// The price line: "$3.50 /lb  $5.50", "2 for $8 · $4.00 each", or "" when the offer has no single price.
-function priceLine(t) {
+// The price line: "$3.50 /lb  $5.50", "2 for $8 · $4.00 each", or "" when the offer has no single price. A card leaves
+// out the saving an ad states without a regular price (its badge already says it); the details keep it.
+function priceLine(t, claim = true) {
   if (t.qty > 1 && t.bundle_price) return `<b>${t.qty} for ${whole(money(t.bundle_price))}</b><small>${money(t.bundle_price / t.qty)} each</small>`;
   if (t.price == null) return "";
   const unit = t.unit && t.unit !== "ea" ? `<small>/${esc(t.unit)}</small>` : "";
   const was = t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list") ? `<s>${money(t.regular)}</s>` : "";
-  const claim = t.basis === "claimed_savings" && t.savings ? `<small>save ${whole(money(t.savings))} per the ad</small>` : "";
-  return `<b>${money(t.price)}</b>${unit}${was}${claim}`;
+  const said = claim && t.basis === "claimed_savings" && t.savings ? `<small>save ${whole(money(t.savings))}, says the ad</small>` : "";
+  return `<b>${money(t.price)}</b>${unit}${was}${said}`;
 }
 
 function localPrice(t) {
-  const line = priceLine(t);
+  const line = priceLine(t, false);
   if (line) return `<div class="price">${line}</div>`;
   return t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>` : "";
 }
@@ -1138,12 +1367,13 @@ function localTags(d) {
   return tags.concat((t.conditions || []).filter(c => c !== "dates not stated"));   // the date line already says so
 }
 
+// A nearby deal's card: the price (or the offer in words), what it is, at most one condition, and the store, how far
+// and when it ends. Everything else is in its details.
 function localCard(d, i, tz) {
-  const w = when(d, tz), where = d.store ? `${d.store.distance_mi} mi` : "location unknown", price = localPrice(d.terms);
+  const price = localPrice(d.terms), far = d.store ? `<span>· ${d.store.distance_mi} mi</span>` : "";
   return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, localBadge(d), false)}<div class="body">` +
-    `<div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${where}</span></div>` +
-    `<h3 class="title${price ? "" : " long"}">${esc(d.title)}</h3>${price}` +
-    `<div class="when${w.urgent ? " urgent" : ""}">${esc(w.text)}</div>${tagsHtml(localTags(d))}</div></article>${addHtml(d, i)}</div>`;
+    `${price}<h3 class="title${price ? "" : " long"}">${esc(d.title)}</h3>${keyTag(localTags(d))}` +
+    `${footHtml(d.merchant, far, faceWhen(d, tz))}</div></article>${addHtml(d, i)}</div>`;
 }
 
 /* ---- regular deals --------------------------------------------------------------------------------------- */
@@ -1159,33 +1389,49 @@ function regularThumb(d) {
     (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") + `</div>`;
 }
 
-// How Slomp knows, in two or three words for the card.
-function proofTag(r) {
-  if (r.status === "confirmed") return `<span class="tag ok">✓ Company site</span>`;
+// How Slomp knows, in a few words: the details' "How we know" says it next to its sources.
+function proofText(r) {
+  if (r.status === "confirmed") return "The company's own site confirms it";
   if (r.status === "listed") {
     const n = new Set(r.evidence.filter(e => e.live && e.kind === "list").map(e => e.source)).size;
-    return `<span class="tag">Listed by ${n > 1 ? n + " sites" : "1 site"}</span>`;
+    return `Listed by ${n > 1 ? n + " deal sites" : "a deal site"}`;
   }
-  return `<span class="tag">${r.status === "reported" ? "Reported" : "Added by you"}</span>`;
+  return r.status === "reported" ? "Reported in the news" : "Added by you";
 }
+
+// "Monday to Thursday" as "Mon–Thu", "Wednesdays and Sundays" as "Wed & Sun", "Every Wednesday" as "Every Wed".
+const shortDays = s => (s || "").replace(/\b(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)days?\b/g, (m, p) => p.slice(0, 3))
+  .replace(/ to /g, "–").replace(/ and /g, " & ");
 
 // The offer in a few words: a price with its regular price, or "From $3", "Kids eat free", "Happy hour".
 function regularOffer(t) {
   if (t.bogo) return `<div class="offer">${esc(cap(t.bogo))}</div>`;
   if (t.summary && !/^\$[\d.,]+$/.test(t.summary) && !t.pct) return `<div class="offer">${esc(cap(t.summary))}</div>`;
-  if (t.price != null && (!t.pct || t.regular)) return `<div class="price"><b>${money(t.price)}</b>${t.regular ? `<s>${money(t.regular)}</s>` : ""}</div>`;
+  if (t.price != null && (!t.pct || t.regular)) return `<div class="price"><b>${whole(money(t.price))}</b>${t.regular ? `<s>${whole(money(t.regular))}</s>` : ""}</div>`;
   return "";
 }
 
+// The offer in a few words, as a regular deal's headline: "Buy 1 get 1 free", "Half price", "Kids bowl free", "From $3",
+// or a price with its regular price.
+function regularHead(d) {
+  const t = d.terms, offer = regularOffer(t), b = localBadge(d);
+  if (offer) return offer;
+  const text = t.summary ? cap(t.summary) : b ? b.text : "";
+  return text ? `<div class="offer">${esc(text)}</div>` : "";
+}
+
+// A regular deal's card: the logo, the store (with a check when its own site confirms the deal) and how far, the offer
+// as the headline, the deal's own words, and when it runs. Its conditions and sources are in its details.
 function regularCard(d, i) {
-  const r = d.regular, offer = regularOffer(d.terms), badge = localBadge(d);
-  const cond = (d.terms.conditions || []).slice(0, 1).map(c => `<span class="tag">${esc(c)}</span>`).join("");
-  const more = (d.terms.conditions || []).length > 1 ? `<span class="tag">+${d.terms.conditions.length - 1}</span>` : "";
-  return `<div class="cell"><article class="rcard" role="button" tabindex="0" data-i="${i}">` +
-    `${regularThumb(d)}<div class="body">` +
-    `<div class="head"><div class="meta"><strong>${esc(d.merchant)}</strong><span>·</span><span>${d.store.distance_mi} mi</span></div>${badgeInline(badge)}</div>` +
-    `<h3 class="title long">${esc(d.title)}</h3>${badge ? "" : offer}` +
-    `<div class="when">${esc(runsText(r) + untilText(r))}</div><div class="tags">${proofTag(r)}${cond}${more}</div></div></article>${addHtml(d, i)}</div>`;
+  const r = d.regular, tz = S.data.local.city.tz;
+  const seal = r.status === "confirmed" ? `${SEAL}<span class="sr-only">, confirmed by the company</span>` : "";
+  const until = r.until && daysAway(r.until + "T12:00:00", tz) <= 14 ? ` · until ${dateText(r.until, {month: "short", day: "numeric"})}` : "";
+  const sched = [shortDays(r.days_text), r.time_text].filter(Boolean).join(" · ") + until;
+  return `<div class="cell"><article class="rcard" role="button" tabindex="0" data-i="${i}">${regularThumb(d)}<div class="body">` +
+    `<span class="who"><b>${esc(d.merchant)}</b>${seal}<span>· ${d.store.distance_mi} mi</span></span>` +
+    `${regularHead(d)}<h3 class="title">${esc(d.title)}</h3>` +
+    (r.status === "yours" ? `<span class="tag">Added by you</span>` : "") +
+    `<span class="sched">${ICONS.cal}${esc(sched)}</span></div></article>${addHtml(d, i)}</div>`;
 }
 
 function proofHtml(e) {
@@ -1203,23 +1449,28 @@ function proofHtml(e) {
 
 function regularDetail(d) {
   const L = S.data.local, r = d.regular, t = d.terms, st = d.store, today = L.window.start.slice(0, 10);
-  const badge = localBadge(d), offer = regularOffer(t);
+  const badge = localBadge(d), offer = regularHead(d);
   // A price takes its badge beside it; an offer in words ("Buy 1 get 1 free") already says what the badge would.
   const headline = offer.startsWith('<div class="price">') ? offer.replace("</div>", `${badgeInline(badge)}</div>`)
     : offer || (badge ? `<div class="price">${badgeInline(badge)}</div>` : "");
   const until = r.until ? `, through ${dateText(r.until)}` : "";
-  const next = r.next.map(x => x === today ? "Today" : dateText(x)).join(", ");
-  const rows = [["Runs", esc(runsText(r) + until)], ["Next", esc(next)]];
+  const next = r.next.map(x => x === today ? "Today" : dateText(x));
+  const chips = [hchip(ICONS.cal, esc([shortDays(r.days_text), r.time_text].filter(Boolean).join(" · "))),
+                 hchip(ICONS.clock, `Next: ${esc(next[0] || "")}`), hchip(ICONS.pin, `${st.distance_mi} mi away`)];
+  if (r.status === "confirmed") chips.push(hchip(SEAL, "Confirmed by the company", "ok"));
+  const rows = [["Runs", esc(runsText(r) + until)], ["Next", esc(next.join(", "))]];
   rows.push(["Where", `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}` +
     (st.source === "osm" ? `<br><span class="muted">The nearest one on the map. Participation can vary by location.</span>` : "")]);
   if ((t.conditions || []).length) rows.push(["Conditions", allTags(t.conditions)]);
-  if (BASIS[t.basis] && t.pct) rows.push(["Discount", esc(t.bogo ? "Measured against buying the same items at the regular price." : "Measured against the regular price, as the offer states it.")]);
-  rows.push(["How Slomp knows", `<ul class="proof">${r.evidence.map(proofHtml).join("")}</ul>`]);
+  if (BASIS[t.basis] && t.pct) rows.push(["Discount", esc(t.bogo ? "Compared with buying the same items at the regular price." : "Compared with the regular price, as the offer states it.")]);
   const kind = (KIND[r.kind] || [])[1];
   const shown = d.image_url || !r.logo ? d : {...d, image_url: logoSrc(r.logo.url)};
   return sheetHtml(shown, false,
-    `<p class="eyebrow">${esc(d.merchant)}${kind ? " · " + kind : ""}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline + factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, "Open the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}${cardToggleHtml(d)}</div>`);
+    `<p class="eyebrow">${esc(d.merchant)}${kind ? " · " + kind : ""}</p>${headline}<h2 id="detail-title" class="says">${esc(d.title)}</h2>` +
+    `<div class="hero-chips">${chips.join("")}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, "See the source", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Company page", false) : ""}${cardToggleHtml(d)}</div>` +
+    `<div class="drops">${dropHtml("Details", factsHtml(rows))}` +
+    dropHtml("How we know", `<ul class="proof">${r.evidence.map(proofHtml).join("")}</ul>`, esc(proofText(r))) + `</div>`);
 }
 
 // Deal-post titles repeat the price and shipping ("… for $45 + free shipping"); the card shows those separately.
@@ -1244,17 +1495,22 @@ function onlineBadge(d) {
 }
 const onlineRef = d => d.basis === "market" && d.market_median ? d.market_median : d.reference_price;
 
+// An online deal's card: the price, the product, at most one condition, and the seller, with "Checked" when Slomp
+// compared the price with other stores itself.
 function onlineCard(d, i) {
-  const ref = onlineRef(d), note = (BASIS[d.basis] || [""])[0];
+  const ref = onlineRef(d), checked = d.basis === "market" ? `<span class="checked">${SEAL}Checked</span>` : "";
   return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source))}<div class="body">` +
-    `<div class="meta"><strong>${esc(d.seller || "Online")}</strong>${d.posted_at ? `<span>·</span><span>${ago(d.posted_at)}</span>` : ""}</div>` +
-    `<h3 class="title">${esc(productName(d))}</h3>` +
     `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}</div>` +
-    `<div class="when">${esc(note)}${d.basis === "market" ? " ✓" : ""}</div>${tagsHtml(d.conditions || [])}</div></article>${addHtml(d, i)}</div>`;
+    `<h3 class="title">${esc(productName(d))}</h3>${keyTag(d.conditions || [])}` +
+    `<div class="foot"><span class="who"><b>${esc(d.seller || "Online")}</b></span>${checked}</div></div></article>${addHtml(d, i)}</div>`;
 }
 
 /* ---- details --------------------------------------------------------------------------------------------- */
 const factsHtml = rows => `<dl class="facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
+// The details' top part shows a few facts as chips; the rest sit in dropdowns, closed until tapped.
+const hchip = (ico, text, cls = "") => `<span class="hchip${cls ? " " + cls : ""}">${ico}${text}</span>`;
+const dropHtml = (title, body, note = "") => body
+  ? `<details class="drop"><summary><span>${title}</span>${note ? `<span class="note">${note}</span>` : ""}${ICONS.chev}</summary><div class="drop-body">${body}</div></details>` : "";
 const allTags = tags => `<div class="tags">${tags.map(c => `<span class="tag${isWarning(c) ? " warn" : ""}">${esc(c)}</span>`).join("")}</div>`;
 const actionHtml = (href, text, primary) => link(href)
   ? `<a class="btn small ${primary ? "primary" : "ghost"}" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${text} <span aria-hidden="true">↗</span></a>` : "";
@@ -1268,16 +1524,15 @@ function sheetHtml(d, photo, info) {
 
 function localDetail(d) {
   const L = S.data.local, tz = L.city.tz, t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
-  const rows = [], line = priceLine(t), badge = localBadge(d);
+  const rows = [], line = priceLine(t, false), badge = localBadge(d);
   // Headline: the price with its badge; a buy-one-get-one offer in words; or the badge alone ("40% off").
   const headline = line ? `<div class="price">${line}${badgeInline(badge)}</div>`
     : t.bogo ? `<div class="offer">${esc(cap(t.bogo))}</div>`
     : badge ? `<div class="price">${badgeInline(badge)}</div>` : "";
   const said = `${line} ${t.bogo} ${badge ? badge.text : ""}`.toLowerCase().replace(/<[^>]+>/g, " ");
   if (!promo && t.summary && (t.qty > 1 || t.hedge) && !said.includes(t.summary.toLowerCase())) rows.push(["Offer", esc(cap(t.summary))]);
-  if (!promo && BASIS[t.basis]) rows.push(["Discount", esc(t.bogo ? "Measured against buying the same items at this store's regular price." : BASIS[t.basis][1])]);
-  const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz);
-  rows.push(["Valid", (t.conditions || []).includes("dates not stated") ? "The post doesn't give dates"
+  const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz), undated = (t.conditions || []).includes("dates not stated");
+  rows.push(["Valid", undated ? "The post doesn't give dates"
     : oneDay ? `${day(d.valid_from, tz)} only`
     : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
   rows.push(["Where", st
@@ -1286,32 +1541,47 @@ function localDetail(d) {
   const tags = localTags(d);
   if (tags.length) rows.push(["Conditions", allTags(tags)]);
   if (promo) rows.push(["Note", `<span class="muted">A national promotion. Participation can vary by location.</span>`]);
+  // What the discount is measured against, in plain words.
+  const basis = !promo && BASIS[t.basis] ? esc(t.bogo ? "Compared with buying the same items at this store's regular price." : BASIS[t.basis][1]) +
+    (t.basis === "claimed_savings" && t.savings ? ` It says you save ${whole(money(t.savings))}.` : "") : "";
+  const w = when(d, tz), key = keyTag(tags);
+  const chips = [st ? hchip(ICONS.pin, `${st.distance_mi} mi away`) : hchip(ICONS.pin, "Store not on the map", "warn")];
+  if (!undated) chips.push(hchip(ICONS.clock, esc(w.text), w.urgent ? "urgent" : ""));
+  if (key) chips.push(key.replace('class="tag', 'class="hchip'));
   const kind = !promo && d.category ? ` · ${esc(d.category.split(" > ").pop())}` : "";
   return sheetHtml(d, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
-    factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${cardToggleHtml(d)}</div>`);
+    `<div class="hero-chips">${chips.join("")}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${cardToggleHtml(d)}</div>` +
+    `<div class="drops">${dropHtml("Details", factsHtml(rows))}${dropHtml("About this price", basis ? `<p>${basis}</p>` : "", esc((BASIS[t.basis] || [""])[0]))}</div>`);
 }
 
+const siteLink = (url, text) => link(url) ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(text)}</a>` : esc(text);
+
 function onlineDetail(d) {
-  const ref = onlineRef(d), rows = [];
-  if (BASIS[d.basis]) {
-    const quote = d.basis_text && d.basis !== "market" ? `<br><span class="muted">“${esc(d.basis_text.length > 190 ? d.basis_text.slice(0, 190) + "…" : d.basis_text)}”</span>` : "";
-    rows.push(["Discount", esc(BASIS[d.basis][1]) + quote]);
-  }
-  rows.push(["Other stores", (d.comparisons || []).length
-    ? `<table class="cmp">${d.comparisons.map(p => `<tr><td>${link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.site)}</a>` : esc(p.site)}${p.via ? ` <small>${esc(p.via)}</small>` : ""}</td><td>${money(p.price)}</td></tr>`).join("")}</table>`
-    : `<span class="muted">No exact match found at other stores.</span>`]);
-  const sc = d.store_check || {};
-  if (sc.price != null) rows.push(["Store check", `${esc(sc.site)} showed ${sc.unavailable ? "it out of stock" : money(sc.price)} when Slomp looked${sc.checked_at ? ` (${ago(sc.checked_at)})` : ""}.`]);
+  const ref = onlineRef(d), sc = d.store_check || {}, cmp = d.comparisons || [];
+  const quote = d.basis_text && d.basis !== "market" ? `<p class="muted">“${esc(d.basis_text.length > 190 ? d.basis_text.slice(0, 190) + "…" : d.basis_text)}”</p>` : "";
+  const about = (BASIS[d.basis] ? `<p>${esc(BASIS[d.basis][1])}</p>${quote}` : "") +
+    (sc.price != null ? `<p>${esc(sc.site)} showed ${sc.unavailable ? "it out of stock" : money(sc.price)} when Slomp looked${sc.checked_at ? ` (${ago(sc.checked_at)})` : ""}.</p>` : "") +
+    (cmp.length ? "" : `<p class="muted">Slomp found no exact match at other stores.</p>`);
+  const compare = cmp.length
+    ? `<table class="cmp">${cmp.map(p => `<tr><td>${siteLink(p.url, p.site)}${p.via ? ` <small>${esc(p.via)}</small>` : ""}</td><td>${money(p.price)}</td></tr>`).join("")}</table>` : "";
+  const rows = [];
   if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
-  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => (link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.source)}</a>` : esc(p.source)) + ` ${money(p.price)}`).join(", ")]);
+  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => siteLink(p.url, p.source) + ` ${money(p.price)}`).join(", ")]);
   rows.push(["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}`]);
+  const chips = [hchip(ICONS.store, esc(d.seller || "Online"))];
+  if (d.basis === "market") chips.push(hchip(SEAL, "Checked against other stores", "ok"));
+  if (d.posted_at) chips.push(hchip(ICONS.clock, `Posted ${ago(d.posted_at)}`));
+  const key = keyTag(d.conditions || []);
+  if (key) chips.push(key.replace('class="tag', 'class="hchip'));
   return sheetHtml(d, PHOTO_FEEDS.has(d.source),
     `<p class="eyebrow">${esc(d.seller || "Online")}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
     `<div class="price"><b>${money(d.price)}</b>${ref && ref > d.price ? `<s>${money(ref)}</s>` : ""}${badgeInline(onlineBadge(d))}</div>` +
-    factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}${cardToggleHtml(d)}</div>`);
+    `<div class="hero-chips">${chips.join("")}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal", true)}${actionHtml(sc.url, `View on ${esc(sc.site || "the store")}`, false)}${cardToggleHtml(d)}</div>` +
+    `<div class="drops">${dropHtml("Compare prices", compare, cmp.length ? `${cmp.length} ${cmp.length === 1 ? "store" : "stores"}` : "")}` +
+    `${dropHtml("About this price", about, esc((BASIS[d.basis] || [""])[0]))}${dropHtml("Details", factsHtml(rows))}</div>`);
 }
 
 const endText = (iso, tz) => new Date(iso).toLocaleString("en-US", {weekday: "short", month: "short", day: "numeric",
@@ -1320,22 +1590,30 @@ const endText = (iso, tz) => new Date(iso).toLocaleString("en-US", {weekday: "sh
 function saleDetail(d) {
   const tz = S.data.local.city.tz, st = storeOf(d), site = st ? link(st.site) : "";
   const rows = [["Offer", esc(d.offer)]];
-  if (d.code) rows.push(["Code", `<span class="codebox"><code>${esc(d.code)}</code><button type="button" class="btn small ghost" data-copy="${esc(d.code)}">Copy</button></span>` +
-    (d.code_note ? `<br><span class="muted">${esc(cap(d.code_note))}</span>` : "")]);
   if (d.starts_at && Date.parse(d.starts_at) > Date.now()) rows.push(["Starts", esc(day(d.starts_at, tz))]);
   rows.push(["Ends", d.ends_at ? esc(endText(d.ends_at, tz)) + (d.ends_how ? `<br><span class="muted">${esc(d.ends_how.startsWith("the ") ? cap(d.ends_how) : d.ends_how)}</span>` : "")
     : `<span class="muted">No end date given. Slomp shows it for 7 days after it was posted.</span>`]);
   if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
   if (d.shipping) rows.push(["Shipping", esc(d.shipping)]);
   rows.push(["Store", site ? `<a href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(d.store_name)}</a>` : esc(d.store_name)]);
-  if ((d.also_posted || []).length) rows.push(["Also posted", d.also_posted.map(p => link(p.url) ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.source)}</a>` : esc(p.source)).join(", ")]);
-  rows.push(["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
-    (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]);
+  const source = [["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
+    (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]];
+  if ((d.also_posted || []).length) source.push(["Also posted", d.also_posted.map(p => siteLink(p.url, p.source)).join(", ")]);
+  // The code is what you need at checkout, so it stays in sight with its Copy button.
+  const code = d.code ? `<div class="codebox"><code>${esc(d.code)}</code><button type="button" class="btn small ghost" data-copy="${esc(d.code)}">Copy</button>` +
+    (d.code_note ? `<span class="muted">${esc(cap(d.code_note))}</span>` : "") + `</div>` : "";
+  const w = saleWhen(d, tz), chips = [hchip(ICONS.clock, esc(w.text), w.urgent ? "urgent" : "")];
+  if (d.shipping) chips.push(hchip(ICONS.truck, esc(d.shipping)));
+  const key = keyTag(d.conditions || []);
+  if (key) chips.push(key.replace('class="tag', 'class="hchip'));
+  const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
   const shown = d.image_url || !(st && st.logo) ? d : {...d, image_url: logoSrc(st.logo.url)};
   return sheetHtml(shown, !!d.image_url && PHOTO_FEEDS.has(d.source),
     `<p class="eyebrow">${esc(d.store_name)} · online store</p><h2 id="detail-title">${esc(d.title)}</h2>` +
-    (d.badge ? `<div class="price">${badgeInline({text: d.badge, soft: d.badge_soft})}</div>` : "") + factsHtml(rows) +
-    `<div class="actions">${actionHtml(d.source_url, "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>`);
+    (offer || (d.badge ? `<div class="price">${badgeInline({text: d.badge, soft: d.badge_soft})}</div>` : "")) + code +
+    `<div class="hero-chips">${chips.join("")}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>` +
+    `<div class="drops">${dropHtml("Details", factsHtml(rows))}${dropHtml("Where this comes from", factsHtml(source), esc(d.source))}</div>`);
 }
 
 async function copyCode(code) {
@@ -1351,17 +1629,20 @@ function openDetail(d) {
 }
 
 /* ---- welcome, loading, errors ---------------------------------------------------------------------------- */
+// Before a search: what Slomp finds, as three pictures, and the biggest cities to start with.
+const FEATS = [["🏪", 28, "Store ads", "This week's deals at stores near you"],
+               ["📅", 285, "Regulars", "Specials that repeat every week"],
+               ["🛍️", 212, "Online", "Top discounts and store-wide sales"]];
 function welcome() {
-  const strip = ["tech", "fashion", "home", "grocery", "dining", "entertainment"].map(i => `<span>${ICON[i]}</span>`).join("");
-  $("#results").innerHTML = `<div class="welcome"><div class="strip" aria-hidden="true">${strip}</div>` +
-    `<h2>Find this week's deals near you</h2>` +
-    `<p>Pick a Texas city and what you're shopping for. Slomp reads this week's store ads, today's deal posts and the deals that repeat every week, and tells you what each one rests on.</p>` +
+  $("#results").innerHTML = `<div class="welcome"><h2>Find this week's best deals</h2>` +
+    `<p>Pick a Texas city and what you're shopping for.</p>` +
+    `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat" style="--h: ${h}"><span class="fi" aria-hidden="true">${ico}</span><b>${b}</b><span>${t}</span></div>`).join("")}</div>` +
     `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div></div>`;
 }
 
 function loading() {
-  const card = `<div class="card skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:45%"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div><div class="bar" style="width:35%;height:18px;margin-top:6px"></div></div></div>`;
-  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>${STATIC ? "Loading this week's deals." : "Reading this week's ads and today's deal posts. A city's first search can take up to a minute."}</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
+  const card = `<div class="card skel"><div class="thumb"></div><div class="body"><div class="bar" style="width:40%;height:18px"></div><div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div><div class="bar" style="width:55%;margin-top:6px"></div></div></div>`;
+  $("#results").innerHTML = `<p class="status"><span class="spin" aria-hidden="true"></span>${STATIC ? "Loading this week's deals…" : "Gathering this week's ads and today's deal posts… A city's first search can take up to a minute."}</p><div class="grid" aria-hidden="true">${card.repeat(8)}</div>`;
   $("#sr").textContent = "Searching.";
 }
 
@@ -1580,9 +1861,29 @@ async function shareCard() {
   }
 }
 
-/* The picture: 1,080 px wide, a header in the brand color, one row per deal, and a footer. */
+/* The picture: 1,080 px wide, a header in the brand gradient, one row per deal, and a footer. */
 const CARD_W = 1080, CARD_PAD = 40, CARD_ROW = 250, CARD_GAP = 20, CARD_HEAD = 236, CARD_FOOT = 128;
-const TAG_PATH = "M4.5 7A2.5 2.5 0 0 1 7 4.5h8.9c.66 0 1.3.26 1.77.73l9.6 9.6a2.5 2.5 0 0 1 0 3.54l-8.9 8.9a2.5 2.5 0 0 1-3.54 0l-9.6-9.6A2.5 2.5 0 0 1 4.5 15.9z";
+// The logo as the page draws it (viewBox 0 6 120 52): the letters' strokes, and the drop with its tag hole.
+const LOGO_STROKES = ["M15.95 25.06A6 4.625 0 1 0 10.75 32A6 4.625 0 1 1 5.55 38.94", "M26 10.75V41.25",
+  "M63.5 41.25V28.75A6 6 0 0 1 75.5 28.75V41.25M75.5 28.75A6 6 0 0 1 87.5 28.75V41.25", "M97 22.75V53.25",
+  "M115.5 32A9.25 9.25 0 1 1 97 32A9.25 9.25 0 1 1 115.5 32Z"];
+const LOGO_DROP = "M44.75 8.63C49.17 14.95 56.75 23.16 56.75 32A12 12 0 1 1 32.75 32C32.75 23.16 40.33 14.95 44.75 8.63ZM41.47 21.26a3.28 3.28 0 1 0 6.56 0a3.28 3.28 0 1 0-6.56 0Z";
+const brandGradient = (g, x, y, w, h) => {
+  const gr = g.createLinearGradient(x, y, x + w, y + h);
+  gr.addColorStop(0, "#b13f91"); gr.addColorStop(1, "#6e2459");
+  return gr;
+};
+
+function drawLogo(g, x, y, height, color) {
+  const k = height / 52;
+  g.save();
+  g.translate(x, y); g.scale(k, k); g.translate(0, -6);
+  g.strokeStyle = color; g.lineWidth = 5.5; g.lineCap = "round"; g.lineJoin = "round";
+  for (const d of LOGO_STROKES) g.stroke(new Path2D(d));
+  g.fillStyle = color;
+  g.fill(new Path2D(LOGO_DROP), "evenodd");
+  g.restore();
+}
 
 async function drawCard(c) {
   const items = c.items, font = getComputedStyle(document.body).fontFamily;
@@ -1593,23 +1894,14 @@ async function drawCard(c) {
   canvas.height = h;
   const g = canvas.getContext("2d");
   g.textBaseline = "alphabetic";
-  g.fillStyle = "#faf7f9";                             // JPG has no transparency: every pixel gets a color
+  g.fillStyle = "#fbf8fa";                             // JPG has no transparency: every pixel gets a color
   g.fillRect(0, 0, CARD_W, h);
 
-  // Header: the tag mark, "My deals", the day and where.
-  g.fillStyle = "#7b2d64";
+  // Header: the logo, "My deals", the day and where.
+  g.fillStyle = brandGradient(g, 0, 0, CARD_W, CARD_HEAD);
   g.fillRect(0, 0, CARD_W, CARD_HEAD);
-  g.save();
-  g.translate(CARD_PAD, 38);
-  g.scale(52 / 32, 52 / 32);
+  drawLogo(g, CARD_PAD, 30, 58, "#fff");
   g.fillStyle = "#fff";
-  g.fill(new Path2D(TAG_PATH));
-  g.fillStyle = "#7b2d64";
-  g.beginPath(); g.arc(10.6, 10.6, 2.3, 0, Math.PI * 2); g.fill();
-  g.restore();
-  g.fillStyle = "#fff";
-  g.font = f(750, 36);
-  g.fillText("Slomp", CARD_PAD + 66, 78);
   g.font = f(750, 62);
   g.fillText("My deals", CARD_PAD, 160);
   const cities = [...new Set(items.map(x => x.city).filter(Boolean))];
@@ -1624,10 +1916,10 @@ async function drawCard(c) {
   // Footer: where it came from.
   const site = STATIC ? (location.host + location.pathname).replace(/\/(index\.html)?$/, "") : "";
   g.textAlign = "center";
-  g.fillStyle = "#6d6370";
+  g.fillStyle = "#675e6b";
   g.font = f(600, 28);
   g.fillText(`Found with Slomp${site ? " · " + site : ""}`, CARD_W / 2, h - 76);
-  g.fillStyle = "#978d99";
+  g.fillStyle = "#978d9b";
   g.font = f(400, 23);
   g.fillText("Prices are what the stores and deal sites published. Check before you go.", CARD_W / 2, h - 38);
   g.textAlign = "left";
@@ -1638,16 +1930,16 @@ function drawRow(g, f, x, picture, left, top) {
   const width = CARD_W - 2 * left, tile = 196, tx = left + 26, ty = top + (CARD_ROW - tile) / 2;
   roundRect(g, left, top, width, CARD_ROW, 26);
   g.fillStyle = "#fff"; g.fill();
-  g.strokeStyle = "#ece5ea"; g.lineWidth = 2; g.stroke();
+  g.strokeStyle = "#eee7ec"; g.lineWidth = 2; g.stroke();
 
   // The picture tile, light in any theme, with the badge on it.
   roundRect(g, tx, ty, tile, tile, 20);
-  g.fillStyle = "#f5f1f4"; g.fill();
+  g.fillStyle = "#f6f2f5"; g.fill();
   if (picture) drawPicture(g, picture, x, tx, ty, tile);
   else {
     g.font = `92px ${getComputedStyle(document.body).fontFamily}`;
     g.textAlign = "center";
-    g.fillStyle = "#211a20";
+    g.fillStyle = "#1f1a21";
     g.fillText(x.icon || "🏷️", tx + tile / 2, ty + tile / 2 + 32);
     g.textAlign = "left";
   }
@@ -1655,9 +1947,9 @@ function drawRow(g, f, x, picture, left, top) {
     g.font = f(750, 25);
     const bw = g.measureText(x.badge).width + 26, bx = tx + 10, by = ty + 10;
     roundRect(g, bx, by, bw, 42, 21);
-    g.fillStyle = x.soft ? "#fff" : "#7b2d64"; g.fill();
-    if (x.soft) { g.strokeStyle = "#7b2d64"; g.lineWidth = 2; g.stroke(); }
-    g.fillStyle = x.soft ? "#6a2456" : "#fff";
+    g.fillStyle = x.soft ? "#fff" : brandGradient(g, bx, by, bw, 42); g.fill();
+    if (x.soft) { g.strokeStyle = "#8a2c72"; g.lineWidth = 2.5; g.stroke(); }
+    g.fillStyle = x.soft ? "#7a2765" : "#fff";
     g.fillText(x.badge, bx + 13, by + 30);
   }
 
@@ -1665,26 +1957,26 @@ function drawRow(g, f, x, picture, left, top) {
   const tx2 = tx + tile + 30, tw = left + width - 28 - tx2;
   let y = top + 58;
   g.font = f(700, 28);
-  g.fillStyle = "#211a20";
+  g.fillStyle = "#1f1a21";
   const who = fitText(g, x.merchant, tw * 0.6);
   g.fillText(who, tx2, y);
   const ww = g.measureText(who).width;
   g.font = f(500, 26);
-  g.fillStyle = "#6d6370";
+  g.fillStyle = "#675e6b";
   g.fillText(fitText(g, ` · ${x.where}`, tw - ww), tx2 + ww, y);
   g.font = f(650, 32);
-  g.fillStyle = "#211a20";
+  g.fillStyle = "#1f1a21";
   for (const line of wrapText(g, x.title, tw, x.price ? 2 : 3)) { y += 42; g.fillText(line, tx2, y); }
   if (x.price) {
     y += 54;
     g.font = f(800, 40);
-    g.fillStyle = "#211a20";
+    g.fillStyle = "#1f1a21";
     const main = fitText(g, x.price, tw);
     g.fillText(main, tx2, y);
     let px = tx2 + g.measureText(main).width + 16;
     if (x.was) {
       g.font = f(500, 28);
-      g.fillStyle = "#978d99";
+      g.fillStyle = "#978d9b";
       g.fillText(x.was, px, y);
       const sw = g.measureText(x.was).width;
       g.fillRect(px, y - 10, sw, 2.5);                 // struck through, like the page
@@ -1692,14 +1984,14 @@ function drawRow(g, f, x, picture, left, top) {
     }
     if (x.note && px < tx2 + tw - 60) {
       g.font = f(500, 26);
-      g.fillStyle = "#6d6370";
+      g.fillStyle = "#675e6b";
       g.fillText(fitText(g, x.note, tx2 + tw - px), px, y);
     }
   }
   if (x.when) {
     y += 42;
     g.font = f(x.urgent ? 650 : 500, 26);
-    g.fillStyle = x.urgent ? "#b42318" : "#6d6370";
+    g.fillStyle = x.urgent ? "#c2410c" : "#675e6b";
     g.fillText(fitText(g, x.when, tw), tx2, y);
   }
 }

@@ -20,7 +20,7 @@ One picture, 1,080 px wide (the width most apps show at full size), drawn on a c
 
 ```
 ┌───────────────────────────────────────────────┐
-│ ◆ Slomp   My deals · Tuesday, October 6        │   header in the brand color
+│ sl●mp     My deals · Tuesday, October 6        │   header in the brand gradient, with the logo
 │           near Austin, TX                      │
 ├───────────────────────────────────────────────┤
 │ ┌──────┐  Walgreens · 1.2 mi from Austin       │
