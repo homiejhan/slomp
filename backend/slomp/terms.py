@@ -318,9 +318,17 @@ def summarize(t: Terms) -> str:
 
 
 # --- online deal posts -------------------------------------------------------------------------------------------
-_PRICE_IN_TITLE = re.compile(r"(?<![\w$])" + _MONEY + r"(?!\s?(?:off|credit|gift|reward|bonus|cash back)\b)", re.I)
+# A price, not a saving or an order size: "$199 off" is no price at all (and never "$19"), nor "$50 discount",
+# "$1,100 under the Pro model", "save $30", "free shipping w/ $35", "$10 off $30", "spend $9" or "on $49+".
+# 9to5Toys titles put the saving first: "... live again at $199 off".
+_PRICE_IN_TITLE = re.compile(r"(?<![\w$])(?<!\bsave )(?<!\bsaves )(?<!\bsaving )(?<!w/ )(?<!w/)(?<!\boff )(?<!\bspend )"
+                             + _MONEY +
+                             r"(?![\d,.]*\d)(?!\+)(?!\s?(?:off|credit|gift|reward|bonus|cash back|discount|savings?|less|"
+                             r"under|below|cheaper|lower|or more)\b)", re.I)
+_CENTS_IN_TITLE = re.compile(r"(?<![\w$.])(\d{1,2})\s?(?:¢|cents?\b)(?!\s?(?:off|per|a gallon)\b)", re.I)  # "Only 49¢"
+# "Deals at Woot" is many products; "Clearance deal on Apple Watch Ultra 3" (9to5Toys) is one.
 _STOREWIDE = re.compile(r"\bup to \d{1,3}%|\b\d{1,3}% off (?:sitewide|storewide|everything|all|select|orders?)\b|"
-                        r"\bsale\b.*\bup to\b|\bdeals? (?:at|on|from)\b|\bextra \d{1,3}% off\b|\bsitewide\b|"
+                        r"\bsale\b.*\bup to\b|\bdeals (?:at|on|from)\b|\bextra \d{1,3}% off\b|\bsitewide\b|"
                         r"\bstorewide\b|\bextra \d{1,3}%|\b\d{1,3}% to \d{1,3}% off\b|\b(?:clearance|outlet) (?:sale|event|deals)\b|\bsale for from\b|\bgiveaway\b|\bsale event\b|\b\d+% off \$|"
                         r"\$\d+ off \$\d+|\bspend \$\d+|\bbuy \$\d+,? (?:get|save)\b|\bgift cards?\b|"
                         r"\bmembership\b|\bsubscriptions?\b|\bcredit card\b|\bbonus\b", re.I)
@@ -336,6 +344,12 @@ _DN_SAVINGS = re.compile(r"that'?s (?:a |an )?" + _MONEY + r" (?:savings|saving)
 _DN_OFF = re.compile(r"that'?s " + _MONEY + r" off\b", re.I)
 _DN_FROM_TO = re.compile(r"(?:drops?|cuts?|lowers?|reduces?|marked down|discounted) (?:it |this |the price )?"
                          r"(?:from |by )?" + _MONEY + r" to " + _MONEY, re.I)
+# 9to5Toys' words for the store's usual price: "This one normally fetches $37", "down from the usual $70 price tag",
+# "Regularly fetching $399".
+_USUAL = re.compile(r"\b(?:normally|usually|typically|regularly)\s+(?:fetch(?:es|ing)|sells?\s+for|selling\s+for|goes\s+for|"
+                    r"going\s+for|priced\s+at|costs?|runs?|lists?\s+(?:for|at))\s+(?:around\s+|about\s+|closer\s+to\s+)?"
+                    + _MONEY + r"|\bdown\s+from\s+(?:the\s+|its\s+|a\s+)?(?:usual|regular|normal|typical|going)?\s*"
+                    r"(?:price\s+(?:of\s+|tag\s+of\s+)?|rate\s+of\s+)?" + _MONEY, re.I)
 _DN_HISTORY = re.compile(r"best price (?:\w+ ){0,3}(?:has charged|we've seen|ever)|lowest price (?:we've seen|ever)|"
                          r"all-time low|best-ever price", re.I)
 # Slickdeals descriptions: "Amazon has X for $12.99 - 10% when you clip the coupon ... = $11.05"
@@ -346,8 +360,9 @@ _SD_CODE = re.compile(r"\bfor \*?" + _MONEY + r"\*?[^.$]{0,120}?(?:promo code|co
 
 def title_price(title: str) -> tuple[Optional[float], str]:
     """The deal price in a post title, and a hedge if the title gives several prices or '& more'."""
-    prices = [money(m.group(1)) for m in _PRICE_IN_TITLE.finditer(title)]
-    prices = [p for p in prices if p]
+    found = [(m.start(), money(m.group(1))) for m in _PRICE_IN_TITLE.finditer(title)] + \
+        [(m.start(), round(int(m.group(1)) / 100, 2)) for m in _CENTS_IN_TITLE.finditer(title)]
+    prices = [p for _, p in sorted(found) if p]
     if not prices:
         return None, ""
     hedge = hedge_of(title)
@@ -391,6 +406,10 @@ def post_reference(desc: str, price: Optional[float]) -> tuple[Optional[float], 
     m = _REG.search(text)
     if m and money(m.group(1)) and money(m.group(1)) > price:
         return money(m.group(1)), "store_regular", sentence(m)
+    m = _USUAL.search(text)
+    usual = money(m.group(1) or m.group(2)) if m else None
+    if usual and usual > price:
+        return usual, "store_regular", sentence(m)
     m = _DN_LOW.search(text)
     if m and money(m.group(1)):
         return round(price + money(m.group(1)), 2), "history", sentence(m)

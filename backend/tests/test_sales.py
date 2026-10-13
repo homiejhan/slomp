@@ -349,3 +349,51 @@ def test_several_items_priced_in_whole_dollars_are_a_sale():
              "Amazon where Prime members can score deals on Baublebar jewelry! Earrings Only $12 shipped (reg. $44)! "
              "Charm Necklace Only $15 shipped (reg. $48)!", source="hip2save", deal_type="")
     assert not_a_sale(p, parse_offer(p.title)) == ""
+
+
+# --- the manual comparison of Oct 13, 2026 --------------------------------------------------------------------------
+# What a manual, cross-checked search of that week's sales showed Slomp missing (docs/VERIFICATION.md). The dealnews
+# titles are as the posts' URLs give them; the rest are written the way the deal sites write theirs.
+def test_a_code_after_a_capitalized_cue_is_read():
+    # Slickdeals and Hip2Save write "w/ Code", "Promo Code"; only "code" was read, so these codes were lost
+    assert code_of("Lands' End: 50% Off Sitewide + Extra 65% Off Sale & Clearance w/ Code HAYRIDE50", "",
+                   store_named("Lands' End"))[0] == "HAYRIDE50"
+    assert code_of("Extra $10 Off $50 Kohl's Home Purchase w/ Promo Code 10HOME", "", store_named("Kohl's"))[0] == "10HOME"
+    assert code_of("Nike: Extra 25% Off Sale Styles", "Use Code: EXTRA25 at checkout.", store_named("Nike"))[0] == "EXTRA25"
+    # ...and the capitals around it are still not codes
+    assert code_of("Kohl's: Extra 30% Off w/ Promo Code TODAY ONLY", "", store_named("Kohl's"))[0] == ""
+    assert code_of("Gap: 40% Off w/ Code At Checkout", "", store_named("Gap"))[0] == ""
+
+
+def test_instant_credits_and_savings_are_dollars_off():
+    assert offer("Samsung Monitor Deals: Up to $150 in instant credits + free shipping") == \
+        ("Up to $150 off", "Up to $150", True)
+    assert offer("LG OLED TV Sale: $500 instant savings") == ("$500 off", "$500 off", True)
+    assert offer("Samsung TV Deals: Save up to $1,000 + free shipping") == ("Up to $1,000 off", "Up to $1,000", True)
+    o = parse_offer("Samsung Monitor Deals: Up to $150 in instant credits + free shipping")
+    assert not_a_sale(post("Samsung Monitor Deals: Up to $150 in instant credits + free shipping", seller="Samsung"), o) == ""
+
+
+def test_a_sale_named_for_a_holiday_is_the_whole_stores():
+    # "Columbus Day" read as goods left the sale without an industry when the post's category named none
+    s = StoreSales(None, None).sale(post("Macy's Columbus Day Sale: Up to 60% off + extra 20% off w/ code + free shipping",
+                                         seller="Macy's"), NOW, Counter())
+    assert s is not None and s.industries and set(s.industries) <= set(store_named("Macy's").sells)
+
+
+def test_this_weeks_dealnews_sales_keep_their_ends_and_codes():
+    now = datetime(2026, 10, 13, 18, 0, tzinfo=CT)
+    posted = datetime(2026, 10, 12, 8, 0, tzinfo=CT)
+    cases = [
+        ("Wayfair Holiday Deal Week Sale: Up to 80% off + free shipping w/ $35", "Wayfair", "Home & Garden",
+         "This deal ends October 18.", "Up to 80% off", "", "2026-10-18"),
+        ("adidas Fall Favorites Sale: Up to 50% off + extra 30% off + Free shipping", "adidas", "Clothing & Accessories",
+         'Coupon code "FALL" takes an extra 30% off eligible items. This deal ends October 19.',
+         "Up to 50% off + extra 30% off", "FALL", "2026-10-19"),
+        ("Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off + free shipping", "Michael Kors",
+         "Clothing & Accessories", 'Coupon code "EXTRA10" takes an extra 10% off. This deal ends October 15.',
+         "Up to 85% off + extra 10% off", "EXTRA10", "2026-10-15"),
+    ]
+    for title, seller, cat, text, want, code, end in cases:
+        s = StoreSales(None, None).sale(post(title, text, seller=seller, category=cat, posted=posted), now, Counter())
+        assert (s.offer, s.code, s.ends_at.date().isoformat()) == (want, code, end), title

@@ -32,6 +32,11 @@ MAX_AGE = timedelta(hours=72)        # a post older than this is stale unless it
 COMPARE_PER_INDUSTRY = 10            # cross-site lookups for the leading candidates in each industry
 MIN_MARKET_SITES = 2                 # other sites needed before "vs other stores" becomes the discount basis
 PER_SELLER_CAP = 5                   # the most deals one seller can hold in an industry's list
+# Hip2Save's drugstore scenarios: several products bought in a store, paid partly in rewards to spend there later
+# ("WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards" was shown under Beauty in three runs, Oct 5, 2026).
+_REWARDS_SCENARIO = re.compile(r"\bafter (?:(?:cvs|walgreens|rite aid)\s+)?(?:extra ?bucks|extracare|register rewards|"
+                               r"(?:store )?rewards?|walgreens cash)\b|\b(?:over|more than)\s+\$\s?\d[\d,]*(?:\.\d\d)?\s+"
+                               r"(?:worth\s+)?of\b|\$\s?\d[\d,]*(?:\.\d\d)?\s+worth\s+of\b", re.I)
 
 
 @dataclass
@@ -181,6 +186,9 @@ class OnlineDeals:
     def _deal(self, p: Post, now: datetime, res: OnlineResult) -> Optional[OnlineDeal]:
         if p.deal_type == "sale" or is_storewide(p.title):
             res.excluded["storewide sale or many products"] += 1
+            return None
+        if _REWARDS_SCENARIO.search(p.title):
+            res.excluded["an in-store rewards scenario or a bundle of products"] += 1
             return None
         if p.expires_stated and p.expires_at and p.expires_at < now:
             res.excluded["expired"] += 1

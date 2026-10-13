@@ -305,11 +305,20 @@ def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> li
     return out
 
 
+# 9to5Toys titles state the saving after the price: "... at $119 (40% off)", "plunges to $20 (Save 46%)",
+# "hits new $243 2026 low ($107 off)".
+_9TO5_PCT = re.compile(r"\((?:save\s+)?(\d{1,2})\s?%(?:\s+off)?\)", re.I)
+_9TO5_OFF = re.compile(r"\(\$\s?(\d[\d,]*(?:\.\d{1,2})?)\s+off\)", re.I)
+
+
 def parse_9to5toys(xml_bytes: bytes, feed: str, industries: list[str]) -> list[Post]:
     out = []
     for it in _items(xml_bytes):
         title = clean(it.findtext("title"))
         rm = _REG_TITLE.search(title)
+        pm, om = _9TO5_PCT.search(title), _9TO5_OFF.search(title)
+        tprice = title_price(title)[0]
+        reference = money(rm.group(1)) if rm else (round(tprice + money(om.group(1)), 2) if om and tprice else None)
         text = _plain(it.findtext("description"))
         sm = (re.search(r"\b(?:via|at|on) (Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay)\b", title)
               or re.search(r"\b(Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay|Wellbots|Anker)"
@@ -317,7 +326,8 @@ def parse_9to5toys(xml_bytes: bytes, feed: str, industries: list[str]) -> list[P
               or re.search(r"\b(?:via|at|on) (Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay)\b", text))
         out.append(Post(source="9to5toys", id=f"9to5toys:{clean(it.findtext('{com-wordpress:feed-additions:1}post-id')) or clean(it.findtext('link'))}",
                         url=clean(it.findtext("link")), title=title, text=text,
-                        posted_at=_when(it.findtext("pubDate")), reference=money(rm.group(1)) if rm else None,
+                        posted_at=_when(it.findtext("pubDate")), reference=reference,
+                        pct_stated=float(pm.group(1)) if pm and not reference else None,
                         seller=sm.group(1) if sm else "", feeds=[feed], feed_industries=list(industries),
                         image=re.sub(r"([?&]w=)\d{4}\b", r"\g<1>600", _image(it.findtext("description")))))
     return out
