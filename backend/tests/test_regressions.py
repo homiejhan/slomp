@@ -1,12 +1,14 @@
 """One test per bug the live verification found. The comment on each names the iteration and the failing test."""
 import socket
+from datetime import datetime, timezone
 
 import pytest
 
 from slomp import cli, industries as ind
 from slomp.identity import identify, model_query
-from slomp.online import exact_price, multi_qty
-from slomp.terms import ad_terms, bogo_of, conditions_of
+from slomp.online import OnlineDeals, OnlineResult, exact_price, multi_qty
+from slomp.sources.feeds import Post, parse_9to5toys
+from slomp.terms import ad_terms, bogo_of, conditions_of, post_reference, title_price
 
 
 def test_it01_headline_percent_is_not_turned_into_a_regular_price():
@@ -336,3 +338,69 @@ def test_robots_rules_addressed_to_ai_assistants_are_seen(tmp_path):
     assert ask("https://zoo.test/plan-a-visit") == (True, True)       # Slomp may read it; an AI assistant may not
     assert ask("https://open.test/deals") == (True, False)            # only another company's bot is named
     assert ask("https://shut.test/deals") == (False, False)           # closed to everyone: the ordinary rule covers it
+
+
+# --- the manual comparison of Oct 13, 2026 ---------------------------------------------------------------------------
+def test_oct13_a_saving_in_a_title_is_not_its_price():
+    # "$199 off" was read as a $19 price, and "$1,100 under the Pro model" as the price
+    assert title_price("Clearance deal on Black Titanium Apple Watch Ultra 3 with Milanese Loop live again at $199 off")[0] is None
+    assert title_price("Segway’s more advanced GT3 electric superscooter at $1,100 under the Pro model, now at $1,400 low "
+                       "(Reg. $1,700)")[0] == 1400
+    assert title_price("Apple AirPods Pro 3 see $50 discount to $199")[0] == 199
+    assert title_price("Save $50 on Beats Studio Pro, now $199")[0] == 199
+    assert title_price("Colgate Toothpaste Only 49¢ at Walgreens (Reg. $5)")[0] == 0.49        # Hip2Save's style; not $5
+    assert title_price('Sony 65" TV for $1,299.99 + free shipping')[0] == 1299.99
+    # titles from the recorded runs: no price, where one was made up from a saving or an order size
+    assert title_price("Welax S3 Ergonomic Office Chair: $45 OFF + free shipping")[0] is None             # was $4
+    assert title_price("Official fall Prime Day AirPods deals now live at up to $120 off")[0] is None     # was $12
+    assert title_price("Macy's Star Deals Week: Up to 80% off + free shipping w/ $39")[0] is None         # was $39
+    assert title_price("Household Essentials at Amazon for $15 off $50 + free shipping")[0] is None
+    assert title_price("Fanatics Men's Speed Goes Pro Hoodie for $9 + free shipping w/ $49")[0] == 9
+    assert title_price("First Autoship Order: 50-Pk 0.5-Oz Catit Creamy Lickable Cat Treats (Salmon) $8.55 + Free S&H "
+                       "on $49+")[0] == 8.55
+
+
+def test_oct13_9to5toys_titles_state_the_saving():
+    def deal(title, text):
+        xml = (f"<rss><channel><item><title>{title}</title><link>https://9to5toys.com/2026/10/13/x/</link>"
+               f"<pubDate>Tue, 13 Oct 2026 14:00:00 +0000</pubDate><description>{text}</description></item></channel></rss>")
+        return OnlineDeals(None, None)._deal(parse_9to5toys(xml.encode(), "9to5toys", [])[0],
+                                             datetime(2026, 10, 13, 20, tzinfo=timezone.utc), OnlineResult(["tech"]))
+    d = deal("Nothing's 2026 Headphone (a) in black hit one of the lowest prices ever today at $119 (40% off)",
+             "Amazon is now offering the Nothing Headphone (a) for $119 shipped.")
+    assert (d.price, d.pct, d.basis) == (119.0, 40.0, "store_regular")
+    d = deal("New ORICO 8-in-1 45W USB-C Power Strip with tilted design plunges to $20 (Save 46%)",
+             "Amazon now offers the ORICO power strip for $19.99.")
+    assert d.pct == 46.0 and d.industries == ["tech"]
+    d = deal("Greenworks' 80V 20-inch cordless electric pole hedge trimmer hits new $243 2026 low ($107 off)",
+             "Amazon is now offering the Greenworks 80V pole hedge trimmer for $243 shipped.")
+    assert (d.price, d.reference_price) == (243.0, 350.0)
+
+
+def test_oct13_the_stores_usual_price_in_9to5toys_words():
+    assert post_reference("This one normally fetches $37 at Amazon.", 20.0)[:2] == (37.0, "store_regular")
+    assert post_reference("That's down from the usual $70 price tag.", 56.0)[:2] == (70.0, "store_regular")
+    assert post_reference("Regularly fetching $399, it's now $299.", 299.0)[:2] == (399.0, "store_regular")
+
+
+def test_oct13_a_drugstore_rewards_scenario_is_not_an_online_product():
+    # shown under Beauty in three runs: several products, paid partly in CVS rewards to spend in the store later
+    now = datetime(2026, 10, 13, 20, tzinfo=timezone.utc)
+    res = OnlineResult(["beauty"])
+    p = Post(source="hip2save", id="hip2save:1", url="https://hip2save.com/deals/cvs-best-digital-coupons/",
+             title="WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards", text="", posted_at=now,
+             reference=68.0, feed_industries=["beauty"])
+    assert OnlineDeals(None, None)._deal(p, now, res) is None
+    assert res.excluded["an in-store rewards scenario or a bundle of products"] == 1
+
+
+def test_oct13_thin_industries_keywords():
+    # car gear the keyword rules filed under Tech or Grocery, or nowhere
+    assert ind.from_text("iZEEKER 4K+1080P Wireless Dash Camera Front and Rear").industries == ["auto", "tech"]
+    assert ind.from_text("Febreze Car Air Freshener Vent Clips, Leather, 2-Count").industries == ["auto"]
+    assert ind.from_text("VEVOR Electric Winch 13500 lb w/ 92 ft synthetic rope").industries == ["auto"]
+    assert ind.from_text("Autel OBD2 Scanner").industries == ["auto"]
+    assert ind.from_text("Opti-Free Puremoist Multi-Purpose Disinfecting Solution with Lens Case, 2-Pack").industries[0] == "health"
+    assert ind.from_text("ORICO 8-in-1 45W USB-C Power Strip").industries == ["tech"]
+    assert ind.from_text("Chamberlain B4613T Smart Garage Door Opener").industries == ["home"]
+    assert ind.from_text("Glade Air Freshener Spray 6-pack").industries == ["grocery"]        # not every freshener is a car's

@@ -107,6 +107,10 @@ _EXTRA_PCT = re.compile(r"\b(?:extra|additional|add'?l\.?|another|take an extra)
 _PCT = re.compile(r"(?<![\d.$%])(\d{1,3})\s?%\s?off\b", re.I)
 _OFF = re.compile(r"(\bup\s?to\s+|\$\s?\d[\d,]*\s?(?:to|-|–)\s?)?\$\s?(\d[\d,]*(?:\.\d\d)?)\s?off\b(?:\s+(?:your\s+|an?\s+|orders?\s+(?:of\s+)?|"
                   r"purchases?\s+(?:of\s+)?|when you spend\s+|every\s+)?\$\s?(\d[\d,]*)\+?)?", re.I)
+# Dollars off said another way: "Up to $150 in instant credits", "$500 instant savings", "Save up to $200 on TVs".
+_OFF_SAID = re.compile(r"(\bup\s?to\s+)?\$\s?(\d[\d,]*(?:\.\d\d)?)\s+(?:in\s+)?instant\s+(?:savings|credits?|rebates?|discounts?)\b|"
+                       r"\bsave\s+(up\s?to\s+)?\$\s?(\d[\d,]*(?:\.\d\d)?)\b(?!\s?(?:off\b|\+|or more|when|with|w/|on orders?|"
+                       r"on your|on purchases?))", re.I)
 _SPEND = re.compile(r"\bspend\s+\$\s?(\d[\d,]*)\+?(?:\s+on\s+[^,$]{1,60})?,?\s+(?:and\s+)?(?:get|save|receive|take)\s+(?:an?\s+)?"
                     r"\$\s?(\d[\d,]*)(\s+off|\s+(?:[\w']+\s+){0,2}(?:gift ?cards?|gc|credit|cash|rewards?))?", re.I)
 _BUY_N_PCT = re.compile(r"\bbuy\s+(\d+)\+?(?:\s+or\s+more)?,?\s+(?:and\s+)?(?:get|save)\s+(\d{1,3})\s?%\s?off", re.I)
@@ -231,6 +235,11 @@ def parse_offer(title: str) -> Offer:
             if o.off is None or v > o.off:
                 o.off, o.off_upto = v, bool(m.group(1))
                 o.min_spend = float(m.group(3).replace(",", "")) if m.group(3) else None
+        if o.off is None:
+            for m in _OFF_SAID.finditer(t):
+                v = float((m.group(2) or m.group(4)).replace(",", ""))
+                if o.off is None or v > o.off:
+                    o.off, o.off_upto = v, bool(m.group(1) or m.group(3))
     for k in ("pct", "upto", "extra", "extra_upto"):
         v = getattr(o, k)
         if v is not None and not 0 < v < 100:
@@ -308,12 +317,17 @@ def rank_pct(o: Offer) -> Optional[float]:
 
 
 # --- the code, the conditions, shipping ---------------------------------------------------------------------------
-_CODE = re.compile(r"\b(?:promo|coupon|discount|offer|checkout|savings)?\s?codes?\s*(?:of\s+|:\s*|-\s*)?"
+# The cue is any case ("w/ Code SAVE50", "Promo Code FALL15" in Slickdeals' and Hip2Save's titles); an unquoted code
+# is still capitals and digits, so the words after a cue ("code at checkout") are not taken for one.
+_CODE = re.compile(r"\b(?i:(?:promo|coupon|discount|offer|checkout|savings)?\s?codes?)\s*(?i:of\s+|:\s*|-\s*)?"
                    r"(?:\"\s*([A-Za-z0-9][A-Za-z0-9_-]{2,23})\s*\"|'([A-Za-z0-9][A-Za-z0-9_-]{2,23})'|\*([A-Za-z0-9][A-Za-z0-9_-]{2,23})\*|"
                    r"\b([A-Z0-9][A-Z0-9_-]{3,23})\b)")
 _NOT_A_CODE = {"NEEDED", "REQUIRED", "REQUIRED.", "NONE", "AT", "THE", "AND", "FOR", "FREE", "SALE", "DEAL", "DEALS",
                "SHOP", "HERE", "BELOW", "ABOVE", "VALID", "ONLY", "APPLIED", "APPLY", "CHECKOUT", "ONLINE", "STORE",
-               "PRIME", "EXTRA", "OFF", "WITH", "USE", "THIS", "THAT", "YOUR", "WILL", "INSTANT", "SAVINGS"}
+               "PRIME", "EXTRA", "OFF", "WITH", "USE", "THIS", "THAT", "YOUR", "WILL", "INSTANT", "SAVINGS",
+               # the capitals deal sites shout in titles ("w/ Promo Code TODAY ONLY", "*HOT*")
+               "TODAY", "HOT", "RARE", "WOW", "NOW", "NEW", "BOGO", "ENDS", "LAST", "SCORE", "HURRY", "BONUS",
+               "EXCLUSIVE", "STACK", "STACKS", "PLUS", "SHIPPED", "SHIPPING"}
 
 
 _CARD = re.compile(r"\bcredit card\b|\bcard ?holders?\b|\bcard ?members?\b|\b(?:store|branded|rewards) (?:credit )?card\b",
@@ -542,6 +556,9 @@ _EVENT_WORDS = re.compile(
     r"shop|now|here|live|is|are|its|it's|score|save|grab|get|huge|rare|more|plus|wow|best|this|these|your|our|all|"
     r"on|at|for|with|w|via|instant|stackable|stacking|flash|weekly|sitewide|"
     r"january|february|march|april|may|june|july|august|september|october|november|december|"
+    # the holidays stores name sales after ("Macy's Columbus Day Sale" is the whole store's)
+    r"columbus|indigenous|peoples'?|veterans'?|independence|juneteenth|valentine'?s?|easter|mother'?s|father'?s|"
+    r"president'?s|patrick'?s|st|year'?s|cinco|mayo|earth|singles'?|boxing|"
     r"wootober|techtober|\d+(?:-day|-hour)?)\b", re.I)
 
 

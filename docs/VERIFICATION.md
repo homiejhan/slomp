@@ -4,7 +4,8 @@ Slomp is checked against the real sources, not against itself. Each iteration sa
 people, 3 with 20k–200k, 4 under 20k) and spreads all 13 industries across them. It runs Slomp the way a user would,
 then runs **200 live tests** that re-read each result from the source by a different route than the pipeline used.
 Regular deals, added on Oct 5, have their own plan and results in [their own section](#regular-deals) below, and so
-do online stores' sales, added on Oct 6 ([Online stores' sales](#online-stores-sales)).
+do online stores' sales, added on Oct 6 ([Online stores' sales](#online-stores-sales)). What Slomp misses, measured
+against a manual search on Oct 13, is at the end ([Against a manual search](#against-a-manual-search-oct-13)).
 
 Slomp was called Plum until Oct 5, 2026. The reports in `docs/verification/` from before the rename keep the old
 name, in field names such as `plum_industries` and in the User-Agent they record (`Plum/1.0`).
@@ -721,3 +722,70 @@ with an end). Result: **198 of 200**, none inconclusive. Every test passed excep
 same moment, the server's and the page's lists of sales matched in every field of every sale, with the same counts,
 left-out reasons and store list, in 24 of 24 searches (seed 7, during run 1) and 30 of 30 (seed 11, on the final code).
 
+## Against a manual search (Oct 13)
+
+The runs above check what Slomp shows. This one asks what it misses. For the week of Oct 13–20, 2026, four searches
+by hand looked for: online stores' sales, single-product online deals, Austin's weekly ads and restaurant promotions,
+and regular deals in Austin, Houston and Dallas. Each finding was cross-checked: the company's own page, or two
+independent dated sources. Two limits shaped the comparison:
+
+- **Slomp's sources were out of reach from the session that ran it** (its network allowed none of them, nor the
+  published site). So Slomp's side is the published site's build logs and the live runs above. The posts the manual
+  search found on Slomp's own sources were run through Slomp's own feed parsers and filters offline, before and after
+  this change ("replay").
+- **The search tool allowed 200 searches per session turn**, shared by the four searches, so each one stopped short
+  of its target: 3 sales verified both ways and 18 more from one source, 12 fresh single-product deals, 14 Austin
+  weekly ads with in-window dates, 5 regular deals missing from the curated list.
+
+Everything is in `docs/verification/manual-01.json`.
+
+**What Slomp fetched.** The site build of Oct 13, 21:53 UTC, read 421 live ads at all 303 anchors (52,578 items,
+9,202 deals), 142 sales at 42 online stores, 206 regular deals and 29 restaurant promotions. Online, it listed 10 Tech,
+6 Sports, 28 Fashion, 23 Home, 7 Beauty, 5 Health, 11 Grocery, 12 Toys, 8 Baby & Kids, 2 Pets, 2 Automotive and 7
+Office deals. Twelve company sites could not be read from GitHub's servers (a bot check on ten; two pages no longer
+state their deals). The builds of Oct 8, 10 and 12 were alike.
+
+**Accuracy.** The seven dealnews sales whose titles the manual search captured all went through Slomp's filters with
+the right store, offer, code and end date: Wayfair's Holiday Deal Week (to Oct 18), Best Buy's Open-Box Outlet Event,
+adidas' Fall Favorites (code FALL, to Oct 19), Michael Kors Outlet (EXTRA10, to Oct 15), Target's hair color and
+bedding deals, and Wayfair's outdoor furniture. So did Hip2Save's Kohl's clearance post, with its GET20 code. With the
+earlier runs' pass rates (98.4% for local and online deals, 97.5% for sales), what Slomp shows holds up. What it
+misses is the larger gap.
+
+**What Slomp misses, and why.**
+
+| Area | Found by hand, not by Slomp | Cause | Changed |
+|---|---|---|---|
+| Sales | Samsung's monitor sale (dealnews): "up to $150" in instant credits | Only "$X off" was read as dollars off; the post's title wasn't captured, so this is the wording Slomp was tested on | Yes: "$X in instant credits", "$X instant savings" and "save up to $X" count |
+| Sales | A code after a capitalised cue: "w/ Code", "Promo Code", "Use Code:" | The cue was read only in lower case. Slickdeals' and Hip2Save's titles capitalise it ("$5.98 w/ Code") | Yes. Capitals deal sites use for emphasis ("TODAY", "HOT") are still not codes |
+| Sales | Lands' End (HAYRIDE50), Anthropologie, Abercrombie, Skechers | Reported only by CNN Underscored, AOL or the store itself, not by the deal sites Slomp reads | No: by design (README, Limits) |
+| Sales | Nomad's 15% off for 9to5Toys readers | Nomad is not one of the 122 stores Slomp knows | No |
+| Online | 9to5Toys deals whose title states the saving ("$119 (40% off)", "$20 (Save 46%)", "$243 … ($107 off)") | The parser read only "(Reg. $X)"; with no reference price a deal is never ranked | Yes. The 9to5Toys wording for a usual price ("normally fetches $37", "down from the usual $70") is read too |
+| Online | Wrong prices from savings and order sizes | "$199 off" was read as a $19 price, "$45 OFF" as $4, "$1,100 under the Pro model" and "free shipping w/ $39" as prices. Of 1,315 titles in the recorded runs, 43 got a price that way, most of them store-wide sales the online list leaves out anyway | Yes: none of the 43 has a price now. A price in cents ("Only 49¢") is read too; the "Reg. $5" after it was taken instead |
+| Online | Car gear and other goods filed wrongly or nowhere | Of the products the search found, dash cams were Tech only, a car air freshener and contact-lens solution were Grocery, and a winch and a USB-C power strip had no industry, so they were dropped. Checking around them found the same for OBD2 scanners and garage door openers | Yes |
+| Online | Pets 2, Automotive 2, Health 5 | Mostly the sources: a lull after Prime Big Deal Days (Oct 6–7), most of the pet and auto posts the search found were store-wide sales, and DealCatcher, which had the most fresh pet and health items, states no reference price in its titles | No |
+| Weekly ads | Whole Foods' and Natural Grocers' weekly deals | Every other retailer the search found with an Austin ad this week, from H-E-B to Hobby Lobby, is in Slomp's merchant list; these two are not | No |
+| Weekly ads | Deals whose saving is stated only in the item's search record | 18,732 of 48,378 items (39%) had no item-search result on Oct 13, against 18–24% earlier in the week. New ads overlap last week's from Tuesday, and a search returns at most ~150 items per merchant. An item with no search result usually has no saving to show and is left out | No: needs live testing against Flipp (below) |
+| Restaurant promotions | National Dessert Day offers (McAlister's, Jason's Deli, Portillo's) | Found only in freebie roundups, unverified. Slomp reads three feeds (dealnews Restaurants, two Slickdeals searches) | No |
+| Regular deals | Santikos Super Tuesday ($5.99), Movie Tavern Value Tuesday ($6, DFW), ShowBiz discount Tuesdays, Denny's kids eat free (Tuesday, per its press release), Alamo Drafthouse BFD Tuesdays | Not in the curated list. Alamo's site turns Slomp away with a bot check (README) | No: each needs the company page's exact wording |
+
+None of the curated regular deals the search checked (AMC, Regal, Cinemark, Star Cinema Grill, Luby's) was
+outdated.
+
+**Quality: one thing Slomp showed that it should not.** Hip2Save's "WOW! Over $68 of Beauty Products Just $4.52 After
+CVS Rewards" was in Online › Beauty in runs 10–12 (Oct 5). It is a plan for buying several products in a store, paid back in
+rewards to spend there later, not one product's online price. Every test passed it because the post was up. Posts
+priced "after" a drugstore's rewards, and "over $X of" bundles, are now left out of the online list.
+
+**Replay of the manual search's posts.** 20 posts whose titles were captured word for word (9 sales, 11 online
+deals): Slomp kept 9 before this change and 12 after. Nothing it kept before is lost. The online posts were run on
+their titles alone, since their feed descriptions weren't seen, so the Slickdeals ones show no reference price here.
+
+**What would close the remaining gaps.**
+
+- **Weekly ads.** Read the full item record for items no search returned. It costs one request per item: about 19,000
+  on Oct 13, or 80 minutes at Flipp's 4 requests a second. A cap per build, with item records kept for the life of
+  their ad, would spread the cost over the week.
+- **Restaurant promotions.** Add a third source of dated restaurant posts, and check it the way the regular deals'
+  roundups are checked.
+- **Regular deals.** Add the five deals above from the companies' own pages, with their Texas branches.

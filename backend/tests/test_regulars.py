@@ -533,9 +533,9 @@ def test_phrases_must_sit_close_together():
 
 
 class FakeHttp:
-    """Serves canned pages; a URL mapped to an exception raises it."""
+    """Serves canned pages; a URL mapped to an exception raises it. `clock` pins the moment a read is made."""
     def __init__(self, pages):
-        self.pages, self.calls, self.away = pages, [], set()
+        self.pages, self.calls, self.away, self.clock = pages, [], set(), None
 
     async def turns_away_ai(self, url):
         return url in self.away
@@ -547,7 +547,7 @@ class FakeHttp:
             page = page.pop(0) if len(page) > 1 else page[0]
         if isinstance(page, Exception):
             raise page
-        return Response(url, url, 200, "text/html", page.encode(), time.time())
+        return Response(url, url, 200, "text/html", page.encode(), self.clock or time.time())
 
 
 def make(tmp_path, pages, entries=(), mine=()):
@@ -618,6 +618,7 @@ def test_a_coupons_expiry_on_its_page_is_the_deals_last_day(tmp_path):
 def test_an_unreadable_page_falls_back_on_the_last_good_read_for_a_week(tmp_path):
     reg = make(tmp_path, {URL: PAGE})
     now = datetime(2026, 10, 5, 12, tzinfo=ZoneInfo("America/Chicago"))
+    reg.http.clock = now.timestamp()                 # the good read is made at `now`, whatever today's date is
     asyncio.run(reg.check(SPEC, now=now))
     reg.http.pages[URL] = Blocked(URL, "the site served a bot check instead of the page", 403)
     ev = asyncio.run(reg.check(SPEC, now=now + timedelta(days=2)))

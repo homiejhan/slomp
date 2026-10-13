@@ -1,0 +1,4055 @@
+{
+ "plan": "manual comparison",
+ "run_at": "2026-10-13T23:30:00-05:00",
+ "method": "Four searches by hand (web search only, each finding cross-checked: the company's own page, or two independent dated sources), for the week of Oct 13-20, 2026: online stores' sales, single-product online deals, Austin weekly ads and restaurant promotions, and regular deals in Austin, Houston and Dallas. Slomp's sources could not be read from the session that ran it (its network allowed none of them), so Slomp's side is the published site's build logs and the earlier live runs in this folder; the posts the manual search found on Slomp's own sources were run through Slomp's own feed parsers and filters offline, before and after this change ('replay'). The search tool's quota (200 searches per turn) ended each search short of its target.",
+ "slomp_builds": {
+  "source": "GitHub Actions logs of 'Publish the site' (slomp site build)",
+  "runs": {
+   "2026-10-08T12:07Z": {
+    "ads": 325,
+    "items": 41476,
+    "items_without_search_result": 9262,
+    "of_items": 37938,
+    "deals": 7944,
+    "store_sales": 172,
+    "sale_stores": 46,
+    "regulars": 206,
+    "promotions": 27,
+    "online": {
+     "tech": 13,
+     "sports": 4,
+     "fashion": 20,
+     "home": 19,
+     "beauty": 11,
+     "health": 10,
+     "grocery": 18,
+     "toys": 17,
+     "baby": 13,
+     "pets": 4,
+     "auto": 5,
+     "office": 6
+    }
+   },
+   "2026-10-10T16:17Z": {
+    "ads": 316,
+    "items": 41384,
+    "items_without_search_result": 9829,
+    "of_items": 37903,
+    "deals": 7764,
+    "store_sales": 165,
+    "sale_stores": 45,
+    "regulars": 205,
+    "promotions": 30,
+    "online": {
+     "tech": 15,
+     "sports": 5,
+     "fashion": 19,
+     "home": 17,
+     "beauty": 11,
+     "health": 7,
+     "grocery": 11,
+     "toys": 17,
+     "baby": 11,
+     "pets": 2,
+     "auto": 6,
+     "office": 6
+    }
+   },
+   "2026-10-12T13:20Z": {
+    "ads": 297,
+    "items": 36238,
+    "items_without_search_result": 5930,
+    "of_items": 33159,
+    "deals": 6605,
+    "store_sales": 149,
+    "sale_stores": 45,
+    "regulars": 206,
+    "promotions": 16,
+    "online": {
+     "tech": 15,
+     "sports": 3,
+     "fashion": 24,
+     "home": 23,
+     "beauty": 8,
+     "health": 3,
+     "grocery": 9,
+     "toys": 12,
+     "baby": 7,
+     "pets": 5,
+     "auto": 4,
+     "office": 5
+    }
+   },
+   "2026-10-13T21:53Z": {
+    "ads": 421,
+    "items": 52578,
+    "items_without_search_result": 18732,
+    "of_items": 48378,
+    "deals": 9202,
+    "store_sales": 142,
+    "sale_stores": 42,
+    "regulars": 206,
+    "promotions": 29,
+    "online": {
+     "tech": 10,
+     "sports": 6,
+     "fashion": 28,
+     "home": 23,
+     "beauty": 7,
+     "health": 5,
+     "grocery": 11,
+     "toys": 12,
+     "baby": 8,
+     "pets": 2,
+     "auto": 2,
+     "office": 7
+    },
+    "evidence_not_read": [
+     "goodwillcentraltexas.org (4 pages)",
+     "themodern.org (2)",
+     "cinemark.com",
+     "milehighonthecheap.com",
+     "starcinemagrill.net",
+     "regmovies.com",
+     "nashersculpturecenter.org",
+     "thehealthmuseum.org",
+     "mexic-artemuseum.org",
+     "amctheatres.com",
+     "bryanstreettavern.com (no longer says it)",
+     "pfchangs.com (no longer says it)"
+    ]
+   }
+  }
+ },
+ "manual": {
+  "sales_verified": [
+   {
+    "store": "Wayfair",
+    "industry": [
+     "home & garden"
+    ],
+    "offer": "Holiday Deal Week Sale: Up to 80% off",
+    "code": null,
+    "starts": "2026-10-13",
+    "ends": "2026-10-18",
+    "ends_text": "Tuesday, October 13 to Sunday, October 18, 2026 (SheKnows); Expires 10/18/2026 (dealnews)",
+    "conditions": [
+     "Only items marked 'Holiday Deal Week' are included",
+     "No code needed",
+     "Free shipping threshold $35 per dealnews post URL ('free-shipping-w-35')"
+    ],
+    "verified_by": "two sources",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Wayfair-Holiday-Deal-Week-Sale-Up-to-80-off-free-shipping-w-35/22279787.html",
+      "title_verbatim": "Wayfair Holiday Deal Week Sale: Up to 80% off"
+     },
+     {
+      "name": "SheKnows",
+      "url": "https://www.sheknows.com/living/articles/1235086804/wayfair-coupon-codes-discounts-deals-october-2026/",
+      "title_verbatim": "Wayfair Coupon Codes, Promos for October 2026, Including Holiday Deal Week Discounts Up to 70% Off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Wayfair Holiday Deal Week Sale: Up to 80% off",
+     "url": "https://www.dealnews.com/Wayfair-Holiday-Deal-Week-Sale-Up-to-80-off-free-shipping-w-35/22279787.html"
+    },
+    "notes": "Discount ceiling differs: dealnews says up to 80% off (includes Closeout section), SheKnows says up to 70% off holiday items (bedroom furniture up to 50%, area rugs up to 70%, Christmas trees up to 40%). dealnews also has category posts that appear to belong to the same event, both expiring 10/18/2026: 'Wayfair Outdoor Furniture Deals: Up to 50% off' (22279731) and 'Wayfair Living Room Seating Sale: Up to 60% off' (22279683). The earlier Wayfair 5 Days of Deals (Oct 5-9, 2026) has ended."
+   },
+   {
+    "store": "Kohl's",
+    "industry": [
+     "fashion & apparel",
+     "home & garden",
+     "beauty",
+     "toys"
+    ],
+    "offer": "GET20 extra 20% off your purchase (exp. 10/18)",
+    "code": "GET20",
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "exp. 10/18 (Hip2Save); expiring October 18, 2026 (Dealcatcher)",
+    "conditions": [
+     "Exclusions apply (per dealnews)",
+     "Free shipping on $49+ (dealnews post URL)",
+     "Hip2Save notes an in-store shopping pass option"
+    ],
+    "verified_by": "two sources",
+    "sources": [
+     {
+      "name": "Hip2Save",
+      "url": "https://hip2save.com/deals/kohls-clearance/",
+      "title_verbatim": "Up to 85% Off Kohl's Clearance (Styles from $1.87)"
+     },
+     {
+      "name": "Dealcatcher",
+      "url": "https://www.dealcatcher.com/deals/finance/credit-savings/kohls-exclusive-sale-event-422828",
+      "title_verbatim": "Kohls Exclusive Sale Event"
+     },
+     {
+      "name": "Kohl's (retailer coupons page)",
+      "url": "https://www.kohls.com/sale-event/todays-deals.jsp",
+      "title_verbatim": "Kohl's Coupons"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Kohls-Coupon-Deals-for-20-off-100-extra-20-off-free-shipping-w-49/22267550.html",
+      "title_verbatim": "Kohl's Coupon Deals: $20 off $100 + extra 20% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "Hip2Save",
+     "title_verbatim": "Up to 85% Off Kohl's Clearance (Styles from $1.87)",
+     "url": "https://hip2save.com/deals/kohls-clearance/"
+    },
+    "notes": "Two sources (Hip2Save, Dealcatcher) agree on Oct 18 end. Conflicts: the dealnews post (EXTRA20 $20 off $100 + GET20) listed both codes as expiring Oct 12, and the search summary of Kohl's own coupons page showed GET20 live on Oct 13 but described it as 'ending today'. Treat the Oct 18 end as likely but not retailer-confirmed. Hip2Save post was ~2 days old on Oct 13."
+   },
+   {
+    "store": "Kohl's",
+    "industry": [
+     "fashion & apparel",
+     "home & garden"
+    ],
+    "offer": "$10 Kohl's Cash for every $50 spent during the sale, redeemable October 9 through 18",
+    "code": null,
+    "starts": "2026-10-09",
+    "ends": "2026-10-18",
+    "ends_text": "redeemable October 9 through 18",
+    "conditions": [
+     "Only Kohl's Cash earned during Kohl's Deal Days (event ended Oct 8, 2026) can be redeemed",
+     "Not a new discount for shoppers who did not earn Kohl's Cash"
+    ],
+    "verified_by": "retailer",
+    "sources": [
+     {
+      "name": "Kohl's corporate newsroom (press release, Oct 2, 2026)",
+      "url": "https://corporate.kohls.com/",
+      "title_verbatim": "Kohl's Deal Days Event Brings Savings Up to 50% Off the Season's Favorites"
+     },
+     {
+      "name": "Hip2Save",
+      "url": "https://hip2save.com/deals/kohls-deal-days/",
+      "title_verbatim": "Don't Miss Kohl’s Today-Only Deals: Up to 60% Off w/ RARE Free Shipping"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Kohls-Deal-Days-Sale-Up-to-60-off-extra-25-off-free-shipping/22249306.html",
+      "title_verbatim": "Kohl's Deal Days Sale: Up to 60% off + extra 25% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "Hip2Save",
+     "title_verbatim": "Don't Miss Kohl’s Today-Only Deals: Up to 60% Off w/ RARE Free Shipping",
+     "url": "https://hip2save.com/deals/kohls-deal-days/"
+    },
+    "notes": "Borderline record: this is a reward-redemption window, not a sale open to everyone. Included because it is retailer-confirmed and active Oct 13-18; a benchmark may reasonably exclude it. The press release URL is the newsroom root (exact article URL not seen). The Deal Days sale itself (TAKE25) ended Oct 8."
+   }
+  ],
+  "sales_single_source": [
+   {
+    "store": "Best Buy",
+    "industry": [
+     "tech/electronics"
+    ],
+    "offer": "Best Buy Open-Box Outlet Event: Up to 60% off",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "This deal ends October 18 (dealnews)",
+    "conditions": [
+     "Open-box items; stock varies"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Best-Buy-Open-Box-Outlet-Event-Up-to-60-off-free-shipping/22274973.html",
+      "title_verbatim": "Best Buy Open-Box Outlet Event: Up to 60% off"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Open-Box-Apple-Outlet-Deals-at-Best-Buy-Up-to-60-off-free-shipping/22279915.html",
+      "title_verbatim": "Open Box Apple Outlet Deals at Best Buy: Up to 60% off"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Samsung-Open-Box-Electronics-Deals-at-Best-Buy-Up-to-60-off-free-shipping/22279917.html",
+      "title_verbatim": "Samsung Open-Box Electronics Deals at Best Buy: Up to 60% off"
+     },
+     {
+      "name": "GottaDEAL",
+      "url": "https://gottadeal.com/deals/best-buy-best-buy-outlet-event-up-to-85-off-clearance-open-box-and-refurbished-460415",
+      "title_verbatim": "Deal: Best Buy Outlet Event: Up to 85% off Clearance, Open-Box and Refurbished Items - GottaDEAL"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Best Buy Open-Box Outlet Event: Up to 60% off",
+     "url": "https://www.dealnews.com/Best-Buy-Open-Box-Outlet-Event-Up-to-60-off-free-shipping/22274973.html"
+    },
+    "notes": "GottaDEAL says the Outlet Event runs through October 26 (year not confirmed; a Clark Deals page with Oct 26 is from 2025). End dates conflict, so not verified."
+   },
+   {
+    "store": "adidas",
+    "industry": [
+     "sports & outdoors",
+     "fashion & apparel"
+    ],
+    "offer": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off",
+    "code": "FALL",
+    "starts": null,
+    "ends": "2026-10-19",
+    "ends_text": "This deal ends October 19 (dealnews body); Expires 10/20/2026 (dealnews metadata)",
+    "conditions": [
+     "Extra 30% off with code FALL on eligible items",
+     "Free shipping"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/adidas-Fall-Favorites-Sale-Up-to-50-off-extra-30-off-Free-shipping/22279528.html",
+      "title_verbatim": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/adidas-Mens-Shoe-Deals-for-Slides-from-13-sneakers-from-21-Free-shipping/22279630.html",
+      "title_verbatim": "adidas Men's Shoe Deals: Slides from $13, sneakers from $21"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/adidas-Polo-Shirt-Deals-Up-to-50-off-extra-30-off-Free-shipping/22279752.html",
+      "title_verbatim": "adidas Polo Shirt Deals: Up to 50% off + extra 30% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off",
+     "url": "https://www.dealnews.com/adidas-Fall-Favorites-Sale-Up-to-50-off-extra-30-off-Free-shipping/22279528.html"
+    },
+    "notes": "Only dealnews names code FALL with an Oct 19/20 end. Coupon pages (Who What Wear, Marie Claire) list a 30% adidas code for October 2026 without naming it or giving dates."
+   },
+   {
+    "store": "Skechers",
+    "industry": [
+     "fashion & apparel",
+     "sports & outdoors"
+    ],
+    "offer": "30% off bestsellers; Skechers Plus members 25% off non-sale items with code FALLSAVE",
+    "code": "FALLSAVE",
+    "starts": null,
+    "ends": "2026-10-20",
+    "ends_text": "The 30% off sale runs through Oct. 20",
+    "conditions": [
+     "FALLSAVE for Skechers Plus members (free to join), non-sale items"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "AOL Shopping",
+      "url": "https://www.aol.com/shopping/deals/article/skechers-is-running-a-massive-fall-sale-right-now--get-30-off-bestsellers-for-the-next-few-days-140804328.html",
+      "title_verbatim": null
+     }
+    ],
+    "deal_site_post": null,
+    "notes": "Article date not confirmed as 2026. Marie Claire coupon page instead lists 'up to 50% off sitewide' ending Oct 29, 2026 (inconsistent)."
+   },
+   {
+    "store": "Michael Kors Outlet",
+    "industry": [
+     "fashion & apparel"
+    ],
+    "offer": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off",
+    "code": "EXTRA10",
+    "starts": null,
+    "ends": "2026-10-15",
+    "ends_text": "The deal ends October 15 at 5:29am ET; Expires 10/15/2026",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Michael-Kors-Outlet-Extra-Savings-Sale-Up-to-85-off-extra-10-off-free-shipping/22280043.html",
+      "title_verbatim": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off",
+     "url": "https://www.dealnews.com/Michael-Kors-Outlet-Extra-Savings-Sale-Up-to-85-off-extra-10-off-free-shipping/22280043.html"
+    },
+    "notes": ""
+   },
+   {
+    "store": "Woot",
+    "industry": [
+     "tech/electronics",
+     "home & garden"
+    ],
+    "offer": "Warehouse Clean Out Part II: up to 79% off",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "this deal ends October 18",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews (search snippet; post title/URL not captured)",
+      "url": null,
+      "title_verbatim": null
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": null,
+     "url": null
+    },
+    "notes": "Seen only in a search summary of dealnews listings."
+   },
+   {
+    "store": "Costco",
+    "industry": [
+     "grocery & household",
+     "tech/electronics",
+     "home & garden"
+    ],
+    "offer": "Warehouse Savings event (appliances, electronics, grocery)",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "this deal ends October 18",
+    "conditions": [
+     "Costco membership required"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews (search snippet; post title/URL not captured)",
+      "url": null,
+      "title_verbatim": null
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": null,
+     "url": null
+    },
+    "notes": "Not in the priority store list. Seen only in a search summary."
+   },
+   {
+    "store": "Samsung",
+    "industry": [
+     "tech/electronics"
+    ],
+    "offer": "Instant credits up to $150 on select monitors (and memory)",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "this deal ends October 18",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews (search snippet; post title/URL not captured)",
+      "url": null,
+      "title_verbatim": null
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": null,
+     "url": null
+    },
+    "notes": ""
+   },
+   {
+    "store": "Target",
+    "industry": [
+     "beauty"
+    ],
+    "offer": "Target Hair Color & Extensions Deals: Up to 50% off",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-17",
+    "ends_text": "This deal is valid through October 17 (metadata says Expires 10/18/2026)",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Target-Hair-Color-Extensions-Deals-Up-to-50-off-free-shipping/22279947.html",
+      "title_verbatim": "Target Hair Color & Extensions Deals: Up to 50% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Target Hair Color & Extensions Deals: Up to 50% off",
+     "url": "https://www.dealnews.com/Target-Hair-Color-Extensions-Deals-Up-to-50-off-free-shipping/22279947.html"
+    },
+    "notes": "Probably Target's weekly-ad deals for Oct 11-17."
+   },
+   {
+    "store": "Target",
+    "industry": [
+     "home & garden"
+    ],
+    "offer": "Target Bedding Deals: Up to 50% off",
+    "code": null,
+    "starts": null,
+    "ends": null,
+    "ends_text": "Body says 'Deal ends October 13'; metadata says Expires 10/18/2026",
+    "conditions": [
+     "Free shipping on $35+"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Target-Bedding-Deals-Up-to-50-off-free-shipping-w-35/22280021.html",
+      "title_verbatim": "Target Bedding Deals: Up to 50% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Target Bedding Deals: Up to 50% off",
+     "url": "https://www.dealnews.com/Target-Bedding-Deals-Up-to-50-off-free-shipping-w-35/22280021.html"
+    },
+    "notes": "End date conflicts within the post."
+   },
+   {
+    "store": "Wayfair",
+    "industry": [
+     "home & garden"
+    ],
+    "offer": "Wayfair Outdoor Furniture Deals: Up to 50% off / Wayfair Living Room Seating Sale: Up to 60% off",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "Expires 10/18/2026",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Wayfair-Outdoor-Furniture-Deals-Up-to-50-off-free-shipping/22279731.html",
+      "title_verbatim": "Wayfair Outdoor Furniture Deals: Up to 50% off"
+     },
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Wayfair-Living-Room-Seating-Sale-Up-to-60-off-free-shipping/22279683.html",
+      "title_verbatim": "Wayfair Living Room Seating Sale: Up to 60% off"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Wayfair Outdoor Furniture Deals: Up to 50% off",
+     "url": "https://www.dealnews.com/Wayfair-Outdoor-Furniture-Deals-Up-to-50-off-free-shipping/22279731.html"
+    },
+    "notes": "Category slices of the verified Holiday Deal Week (see manual_sales.json)."
+   },
+   {
+    "store": "Kohl's",
+    "industry": [
+     "home & garden"
+    ],
+    "offer": "additional $10 off your $50+ purchase with promo code 10HOME",
+    "code": "10HOME",
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "through October 18th",
+    "conditions": [
+     "Home purchases of $50+"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "Hip2Save",
+      "url": "https://hip2save.com/deals/kohls-deal-days/",
+      "title_verbatim": "Don't Miss Kohl’s Today-Only Deals: Up to 60% Off w/ RARE Free Shipping"
+     }
+    ],
+    "deal_site_post": {
+     "site": "Hip2Save",
+     "title_verbatim": "Don't Miss Kohl’s Today-Only Deals: Up to 60% Off w/ RARE Free Shipping",
+     "url": "https://hip2save.com/deals/kohls-deal-days/"
+    },
+    "notes": ""
+   },
+   {
+    "store": "Kohl's",
+    "industry": [
+     "fashion & apparel",
+     "home & garden"
+    ],
+    "offer": "30% off for Kohl's Cardholders",
+    "code": null,
+    "starts": null,
+    "ends": "2026-10-18",
+    "ends_text": "Oct 18 (per search summary of Hip2Save and coupon sites)",
+    "conditions": [
+     "Kohl's Card required"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "Hip2Save",
+      "url": "https://hip2save.com/deals/kohls-30-off-cardholders/",
+      "title_verbatim": "New Kohl's 30% Off Cardholders Coupon + Earn Kohl's Cash Now!"
+     }
+    ],
+    "deal_site_post": {
+     "site": "Hip2Save",
+     "title_verbatim": "New Kohl's 30% Off Cardholders Coupon + Earn Kohl's Cash Now!",
+     "url": "https://hip2save.com/deals/kohls-30-off-cardholders/"
+    },
+    "notes": "Code not captured; post date not confirmed."
+   },
+   {
+    "store": "Giftcards.com",
+    "industry": [
+     "other"
+    ],
+    "offer": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+    "code": "10OFF",
+    "starts": null,
+    "ends": "2026-10-20",
+    "ends_text": "Expires 10/20/2026",
+    "conditions": [
+     "dealnews-exclusive"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "dealnews",
+      "url": "https://www.dealnews.com/Giftcards-com-Deal-News-Private-Sale-10-off-450-Brands/22274255.html",
+      "title_verbatim": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands"
+     }
+    ],
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+     "url": "https://www.dealnews.com/Giftcards-com-Deal-News-Private-Sale-10-off-450-Brands/22274255.html"
+    },
+    "notes": ""
+   },
+   {
+    "store": "Nomad",
+    "industry": [
+     "tech/electronics"
+    ],
+    "offer": "exclusive 15% off all Nomad iPhone 18 Pro cases",
+    "code": "9TO5MAC",
+    "starts": "2026-10-12",
+    "ends": null,
+    "ends_text": null,
+    "conditions": [
+     "Excludes iPhone Duo cases"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "9to5Toys",
+      "url": "https://9to5toys.com/2026/10/12/exclusive-nomad-iphone-18-pro-case-promo-code/",
+      "title_verbatim": "9to5 readers can score an exclusive 15% off all Nomad iPhone 18 Pro cases with this code"
+     }
+    ],
+    "deal_site_post": {
+     "site": "9to5Toys",
+     "title_verbatim": "9to5 readers can score an exclusive 15% off all Nomad iPhone 18 Pro cases with this code",
+     "url": "https://9to5toys.com/2026/10/12/exclusive-nomad-iphone-18-pro-case-promo-code/"
+    },
+    "notes": "Category promo code, no end date."
+   },
+   {
+    "store": "Lands' End",
+    "industry": [
+     "fashion & apparel"
+    ],
+    "offer": "Flock-to-it Sale takes 50% off sitewide plus an additional 65% off sale and clearance items with code HAYRIDE50",
+    "code": "HAYRIDE50",
+    "starts": null,
+    "ends": null,
+    "ends_text": "'set to end tonight' in a CNN piece dated Oct 12, so it may have ended Oct 12 or Oct 13",
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "CNN Underscored",
+      "url": "https://www.cnn.com/cnn-underscored/deals/lands-end-flock-to-it-sale-2026-10-12",
+      "title_verbatim": "Stock up on cold weather staples for up to 69% off at Lands’ End"
+     }
+    ],
+    "deal_site_post": null,
+    "notes": "Rakuten showed 'ENDS TOMORROW' on a 50%-off-sitewide offer with no date; CouponFollow listed code T50 instead."
+   },
+   {
+    "store": "Anthropologie",
+    "industry": [
+     "fashion & apparel",
+     "home & garden"
+    ],
+    "offer": "Feels Like Fall Sale takes up to 30% off seasonal fashion and home decor ... extra 50% off already-reduced clearance items",
+    "code": null,
+    "starts": null,
+    "ends": null,
+    "ends_text": null,
+    "conditions": [
+     "Extra 50% applies automatically at checkout"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "CNN Underscored",
+      "url": "https://www.cnn.com/cnn-underscored/deals/best-online-sales-right-now-2026-10-12",
+      "title_verbatim": "The best sales to shop this week: Lowe’s, Anthropologie, Abercrombie and more"
+     }
+    ],
+    "deal_site_post": null,
+    "notes": "No end date found. An undated AOL piece described a 48-hour extra 50% off sale around Prime Day."
+   },
+   {
+    "store": "Abercrombie & Fitch",
+    "industry": [
+     "fashion & apparel"
+    ],
+    "offer": "up to 30% off sweaters",
+    "code": null,
+    "starts": null,
+    "ends": null,
+    "ends_text": null,
+    "conditions": [],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "CNN Underscored",
+      "url": "https://www.cnn.com/cnn-underscored/deals/best-online-sales-right-now-2026-10-12",
+      "title_verbatim": "The best sales to shop this week: Lowe’s, Anthropologie, Abercrombie and more"
+     }
+    ],
+    "deal_site_post": null,
+    "notes": "No end date found."
+   },
+   {
+    "store": "eBay",
+    "industry": [
+     "tech/electronics",
+     "other"
+    ],
+    "offer": "FAVEFINDS20 for 20% off",
+    "code": "FAVEFINDS20",
+    "starts": null,
+    "ends": null,
+    "ends_text": "verified Oct. 13 per page",
+    "conditions": [
+     "Likely capped and limited to select categories (terms not seen)"
+    ],
+    "verified_by": "single source (unverified)",
+    "sources": [
+     {
+      "name": "Slickdeals (daily.slickdeals.net store page)",
+      "url": "https://daily.slickdeals.net/stores/ebay-coupons/",
+      "title_verbatim": "eBay Coupon Codes: 20% Off in October 2026"
+     }
+    ],
+    "deal_site_post": {
+     "site": "Slickdeals",
+     "title_verbatim": "eBay Coupon Codes: 20% Off in October 2026",
+     "url": "https://daily.slickdeals.net/stores/ebay-coupons/"
+    },
+    "notes": "Evergreen coupon page, not a dated deal post."
+   }
+  ],
+  "online": {
+   "generated": "2026-10-13",
+   "method": "WebSearch only (WebFetch to slickdeals.net failed: getaddrinfo ENOTFOUND). Search budget (200 calls shared across all agents in the turn) was exhausted after ~45 searches by this agent, so coverage is partial.",
+   "deals": [
+    {
+     "industry": "pets",
+     "product": "Woochpet 48\" Tropical Cat Tree Tower w/ Hammock, Condo & Scratching Posts (Green)",
+     "store": "Amazon (sold by Woochpet)",
+     "price": 27.59,
+     "reference_price": 56.99,
+     "reference_basis": "elsewhere",
+     "pct_off": 51.6,
+     "posted": "2026-10-11",
+     "ends": "2026-10-13",
+     "source": {
+      "site": "slickdeals.net",
+      "title_verbatim": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock & Condo (Green) $28",
+      "url": "https://slickdeals.net/f/20143380-48-woochpet-tropical-cat-tree-tower-w-hammock-condo-scratching-posts-green-27-59-free-shipping-w-prime-or-on-35"
+     },
+     "other_sources": [
+      {
+       "site": "dealcatcher.com",
+       "title_verbatim": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock, Condo & Scratching Posts - $27.59",
+       "url": "https://www.dealcatcher.com/deals/household/pets/woochpet-tropical-cat-tree-tower-condo-scratching-posts-424870"
+      },
+      {
+       "site": "dealigg.com",
+       "title_verbatim": "Best Deal: 48\" Woochpet Tropical Cat Tree Tower (Green)",
+       "url": "https://www.dealigg.com/story-48-Woochpet-Tropical-Cat-Tree-Tower-Green"
+      },
+      {
+       "site": "dealtikka.com",
+       "title_verbatim": "48″ Woochpet Tropical Cat Tree Tower (Green) - Deal Tikka",
+       "url": "https://www.dealtikka.com/48-woochpet-tropical-cat-tree-tower-green/"
+      }
+     ],
+     "verified": true,
+     "on_slomp_source": true,
+     "notes": "Slickdeals frontpage, found by UncleRobot Oct 11 2026 9:46 PM; Slickdeals shows $28 vs $57. $34.49 - $6.90 w/ code V8MDRIBC. DealCatcher: '$29.40 lower (52%) than next best price from a reputable merchant' -> elsewhere basis. Expires 2026-10-13 per DealCatcher."
+    },
+    {
+     "industry": "pets",
+     "product": "Greenies Pill Pockets Large (Capsule) Size Dog Treats, Chicken, 7.9 oz (30 ct)",
+     "store": "Amazon",
+     "price": 8.35,
+     "reference_price": 10.96,
+     "reference_basis": "list",
+     "pct_off": 23.8,
+     "posted": "2026-10-13",
+     "ends": null,
+     "source": {
+      "site": "dealcatcher.com",
+      "title_verbatim": "Greenies Pill Pockets Large Size Dog Treats, Chicken, 7.9 oz - $8.35",
+      "url": "https://www.dealcatcher.com/deals/household/pets/greenies-pill-pockets-large-size-dog-oz-425399"
+     },
+     "other_sources": [
+      {
+       "site": "amazon.com",
+       "title_verbatim": "Greenies Pill Pockets Large Size Dog Treats, Chicken, 7.9 oz",
+       "url": "https://www.amazon.com/Greenies-Pockets-Chicken-Capsule-30-Count/dp/B001BSBFUO",
+       "note": "Amazon listing shows List $10.96 and $7.91 w/ Subscribe & Save (not the $8.35 one-time price)"
+      },
+      {
+       "site": "theinventory.com",
+       "title_verbatim": "Greenies Pill Pockets for Dogs 22% Off on Amazon",
+       "url": "https://theinventory.com/greenies-pill-pockets-large-size-dog-treats-peanut-butter-7-9-oz-71966dc0",
+       "note": "~1 week older, $8.54, different flavor"
+      },
+      {
+       "site": "walmart.com",
+       "note": "Walmart $8.79 vs $10.96",
+       "url": "https://www.walmart.com/ip/GREENIES-PILL-POCKETS-for-Dogs-Capsule-Size-Natural-Soft-Dog-Treats-Chicken-Flavor-7-9-oz-Pack-30-Treats/16562912"
+      }
+     ],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Search index said DealCatcher pet listings were 'posted today' (Oct 13); ID 425399 sits next to other Oct 13 IDs. List price confirmed on Amazon, exact $8.35 not seen on Amazon (S&S $7.91 shown) -> left unverified."
+    },
+    {
+     "industry": "pets",
+     "product": "Cesar Wet Dog Food Steak Lovers Variety Pack, 3.5 oz trays, 36 ct",
+     "store": "Amazon (per DealCatcher; store not confirmed)",
+     "price": 29.39,
+     "reference_price": 35.94,
+     "reference_basis": "elsewhere",
+     "pct_off": 18.2,
+     "posted": "2026-10-13",
+     "ends": null,
+     "source": {
+      "site": "dealcatcher.com",
+      "title_verbatim": "Cesar Wet Dog Food, Steak Lovers Variety Pack, 3.5 oz, 36 Count - $29.39",
+      "url": "https://www.dealcatcher.com/deals/household/pets/cesar-wet-dog-steak-lovers-variety-count-425409"
+     },
+     "other_sources": [
+      {
+       "site": "chewy.com",
+       "note": "Chewy price $35.94, list $39.98 (26.5% off list)",
+       "url": "https://www.chewy.com/cesar-steak-lovers-variety-pack-small/dp/155622"
+      },
+      {
+       "site": "walmart.com",
+       "note": "Walmart $35.94",
+       "url": "https://www.walmart.com/ip/CESAR-Adult-Wet-Dog-Food-Steak-Lover-s-Variety-Pack-36-3-5-oz-Trays/597328712"
+      }
+     ],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Price requires clippable coupon. $29.39 not seen anywhere but DealCatcher. Modest discount (18% vs other stores, 26.5% vs Chewy list)."
+    },
+    {
+     "industry": "health",
+     "product": "Opti-Free Puremoist Multi-Purpose Disinfecting Solution with Lens Case, 2-Pack",
+     "store": "Amazon (per DealCatcher; store not confirmed)",
+     "price": 15.27,
+     "reference_price": 20.92,
+     "reference_basis": "unknown",
+     "pct_off": 27.0,
+     "posted": "2026-10-13 (inferred)",
+     "ends": null,
+     "source": {
+      "site": "dealcatcher.com",
+      "title_verbatim": "Opti-Free Puremoist Multi-Purpose Disinfecting Solution with Lens Case, 2-Pack - $15.27",
+      "url": "https://dealcatcher.com/deals/health-beauty/personal-care/opti-free-puremoist-multi-purpose-disinfecting-solution-with-lens-425394"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "DealCatcher states 27% off w/ clippable coupon; reference price back-computed. Date inferred: ID 425394 is adjacent to 425393/425399 (posted Oct 13)."
+    },
+    {
+     "industry": "health",
+     "product": "M inch Vitamin D3 K2 Gummies 10000IU/200mcg, 2-Pack",
+     "store": "Amazon (per DealCatcher)",
+     "price": 12.99,
+     "reference_price": 33.31,
+     "reference_basis": "unknown",
+     "pct_off": 61.0,
+     "posted": "2026-10-11 (inferred)",
+     "ends": null,
+     "source": {
+      "site": "dealcatcher.com",
+      "title_verbatim": "M inch Vitamin D3 K2 Gummies 10000IU/200mcg 2-Pack - $12.99",
+      "url": "https://www.dealcatcher.com/deals/health-beauty/vitamins-sports-nutrition/m-inch-vitamin-gummies-424864"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "61% off w/ promo code (reference back-computed; likely an inflated third-party list price). Date inferred: ID 424864 adjacent to 424870 (Woochpet, posted Oct 11)."
+    },
+    {
+     "industry": "tech",
+     "product": "Nothing Headphone (a) (2026), Black",
+     "store": "Amazon",
+     "price": 119.0,
+     "reference_price": 199.0,
+     "reference_basis": "list",
+     "pct_off": 40.2,
+     "posted": "2026-10-13",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "Nothing's 2026 Headphone (a) in black hit one of the lowest prices ever today at $119 (40% off)",
+      "url": "https://9to5toys.com/2026/10/13/nothing-2026-headphone-a-black-best-price/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Reference implied by '40% off' headline ($119 / 0.6 = ~$199)."
+    },
+    {
+     "industry": "tech",
+     "product": "ORICO 8-in-1 45W USB-C Power Strip (tilted design)",
+     "store": "Amazon",
+     "price": 20.0,
+     "reference_price": 37.0,
+     "reference_basis": "list",
+     "pct_off": 45.9,
+     "posted": "2026-10-13",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "New ORICO 8-in-1 45W USB-C Power Strip with tilted design plunges to $20 (Save 46%)",
+      "url": "https://9to5toys.com/2026/10/13/orico-8-in-1-45w-usb-c-power-strip/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Post says down from $37 list. Could also be classed office."
+    },
+    {
+     "industry": "tech",
+     "product": "Apple Watch Ultra 3, Black Titanium w/ Milanese Loop",
+     "store": "Amazon",
+     "price": 699.97,
+     "reference_price": 899.0,
+     "reference_basis": "list",
+     "pct_off": 22.1,
+     "posted": "2026-10-13",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "Clearance deal on Black Titanium Apple Watch Ultra 3 with Milanese Loop live again at $199 off",
+      "url": "https://9to5toys.com/2026/10/13/clearance-deal-black-apple-watch-ultra-3/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Reference = $699.97 + $199 off. (A separate Costco Ultra 3 $499.97 Slickdeals thread is from Oct 9, excluded.)"
+    },
+    {
+     "industry": "tech",
+     "product": "FastestVPN Pro lifetime plan (15 devices)",
+     "store": "StackSocial-style 9to5Toys shop",
+     "price": 29.97,
+     "reference_price": 600.0,
+     "reference_basis": "list",
+     "pct_off": 95.0,
+     "posted": "2026-10-13",
+     "ends": "2026-10-15",
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "This VPN protects 15 devices, has no monthly fees, and lasts for life at $30 ($600 value)",
+      "url": "https://9to5toys.com/2026/10/13/this-vpn-protects-15-devices-has-no-monthly-fees-and-lasts-for-life-at-30-600-value/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Sponsored/affiliate-shop post; '$600 value' is an inflated reference. Digital service, may not count as a product."
+    },
+    {
+     "industry": "toys",
+     "product": "LEGO One Piece Tony Tony Chopper (75643), 577 pcs",
+     "store": "unknown (likely Amazon)",
+     "price": 56.0,
+     "reference_price": 70.0,
+     "reference_basis": "list",
+     "pct_off": 20.0,
+     "posted": "2026-10-12",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "LEGO's 2026 One Piece Tony Tony Chopper set is a highly posable figure down at $56",
+      "url": "https://9to5toys.com/2026/10/12/lego-one-piece-tony-tony-chopper/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Down from $70 per post."
+    },
+    {
+     "industry": "sports",
+     "product": "Segway GT3 electric superscooter",
+     "store": "Amazon",
+     "price": 1399.99,
+     "reference_price": 1700.0,
+     "reference_basis": "list",
+     "pct_off": 17.6,
+     "posted": "2026-10-12",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "Segway’s more advanced GT3 electric superscooter at $1,100 under the Pro model, now at $1,400 low (Reg. $1,700)",
+      "url": "https://9to5toys.com/2026/10/12/segway-gt3-electric-superscooter-more/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Part of Segway fall sale. Personal mobility; could be classed automotive."
+    },
+    {
+     "industry": "home",
+     "product": "Greenworks 80V 20-inch cordless electric pole hedge trimmer",
+     "store": "unknown (likely Amazon)",
+     "price": 243.0,
+     "reference_price": 350.0,
+     "reference_basis": "list",
+     "pct_off": 30.6,
+     "posted": "2026-10-12 (seen on 9to5Toys homepage Oct 12; post date not confirmed)",
+     "ends": null,
+     "source": {
+      "site": "9to5toys.com",
+      "title_verbatim": "Greenworks' 80V 20-inch cordless electric pole hedge trimmer hits new $243 2026 low ($107 off), more from $95",
+      "url": "https://9to5toys.com/"
+     },
+     "other_sources": [],
+     "verified": false,
+     "on_slomp_source": true,
+     "notes": "Reference = $243 + $107 off. Individual post URL not captured."
+    }
+   ],
+   "candidates_unconfirmed": [
+    {
+     "industry": "pets",
+     "product": "Fresh Step Advanced Clumping Cat Litter w/ Gain, 2 x 18.5 lb",
+     "store": "Amazon (Prime)",
+     "price": 18.99,
+     "reference_price": 33.59,
+     "reference_basis": "list",
+     "why_excluded": "Slickdeals frontpage card said '2d ago by phoinix' in an undated snapshot; dealnews ran same deal (~$18) ~Oct 5-6 (ID 22249358). Post date not confirmed >= Oct 10.",
+     "urls": [
+      "https://slickdeals.net/deals/pets/",
+      "https://www.dealnews.com/Fresh-Step-Advanced-Odor-Shield-Clumping-18-5-lb-Cat-Litter-w-Gain-2-Pack-for-18-w-Prime-free-shipping/22249358.html"
+     ]
+    },
+    {
+     "industry": "pets",
+     "product": "Greenies Teenie Original Dental Dog Treats, 96 ct",
+     "store": "DealCatcher (Amazon?)",
+     "price": 28.48,
+     "reference_price": 32.98,
+     "reference_basis": "store regular",
+     "why_excluded": "Posted Oct 13 (ID 425389) but only ~14% off (matches Chewy Autoship price).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/pets/greenies-teenie-original-natural-dental-dog-count-425389"
+     ]
+    },
+    {
+     "industry": "pets",
+     "product": "Temptations Creamy Puree Cat Treats, Chicken, Salmon & Tuna, 24 ct",
+     "price": 8.07,
+     "reference_price": null,
+     "why_excluded": "No reference price in snippet (DealCatcher 425393, ~Oct 13).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/pets/temptations-creamy-puree-cat-salmon-count-425393"
+     ]
+    },
+    {
+     "industry": "pets",
+     "product": "Temptations MixUps Catnip Fever 16 oz",
+     "price": 6.17,
+     "reference_price": null,
+     "why_excluded": "No reference price (DealCatcher 424624, ~Oct 11).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/pets/temptations-mixups-crunchy-and-soft-cat-treats-catnip-fever-424624"
+     ]
+    },
+    {
+     "industry": "pets",
+     "product": "Purina Fancy Feast Gravy Lovers Poultry & Beef, 3 oz 24-pack",
+     "price": 20.57,
+     "reference_price": null,
+     "why_excluded": "No reference price (DealCatcher 425178, ~Oct 12).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/pets/purina-fancy-feast-gravy-poultry-beef-wet-cat-425178"
+     ]
+    },
+    {
+     "industry": "pets",
+     "product": "Delectables Squeeze Up Cat Treats Variety 40-Pack",
+     "store": "Amazon (S&S)",
+     "price": 14.0,
+     "reference_price": 19.0,
+     "reference_basis": "elsewhere",
+     "why_excluded": "dealnews ID 22256909 ~Oct 7 (index said 6 days old). 'best price we could find by $5'.",
+     "urls": [
+      "https://www.dealnews.com/Delectables-Squeeze-Up-Cat-Treats-Variety-40-Pack-for-14-w-Prime-free-shipping/22256909.html"
+     ]
+    },
+    {
+     "industry": "automotive",
+     "product": "Febreze Car Air Freshener Vent Clips, Leather, 2-Count",
+     "price": 3.49,
+     "reference_price": null,
+     "why_excluded": "No reference price; DealCatcher 425072 (~Oct 12).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/automotive/febreze-car-air-freshener-vent-clips-leather-425072"
+     ]
+    },
+    {
+     "industry": "automotive",
+     "product": "Febreze Car Air Freshener Original Scent 2-Count",
+     "price": 6.24,
+     "reference_price": null,
+     "why_excluded": "No reference price; DealCatcher 425073 (~Oct 12).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/automotive/febreze-car-air-freshener-odor-fighting-automotive-original-scent-425073"
+     ]
+    },
+    {
+     "industry": "automotive",
+     "product": "VEVOR Electric Winch 13500 lb w/ 92 ft synthetic rope",
+     "price": 283.0,
+     "reference_price": null,
+     "why_excluded": "No reference price; promo code VVBP15; DealCatcher 424784 (~Oct 11).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/automotive/vevor-electric-winch-lbs-load-capacity-with-ft-synthetic-rope-424784"
+     ]
+    },
+    {
+     "industry": "automotive",
+     "product": "iZEEKER 4K+1080P Wireless Dash Camera Front and Rear",
+     "price": 37.49,
+     "reference_price": null,
+     "why_excluded": "No reference price; clip coupon; DealCatcher 423797 (~Oct 9-10).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/household/automotive/izeeker-wireless-dash-camera-front-and-rear-423797"
+     ]
+    },
+    {
+     "industry": "automotive",
+     "product": "Redtiger F7NP 4K 2-channel dash cam",
+     "price": 104.0,
+     "reference_price": null,
+     "why_excluded": "Only seen inside 9to5Toys 'Best of' weekly roundup (Oct 10) as '$104 2026 low', no reference.",
+     "urls": [
+      "https://9to5toys.com/2026/10/10/this-weeks-best-deals-10/"
+     ]
+    },
+    {
+     "industry": "office",
+     "product": "Brother MFC-J1260W wireless inkjet all-in-one printer",
+     "store": "Walmart",
+     "price": 60.0,
+     "reference_price": null,
+     "why_excluded": "Slickdeals Popular card 'Posted 10-11-2026 Walmart' but no reference price captured.",
+     "urls": [
+      "https://slickdeals.net/deals/"
+     ]
+    },
+    {
+     "industry": "office",
+     "product": "HUANUO 63-inch 2-tier standing desk w/ drawers",
+     "price": 180.0,
+     "reference_price": 300.0,
+     "reference_basis": "list",
+     "why_excluded": "Original 9to5Toys post Oct 8; only re-listed in Oct 10 Steals Weekly roundup.",
+     "urls": [
+      "https://9to5toys.com/2026/10/08/huanuo-63-inch-2-tier-standing-desk/",
+      "https://9to5toys.com/2026/10/10/steals-weekly-oct-10/"
+     ]
+    },
+    {
+     "industry": "tech",
+     "product": "Soundcore Boom 3i speaker",
+     "store": "Costco",
+     "price": 74.99,
+     "reference_price": null,
+     "why_excluded": "Slickdeals forum entry dated 10-10-2026, no reference price captured.",
+     "urls": [
+      "https://slickdeals.net/forums/forumdisplay.php?f=9"
+     ]
+    },
+    {
+     "industry": "tech",
+     "product": "Apple AirPods Pro 3",
+     "store": "Amazon",
+     "price": 199.0,
+     "reference_price": 249.0,
+     "reference_basis": "list",
+     "why_excluded": "Slickdeals 20139255 falls between Oct 9 and Oct 11 IDs; date not confirmed.",
+     "urls": [
+      "https://slickdeals.net/f/20139255-199-apple-airpods-pro-3-wireless-earbuds-at-amazon"
+     ]
+    },
+    {
+     "industry": "tech",
+     "product": "Anker Nano Neo 45W/60W charger",
+     "store": "Amazon",
+     "price": 19.99,
+     "reference_price": null,
+     "why_excluded": "9to5Toys Oct 12, reference not captured.",
+     "urls": [
+      "https://9to5toys.com/2026/10/12/anker-new-nano-neo-45w-60w-dynamic-charging/"
+     ]
+    },
+    {
+     "industry": "beauty",
+     "product": "Revlon Glimmer Tinted Moisturizer Stick, 110 Light, 0.31 oz",
+     "price": 9.32,
+     "reference_price": null,
+     "why_excluded": "No reference price; DealCatcher 425382 (~Oct 13).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/health-beauty/makeup-skincare/revlon-glimmer-tinted-moisturizer-oz-425382"
+     ]
+    },
+    {
+     "industry": "beauty",
+     "product": "Dove Original Antiperspirant Deodorant for Women, 2.6 oz",
+     "price": 2.97,
+     "reference_price": null,
+     "why_excluded": "No reference price; DealCatcher 425182 (~Oct 12).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/health-beauty/personal-care/dove-original-antiperspirant-deodorant-for-women-original-clean-oz-425182"
+     ]
+    },
+    {
+     "industry": "health",
+     "product": "SOLARAY Vitamin C 1000mg Time Release, 100 ct",
+     "price": 15.19,
+     "reference_price": null,
+     "why_excluded": "Subscribe & Save price, no reference; DealCatcher 425272 (~Oct 12).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/health-beauty/vitamins-sports-nutrition/solaray-vitamin-c-time-release-vitamin-c-capsules-hips-and-425272"
+     ]
+    },
+    {
+     "industry": "sports",
+     "product": "PULIOU Merino Wool Hiking Socks, 3 pairs",
+     "price": 13.27,
+     "reference_price": null,
+     "why_excluded": "No reference; DealCatcher 423030 (~Oct 9-10).",
+     "urls": [
+      "https://www.dealcatcher.com/deals/sporting-goods/outdoors/puliou-merino-wool-hiking-socks-pairs-lightweight-423030"
+     ]
+    },
+    {
+     "industry": "mixed",
+     "product": "Slickdeals Amazon page items found by phoinix Oct 11 2026: Pirate's Booty (46% off), black tea bags (31% off), area rug (50% off), cat tree (50% off)",
+     "price": null,
+     "reference_price": null,
+     "why_excluded": "Prices not captured in snippet.",
+     "urls": [
+      "https://slickdeals.net/browse/amazon/"
+     ]
+    }
+   ],
+   "raw_titles": [
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "2026-10-11",
+     "title": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock & Condo (Green) $28",
+     "url": "https://slickdeals.net/f/20143380-48-woochpet-tropical-cat-tree-tower-w-hammock-condo-scratching-posts-green-27-59-free-shipping-w-prime-or-on-35"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "unknown (~Oct 6-11)",
+     "title": "Prime Members: 2-Pk 18.5-Lb Fresh Step Advanced Clumping Cat Litter w/ Gain",
+     "card_prices": "$18.99 $33.59",
+     "url": "https://slickdeals.net/deals/pets/"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "unknown (~Oct 4)",
+     "title": "Amazon – Apasiri 3.5\" Squeaky Dog Ball for Aggressive Chewers - $5.98 w/ Code",
+     "card_prices": "$5.98 $11.99",
+     "url": "https://slickdeals.net/deals/pet-care/"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "unknown (~Oct 6)",
+     "title": "NOAH & PAW 20\" x 15\" Orthopedic Pet Bed w/ Memory Foam & Bolster",
+     "card_prices": "$28.89 $39.19",
+     "url": "https://slickdeals.net/deals/pet-care/"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "unknown (~Oct 6)",
+     "title": "36\" Song Puppy Orthopedic Memory Foam Dog Bed w/ Bolster & Removable Cover",
+     "card_prices": "$21.59 $29.99",
+     "url": "https://slickdeals.net/deals/pet-care/"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "unknown",
+     "title": "First Autoship Order: 50-Pk 0.5-Oz Catit Creamy Lickable Cat Treats (Salmon) $8.55 + Free S&H on $49+",
+     "url": "https://daily.slickdeals.net/dynamic-deals/223049/?partner=hearstTV"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "2026-07-03",
+     "title": "Save 20% on first S&S Order of PURINA CAT/DOG Wet-Dry Foods, Treats and Cat Litter at Link (Many popular brands)",
+     "url": "https://slickdeals.net/f/19717314-save-20-on-first-s-s-order-of-purina-cat-dog-wet-dry-foods-treats-and-cat-litter-at-link-many-popular-brands"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "2026-06-26",
+     "title": "Get 5 for the price of 3: Select Pet Products",
+     "url": "https://slickdeals.net/f/19690962-get-5-for-the-price-of-3-select-pet-products"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Select Amazon Accounts: Select Dog Food, Cat Food, and Pet Care Supplies 25% Off w/ Subscribe & Save",
+     "url": "https://slickdeals.net/f/17203855-25-off-pet-supplies-coupon-at-amazon-with-subscribe-and-save-friskies-wet-cat-food-40-for-20-27-dr-elseys-40lb-litter-14-38-etc"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "2023-06-13",
+     "title": "Chewy: First Time Autoship: 50% off Select Dog & Cat Food: 50-lb Victor Classic Multi-Pro Dog $30, 30-lb Holistic Select Adult Dog Fish $39 & More + Free Shipping",
+     "url": "https://slickdeals.net/f/16716131-chewy-first-time-autoship-50-off-select-dog-cat-food-50-lb-victor-classic-multi-pro-dog-30-30-lb-holistic-select-adult-dog-fish-39-more-free-shipping"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Chewy: Select Pet Products: Food, Toys & More $30 eGift Card w/ $100 Purchase",
+     "url": "https://slickdeals.net/f/17979033-chewy-select-pet-products-food-toys-more-30-egift-card-w-100-purchase-free-s-h-exclusions-apply-valid-thru-12-22"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Amazon Basics Multi-Level Cat Tree XL - $59.99 - Free shipping for Prime members - Woot $59.99",
+     "url": "https://slickdeals.net/f/17296027-amazon-basics-multi-level-cat-tree-xl-59-99-free-shipping-for-prime-members-woot"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "automotive",
+     "posted": "2026-10-03",
+     "title": "Prime Members: AstroAI H2 Pro Tire Inflator Portable Air Compressor Tire Pump",
+     "card_prices": "$22.49 $62.99",
+     "url": "https://slickdeals.net/f/20093820-astroai-h2-pro-cordless-tire-inflator-portable-air-compressor-12vdc-battery-22-49"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "automotive",
+     "posted": "unknown (Oct 2026 category page)",
+     "title": "AstroAI S8 8000mAh 1500A 12V Car Battery Jump Starter",
+     "card_prices": "$19.34 $41.50",
+     "url": "https://slickdeals.net/deals/auto/"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "automotive",
+     "posted": "2026-10-01",
+     "title": "Amazon Prime Members: Buy or Lease an Eligible New Car via Amazon Auto,",
+     "url": "https://slickdeals.net/f/20085366-prime-members-get-a-1-500-amazon-gift-card-when-you-buy-or-lease-a-new-car-through-amazon"
+    },
+    {
+     "site": "slickdeals.net",
+     "industry": "tech",
+     "posted": "2026-10-09",
+     "title": "Costco : Apple Watch Ultra 3 49mm Smartwatch (GPS + Cellular) $499.97",
+     "url": "https://slickdeals.net/f/20137506-costco-apple-watch-ultra-3-49mm-smartwatch-gps-cellular-499-97"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "pets",
+     "posted": "~2026-10-07",
+     "title": "Delectables Squeeze Up Cat Treats Variety 40-Pack: $14 w/ Prime",
+     "url": "https://www.dealnews.com/Delectables-Squeeze-Up-Cat-Treats-Variety-40-Pack-for-14-w-Prime-free-shipping/22256909.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "pets",
+     "posted": "~2026-10-07",
+     "title": "Active Pet Enzyme Laundry Detergent Powder (64 Loads): $13 w/ Prime",
+     "url": "https://www.dealnews.com/Active-Pet-Enzyme-Laundry-Detergent-Powder-64-Loads-for-13-w-Prime-free-shipping/22257128.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "pets",
+     "posted": "~2026-10-05",
+     "title": "Fresh Step Advanced Odor Shield Clumping 18.5 lb Cat Litter w/ Gain 2-Pack: $18 w/ Prime",
+     "url": "https://www.dealnews.com/Fresh-Step-Advanced-Odor-Shield-Clumping-18-5-lb-Cat-Litter-w-Gain-2-Pack-for-18-w-Prime-free-shipping/22249358.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "pets",
+     "posted": "~2026-08",
+     "title": "Pet Stock-Up Sale at Woot: Up to 87% off",
+     "url": "https://www.dealnews.com/Pet-Stock-Up-Sale-at-Woot-Up-to-87-off-free-shipping-w-Prime/22109446.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Petco Rx Pet Medication Autoship Deals: 50% off",
+     "url": "https://www.dealnews.com/Petco-Rx-Pet-Medication-Autoship-Deals-50-off-free-shipping/21949447.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "automotive",
+     "posted": "~2026-10 (ended 10/7)",
+     "title": "Woot Tools & Auto Deals: Up to 72% off",
+     "url": "https://www.dealnews.com/Woot-Tools-Auto-Deals-Up-to-72-off-free-shipping-w-Prime/22232017.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "automotive",
+     "posted": "~2026-10",
+     "title": "Fanttik Automotive & Portable Power Deals at Amazon: Up to 32% off + extra 10% off",
+     "url": "https://www.dealnews.com/Fanttik-Automotive-Portable-Power-Deals-at-Amazon-Up-to-32-off-extra-10-off-free-shipping-w-Prime/22234981.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "automotive",
+     "posted": "~2026-09",
+     "title": "Amazon Outlet Automotive Deals: Up to 50% off",
+     "url": "https://www.dealnews.com/Amazon-Outlet-Automotive-Deals-Up-to-50-off-free-shipping-w-Prime/22169693.html"
+    },
+    {
+     "site": "dealnews.com",
+     "industry": "health",
+     "posted": "~2026-10-06",
+     "title": "Sports Nutrition Prime Big Deal Days Deals at Amazon: Up to 70% off w/ Prime",
+     "url": "https://www.dealnews.com/Sports-Nutrition-Prime-Big-Deal-Days-Deals-at-Amazon-Up-to-70-off-w-Prime-free-shipping-w-Prime/22249424.html"
+    },
+    {
+     "site": "hip2save.com",
+     "industry": "pets",
+     "posted": "unknown (2026)",
+     "title": "Wet Ones Pet Wipes 240-Count Just $14 Shipped on Amazon (Reg. $25)",
+     "url": "https://hip2save.com/deals/pet-wipes/"
+    },
+    {
+     "site": "hip2save.com",
+     "industry": "pets",
+     "posted": "~2025-12",
+     "title": "IAMS Dry Dog Food 30lb Bag Just $15.49 Shipped on Amazon (Reg. $47)",
+     "url": "https://hip2save.com/deals/iams-dog-food/"
+    },
+    {
+     "site": "hip2save.com",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Dog Grooming Dryer Only $40 Shipped on Amazon (Reg. $100)",
+     "url": "https://hip2save.com/deals/dog-grooming-kit/"
+    },
+    {
+     "site": "hip2save.com",
+     "industry": "pets",
+     "posted": "older",
+     "title": "Get Over $50 Off Pet Supplies & Treats w/ These Amazon Subscribe & Save Deals",
+     "url": "https://hip2save.com/deals/amazon-subscribe-and-save-pet-deals/"
+    },
+    {
+     "site": "hip2save.com",
+     "industry": "automotive",
+     "posted": "2026-03-01",
+     "title": "Portable Jump Starter w/ Air Compressor Just $27.49 Shipped on Amazon (Reg. $90)",
+     "url": "https://hip2save.com/deals/portable-jump-starter/"
+    }
+   ],
+   "raw_titles_note": "Titles are as shown in search-result titles/cards. Slickdeals frontpage card titles omit the price (price shown separately as card_prices). Search index appends ' - YYYY-MM-DD' to some Slickdeals titles; that suffix was removed."
+  },
+  "local": {
+   "meta": {
+    "generated": "2026-10-13",
+    "location": "Austin, TX 78701",
+    "method": "WebSearch only; WebFetch to flipp.com failed (getaddrinfo ENOTFOUND flipp.com). The shared WebSearch budget (200 calls per turn across all agents) ran out after about 50 searches by this agent, so Part 2 is mostly unsearched.",
+    "not_searched_retailers": [
+     "Tuesday Morning",
+     "Barnes & Noble",
+     "Victoria's Secret",
+     "Five Below",
+     "Dollar Tree",
+     "HomeGoods"
+    ],
+    "not_searched_restaurants": [
+     "McDonald's",
+     "Wendy's",
+     "Burger King",
+     "Taco Bell",
+     "Chipotle",
+     "Whataburger",
+     "Raising Cane's",
+     "Chick-fil-A",
+     "Sonic",
+     "Dairy Queen",
+     "Krispy Kreme",
+     "Dunkin'",
+     "Starbucks",
+     "Panera",
+     "Chili's",
+     "Applebee's",
+     "IHOP",
+     "Denny's",
+     "Olive Garden",
+     "Papa John's",
+     "Domino's",
+     "Pizza Hut",
+     "Little Caesars",
+     "Jack in the Box",
+     "Popeyes",
+     "KFC",
+     "Subway",
+     "Jersey Mike's",
+     "Torchy's Tacos",
+     "Chuy's",
+     "Shipley Do-Nuts",
+     "Bush's Chicken",
+     "Pluckers",
+     "P. Terry's",
+     "Kerbey Lane",
+     "National Chocolate Cupcake Day (Oct 18)",
+     "Halloween promos"
+    ]
+   },
+   "ads": [
+    {
+     "retailer": "H-E-B",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine (searches of flipp.com for H-E-B returned nothing)",
+     "ad_dates": "Wed 2026-10-14 to Tue 2026-10-20 (Wed-Tue cycle); Combo Loco/digital coupons exp 10/20/2026",
+     "headline_deals": [
+      {
+       "item": "Purina ONE dry dog food -> get Purina ONE wet dog food",
+       "price": "FREE wet food",
+       "reg_price_or_saving": "free item",
+       "conditions": "Combo Loco digital coupon, exp 10/20/2026"
+      },
+      {
+       "item": "H-E-B shredded cheese -> get H-E-B Omega 3 eggs",
+       "price": "FREE eggs",
+       "reg_price_or_saving": "free item",
+       "conditions": "Combo Loco digital coupon, exp 10/20/2026"
+      },
+      {
+       "item": "$30 of H-E-B / Heritage Ranch / H-E-B Texas Pets / Hill Country Fare dog or cat food, treats or litter",
+       "price": "$5 off basket",
+       "reg_price_or_saving": "$5 off $30",
+       "conditions": "digital coupon, exp 10/20/2026"
+      },
+      {
+       "item": "Barilla Blue Box pasta",
+       "price": "buy 2 get 1 free",
+       "reg_price_or_saving": "1 free",
+       "conditions": "Combo Loco; expiration not shown (standing offer)"
+      }
+     ],
+     "verified_by": "PARTIAL: deals on heb.com coupon pages (company) with 10/20/2026 expiry; ad dates from 3 aggregators (ladysavings, theweeklyad, weeklyadnextweek) consistent 10/14-10/20/26. Flyer item prices NOT seen.",
+     "sources": [
+      {
+       "name": "H-E-B Combo Loco coupons",
+       "url": "https://www.heb.com/digital-coupon/coupon-selection/combo-loco?int=coupon-home-shortcuts-weekly-ad"
+      },
+      {
+       "name": "H-E-B all coupons",
+       "url": "https://www.heb.com/digital-coupon/coupon-selection/all-coupons?pageName=all-coupons"
+      },
+      {
+       "name": "Lady Savings - HEB Weekly Ad (10/14/26",
+       "url": "https://www.ladysavings.com/heb-weekly-ad/"
+      },
+      {
+       "name": "TheWeeklyAd - HEB Weekly (10/14/26",
+       "url": "https://www.theweeklyad.com/heb-weekly-ad/"
+      },
+      {
+       "name": "HEB Weekly Ad (From 10/14/26 Thru 10/20/26) Next Week",
+       "url": "https://weeklyadnextweek.com/heb"
+      }
+     ]
+    },
+    {
+     "retailer": "Randalls",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Ad 10/7/26-10/13/26 listed by Lady Savings (covers Oct 13); 10/14-10/20 ad not found (Wed-Tue cycle per aggregators)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED: no item-level deals for this week found; only one aggregator for 10/7-10/13 dates",
+     "sources": [
+      {
+       "name": "Randalls weekly ad (official)",
+       "url": "https://www.randalls.com/weeklyad/"
+      },
+      {
+       "name": "Lady Savings - Randalls Weekly Ad (10/7/26",
+       "url": "https://www.ladysavings.com/randalls-weekly-ad/"
+      },
+      {
+       "name": "weeklyad.io Randalls (Sep 30-Oct 6, 2026)",
+       "url": "https://www.weeklyad.io/randalls"
+      }
+     ]
+    },
+    {
+     "retailer": "Target",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Sun 2026-10-11 to Sat 2026-10-17",
+     "headline_deals": [
+      {
+       "item": "Dr Pepper 12-pk cans",
+       "price": "3 for $16 (~$5.07 ea w/ card)",
+       "reg_price_or_saving": "sale + extra 5% w/ Circle Card",
+       "conditions": "exp 10/17/26"
+      },
+      {
+       "item": "Mars Halloween variety bags",
+       "price": "BOGO 25% off",
+       "reg_price_or_saving": "25% off 2nd",
+       "conditions": "extra 5% w/ Circle Card; exp 10/17/26"
+      },
+      {
+       "item": "Oreo Halloween packs / Cheetos / Doritos",
+       "price": "2/$8 / 3/$9 / 2/$10",
+       "reg_price_or_saving": "sale",
+       "conditions": "extra 5% w/ Circle Card; exp 10/17/26"
+      },
+      {
+       "item": "Chobani 4-pk Greek yogurt; International Delight 32 oz creamer",
+       "price": "2 for $7 each",
+       "reg_price_or_saving": "sale",
+       "conditions": "select varieties"
+      },
+      {
+       "item": "Purex laundry detergent pacs",
+       "price": "$1 off",
+       "reg_price_or_saving": "$1",
+       "conditions": "Target Circle eCoupon"
+      },
+      {
+       "item": "Beats Studio Pro wireless headphones",
+       "price": "$249.99",
+       "reg_price_or_saving": "sale (reg not shown)",
+       "conditions": "weekly ad"
+      }
+     ],
+     "verified_by": "Dates: 2+ sources consistent for 2026 (TotallyTarget post dated 2026/10/09, Lady Savings 10/11/26-10/17/26, Southern Savers). Item prices from KCL/Southern Savers/TotallyTarget via search summary (single-source each).",
+     "sources": [
+      {
+       "name": "TotallyTarget - Target Weekly Ad Preview 10/11",
+       "url": "https://www.totallytarget.com/2026/10/09/target-weekly-ad-preview-10-11/"
+      },
+      {
+       "name": "Southern Savers - Target Weekly Ad: 10/11-10/17",
+       "url": "https://www.southernsavers.com/target-weekly-ad-10-11-10-17/"
+      },
+      {
+       "name": "Krazy Coupon Lady - Target Weekly Ad and Deals",
+       "url": "https://thekrazycouponlady.com/tips/store-hacks/target-weekly-ad"
+      },
+      {
+       "name": "Lady Savings - Target Weekly Ad (10/11/26 - 10/17/26) Preview!",
+       "url": "https://www.ladysavings.com/target-weekly-ad/"
+      },
+      {
+       "name": "Flipp NJ landing page (lists Lowe's, Walmart, Target, Best Buy, Michaels)",
+       "url": "https://flipp.com/en-us/landing-nj/weekly_ads"
+      }
+     ]
+    },
+    {
+     "retailer": "Walmart",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "No weekly circular. 'Walmart Deals' event ran Oct 5-11, 2026 (ENDED before window). Ongoing Rollbacks only.",
+     "headline_deals": [
+      {
+       "item": "October 2026 food Rollbacks: Halloween sour gummies, cookie dough, fall coffee pods & syrup, energy drinks",
+       "price": "not captured",
+       "reg_price_or_saving": "Rollback",
+       "conditions": "per Mashed; no prices captured"
+      }
+     ],
+     "verified_by": "Event end date verified by 2 sources (NBC News Select, Passionate Penny Pincher). No in-window weekly ad.",
+     "sources": [
+      {
+       "name": "NBC News Select - Walmart Oct Deal Days 2026",
+       "url": "https://www.nbcnews.com/select/shopping/walmart-oct-deal-days-2026-rcna601690"
+      },
+      {
+       "name": "Passionate Penny Pincher - Walmart Deals",
+       "url": "https://passionatepennypincher.com/walmart-deals-for-days/"
+      },
+      {
+       "name": "Mashed - 15 Walmart Must-Have Food Items With Price Cuts In October 2026",
+       "url": "https://www.mashed.com/2281754/walmart-must-have-items-with-price-cuts-october-2026/"
+      },
+      {
+       "name": "Flipp US home (retailer logos: Walmart, Kroger, Home Depot, CVS, Meijer, Publix, Walgreens, Rite Aid, Family Dollar)",
+       "url": "https://flipp.com/en-us/home"
+      }
+     ]
+    },
+    {
+     "retailer": "Walgreens",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Sun 2026-10-11 to Sat 2026-10-17 (official flyer page)",
+     "headline_deals": [
+      {
+       "item": "Dial body wash 16 oz or bar soap 3-ct",
+       "price": "$4 (final $2.50)",
+       "reg_price_or_saving": "reg $5.79-$5.99",
+       "conditions": "use $1.50 off coupon, exp 10/17"
+      },
+      {
+       "item": "All laundry products",
+       "price": "$4.99 (final $2.99)",
+       "reg_price_or_saving": "reg $8.99",
+       "conditions": "use $2 off coupon, exp 10/17"
+      },
+      {
+       "item": "Colgate Sensitive toothpaste",
+       "price": "$0.25 each after Register Rewards",
+       "reg_price_or_saving": "RR deal",
+       "conditions": "exp 10/17/26"
+      },
+      {
+       "item": "Neutrogena makeup wipes",
+       "price": "$0.49 each after rewards",
+       "reg_price_or_saving": "rewards deal",
+       "conditions": "exp 10/17/26"
+      },
+      {
+       "item": "Blood pressure monitor / pulse oximeter",
+       "price": "$29.99 each",
+       "reg_price_or_saving": "sale",
+       "conditions": "weekly ad"
+      }
+     ],
+     "verified_by": "Dates: company flyer page (flyer.walgreens.com) states valid Oct 11-17, 2026. Item deals: Hip2Save + KCL + LivingRichWithCoupons (2026/10 URL).",
+     "sources": [
+      {
+       "name": "Walgreens official flyer",
+       "url": "https://flyer.walgreens.com/h/m/ffwalgreens/flyer/browse?flyer_run_id=1149673&locale=en-US&type=1"
+      },
+      {
+       "name": "Hip2Save - Best Walgreens Weekly Ad Deals",
+       "url": "https://hip2save.com/deals/walgreens-weekly-ad/"
+      },
+      {
+       "name": "Krazy Coupon Lady - Walgreens Weekly Ad and Deals",
+       "url": "https://thekrazycouponlady.com/tips/store-hacks/walgreens-weekly-ad"
+      },
+      {
+       "name": "Living Rich With Coupons - Best Walgreens Weekly Ad Deals: 10/11 - 10/17",
+       "url": "https://www.livingrichwithcoupons.com/2026/10/best-walgreens-weekly-ad-deals-10-11-10-17.html"
+      },
+      {
+       "name": "Flipp US home (retailer logos: Walmart, Kroger, Home Depot, CVS, Meijer, Publix, Walgreens, Rite Aid, Family Dollar)",
+       "url": "https://flipp.com/en-us/home"
+      }
+     ]
+    },
+    {
+     "retailer": "CVS",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Sun 2026-10-11 to Sat 2026-10-17 (KCL header says Oct 11-24 - conflict)",
+     "headline_deals": [
+      {
+       "item": "Colgate toothpaste",
+       "price": "$0.49 final",
+       "reg_price_or_saving": "buy 2 get $5 ExtraBucks",
+       "conditions": "limit 1 per week"
+      },
+      {
+       "item": "Tide",
+       "price": "$3.32 final",
+       "reg_price_or_saving": "sale",
+       "conditions": "$3 mobile coupon on Tide Pods"
+      },
+      {
+       "item": "Finish dishwasher detergent",
+       "price": "$2.50 final",
+       "reg_price_or_saving": "sale + rewards",
+       "conditions": "per KCL"
+      },
+      {
+       "item": "L'Oreal Paris Kohl eyeliner pencil",
+       "price": "$7.99 ea -> ~$1.99 ea",
+       "reg_price_or_saving": "buy 2, $3 off coupon (exp 10/17) + CVS app coupon + $6 ExtraBucks",
+       "conditions": "ExtraCare"
+      },
+      {
+       "item": "Metallic photo posters",
+       "price": "$5",
+       "reg_price_or_saving": "reg $24",
+       "conditions": "free same-day pickup"
+      },
+      {
+       "item": "Vitamins (select)",
+       "price": "B1G1 free",
+       "reg_price_or_saving": "50%",
+       "conditions": "per Southern Savers"
+      }
+     ],
+     "verified_by": "Dates: 2+ sources (Hip2Save 'CVS Weekly Ad Preview (10/11/26 - 10/17/26)', Lady Savings, savvycouponshopper). Item deals single-source each. CAUTION: Hip2Save title 'Best CVS Weekly Ad Deals 10/11-10/17 | Sweet Savings on Halloween Candy' is a 2020 post.",
+     "sources": [
+      {
+       "name": "Hip2Save - CVS Weekly Ad Preview (10/11/26 - 10/17/26)",
+       "url": "https://hip2save.com/deals/cvs-weekly-ad/"
+      },
+      {
+       "name": "Hip2Save - Best Upcoming CVS Ad Deals",
+       "url": "https://hip2save.com/deals/upcoming-cvs-ad/"
+      },
+      {
+       "name": "Krazy Coupon Lady - CVS Weekly Ad and Deals",
+       "url": "https://thekrazycouponlady.com/tips/store-hacks/cvs-weekly-ad"
+      },
+      {
+       "name": "Lady Savings - CVS Weekly Ad (10/11/26 - 10/17/26) Preview",
+       "url": "https://www.ladysavings.com/cvs-weekly-ad/"
+      },
+      {
+       "name": "Southern Savers - CVS Ad & Coupons: 10/11-10/17 (year not confirmed)",
+       "url": "https://www.southernsavers.com/cvs-ad-coupons-10-11-10-17/"
+      },
+      {
+       "name": "Flipp US home (retailer logos: Walmart, Kroger, Home Depot, CVS, Meijer, Publix, Walgreens, Rite Aid, Family Dollar)",
+       "url": "https://flipp.com/en-us/home"
+      }
+     ]
+    },
+    {
+     "retailer": "Best Buy",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Top Deals page live (undated); no dated 2026 weekly ad found",
+     "headline_deals": [
+      {
+       "item": "Lenovo IdeaPad Slim 3i laptop",
+       "price": "$615.99",
+       "reg_price_or_saving": "$284 off",
+       "conditions": "per PCWorld roundup updated ~Oct 13, 2026; single source"
+      }
+     ],
+     "verified_by": "NOT VERIFIED (no dated 2026 Best Buy page captured)",
+     "sources": [
+      {
+       "name": "Best Buy Top Deals",
+       "url": "https://www.bestbuy.com/top-deals?cmp=ShopTopDeals"
+      },
+      {
+       "name": "PCWorld - Best laptop deals today",
+       "url": "https://www.pcworld.com/article/550968/best-laptop-deals-3.html"
+      },
+      {
+       "name": "Flipp NJ landing page (lists Lowe's, Walmart, Target, Best Buy, Michaels)",
+       "url": "https://flipp.com/en-us/landing-nj/weekly_ads"
+      }
+     ]
+    },
+    {
+     "retailer": "Academy Sports + Outdoors",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Active Ad Oct 03 - Oct 23 (official circulars.academy.com); 5-Day Sale Oct 6-10 ended",
+     "headline_deals": [],
+     "verified_by": "Dates from company circular page; no item deals captured",
+     "sources": [
+      {
+       "name": "Academy circulars - 5-Day Sale Oct 06 to Oct 10 / Active Ad Oct 03 - Oct 23",
+       "url": "https://circulars.academy.com/flyers/academysports?type=2"
+      }
+     ]
+    },
+    {
+     "retailer": "Kohl's",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Fri 2026-10-09 to Sun 2026-10-18 (Cardholder Event); Kohl's Cash redeem Oct 19-25",
+     "headline_deals": [
+      {
+       "item": "Cardholder event",
+       "price": "extra 30% off",
+       "reg_price_or_saving": "30%",
+       "conditions": "with Kohl's Card, ends Oct 18"
+      },
+      {
+       "item": "Sitewide code",
+       "price": "extra 20% off",
+       "reg_price_or_saving": "20%",
+       "conditions": "code GET20, ends Oct 18"
+      },
+      {
+       "item": "Home",
+       "price": "$10 off $50",
+       "reg_price_or_saving": "$10",
+       "conditions": "code 10HOME, ends Oct 18"
+      },
+      {
+       "item": "Kohl's Cash",
+       "price": "$10 per $50 spent",
+       "reg_price_or_saving": "bonus",
+       "conditions": "earn through Oct 18, redeem Oct 19-25; excludes Sephora"
+      },
+      {
+       "item": "Clearance clothing/shoes/accessories",
+       "price": "up to 80% off",
+       "reg_price_or_saving": "up to 80%",
+       "conditions": "free shipping for MVC through Oct 18 (Hip2Save)"
+      }
+     ],
+     "verified_by": "Company page (kohls.com todays-deals) + Lady Savings 'Kohl's Ad (10/9/26 - 10/18/26) Cardholder Event!' - consistent",
+     "sources": [
+      {
+       "name": "Kohl's Today's Deals",
+       "url": "https://www.kohls.com/sale-event/todays-deals.jsp"
+      },
+      {
+       "name": "Lady Savings - Kohl's Ad (10/9/26 - 10/18/26) Cardholder Event!",
+       "url": "https://www.ladysavings.com/kohls-weekly-ad/"
+      },
+      {
+       "name": "Hip2Save - Kohl's clearance",
+       "url": "https://hip2save.com/deals/kohls-clearance/"
+      }
+     ]
+    },
+    {
+     "retailer": "JCPenney",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Rolling coupons: Digital Deal Days exp 10/14/2026; Mystery sale exp 10/16/2026; SMS offer exp 10/19/2026",
+     "headline_deals": [
+      {
+       "item": "Digital Deal Days",
+       "price": "extra 35% off",
+       "reg_price_or_saving": "35%",
+       "conditions": "coupon code (not captured), exp 10/14/2026"
+      },
+      {
+       "item": "Mystery sale",
+       "price": "extra 30% off",
+       "reg_price_or_saving": "30%",
+       "conditions": "exp 10/16/2026"
+      },
+      {
+       "item": "SMS sign-up",
+       "price": "extra 30% off",
+       "reg_price_or_saving": "30%",
+       "conditions": "text JOIN to 527-937, exp 10/19/2026"
+      },
+      {
+       "item": "Select apparel, shoes, accessories, fine jewelry, bedding, bath, curtains",
+       "price": "extra 30% off",
+       "reg_price_or_saving": "30%",
+       "conditions": "code AUTUMN26 (jcpenney.com; undated)"
+      }
+     ],
+     "verified_by": "PARTIAL: Marie Claire coupon page updated Oct 12, 2026; SMS offer also on Groupon (dates not confirmed there); AUTUMN26 on jcpenney.com but undated",
+     "sources": [
+      {
+       "name": "Marie Claire - JCPenney coupons",
+       "url": "https://www.marieclaire.com/coupons/jcpenney"
+      },
+      {
+       "name": "Groupon - JCPenney coupons",
+       "url": "https://www.groupon.com/coupons/jcpenney"
+      },
+      {
+       "name": "JCPenney coupons page",
+       "url": "https://www.jcpenney.com/m/jcpenney-coupons"
+      }
+     ]
+    },
+    {
+     "retailer": "Sprouts Farmers Market",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Wed 2026-10-14 to Tue 2026-10-20 (prior ad 10/7-10/13)",
+     "headline_deals": [],
+     "verified_by": "Dates by 3+ aggregators consistent (Lady Savings, weeklyadpreview, theweeklyad, weeklyadlist); no item deals captured; no sprouts.com page seen",
+     "sources": [
+      {
+       "name": "Lady Savings - Sprouts Weekly (10/14/26",
+       "url": "https://www.ladysavings.com/sprouts-weekly-ad/"
+      },
+      {
+       "name": "Sprouts Weekly Ad Preview 10/14/26 - 10/20/26",
+       "url": "https://weeklyadpreview.com/sprouts"
+      },
+      {
+       "name": "TheWeeklyAd - Sprouts Weekly Ad (10/14/26",
+       "url": "https://www.theweeklyad.com/sprouts-weekly-ad/"
+      }
+     ]
+    },
+    {
+     "retailer": "Whole Foods Market",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Sales flyer 2026-10-07 to 2026-10-13 (covers Oct 13 only); 10/14 flyer not captured. Recurring Prime Tuesday & Friday deals.",
+     "headline_deals": [
+      {
+       "item": "Boneless ribeye steaks",
+       "price": "20% off",
+       "reg_price_or_saving": "20%",
+       "conditions": "with Prime, valid 10/7-10/13/26"
+      },
+      {
+       "item": "Select wellness essentials",
+       "price": "30% off",
+       "reg_price_or_saving": "30%",
+       "conditions": "with Prime"
+      },
+      {
+       "item": "Siete items",
+       "price": "25% off",
+       "reg_price_or_saving": "25%",
+       "conditions": "with Prime"
+      },
+      {
+       "item": "Weekday meals (rotisserie chicken, packaged soup, ground chicken) / Friday favorites (sushi, oysters, pizza)",
+       "price": "Prime deal",
+       "reg_price_or_saving": "varies",
+       "conditions": "every Tuesday / every Friday, Prime members"
+      },
+      {
+       "item": "Sale items",
+       "price": "extra 10% off",
+       "reg_price_or_saving": "10%",
+       "conditions": "Prime members, excludes alcohol"
+      }
+     ],
+     "verified_by": "Company page (wholefoodsmarket.com sales flyer) + Amazon Prime page",
+     "sources": [
+      {
+       "name": "Whole Foods Weekly Deals and Sales",
+       "url": "https://www.wholefoodsmarket.com/sales-flyer?store-id=10304"
+      },
+      {
+       "name": "Amazon - Whole Foods Prime code",
+       "url": "https://www.amazon.com/wholefoodsapp/prime-code?wfmStorefrontRedir=false"
+      }
+     ]
+    },
+    {
+     "retailer": "Costco",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "October book Mon 2026-09-21 to Sun 2026-10-18; next (Oct-Nov) book 2026-10-19 to 2026-11-15",
+     "headline_deals": [
+      {
+       "item": "Lenovo 2-in-1 touchscreen laptop (16GB/1TB)",
+       "price": "not captured",
+       "reg_price_or_saving": "$300 off",
+       "conditions": "coupon book, through 10/18"
+      },
+      {
+       "item": "Dyson cordless vacuum",
+       "price": "not captured",
+       "reg_price_or_saving": "$180 off",
+       "conditions": "through 10/18"
+      },
+      {
+       "item": "Hershey's full-size variety pack, 30 ct",
+       "price": "not captured",
+       "reg_price_or_saving": "$6.80 off",
+       "conditions": "through 10/18"
+      },
+      {
+       "item": "The Original Donut Shop K-Cups, 80 ct",
+       "price": "not captured",
+       "reg_price_or_saving": "$9 off",
+       "conditions": "through 10/18"
+      },
+      {
+       "item": "Liquid I.V. Hydration Multiplier, 30 ct",
+       "price": "not captured",
+       "reg_price_or_saving": "$8 off",
+       "conditions": "through 10/18"
+      },
+      {
+       "item": "Online appliance sale (Whirlpool, Samsung, LG)",
+       "price": "",
+       "reg_price_or_saving": "up to $1,600 off",
+       "conditions": "online only"
+      }
+     ],
+     "verified_by": "Dates by 2+ sources (Costco Insider, CostcoGuides 'Costco Coupon Book September 21 - October 18, 2026', Mojo); next book by Slickdeals + KCL",
+     "sources": [
+      {
+       "name": "Costco Insider - Costco October 2026 Coupon Book",
+       "url": "https://www.costcoinsider.com/costco-october-2026-coupon-book/"
+      },
+      {
+       "name": "CostcoGuides - Costco Coupon Book September 21 - October 18, 2026",
+       "url": "https://costcoguides.com/costco-coupon-book/"
+      },
+      {
+       "name": "Mojo - The Costco October 2026 Coupon Book Guide",
+       "url": "https://www.mojosalesandbranding.com/post/costco-october-2026-coupon-book"
+      },
+      {
+       "name": "Slickdeals - Costco: October to November 2026 Coupon Book (10/19/26 to 11/15/26)",
+       "url": "https://slickdeals.net/f/20144847-costco-october-to-november-2026-coupon-book-10-19-26-to-11-15-26"
+      },
+      {
+       "name": "KCL - Costco Coupon Book (October - November 2026)",
+       "url": "https://thekrazycouponlady.com/tips/couponing/costco-coupon-book"
+      }
+     ]
+    },
+    {
+     "retailer": "Sam's Club",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "October Savings Event/Instant Savings ended 2026-10-11 (before window); next predicted Oct 28-Nov 29 (KCL prediction)",
+     "headline_deals": [
+      {
+       "item": "Member's Mark Halloween serveware set",
+       "price": "$14.98",
+       "reg_price_or_saving": "markdown",
+       "conditions": "until Oct 15 (Yahoo Shopping; single source)"
+      }
+     ],
+     "verified_by": "Event end date verified by 3 sources (Hip2Save, NBC News, dealnews). No in-window event.",
+     "sources": [
+      {
+       "name": "Hip2Save - Sam's Club October Savings Event LIVE",
+       "url": "https://hip2save.com/deals/sams-club-instant-savings/"
+      },
+      {
+       "name": "dealnews - Sam's Club October Prime Savings: Up to $1,300 off for members",
+       "url": "https://www.dealnews.com/Sams-Club-October-Prime-Savings-Up-to-1-300-off-for-members-free-shipping-w-Plus-membership/22249172.html"
+      },
+      {
+       "name": "Yahoo Shopping - 4 Sam's Club Member's Mark Items With Price Cuts In October 2026",
+       "url": "https://shopping.yahoo.com/deals/articles/4-sams-club-members-mark-203511103.html"
+      }
+     ]
+    },
+    {
+     "retailer": "Office Depot/OfficeMax",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Likely Sun 2026-10-11 to Sat 2026-10-17 (aggregator title only; Sunday cycle per salendar)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED (single aggregator title; no contents)",
+     "sources": [
+      {
+       "name": "flyerify - Office Depot OfficeMax flyers",
+       "url": "https://officedepotofficemax.flyerify.com/"
+      },
+      {
+       "name": "Salendar - Office Depot sale dates 2026",
+       "url": "https://salendar.com/office-depot/"
+      }
+     ]
+    },
+    {
+     "retailer": "Michaels",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Aggregator lists ad starting 10/11/2026 (unverified)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "Offermate - Michaels weekly ad (10/11/2026)",
+       "url": "https://www.offermate.us/michaels/"
+      },
+      {
+       "name": "Flipp NJ landing page (lists Lowe's, Walmart, Target, Best Buy, Michaels)",
+       "url": "https://flipp.com/en-us/landing-nj/weekly_ads"
+      }
+     ]
+    },
+    {
+     "retailer": "Hobby Lobby",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Sun 2026-10-11 to Sat 2026-10-17 (one aggregator says Oct 12-17)",
+     "headline_deals": [
+      {
+       "item": "Christmas crafts",
+       "price": "50% off",
+       "reg_price_or_saving": "50%",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Christmas trees (12 in - 12 ft)",
+       "price": "50% off",
+       "reg_price_or_saving": "50%",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Christmas light sets",
+       "price": "25% off",
+       "reg_price_or_saving": "25%",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Christmas party & tableware",
+       "price": "50% off",
+       "reg_price_or_saving": "50%",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Canvas art",
+       "price": "40% off",
+       "reg_price_or_saving": "40%",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Glass bottles & containers; galvanized metal; shower curtains",
+       "price": "40% off",
+       "reg_price_or_saving": "40%",
+       "conditions": "weekly ad"
+      }
+     ],
+     "verified_by": "Dates by 2+ aggregators (weeklyadboard, weeklyadnextweek, weeklyadhunters); item list single aggregator (weeklyadhunters)",
+     "sources": [
+      {
+       "name": "WeeklyAdHunters - Hobby Lobby Weekly Ad (October 11-17, 2026)",
+       "url": "https://weeklyadhunters.com/hobby-lobby-weekly-ad-sales/"
+      },
+      {
+       "name": "WeeklyAdBoard - Hobby Lobby Weekly Ad October 11 - October 17, 2026",
+       "url": "https://weeklyadboard.com/this-week/hobbylobby-this-week"
+      },
+      {
+       "name": "Hobby Lobby Weekly Ad (From 10/11/26 Thru 10/17/26)",
+       "url": "https://weeklyadnextweek.com/hobbylobby"
+      }
+     ]
+    },
+    {
+     "retailer": "Petco",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND) (Flipp category copy names Petco)",
+     "ad_dates": "No weekly ad found for this week",
+     "headline_deals": [
+      {
+       "item": "Select prescription meds",
+       "price": "50% off first Autoship",
+       "reg_price_or_saving": "50%",
+       "conditions": "dealnews listing; dates unconfirmed"
+      }
+     ],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "dealnews - Best Petco Deals & Sales for October 2026",
+       "url": "https://www.dealnews.com/s474/Petco/"
+      }
+     ]
+    },
+    {
+     "retailer": "PetSmart",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND) (Flipp category copy names Petsmart)",
+     "ad_dates": "No weekly ad found",
+     "headline_deals": [
+      {
+       "item": "1-800-Flowers family of brands",
+       "price": "$15 off $49.99+",
+       "reg_price_or_saving": "$15",
+       "conditions": "Treats Rewards members, code PSTREATS, through 10/31/2026 (single aggregator)"
+      }
+     ],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "Rakuten - PetSmart",
+       "url": "https://www.rakuten.com/shop/petsmart"
+      }
+     ]
+    },
+    {
+     "retailer": "Ulta Beauty",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "No October weekly ad found; Fall 21 Days of Beauty ran Aug 28 - Sep 17, 2026 (ended)",
+     "headline_deals": [],
+     "verified_by": "Event dates by 2 sources (KCL, NewBeauty); no in-window ad",
+     "sources": [
+      {
+       "name": "KCL - Ulta 21 Days of Beauty",
+       "url": "https://thekrazycouponlady.com/tips/money/ulta-21-days-of-beauty"
+      },
+      {
+       "name": "NewBeauty - Ulta Fall 21 Days of Beauty 2026",
+       "url": "https://www.newbeauty.com/view/ulta-21-days-of-beauty-fall-2026"
+      }
+     ]
+    },
+    {
+     "retailer": "Dollar General",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Sun 2026-10-11 to Sat 2026-10-17",
+     "headline_deals": [
+      {
+       "item": "$5 off $25 purchase",
+       "price": "$5 off",
+       "reg_price_or_saving": "$5 off $25 pre-tax",
+       "conditions": "digital coupon (myDG / DG app), Mon-Fri 10/12-10/16"
+      },
+      {
+       "item": "$5 off $25 Saturday",
+       "price": "$5 off",
+       "reg_price_or_saving": "$5 off $25 pre-tax",
+       "conditions": "digital coupon, Sat 10/17"
+      }
+     ],
+     "verified_by": "Company pages (dollargeneral.com home + On Sale) + TheFreebieGuy 'Dollar General $5 Off $25 Scenarios for October 12th-17th!'",
+     "sources": [
+      {
+       "name": "Dollar General home",
+       "url": "https://www.dollargeneral.com/"
+      },
+      {
+       "name": "Dollar General On Sale",
+       "url": "https://www.dollargeneral.com/c/on-sale"
+      },
+      {
+       "name": "TheFreebieGuy - Dollar General $5 Off $25 Scenarios for October 12th-17th!",
+       "url": "https://thefreebieguy.com/dollar-general-saturday-scenarios-list/"
+      },
+      {
+       "name": "Passionate Penny Pincher - Dollar General Ad",
+       "url": "https://passionatepennypincher.com/dollar-general-ad/"
+      }
+     ]
+    },
+    {
+     "retailer": "Family Dollar",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Conflicting: Oct 4-12, 2026 ad then Oct 13-17, 2026 (Halloween promotion) per 2 aggregators; others say Oct 11-17",
+     "headline_deals": [
+      {
+       "item": "Halloween variety candy bags 3.9-64.7 oz",
+       "price": "Buy 2 Get 1 Free",
+       "reg_price_or_saving": "B2G1",
+       "conditions": "Oct 4-12 ad (single aggregator)"
+      },
+      {
+       "item": "Eggo pancakes/waffles/toaster sticks",
+       "price": "2 for $6",
+       "reg_price_or_saving": "sale",
+       "conditions": "Oct 4-12 ad (single aggregator)"
+      }
+     ],
+     "verified_by": "Oct 13-17 dates by 2 aggregators (weeklyadpro, offermate); item prices unverified",
+     "sources": [
+      {
+       "name": "WeeklyAdPro - Family Dollar Weekly Ad Oct 13 - Oct 17 2026 (Halloween promotion included)",
+       "url": "https://www.weeklyadpro.com/family-dollar-weekly-ad-oct-13-oct-17-2026-halloween-promotion-included/"
+      },
+      {
+       "name": "Offermate - Family Dollar Weekly Ads (10/13 - 10/17)",
+       "url": "https://www.offermate.us/family-dollar/"
+      },
+      {
+       "name": "WeeklyAdHunters - Family Dollar Weekly Ad October 4 - 12, 2026",
+       "url": "https://weeklyadhunters.com/family-dollar-weekly-ad/"
+      },
+      {
+       "name": "Flipp US home (retailer logos: Walmart, Kroger, Home Depot, CVS, Meijer, Publix, Walgreens, Rite Aid, Family Dollar)",
+       "url": "https://flipp.com/en-us/home"
+      }
+     ]
+    },
+    {
+     "retailer": "Fiesta Mart",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Wed 2026-10-14 to Tue 2026-10-20 (prior ad Oct 7-13)",
+     "headline_deals": [],
+     "verified_by": "Dates by 3 aggregators (hotcouponworld, theladysavings, theweeklyad); no items",
+     "sources": [
+      {
+       "name": "HotCouponWorld - Fiesta Weekly (10/14/26",
+       "url": "https://www.hotcouponworld.com/fiesta-weekly-ad/"
+      },
+      {
+       "name": "TheWeeklyAd - Fiesta Weekly (10/14/26",
+       "url": "https://www.theweeklyad.com/fiesta-weekly-ad/"
+      },
+      {
+       "name": "WeeklyAdSale - Fiesta Mart Weekly Ad October 7 - October 13, 2026",
+       "url": "https://www.weeklyadsale.com/fiesta-mart-circular/"
+      }
+     ]
+    },
+    {
+     "retailer": "Natural Grocers",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Autumnfest Oct 8-10, 2026 (ended); ongoing member deals through Oct 24, 2026",
+     "headline_deals": [
+      {
+       "item": "Pumpkin Spice Pancakes good4u Meal Deal (feeds up to 4)",
+       "price": "under $14",
+       "reg_price_or_saving": "meal bundle",
+       "conditions": "{N}power members, through Oct 24"
+      },
+      {
+       "item": "Annie's Organic Soups 14-14.03 oz",
+       "price": "$3.79",
+       "reg_price_or_saving": "sale",
+       "conditions": "through Oct 24"
+      },
+      {
+       "item": "Natural Grocers Brand Organic Coffee 10 oz",
+       "price": "$7.99",
+       "reg_price_or_saving": "sale",
+       "conditions": "through Oct 24"
+      }
+     ],
+     "verified_by": "Company press release (PR Newswire / investors.naturalgrocers.com, Oct 1, 2026)",
+     "sources": [
+      {
+       "name": "PR Newswire - Celebrate Autumnfest With Natural Grocers, Oct. 8-10, 2026",
+       "url": "https://www.prnewswire.com/news-releases/celebrate-autumnfest-with-natural-grocers-oct-810-2026-302880944.html"
+      },
+      {
+       "name": "Natural Grocers IR",
+       "url": "https://investors.naturalgrocers.com/2026-10-01-Celebrate-Autumnfest-With-Natural-Grocers-R-,-Oct-8-10,-2026"
+      }
+     ]
+    },
+    {
+     "retailer": "ALDI",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Wed 2026-10-14 to Tue 2026-10-20",
+     "headline_deals": [
+      {
+       "item": "Casalux cabinet light with sensor",
+       "price": "$6.99",
+       "reg_price_or_saving": "ALDI Find",
+       "conditions": "while supplies last"
+      },
+      {
+       "item": "Easy Home Power Mop set",
+       "price": "$24.99",
+       "reg_price_or_saving": "ALDI Find",
+       "conditions": "while supplies last"
+      },
+      {
+       "item": "Kirkton House 4-pc blackout curtain set",
+       "price": "$14.99",
+       "reg_price_or_saving": "ALDI Find",
+       "conditions": "while supplies last"
+      },
+      {
+       "item": "Febreze fall air freshener 8.8 oz",
+       "price": "$3.44",
+       "reg_price_or_saving": "sale",
+       "conditions": "weekly ad"
+      },
+      {
+       "item": "Crofton glass carafe set",
+       "price": "$7.99",
+       "reg_price_or_saving": "ALDI Find",
+       "conditions": "while supplies last"
+      }
+     ],
+     "verified_by": "Dates by 2 sources (Aldi Reviewer 'This Week at Aldi: The Aldi Weekly Ad for October 14, 2026', WeeklyAdHunters); items per Aldi Reviewer",
+     "sources": [
+      {
+       "name": "Aldi Reviewer - This Week at Aldi: The Aldi Weekly Ad for October 14, 2026",
+       "url": "https://www.aldireviewer.com/this-week-at-aldi-the-aldi-weekly-ad-for-october-14-2026/"
+      },
+      {
+       "name": "WeeklyAdHunters - Aldi Weekly Ad (Finds) (Oct 14 - 20, 2026)",
+       "url": "https://weeklyadhunters.com/aldi-weekly-ad/"
+      }
+     ]
+    },
+    {
+     "retailer": "Trader Joe's",
+     "on_flipp": "unknown",
+     "flipp_note": "Trader Joe's publishes no sale circular (Fearless Flyer is a product newsletter)",
+     "ad_dates": "No weekly sale ad (Fearless Flyer fall 2026 edition only)",
+     "headline_deals": [],
+     "verified_by": "N/A - no weekly ad program",
+     "sources": [
+      {
+       "name": "Aldi Reviewer - Simplified TJ's Fearless Flyer: Fall 2026",
+       "url": "https://www.aldireviewer.com/the-simplified-trader-joes-fearless-flyer-fall-2026-edition/"
+      }
+     ]
+    },
+    {
+     "retailer": "Big Lots",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Last ad found Sep 27 - Oct 10, 2026 (ended); nothing for Oct 11+. Chain liquidated/partly sold to Variety Wholesalers (2024-25); Austin store status unverified",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "WeeklyAdHunters - Big Lots Weekly Ad September 27 - October 10, 2026",
+       "url": "https://weeklyadhunters.com/big-lots-weekly-ad/"
+      },
+      {
+       "name": "Wikipedia - Big Lots",
+       "url": "https://en.wikipedia.org/wiki/Big_Lots"
+      }
+     ]
+    },
+    {
+     "retailer": "Tuesday Morning",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted). Background knowledge only: chain liquidated all stores in 2023 - unverified here",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "Ollie's Bargain Outlet",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Thu 2026-10-08 to Thu 2026-10-15",
+     "headline_deals": [
+      {
+       "item": "Campbell's soup",
+       "price": "50 cents",
+       "reg_price_or_saving": "bargain price",
+       "conditions": "single aggregator"
+      },
+      {
+       "item": "Del Monte Classics sliced carrots or cut green beans",
+       "price": "99 cents ea",
+       "reg_price_or_saving": "bargain price",
+       "conditions": "single aggregator"
+      }
+     ],
+     "verified_by": "Dates by 2 aggregators (WeeklyAdHunters, Lady Savings 10/8/26-10/15/26); items single-source",
+     "sources": [
+      {
+       "name": "WeeklyAdHunters - Ollie's Weekly Ad (October 8 - 15, 2026)",
+       "url": "https://weeklyadhunters.com/ollies-weekly-ad/"
+      },
+      {
+       "name": "Lady Savings - Ollie's Weekly Ad (10/8/26 - 10/15/26) Preview!",
+       "url": "https://www.ladysavings.com/ollies-weekly-ad/"
+      }
+     ]
+    },
+    {
+     "retailer": "Harbor Freight",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Coupon deals now thru 10/25/2026; Dollar Days thru 10/21/2026; Inside Track Club deals Oct 2-29, 2026; Instant Savings thru 10/29 (GrabOn conflicts)",
+     "headline_deals": [
+      {
+       "item": "Dollar Days coupon",
+       "price": "not captured",
+       "reg_price_or_saving": "",
+       "conditions": "code 10000000, exp 10/21/2026"
+      },
+      {
+       "item": "Inside Track Club member deals",
+       "price": "not captured",
+       "reg_price_or_saving": "",
+       "conditions": "ITC members, Oct 2-29, 2026"
+      }
+     ],
+     "verified_by": "Company pages (go.harborfreight.com, harborfreight.com ITC); item prices not captured",
+     "sources": [
+      {
+       "name": "Harbor Freight coupons",
+       "url": "https://go.harborfreight.com/coupons/"
+      },
+      {
+       "name": "Harbor Freight Inside Track Club deals",
+       "url": "https://www.harborfreight.com/collections/inside-track-club-deals.html"
+      }
+     ]
+    },
+    {
+     "retailer": "AutoZone",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "No monthly ad found",
+     "headline_deals": [
+      {
+       "item": "Online order",
+       "price": "20% off $100+",
+       "reg_price_or_saving": "20%",
+       "conditions": "aggregators conflict on end date (10/13 vs 10/24/2026)"
+      }
+     ],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "CouponFollow - AutoZone",
+       "url": "https://couponfollow.com/site/autozone.com"
+      }
+     ]
+    },
+    {
+     "retailer": "O'Reilly Auto Parts",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Offers through Oct 27, 2026; rebates Sep 30 - Oct 27, 2026",
+     "headline_deals": [
+      {
+       "item": "BrakeBest Select brake pads",
+       "price": "FREE",
+       "reg_price_or_saving": "free set",
+       "conditions": "with purchase of 2 BrakeBest Select rotors, valid until Oct 27, 2026"
+      },
+      {
+       "item": "BrakeBest Select Pro / Import Direct pads",
+       "price": "FREE",
+       "reg_price_or_saving": "free set",
+       "conditions": "with 2 matching rotors, until Oct 27, 2026"
+      },
+      {
+       "item": "Chemical Guys (2 products)",
+       "price": "$5 gift card",
+       "reg_price_or_saving": "mail-in rebate",
+       "conditions": "Sep 30 - Oct 27, 2026"
+      },
+      {
+       "item": "Castrol motor oil",
+       "price": "mail-in rebate",
+       "reg_price_or_saving": "rebate",
+       "conditions": "Sep 30 - Oct 27, 2026"
+      }
+     ],
+     "verified_by": "Company pages (oreillyauto.com coupons & rebate center)",
+     "sources": [
+      {
+       "name": "O'Reilly coupons, offers & promotions",
+       "url": "https://www.oreillyauto.com/coupons-offers-and-promotions"
+      },
+      {
+       "name": "O'Reilly rebate center",
+       "url": "https://www.oreillyauto.com/rebate"
+      }
+     ]
+    },
+    {
+     "retailer": "Home Depot",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "No dated weekly ad; rolling daily deals",
+     "headline_deals": [
+      {
+       "item": "Halloween decor (selection)",
+       "price": "up to 35% off",
+       "reg_price_or_saving": "up to 35%",
+       "conditions": "Daily deal; dealnews posting date not confirmed in window"
+      }
+     ],
+     "verified_by": "NOT VERIFIED for Oct 13-20",
+     "sources": [
+      {
+       "name": "dealnews - Home Depot Halloween Decor Daily Deals: Up to 35% off",
+       "url": "https://www.dealnews.com/Home-Depot-Halloween-Decor-Daily-Deals-Up-to-35-off-free-shipping/22264039.html"
+      },
+      {
+       "name": "Flipp US home (retailer logos: Walmart, Kroger, Home Depot, CVS, Meijer, Publix, Walgreens, Rite Aid, Family Dollar)",
+       "url": "https://flipp.com/en-us/home"
+      }
+     ]
+    },
+    {
+     "retailer": "Lowe's",
+     "on_flipp": true,
+     "flipp_note": "Flipp's own pages list this retailer nationally; Austin/78701 listing NOT directly verified (flipp.com unreachable: DNS ENOTFOUND)",
+     "ad_dates": "Thu 2026-10-08 to Wed 2026-10-14 (aggregators); official savings offers end 10/14/26",
+     "headline_deals": [
+      {
+       "item": "Therma-Tru custom entry doors",
+       "price": "15% off",
+       "reg_price_or_saving": "15%",
+       "conditions": "Therma-Tru Days, ends 10/14/26"
+      },
+      {
+       "item": "Select vanities",
+       "price": "up to 50% off",
+       "reg_price_or_saving": "up to 50%",
+       "conditions": "ends 10/14"
+      },
+      {
+       "item": "Select power tools, equipment & accessories",
+       "price": "save up to $95",
+       "reg_price_or_saving": "up to $95",
+       "conditions": "ends 10/14"
+      }
+     ],
+     "verified_by": "Company page (lowes.com/l/savings) + 2 aggregators for Oct 8-14 dates (weeklyadsale, offermate)",
+     "sources": [
+      {
+       "name": "Lowe's savings",
+       "url": "https://www.lowes.com/l/savings"
+      },
+      {
+       "name": "WeeklyAdSale - Lowe's weekly ad",
+       "url": "https://www.weeklyadsale.com/lowes/"
+      },
+      {
+       "name": "Offermate - Lowe's weekly ad 10/08/2026",
+       "url": "https://www.offermate.us/lowes/"
+      },
+      {
+       "name": "Flipp NJ landing page (lists Lowe's, Walmart, Target, Best Buy, Michaels)",
+       "url": "https://flipp.com/en-us/landing-nj/weekly_ads"
+      }
+     ]
+    },
+    {
+     "retailer": "Macy's",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "No confirmed sale Oct 13-20. Columbus Day Sale Oct 10-12 ended; Friends & Family predicted Oct 26-Nov 3",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": [
+      {
+       "name": "KCL - Macy's Friends & Family Sale 2026",
+       "url": "https://thekrazycouponlady.com/tips/store-hacks/macys-friends-and-family-sale"
+      }
+     ]
+    },
+    {
+     "retailer": "Barnes & Noble",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "GameStop",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Weekly ad reportedly discontinued (forum, unconfirmed); rolling deals page",
+     "headline_deals": [
+      {
+       "item": "Nintendo Switch console",
+       "price": "$199.99 ($189.99 Pro)",
+       "reg_price_or_saving": "$10 Pro discount",
+       "conditions": "GameStop Pro members"
+      }
+     ],
+     "verified_by": "Company deals page (undated)",
+     "sources": [
+      {
+       "name": "GameStop deals page",
+       "url": "https://www.gamestop.com/weekly-ad/digital"
+      },
+      {
+       "name": "CAG - The 2026 GameStop Thread",
+       "url": "https://www.cheapassgamer.com/threads/the-2026-gamestop-thread.375703/page-11"
+      }
+     ]
+    },
+    {
+     "retailer": "Bath & Body Works",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Sitewide sale up to 75% off through Oct 19, 2026 (Dealcatcher)",
+     "headline_deals": [
+      {
+       "item": "Sitewide sale",
+       "price": "up to 75% off",
+       "reg_price_or_saving": "up to 75%",
+       "conditions": "no code, exp Oct 19, 2026 (Dealcatcher)"
+      },
+      {
+       "item": "3-wick candles",
+       "price": "$16",
+       "reg_price_or_saving": "reg $23-$25",
+       "conditions": "Stylecaster, updated Oct 9, 2026"
+      },
+      {
+       "item": "Single-wick candles",
+       "price": "2 for $20",
+       "reg_price_or_saving": "",
+       "conditions": "Stylecaster"
+      }
+     ],
+     "verified_by": "PARTIAL: two sources but different offers (not mutually confirming). Slickdeals thread 17816325 'B1G1 free on all candles ends October 14' is likely a prior year - excluded.",
+     "sources": [
+      {
+       "name": "Dealcatcher - Bath & Body Works Sale",
+       "url": "https://dealcatcher.com/deals/household/bed-bath/bath-body-works-sale-425078"
+      },
+      {
+       "name": "Stylecaster - B&BW coupon codes October 2026",
+       "url": "https://stylecaster.com/beauty/skin-care/1234949722/bath-body-works-coupon-codes-discounts-10-2026/"
+      }
+     ]
+    },
+    {
+     "retailer": "Victoria's Secret",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "Old Navy",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "40% off everything ended Mon 10/12 (one day before window); Fall Friends & Family predicted ~Oct 24-27",
+     "headline_deals": [],
+     "verified_by": "No in-window sale verified",
+     "sources": [
+      {
+       "name": "Old Navy pajama sale page",
+       "url": "https://oldnavy.gap.com/shop/pajama-sale-0aqz00a"
+      }
+     ]
+    },
+    {
+     "retailer": "Five Below",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "Dollar Tree",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted)",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "World Market",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Undated October 2026 offers (dealnews store page)",
+     "headline_deals": [
+      {
+       "item": "Fall clearance",
+       "price": "up to 60% off",
+       "reg_price_or_saving": "up to 60%",
+       "conditions": "select items; free shipping $59+"
+      }
+     ],
+     "verified_by": "NOT VERIFIED (dates not confirmed)",
+     "sources": [
+      {
+       "name": "dealnews - Best World Market Deals & Sales for October 2026",
+       "url": "https://www.dealnews.com/s1868/World-Market/"
+      }
+     ]
+    },
+    {
+     "retailer": "At Home",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "Nothing found",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "HomeGoods",
+     "on_flipp": "unknown",
+     "flipp_note": "not searched",
+     "ad_dates": "NOT SEARCHED (search budget exhausted); HomeGoods does not normally publish a weekly ad",
+     "headline_deals": [],
+     "verified_by": "NOT VERIFIED",
+     "sources": []
+    },
+    {
+     "retailer": "Ace Hardware",
+     "on_flipp": "unknown",
+     "flipp_note": "No Flipp page for this retailer surfaced in search; flipp.com unreachable from this machine",
+     "ad_dates": "October flyer 2026-10-01 to 2026-10-31 (monthly)",
+     "headline_deals": [],
+     "verified_by": "Dates by 2 aggregators (Lady Savings, TheWeeklyAd); no items captured",
+     "sources": [
+      {
+       "name": "Lady Savings - Ace Hardware Ad (10/1/26-10/31/26) October Preview",
+       "url": "https://www.ladysavings.com/acehardware-weekly-ad/"
+      },
+      {
+       "name": "TheWeeklyAd - Ace Hardware October Flyer (10/1/26-10/31/26)",
+       "url": "https://www.theweeklyad.com/acehardware-weekly-ad/3/"
+      }
+     ]
+    }
+   ],
+   "promos": [
+    {
+     "brand": "McAlister's Deli",
+     "offer": "Free dessert with any entree purchase for McAlister's Rewards members (National Dessert Day)",
+     "dates": "2026-10-14",
+     "days": null,
+     "conditions": "Rewards members; limit one use; cannot be combined; excludes third-party delivery",
+     "verified_by": "LIKELY: 2 third-party roundups per search summary (individual attribution unclear); not seen on McAlister's own site",
+     "texas_presence": "Austin-area locations (background knowledge, unverified)",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      },
+      {
+       "name": "Boston 25 News (Cox syndicated)",
+       "url": "https://www.boston25news.com/news/trending/celebrate-national-dessert-day-with-freebies-deals/3LH6D6CY3BGUVLBCCHEOUCO5MQ/",
+       "title_verbatim": "Celebrate National Dessert Day with freebies and deals"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Portillo's",
+     "offer": "$1 slice of OREO Cake for Portillo's Perks members with $5+ purchase",
+     "dates": "2026-10-12 to 2026-10-18",
+     "days": null,
+     "conditions": "Perks members; $5+ purchase",
+     "verified_by": "NOT VERIFIED: single roundup",
+     "texas_presence": "Texas (DFW/Houston) locations; Austin presence unverified",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Jason's Deli",
+     "offer": "Free Strawberry Shortcake with entree purchase",
+     "dates": "2026-10-14 to 2026-10-18",
+     "days": null,
+     "conditions": "entree purchase",
+     "verified_by": "NOT VERIFIED: single roundup; search summary conflated it with a White Castle offer",
+     "texas_presence": "Texas-based chain with Austin locations",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Baskin-Robbins",
+     "offer": "Baskin-Robbins Rewards members can purchase three qualifying treats for $15",
+     "dates": "October 2026 (all month)",
+     "days": null,
+     "conditions": "Rewards members; eligible items",
+     "verified_by": "NOT VERIFIED: single roundup",
+     "texas_presence": "some Austin-area stores (unverified)",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "The Cheesecake Factory",
+     "offer": "$10 bonus eCard for every $50 in online gift card purchases",
+     "dates": "purchase through 2026-10-25; bonus valid 2026-10-26 to 2026-11-22",
+     "days": null,
+     "conditions": "online gift card purchases",
+     "verified_by": "NOT VERIFIED: single roundup",
+     "texas_presence": "Austin locations (background knowledge)",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Krispy Kreme / Dairy Queen / Starbucks (National Dessert Day)",
+     "offer": "PREDICTED ONLY (free donuts, BOGO Blizzards, pastry discounts) - not announced",
+     "dates": "2026-10-14 (predicted)",
+     "days": null,
+     "conditions": "",
+     "verified_by": "NOT VERIFIED: one roundup lists these as expectations only",
+     "sources": [
+      {
+       "name": "TheFreebieGuy",
+       "url": "https://thefreebieguy.com/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals & Freebies for Oct. 14th"
+      },
+      {
+       "name": "The Krazy Coupon Lady",
+       "url": "https://thekrazycouponlady.com/tips/money/national-dessert-day",
+       "title_verbatim": "National Dessert Day: Look for a Free Doughnut, BOGOs, and More - The Krazy Coupon Lady"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "National Pasta Day (Oct 17, 2026) - Olive Garden / Carrabba's etc.",
+     "offer": "No confirmed 2026 offer from a Texas chain; only confirmed 2026 offer found is Dalmoros Fresh Italian ($5 off for new app sign-ups; FL/Boston only, not Texas)",
+     "dates": "2026-10-17",
+     "days": null,
+     "conditions": "",
+     "verified_by": "NOT VERIFIED for any TX chain; older Today.com/CouponCabin lists are 2023/2024",
+     "sources": [
+      {
+       "name": "Easy Everyday Recipes",
+       "url": "https://easyeverydayrecipes.com/national-pasta-day-is-oct-17-6-restaurant-offers-to-check-before-you-go/",
+       "title_verbatim": "National Pasta Day Is Oct. 17: 6 Restaurant Offers To Check Before You Go"
+      },
+      {
+       "name": "National Today",
+       "url": "https://nationaltoday.com/national-pasta-day/",
+       "title_verbatim": "National Pasta Day — October 17, 2026"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Boss's Day (Oct 16, 2026)",
+     "offer": "No restaurant promotion found",
+     "dates": "2026-10-16",
+     "days": null,
+     "conditions": "",
+     "verified_by": "Nothing found",
+     "sources": [
+      {
+       "name": "National Today",
+       "url": "https://nationaltoday.com/boss-day/",
+       "title_verbatim": "National Boss's Day — October 16, 2026"
+      }
+     ],
+     "deal_site_post": null
+    }
+   ],
+   "excluded_non_texas_promos": [
+    {
+     "brand": "MilkShake Factory",
+     "offer": "BOGO milkshakes, sundaes, floats, molten cups 10/14 in-store",
+     "reason": "no Texas locations (Pittsburgh-area chain)"
+    },
+    {
+     "brand": "Tocaya",
+     "offer": "free dessert with $15+ order for loyalty members 10/14",
+     "reason": "no Texas locations"
+    },
+    {
+     "brand": "White Castle",
+     "offer": "free Dessert-on-a-Stick with combo, code DESSERT, Oct 14-19 (Craver Nation)",
+     "reason": "no Texas locations"
+    },
+    {
+     "brand": "Dalmoros Fresh Italian",
+     "offer": "$5 off future purchase for new app sign-ups (Pasta Day)",
+     "reason": "FL/Boston only"
+    }
+   ]
+  },
+  "regulars": {
+   "checked_on": "2026-10-13",
+   "coverage_note": "Partial sweep. The shared WebSearch budget (200 calls per turn, all agents) ran out after about 30 searches by this agent. Movie theaters were swept fully. Kids-eat-free was sampled. Not swept: most restaurant chains' weekly deals, retail days, museums, zoos, bowling and boba/coffee. WebFetch could not reach company sites (ENOTFOUND), so every finding below comes from search-result snippets of the named pages.",
+   "missing": [
+    {
+     "brand": "Santikos (also The Grand and AmStar theatres)",
+     "offer": "Super Tuesday: select movies $5.99 every Tuesday, plus a $5.99 large popcorn or large drink",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "cinema",
+     "areas": [
+      "houston"
+     ],
+     "conditions": [
+      "premium-format upcharge (AVX, GPX, IMAX, 3D)",
+      "special engagements and early-access events excluded"
+     ],
+     "evidence_url": "https://www.santikos.com/super-tuesday",
+     "evidence_is_company_site": true,
+     "second_source_url": "https://www.santikos.com/san-antonio/cibolo/promotions",
+     "notes": "The company page names all Santikos, The Grand and AmStar theaters. Its Houston-area branch is Santikos Grand-Conroe 14 (Conroe), which Cinema Treasures lists; the chain itself does not confirm that branch. Its other Texas branches are in San Antonio. Older Santikos promo pages still say $4.99, so use the /super-tuesday page."
+    },
+    {
+     "brand": "Movie Tavern by Marcus",
+     "offer": "Value Tuesday: $6 tickets and FREE popcorn",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "cinema",
+     "areas": [
+      "dallas"
+     ],
+     "conditions": [
+      "Magical Movie Rewards members (free to join)",
+      "standard 2D; extra charge for premium formats",
+      "free complimentary-size popcorn"
+     ],
+     "evidence_url": "https://www.marcustheatres.com/theatre-locations/state-TX?Brand=Movie+Tavern",
+     "evidence_is_company_site": true,
+     "second_source_url": "https://www.marcustheatres.com/marcus-specials/value-pricing/value-tuesday",
+     "notes": "Texas branches on marcustheatres.com: Denton (916 W University Dr), Hulen (4920 S Hulen St, Fort Worth) and West 7th (2872 Crockett St, Fort Worth). Local reports say non-members pay $7."
+    },
+    {
+     "brand": "ShowBiz Cinemas",
+     "offer": "Get discounted tickets every Tuesday at all ShowBiz locations!",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "cinema",
+     "areas": [
+      "houston",
+      "dallas?"
+     ],
+     "conditions": [
+      "price not stated on the company page"
+     ],
+     "evidence_url": "https://www.showbizcinemas.com/",
+     "evidence_is_company_site": true,
+     "second_source_url": "https://edmond.showbizcinemas.com/",
+     "notes": "Search confirmed one Texas branch: Kingwood (kingwood.showbizcinemas.com, Houston area). The Dallas-Fort Worth branches were not confirmed in this search. A 2021 Kingwood ticketing page labels Tuesday showtimes '$5 Discount Ticket'. The README already notes that ShowBiz's home page is an empty JavaScript shell."
+    },
+    {
+     "brand": "Alamo Drafthouse",
+     "offer": "BFD Tuesdays: discounted tickets for regular-priced 2D, non-event Tuesday shows; $5, $7 or $9 depending on the city",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "cinema",
+     "areas": [
+      "austin",
+      "dallas",
+      "houston?"
+     ],
+     "conditions": [
+      "regular-priced 2D only",
+      "excludes opening week of select films, special events, private parties, marathons, feasts, 3D and The Big Show",
+      "subject to availability",
+      "fees and tax extra"
+     ],
+     "evidence_url": "https://drafthouse.com/offers/bfd-tuesdays",
+     "evidence_is_company_site": true,
+     "second_source_url": "https://drafthouse.com/chicago/news/bfd-tuesdays",
+     "notes": "The offers page lists Austin and DFW; a search snippet shows it at $9 plus a $2.19 fee. The Chicago news page is about 634 days old (around Jan 2025) and puts Austin, DFW and Houston in the $7 tier. The current price is uncertain, and the offers page does not list Houston (its Alamos are franchised). The README already names this deal as missing because drafthouse.com serves Slomp's reader a bot check."
+    },
+    {
+     "brand": "Denny's",
+     "offer": "Kids eat free 4-10 pm: kids 12 and under get a free meal with an adult purchase of at least $6",
+     "days": [
+      "tue"
+     ],
+     "time": "4-10 pm",
+     "kind": "restaurant",
+     "areas": [
+      "statewide"
+     ],
+     "conditions": [
+      "participating locations",
+      "adult entrée $6 or more",
+      "kids 12 and under",
+      "days can vary by location"
+     ],
+     "evidence_url": "https://dennys.com/openforanything",
+     "evidence_is_company_site": true,
+     "second_source_url": "https://thekrazycouponlady.com/tips/money/tuesday-meal-deals",
+     "notes": "The day is not certain. A Denny's press release (dennys.com/news) and The Krazy Coupon Lady's October 2026 Tuesday list say every Tuesday 4-10 pm. The Denny's rewards page reads as daily 4-10 pm, with participation varying. Because it is on The Krazy Coupon Lady's Tuesday list, Slomp's roundup reader may already show it."
+    }
+   ],
+   "unverified_leads": [
+    {
+     "brand": "Main Event",
+     "offer": "Kids eat FREE every Tuesday when you purchase a menu item for $11.99 or more",
+     "days": [
+      "tue"
+     ],
+     "source": "https://thekrazycouponlady.com/tips/money/tuesday-meal-deals",
+     "notes": "Single source (Oct 2026). Easy to check on https://www.mainevent.com/specials, which regulars.json already cites."
+    },
+    {
+     "brand": "Mellow Mushroom",
+     "offer": "Kids 10 and younger get up to two free kids meals with an adult entrée of $15 or more, every Tuesday through Oct 27",
+     "days": [
+      "tue"
+     ],
+     "until": "2026-10-27",
+     "source": "https://thekrazycouponlady.com/tips/family/guide-kids-eat-free-restaurants",
+     "notes": "Single source; the brand has branches in Austin, Houston and Dallas. It may also be on https://thekrazycouponlady.com/tips/money/tuesday-meal-deals"
+    },
+    {
+     "brand": "Smashburger",
+     "offer": "Kids 12 and under eat free every Wednesday with an adult meal (entrée, side and drink), in-store only, through Dec 31",
+     "days": [
+      "wed"
+     ],
+     "until": "2026-12-31",
+     "source": "https://thekrazycouponlady.com/tips/family/guide-kids-eat-free-restaurants",
+     "notes": "Single source."
+    },
+    {
+     "brand": "Cowboy Chicken",
+     "offer": "Kids 10 and under eat free after 4 pm on Mondays with an adult entrée, limit four",
+     "days": [
+      "mon"
+     ],
+     "source": "https://thekrazycouponlady.com/tips/family/guide-kids-eat-free-restaurants",
+     "notes": "Single source. A Dallas-based chain, so highly relevant."
+    },
+    {
+     "brand": "Studio Movie Grill",
+     "offer": "$5 tickets every Tuesday for SMG Access members",
+     "days": [
+      "tue"
+     ],
+     "source": "https://www.studiomoviegrill.com/help/ticket-prices-and-policies/prosperity-village",
+     "notes": "The only company page found is for a North Carolina branch, and its prices may be stale. The design doc left this deal out as stale. Texas branches: Pearland, Spring Valley (Richardson) and others."
+    },
+    {
+     "brand": "Violet Crown",
+     "offer": "$7 Tuesday, all day",
+     "days": [
+      "tue"
+     ],
+     "source": "https://citiesinsider.com/country/united-states/dallas/movie-theaters/en",
+     "notes": "Undated aggregator. Violet Crown's own pages show no Tuesday price."
+    },
+    {
+     "brand": "Southwest Theaters (Austin)",
+     "offer": "$2.50 Tuesday",
+     "days": [
+      "tue"
+     ],
+     "source": "https://www.groupon.com/local/austin/movies",
+     "notes": "Aggregator estimate only."
+    },
+    {
+     "brand": "Golden Corral / IHOP / Moe's",
+     "offer": "kids-eat-free nights",
+     "days": [],
+     "source": "https://www.thetakeout.com/2221490/chain-restaurants-kids-eat-free/",
+     "notes": "None is a standing chain-wide weekly deal. Golden Corral's Tuesday deals are set by each location. IHOP runs only time-limited national windows (Dec 1-21, 2025; Apr-May 2025). Moe's sources conflict: Tuesday (old), Sunday (2025 guides), and a weekly Moe Rewards app reward (Sept 2026)."
+    },
+    {
+     "brand": "EVO Entertainment, Moviehouse & Eatery, LOOK Dine-In, Cinépolis",
+     "offer": "Tuesday discounts",
+     "days": [
+      "tue"
+     ],
+     "source": null,
+     "notes": "No current evidence found. LOOK Arlington advertised $5 Tuesdays at its 2022 opening."
+    }
+   ],
+   "outdated": [],
+   "watch": [
+    {
+     "brand": "Outback Steakhouse",
+     "slomp_offer": "Kids eat free every Monday: a free kids' meal with every adult entrée",
+     "notes": "The Krazy Coupon Lady's October 2026 Monday list still carries it (code JOEYFREE), but says its only source is an article about a summer 2024-25 run titled 'Outback Kids Eat Free Every Monday This Summer'. It may be seasonal. Not marked outdated, because regulars.json cites outback.com/offers/kids-eat-free and nothing current says it ended."
+    },
+    {
+     "brand": "Star Cinema Grill",
+     "slomp_offer": "Tuesday special ticket price",
+     "notes": "Cities Insider's 2026 Houston guide gives the price as $6.00, all day Tuesday. This is a third-party source, so it could fill the entry's 'price not stated' condition only as a reported figure."
+    },
+    {
+     "brand": "JOANN",
+     "slomp_offer": null,
+     "notes": "Not in regulars.json. Do not add: from background knowledge (not searched), JOANN closed all its stores in 2025."
+    }
+   ],
+   "confirmed_present": [
+    "AMC (50% off Tue and Wed for Stubs members; AMC's own pages and a July 2025 BusinessWire release)",
+    "Regal (Value Days on Tuesdays for Crown Club members; 2026 third-party guides)",
+    "Cinemark (Discount Tuesdays; cinemark.com)",
+    "Star Cinema Grill (Tuesday special; Cities Insider Houston 2026 says $6)",
+    "Luby's (kids eat free Wed and Sat; The Krazy Coupon Lady, Oct 2026)"
+   ]
+  }
+ },
+ "replay": [
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Wayfair",
+    "deal_type": "sale",
+    "category": "Home & Garden",
+    "title": "Wayfair Holiday Deal Week Sale: Up to 80% off + free shipping w/ $35",
+    "text": "Save on holiday decor, furniture, and more. This deal ends October 18. Shop Now at Wayfair",
+    "posted": "2026-10-13T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Wayfair Holiday Deal Week Sale: Up to 80% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Wayfair",
+    "offer": "Up to 80% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "home"
+    ]
+   },
+   "after": {
+    "title": "Wayfair Holiday Deal Week Sale: Up to 80% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Wayfair",
+    "offer": "Up to 80% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Best Buy",
+    "deal_type": "sale",
+    "category": "Electronics",
+    "title": "Best Buy Open-Box Outlet Event: Up to 60% off + free shipping",
+    "text": "Save on laptops, TVs, appliances and more. This deal ends October 18. Shop Now at Best Buy",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Best Buy Open-Box Outlet Event: Up to 60% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Best Buy",
+    "offer": "Up to 60% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "tech"
+    ]
+   },
+   "after": {
+    "title": "Best Buy Open-Box Outlet Event: Up to 60% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Best Buy",
+    "offer": "Up to 60% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "tech"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "adidas",
+    "deal_type": "sale",
+    "category": "Clothing & Accessories",
+    "title": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off + Free shipping",
+    "text": "Coupon code \"FALL\" takes an extra 30% off eligible items. This deal ends October 19. Shop Now at adidas",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off + Free shipping",
+    "kept": true,
+    "why": "",
+    "store": "adidas",
+    "offer": "Up to 50% off + extra 30% off",
+    "code": "FALL",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "after": {
+    "title": "adidas Fall Favorites Sale: Up to 50% off + extra 30% off + Free shipping",
+    "kept": true,
+    "why": "",
+    "store": "adidas",
+    "offer": "Up to 50% off + extra 30% off",
+    "code": "FALL",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Michael Kors",
+    "deal_type": "sale",
+    "category": "Clothing & Accessories",
+    "title": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off + free shipping",
+    "text": "Coupon code \"EXTRA10\" takes an extra 10% off. This deal ends October 15. Shop Now at Michael Kors",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Michael Kors",
+    "offer": "Up to 85% off + extra 10% off",
+    "code": "EXTRA10",
+    "ends": "2026-10-15",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "after": {
+    "title": "Michael Kors Outlet Extra Savings Sale: Up to 85% off + extra 10% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Michael Kors",
+    "offer": "Up to 85% off + extra 10% off",
+    "code": "EXTRA10",
+    "ends": "2026-10-15",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Target",
+    "deal_type": "sale",
+    "category": "Health & Beauty",
+    "title": "Target Hair Color & Extensions Deals: Up to 50% off + free shipping",
+    "text": "This deal is valid through October 17. Shop Now at Target",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Target Hair Color & Extensions Deals: Up to 50% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-17",
+    "industries": [
+     "beauty"
+    ]
+   },
+   "after": {
+    "title": "Target Hair Color & Extensions Deals: Up to 50% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-17",
+    "industries": [
+     "beauty"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Target",
+    "deal_type": "sale",
+    "category": "Home & Garden",
+    "title": "Target Bedding Deals: Up to 50% off + free shipping w/ $35",
+    "text": "Deal ends October 13. Shop Now at Target",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Target Bedding Deals: Up to 50% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-13",
+    "industries": [
+     "home"
+    ]
+   },
+   "after": {
+    "title": "Target Bedding Deals: Up to 50% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-13",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Wayfair",
+    "deal_type": "sale",
+    "category": "Home & Garden",
+    "title": "Wayfair Outdoor Furniture Deals: Up to 50% off + free shipping",
+    "text": "Expires 10/18/2026. Shop Now at Wayfair",
+    "posted": "2026-10-12T08:00:00-04:00",
+    "title_from": "the post's URL",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Wayfair Outdoor Furniture Deals: Up to 50% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Wayfair",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "home"
+    ]
+   },
+   "after": {
+    "title": "Wayfair Outdoor Furniture Deals: Up to 50% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Wayfair",
+    "offer": "Up to 50% off",
+    "code": "",
+    "ends": "2026-10-18",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "hip2save",
+    "title": "Up to 85% Off Kohl's Clearance (Styles from $1.87)",
+    "text": "Plus, use promo code GET20 to save an extra 20% off your purchase (exp. 10/18).",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "title_from": "verbatim",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "Up to 85% Off Kohl's Clearance (Styles from $1.87)",
+    "kept": true,
+    "why": "",
+    "store": "Kohl's",
+    "offer": "Up to 85% off",
+    "code": "GET20",
+    "ends": null,
+    "industries": [
+     "fashion",
+     "home"
+    ]
+   },
+   "after": {
+    "title": "Up to 85% Off Kohl's Clearance (Styles from $1.87)",
+    "kept": true,
+    "why": "",
+    "store": "Kohl's",
+    "offer": "Up to 85% off",
+    "code": "GET20",
+    "ends": null,
+    "industries": [
+     "fashion",
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "9to5toys",
+    "title": "9to5 readers can score an exclusive 15% off all Nomad iPhone 18 Pro cases with this code",
+    "text": "Nomad is now offering 9to5 readers an exclusive 15% off ... using code 9TO5MAC at checkout.",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "title_from": "verbatim",
+    "text_from": "reconstructed from the end date and code the manual search read on the post"
+   },
+   "before": {
+    "title": "9to5 readers can score an exclusive 15% off all Nomad iPhone 18 Pro cases with this code",
+    "kept": false,
+    "why": "sale: store not identified",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "after": {
+    "title": "9to5 readers can score an exclusive 15% off all Nomad iPhone 18 Pro cases with this code",
+    "kept": false,
+    "why": "sale: store not identified",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "hip2save",
+    "title": "WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards",
+    "text": "",
+    "posted": "2026-10-05T09:00:00-05:00",
+    "feed_industries": [
+     "beauty"
+    ],
+    "title_from": "verbatim, from runs 10-12",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards",
+    "kept": false,
+    "why": "older than 72 hours",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   },
+   "after": {
+    "title": "WOW! Over $68 of Beauty Products Just $4.52 After CVS Rewards",
+    "kept": false,
+    "why": "an in-store rewards scenario or a bundle of products",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "hip2save",
+    "title": "WOW! Rice Krispies Treats Are Only $1.99 at CVS",
+    "text": "",
+    "posted": "2026-10-05T09:00:00-05:00",
+    "feed_industries": [
+     "grocery"
+    ],
+    "title_from": "verbatim, from run 12",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "WOW! Rice Krispies Treats Are Only $1.99 at CVS",
+    "kept": false,
+    "why": "older than 72 hours",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   },
+   "after": {
+    "title": "WOW! Rice Krispies Treats Are Only $1.99 at CVS",
+    "kept": false,
+    "why": "older than 72 hours",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "Nothing's 2026 Headphone (a) in black hit one of the lowest prices ever today at $119 (40% off)",
+    "text": "",
+    "posted": "2026-10-13T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "Nothing's 2026 Headphone (a) in black hit one of the lowest prices ever today at $119 (40% off)",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 119.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "tech"
+    ]
+   },
+   "after": {
+    "title": "Nothing's 2026 Headphone (a) in black hit one of the lowest prices ever today at $119 (40% off)",
+    "kept": true,
+    "why": "",
+    "price": 119.0,
+    "reference": 198.33,
+    "pct": 40.0,
+    "industries": [
+     "tech"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "New ORICO 8-in-1 45W USB-C Power Strip with tilted design plunges to $20 (Save 46%)",
+    "text": "",
+    "posted": "2026-10-13T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "New ORICO 8-in-1 45W USB-C Power Strip with tilted design plunges to $20 (Save 46%)",
+    "kept": false,
+    "why": "no industry",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   },
+   "after": {
+    "title": "New ORICO 8-in-1 45W USB-C Power Strip with tilted design plunges to $20 (Save 46%)",
+    "kept": true,
+    "why": "",
+    "price": 20.0,
+    "reference": 37.04,
+    "pct": 46.0,
+    "industries": [
+     "tech"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "Clearance deal on Black Titanium Apple Watch Ultra 3 with Milanese Loop live again at $199 off",
+    "text": "",
+    "posted": "2026-10-13T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "Clearance deal on Black Titanium Apple Watch Ultra 3 with Milanese Loop live again at $199 off",
+    "kept": false,
+    "why": "storewide sale or many products",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   },
+   "after": {
+    "title": "Clearance deal on Black Titanium Apple Watch Ultra 3 with Milanese Loop live again at $199 off",
+    "kept": false,
+    "why": "no price",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "Greenworks' 80V 20-inch cordless electric pole hedge trimmer hits new $243 2026 low ($107 off), more from $95",
+    "text": "",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "Greenworks' 80V 20-inch cordless electric pole hedge trimmer hits new $243 2026 low ($107 off), more from $95",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 243.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "home"
+    ]
+   },
+   "after": {
+    "title": "Greenworks' 80V 20-inch cordless electric pole hedge trimmer hits new $243 2026 low ($107 off), more from $95",
+    "kept": true,
+    "why": "",
+    "price": 243.0,
+    "reference": 350.0,
+    "pct": 30.6,
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "Segway’s more advanced GT3 electric superscooter at $1,100 under the Pro model, now at $1,400 low (Reg. $1,700)",
+    "text": "",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "Segway’s more advanced GT3 electric superscooter at $1,100 under the Pro model, now at $1,400 low (Reg. $1,700)",
+    "kept": false,
+    "why": "no industry",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   },
+   "after": {
+    "title": "Segway’s more advanced GT3 electric superscooter at $1,100 under the Pro model, now at $1,400 low (Reg. $1,700)",
+    "kept": false,
+    "why": "no industry",
+    "price": null,
+    "reference": null,
+    "pct": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "9to5toys",
+    "title": "LEGO's 2026 One Piece Tony Tony Chopper set is a highly posable figure down at $56",
+    "text": "",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "LEGO's 2026 One Piece Tony Tony Chopper set is a highly posable figure down at $56",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 56.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "toys"
+    ]
+   },
+   "after": {
+    "title": "LEGO's 2026 One Piece Tony Tony Chopper set is a highly posable figure down at $56",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 56.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "toys"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "slickdeals",
+    "title": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock & Condo (Green) $28",
+    "text": "",
+    "posted": "2026-10-11T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock & Condo (Green) $28",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 28.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "pets"
+    ]
+   },
+   "after": {
+    "title": "48\" Woochpet Tropical Cat Tree Tower w/ Hammock & Condo (Green) $28",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 28.0,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "pets"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "slickdeals",
+    "title": "First Autoship Order: 50-Pk 0.5-Oz Catit Creamy Lickable Cat Treats (Salmon) $8.55 + Free S&H on $49+",
+    "text": "",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "feed_industries": [],
+    "title_from": "verbatim (date unknown)",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "First Autoship Order: 50-Pk 0.5-Oz Catit Creamy Lickable Cat Treats (Salmon) $8.55 + Free S&H on $49+",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 8.55,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "pets"
+    ]
+   },
+   "after": {
+    "title": "First Autoship Order: 50-Pk 0.5-Oz Catit Creamy Lickable Cat Treats (Salmon) $8.55 + Free S&H on $49+",
+    "kept": false,
+    "why": "no reference price: never ranked",
+    "price": 8.55,
+    "reference": null,
+    "pct": null,
+    "industries": [
+     "pets"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "online",
+    "source": "hip2save",
+    "title": "Wet Ones Pet Wipes 240-Count Just $14 Shipped on Amazon (Reg. $25)",
+    "text": "",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "feed_industries": [
+     "pets"
+    ],
+    "title_from": "verbatim (date unknown)",
+    "text_from": "none (the feed's description was not seen)"
+   },
+   "before": {
+    "title": "Wet Ones Pet Wipes 240-Count Just $14 Shipped on Amazon (Reg. $25)",
+    "kept": true,
+    "why": "",
+    "price": 14.0,
+    "reference": 25.0,
+    "pct": 44.0,
+    "industries": [
+     "pets"
+    ]
+   },
+   "after": {
+    "title": "Wet Ones Pet Wipes 240-Count Just $14 Shipped on Amazon (Reg. $25)",
+    "kept": true,
+    "why": "",
+    "price": 14.0,
+    "reference": 25.0,
+    "pct": 44.0,
+    "industries": [
+     "pets"
+    ]
+   }
+  }
+ ],
+ "replay_note": "Only titles the manual search or the recorded runs captured word for word. dealnews titles are as each post's URL gives them (the URL carries the shipping terms); their bodies are rebuilt from the end date and code the search read on the post. The online posts are run on their titles alone, since their feed descriptions were not seen, so a deal priced against a reference only its body states shows here as having none."
+}
