@@ -105,6 +105,10 @@ def _alias_patterns() -> list[tuple[re.Pattern, str]]:
         for a in {b["name"], *b.get("aliases", [])}:
             if len(norm(a)) >= 4:
                 out.append((re.compile(r"(?<![\w'])" + re.escape(a) + r"(?![\w])", re.I), qid))
+            elif re.fullmatch(r"[A-Z]{3}", a):
+                # A short name is too common a string, but an acronym in its capitals is the chain: "KFC Restaurant:
+                # Buy One Get One Free ..." (Slickdeals, Oct 2026) named 225 mapped branches and matched none.
+                out.append((re.compile(r"(?<![\w'])" + re.escape(a) + r"(?![\w])"), qid))
     out.sort(key=lambda x: -len(x[0].pattern))
     return out
 
