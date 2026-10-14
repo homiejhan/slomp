@@ -789,3 +789,51 @@ their titles alone, since their feed descriptions weren't seen, so the Slickdeal
 - **Restaurant promotions.** Add a third source of dated restaurant posts, and check it the way the regular deals'
   roundups are checked.
 - **Regular deals.** Add the five deals above from the companies' own pages, with their Texas branches.
+
+### Again on Oct 14, after those fixes
+
+**What the fixes changed in what Slomp fetched.** The four site builds of Oct 14 ran on them. The five builds of Oct
+8–13 listed 118–140 online deals; these listed 146–156: Sports 3–6 became 13–15, Office 4–7 became 11, Tech 10–15
+became 16–18 and Automotive 2–6 became 6–9. Pets (1–6) and Health (5–6) barely moved, and sales (138–152 at 40–43
+stores) were as before. The builds' logs give counts, not the deals, so whether each added deal is right is for the
+next live run's tests.
+
+**A new gap the builds showed.** Two builds with the same 292 ads lacked an item-search result for 11,884 items
+(10:22 UTC, its searches mostly from the cache) and 7,377 (15:52 UTC, most of them read again): 530 more deals in the
+second. A search returns at most ~150 items per merchant. One read the day before, while last week's ad and this
+week's both ran, had given most of them to last week's ad, and it stayed in the cache for a day after that ad ended.
+A cached search used to be read again only when it lacked one of the merchant's ads altogether. It is now also read
+again when it holds items that have ended since it was read.
+
+**The second search.** It found 21 more dealnews sales at stores not searched before, 11 restaurant promotions
+honored in Texas (5 with a dealnews or Slickdeals post) and 7 more restaurant posts that should not be shown. It also
+found 12 regular deals missing from the curated list, 6 of them on the companies' own pages. All of it is in
+`docs/verification/manual-02.json`.
+
+**What held up.** Of the 21 sales replayed, Old Navy, J.Crew Factory (TREAT50), Staples' printing sale (38170),
+Lowe's, Target's outdoor furniture, Woot's apparel sale, AliExpress and adidas came through with the end their posts
+state. Slomp kept Dairy Queen's free Mini Blizzard (to Oct 19) and Cicis' $2.99 buffet. It rejected White Castle's and
+MilkShake Factory's offers, since neither chain has a Texas branch on the map. It also rejected offers that had ended
+(Dave's Hot Chicken, Jimmy John's) or start after the week (Krispy Kreme's Oct 30–31).
+
+| Found by hand, not by Slomp | Cause | Changed |
+|---|---|---|
+| Old Navy's code, written 'Code "EXTRA"' | EXTRA is one of the capitals titles shout, so it was never taken for a code, even in quotes | Yes: a quoted code is a code |
+| New Balance, "25% off $125" | The order size was dropped | Yes: "25% off $125+", on orders of $125+ |
+| Macy's Biggest Fall Sale Event; Woot's Markdown Mania Clearance, Home & Kitchen and Fall Gardening sales | No industry: "biggest" and "mania" were not event words, "home & kitchen" and "gardening" not goods (dealnews' own category, not seen here, may have placed some) | Yes |
+| KFC's buy one, get one free Zinger combo (Slickdeals) | A chain name under four letters was never matched in a title, so KFC's 225 mapped Texas branches matched nothing | Yes: an acronym in capitals ("KFC") is matched |
+| A sale ending "through Sunday", "ends Monday!", "through Sunday, 10/19", "ends at 11:59pm PT on 10/19" | No end was read, so the sale was shown for 7 days after its post | Yes; "Monday through Friday" is still no end |
+| MFAH's free Thursdays; Cowboy Chicken's kids eat free on Mondays | Not in the curated list | Yes: added, with phrases that name the day, so each build's read of the page confirms it |
+| Kohl's 15% off for shoppers 60+ on Wednesdays (and military on Mondays); Kimbell's half-price exhibitions; Buffalo Wild Wings' BOGO days; Bush's Tender Tuesday; Main Event's kids eat free | Not in the curated list | No: Kohl's site turns automated readers away, Kimbell's evidence is a PDF, the Buffalo Wild Wings sentence names no day and its Tuesday terms conflict, Bush's states no price, and Main Event's Tuesday comes only from other sites |
+| LEGO's double points and free set with $180; Ulta's "5 for $10" | Neither states a discount Slomp's sales can show | No |
+| Del Taco's free cheesecake bites (Oct 14), shown to Oct 31 | The post's "Thru October 31" is about its other offers; dealnews' own end date, when its editors set one, comes first | No |
+| Sales announced only by the store or other outlets (Columbia, REI Outlet, Pottery Barn, West Elm, Banana Republic Factory, eBay's HOSTING25) | Not on the deal sites Slomp reads | No: by design |
+
+Two curated entries the search took for outdated are not: Main Event's Kids Bowl Free already ends Oct 31, and Dave &
+Buster's page still has the words its entry looks for (every build reads it, and none reported a change). Others have
+stopped being shown because their company page no longer states them: P.F. Chang's happy hour and Bryan Street
+Tavern's Monday pizza in every build checked since Oct 8, and Fuzzy's two deals in some of them. They need checking by
+hand.
+
+**Replay.** 33 posts (21 sales and 12 restaurant posts): Slomp on main kept 18, and with this change 23. Nothing it
+kept before is lost.
