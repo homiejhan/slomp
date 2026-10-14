@@ -613,8 +613,15 @@ def sale_industries(p: Post, store: Optional[OnlineStore], name: str, sitewide: 
 # --- when -------------------------------------------------------------------------------------------------------
 _END_WORDS = (r"(?:ends?|ending|expires?|expiring|through|thru|until|till|valid\s+(?:through|thru|until)|"
               r"good\s+(?:through|thru|until)|runs?\s+(?:through|thru|until)|lasts?\s+(?:through|until))")
-_END_MD = re.compile(r"\b" + _END_WORDS + r"\s+(?:on\s+)?(?:\w+day,?\s+)?" + _MONTH + r"\s+" + _DAY + r"\b", re.I)
-_END_NUM = re.compile(r"\b" + _END_WORDS + r"\s+(?:on\s+)?(\d{1,2})/(\d{1,2})(?:/\d{2,4})?(?![\d/])", re.I)
+# Between the words and the date: "on", a weekday ("through Sunday, 10/19"), a time ("ends at 11:59pm PT on 10/19").
+_END_LEAD = (r"\s+(?:at\s+\d{1,2}(?::\d\d)?\s*(?:[ap]\.?m\.?)?\s*(?:[pcme][sd]?t\s+)?on\s+)?(?:on\s+)?"
+             r"(?:\w+day,?\s+)?")
+_END_MD = re.compile(r"\b" + _END_WORDS + _END_LEAD + _MONTH + r"\s+" + _DAY + r"\b", re.I)
+_END_NUM = re.compile(r"\b" + _END_WORDS + _END_LEAD + r"(\d{1,2})/(\d{1,2})(?:/\d{2,4})?(?![\d/])", re.I)
+_WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
+# A weekday and no date ("Sale runs through Sunday", "Hurry, ends Monday!"): that day, this week.
+_END_DAY = re.compile(r"\b" + _END_WORDS + r"\s+(?:this\s+)?(" + "|".join(_WEEKDAYS) + r")\b(?![,\s]*(?:\d|" +
+                      _MONTH + r"))", re.I)
 _START_MD = re.compile(r"\b(?:starts?|starting|begins?|beginning|kicks? off|launch(?:es)?)\s+(?:on\s+)?(?:\w+day,?\s+)?" +
                        _MONTH + r"\s+" + _DAY + r"\b", re.I)
 _ONLY_MD = re.compile(r"\b(?:today,?\s+)?(?:\w+day,?\s+)?" + _MONTH + r"\s+" + _DAY + r",?\s+only\b", re.I)
@@ -655,6 +662,11 @@ def sale_dates(p: Post, now: datetime) -> tuple[Optional[datetime], Optional[dat
         m = _END_NUM.search(where)
         if m and 1 <= int(m.group(1)) <= 12 and 1 <= int(m.group(2)) <= 31:
             return _date(int(m.group(1)), int(m.group(2)), posted), f"the post says “{m.group(0).strip()}”"
+        # "Monday through Friday" is a span of weekdays, not an end
+        m = next((m for m in _END_DAY.finditer(where) if not re.search(r"day\s*$", where[:m.start()], re.I)), None)
+        if m:
+            ahead = (_WEEKDAYS.index(m.group(1).lower()) - posted.weekday()) % 7
+            return posted + timedelta(days=ahead), f"the post says “{m.group(0).strip()}”"
         return None
 
     # The title first, then an end the body states in words, then a range in the body: a body can carry other dates
