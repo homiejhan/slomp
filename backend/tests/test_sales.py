@@ -397,3 +397,18 @@ def test_this_weeks_dealnews_sales_keep_their_ends_and_codes():
     for title, seller, cat, text, want, code, end in cases:
         s = StoreSales(None, None).sale(post(title, text, seller=seller, category=cat, posted=posted), now, Counter())
         assert (s.offer, s.code, s.ends_at.date().isoformat()) == (want, code, end), title
+
+
+def test_an_end_given_as_a_weekday_or_with_a_time_is_read():
+    # an end the post states but Slomp didn't read is shown as no end, for 7 days after the post (S-END fails it)
+    now = datetime(2026, 10, 14, 12, 0, tzinfo=CT)                  # a Wednesday
+    def end(text):
+        _, e, _ = sale_dates(post("Up to 50% Off Fall Sale", text, source="hip2save",
+                                  posted=datetime(2026, 10, 14, 8, 0, tzinfo=CT)), now)
+        return e and e.date().isoformat()
+    assert end("Sale runs through Sunday.") == "2026-10-18"
+    assert end("Hurry, ends Monday!") == "2026-10-19"
+    assert end("Ends Wednesday.") == "2026-10-14"                   # the day it was posted
+    assert end("Valid through Sunday, 10/19.") == "2026-10-19"
+    assert end("Ends at 11:59pm PT on 10/19.") == "2026-10-19"
+    assert end("New deals drop Monday through Friday.") is None     # a span of weekdays, not an end

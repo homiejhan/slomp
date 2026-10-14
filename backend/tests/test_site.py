@@ -210,8 +210,8 @@ def test_engine_regular_deal_whose_hours_are_over_shows_next_week(tmp_path):
 class _Http:
     """Answers Flipp's item search from a 'cache' (yesterday's answer) or 'fresh' (today's), and records which."""
 
-    def __init__(self, cached: list[dict], fresh: list[dict] | None):
-        self.cached, self.fresh, self.calls = cached, fresh, []
+    def __init__(self, cached: list[dict], fresh: list[dict] | None, read_at: float = 0.0):
+        self.cached, self.fresh, self.calls, self.read_at = cached, fresh, [], read_at
 
     async def get(self, url, params=None, *, ttl_s, use_cache=True, **kw):
         from slomp.http import FetchError, Response
@@ -219,7 +219,7 @@ class _Http:
         if not use_cache and self.fresh is None:
             raise FetchError(url, "network error")
         items = self.cached if use_cache else self.fresh
-        return Response(url, url, 200, "application/json", json.dumps({"items": items}).encode(), 0.0,
+        return Response(url, url, 200, "application/json", json.dumps({"items": items}).encode(), self.read_at,
                         from_cache=use_cache)
 
 
@@ -243,3 +243,27 @@ def test_a_cached_search_from_before_a_new_ad_is_read_again():
     http = _Http(yesterday, None)
     assert [i["id"] for i in asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {10, 11}))] \
         == [1, 2] and http.calls == ["cache", "fresh"]
+
+
+def test_a_cached_search_holding_an_ended_ads_items_is_read_again():
+    # Oct 13-14, 2026: a search read while last week's ad and this week's both ran gave most of its ~150 items to last
+    # week's. Those ended that night; the next builds kept the day-old answer and missed most of this week's items.
+    import asyncio
+    from datetime import datetime, timezone
+    from slomp.sources.flipp import FlippClient
+    read_at = datetime(2026, 10, 13, 12, 48, tzinfo=timezone.utc).timestamp()
+    now = datetime(2026, 10, 14, 10, 22, tzinfo=timezone.utc).timestamp()
+    last_week = [{**_item(i, 10), "valid_to": "2026-10-13T23:59:59-04:00"} for i in (1, 2, 3)]
+    this_week = [{**_item(i, 11), "valid_to": "2026-10-20T23:59:59-04:00"} for i in (4, 5, 6, 7)]
+    http = _Http(last_week + this_week[:1], this_week, read_at)
+    got = asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {11}, now=now))
+    assert [i["id"] for i in got] == [4, 5, 6, 7] and http.calls == ["cache", "fresh"]
+    # read before it ended, used before it ended: the answer stands
+    http = _Http(last_week + this_week[:1], this_week, read_at)
+    early = datetime(2026, 10, 13, 20, 0, tzinfo=timezone.utc).timestamp()
+    asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {11}, now=early))
+    assert http.calls == ["cache"]
+    # an answer that already held ended items when it was read is not read again for them
+    http = _Http(last_week + this_week[:1], this_week, datetime(2026, 10, 14, 9, 0, tzinfo=timezone.utc).timestamp())
+    asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {11}, now=now))
+    assert http.calls == ["cache"]

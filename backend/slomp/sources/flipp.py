@@ -12,6 +12,7 @@ defensively. Four views of the same items:
 from __future__ import annotations
 
 import re
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Iterable, Optional
@@ -107,24 +108,34 @@ class FlippClient:
         return (await self._search(postal_code, query, ttl_s))[0]
 
     async def _search(self, postal_code: str, query: str, ttl_s: Optional[float] = None,
-                      use_cache: bool = True) -> tuple[dict, bool]:
+                      use_cache: bool = True) -> tuple[dict, bool, float]:
         r = await self.http.get(f"{API}/items/search", {"locale": self.locale, "postal_code": postal_code, "q": query,
                                                        "limit": SEARCH_LIMIT}, ttl_s=ttl_s or TTL["flipp_search"],
                                 use_cache=use_cache)
-        return (r.json() if r.status == 200 else {}), r.from_cache
+        return (r.json() if r.status == 200 else {}), r.from_cache, r.fetched_at
 
-    async def merchant_items(self, postal_code: str, merchant: str, expect: Iterable[int] = ()) -> list[dict]:
+    async def merchant_items(self, postal_code: str, merchant: str, expect: Iterable[int] = (),
+                             now: Optional[float] = None) -> list[dict]:
         """That merchant's ad items with taxonomy labels. Searching the name also matches other merchants' items
-        that mention it, so only the merchant's own items are kept. `expect` is the merchant's ads at that ZIP: a
-        result from the cache with nothing from one of them was read before that ad came out, so it is read again."""
+        that mention it, so only the merchant's own items are kept. A result from the cache is read again when it
+        is out of date: it has nothing from one of the merchant's ads at that ZIP (`expect`), so it was read before
+        that ad came out; or it holds items that have ended since it was read. A search returns at most ~150 items,
+        and while last week's ad and this week's both ran they shared them, so most of this week's are missing from
+        it (Oct 14, 2026: the same 292 ads lacked a search result for 11,884 items in one build and for 7,377 in the
+        next, once the day-old answers had expired)."""
         key = re.sub(r"[^a-z0-9]", "", merchant.lower())
+        now = time.time() if now is None else now
 
         def own(data: dict) -> list[dict]:
             return [i for i in data.get("items") or []
                     if re.sub(r"[^a-z0-9]", "", str(i.get("merchant_name") or "").lower()) == key]
-        data, cached = await self._search(postal_code, merchant, TTL["merchant_search"])
+
+        def ended_since(data: dict, read_at: float) -> bool:
+            ends = (parse_time(i.get("valid_to")) for i in data.get("items") or [])
+            return any(e and read_at < e.timestamp() < now for e in ends)
+        data, cached, read_at = await self._search(postal_code, merchant, TTL["merchant_search"])
         items = own(data)
-        if cached and set(expect) - {i.get("flyer_id") for i in items}:
+        if cached and (set(expect) - {i.get("flyer_id") for i in items} or ended_since(data, read_at)):
             try:
                 items = own((await self._search(postal_code, merchant, TTL["merchant_search"], use_cache=False))[0])
             except FetchError:
