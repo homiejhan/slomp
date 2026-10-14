@@ -1,0 +1,3111 @@
+{
+ "plan": "manual comparison",
+ "round": 2,
+ "run_at": "2026-10-14T22:30:00-05:00",
+ "method": "A second search by hand, for Oct 14-21, 2026, of what the first left out: restaurant promotions, sales at the online stores not yet searched, and regular deals in the areas not yet swept. Same rules: web search only, each finding cross-checked on the company's page or by two dated sources; the search tool allowed 200 searches per turn across the three searches. Slomp's side: the four site builds of Oct 14, the first on the round-1 fixes. The deal-site posts found were replayed through Slomp's own parsers and filters, on main (the round-1 fixes) and on this change.",
+ "slomp_builds": {
+  "source": "GitHub Actions logs of 'Publish the site' (slomp site build)",
+  "before_round_1_fixes": {
+   "2026-10-08T12:07Z": {
+    "online": {
+     "tech": 13,
+     "sports": 4,
+     "fashion": 20,
+     "home": 19,
+     "beauty": 11,
+     "health": 10,
+     "grocery": 18,
+     "toys": 17,
+     "baby": 13,
+     "pets": 4,
+     "auto": 5,
+     "office": 6
+    },
+    "store_sales": 172
+   },
+   "2026-10-10T16:17Z": {
+    "online": {
+     "tech": 15,
+     "sports": 5,
+     "fashion": 19,
+     "home": 17,
+     "beauty": 11,
+     "health": 7,
+     "grocery": 11,
+     "toys": 17,
+     "baby": 11,
+     "pets": 2,
+     "auto": 6,
+     "office": 6
+    },
+    "store_sales": 165
+   },
+   "2026-10-12T13:20Z": {
+    "online": {
+     "tech": 15,
+     "sports": 3,
+     "fashion": 24,
+     "home": 23,
+     "beauty": 8,
+     "health": 3,
+     "grocery": 9,
+     "toys": 12,
+     "baby": 7,
+     "pets": 5,
+     "auto": 4,
+     "office": 5
+    },
+    "store_sales": 149
+   },
+   "2026-10-13T12:48Z": {
+    "online": {
+     "tech": 12,
+     "sports": 4,
+     "fashion": 30,
+     "home": 24,
+     "beauty": 8,
+     "health": 5,
+     "grocery": 9,
+     "toys": 15,
+     "baby": 8,
+     "pets": 5,
+     "auto": 3,
+     "office": 4
+    },
+    "store_sales": 132,
+    "items_without_search_result": 19101,
+    "of_items": 47685,
+    "ads": 412,
+    "deals": 8812
+   },
+   "2026-10-13T21:53Z": {
+    "online": {
+     "tech": 10,
+     "sports": 6,
+     "fashion": 28,
+     "home": 23,
+     "beauty": 7,
+     "health": 5,
+     "grocery": 11,
+     "toys": 12,
+     "baby": 8,
+     "pets": 2,
+     "auto": 2,
+     "office": 7
+    },
+    "store_sales": 142,
+    "items_without_search_result": 18732,
+    "of_items": 48378,
+    "ads": 421,
+    "deals": 9202
+   }
+  },
+  "after_round_1_fixes": {
+   "2026-10-14T02:00Z": {
+    "online": {
+     "tech": 17,
+     "sports": 15,
+     "fashion": 33,
+     "home": 28,
+     "beauty": 8,
+     "health": 5,
+     "grocery": 9,
+     "toys": 14,
+     "baby": 8,
+     "pets": 2,
+     "auto": 6,
+     "office": 11
+    },
+    "store_sales": 139,
+    "sale_stores": 41,
+    "items_without_search_result": 18778,
+    "of_items": 48378,
+    "ads": 421,
+    "deals": 9199,
+    "regulars": 206,
+    "promotions": 29
+   },
+   "2026-10-14T10:22Z": {
+    "online": {
+     "tech": 16,
+     "sports": 14,
+     "fashion": 28,
+     "home": 28,
+     "beauty": 8,
+     "health": 5,
+     "grocery": 9,
+     "toys": 13,
+     "baby": 7,
+     "pets": 1,
+     "auto": 6,
+     "office": 11
+    },
+    "store_sales": 138,
+    "sale_stores": 40,
+    "items_without_search_result": 11884,
+    "of_items": 32820,
+    "ads": 292,
+    "deals": 6797,
+    "regulars": 207,
+    "promotions": 29,
+    "merchant_searches": 341,
+    "search_seconds": 34
+   },
+   "2026-10-14T15:52Z": {
+    "online": {
+     "tech": 17,
+     "sports": 14,
+     "fashion": 20,
+     "home": 28,
+     "beauty": 8,
+     "health": 6,
+     "grocery": 9,
+     "toys": 14,
+     "baby": 7,
+     "pets": 4,
+     "auto": 8,
+     "office": 11
+    },
+    "store_sales": 150,
+    "sale_stores": 41,
+    "items_without_search_result": 7377,
+    "of_items": 32818,
+    "ads": 292,
+    "deals": 7327,
+    "regulars": 208,
+    "promotions": 28,
+    "merchant_searches": 327,
+    "search_seconds": 81
+   },
+   "2026-10-14T20:48Z": {
+    "online": {
+     "tech": 18,
+     "sports": 13,
+     "fashion": 26,
+     "home": 22,
+     "beauty": 10,
+     "health": 6,
+     "grocery": 9,
+     "toys": 15,
+     "baby": 6,
+     "pets": 6,
+     "auto": 9,
+     "office": 11
+    },
+    "store_sales": 152,
+    "sale_stores": 43,
+    "items_without_search_result": 7302,
+    "of_items": 33153,
+    "ads": 298,
+    "deals": 7627,
+    "regulars": 208,
+    "promotions": 28
+   }
+  }
+ },
+ "manual": {
+  "sales": [
+   {
+    "store": "Old Navy",
+    "offer": "Up to 87% off clearance + extra 20% off with code EXTRA",
+    "code": "EXTRA",
+    "ends": "2026-10-15",
+    "ends_wording": "The coupon expires on October 15 (header tag: Expires 10/16/2026)",
+    "conditions": "Clearance only; free shipping w/ $50; over 2,355 items",
+    "industries": [
+     "apparel"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Old Navy Clearance Sale: Up to 87% off + extra 20% off",
+     "url": "https://www.dealnews.com/Old-Navy-Clearance-Sale-Up-to-87-off-extra-20-off-free-shipping-w-50/22283944.html",
+     "body_snippet_verbatim": "Code \"EXTRA\" ... The coupon expires on October 15. ... Over 2,355 items included in the clearance event"
+    },
+    "other_sources": [
+     {
+      "name": "GrabOn Old Navy coupons (extra 20% off clearance, validated Oct 12; no end date)",
+      "url": "https://old-navy.grabon.com/coupons/"
+     }
+    ]
+   },
+   {
+    "store": "J.Crew Factory",
+    "offer": "Up to 70% off clearance + extra 50% off with code TREAT50",
+    "code": "TREAT50",
+    "ends": "2026-10-17",
+    "ends_wording": "The coupon expires on October 17. (Expires 10/17/2026)",
+    "conditions": "Clearance styles only; free shipping for members on $99+ (else $7)",
+    "industries": [
+     "apparel"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "J.Crew Factory Clearance Deals: Up to 70% off + extra 50% off",
+     "url": "https://www.dealnews.com/J-Crew-Factory-Clearance-Deals-Up-to-70-off-extra-50-off-free-shipping-w-99/22283925.html",
+     "body_snippet_verbatim": "promo code \"TREAT50\" ... The coupon expires on October 17."
+    },
+    "other_sources": [
+     {
+      "name": "Older dealnews post for same code w/ earlier end dates (conflicting)",
+      "url": "https://www.dealnews.com/J-Crew-Factory-Clearance-Sale-Up-to-70-off-Extra-50-off-free-shipping-w-99/22229694.html"
+     }
+    ]
+   },
+   {
+    "store": "LEGO",
+    "offer": "2x LEGO Insiders points on all purchases + free 40909 Restaurants of the World: Italy set with $180+ spend",
+    "code": null,
+    "ends": "2026-10-19",
+    "ends_wording": "This deal ends October 19. (Expires 10/19/2026); LEGO: October 13, 2026 ... to October 19, 2026, while supplies last",
+    "conditions": "Insiders members; GWP threshold $180 LEGO merchandise; online + catalog phone orders. NOTE: title states no %/$ discount, Slomp's title regex may not match",
+    "industries": [
+     "toys"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "LEGO Insider Points Event: 2x Points for Insiders + free set w/ $180 spend",
+     "url": "https://www.dealnews.com/LEGO-Insider-Points-Event-for-2-x-Points-for-Insiders-free-set-w-180-spend-free-shipping-w-35/22284072.html",
+     "body_snippet_verbatim": "This deal ends October 19."
+    },
+    "other_sources": [
+     {
+      "name": "LEGO Deals & Promo Codes (official)",
+      "url": "https://www.lego.com/en-us/page/lego-offers-promotions"
+     },
+     {
+      "name": "Jay's Brick Blog",
+      "url": "https://jaysbrickblog.com/news/october-lego-sale-double-points-and-restaurants-of-the-world-gwp-offers-now-live-worldwide/"
+     },
+     {
+      "name": "The Brick Post",
+      "url": "https://www.thebrickpost.com/news/double-lego-insiders-points-promotion-returns-13th-to-19th-october-2026/"
+     }
+    ]
+   },
+   {
+    "store": "New Balance",
+    "offer": "25% off purchases of $125+ on select sale styles",
+    "code": null,
+    "ends": "2026-10-20",
+    "ends_wording": "dealnews: Deal ends October 19 (Expires 10/19/2026; body also says 'Deal ends October 14th'); newbalance.com: October 14, 2026 through October 20, 2026",
+    "conditions": "$125+ before tax; select styles; exclusions apply; 480+ styles per dealnews",
+    "industries": [
+     "footwear",
+     "apparel"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "New Balance Sale: 25% off $125",
+     "url": "https://www.dealnews.com/New-Balance-Sale-for-25-off-125-free-shipping/22284065.html",
+     "body_snippet_verbatim": "Deal ends October 19"
+    },
+    "other_sources": [
+     {
+      "name": "New Balance Sale page (official)",
+      "url": "https://www.newbalance.com/sale/"
+     }
+    ]
+   },
+   {
+    "store": "Macy's",
+    "offer": "Biggest Fall Sale event: up to 80% off (banner says up to 60%)",
+    "code": null,
+    "ends": "2026-10-25",
+    "ends_wording": "The sale ends on October 25 (sub-posts); header tag Expires 10/26/2026; jewelry post: These deals end October 25",
+    "conditions": "Free shipping for Star Rewards members on $39+ (free to join)",
+    "industries": [
+     "department store",
+     "apparel",
+     "jewelry",
+     "home"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Macy's Biggest Fall Sale Event: Up to 80% off",
+     "url": "https://www.dealnews.com/Macys-Biggest-Fall-Sale-Event-Up-to-80-off-free-shipping-w-39/22283717.html",
+     "body_snippet_verbatim": "(the banner says up to 60% off, but we've found higher discounts within) ... Star Rewards members receive free shipping on orders over $39 (it's free to join)"
+    },
+    "other_sources": [
+     {
+      "name": "dealnews: Macy's Biggest Fall Sale Jewelry & Watch Deals: Up to 80% off (Expires 10/25/2026)",
+      "url": "https://www.dealnews.com/Macys-Biggest-Fall-Sale-Jewelry-Watch-Deals-Up-to-80-off-free-shipping-w-39/22284095.html"
+     },
+     {
+      "name": "dealnews: Macy's Biggest Fall Designer Suit Deals: 50% to 70% off",
+      "url": "https://www.dealnews.com/Macys-Biggest-Fall-Designer-Suit-Deals-50-to-70-off-free-shipping-w-39/22283739.html"
+     },
+     {
+      "name": "dealnews: Cole Haan Biggest Fall Deals at Macy's: Up to 70% off",
+      "url": "https://www.dealnews.com/Cole-Haan-Biggest-Fall-Deals-at-Macys-Up-to-70-off-free-shipping-w-39/22283782.html"
+     },
+     {
+      "name": "dealnews: Macy's Biggest Fall Watch Deals: At least 50% off",
+      "url": "https://www.dealnews.com/Macys-Biggest-Fall-Watch-Deals-At-least-50-off-free-shipping-w-39/22283737.html"
+     },
+     {
+      "name": "Groupon Macy's coupons (describes Biggest Fall Sale 40-60% off, no dates)",
+      "url": "https://www.groupon.com/coupons/macys"
+     }
+    ]
+   },
+   {
+    "store": "Walmart",
+    "offer": "Flash Deals: up to 65% off gaming PCs, sofas, mattresses, furniture",
+    "code": null,
+    "ends": "2026-10-16",
+    "ends_wording": "the deals will end on October 16 (header tag Expires 10/17/2026; body also mentions 'Coupon ends October 19')",
+    "conditions": "Free shipping on $35+ (else $7). End date only from dealnews; Walmart page shows countdown, no date",
+    "industries": [
+     "general merchandise",
+     "electronics",
+     "home"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Walmart Flash Deals: Up to 65% off",
+     "url": "https://www.dealnews.com/Walmart-Flash-Deals-Up-to-65-off-free-shipping-w-35/22269171.html",
+     "body_snippet_verbatim": "Coupon ends October 19 ... Shipping is free for orders over $35; otherwise, a $7 fee applies."
+    },
+    "other_sources": [
+     {
+      "name": "Walmart Featured Flash Deals (official, up to 65% off, live)",
+      "url": "https://www.walmart.com/shop/deals/flash-deals-customer-favs"
+     },
+     {
+      "name": "Living Rich With Coupons: Up to 65% off Flash Sale on LOTS of items at Walmart! (Oct 2026)",
+      "url": "https://www.livingrichwithcoupons.com/2026/10/up-to-65-off-flash-sale-on-lots-of-items-at-walmart-11.html"
+     },
+     {
+      "name": "dealnews: Walmart Resold Flash Deals: Up to 65% off (ends Oct 16)",
+      "url": "https://www.dealnews.com/Walmart-Resold-Flash-Deals-Up-to-65-off-free-shipping-w-35/22269126.html"
+     }
+    ]
+   },
+   {
+    "store": "Staples",
+    "offer": "Easy Deal Days: up to 60% off (official: up to 40% off 1,000+ products; 60% off custom cards, invites, wrapping paper, labels)",
+    "code": "82092",
+    "ends": "2026-10-17",
+    "ends_wording": "dealnews: Expires 10/19/2026; Staples press release: October 4-17, 2026",
+    "conditions": "EasyRewards account (free) needed for most deals; code 82092 = K-Cup pods $19.99 each when buying 2+ (not sitewide); free shipping w/ $35",
+    "industries": [
+     "office supplies",
+     "electronics"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Staples Easy Deal Days Sale: Up to 60% off",
+     "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Sale-Up-to-60-off-free-shipping-w-35/22269576.html",
+     "body_snippet_verbatim": "discounts of up to 60% live across the store ... K-Cup coffee pods from brands like Dunkin', Green Mountain, and Folgers at $19.99 each when buying two or more with the promo code \"82092\" ... You'll need an EasyRewards account to access most of these deals, but it's free to join."
+    },
+    "other_sources": [
+     {
+      "name": "Staples press release via Yahoo Finance",
+      "url": "https://finance.yahoo.com/small-business/articles/staples-brings-back-easy-deal-130000321.html"
+     },
+     {
+      "name": "Staples press release via FinancialContent (BusinessWire 2026-9-23)",
+      "url": "https://www.financialcontent.com/article/bizwire-2026-9-23-staples-brings-back-easy-deal-days-with-up-to-40-off-1000-products-ahead-of-the-holiday-season"
+     },
+     {
+      "name": "older dealnews post, same title",
+      "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Sale-Up-to-60-off-free-shipping-w-35/22246010.html"
+     }
+    ]
+   },
+   {
+    "store": "Staples",
+    "offer": "Easy Deal Days Printing Sale: extra 60% off printing (custom cards, invites, labels, photo gifts) with code",
+    "code": "38170",
+    "ends": "2026-10-17",
+    "ends_wording": "Expires 10/17/2026",
+    "conditions": "Print & marketing services; free shipping w/ $35",
+    "industries": [
+     "office supplies",
+     "printing"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Staples Easy Deal Days Printing Sale: Extra 60% off",
+     "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Printing-Sale-Extra-60-off-free-shipping-w-35/22246037.html",
+     "body_snippet_verbatim": "code \"38170\" ... Expires 10/17/2026"
+    },
+    "other_sources": [
+     {
+      "name": "Staples press release (60% off custom cards, invites, wrapping paper, photo gifts, labels; Oct 4-17, 2026)",
+      "url": "https://finance.yahoo.com/small-business/articles/staples-brings-back-easy-deal-130000321.html"
+     }
+    ]
+   },
+   {
+    "store": "Home Depot",
+    "offer": "New Featured Daily Deals: up to 45% off security cameras, Halloween decor, power tools, planters",
+    "code": null,
+    "ends": null,
+    "ends_wording": "Conflicting: one excerpt marks it 'ends today' (Oct 14); another excerpt says valid through October 21",
+    "conditions": "Daily-deal rotation; free shipping",
+    "industries": [
+     "home improvement",
+     "tools"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Home Depot New Featured Deals Daily Deals: Up to 45% off",
+     "url": "https://www.dealnews.com/Home-Depot-New-Featured-Deals-Daily-Deals-Up-to-45-off-free-shipping/22283354.html",
+     "body_snippet_verbatim": "selction of newly featured deals on security cameras, Halloween decor, power tools, planters, and more"
+    },
+    "other_sources": [
+     {
+      "name": "dealnews: Home Depot Hand Tools and Accessories Daily Deals: Up to 40% off",
+      "url": "https://www.dealnews.com/Home-Depot-Hand-Tools-and-Accessories-Daily-Deals-Up-to-40-off-free-shipping/22279165.html"
+     }
+    ]
+   },
+   {
+    "store": "Lowe's",
+    "offer": "Home Accents deals: up to 40% off",
+    "code": null,
+    "ends": "2026-10-14",
+    "ends_wording": "Expires 10/14/2026 (ends today)",
+    "conditions": "Free shipping w/ $25; Lowe's own site also shows vanities up to 50% off and Therma-Tru 15% off custom entry doors, both 'Offer ends 10/14/26'",
+    "industries": [
+     "home improvement",
+     "home decor"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Lowe's Home Accents Deals: Up to 40% off",
+     "url": "https://www.dealnews.com/Lowes-Home-Accents-Deals-Up-to-40-off-free-shipping-w-25/22264706.html",
+     "body_snippet_verbatim": "Expires 10/14/2026"
+    },
+    "other_sources": [
+     {
+      "name": "Lowe's savings page (official)",
+      "url": "https://www.lowes.com/l/savings"
+     }
+    ]
+   },
+   {
+    "store": "eBay",
+    "offer": "Extra 25% off select home, kitchen and more with code HOSTING25",
+    "code": "HOSTING25",
+    "ends": "2026-10-18",
+    "ends_wording": "eBay coupon page: expires 10/18/2026 (one aggregator says 10/19/2026)",
+    "conditions": "Max discount reportedly $500; 2 uses per customer per one aggregator; select items only",
+    "industries": [
+     "marketplace",
+     "home",
+     "kitchen"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "eBay Coupons page (official)",
+      "url": "https://www.ebay.com/b/eBay-Coupons/bn_7109765183"
+     },
+     {
+      "name": "Deal Tikka: eBay Coupons: Extra 25% Off Select Kitchen, Haircare, Home, Tool Items",
+      "url": "https://www.dealtikka.com/ebay-coupons-extra-25-off-select-kitchen-haircare-home-tool-items/"
+     },
+     {
+      "name": "eBay Featured Deals",
+      "url": "https://www.ebay.com/deals/featured/"
+     }
+    ]
+   },
+   {
+    "store": "eBay",
+    "offer": "Treasures & Coins Sale: up to 80% off",
+    "code": null,
+    "ends": null,
+    "ends_wording": null,
+    "conditions": "Expiry not seen in excerpt",
+    "industries": [
+     "marketplace",
+     "collectibles"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "eBay Treasures & Coins Sale: Up to 80% off",
+     "url": "https://www.dealnews.com/eBay-Treasures-Coins-Sale-Up-to-80-off-shipping-varies/22283544.html",
+     "body_snippet_verbatim": null
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Woot",
+    "offer": "Markdown Mania Clearance: up to 70% off",
+    "code": null,
+    "ends": "2026-10-27",
+    "ends_wording": "Expires 10/27/2026",
+    "conditions": "Free shipping w/ Prime; Amazon-owned",
+    "industries": [
+     "general merchandise"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Markdown Mania Clearance at Woot: Up to 70% off",
+     "url": "https://www.dealnews.com/Markdown-Mania-Clearance-at-Woot-Up-to-70-off-free-shipping-w-Prime/22283450.html",
+     "body_snippet_verbatim": "Expires 10/27/2026"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Woot",
+    "offer": "Apparel, Shoes & Accessories Sale: up to 80% off, everything under $25",
+    "code": null,
+    "ends": "2026-10-21",
+    "ends_wording": "This deal ends October 21 (header tag Expires 10/22/2026)",
+    "conditions": "Free shipping w/ Prime",
+    "industries": [
+     "apparel",
+     "footwear"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Apparel, Shoes, & Accessories Sale at Woot: Up to 80% off",
+     "url": "https://www.dealnews.com/Apparel-Shoes-Accessories-Sale-at-Woot-Up-to-80-off-free-shipping-w-Prime/22283430.html",
+     "body_snippet_verbatim": "This deal ends October 21"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Woot",
+    "offer": "Home & Kitchen Deals Under $30: up to 77% off",
+    "code": null,
+    "ends": "2026-10-21",
+    "ends_wording": "This deal ends October 21 (header tag Expires 10/22/2026)",
+    "conditions": "Free shipping w/ Prime",
+    "industries": [
+     "home",
+     "kitchen"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off",
+     "url": "https://www.dealnews.com/Home-Kitchen-Deals-Under-30-Sale-at-Woot-Up-to-77-off-free-shipping-w-Prime/22283407.html",
+     "body_snippet_verbatim": "This deal ends October 21"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Woot",
+    "offer": "Fall Gardening Sale: up to 76% off",
+    "code": null,
+    "ends": "2026-10-28",
+    "ends_wording": "Expires 10/28/2026 (body sections mention October 18 and October 30)",
+    "conditions": "Free shipping w/ Prime",
+    "industries": [
+     "garden",
+     "outdoor"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Fall Gardening Sale at Woot: Up to 76% off",
+     "url": "https://www.dealnews.com/Fall-Gardening-Sale-at-Woot-Up-to-76-off-free-shipping-w-Prime/22283429.html",
+     "body_snippet_verbatim": "Expires 10/28/2026"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Target",
+    "offer": "Outdoor furniture & fire items: up to 40% off",
+    "code": null,
+    "ends": "2026-10-17",
+    "ends_wording": "This sale is valid through October 17 (header tag Expires 10/18/2026)",
+    "conditions": "Free shipping w/ $35. Check vs previously covered Target posts (hair color, bedding)",
+    "industries": [
+     "home",
+     "outdoor"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Target Outdoor Furniture Deals: Up to 40% off",
+     "url": "https://www.dealnews.com/Target-Outdoor-Furniture-Deals-Up-to-40-off-free-shipping-w-35/22283955.html",
+     "body_snippet_verbatim": "This sale is valid through October 17"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "HEYDUDE",
+    "offer": "Fall Savings Sale: up to 30% off + extra 40% off in cart",
+    "code": null,
+    "ends": "2026-10-18",
+    "ends_wording": "Expires 10/18/2026",
+    "conditions": "Free shipping w/ $50",
+    "industries": [
+     "footwear"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "HEYDUDE Fall Savings Sale: Up to 30% off + extra 40% off in cart",
+     "url": "https://www.dealnews.com/HEYDUDE-Fall-Savings-Sale-Up-to-30-off-extra-40-off-in-cart-free-shipping-w-50/22283992.html",
+     "body_snippet_verbatim": "Expires 10/18/2026"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "lululemon",
+    "offer": "Men's Specials: up to 65% off",
+    "code": null,
+    "ends": "2026-10-21",
+    "ends_wording": "Expires 10/21/2026",
+    "conditions": "Free shipping",
+    "industries": [
+     "apparel",
+     "athletic"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "lululemon Men's Specials: Up to 65% off",
+     "url": "https://www.dealnews.com/lululemon-Mens-Specials-Up-to-65-off-free-shipping/22283821.html",
+     "body_snippet_verbatim": "Prices start as low as $19"
+    },
+    "other_sources": [
+     {
+      "name": "dealnews: lululemon Under $50 Specials: Shop over 100 styles (no discount in title)",
+      "url": "https://www.dealnews.com/lululemon-Under-50-Specials-Shop-over-100-styles-free-shipping/22283775.html"
+     }
+    ]
+   },
+   {
+    "store": "Ulta Beauty",
+    "offer": "Sweet & Shimmer Sale: 5 for $10",
+    "code": null,
+    "ends": "2026-11-21",
+    "ends_wording": "Expires 11/21/2026",
+    "conditions": "Free shipping w/ $35. NOTE: '5 for $10' title may not match Slomp discount regex",
+    "industries": [
+     "beauty"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Ulta Sweet & Shimmer Sale: 5 for $10",
+     "url": "https://www.dealnews.com/Ulta-Sweet-Shimmer-Sale-for-5-for-10-free-shipping-w-35/22284092.html",
+     "body_snippet_verbatim": "Expires 11/21/2026"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "AliExpress",
+    "offer": "Halloween Sale: up to 60% off + tiered extra $2 to $50 off with codes HDUS02-HDUS50",
+    "code": "HDUS02-HDUS50",
+    "ends": "2026-10-16",
+    "ends_wording": "Deal ends October 16 (other text says October 15; header Expires 10/16/2026)",
+    "conditions": "Tiered spend thresholds; shipping varies",
+    "industries": [
+     "marketplace"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "AliExpress Halloween Sale: Up to 60% off + extra $2 to $50 off",
+     "url": "https://www.dealnews.com/Ali-Express-Halloween-Sale-Up-to-60-off-extra-2-to-50-off-shipping-varies/22283524.html",
+     "body_snippet_verbatim": "Deal ends October 16"
+    },
+    "other_sources": []
+   },
+   {
+    "store": "Giftcards.com",
+    "offer": "DealNews private sale: 10% off 450+ gift card brands",
+    "code": "10OFF",
+    "ends": "2026-10-20",
+    "ends_wording": "Expires 10/20/2026",
+    "conditions": "Max discount $20.00",
+    "industries": [
+     "gift cards"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+     "url": "https://www.dealnews.com/Giftcards-com-Deal-News-Private-Sale-10-off-450-Brands/22274255.html",
+     "body_snippet_verbatim": "code \"10OFF\" ... max discount of $20.00"
+    },
+    "other_sources": [
+     {
+      "name": "same post later retitled: Giftcards.com DealNews Sale: 10% off $100 Visa Gift Card",
+      "url": "https://www.dealnews.com/Giftcards-com-Deal-News-Sale-for-10-off-100-Visa-Gift-Card/22274255.html"
+     }
+    ]
+   },
+   {
+    "store": "adidas",
+    "offer": "Men's Fall Sale / Fall Jerseys Sale: up to 50% off + extra 30% off with code FALL (SAME FALL promo already covered; extra titles only)",
+    "code": "FALL",
+    "ends": "2026-10-19",
+    "ends_wording": "The coupon expires on October 19. (header Expires 10/20/2026)",
+    "conditions": "adiClub free shipping. Duplicate of already-covered adidas FALL promo",
+    "industries": [
+     "apparel",
+     "footwear"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": {
+     "site": "dealnews",
+     "title_verbatim": "adidas Men's Fall Sale: Up to 50% off + extra 30% off",
+     "url": "https://www.dealnews.com/adidas-Mens-Fall-Sale-Up-to-50-off-extra-30-off-free-shipping/22283625.html",
+     "body_snippet_verbatim": "The coupon expires on October 19."
+    },
+    "other_sources": [
+     {
+      "name": "dealnews: adidas Fall Jerseys Sale: Up to 50% off + extra 30% off",
+      "url": "https://www.dealnews.com/adidas-Fall-Jerseys-Sale-Up-to-50-off-extra-30-off-free-shipping/22283582.html"
+     }
+    ]
+   },
+   {
+    "store": "Columbia",
+    "offer": "Members get extra 30% off sale styles (already up to 50% off)",
+    "code": null,
+    "ends": null,
+    "ends_wording": "No end date found",
+    "conditions": "Columbia membership (free); columbia.com homepage banner: 'Members Grab Extra 30% Off Sale Styles'",
+    "industries": [
+     "apparel",
+     "outdoor"
+    ],
+    "verified_by": "two sources",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "CNN Underscored, 2026-10-13",
+      "url": "https://www.cnn.com/cnn-underscored/deals/columbia-sale-2026-10-13"
+     },
+     {
+      "name": "columbia.com (homepage banner, seen in search excerpt)",
+      "url": "https://www.columbia.com/"
+     }
+    ]
+   },
+   {
+    "store": "REI",
+    "offer": "REI Outlet fall markdowns up to 50-55% off jackets, backpacks, sneakers",
+    "code": null,
+    "ends": null,
+    "ends_wording": "No end date (ongoing outlet)",
+    "conditions": "dealnews 'REI Outlet Handpicked Deals: Up to 60% off' ended Oct 6",
+    "industries": [
+     "outdoor",
+     "apparel"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "NBC Select, Oct 12 2026",
+      "url": "https://www.nbcnews.com/select/shopping/rei-fall-sale-2026-rcna602623"
+     },
+     {
+      "name": "Forbes Vetted REI codes (Oct 1 2026, up to 75% off)",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/rei-promo-codes/"
+     }
+    ]
+   },
+   {
+    "store": "Pottery Barn",
+    "offer": "Fall Sale: up to 70% off furniture, bedding, rugs; Open Box Outlet up to 75% off",
+    "code": null,
+    "ends": null,
+    "ends_wording": "No end date found",
+    "conditions": "",
+    "industries": [
+     "home",
+     "furniture"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "Forbes Vetted (vetted Oct 13 2026)",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/pottery-barn-promo-codes/"
+     }
+    ]
+   },
+   {
+    "store": "West Elm",
+    "offer": "Fall Sale: up to 60% off",
+    "code": null,
+    "ends": null,
+    "ends_wording": "No end date found",
+    "conditions": "",
+    "industries": [
+     "home",
+     "furniture"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "Forbes Vetted (vetted Oct 12 2026)",
+      "url": "https://www.forbes.com/sites/forbes-personal-shopper/article/west-elm-coupons/"
+     }
+    ]
+   },
+   {
+    "store": "Banana Republic Factory",
+    "offer": "50% off sitewide + extra 25% off with cards",
+    "code": null,
+    "ends": "2026-10-18",
+    "ends_wording": "end date of Oct 18, 2026 (Marie Claire coupon page)",
+    "conditions": "Card-holder extra; dealnews 'Celebrate Fall' post ended Oct 12",
+    "industries": [
+     "apparel"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "Marie Claire coupons",
+      "url": "https://www.marieclaire.com/coupons/bananarepublicfactory.gapfactory.com"
+     }
+    ]
+   },
+   {
+    "store": "iHerb",
+    "offer": "15% off entire order (15NEXT, through Oct 31); 22% off $60+ (STACK22); 20% off app-only (OCT26APP, until Oct 19)",
+    "code": "15NEXT / STACK22 / OCT26APP",
+    "ends": "2026-10-31",
+    "ends_wording": "31 October 2026 (15NEXT, STACK22); OCT26APP valid until 19 October",
+    "conditions": "Unofficial aggregator only; unverified",
+    "industries": [
+     "health",
+     "supplements"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "promo-herb.com",
+      "url": "https://promo-herb.com/en/"
+     }
+    ]
+   },
+   {
+    "store": "Advance Auto Parts",
+    "offer": "15% off $50+ online with code 9TB9ZZ1 (also 20% off online, exclusions)",
+    "code": "9TB9ZZ1",
+    "ends": "2026-12-31",
+    "ends_wording": "This offer expires December 31, 2026.",
+    "conditions": "Evergreen coupon on dealnews store/coupon page, not an RSS deal post",
+    "industries": [
+     "automotive"
+    ],
+    "verified_by": "single source",
+    "deal_site_post": null,
+    "other_sources": [
+     {
+      "name": "dealnews Advance Auto Parts coupons page",
+      "url": "https://www.dealnews.com/s2750/Advance-Auto-Parts/"
+     }
+    ]
+   },
+   {
+    "searches_used": 65,
+    "not_found": [
+     "Nike (no current dealnews post; 'Nike Price-in-Bag Fall Sale: Up to an extra 40% off' ended Oct 8; Forbes says up to 46% off sale styles, no code/dates)",
+     "Under Armour ('Under Armour Long Weekend Outlet Deals: Up to 40% off + extra 10% off' WEEKEND+EXTRA10 ended Oct 12/13)",
+     "Dick's Sporting Goods (Exclusive Brands Sale ended Oct 13; Clearance extra 25% ended Oct 10)",
+     "The North Face",
+     "Overstock/Bed Bath & Beyond (only unreliable coupon-site codes)",
+     "Sephora (Point Multiplier event ended Oct 7)",
+     "Chewy",
+     "Petco",
+     "PetSmart",
+     "Walgreens",
+     "CVS (KCL shows deals valid to 10/18 and 10/25 but no specifics)",
+     "Office Depot",
+     "HP (only 'Refurb HP Laptops Deals at Woot: From $320', ends Oct 23, no % in title)",
+     "Dell (Refurb extra 50% off Precision ended Oct 13)",
+     "Lenovo (only India sales found)",
+     "Apple",
+     "Newegg (only product-specific codes on PCGamer/Tom's Hardware)",
+     "L.L.Bean (LEAF10 extra 10% ended Oct 12)",
+     "J.Crew mainline (Friends & Family ended Oct 12)",
+     "Gap",
+     "American Eagle (clearance post ended Sept 29)",
+     "Carter's/OshKosh",
+     "Crocs (Marie Claire code exp 10/21 unspecified)",
+     "Zappos",
+     "Crate & Barrel (Forbes: up to 20% off sofas, no dates)",
+     "AutoZone (conflicting coupon-site codes)",
+     "Vitacost (OCT26HB 20% off iHerb brands expired 10/14 7am ET)",
+     "Nordstrom Rack (denim 25% off ended Oct 12)",
+     "JCPenney",
+     "Amazon (Prime Big Deal Days ended Oct 7)"
+    ]
+   }
+  ],
+  "promotions": {
+   "generated": "2026-10-14",
+   "window": {
+    "start": "2026-10-14",
+    "end": "2026-10-21"
+   },
+   "method_note": "Only WebSearch was used (59 calls). Pages were never opened directly, so 'title_verbatim' values are the titles the search index returned. For Slickdeals, the index sometimes shows a normalized title ('Brand Offer: item - YYYY-MM-DD') that differs from the poster's title, which is preserved in the URL slug; both are given where they differ. 'text_snippet_verbatim' values are quoted from search-result snippets and may be lightly truncated.",
+   "promos": [
+    {
+     "brand": "Dairy Queen",
+     "offer": "Free Mini Blizzard Treat with a $1+ order placed in the DQ app or online, for DQ Rewards members (free to join)",
+     "dates": {
+      "start": "2026-10-12",
+      "end": "2026-10-19"
+     },
+     "date_wording": "Offer valid through 10/19 (Slickdeals); Through 10/19 (Hip2Save)",
+     "conditions": "DQ Rewards member; app or online order of $1+ (tax, tips, condiments excluded from minimum); must apply offer under 'Deals'; Royal Blizzard excluded; limit 1; may not appear on every account (one commenter only saw a $1 dipped cone)",
+     "verified_by": "two sources",
+     "sources": [
+      {
+       "name": "Slickdeals",
+       "url": "https://slickdeals.net/f/20145642-dairy-queen-rewards-members-free-mini-blizzard-when-you-make-a-1-or-greater-order-in-app-or-online",
+       "title_verbatim": "Dairy Queen Offer: mini Blizzard Treat - 2026-10-12"
+      },
+      {
+       "name": "Hip2Save",
+       "url": "https://hip2save.com/deals/dairy-queen-coupons/",
+       "title_verbatim": "Dairy Queen Is Giving Away FREE Mini Blizzards with a $1 Purchase |Hip2Save"
+      }
+     ],
+     "deal_site_post": {
+      "site": "slickdeals",
+      "title_verbatim": "Dairy Queen Offer: mini Blizzard Treat - 2026-10-12 (index-normalized title); poster title per URL slug: 'Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in App or Online'",
+      "url": "https://slickdeals.net/f/20145642-dairy-queen-rewards-members-free-mini-blizzard-when-you-make-a-1-or-greater-order-in-app-or-online",
+      "text_snippet_verbatim": "Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in-app or online. Offer valid through 10/19. Excludes tax, tips, condiments, and redemption on Royal Blizzard treats."
+     },
+     "notes": "A commenter said the offer showed in the T-Mobile Tuesday preview. A separate Slickdeals listing reads 'T-Mobile Customers T Life App * Starts 10/13/26 * DQ Free Mini Blizzard Treat, Moe's $6 Burrito or Bowl, more' (not opened)."
+    },
+    {
+     "brand": "Dairy Queen",
+     "offer": "$1 Small Dipped Cone for DQ Rewards members",
+     "dates": {
+      "start": null,
+      "end": "2026-10-18"
+     },
+     "date_wording": "through 10/18",
+     "conditions": "DQ Rewards member; app",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Hip2Save",
+       "url": "https://hip2save.com/deals/dairy-queen-coupons/",
+       "title_verbatim": "Dairy Queen Is Giving Away FREE Mini Blizzards with a $1 Purchase |Hip2Save"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Shake Shack",
+     "offer": "Free Single Cheeseburger with a $10+ purchase using code SCARYGOOD (week 2 of the weekly 'Scary Good' free-sandwich promo that runs through Oct 31)",
+     "dates": {
+      "start": "2026-10-12",
+      "end": "2026-10-18"
+     },
+     "date_wording": "expires 10/18/2026 (dealnews); October 12–18 (Sporked/Slickdeals schedule); Thru October 31 ... a different free sandwich with $10 purchase each week (dealnews)",
+     "conditions": "Promo code SCARYGOOD; $10 minimum on qualifying items; one per order; Shake Shack app/web/kiosk",
+     "verified_by": "two sources",
+     "sources": [
+      {
+       "name": "dealnews",
+       "url": "https://www.dealnews.com/Shake-Shack-Single-Cheeseburger-Free-w-10-purchase/22283763.html",
+       "title_verbatim": "Shake Shack Single Cheeseburger: Free w/ $10 purchase"
+      },
+      {
+       "name": "Slickdeals",
+       "url": "https://slickdeals.net/f/20084010-shake-shack-sandwich-and-burger-deals",
+       "title_verbatim": "Shake Shack sandwich and burger deals (title per URL slug)"
+      },
+      {
+       "name": "Sporked",
+       "url": "https://sporked.com/article/shake-shack-scary-good-deals-you-dont-want-to-miss/",
+       "title_verbatim": "Shake Shack Scary Good Deals You Don’t Want To Miss"
+      }
+     ],
+     "deal_site_post": {
+      "site": "dealnews",
+      "title_verbatim": "Shake Shack Single Cheeseburger: Free w/ $10 purchase",
+      "url": "https://www.dealnews.com/Shake-Shack-Single-Cheeseburger-Free-w-10-purchase/22283763.html",
+      "text_snippet_verbatim": "Thru October 31, Shake Shack are offering a different free sandwich with $10 purchase each week ... code \"SCARYGOOD\" ... expires 10/18/2026"
+     },
+     "notes": "Only dealnews states the year (10/18/2026). Slickdeals thread 20084010 has an ID from early Oct 2026, but the year is not visible in its snippet."
+    },
+    {
+     "brand": "Shake Shack",
+     "offer": "Free Single ShackBurger with a $10+ purchase using code SCARYGOOD (final week of the 'Scary Good' promo)",
+     "dates": {
+      "start": "2026-10-19",
+      "end": "2026-10-31"
+     },
+     "date_wording": "the final deal runs from October 19th through October 31st",
+     "conditions": "Promo code SCARYGOOD; $10 minimum",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Sporked",
+       "url": "https://sporked.com/article/shake-shack-scary-good-deals-you-dont-want-to-miss/",
+       "title_verbatim": "Shake Shack Scary Good Deals You Don’t Want To Miss"
+      },
+      {
+       "name": "Slickdeals",
+       "url": "https://slickdeals.net/f/20084010-shake-shack-sandwich-and-burger-deals",
+       "title_verbatim": "Shake Shack sandwich and burger deals (title per URL slug)"
+      }
+     ],
+     "deal_site_post": null,
+     "notes": "The year is inferred: this is the same campaign that dealnews dates 10/18/2026. Neither page shows 2026 explicitly."
+    },
+    {
+     "brand": "McAlister's Deli",
+     "offer": "Free dessert (e.g., cookie, pie, cheesecake) or Halloween beverage with an entrée purchase, for National Dessert Day",
+     "dates": {
+      "start": "2026-10-01",
+      "end": "2026-10-14"
+     },
+     "date_wording": "Oct 1-14 (McAlister's store pages); National Dessert Day, ends today (dealnews)",
+     "conditions": "McAlister's Rewards members; entrée purchase; reward applied at checkout",
+     "verified_by": "company",
+     "sources": [
+      {
+       "name": "McAlister's Deli location pages",
+       "url": "https://locations.mcalistersdeli.com/ok/tulsa/4951-east-21st-street",
+       "title_verbatim": "McAlister's Deli 21st and Yale"
+      },
+      {
+       "name": "dealnews",
+       "url": "https://www.dealnews.com/Mc-Alisters-Deli-Dessert-or-Beverage-Free-w-entree-purchase/22283903.html",
+       "title_verbatim": "McAlister's Deli Dessert or Beverage: Free w/ entree purchase"
+      }
+     ],
+     "deal_site_post": {
+      "site": "dealnews",
+      "title_verbatim": "McAlister's Deli Dessert or Beverage: Free w/ entree purchase",
+      "url": "https://www.dealnews.com/Mc-Alisters-Deli-Dessert-or-Beverage-Free-w-entree-purchase/22283903.html",
+      "text_snippet_verbatim": "The reward must be applied at checkout and is only available to McAlister's Rewards members."
+     },
+     "notes": "Valid only on Oct 14 within the window. The dealnews snippet also mentions a 'buy a spud in September, get one free in October' Rewards offer."
+    },
+    {
+     "brand": "Wendy's",
+     "offer": "$1 Boo! Books: 5 coupons for a free Jr. Frosty plus a $1.99 Kids' Meal coupon (90 cents goes to the Dave Thomas Foundation for Adoption)",
+     "dates": {
+      "start": "2026-08-31",
+      "end": "2026-11-01",
+      "coupon_redeem_by": "2026-12-31"
+     },
+     "date_wording": "August 31 through November 1 ... while supplies last; redeem by Dec. 31, 2026",
+     "conditions": "Book costs $1; coupons in person only (not with mobile orders); can't combine with other offers; participating U.S. restaurants",
+     "verified_by": "company",
+     "sources": [
+      {
+       "name": "Wendy's press release (IR PDF)",
+       "url": "https://s1.q4cdn.com/202642389/files/doc_news/Wendys-is-Serving-Up-a-Frightfully-Fun-Halloween-with-Boo-Books-and-Frosty-Frights-2026.pdf",
+       "title_verbatim": "Wendys is Serving Up a Frightfully Fun Halloween with Boo Books and Frosty Frights 2026"
+      },
+      {
+       "name": "Hip2Save",
+       "url": "https://hip2save.com/tips/wendys-halloween-coupon-book-free-frosty/",
+       "title_verbatim": "They’re Back! $1 Wendy’s Boo Books w/ 5 Free Frosty Jr. Coupons + $1.99 Kids Meal Offer"
+      },
+      {
+       "name": "Dexerto",
+       "url": "https://www.dexerto.com/food/wendys-brings-back-halloween-kids-meal-with-1-books-packed-with-free-frostys-3405863/",
+       "title_verbatim": "wendys brings back halloween kids meal with 1 books packed with free frostys (slug)"
+      }
+     ],
+     "deal_site_post": null,
+     "notes": "Frosty Frights Kids' Meal toys have run since Sept 14. A 'Brain Freeze' Rewards Drop on Oct 30 (3–4 p.m.) falls outside the window."
+    },
+    {
+     "brand": "Olive Garden",
+     "offer": "Never Ending Pasta Bowl from $14.99 (unlimited pasta refills plus never-ending soup/salad and breadsticks); protein toppings +$4.99",
+     "dates": {
+      "start": "2026-08-31",
+      "end": "2026-11-22"
+     },
+     "date_wording": "Aug. 31 to Nov. 22 (early access Aug. 24 for eClub members and Pasta Pass holders)",
+     "conditions": "Dine-in only; prices vary by location",
+     "verified_by": "two sources",
+     "sources": [
+      {
+       "name": "Nation's Restaurant News",
+       "url": "https://www.nrn.com/casual-dining/olive-garden-is-bringing-back-the-never-ending-pasta-pass",
+       "title_verbatim": "Olive Garden is bringing back the Never-Ending Pasta Pass"
+      },
+      {
+       "name": "FSR Magazine",
+       "url": "https://www.fsrmagazine.com/industry-news/olive-garden-to-bring-back-never-ending-pasta-bowl/",
+       "title_verbatim": "olive garden to bring back never ending pasta bowl (slug)"
+      },
+      {
+       "name": "Food Network",
+       "url": "https://www.foodnetwork.com/fn-dish/news/olive-garden-never-ending-pasta-pass-2026",
+       "title_verbatim": "Olive Garden Is Finally Bringing Back Its Pasta Pass After Six Years"
+      }
+     ],
+     "deal_site_post": null,
+     "notes": "This is the only Pasta Day-adjacent offer found for Oct 17. A search of the dealnews Restaurants category returned 'Never-Ending Pasta Bowl returns with prices starting at $14.99', but no individual post title was found. No 2026 National Pasta Day promotion was found for Olive Garden, Carrabba's, Maggiano's or Fazoli's."
+    },
+    {
+     "brand": "KFC",
+     "offer": "Buy one, get one free Spicy Chicken Sandwich combo (sandwich, side and medium drink) via KFC Rewards",
+     "dates": {
+      "start": null,
+      "end": "2026-12-25"
+     },
+     "date_wording": "valid thru 12/25",
+     "conditions": "KFC Rewards member (free); KFC app or website; tap 'Redeem' before building the order; availability varies by area (may appear under Deals tab)",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Slickdeals",
+       "url": "https://slickdeals.net/f/20078340-kfc-restaurant-buy-one-get-one-free-kfc-spicy-chicken-zinger-sandwich-combo-via-kfc-valid-thru-12-25",
+       "title_verbatim": "KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC ... Valid thru 12/25 (reconstructed from URL slug)"
+      },
+      {
+       "name": "The Daily Slickdeals (same company)",
+       "url": "https://daily.slickdeals.net/?p=226972",
+       "title_verbatim": "daily.slickdeals.net (title not returned)"
+      }
+     ],
+     "deal_site_post": {
+      "site": "slickdeals",
+      "title_verbatim": "KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC ... Valid thru 12/25 (reconstructed from URL slug)",
+      "url": "https://slickdeals.net/f/20078340-kfc-restaurant-buy-one-get-one-free-kfc-spicy-chicken-zinger-sandwich-combo-via-kfc-valid-thru-12-25",
+      "text_snippet_verbatim": "add the rewards offer from your KFC Rewards account for discount to apply"
+     },
+     "notes": "Both sources are Slickdeals properties, so this counts as one source. The title says 'Zinger' but the body says 'Spicy Chicken Sandwich'. Thread ID ~20.08M is from late Sept or early Oct 2026. KFC's '13 Days of Scary Good Deals' ran Oct 19–31 in 2024 and 2025; no 2026 announcement was found."
+    },
+    {
+     "brand": "Jason's Deli",
+     "offer": "Free Strawberry Shortcake with any regular entrée purchase (National Dessert Day)",
+     "dates": {
+      "start": "2026-10-14",
+      "end": "2026-10-18"
+     },
+     "date_wording": "This one-time promo runs through Oct. 18",
+     "conditions": "Regular entrée purchase; store participation varies",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Restaurantji (dated Oct 1, 2026)",
+       "url": "https://www.restaurantji.com/blog/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals"
+      }
+     ],
+     "deal_site_post": null,
+     "notes": "A search of jasonsdeli.com, Slickdeals and dealnews found nothing to confirm this."
+    },
+    {
+     "brand": "Nothing Bundt Cakes",
+     "offer": "Up to 300 bonus rewards points on qualifying purchases for Bundtastic members (National Dessert Day)",
+     "dates": {
+      "start": "2026-10-14",
+      "end": "2026-10-16"
+     },
+     "date_wording": "ordering between Oct. 14 and 16",
+     "conditions": "Bundtastic Rewards member; qualifying purchase",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Restaurantji (dated Oct 1, 2026)",
+       "url": "https://www.restaurantji.com/blog/national-dessert-day/",
+       "title_verbatim": "National Dessert Day Deals"
+      }
+     ],
+     "deal_site_post": null
+    },
+    {
+     "brand": "Cicis Pizza",
+     "offer": "$2.99 Adult Buffet for new Cicis Rewards members (dine-in, app required), plus $5 medium one-topping pizzas to go",
+     "dates": {
+      "start": null,
+      "end": "2026-10-31"
+     },
+     "date_wording": "Thru 10/31",
+     "conditions": "New Rewards members only; dine-in; app required",
+     "verified_by": "single source",
+     "sources": [
+      {
+       "name": "Slickdeals",
+       "url": "https://slickdeals.net/f/20094105-cicis-pizza-2-99-adult-buffet-dine-in-app-req-only-for-new-rewards-members-thru-10-31-plus-5-medium-one-topping-pizzas-to-go",
+       "title_verbatim": "Cicis Pizza $2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31 Plus $5 Medium One Topping Pizzas To Go (reconstructed from URL slug)"
+      }
+     ],
+     "deal_site_post": {
+      "site": "slickdeals",
+      "title_verbatim": "Cicis Pizza $2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31 Plus $5 Medium One Topping Pizzas To Go (reconstructed from URL slug)",
+      "url": "https://slickdeals.net/f/20094105-cicis-pizza-2-99-adult-buffet-dine-in-app-req-only-for-new-rewards-members-thru-10-31-plus-5-medium-one-topping-pizzas-to-go",
+      "text_snippet_verbatim": "$2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31"
+     },
+     "notes": "Low confidence. The thread ID suggests early Oct 2026, but its body reportedly repeats the Nov 2025 launch terms. Cicis' latest company release describes a $3.99 adult buffet for new members 'through the end of this year'."
+    }
+   ],
+   "deal_site_posts_non_texas_or_outside_window": [
+    {
+     "brand": "White Castle",
+     "texas": false,
+     "site": "dealnews",
+     "title_verbatim": "White Castle Dessert on Stick: Free w/ combo purchase",
+     "url": "https://www.dealnews.com/White-Castle-Dessert-on-Stick-Free-w-combo-purchase/22283946.html",
+     "date_wording": "from October 14 to 19",
+     "note": "Confirmed by a second source (Restaurantji: code DESSERT, Oct. 14–19, Craver Nation Rewards). White Castle has no Texas locations, so Slomp should reject it."
+    },
+    {
+     "brand": "Del Taco",
+     "texas": "uncertain/likely none",
+     "site": "dealnews",
+     "title_verbatim": "Del Taco 2pc Caramel Cheesecake Bites: free w/ $5 purchase",
+     "url": "https://www.dealnews.com/Del-Taco-2-pc-Caramel-Cheesecake-Bites-free-w-5-purchase-shipping-varies/22283902.html",
+     "date_wording": "for National Dessert Day (October 14)",
+     "text_snippet_verbatim": "Rewards members get a 2pc caramel cheesecake bites for free with a $5 purchase for National Dessert Day (October 14). ... Thru October 31, Del Taco has a range of offers thru the Rewards app (free to join)."
+    },
+    {
+     "brand": "MilkShake Factory",
+     "texas": false,
+     "site": "dealnews",
+     "title_verbatim": "MilkShake Factory Milkshakes: Buy one get one free",
+     "url": "https://www.dealnews.com/Milk-Shake-Factory-Milkshakes-Buy-one-get-one-free/22283943.html",
+     "date_wording": "for National Dessert Day (today only)"
+    },
+    {
+     "brand": "Dave's Hot Chicken",
+     "texas": true,
+     "site": "dealnews",
+     "title_verbatim": "Dave's Hot Chicken Slider: Free",
+     "url": "https://www.dealnews.com/Daves-Hot-Chicken-Slider-Free/22279453.html",
+     "date_wording": "Dave's Day, October 13",
+     "note": "Expired the day before the window."
+    },
+    {
+     "brand": "Jimmy John's",
+     "texas": true,
+     "site": "dealnews",
+     "title_verbatim": "Jimmy John's Sandwiches: Buy one get one free",
+     "url": "https://dealnews.com/Jimmy-Johns-Sandwiches-Buy-one-get-one-free/22274756.html",
+     "date_wording": "thru October 12",
+     "note": "Expired."
+    },
+    {
+     "brand": "Krispy Kreme",
+     "texas": true,
+     "site": "slickdeals",
+     "title_verbatim": "krispy kreme free original glazed doughnut or classic ring doughnut oct 30 31 dress in halloween costume (URL slug)",
+     "url": "https://slickdeals.net/f/20125257-krispy-kreme-free-original-glazed-doughnut-or-classic-ring-doughnut-oct-30-31-dress-in-halloween-costume",
+     "date_wording": "Oct 30-31",
+     "note": "2026 post, but the dates fall after the window."
+    },
+    {
+     "brand": "QDOBA",
+     "texas": true,
+     "site": "dealnews",
+     "title_verbatim": "QDOBA Free Queso & Chips: Free w/ entree purchase",
+     "url": "https://www.dealnews.com/QDOBA-Free-Queso-Chips-Free-w-entree-purchase/21945900.html",
+     "date_wording": "full moon dates in 2026",
+     "note": "The next full moon is Oct 26, 2026, outside the window. The post gives a list of dates rather than a range."
+    }
+   ],
+   "unverified_leads": [
+    "Popeyes $20 build-your-own bundle and 12 wings/12 tenders for $12. dealnews c377 summary, undated.",
+    "Panera Sip Club at $5/month for 5 months for new and lapsed members. dealnews c377 summary, undated.",
+    "Little Caesars $10 off a first Uber Eats order of $20+ 'throughout October 2026'. dealnews promo-code feature page, not a deal post.",
+    "Papa John's 20% off code. dealnews promo-code feature page, last updated in August.",
+    "Sonic half-price drinks and slushes in the app. Ongoing app perk per a 2026-08-12 blog; no October 2026 confirmation.",
+    "Zaxby's 50% off shakes through Oct 26 and Sonny's BBQ 'Porktober'. dealnews c377 summary; year not verified, and Texas presence is minimal or none.",
+    "Firehouse Subs 25% off any sub through Oct 31 and Shake Shack 'SPOOKY' BOGO Double ShackBurger through Oct 31. These were shown on the dealnews category summary but CONFIRMED as 2025 offers; do not use."
+   ],
+   "searched_not_found": [
+    "McDonald's",
+    "Burger King",
+    "Taco Bell",
+    "Chipotle",
+    "Whataburger",
+    "Raising Cane's",
+    "Chick-fil-A",
+    "Sonic",
+    "Krispy Kreme (nothing in window; costume freebie Oct 30-31)",
+    "Dunkin'",
+    "Starbucks",
+    "Panera",
+    "Chili's",
+    "Applebee's",
+    "IHOP",
+    "Denny's",
+    "Papa John's",
+    "Domino's",
+    "Pizza Hut",
+    "Little Caesars",
+    "Jack in the Box",
+    "Popeyes",
+    "Subway",
+    "Jersey Mike's",
+    "Torchy's Tacos (National Taco Day BOGO was Oct 6)",
+    "Shipley Do-Nuts",
+    "Bush's Chicken",
+    "Baskin-Robbins",
+    "Cheesecake Factory (no 2026 Dessert Day offer found)"
+   ],
+   "not_individually_searched": [
+    "Chuy's",
+    "Portillo's"
+   ],
+   "food_holidays_checked": {
+    "National Dessert Day (Wed Oct 14)": "McAlister's, Jason's Deli, Nothing Bundt Cakes, Del Taco, White Castle, MilkShake Factory, Tender Greens, Tocaya",
+    "Boss's Day (Fri Oct 16)": "no 2026 restaurant offers found",
+    "National Pasta Day (Sat Oct 17)": "no 2026 offers found; Olive Garden pasta bowl is running anyway",
+    "National Chocolate Cupcake Day (Sun Oct 18)": "no chain offers found"
+   },
+   "searches_used": 59
+  },
+  "regulars": {
+   "exact_wording_for_known_missing": [
+    {
+     "brand": "Santikos (Super Tuesday)",
+     "url": "https://ksat.com/news/local/2024/06/10/movie-goers-can-enjoy-499-movies-at-santikos-silverado-theater-on-tuesdays",
+     "sentence_verbatim": "With the special deal, visitors can enjoy a movie for just $4.99 all day on Tuesdays.",
+     "notes": "NOT the company page: no santikos.com page came back in search. This is a June 2024 KSAT sentence. Locations listed then: Silverado, Casa Blanca, Cibolo, New Braunfels, Westlakes (all San Antonio area, outside Austin/Houston/DFW). Upcharge for AVX/3D."
+    },
+    {
+     "brand": "Movie Tavern (Marcus Value Tuesday)",
+     "url": "https://www.marcustheatres.com/marcus-specials/value-pricing/value-tuesday",
+     "sentence_verbatim": null,
+     "phrases_seen_paraphrased": [
+      "valid starting at 6am on Tuesday",
+      "Special events are excluded",
+      "additional charge for UltraScreen, SuperScreen, 3D, 4DX, and ScreenX where available"
+     ],
+     "notes": "The company page came back, but the search tool only paraphrased it. These phrases are not confirmed as verbatim, so check them before using one as a find string. The page also calls the offer 'limited time only'. Older reports put it at $6 for members and $7 for non-members."
+    },
+    {
+     "brand": "ShowBiz Cinemas (Tuesdays)",
+     "url": null,
+     "sentence_verbatim": null,
+     "notes": "The search returned only Cinemark pages. No ShowBiz page or wording was found."
+    },
+    {
+     "brand": "Alamo Drafthouse (BFD Tuesdays)",
+     "url": "https://www.boxofficepro.com/alamo-drafthouse-cinema-announces-discount-tickets-every-tuesday/",
+     "sentence_verbatim": null,
+     "notes": "No drafthouse.com page came back. Trade press (Jan 2024) and Fangoria report $5/$7/$9 tickets depending on market, for regularly priced 2D films. Excluded: 3D, The Big Show, special events and the opening week of some films. A June 2025 roundup cited $10.99 at one market. No verbatim company sentence was captured."
+    },
+    {
+     "brand": "Denny's (kids eat free)",
+     "url": "https://www.dennys.ca/promotions/kids-eat-free-tuesday-sunday/",
+     "sentence_verbatim": "Bring the family to denny's between 4pm and 10pm for a free kids meal",
+     "notes": "This sentence is from the CANADIAN page (Tuesday and Sunday), so do not use it for US evidence. No dennys.com US page came back. For the US, third-party guides say Tuesday 4-10 pm, one free kids meal per adult entree, at participating locations. Macaroni Kid: 'Families can enjoy one free kids' meal with the purchase of each adult entrée'. PureWow says Tuesday and Saturday."
+    }
+   ],
+   "missing": [
+    {
+     "brand": "Kohl's",
+     "offer": "Senior discount: 15% off qualifying in-store purchases for shoppers 60+",
+     "days": [
+      "wed"
+     ],
+     "time": "all day, in store",
+     "kind": "retail",
+     "areas": [
+      "austin",
+      "houston",
+      "dfw"
+     ],
+     "conditions": "Age 60+, ID required, in store only, limit one. Cannot be combined with other percent-off coupons; dollar-off coupons and Kohl's Cash apply first. Excludes gift cards, Sephora and charitable items.",
+     "evidence_url": "https://www.kohls.com/faq/article/101",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "15% discount on qualifying purchases every Wednesday in our stores",
+     "second_source_url": "https://theseniorlist.com/senior-discounts/retail/kohls",
+     "verified": true,
+     "notes": "Kohl's FAQ. Kohl's also runs a 15% military discount on Mondays (https://www.kohls.com/faq/article/2926), which is also missing from regulars.json."
+    },
+    {
+     "brand": "Museum of Fine Arts, Houston",
+     "offer": "Free general admission to the permanent collections on Thursdays",
+     "days": [
+      "thu"
+     ],
+     "time": "museum hours (open late Thursdays, about 11 am-9 pm per 2023 pages)",
+     "kind": "museum",
+     "areas": [
+      "houston"
+     ],
+     "conditions": "Permanent collections only; special exhibitions are ticketed. Sponsored by Shell USA.",
+     "evidence_url": "https://www.mfah.org/visit",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "admission to the MFAH Permanent Collections is free on Thursdays",
+     "second_source_url": "https://citiesinsider.com/country/united-states/houston/arts-and-culture/en",
+     "verified": true,
+     "notes": "The wording is as summarized from mfah.org; a 2026 Cities Insider guide agrees. Confirm the exact page URL, because the search surfaced the MFAH domain rather than the visit page itself."
+    },
+    {
+     "brand": "Kimbell Art Museum",
+     "offer": "Half-price special exhibition admission on Tuesdays all day and Friday evenings",
+     "days": [
+      "tue",
+      "fri"
+     ],
+     "time": "Tue 10 am-5 pm; Fri 5-8 pm",
+     "kind": "museum",
+     "areas": [
+      "dfw"
+     ],
+     "conditions": "Special exhibitions only; the permanent collection is always free. Half-price Friday tickets are sold only at the Piano Pavilion box office, not online.",
+     "evidence_url": "https://kimbellart.org/sites/default/files/2025-11/1110%202026%20Exhibitions%20Press%20Release%20Kimbell.pdf",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "half-price admission to special exhibitions on Tuesdays from 10 am–5 pm and Fridays from 5–8 pm",
+     "second_source_url": "https://360westmagazine.com/free-museum-days-fort-worth-dfw/",
+     "verified": true,
+     "notes": "Kimbell's 2026 exhibitions press release repeats this wording."
+    },
+    {
+     "brand": "Buffalo Wild Wings",
+     "offer": "BOGO Days: buy one boneless wings order, get one free on Thursdays; BOGO traditional wings on Tuesdays",
+     "days": [
+      "tue",
+      "thu"
+     ],
+     "time": "all day",
+     "kind": "restaurant",
+     "areas": [
+      "austin",
+      "houston",
+      "dfw"
+     ],
+     "conditions": "Thursday: second order of equal or lesser value. Tuesday terms conflict: one version is free wings for Rewards members, dine-in only; the other is the second order at 50% off for takeout/delivery via app/web. Varies by location.",
+     "evidence_url": "https://www.buffalowildwings.com/bogo-days/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "for any quantity of boneless wings you order you will get the same number of Boneless wings free",
+     "second_source_url": "https://www.chowhound.com/2132338/best-time-bogo-buffalo-wild-wings",
+     "verified": true,
+     "notes": "The brand is already in regulars.json, but only for happy hour; this offer is not there. The search noted the most detailed terms page is about 639 days old. A Slickdeals post (https://slickdeals.net/f/19119343) describes 'BOGO free wing Tuesdays, rewards members and dine-in only', which looks like the current Tuesday version. Use the Thursday boneless sentence as the find string."
+    },
+    {
+     "brand": "Bush's Chicken",
+     "offer": "Tender Tuesday: chicken tenders and sides at family meal prices",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "restaurant",
+     "areas": [
+      "austin",
+      "dfw"
+     ],
+     "conditions": "Price varies by franchise; older reports give $9.99-$12.99 for 16 tenders, gravy and 4 rolls.",
+     "evidence_url": "https://www.bushschicken.com/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "Every Tuesday, your hometown Bush's Chicken serves up the best fried chicken tenders and sides at delicious family meal prices.",
+     "second_source_url": "https://www.bushschicken.com/menu/",
+     "verified": true,
+     "notes": "Company homepage. The menu page adds: 'People love the Bush's Chicken specials, especially the great value of Tender Tuesdays.' There is no current price, so the offer text should not name one. Coverage is mainly Central Texas (Austin suburbs) and North Texas; Houston coverage is unverified."
+    },
+    {
+     "brand": "Cowboy Chicken",
+     "offer": "Kids eat free on Mondays after 4 pm with an adult entrée",
+     "days": [
+      "mon"
+     ],
+     "time": "after 4 pm",
+     "kind": "restaurant",
+     "areas": [
+      "dfw",
+      "houston"
+     ],
+     "conditions": "Ages 10 and under, in store only, limit 4 kids meals per transaction.",
+     "evidence_url": "https://www.cowboychicken.com/back-to-school-made-easier-family-dinners-at-cowboy-chicken/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "Mondays: Kids Eat Free. After 4 pm, kids eat free with the purchase of an adult entrée (in-store only, for ages 10 and under, limit of four kids' meals per transaction).",
+     "second_source_url": "https://www.qsrmagazine.com/news/kids-eat-free-mondays-cowboy-chicken/",
+     "verified": true,
+     "notes": "Company page, but undated (a back-to-school post, so August 2025 or 2026). The same page says: 'Wednesdays after 4 pm, save $5 on Family Meals (in-app only)'. That Wednesday deal is a second candidate entry, on the same evidence."
+    },
+    {
+     "brand": "Main Event",
+     "offer": "Kids 12 and younger eat free on Tuesdays: one free kids meal per food item of $11.99 or more",
+     "days": [
+      "tue"
+     ],
+     "time": "all day",
+     "kind": "restaurant",
+     "areas": [
+      "austin",
+      "houston",
+      "dfw"
+     ],
+     "conditions": "Dine-in; varies by location; was void in Orlando at launch.",
+     "evidence_url": "https://www.mainevent.com/brea/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "Kids Eat Free: Offer valid for kids age 12 years or younger. One free kid meal per food item purchase of $11.99 or more.",
+     "second_source_url": "https://littlerock.macaronikid.com/events/67f58471d135ea1a0cab9d70/kids-12-and-under-eat-free-on-tuesdays-at-main-event-little-rock",
+     "verified": false,
+     "notes": "PARTIAL. The company wording comes from a California location page and does not name Tuesday. The Tuesday detail comes from Slickdeals (launched Nov 5, 2024) and a 2025 Macaroni Kid listing. Neither is dated 2026 or in Texas, and the Texas location pages did not show it. The brand is already in regulars.json with other specials."
+    },
+    {
+     "brand": "Thinkery",
+     "offer": "Community Night / Family Night: pay-what-you-can admission (suggested $1, later $9)",
+     "days": [
+      "wed?"
+     ],
+     "time": "4-8 pm per older listings; 3-5 pm per a ~2026 listing",
+     "kind": "museum",
+     "areas": [
+      "austin"
+     ],
+     "conditions": "By donation.",
+     "evidence_url": "https://thinkeryaustin.org/visit-us/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "Pay what you can (Suggested Amount $9)",
+     "second_source_url": "https://my.thinkeryaustin.org/3640/3674",
+     "verified": false,
+     "notes": "UNVERIFIED day and time. The current visit page lists 'Family Night' as pay-what-you-can without a day in the snippet. A ticketing listing about 225 days old describes free weekly Community Night hours from 3 pm until close at 5 pm, with no weekday given. Older pages say Wednesdays 4-8 pm. Needs a direct look."
+    },
+    {
+     "brand": "Freebirds World Burrito",
+     "offer": "Kids eat free on Saturdays and Sundays with an adult entrée",
+     "days": [
+      "sat",
+      "sun"
+     ],
+     "time": "all day",
+     "kind": "restaurant",
+     "areas": [
+      "austin",
+      "houston",
+      "dfw"
+     ],
+     "conditions": "Online code KIDSEATFREE.",
+     "evidence_url": "https://frisco.preview.macaronikid.com/articles/696fdcc49c5ab40b4588d831/tiny-tummies-zero-tabs-kids-eat-free-in-and-around-frisco-",
+     "evidence_is_company_site": false,
+     "sentence_verbatim": null,
+     "second_source_url": "https://hip2save.com/tips/kids-eat-free/",
+     "verified": false,
+     "notes": "UNVERIFIED. One 2026 source (Macaroni Kid Frisco, Jan 2026) plus Hip2Save (undated). A search of freebirds.com found no mention."
+    },
+    {
+     "brand": "Pinstack",
+     "offer": "Wine Down Wednesdays: 50% off bottles of wine all day; Mondays: half-price appetizers and $3 drafts, 4-11 pm",
+     "days": [
+      "wed",
+      "mon"
+     ],
+     "time": "Wed all day; Mon 4-11 pm",
+     "kind": "entertainment",
+     "areas": [
+      "austin",
+      "dfw"
+     ],
+     "conditions": "Per-location.",
+     "evidence_url": "https://www.opentable.ie/r/pinstack-plano",
+     "evidence_is_company_site": false,
+     "sentence_verbatim": "Wine Down Wednesdays | ALL DAY | 50% off bottles of wine",
+     "second_source_url": "https://www.opentable.ie/r/pinstack-austin",
+     "verified": false,
+     "notes": "UNVERIFIED. These are OpenTable listings for several Texas locations, not dated sources, and a pinstack.com search returned nothing. The 'Half Price Games Tuesday' deal appears only in a 2021 source and is probably stale."
+    },
+    {
+     "brand": "Sonic Drive-In",
+     "offer": "Half-price drinks and slushes (app any time; happy hour 2-4 pm)",
+     "days": [
+      "daily"
+     ],
+     "time": "2-4 pm (or any time in the app)",
+     "kind": "restaurant",
+     "areas": [
+      "austin",
+      "houston",
+      "dfw"
+     ],
+     "conditions": "Participating locations; app.",
+     "evidence_url": "https://www.sonicdrivein.com/locations/us/tx/san-antonio/1730-horal-drive/store-2981/",
+     "evidence_is_company_site": true,
+     "sentence_verbatim": "half price drinks and slushes any time",
+     "second_source_url": "https://grabon.com/sonic-coupons/",
+     "verified": false,
+     "notes": "UNVERIFIED as a fixed-time deal. The 2-4 pm window appears only in a 2019 press release and on coupon sites. The current Sonic store page frames the deal as an app perk. Half-price shakes after 8 pm were seasonal (summer) and are not confirmed for 2026."
+    },
+    {
+     "brand": "Dallas Zoo",
+     "offer": "Tiger Tuesdays: $8 admission on the first Tuesday of the month",
+     "days": [
+      "first tue"
+     ],
+     "time": "zoo hours",
+     "kind": "zoo",
+     "areas": [
+      "dfw"
+     ],
+     "conditions": "",
+     "evidence_url": "https://thebettervacation.com/zoo/dallas-zoo/amp/",
+     "evidence_is_company_site": false,
+     "sentence_verbatim": null,
+     "second_source_url": null,
+     "verified": false,
+     "notes": "UNVERIFIED and possibly stale; the only source is a third-party travel guide. Dollar Days (July 16 and Aug 4, 2026) are annual one-offs and already over."
+    }
+   ],
+   "outdated": [
+    {
+     "id": "dave-busters-half-price-games",
+     "issue": "Possibly outdated: the Sunday half is unconfirmed. The regulars.json entry says 'every Wednesday and Sunday'. D&B's own llms.txt says 'all games half-price all day, every Wednesday', and the half-price page (the entry's own evidence URL, slug 'sun-thur') now reads 'Sunday through Thursday... Promotional. Limited Time Only' (Wednesday-only in Davenport and Santa Rosa). A coupon listing for a 'Sundays and Wednesdays' offer expired Aug 4, 2026. Re-check the page and probably narrow the entry to Wednesday.",
+     "sources": [
+      "https://www.daveandbusters.com/us/en/play/half-price-games-sun-thur",
+      "https://www.daveandbusters.com/llms.txt",
+      "https://www.coupons.com/coupon-codes/dave-and-busters"
+     ]
+    },
+    {
+     "id": "main-event-kids-bowl-free",
+     "issue": "Seasonal end date. The official Kids Bowl Free page says '2 FREE games of bowling for kids 15 & under Monday-Friday from Open-5pm through October', so the deal likely ends Oct 31, 2026 and the entry should carry an end date.",
+     "sources": [
+      "https://www.mainevent.com/specials/kids-bowl-free/"
+     ]
+    }
+   ],
+   "already_present": [
+    {
+     "brand": "Blanton Museum of Art",
+     "id": "blanton-free-tuesdays",
+     "status": "confirmed current: the official visit page says Free Tuesdays (moved from Thursdays)"
+    },
+    {
+     "brand": "Houston Museum of Natural Science",
+     "id": "hmns-free-tuesdays",
+     "status": "confirmed current: Tuesdays 5-8 pm, last entry 7:30 pm, Hermann Park only (help.hmns.org/support/solutions/articles/151000051328)"
+    },
+    {
+     "brand": "Goodwill Central Texas",
+     "id": "goodwill-central-texas-heroes-tuesday",
+     "status": "confirmed current: 2026 event listings (Jan 27 and Jul 14, 2026); hours vary by date, not valid at outlets"
+    },
+    {
+     "brand": "Goodwill Central Texas",
+     "id": "goodwill-central-texas-color-tag-wednesday",
+     "status": "seen on the official sales page, which says 'Each Wednesday, a different Color Tag is 60% off'"
+    },
+    {
+     "brand": "Dave & Buster's",
+     "id": "dave-busters-half-price-games",
+     "status": "present; see outdated"
+    },
+    {
+     "brand": "Main Event",
+     "id": "main-event-*",
+     "status": "present (Monday, Friday, Kids Bowl Free); kids eat free Tuesday is missing"
+    },
+    {
+     "brand": "Buffalo Wild Wings",
+     "id": "buffalo-wild-wings-happy-hour",
+     "status": "present for happy hour only; the BOGO Days offer is missing"
+    },
+    {
+     "brand": "Torchy's Tacos",
+     "id": "torchys-hooky-hour",
+     "status": "present; no recurring Taco Tuesday found for 2026 (only National Taco Day BOGO on Oct 6, 2026 and the Taco Two-Step $9.95 limited-time offer)"
+    },
+    {
+     "brand": "Chuy's",
+     "id": "chuys-happy-hour",
+     "status": "present; no weekly kids or day deal found"
+    },
+    {
+     "brand": "Pluckers",
+     "id": "pluckers-*",
+     "status": "present (not re-searched)"
+    },
+    {
+     "brand": "Savers / Ross / Houston Zoo / Holocaust Museum Houston / Children's Museum Houston / Health Museum",
+     "status": "present, not re-searched; the 2026 Cities Insider guide agrees on HMH Thursdays 2-5 pm"
+    }
+   ],
+   "searched_no_standing_deal_found": [
+    "Wingstop",
+    "Mellow Mushroom",
+    "Smashburger (only holiday one-offs)",
+    "Twin Peaks (location-specific beer specials only)",
+    "Chuy's kids",
+    "Torchy's Taco Tuesday",
+    "Goodwill Houston",
+    "Goodwill North Central Texas / Goodwill Dallas",
+    "Salvation Army TX family stores",
+    "Burlington",
+    "Bealls (Texas Bealls stores closed in 2020; Bealls Outlet 10% off Tuesdays for 50+ is Florida-centric)",
+    "Half Price Books (only a year-round 10% educator card)",
+    "Perot Museum (no free day)",
+    "Austin Zoo",
+    "Round1 (no Texas weekday deal)",
+    "Bowlero (Night Strike only; some Texas centers converting to Lucky Strike)",
+    "Kung Fu Tea",
+    "Sharetea",
+    "Teapioca",
+    "Dutch Bros",
+    "Black Rifle Coffee",
+    "Ziggi's"
+   ],
+   "not_searched": [
+    "Pizza Hut",
+    "Papa John's",
+    "Whataburger",
+    "DMA / Crow / Amon Carter (general admission is always free, so they have no day deal)"
+   ],
+   "searches_used": 55
+  }
+ },
+ "replay": [
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Old Navy",
+    "deal_type": "sale",
+    "title": "Old Navy Clearance Sale: Up to 87% off + extra 20% off + free shipping w/ $50",
+    "text": "Code \"EXTRA\" The coupon expires on October 15. Over 2,355 items included in the clearance event",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Old-Navy-Clearance-Sale-Up-to-87-off-extra-20-off-free-shipping-w-50/22283944.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-15",
+     "code": "EXTRA"
+    }
+   },
+   "main": {
+    "title": "Old Navy Clearance Sale: Up to 87% off + extra 20% off + free shipping w/ $50",
+    "kept": true,
+    "why": "",
+    "store": "Old Navy",
+    "offer": "Up to 87% off + extra 20% off",
+    "code": "",
+    "ends": "2026-10-15",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "Old Navy Clearance Sale: Up to 87% off + extra 20% off + free shipping w/ $50",
+    "kept": true,
+    "why": "",
+    "store": "Old Navy",
+    "offer": "Up to 87% off + extra 20% off",
+    "code": "EXTRA",
+    "ends": "2026-10-15",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "J.Crew Factory",
+    "deal_type": "sale",
+    "title": "J.Crew Factory Clearance Deals: Up to 70% off + extra 50% off + free shipping w/ $99",
+    "text": "promo code \"TREAT50\" The coupon expires on October 17.",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/J-Crew-Factory-Clearance-Deals-Up-to-70-off-extra-50-off-free-shipping-w-99/22283925.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-17",
+     "code": "TREAT50"
+    }
+   },
+   "main": {
+    "title": "J.Crew Factory Clearance Deals: Up to 70% off + extra 50% off + free shipping w/ $99",
+    "kept": true,
+    "why": "",
+    "store": "J.Crew Factory",
+    "offer": "Up to 70% off + extra 50% off",
+    "code": "TREAT50",
+    "ends": "2026-10-17",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "J.Crew Factory Clearance Deals: Up to 70% off + extra 50% off + free shipping w/ $99",
+    "kept": true,
+    "why": "",
+    "store": "J.Crew Factory",
+    "offer": "Up to 70% off + extra 50% off",
+    "code": "TREAT50",
+    "ends": "2026-10-17",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "LEGO",
+    "deal_type": "sale",
+    "title": "LEGO Insider Points Event: 2x Points for Insiders + free set w/ $180 spend + free shipping w/ $35",
+    "text": "This deal ends October 19.",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/LEGO-Insider-Points-Event-for-2-x-Points-for-Insiders-free-set-w-180-spend-free-shipping-w-35/22284072.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-19",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "LEGO Insider Points Event: 2x Points for Insiders + free set w/ $180 spend + free shipping w/ $35",
+    "kept": false,
+    "why": "not a store sale: no discount stated",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "LEGO Insider Points Event: 2x Points for Insiders + free set w/ $180 spend + free shipping w/ $35",
+    "kept": false,
+    "why": "not a store sale: no discount stated",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "New Balance",
+    "deal_type": "sale",
+    "title": "New Balance Sale: 25% off $125 + free shipping",
+    "text": "Deal ends October 19",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/New-Balance-Sale-for-25-off-125-free-shipping/22284065.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-20",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "New Balance Sale: 25% off $125 + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "New Balance",
+    "offer": "25% off",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "New Balance Sale: 25% off $125 + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "New Balance",
+    "offer": "25% off $125+",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Macy's",
+    "deal_type": "sale",
+    "title": "Macy's Biggest Fall Sale Event: Up to 80% off + free shipping w/ $39",
+    "text": "(the banner says up to 60% off, but we've found higher discounts within) Star Rewards members receive free shipping on orders over $39 (it's free to join)",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Macys-Biggest-Fall-Sale-Event-Up-to-80-off-free-shipping-w-39/22283717.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-25",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Macy's Biggest Fall Sale Event: Up to 80% off + free shipping w/ $39",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Macy's Biggest Fall Sale Event: Up to 80% off + free shipping w/ $39",
+    "kept": true,
+    "why": "",
+    "store": "Macy's",
+    "offer": "Up to 80% off",
+    "code": "",
+    "ends": null,
+    "industries": [
+     "fashion",
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Walmart",
+    "deal_type": "sale",
+    "title": "Walmart Flash Deals: Up to 65% off + free shipping w/ $35",
+    "text": "Coupon ends October 19 Shipping is free for orders over $35; otherwise, a $7 fee applies.",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Walmart-Flash-Deals-Up-to-65-off-free-shipping-w-35/22269171.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-16",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Walmart Flash Deals: Up to 65% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Walmart",
+    "offer": "Up to 65% off",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "tech",
+     "sports",
+     "fashion",
+     "home",
+     "beauty",
+     "health",
+     "grocery",
+     "toys",
+     "baby",
+     "pets",
+     "auto",
+     "office"
+    ]
+   },
+   "this_change": {
+    "title": "Walmart Flash Deals: Up to 65% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Walmart",
+    "offer": "Up to 65% off",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "tech",
+     "sports",
+     "fashion",
+     "home",
+     "beauty",
+     "health",
+     "grocery",
+     "toys",
+     "baby",
+     "pets",
+     "auto",
+     "office"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Staples",
+    "deal_type": "sale",
+    "title": "Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35",
+    "text": "discounts of up to 60% live across the store K-Cup coffee pods from brands like Dunkin', Green Mountain, and Folgers at $19.99 each when buying two or more with the promo code \"82092\" You'll need an EasyRewards account to access most of these deals, but it's free to join.",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Sale-Up-to-60-off-free-shipping-w-35/22269576.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-17",
+     "code": "82092"
+    }
+   },
+   "main": {
+    "title": "Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Staples",
+    "offer": "Up to 60% off",
+    "code": "82092",
+    "ends": null,
+    "industries": [
+     "grocery"
+    ]
+   },
+   "this_change": {
+    "title": "Staples Easy Deal Days Sale: Up to 60% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Staples",
+    "offer": "Up to 60% off",
+    "code": "82092",
+    "ends": null,
+    "industries": [
+     "grocery"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Staples",
+    "deal_type": "sale",
+    "title": "Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35",
+    "text": "code \"38170\" Expires 10/17/2026",
+    "posted": "2026-10-06T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Staples-Easy-Deal-Days-Printing-Sale-Extra-60-off-free-shipping-w-35/22246037.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-17",
+     "code": "38170"
+    }
+   },
+   "main": {
+    "title": "Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Staples",
+    "offer": "Extra 60% off",
+    "code": "38170",
+    "ends": "2026-10-17",
+    "industries": [
+     "office"
+    ]
+   },
+   "this_change": {
+    "title": "Staples Easy Deal Days Printing Sale: Extra 60% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Staples",
+    "offer": "Extra 60% off",
+    "code": "38170",
+    "ends": "2026-10-17",
+    "industries": [
+     "office"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Home Depot",
+    "deal_type": "sale",
+    "title": "Home Depot New Featured Deals Daily Deals: Up to 45% off + free shipping",
+    "text": "selction of newly featured deals on security cameras, Halloween decor, power tools, planters, and more",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Home-Depot-New-Featured-Deals-Daily-Deals-Up-to-45-off-free-shipping/22283354.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": null,
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Home Depot New Featured Deals Daily Deals: Up to 45% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Home Depot",
+    "offer": "Up to 45% off",
+    "code": "",
+    "ends": null,
+    "industries": [
+     "home"
+    ]
+   },
+   "this_change": {
+    "title": "Home Depot New Featured Deals Daily Deals: Up to 45% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "Home Depot",
+    "offer": "Up to 45% off",
+    "code": "",
+    "ends": null,
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Lowe's",
+    "deal_type": "sale",
+    "title": "Lowe's Home Accents Deals: Up to 40% off + free shipping w/ $25",
+    "text": "Expires 10/14/2026",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Lowes-Home-Accents-Deals-Up-to-40-off-free-shipping-w-25/22264706.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-14",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Lowe's Home Accents Deals: Up to 40% off + free shipping w/ $25",
+    "kept": true,
+    "why": "",
+    "store": "Lowe's",
+    "offer": "Up to 40% off",
+    "code": "",
+    "ends": "2026-10-14",
+    "industries": [
+     "home"
+    ]
+   },
+   "this_change": {
+    "title": "Lowe's Home Accents Deals: Up to 40% off + free shipping w/ $25",
+    "kept": true,
+    "why": "",
+    "store": "Lowe's",
+    "offer": "Up to 40% off",
+    "code": "",
+    "ends": "2026-10-14",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "eBay",
+    "deal_type": "sale",
+    "title": "eBay Treasures & Coins Sale: Up to 80% off + shipping varies",
+    "text": "",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/eBay-Treasures-Coins-Sale-Up-to-80-off-shipping-varies/22283544.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": null,
+     "code": null
+    }
+   },
+   "main": {
+    "title": "eBay Treasures & Coins Sale: Up to 80% off + shipping varies",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "eBay Treasures & Coins Sale: Up to 80% off + shipping varies",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Woot",
+    "deal_type": "sale",
+    "title": "Markdown Mania Clearance at Woot: Up to 70% off + free shipping w/ Prime",
+    "text": "Expires 10/27/2026",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Markdown-Mania-Clearance-at-Woot-Up-to-70-off-free-shipping-w-Prime/22283450.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-27",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Markdown Mania Clearance at Woot: Up to 70% off + free shipping w/ Prime",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Markdown Mania Clearance at Woot: Up to 70% off + free shipping w/ Prime",
+    "kept": true,
+    "why": "",
+    "store": "Woot",
+    "offer": "Up to 70% off",
+    "code": "",
+    "ends": "2026-10-27",
+    "industries": [
+     "tech",
+     "sports",
+     "fashion",
+     "home",
+     "beauty",
+     "health",
+     "grocery",
+     "toys",
+     "baby",
+     "pets",
+     "auto",
+     "office"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Woot",
+    "deal_type": "sale",
+    "title": "Apparel, Shoes, & Accessories Sale at Woot: Up to 80% off + free shipping w/ Prime",
+    "text": "This deal ends October 21",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Apparel-Shoes-Accessories-Sale-at-Woot-Up-to-80-off-free-shipping-w-Prime/22283430.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-21",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Apparel, Shoes, & Accessories Sale at Woot: Up to 80% off + free shipping w/ Prime",
+    "kept": true,
+    "why": "",
+    "store": "Woot",
+    "offer": "Up to 80% off",
+    "code": "",
+    "ends": "2026-10-21",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "Apparel, Shoes, & Accessories Sale at Woot: Up to 80% off + free shipping w/ Prime",
+    "kept": true,
+    "why": "",
+    "store": "Woot",
+    "offer": "Up to 80% off",
+    "code": "",
+    "ends": "2026-10-21",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Woot",
+    "deal_type": "sale",
+    "title": "Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off + free shipping w/ Prime",
+    "text": "This deal ends October 21",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Home-Kitchen-Deals-Under-30-Sale-at-Woot-Up-to-77-off-free-shipping-w-Prime/22283407.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-21",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off + free shipping w/ Prime",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off + free shipping w/ Prime",
+    "kept": true,
+    "why": "",
+    "store": "Woot",
+    "offer": "Up to 77% off",
+    "code": "",
+    "ends": "2026-10-21",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Woot",
+    "deal_type": "sale",
+    "title": "Fall Gardening Sale at Woot: Up to 76% off + free shipping w/ Prime",
+    "text": "Expires 10/28/2026",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Fall-Gardening-Sale-at-Woot-Up-to-76-off-free-shipping-w-Prime/22283429.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-28",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Fall Gardening Sale at Woot: Up to 76% off + free shipping w/ Prime",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Fall Gardening Sale at Woot: Up to 76% off + free shipping w/ Prime",
+    "kept": true,
+    "why": "",
+    "store": "Woot",
+    "offer": "Up to 76% off",
+    "code": "",
+    "ends": "2026-10-28",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Target",
+    "deal_type": "sale",
+    "title": "Target Outdoor Furniture Deals: Up to 40% off + free shipping w/ $35",
+    "text": "This sale is valid through October 17",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Target-Outdoor-Furniture-Deals-Up-to-40-off-free-shipping-w-35/22283955.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-17",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Target Outdoor Furniture Deals: Up to 40% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 40% off",
+    "code": "",
+    "ends": "2026-10-17",
+    "industries": [
+     "home"
+    ]
+   },
+   "this_change": {
+    "title": "Target Outdoor Furniture Deals: Up to 40% off + free shipping w/ $35",
+    "kept": true,
+    "why": "",
+    "store": "Target",
+    "offer": "Up to 40% off",
+    "code": "",
+    "ends": "2026-10-17",
+    "industries": [
+     "home"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "HEYDUDE",
+    "deal_type": "sale",
+    "title": "HEYDUDE Fall Savings Sale: Up to 30% off + extra 40% off in cart + free shipping w/ $50",
+    "text": "Expires 10/18/2026",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/HEYDUDE-Fall-Savings-Sale-Up-to-30-off-extra-40-off-in-cart-free-shipping-w-50/22283992.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-18",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "HEYDUDE Fall Savings Sale: Up to 30% off + extra 40% off in cart + free shipping w/ $50",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "HEYDUDE Fall Savings Sale: Up to 30% off + extra 40% off in cart + free shipping w/ $50",
+    "kept": false,
+    "why": "sale: no industry",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "lululemon",
+    "deal_type": "sale",
+    "title": "lululemon Men's Specials: Up to 65% off + free shipping",
+    "text": "Prices start as low as $19",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/lululemon-Mens-Specials-Up-to-65-off-free-shipping/22283821.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-21",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "lululemon Men's Specials: Up to 65% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "lululemon",
+    "offer": "Up to 65% off",
+    "code": "",
+    "ends": null,
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "lululemon Men's Specials: Up to 65% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "lululemon",
+    "offer": "Up to 65% off",
+    "code": "",
+    "ends": null,
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Ulta Beauty",
+    "deal_type": "sale",
+    "title": "Ulta Sweet & Shimmer Sale: 5 for $10 + free shipping w/ $35",
+    "text": "Expires 11/21/2026",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Ulta-Sweet-Shimmer-Sale-for-5-for-10-free-shipping-w-35/22284092.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-11-21",
+     "code": null
+    }
+   },
+   "main": {
+    "title": "Ulta Sweet & Shimmer Sale: 5 for $10 + free shipping w/ $35",
+    "kept": false,
+    "why": "not a store sale: no discount stated",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Ulta Sweet & Shimmer Sale: 5 for $10 + free shipping w/ $35",
+    "kept": false,
+    "why": "not a store sale: no discount stated",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "AliExpress",
+    "deal_type": "sale",
+    "title": "AliExpress Halloween Sale: Up to 60% off + extra $2 to $50 off + shipping varies",
+    "text": "Deal ends October 16",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Ali-Express-Halloween-Sale-Up-to-60-off-extra-2-to-50-off-shipping-varies/22283524.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-16",
+     "code": "HDUS02-HDUS50"
+    }
+   },
+   "main": {
+    "title": "AliExpress Halloween Sale: Up to 60% off + extra $2 to $50 off + shipping varies",
+    "kept": true,
+    "why": "",
+    "store": "AliExpress",
+    "offer": "Up to 60% off + up to $50 off",
+    "code": "",
+    "ends": "2026-10-16",
+    "industries": [
+     "tech",
+     "sports",
+     "fashion",
+     "home",
+     "beauty",
+     "health",
+     "grocery",
+     "toys",
+     "baby",
+     "pets",
+     "auto",
+     "office"
+    ]
+   },
+   "this_change": {
+    "title": "AliExpress Halloween Sale: Up to 60% off + extra $2 to $50 off + shipping varies",
+    "kept": true,
+    "why": "",
+    "store": "AliExpress",
+    "offer": "Up to 60% off + up to $50 off",
+    "code": "",
+    "ends": "2026-10-16",
+    "industries": [
+     "tech",
+     "sports",
+     "fashion",
+     "home",
+     "beauty",
+     "health",
+     "grocery",
+     "toys",
+     "baby",
+     "pets",
+     "auto",
+     "office"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "Giftcards.com",
+    "deal_type": "sale",
+    "title": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+    "text": "code \"10OFF\" max discount of $20.00",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "url": "https://www.dealnews.com/Giftcards-com-Deal-News-Private-Sale-10-off-450-Brands/22274255.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-20",
+     "code": "10OFF"
+    }
+   },
+   "main": {
+    "title": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+    "kept": false,
+    "why": "not a store sale: a gift card",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   },
+   "this_change": {
+    "title": "Giftcards.com DealNews Private Sale: 10% off 450+ Brands",
+    "kept": false,
+    "why": "not a store sale: a gift card",
+    "store": null,
+    "offer": null,
+    "code": null,
+    "ends": null,
+    "industries": null
+   }
+  },
+  {
+   "post": {
+    "kind": "sale",
+    "source": "dealnews",
+    "seller": "adidas",
+    "deal_type": "sale",
+    "title": "adidas Men's Fall Sale: Up to 50% off + extra 30% off + free shipping",
+    "text": "The coupon expires on October 19.",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "url": "https://www.dealnews.com/adidas-Mens-Fall-Sale-Up-to-50-off-extra-30-off-free-shipping/22283625.html",
+    "title_from": "verbatim title, shipping terms from the post's URL",
+    "text_from": "search-result snippet",
+    "manual": {
+     "ends": "2026-10-19",
+     "code": "FALL"
+    }
+   },
+   "main": {
+    "title": "adidas Men's Fall Sale: Up to 50% off + extra 30% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "adidas",
+    "offer": "Up to 50% off + extra 30% off",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   },
+   "this_change": {
+    "title": "adidas Men's Fall Sale: Up to 50% off + extra 30% off + free shipping",
+    "kept": true,
+    "why": "",
+    "store": "adidas",
+    "offer": "Up to 50% off + extra 30% off",
+    "code": "",
+    "ends": "2026-10-19",
+    "industries": [
+     "fashion"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "Shake Shack Single Cheeseburger: Free w/ $10 purchase",
+    "text": "Thru October 31, Shake Shack are offering a different free sandwich with $10 purchase each week. Use code \"SCARYGOOD\". Expires 10/18/2026.",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "title_from": "verbatim title; body from snippets",
+    "manual": {
+     "to": "2026-10-18"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "Shake Shack Single Cheeseburger: Free w/ $10 purchase",
+    "kept": true,
+    "why": "",
+    "chain": "Shake Shack",
+    "from": "2026-10-12",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": []
+   },
+   "this_change": {
+    "title": "Shake Shack Single Cheeseburger: Free w/ $10 purchase",
+    "kept": true,
+    "why": "",
+    "chain": "Shake Shack",
+    "from": "2026-10-12",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": []
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "McAlister's Deli Dessert or Beverage: Free w/ entree purchase",
+    "text": "The reward must be applied at checkout and is only available to McAlister's Rewards members.",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "title_from": "verbatim title and snippet (the end, Oct 14, was not in the snippet)",
+    "manual": {
+     "to": "2026-10-14"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "McAlister's Deli Dessert or Beverage: Free w/ entree purchase",
+    "kept": true,
+    "why": "",
+    "chain": "McAlister's Deli",
+    "from": "2026-10-14",
+    "to": "2026-10-21",
+    "dates": "no dates stated",
+    "conditions": [
+     "dates not stated"
+    ]
+   },
+   "this_change": {
+    "title": "McAlister's Deli Dessert or Beverage: Free w/ entree purchase",
+    "kept": true,
+    "why": "",
+    "chain": "McAlister's Deli",
+    "from": "2026-10-14",
+    "to": "2026-10-21",
+    "dates": "no dates stated",
+    "conditions": [
+     "dates not stated"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "slickdeals",
+    "title": "Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in App or Online",
+    "text": "Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in-app or online. Offer valid through 10/19. Excludes tax, tips, condiments, and redemption on Royal Blizzard treat",
+    "posted": "2026-10-12T09:00:00-05:00",
+    "title_from": "title from the post's URL; body snippet verbatim",
+    "manual": {
+     "to": "2026-10-19"
+    }
+   },
+   "main": {
+    "title": "Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in App or Online",
+    "kept": true,
+    "why": "",
+    "chain": "Dairy Queen",
+    "from": "2026-10-12",
+    "to": "2026-10-19",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   },
+   "this_change": {
+    "title": "Dairy Queen Rewards Members - free mini blizzard when you make a $1 or greater order in App or Online",
+    "kept": true,
+    "why": "",
+    "chain": "Dairy Queen",
+    "from": "2026-10-12",
+    "to": "2026-10-19",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "slickdeals",
+    "title": "KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC Rewards Valid thru 12/25",
+    "text": "add the rewards offer from your KFC Rewards account for discount to apply",
+    "posted": "2026-10-10T09:00:00-05:00",
+    "title_from": "title rebuilt from the post's URL",
+    "manual": {
+     "to": "2026-12-25"
+    }
+   },
+   "main": {
+    "title": "KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC Rewards Valid thru 12/25",
+    "kept": false,
+    "why": "promotion: not a mapped restaurant chain",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC Rewards Valid thru 12/25",
+    "kept": true,
+    "why": "",
+    "chain": "KFC",
+    "from": "2026-10-10",
+    "to": "2026-12-25",
+    "dates": "end date",
+    "conditions": []
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "slickdeals",
+    "title": "Cicis Pizza $2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31 Plus $5 Medium One Topping Pizzas To Go",
+    "text": "$2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31",
+    "posted": "2026-10-10T09:00:00-05:00",
+    "title_from": "title rebuilt from the post's URL",
+    "manual": {
+     "to": "2026-10-31"
+    }
+   },
+   "main": {
+    "title": "Cicis Pizza $2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31 Plus $5 Medium One Topping Pizzas To Go",
+    "kept": true,
+    "why": "",
+    "chain": "Cicis",
+    "from": "2026-10-10",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   },
+   "this_change": {
+    "title": "Cicis Pizza $2.99 Adult Buffet (Dine In/App Req) Only for New Rewards Members Thru 10/31 Plus $5 Medium One Topping Pizzas To Go",
+    "kept": true,
+    "why": "",
+    "chain": "Cicis",
+    "from": "2026-10-10",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "White Castle Dessert on Stick: Free w/ combo purchase",
+    "text": "Craver Nation Rewards members get a free dessert on a stick with a combo purchase from October 14 to 19.",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "title_from": "verbatim title; body paraphrases the date wording 'from October 14 to 19'",
+    "manual": {
+     "expect": "reject: no Texas branches"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "White Castle Dessert on Stick: Free w/ combo purchase",
+    "kept": false,
+    "why": "promotion: not a mapped restaurant chain",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "White Castle Dessert on Stick: Free w/ combo purchase",
+    "kept": false,
+    "why": "promotion: not a mapped restaurant chain",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "MilkShake Factory Milkshakes: Buy one get one free",
+    "text": "Buy one get one free milkshakes for National Dessert Day (today only).",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "title_from": "verbatim title; body paraphrases the date wording",
+    "manual": {
+     "expect": "reject: no Texas branches"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "MilkShake Factory Milkshakes: Buy one get one free",
+    "kept": false,
+    "why": "promotion: not a mapped restaurant chain",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "MilkShake Factory Milkshakes: Buy one get one free",
+    "kept": false,
+    "why": "promotion: not a mapped restaurant chain",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "Del Taco 2pc Caramel Cheesecake Bites: free w/ $5 purchase",
+    "text": "Rewards members get a 2pc caramel cheesecake bites for free with a $5 purchase for National Dessert Day (October 14). Thru October 31, Del Taco has a range of offers thru the Rewards app (free to join).",
+    "posted": "2026-10-14T08:00:00-05:00",
+    "title_from": "verbatim title and snippet",
+    "manual": {
+     "to": "2026-10-14"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "Del Taco 2pc Caramel Cheesecake Bites: free w/ $5 purchase",
+    "kept": true,
+    "why": "",
+    "chain": "Del Taco",
+    "from": "2026-10-14",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   },
+   "this_change": {
+    "title": "Del Taco 2pc Caramel Cheesecake Bites: free w/ $5 purchase",
+    "kept": true,
+    "why": "",
+    "chain": "Del Taco",
+    "from": "2026-10-14",
+    "to": "2026-10-31",
+    "dates": "end date",
+    "conditions": [
+     "in the app"
+    ]
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "Dave's Hot Chicken Slider: Free",
+    "text": "Get a free slider for Dave's Day, October 13.",
+    "posted": "2026-10-12T08:00:00-05:00",
+    "title_from": "verbatim title; body paraphrases the date wording",
+    "manual": {
+     "expect": "reject: ended Oct 13"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "Dave's Hot Chicken Slider: Free",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "Dave's Hot Chicken Slider: Free",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "dealnews",
+    "title": "Jimmy John's Sandwiches: Buy one get one free",
+    "text": "Buy one get one free sandwiches thru October 12.",
+    "posted": "2026-10-09T08:00:00-05:00",
+    "title_from": "verbatim title; body paraphrases the date wording",
+    "manual": {
+     "expect": "reject: ended Oct 12"
+    },
+    "seller": ""
+   },
+   "main": {
+    "title": "Jimmy John's Sandwiches: Buy one get one free",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "Jimmy John's Sandwiches: Buy one get one free",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   }
+  },
+  {
+   "post": {
+    "kind": "promo",
+    "source": "slickdeals",
+    "title": "Krispy Kreme Free Original Glazed Doughnut or Classic Ring Doughnut Oct 30-31 (Dress in Halloween Costume)",
+    "text": "",
+    "posted": "2026-10-11T08:00:00-05:00",
+    "title_from": "title rebuilt from the post's URL",
+    "manual": {
+     "expect": "reject: Oct 30-31 is after the window"
+    }
+   },
+   "main": {
+    "title": "Krispy Kreme Free Original Glazed Doughnut or Classic Ring Doughnut Oct 30-31 (Dress in Halloween Costume)",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   },
+   "this_change": {
+    "title": "Krispy Kreme Free Original Glazed Doughnut or Classic Ring Doughnut Oct 30-31 (Dress in Halloween Costume)",
+    "kept": false,
+    "why": "promotion: outside the 7-day window",
+    "chain": null,
+    "from": null,
+    "to": null,
+    "dates": null,
+    "conditions": null
+   }
+  }
+ ],
+ "replay_note": "dealnews sale titles are verbatim, with the shipping terms their URLs carry; bodies are search-result snippets, and dealnews' own end date (its feed's expiry field) was not seen, so ends come from the words alone. Restaurant posts: dealnews titles verbatim, Slickdeals titles rebuilt from their URLs where noted; where a body says 'paraphrases', only its date wording is the post's. The replay's moment is 2026-10-14 18:00 Central."
+}
