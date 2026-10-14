@@ -3314,6 +3314,66 @@
     }
    ],
    "site": "https://romancucina.com/"
+  },
+  {
+   "id": "mfah-free-thursdays",
+   "brand": "Museum of Fine Arts, Houston",
+   "offer": "Free Thursdays: free admission to the permanent collections every Thursday",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "link": "https://www.mfah.org/visit",
+   "conditions": [
+    "permanent collections only; special exhibitions are ticketed"
+   ],
+   "places": [
+    {
+     "name": "Museum of Fine Arts, Houston",
+     "address": "1001 Bissonnet St, Houston, TX 77005"
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mfah.org/visit",
+     "find": [
+      "Permanent Collections is free on Thursdays"
+     ]
+    }
+   ],
+   "site": "https://www.mfah.org/"
+  },
+  {
+   "id": "cowboy-chicken-kids-eat-free-monday",
+   "brand": "Cowboy Chicken",
+   "offer": "Kids eat free on Mondays after 4 pm: a free kids meal with an adult entrée",
+   "days": [
+    "mon"
+   ],
+   "time": "after 4 pm",
+   "summary": "kids eat free",
+   "link": "https://www.cowboychicken.com/",
+   "conditions": [
+    "kids 10 and under",
+    "with an adult entrée",
+    "in store only",
+    "up to four kids meals per order"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.cowboychicken.com/back-to-school-made-easier-family-dinners-at-cowboy-chicken/",
+     "find": [
+      "Mondays: Kids Eat Free",
+      "kids eat free with the purchase of an adult"
+     ]
+    }
+   ]
   }
  ]
 }
