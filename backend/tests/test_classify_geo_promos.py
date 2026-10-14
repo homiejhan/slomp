@@ -5,7 +5,7 @@ import pytest
 
 from slomp import industries as ind
 from slomp.geo import ad_end_local, ad_start_local
-from slomp.promos import promo_dates, recurring_days
+from slomp.promos import brand_in, promo_dates, recurring_days
 from slomp.reference import cities, city, find_cities
 from slomp.service import InputError, resolve_city, resolve_industries
 
@@ -69,3 +69,10 @@ def test_inputs_must_come_from_the_fixed_lists():
     with pytest.raises(InputError):
         resolve_industries("tech,crypto")
     assert resolve_industries("tech,sports,tech") == ["tech", "sports"]
+
+
+def test_a_chain_known_by_its_acronym_is_found_in_a_title():
+    # Slickdeals, Oct 2026: KFC (225 mapped Texas branches) was never matched; names under 4 letters were skipped
+    kfc = brand_in("KFC Restaurant: Buy One Get One Free KFC Spicy Chicken Zinger Sandwich Combo via KFC Rewards")
+    assert kfc and brand_in("Free KFC sandwich") == kfc
+    assert brand_in("kfc in lower case") is None and brand_in("Jacksonville KFCs") is None

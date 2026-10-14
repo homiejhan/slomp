@@ -4,9 +4,10 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
+from slomp import industries as ind
 from slomp.models import StoreSale
-from slomp.sales import (SalesResult, StoreSales, code_of, dedupe, live_reason, not_a_sale, offer_text, parse_offer,
-                         rank_pct, sale_dates, sale_name, select, shipping_of, to_payload)
+from slomp.sales import (SalesResult, StoreSales, code_of, conditions_of, dedupe, is_store_event, live_reason, not_a_sale,
+                         offer_text, parse_offer, rank_pct, sale_dates, sale_name, select, shipping_of, to_payload)
 from slomp.sources.feeds import Post, dealnews_stated, parse_dealnews
 from slomp.sales import find_store
 from slomp.stores_online import by_key, store_named, stores_in
@@ -412,3 +413,21 @@ def test_an_end_given_as_a_weekday_or_with_a_time_is_read():
     assert end("Valid through Sunday, 10/19.") == "2026-10-19"
     assert end("Ends at 11:59pm PT on 10/19.") == "2026-10-19"
     assert end("New deals drop Monday through Friday.") is None     # a span of weekdays, not an end
+
+
+def test_a_quoted_code_is_a_code_and_a_percent_off_an_order_keeps_its_size():
+    # Oct 14, 2026 (dealnews): Old Navy's code is the word EXTRA, which a title's capitals never are
+    assert code_of("Old Navy Clearance Sale: Up to 87% off + extra 20% off",
+                   'Code "EXTRA" takes an extra 20% off. The coupon expires on October 15.', store_named("Old Navy"))[0] == "EXTRA"
+    assert code_of("Kohl's: Extra 30% Off w/ Promo Code TODAY ONLY", "", store_named("Kohl's"))[0] == ""
+    o = parse_offer("New Balance Sale: 25% off $125 + free shipping")
+    assert offer_text(o)[:2] == ("25% off $125+", "25% off") and o.min_spend == 125
+    assert conditions_of(o, "New Balance Sale: 25% off $125 + free shipping", "") == ["on orders of $125+"]
+
+
+def test_more_sale_events_and_goods_are_named():
+    # "Macy's Biggest Fall Sale Event", Woot's "Markdown Mania Clearance": the whole store's (Oct 14, 2026, dealnews)
+    assert is_store_event("Biggest Fall Sale Event") and is_store_event("Markdown Mania Clearance")
+    assert ind.from_text("Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off").industries == ["home"]
+    assert ind.from_text("Fall Gardening Sale at Woot: Up to 76% off").industries == ["home"]
+    assert ind.from_text("Glad Kitchen Bags 80-ct").industries == ["grocery"]

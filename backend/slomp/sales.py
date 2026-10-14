@@ -105,6 +105,8 @@ _UPTO_PCT = re.compile(r"\bup\s?to\s+(?:an?\s+)?(?:extra\s+|additional\s+)?(\d{1
 _RANGE_PCT = re.compile(r"\b(\d{1,3})\s?%\s?(?:to|-|–)\s?(\d{1,3})\s?%\s?off", re.I)
 _EXTRA_PCT = re.compile(r"\b(?:extra|additional|add'?l\.?|another|take an extra)\s+(\d{1,3})\s?%", re.I)
 _PCT = re.compile(r"(?<![\d.$%])(\d{1,3})\s?%\s?off\b", re.I)
+_PCT_OF = re.compile(r"(?<![\d.$%])(\d{1,3})\s?%\s?off\s+(?:(?:your|an?|orders?|purchases?)\s+(?:of\s+)?)?\$\s?(\d[\d,]*)\+?",
+                     re.I)                                   # "New Balance Sale: 25% off $125"
 _OFF = re.compile(r"(\bup\s?to\s+|\$\s?\d[\d,]*\s?(?:to|-|–)\s?)?\$\s?(\d[\d,]*(?:\.\d\d)?)\s?off\b(?:\s+(?:your\s+|an?\s+|orders?\s+(?:of\s+)?|"
                   r"purchases?\s+(?:of\s+)?|when you spend\s+|every\s+)?\$\s?(\d[\d,]*)\+?)?", re.I)
 # Dollars off said another way: "Up to $150 in instant credits", "$500 instant savings", "Save up to $200 on TVs".
@@ -223,6 +225,9 @@ def parse_offer(title: str) -> Offer:
         firm = [float(x) for x in _PCT.findall(t3)]
         if firm:
             o.pct = max(firm)
+            m = _PCT_OF.search(t3)
+            if m and float(m.group(1)) == o.pct:
+                o.min_spend = float(m.group(2).replace(",", ""))
     m = _SPEND.search(t)
     if m:
         o.min_spend, o.off = float(m.group(1).replace(",", "")), float(m.group(2).replace(",", ""))
@@ -271,7 +276,8 @@ def offer_text(o: Offer) -> tuple[str, str, bool]:
         parts.append(f"{o.pct:g}–{_pct(o.upto)} off")
         badge = badge or f"{o.pct:g}–{_pct(o.upto)} off"
     elif o.pct is not None:
-        parts.append(f"{_pct(o.pct)} off" + (f" when you buy {o.buy_n}" if o.buy_n else ""))
+        parts.append(f"{_pct(o.pct)} off" + (f" when you buy {o.buy_n}" if o.buy_n else "") +
+                     (f" {_usd(o.min_spend)}+" if o.min_spend and o.off is None else ""))
         badge = badge or f"{_pct(o.pct)} off"
     elif o.upto is not None:
         parts.append(f"Up to {_pct(o.upto)} off")
@@ -352,7 +358,9 @@ def code_of(title: str, text: str, store: Optional[OnlineStore] = None, posted: 
     for m in _CODE.finditer(full):
         code = next(g for g in m.groups() if g)
         before = full[max(0, m.start() - 12):m.start()].lower()
-        if re.search(r"\bno\s*$|\bwithout\s*$", before) or code.upper() in _NOT_A_CODE:
+        # a word in capitals after a cue may be shouting ("Code TODAY ONLY"); a quoted one is the code
+        # (dealnews: 'Code "EXTRA" takes an extra 20% off' at Old Navy, Oct 14, 2026)
+        if re.search(r"\bno\s*$|\bwithout\s*$", before) or (m.group(4) and code.upper() in _NOT_A_CODE):
             continue
         if not m.group(4) and not re.search(r"[A-Z0-9]", code):    # quoted, but plain words: "code "here""
             continue
@@ -550,6 +558,7 @@ _EVENT_WORDS = re.compile(
     r"savings|offers?|doorbusters?|friends|family|fall|spring|summer|winter|autumn|holidays?|halloween|thanksgiving|"
     r"christmas|black|friday|cyber|monday|labor|memorial|presidents|back|to|school|anniversary|big|top|stars?|daily|"
     r"today|only|members?|appreciation|annual|semi-annual|mega|super|hot|last|chance|hours?|online|exclusive|circle|"
+    r"biggest|bigger|mania|"
     r"prime|early|access|countdown|handpicked|popular|picks|rated|price|in|bag|drop|mystery|digital|new|season|end|"
     r"of|the|we|made|too|much|easy|up|extra|sitewide|storewide|site-wide|store-wide|everything|rewards?|vip|"
     r"warehouse|blowout|markdowns?|price-in-bag|limited|time|kickoff|kick|off|and|one-day|two-day|"
