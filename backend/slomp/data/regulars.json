@@ -3374,6 +3374,102 @@
      ]
     }
    ]
+  },
+  {
+   "id": "showbiz-discount-tuesdays",
+   "brand": "ShowBiz Cinemas",
+   "offer": "Discount Tuesdays: discounted tickets every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "summary": "discount tickets",
+   "link": "https://www.showbizcinemas.com/",
+   "conditions": [
+    "the price is not stated on the company's page"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://fallcreek.showbizcinemas.com/",
+     "find": [
+      "Get discounted tickets every Tuesday at all ShowBiz locations"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "santikos-super-tuesday",
+   "brand": "Santikos",
+   "offer": "Super Tuesday: $5.99 tickets for select movies every Tuesday",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "price": 5.99,
+   "summary": "$5.99 tickets",
+   "link": "https://www.santikos.com/super-tuesday",
+   "conditions": [
+    "select movies",
+    "premium formats cost extra",
+    "not for special engagements"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.santikos.com/super-tuesday",
+     "find": [
+      "every Tuesday at all Santikos",
+      "$5.99"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "movie-tavern-value-tuesday",
+   "brand": "Movie Tavern",
+   "offer": "Value Tuesday: discounted tickets and free popcorn for Magical Movie Rewards members",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "cinema",
+   "summary": "discount tickets",
+   "link": "https://www.marcustheatres.com/marcus-specials/value-pricing/value-tuesday",
+   "conditions": [
+    "Magical Movie Rewards members (free to join)",
+    "the price is not stated on the company's page"
+   ],
+   "places": [
+    {
+     "name": "Movie Tavern Denton",
+     "address": "916 W University Dr, Denton, TX 76201"
+    },
+    {
+     "name": "Movie Tavern Hulen",
+     "address": "4920 S Hulen St, Fort Worth, TX 76132"
+    },
+    {
+     "name": "Movie Tavern West 7th",
+     "address": "2872 Crockett St, Fort Worth, TX 76107"
+    }
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.marcustheatres.com/marcus-specials/value-pricing/value-tuesday",
+     "find": [
+      "Value Tuesday movie tickets",
+      "FREE popcorn"
+     ]
+    }
+   ]
   }
  ]
 }
