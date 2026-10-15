@@ -837,3 +837,49 @@ hand.
 
 **Replay.** 33 posts (21 sales and 12 restaurant posts): Slomp on main kept 18, and with this change 23. Nothing it
 kept before is lost.
+
+### A third time on Oct 15, after the second round's fixes
+
+**A build on the merged fixes.** A site build started by hand on `main` (with the workflow's assistant setting) read
+302 ads (7,848 deals, against 7,507–7,749 in the day's three scheduled builds), 164 sales at 45 stores (against
+144–153) and 209 regular deals (against 207–208). Of the five regular deals the second round added, Cowboy Chicken's
+page was read and confirmed. The MFAH's site turns GitHub's servers away with a bot check, so its free Thursdays show
+on `slomp serve` but not on the published site. The build listed 134 online deals, against 152–155 earlier that day.
+It is the one build that ran with the assistant setting, which skips sites whose robots.txt turns AI assistants away,
+so the next scheduled builds are the ones to compare.
+
+**How accurately Slomp reads an online deal.** The third search collected 79 single-product posts from Slomp's sources
+(Oct 12–15: 33 from 9to5Toys, 15 dealnews, 12 Hip2Save, 12 The Inventory, 5 Slickdeals, 2 Ben's Bargains) with the
+price each states and the price it is measured against. It also collected 10 posts that are not deals (a product
+launch, a preorder, a store-wide event). Replayed through Slomp:
+
+| | On main | With this change |
+|---|---|---|
+| Price and discount as the post states them | 13 | 20 |
+| Price right, no discount found (never ranked) | 33 | 34 |
+| Left out: no price or no industry | 33 | 25 |
+| **A wrong price, or a discount more than 5 points off** | **0** | **0** |
+| Not-a-deal posts shown | 0 of 10 | 0 of 10 |
+
+Slomp did not show a wrong figure for any of the 79. What it misses are deals it can't read whole. Some misses
+belong to the replay rather than the feed: the search index removes Slickdeals' prices from their titles, and the
+replay saw only search snippets of the posts' bodies, where most posts state their regular price.
+
+| Found by hand, not by Slomp | Cause | Changed |
+|---|---|---|
+| 9to5Toys titles that give only the saving: "AirPods Pro 3 currently $50 off at Amazon" ($199), "Mac Studio still $200 off" ($2,299) | No price in the title | Yes: the price from the post's first sentence ("down at $199"), the saving from the title; an "up to" saving gives none |
+| The Inventory's "Spyder Golf Polo Just $8 on Amazon (60% Off)", "Zesty Paws Salmon Oil … $13.57 (20% Off)" | The title's percent was not read | Yes |
+| A snow shovel, a Bluetti power station, squishy and potion kits, a travel router, Mac Studio and Mac mini | No industry | Yes |
+| Salmon oil for dogs (under Grocery), CAP Barbell dumbbells (also under Fashion, for "cap") | Keyword collisions | Yes |
+| Under Armour's codes: 'The coupon "OCT40" cuts an extra 40% off' | A code was read only after the word "code" | Yes |
+| Woot's "Up to 75% Off Skechers Shoes + Free Shipping for Amazon Prime Members" (Hip2Save), filed as Amazon's | The Prime shipping line named the store | Yes: the post's "Hop over to Woot.com" decides |
+| "Target Halloween Decor Sale" under Toys | The toys rule listed "Halloween decor" ahead of Home's | Yes: Home |
+| "CVS Photo Custom Canvas Deal: 70% off + same-day pickup" | Not read as pickup only (it was left out anyway, with no industry) | Yes |
+| ShowBiz's discount Tuesdays, Santikos' $5.99 Super Tuesday, Movie Tavern's Value Tuesday | Not in the curated list | Yes: added, each with the company page's sentence that names Tuesday |
+| Buffalo Wild Wings' BOGO Thursdays, Denny's kids eat free, Main Event's kids eat free, Kohl's 60+ Wednesdays | Not in the curated list | No: Buffalo Wild Wings' page is about 640 days old and its Tuesday terms conflict, Denny's own pages disagree on the day, Main Event's Texas pages don't state it, and Kohl's sentence doesn't name Wednesday (its site also turns automated readers away) |
+
+What held up besides: Woot's plush sale ($10 off $30+, PLUSHTEN, to Oct 21) and clothing sale, both Kohl's posts
+(10HOME, to Oct 18), Target's extra 25% off toys (to Nov 14), and every restaurant post: Taco Bell's $4 Usual (Oct
+13–19), Krispy Kreme's Lab Dozen (to Oct 15) and Pizza Hut's Haunt Box (to Nov 2). P.F. Chang's happy hour and Bryan
+Street Tavern's Monday pizza, which builds have left out since Oct 8, are still offered per their sites; their
+entries' wording needs updating by hand. Evidence is in `docs/verification/manual-03.json`.
