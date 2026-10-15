@@ -153,7 +153,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
     ("toys", _rx(r"bubble (?:wand|machine|gun|blower|blaster|maker|solution|toy)", r"scrapbook(?:ing)?s?", r"photo albums?", r"fuse beads?", r"perler", r"bead kits?", r"craft kits?", r"sticker books?", r"coloring books?", r"creativity for kids", r"kids'? (?:craft|activity|science) (?:kits?|sets?)", r"party favors?", r"board books?", r"picture books?", r"kids\' books?", r"slime", r"stickers?", r"activity kits?", r"coloring", r"pumpkin (?:decorating|carving)", r"trick or treat", r"halloween (?:craft\w*|activity)", r"lego", r"toys?", r"dolls?", r"action figures?", r"puzzles?", r"board games?", r"card games?",
                  r"playsets?", r"nerf", r"barbie", r"hot wheels", r"plush (?:toys?|animals?|dolls?|pals?|characters?)", r"stuffed animals?", r"squishmallows?", r"funko",
                  r"play-doh", r"crayola", r"crafts?", r"craft supplies", r"yarn", r"party supplies", r"balloons?",
-                 r"halloween decor", r"costumes?"), ["toys"]),
+                 r"costumes?"), ["toys"]),            # Halloween decor is Home's (below): "Target Halloween Decor Sale"
     ("sports", _rx(r"fishing", r"hunting", r"camping", r"tents?", r"sleeping bags?", r"kayaks?", r"golf",
                    r"basketballs?", r"footballs?", r"baseball", r"softball", r"soccer", r"tennis", r"pickleball",
                    r"volleyball", r"bikes?", r"bicycles?", r"cycling", r"treadmills?", r"dumbbells?", r"kettlebells?",

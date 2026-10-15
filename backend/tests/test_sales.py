@@ -431,3 +431,24 @@ def test_more_sale_events_and_goods_are_named():
     assert ind.from_text("Home & Kitchen Deals Under $30 Sale at Woot: Up to 77% off").industries == ["home"]
     assert ind.from_text("Fall Gardening Sale at Woot: Up to 76% off").industries == ["home"]
     assert ind.from_text("Glad Kitchen Bags 80-ct").industries == ["grocery"]
+
+
+def test_a_coupon_in_quotes_a_prime_shipping_line_and_same_day_pickup():
+    # Oct 15, 2026: dealnews' Under Armour post names its codes as 'The coupon "OCT40"'
+    assert code_of("Under Armour Men's Shoe Outlet: Extra 40% + 10% off",
+                   'The coupon "OCT40" cuts an extra 40% off, and then "EXTRA10" takes another 10% off.',
+                   store_named("Under Armour"))[0] == "OCT40"
+    assert code_of("X Sale: 20% off", "Clip the coupon on the product page.", None)[0] == ""
+    # Hip2Save's Woot posts end "+ Free Shipping for Amazon Prime Members": a membership, not the store
+    woot = post("Up to 75% Off Skechers Shoes + Free Shipping for Amazon Prime Members",
+                "Hop over to Woot.com where they're offering up to 75% off Skechers.", source="hip2save", deal_type="")
+    assert find_store(woot)[0].key == "woot"
+    assert find_store(post("Up to 50% Off Amazon Basics + Free Shipping for Prime Members", source="hip2save",
+                           deal_type=""))[0].key == "amazon"
+    t = "CVS Photo Custom Canvas Deal: 70% off + same-day pickup"
+    assert not_a_sale(post(t), parse_offer(t)) == "pickup only"
+
+
+def test_halloween_decor_is_home():
+    assert ind.from_text("Target Halloween Decor Sale: Up to 40% off").industries == ["home"]
+    assert ind.from_text("Halloween Costumes for Kids").industries == ["toys"]

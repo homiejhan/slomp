@@ -52,9 +52,15 @@ _DEAL_SITES = re.compile(r"^(?:deal ?news|slickdeals|hip2save|9to5toys|the inven
                          r"the krazy coupon lady|krazy coupon lady)$", re.I)
 
 
+_PRIME_SHIPPING = re.compile(r"\b(?:free\s+)?(?:shipping|delivery)\s+(?:for|w/|with)\s+(?:amazon\s+)?prime(?:\s+members?)?\b",
+                             re.I)
+
+
 def find_store(p: Post) -> tuple[Optional[OnlineStore], str]:
     """The registry store a sale post is at, and how that was decided ("" when no registry store is)."""
     title, text = _straight(p.title), _straight(p.text[:900])
+    # "+ Free Shipping for Amazon Prime Members" names a membership, not the store (Hip2Save's Woot posts)
+    title = _PRIME_SHIPPING.sub(" ", title)
     if p.seller and _DEAL_SITES.match(p.seller.strip()):
         p = replace(p, seller="")                 # the deal site isn't the store: read on
     if p.seller:
@@ -325,7 +331,7 @@ def rank_pct(o: Offer) -> Optional[float]:
 # --- the code, the conditions, shipping ---------------------------------------------------------------------------
 # The cue is any case ("w/ Code SAVE50", "Promo Code FALL15" in Slickdeals' and Hip2Save's titles); an unquoted code
 # is still capitals and digits, so the words after a cue ("code at checkout") are not taken for one.
-_CODE = re.compile(r"\b(?i:(?:promo|coupon|discount|offer|checkout|savings)?\s?codes?)\s*(?i:of\s+|:\s*|-\s*)?"
+_CODE = re.compile(r"\b(?i:(?:promo|coupon|discount|offer|checkout|savings)?\s?codes?|coupons?(?=\s*[\"']))\s*(?i:of\s+|:\s*|-\s*)?"
                    r"(?:\"\s*([A-Za-z0-9][A-Za-z0-9_-]{2,23})\s*\"|'([A-Za-z0-9][A-Za-z0-9_-]{2,23})'|\*([A-Za-z0-9][A-Za-z0-9_-]{2,23})\*|"
                    r"\b([A-Z0-9][A-Z0-9_-]{3,23})\b)")
 _NOT_A_CODE = {"NEEDED", "REQUIRED", "REQUIRED.", "NONE", "AT", "THE", "AND", "FOR", "FREE", "SALE", "DEAL", "DEALS",
@@ -475,7 +481,7 @@ _NOT_SALE = [
      "a local service"),
 ]
 _NOT_SHIPPED = [
-    (re.compile(r"\+\s*(?:free\s+)?(?:store\s+)?pickup\b(?!.*\b(?:shipping|s&h)\b)", re.I), "pickup only"),
+    (re.compile(r"\+\s*(?:free\s+)?(?:same-day\s+|store\s+)?pickup\b(?!.*\b(?:shipping|s&h)\b)", re.I), "pickup only"),
     (re.compile(r"\bin-?stores? only\b|\bin-?store purchases? only\b|\bavailable in stores\b", re.I), "in stores only"),
     (re.compile(r"\bdigital (?:download|delivery|code|games?|movies?|titles?)\b|\bemail delivery\b|\be-?shop\b|"
                 r"\bplaystation store\b|\bxbox store\b|\bsteam\b|\bgoogle play\b|\bapp store\b|\bstreaming\b|"
