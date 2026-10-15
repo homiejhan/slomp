@@ -404,3 +404,43 @@ def test_oct13_thin_industries_keywords():
     assert ind.from_text("ORICO 8-in-1 45W USB-C Power Strip").industries == ["tech"]
     assert ind.from_text("Chamberlain B4613T Smart Garage Door Opener").industries == ["home"]
     assert ind.from_text("Glade Air Freshener Spray 6-pack").industries == ["grocery"]        # not every freshener is a car's
+
+
+# --- the third manual comparison (Oct 15, 2026): 79 single-product posts, none read at a wrong price ----------------
+def _post9(title, text):
+    xml = (f"<rss><channel><item><title>{title}</title><link>https://9to5toys.com/2026/10/15/x/</link>"
+           f"<pubDate>Thu, 15 Oct 2026 14:00:00 +0000</pubDate><description>{text}</description></item></channel></rss>")
+    return OnlineDeals(None, None)._deal(parse_9to5toys(xml.encode(), "9to5toys", [])[0],
+                                         datetime(2026, 10, 15, 20, tzinfo=timezone.utc), OnlineResult(["tech"]))
+
+
+def test_oct15_a_9to5toys_saving_with_the_price_in_the_post():
+    d = _post9("AirPods Pro 3 currently $50 off at Amazon, AirPods Max 2 $120 off",
+               "Amazon is still offering them down at $199 right now. That's a solid $50 off the list price.")
+    assert (d.price, d.reference_price, d.industries) == (199.0, 249.0, ["tech"])
+    d = _post9("Apple's 2026 Mac Studio still $200 off (Amazon all-time low), Mac mini up to $150 off",
+               "Amazon is currently offering the most affordable 2026 Mac Studio down at $2,299 shipped.")
+    assert (d.price, d.reference_price) == (2299.0, 2499.0)
+    # an "up to" saving is no reference, and a body with no price gives none
+    assert _post9("Nothing Phone (3) up to $280 off original price for today only at Best Buy",
+                  "Amazon has matched its fall Prime Day pricing.") is None
+
+
+def test_oct15_the_inventory_states_its_percent_in_the_title():
+    from slomp.sources.feeds import parse_theinventory
+    xml = ("<rss><channel><item><title>Spyder Golf Polo Just $8 on Amazon (60% Off)</title>"
+           "<link>https://theinventory.com/x</link><pubDate>Thu, 15 Oct 2026 14:00:00 +0000</pubDate>"
+           "<description>A golf polo.</description></item></channel></rss>")
+    assert parse_theinventory(xml.encode(), "theinventory", [])[0].pct_stated == 60
+
+
+def test_oct15_more_goods_get_their_industry():
+    assert ind.from_text("Greenworks 40V 12-Inch Brushless Snow Shovel 4.0Ah Battery and Charger").industries == ["home"]
+    assert ind.from_text("Bluetti 900Wh Pioneer Na(Sodium) station").industries == ["home"]
+    assert ind.from_text("DIY Squishy Making Kit").industries == ["toys"]
+    assert ind.from_text("Kids Fairy Potion Kit").industries == ["toys"]
+    assert ind.from_text("TP-Link's tiny portable router").industries == ["tech"]
+    assert ind.from_text("Zesty Paws Salmon Oil for Dogs & Cats").industries == ["pets"]
+    assert ind.from_text("CAP Barbell 25 lb Hex Dumbbell").industries == ["sports"]
+    assert ind.from_text("Apple's 2026 Mac Studio").industries == ["tech"]
+    assert "fashion" in ind.from_text("Nike Dri-FIT Golf Cap").industries

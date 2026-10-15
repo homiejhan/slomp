@@ -280,6 +280,9 @@ _INV_NOW = re.compile(r"(?:is|are) (?:now |down to |on sale for )?" + r"\$\s?(\d
 _INV_OFF_AT = re.compile(r"(\d{1,2})% off at \$\s?(\d[\d,]*(?:\.\d{1,2})?)", re.I)
 
 
+_INV_TITLE_PCT = re.compile(r"\((\d{1,2})% off\)", re.I)
+
+
 def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> list[Post]:
     out = []
     for it in _items(xml_bytes):
@@ -293,6 +296,10 @@ def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> li
             m2 = _INV_OFF_AT.search(f"{title} {text}")
             if m2:
                 price, pct_ = money(m2.group(2)), float(m2.group(1))
+            else:
+                m3 = _INV_TITLE_PCT.search(title)       # "Spyder Golf Polo Just $8 on Amazon (60% Off)"
+                if m3:
+                    pct_ = float(m3.group(1))
         sm = re.search(r"\b(?:on|at) (Amazon|Walmart|Target|Best Buy|Nordstrom|Macy's|Kohl's|Zappos|REI|Wayfair)\b",
                        f"{title} {text}")
         out.append(Post(source="theinventory", id=f"theinventory:{clean(it.findtext('guid')) or clean(it.findtext('link'))}",
@@ -309,6 +316,11 @@ def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> li
 # "hits new $243 2026 low ($107 off)".
 _9TO5_PCT = re.compile(r"\((?:save\s+)?(\d{1,2})\s?%(?:\s+off)?\)", re.I)
 _9TO5_OFF = re.compile(r"\(\$\s?(\d[\d,]*(?:\.\d{1,2})?)\s+off\)", re.I)
+# ...or the title gives only the saving and the post's first sentence the price: "AirPods Pro 3 currently $50 off at
+# Amazon" / "Amazon is still offering them down at $199 right now."
+_9TO5_SAVING = re.compile(r"(?<!up to )(?<![\w$])\$\s?(\d[\d,]*(?:\.\d{1,2})?)\s+off\b", re.I)
+_9TO5_BODY_PRICE = re.compile(r"\b(?:down (?:at|to)|now (?:at|just|only)|(?:offering|offers|has)\b[^.$]{0,120}?\b(?:for|at))\s+"
+                              r"(?:just |only )?\$\s?(\d[\d,]*(?:\.\d{1,2})?)", re.I)
 
 
 def parse_9to5toys(xml_bytes: bytes, feed: str, industries: list[str]) -> list[Post]:
@@ -320,13 +332,19 @@ def parse_9to5toys(xml_bytes: bytes, feed: str, industries: list[str]) -> list[P
         tprice = title_price(title)[0]
         reference = money(rm.group(1)) if rm else (round(tprice + money(om.group(1)), 2) if om and tprice else None)
         text = _plain(it.findtext("description"))
+        price = None
+        sv = _9TO5_SAVING.search(title) if tprice is None else None
+        bp = _9TO5_BODY_PRICE.search(text) if sv else None
+        if sv and bp and money(bp.group(1)) and money(bp.group(1)) > money(sv.group(1)):
+            price = money(bp.group(1))
+            reference = reference or round(price + money(sv.group(1)), 2)
         sm = (re.search(r"\b(?:via|at|on) (Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay)\b", title)
               or re.search(r"\b(Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay|Wellbots|Anker)"
                            r"(?:'s official storefront)? (?:is (?:now )?offering|now offers|has|is now selling)\b", text)
               or re.search(r"\b(?:via|at|on) (Amazon|Walmart|Target|Best Buy|Woot|Newegg|B&H|Home Depot|Lowe's|eBay)\b", text))
         out.append(Post(source="9to5toys", id=f"9to5toys:{clean(it.findtext('{com-wordpress:feed-additions:1}post-id')) or clean(it.findtext('link'))}",
                         url=clean(it.findtext("link")), title=title, text=text,
-                        posted_at=_when(it.findtext("pubDate")), reference=reference,
+                        posted_at=_when(it.findtext("pubDate")), reference=reference, price=price,
                         pct_stated=float(pm.group(1)) if pm and not reference else None,
                         seller=sm.group(1) if sm else "", feeds=[feed], feed_industries=list(industries),
                         image=re.sub(r"([?&]w=)\d{4}\b", r"\g<1>600", _image(it.findtext("description")))))
