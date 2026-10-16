@@ -267,3 +267,55 @@ def test_a_cached_search_holding_an_ended_ads_items_is_read_again():
     http = _Http(last_week + this_week[:1], this_week, datetime(2026, 10, 14, 9, 0, tzinfo=timezone.utc).timestamp())
     asyncio.run(FlippClient(http).merchant_items("78701", "Sprouts Farmers Market", {11}, now=now))
     assert http.calls == ["cache"]
+
+
+# --- where each merchant's ad items went, in the build's log -----------------------------------------------------
+class _Flipp:
+    """One H-E-B ad at every ZIP: a price beside "Save $1.00", a price with its regular price, a bare price."""
+
+    def __init__(self, flyer):
+        self.flyer = flyer
+
+    async def flyers(self, zip_code):
+        return [self.flyer]
+
+    async def flyer_items(self, flyer_id):
+        return [{"id": i, "flyer_id": flyer_id, "name": name, "price": price, "display_type": 1}
+                for i, name, price in ((101, "H-E-B Shredded Cheese", "2.50"), (102, "Barilla Pasta", "1.25"),
+                                       (103, "Bananas", "0.50"))]
+
+    async def merchant_items(self, zip_code, merchant, expect=()):
+        food = {"merchant_name": "H-E-B", "flyer_id": self.flyer.id, "_L1": "Food, Beverages & Tobacco",
+                "_L2": "Food Items"}
+        return [{**food, "id": 101, "current_price": 2.5, "sale_story": "Save $1.00"},
+                {**food, "id": 102, "current_price": 1.25, "original_price": 2.0}]
+
+    async def item(self, item_id):
+        return {}
+
+
+def test_the_build_logs_where_each_merchants_items_went():
+    import asyncio
+    from datetime import datetime
+    from types import SimpleNamespace
+
+    from slomp.local import LocalDeals
+    from slomp.reference import cities
+    from slomp.site import build_ads
+    from slomp.sources.flipp import Flyer
+    from slomp.sources.stores import StoreLocator
+    austin = next(c for c in cities() if c.id == "austin")
+    flyer = Flyer(1, "H-E-B", 0, datetime.fromisoformat("2026-10-14T00:00:00-05:00"),
+                  datetime.fromisoformat("2026-10-20T23:59:59-04:00"))
+    flipp = _Flipp(flyer)
+    svc = SimpleNamespace(flipp=flipp, stores=StoreLocator(), local_deals=LocalDeals(flipp, StoreLocator()),
+                          settings=SimpleNamespace(window_days=7))
+    lines: list[str] = []
+    ads = asyncio.run(build_ads(svc, [austin], datetime.fromisoformat("2026-10-16T12:00:00-05:00"), lines.append))
+    assert [d.item_id for d in ads.deals[1]] == [102]
+    at = lines.index("ads by merchant: items in its ads, with a search result, deals; left out, the most common "
+                     "reasons first")
+    assert lines[at + 1] == ("  H-E-B: 1 ads, 3 items, 2 with a search result, 1 deals; ad price with no saving "
+                             "stated 2; 1 left out as no saving have words of one")
+    assert lines[at + 2] == "    'H-E-B Shredded Cheese' price '2.50': 'Save $1.00'"      # not the bare price
+    assert lines[at + 3] == "ads at austin (78703): 1 ads from 1 merchants: H-E-B"

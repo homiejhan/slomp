@@ -123,6 +123,7 @@ class Ads:
     hits: dict[str, dict] = field(default_factory=dict)              # Flipp's merchant name -> item id -> search hit
     times: dict[tuple, tuple] = field(default_factory=dict)          # (ad, item) -> (from, to) as the source states
     keys: dict[tuple, str] = field(default_factory=dict)             # (ad, item) -> the server's duplicate test
+    unread: dict[int, list[dict]] = field(default_factory=dict)      # ad id -> no-saving items with saving words
     stats: Counter = field(default_factory=Counter)
 
 
@@ -218,18 +219,21 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
         m = ads.entries[f.merchant]
         res = LocalResult(central, RETAIL, MAX_RADIUS_MI, start, end)
         out: list[LocalDeal] = []
+        unread: list[dict] = []
         for raw_listing in listings[fid]:
             why = junk_reason(raw_listing)
             if why:
                 res.excluded[why] += 1
                 continue
-            d = ld._deal(_merge(raw_listing, hits[f.merchant].get(raw_listing.get("id"))), f, m, central, start, end,
-                         res)
+            raw = _merge(raw_listing, hits[f.merchant].get(raw_listing.get("id")))
+            d = ld._deal(raw, f, m, central, start, end, res)
             if d is not None:
                 ads.times[(fid, d.item_id)] = (parse_time(d.raw.get("valid_from")) or f.valid_from,
                                                parse_time(d.raw.get("valid_to")) or f.valid_to)
                 out.append(d)
-        ads.deals[fid], ads.excluded[fid] = out, res.excluded
+            elif res.excluded_items.get(int(raw.get("id") or 0)) in _NO_SAVING and _SAVING_WORDS.search(_wording(raw)):
+                unread.append(raw)
+        ads.deals[fid], ads.excluded[fid], ads.unread[fid] = out, res.excluded, unread
     for fid in fids:
         read(fid)
     # Whether an ad's items come from the retailer's own product feed changes what counts as a saving. The server
@@ -242,6 +246,8 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
     every = [d for fid in fids for d in ads.deals[fid]]
     log(f"ads: {sum(len(x) for x in listings.values())} items in {len(fids)} ads, {len(every)} deals, "
         f"{sum(bool(ld._feed_cache.get(f)) for f in fids)} ads from retailers' product feeds ({clock.time() - t0:.0f}s)")
+    for line in coverage_report(ads, items_of, anchor_list):
+        log(line)
 
     t0 = clock.time()
     await ld._learn_feeds(every)                   # no new reads: marks the feed ads' deals, as the server does
@@ -252,6 +258,49 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
     await _lead_details(svc, ads, anchor_list, now, log)
     log(f"ads: fine print read for {sum(d.detailed for d in every)} deals ({clock.time() - t0:.0f}s)")
     return ads
+
+
+_NO_SAVING = ("ad price with no saving stated", "no saving amount")
+# Words of a saving in an item's own text: an item left out as having none, though its text has these, is a saving
+# Slomp may not be reading ("Save $1.00" beside a price, "get ... FREE" with another item, a store coupon).
+_SAVING_WORDS = re.compile(r"\b(?:save|saving|savings|off|free|get|coupon|combo|bogo|rebate|reg|was)\b|\d\s?%", re.I)
+
+
+def _wording(raw: dict) -> str:
+    return " ".join(clean(raw.get(k)) for k in ("pre_price_text", "price_text", "post_price_text", "sale_story")
+                    if raw.get(k))
+
+
+def coverage_report(ads: Ads, items_of: dict[int, set], anchor_list: list[City], samples: int = 3,
+                    largest: int = 4) -> list[str]:
+    """Where each merchant's ad items went, for the build's log: how many have a search result (the item search is
+    the only source of an item's saving text), how many became deals and why the rest were left out, with a few items
+    left out as having no saving whose own text has words of one. Then the merchants the largest anchors list."""
+    by_merchant: dict[str, list[int]] = defaultdict(list)
+    for fid, f in ads.flyers.items():
+        by_merchant[ads.entries[f.merchant].name].append(fid)
+    rows = []
+    for name, fids in by_merchant.items():
+        items = sum(len(items_of[f]) for f in fids)
+        searched = sum(len(items_of[f] & ads.hits.get(ads.flyers[f].merchant, {}).keys()) for f in fids)
+        deals = sum(len(ads.deals.get(f, [])) for f in fids)
+        why = sum((ads.excluded.get(f, Counter()) for f in fids), Counter())
+        unread = [r for f in fids for r in ads.unread.get(f, [])]
+        rows.append((items, name, len(fids), searched, deals, why, unread))
+    out = ["ads by merchant: items in its ads, with a search result, deals; left out, the most common reasons first"]
+    for items, name, n_ads, searched, deals, why, unread in sorted(rows, key=lambda r: (-r[0], r[1])):
+        reasons = ", ".join(f"{k} {v}" for k, v in why.most_common(3))
+        more = f"; {len(unread)} left out as no saving have words of one" if unread else ""
+        out.append(f"  {name}: {n_ads} ads, {items} items, {searched} with a search result, {deals} deals; "
+                   f"{reasons}{more}")
+        for r in unread[:samples]:
+            price = r.get("current_price", r.get("price"))
+            out.append(f"    {clean(r.get('name'))[:60]!r} price {price!r}: {_wording(r)[:120]!r}")
+    for a in anchor_list[:largest]:
+        fids = ads.at.get(a.id) or []
+        names = sorted({ads.entries[ads.flyers[f].merchant].name for f in fids})
+        out.append(f"ads at {a.id} ({a.zip}): {len(fids)} ads from {len(names)} merchants: {', '.join(names)}")
+    return out
 
 
 def dedupe_key(d: LocalDeal) -> str:
