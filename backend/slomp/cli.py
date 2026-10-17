@@ -10,6 +10,7 @@
     slomp verify --iteration N [--tests 200] [--seed S]     the live verification harness
     slomp verify --iteration N --plan regulars              the same for regular deals (Austin, Houston, Dallas areas)
     slomp verify --iteration N --plan sales                 the same for online stores' sales
+    slomp replay POSTS.json [--now ISO] [--json]            deal-site posts through Slomp's parsers and filters, offline
     slomp serve [--port 8000]                               the web page and API
     slomp site build [--out site]                           the published site: data files the page searches itself
 """
@@ -242,6 +243,10 @@ def main(argv=None) -> int:
                     help="regulars: the regular-deals tests in the Austin, Houston and Dallas areas; "
                          "sales: online stores' sales")
     ve.add_argument("--key", type=Path, default=None, help="regulars: the answer key for the recall tests")
+    rp = sub.add_parser("replay", help="run deal-site posts through Slomp's parsers and filters, offline")
+    rp.add_argument("posts", type=Path, help="a JSON list of posts (slomp/verify/replay.py has the fields)")
+    rp.add_argument("--now", default=None, help="the moment to read them at, e.g. 2026-10-17T12:00:00-05:00")
+    rp.add_argument("--json", action="store_true")
     se = sub.add_parser("serve", help="run the web page and API")
     se.add_argument("--port", type=int, default=8000)
     si = sub.add_parser("site", help="build the published site (GitHub Pages)")
@@ -271,6 +276,9 @@ def main(argv=None) -> int:
             return sales_main(args.iteration, args.tests, args.seed)
         from .verify.runner import main as verify_main
         return verify_main(args.iteration, args.tests, args.seed)
+    if args.cmd == "replay":
+        from .verify.replay import main as replay_main
+        return replay_main(args.posts, args.now, args.json)
     if args.cmd == "site":
         from .site import ANCHOR_MI, build
         asyncio.run(build(args.out.resolve(), anchor_mi=args.anchor_mi or ANCHOR_MI, online=not args.no_online,
