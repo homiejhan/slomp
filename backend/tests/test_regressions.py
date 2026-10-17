@@ -444,3 +444,60 @@ def test_oct15_more_goods_get_their_industry():
     assert ind.from_text("CAP Barbell 25 lb Hex Dumbbell").industries == ["sports"]
     assert ind.from_text("Apple's 2026 Mac Studio").industries == ["tech"]
     assert "fashion" in ind.from_text("Nike Dri-FIT Golf Cap").industries
+
+
+# --- the fourth manual comparison (Oct 17, 2026) ---------------------------------------------------------------------
+def _inventory(title, text):
+    from slomp.sources.feeds import parse_theinventory
+    xml = (f"<rss><channel><item><title>{title}</title><link>https://theinventory.com/x</link>"
+           f"<pubDate>Fri, 16 Oct 2026 14:00:00 +0000</pubDate><description>{text}</description>"
+           "</item></channel></rss>")
+    return OnlineDeals(None, None)._deal(parse_theinventory(xml.encode(), "theinventory", [])[0],
+                                         datetime(2026, 10, 16, 20, tzinfo=timezone.utc), OnlineResult(["home"]))
+
+
+def test_oct17_the_inventory_gives_the_price_in_the_post_when_its_title_gives_the_saving():
+    # The post's own sentence (round 3's evidence): the title said only "$30 Off", so the post was left with no price
+    d = _inventory("12-in-1 Air Fryer Toaster Oven Combo $30 Off on Amazon",
+                   "The current Amazon price of $129.98 represents a $30 discount from the $159.99 regular price.")
+    assert (d.price, d.reference_price, d.basis) == (129.98, 159.99, "store_regular")
+    # a percent in the title, and a list price in the post: the post's words say which kind of price it is
+    d = _inventory("98-Inch TCL Mini-LED 4K TV Deal: 45% Off at Amazon",
+                   "Amazon has it for $2,197.99, while the list price is $3,999.99.")
+    assert (d.price, d.reference_price, d.basis) == (2197.99, 3999.99, "list")
+    # amounts that don't agree with the title's saving are not taken for the price
+    assert _inventory("Hauslane 30-Inch Wall Mount Range Hood $50 Off on Amazon",
+                      "Free shipping on orders over $35. The hood is $449.99.") is None
+
+
+def test_oct17_a_regular_price_named_after_its_amount():
+    assert post_reference("It's $129.98, a $30 discount from the $159.99 regular price.", 129.98)[:2] == \
+        (159.99, "store_regular")
+
+
+def test_oct17_goods_and_sales_without_an_industry():
+    assert ind.from_text("Aospenice 19-Quart Cold Therapy Knee Ice Machine").industries == ["health"]
+    assert ind.from_text("Argo Books Lifetime Accounting Software").industries == ["tech"]
+    assert ind.from_text("Cricut Maker 3 with Design Space software").industries == []      # not every software
+    assert ind.from_text("Countertop Ice Machine").industries == []                      # an ice maker isn't therapy
+    assert ind.from_text("Apple Outlet Deals at Best Buy").industries == ["tech"]
+    assert ind.from_text("Carhartt, Dickies, Workwear & More Deals at Woot").industries == ["fashion"]
+    assert ind.from_text("Woot Pest Prevention Deals").industries == ["home"]
+    assert ind.from_text("Woot Wellness Aisle Clearance").industries == ["health"]
+    assert ind.from_text("Wellness CORE Grain-Free Dry Dog Food").industries == ["pets"]    # the pet food brand
+    assert "beauty" in ind.from_text("Target Oral Care & Sanitizing Essentials Deals").industries
+
+
+def test_oct17_sales_at_brands_slomp_did_not_know():
+    from collections import Counter
+
+    from slomp.sales import StoreSales
+    now = datetime(2026, 10, 17, 17, tzinfo=timezone.utc)
+    for title, seller, store, inds in (("Wilson Fall Sale: Up to 50% off + free shipping w/ $75", "Wilson", "Wilson",
+                                        ["sports"]),
+                                       ("Dearfoams Semi-Annual Friends & Family Sale: 20% off sitewide", "Dearfoams",
+                                        "Dearfoams", ["fashion"])):
+        p = Post(source="dealnews", id="dealnews:1", url="https://www.dealnews.com/x/1.html", title=title, text="",
+                 seller=seller, deal_type="sale", posted_at=now)
+        s = StoreSales(None, None).sale(p, now, Counter())
+        assert (s.store_name, s.industries) == (store, inds)

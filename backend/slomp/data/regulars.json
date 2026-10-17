@@ -1245,16 +1245,16 @@
   {
    "id": "pf-changs-happy-hour",
    "brand": "P.F. Chang's",
-   "offer": "Happy hour: $5.99 beer, $6.99 wine, $8.99 cocktails and half-priced appetizers",
+   "offer": "Happy hour Monday to Friday: $6 beer and wine, $9 cocktails and sake, $12 appetizers and whisky, $15 sushi and sip",
    "days": [
     "weekdays"
    ],
-   "time": "3-6 pm",
    "summary": "happy hour",
    "link": "https://www.pfchangs.com/menu/happy-hour/",
    "conditions": [
     "dine-in only",
-    "participating locations"
+    "participating locations",
+    "hours vary by location"
    ],
    "absorbs": [
     "happy hour"
@@ -1264,8 +1264,9 @@
      "kind": "official",
      "url": "https://www.pfchangs.com/menu/happy-hour/",
      "find": [
-      "$5.99 Select Beer, $6.99 Select Wine, $8.99 Select Cocktails and Half Priced Half Apps",
-      "Monday - Friday 3-6"
+      "$6 Beer & Wine",
+      "$9 Cocktails & Sake",
+      "Monday - Friday every week"
      ]
     }
    ]
@@ -1700,14 +1701,14 @@
     "dining"
    ],
    "pct": 50,
-   "link": "https://www.bryanstreettavern.com/",
+   "link": "https://bryanstreettavern.com/dallas-old-east-dallas-village-bryan-street-tavern-happy-hours-specials",
    "conditions": [
     "pizza is dine-in only"
    ],
    "evidence": [
     {
      "kind": "official",
-     "url": "https://www.bryanstreettavern.com/",
+     "url": "https://bryanstreettavern.com/dallas-old-east-dallas-village-bryan-street-tavern-happy-hours-specials",
      "find": [
       "MONDAYS: HALF-PRICE PIZZA & $6 CROWN & DOWN"
      ]
@@ -3470,6 +3471,492 @@
      ]
     }
    ]
+  },
+  {
+   "id": "witte-free-tuesdays",
+   "brand": "Witte Museum",
+   "offer": "Free Tuesdays: free general admission for Bexar County residents on Tuesdays",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Witte Museum",
+     "address": "3801 Broadway St, San Antonio, TX 78209"
+    }
+   ],
+   "link": "https://www.wittemuseum.org/plan-your-visit/free-tuesdays/",
+   "conditions": [
+    "Bexar County residents",
+    "set hours: see the museum's page"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.wittemuseum.org/plan-your-visit/free-tuesdays/",
+     "find": [
+      "Free Tuesday for Bexar County Residents"
+     ]
+    }
+   ],
+   "site": "https://www.wittemuseum.org/"
+  },
+  {
+   "id": "sama-free-tuesday-evenings",
+   "brand": "San Antonio Museum of Art",
+   "offer": "Free general admission for Bexar County residents on Tuesdays, 4 to 7 pm",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "San Antonio Museum of Art",
+     "address": "200 W Jones Ave, San Antonio, TX 78215"
+    }
+   ],
+   "time": "4-7 pm",
+   "link": "https://www.samuseum.org/visit/",
+   "conditions": [
+    "Bexar County residents"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.samuseum.org/visit/",
+     "find": [
+      "Bexar County Residents",
+      "Free General Admission Hours: Tuesday, 4 to 7 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.samuseum.org/"
+  },
+  {
+   "id": "mcnay-free-thursday-nights",
+   "brand": "McNay Art Museum",
+   "offer": "Free general admission every Thursday, 4 to 9 pm, courtesy of H-E-B",
+   "days": [
+    "thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "McNay Art Museum",
+     "address": "6000 N New Braunfels Ave, San Antonio, TX 78209"
+    }
+   ],
+   "time": "4-9 pm",
+   "link": "https://www.mcnayart.org/visit/",
+   "conditions": [
+    "special exhibitions $10"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mcnayart.org/visit/",
+     "find": [
+      "free general admission every Thursday from 4 to 9 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.mcnayart.org/"
+  },
+  {
+   "id": "mcnay-free-first-sundays",
+   "brand": "McNay Art Museum",
+   "offer": "Free general admission on the first Sunday of every month, noon to 5 pm",
+   "days": [
+    "first sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "McNay Art Museum",
+     "address": "6000 N New Braunfels Ave, San Antonio, TX 78209"
+    }
+   ],
+   "time": "12-5 pm",
+   "link": "https://www.mcnayart.org/visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.mcnayart.org/visit/",
+     "find": [
+      "the first Sunday of every month from Noon to 5 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.mcnayart.org/"
+  },
+  {
+   "id": "briscoe-locals-day",
+   "brand": "Briscoe Western Art Museum",
+   "offer": "Locals Day: free admission for Bexar County residents on the first Sunday of the month",
+   "days": [
+    "first sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Briscoe Western Art Museum",
+     "address": "210 W Market St, San Antonio, TX 78205"
+    }
+   ],
+   "link": "https://briscoemuseum.org/hours-admission/",
+   "conditions": [
+    "San Antonio and Bexar County residents"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://briscoemuseum.org/hours-admission/",
+     "find": [
+      "first Sunday of the month",
+      "Locals Day"
+     ]
+    }
+   ],
+   "site": "https://briscoemuseum.org/"
+  },
+  {
+   "id": "doseum-free-family-nights",
+   "brand": "The DoSeum",
+   "offer": "Free Family Night: free admission on the first Monday evening of every month",
+   "days": [
+    "first mon"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "The DoSeum",
+     "address": "2800 Broadway St, San Antonio, TX 78209"
+    }
+   ],
+   "link": "https://www.thedoseum.org/free-family-nights",
+   "conditions": [
+    "evening hours: see the museum's page"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.thedoseum.org/free-family-nights",
+     "find": [
+      "Free Family Nights",
+      "FIRST Monday of every month"
+     ]
+    }
+   ],
+   "site": "https://www.thedoseum.org/"
+  },
+  {
+   "id": "fort-worth-zoo-half-price-wednesdays",
+   "brand": "Fort Worth Zoo",
+   "offer": "Half-Price Wednesdays: half-price admission every Wednesday",
+   "days": [
+    "wed"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "zoo",
+   "summary": "half-price admission",
+   "pct": 50,
+   "link": "https://www.fortworthzoo.org/plan-a-visit",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.fortworthzoo.org/plan-a-visit",
+     "find": [
+      "Half-Price Wednesdays",
+      "every Wednesday of the year"
+     ]
+    }
+   ],
+   "site": "https://www.fortworthzoo.org/"
+  },
+  {
+   "id": "kimbell-half-price-exhibitions-tuesday",
+   "brand": "Kimbell Art Museum",
+   "offer": "Half-price admission to special exhibitions on Tuesdays, 10 am to 5 pm",
+   "days": [
+    "tue"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "half-price exhibitions",
+   "pct": 50,
+   "time": "10 am-5 pm",
+   "link": "https://kimbellart.org/visit",
+   "conditions": [
+    "special exhibitions; the permanent collection is free"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://kimbellart.org/visit",
+     "find": [
+      "half-price admission to special exhibitions on Tuesdays from 10 am-5 pm and Fridays from 5-8 pm"
+     ]
+    }
+   ],
+   "site": "https://kimbellart.org/"
+  },
+  {
+   "id": "kimbell-half-price-exhibitions-friday",
+   "brand": "Kimbell Art Museum",
+   "offer": "Half-price admission to special exhibitions on Friday evenings, 5 to 8 pm",
+   "days": [
+    "fri"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "half-price exhibitions",
+   "pct": 50,
+   "time": "5-8 pm",
+   "link": "https://kimbellart.org/visit",
+   "conditions": [
+    "special exhibitions; the permanent collection is free"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://kimbellart.org/visit",
+     "find": [
+      "half-price admission to special exhibitions on Tuesdays from 10 am-5 pm and Fridays from 5-8 pm"
+     ]
+    }
+   ],
+   "site": "https://kimbellart.org/"
+  },
+  {
+   "id": "amst-first-friday",
+   "brand": "Art Museum of South Texas",
+   "offer": "First Friday: free admission on the first Friday of the month, 10 am to 9 pm",
+   "days": [
+    "first fri"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Art Museum of South Texas",
+     "address": "1902 N Shoreline Blvd, Corpus Christi, TX 78401"
+    }
+   ],
+   "time": "10 am-9 pm",
+   "link": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+     "find": [
+      "Presented by Kleberg Bank",
+      "Free Admission from 10 a.m.-9 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.artmuseumofsouthtexas.org/"
+  },
+  {
+   "id": "amst-second-saturday",
+   "brand": "Art Museum of South Texas",
+   "offer": "Second Saturday: free admission on the second Saturday of the month, 10 am to 5 pm",
+   "days": [
+    "second sat"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Art Museum of South Texas",
+     "address": "1902 N Shoreline Blvd, Corpus Christi, TX 78401"
+    }
+   ],
+   "time": "10 am-5 pm",
+   "link": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+     "find": [
+      "Presented by Art Bridges Foundation",
+      "Free Admission from 10 a.m.-5 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.artmuseumofsouthtexas.org/"
+  },
+  {
+   "id": "amst-third-thursday",
+   "brand": "Art Museum of South Texas",
+   "offer": "Third Thursday: free admission all day on the third Thursday of the month",
+   "days": [
+    "third thu"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Art Museum of South Texas",
+     "address": "1902 N Shoreline Blvd, Corpus Christi, TX 78401"
+    }
+   ],
+   "link": "https://www.artmuseumofsouthtexas.org/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.artmuseumofsouthtexas.org/",
+     "find": [
+      "third Thursday of every month, courtesy of AEP"
+     ]
+    }
+   ],
+   "site": "https://www.artmuseumofsouthtexas.org/"
+  },
+  {
+   "id": "amst-fourth-sunday",
+   "brand": "Art Museum of South Texas",
+   "offer": "Fourth Sunday: free admission on the fourth Sunday of the month, 1 to 5 pm",
+   "days": [
+    "fourth sun"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Art Museum of South Texas",
+     "address": "1902 N Shoreline Blvd, Corpus Christi, TX 78401"
+    }
+   ],
+   "time": "1-5 pm",
+   "link": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://www.artmuseumofsouthtexas.org/plan-your-visit/",
+     "find": [
+      "Presented by Reliant",
+      "Free Admission from 1:00 p.m.-5 p.m."
+     ]
+    }
+   ],
+   "site": "https://www.artmuseumofsouthtexas.org/"
+  },
+  {
+   "id": "chimys-lubbock-happy-hour-mon-tue",
+   "brand": "Chimy's",
+   "offer": "Happy hour all day Monday and Tuesday",
+   "days": [
+    "mon",
+    "tue"
+   ],
+   "places": [
+    {
+     "name": "Chimy's Lubbock",
+     "address": "2417 Broadway Ave, Lubbock, TX 79401"
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "summary": "happy hour",
+   "link": "https://chimys.com/lubbock",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://chimys.com/lubbock",
+     "find": [
+      "All day Mon & Tues",
+      "Wed-Fri 2pm-6pm"
+     ]
+    }
+   ],
+   "site": "https://chimys.com/"
+  },
+  {
+   "id": "chimys-lubbock-happy-hour-wed-fri",
+   "brand": "Chimy's",
+   "offer": "Happy hour Wednesday to Friday, 2 to 6 pm",
+   "days": [
+    "wed",
+    "thu",
+    "fri"
+   ],
+   "places": [
+    {
+     "name": "Chimy's Lubbock",
+     "address": "2417 Broadway Ave, Lubbock, TX 79401"
+    }
+   ],
+   "kind": "bar",
+   "industries": [
+    "dining"
+   ],
+   "summary": "happy hour",
+   "time": "2-6 pm",
+   "link": "https://chimys.com/lubbock",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://chimys.com/lubbock",
+     "find": [
+      "All day Mon & Tues",
+      "Wed-Fri 2pm-6pm"
+     ]
+    }
+   ],
+   "site": "https://chimys.com/"
   }
  ]
 }

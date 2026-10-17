@@ -24,7 +24,7 @@ from ..config import TTL
 from ..geo import parse_time
 from ..http import FetchError, PoliteClient
 from ..reference import DATA, store_from_domain
-from ..terms import clean, money, title_price
+from ..terms import clean, money, post_reference, title_price
 
 DN = "{https://www.dealnews.com/ns/rss/1.0.htm}"
 CONTENT = "{http://purl.org/rss/1.0/modules/content/}encoded"
@@ -281,6 +281,35 @@ _INV_OFF_AT = re.compile(r"(\d{1,2})% off at \$\s?(\d[\d,]*(?:\.\d{1,2})?)", re.
 
 
 _INV_TITLE_PCT = re.compile(r"\((\d{1,2})% off\)", re.I)
+# A title that gives only the saving ("12-in-1 Air Fryer Toaster Oven Combo $30 Off on Amazon", "Extra Wide Inflatable
+# SUP 40% Off on Amazon", "98-Inch TCL Mini-LED 4K TV Deal: Save $1,802 at Amazon") leaves the price to the post. Two
+# amounts there that agree with the title's saving are the price and the price it was cut from: "The current Amazon
+# price of $129.98 represents a $30 discount from the $159.99 regular price." An "up to" saving gives none.
+_INV_SAVING = re.compile(r"(?<!up to )(?:(?<![\w$])\$\s?(\d[\d,]*(?:\.\d{1,2})?)\s+off\b|"
+                         r"\bsave \$\s?(\d[\d,]*(?:\.\d{1,2})?))", re.I)
+_INV_PCT = re.compile(r"(?<!up to )(?<![\d.])(\d{1,2})\s?%\s*off\b", re.I)
+_AMOUNT = re.compile(r"\$\s?(\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?|\d+(?:\.\d{1,2})?)")
+
+
+def _inv_body_price(title: str, text: str) -> tuple[Optional[float], Optional[float]]:
+    """(price, the price it was cut from) for a title that states only its saving, from the post's own amounts."""
+    sv, pc = _INV_SAVING.search(title), _INV_PCT.search(title)
+    saving = money(sv.group(1) or sv.group(2)) if sv else None
+    if not (saving or pc):
+        return None, None
+    amounts = [a for a in (money(m.group(1)) for m in _AMOUNT.finditer(text)) if a]
+    best: Optional[tuple[float, float, float]] = None
+    for p in amounts:
+        for r in amounts:
+            if not p < r:
+                continue
+            if saving:
+                err = abs(r - p - saving) / max(1.0, saving * 0.02)      # within $1, or 2% of a big saving
+            else:
+                err = abs((1 - p / r) * 100 - float(pc.group(1))) / 1.5    # within 1.5 points
+            if err <= 1 and (best is None or err < best[0]):
+                best = (err, p, r)
+    return (best[1], best[2]) if best else (None, None)
 
 
 def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> list[Post]:
@@ -288,7 +317,7 @@ def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> li
     for it in _items(xml_bytes):
         title = clean(it.findtext("title"))
         text = _plain(it.findtext("description"))
-        price = pct_ = None
+        price = pct_ = reference = None
         m = _INV_NOW.search(text)
         if m:
             price, pct_ = money(m.group(1)), float(m.group(2))
@@ -300,11 +329,16 @@ def parse_theinventory(xml_bytes: bytes, feed: str, industries: list[str]) -> li
                 m3 = _INV_TITLE_PCT.search(title)       # "Spyder Golf Polo Just $8 on Amazon (60% Off)"
                 if m3:
                     pct_ = float(m3.group(1))
+                if title_price(title)[0] is None:
+                    price, reference = _inv_body_price(title, text)
+                    if price and post_reference(text, price)[0]:
+                        reference = pct_ = None     # the post's words say it, and whether it is a regular or list price
         sm = re.search(r"\b(?:on|at) (Amazon|Walmart|Target|Best Buy|Nordstrom|Macy's|Kohl's|Zappos|REI|Wayfair)\b",
                        f"{title} {text}")
         out.append(Post(source="theinventory", id=f"theinventory:{clean(it.findtext('guid')) or clean(it.findtext('link'))}",
                         url=clean(it.findtext("link")), title=title, text=text, posted_at=_when(it.findtext("pubDate")),
-                        price=price, pct_stated=pct_, seller=sm.group(1) if sm else "",
+                        price=price, reference=reference, pct_stated=None if reference else pct_,
+                        seller=sm.group(1) if sm else "",
                         category=", ".join(clean(c.text) for c in it.findall("category")[:3]), feeds=[feed],
                         feed_industries=list(industries),
                         image=_image((_child(it, "thumbnail").get("url", "") if _child(it, "thumbnail") is not None

@@ -350,6 +350,8 @@ _USUAL = re.compile(r"\b(?:normally|usually|typically|regularly)\s+(?:fetch(?:es
                     r"going\s+for|priced\s+at|costs?|runs?|lists?\s+(?:for|at))\s+(?:around\s+|about\s+|closer\s+to\s+)?"
                     + _MONEY + r"|\bdown\s+from\s+(?:the\s+|its\s+|a\s+)?(?:usual|regular|normal|typical|going)?\s*"
                     r"(?:price\s+(?:of\s+|tag\s+of\s+)?|rate\s+of\s+)?" + _MONEY, re.I)
+# The amount before the words, as The Inventory writes it: "a $30 discount from the $159.99 regular price".
+_REG_AFTER = re.compile(_MONEY + r"\s+(?:regular|everyday|usual|normal)\s+price\b", re.I)
 _DN_HISTORY = re.compile(r"best price (?:\w+ ){0,3}(?:has charged|we've seen|ever)|lowest price (?:we've seen|ever)|"
                          r"all-time low|best-ever price", re.I)
 # Slickdeals descriptions: "Amazon has X for $12.99 - 10% when you clip the coupon ... = $11.05"
@@ -410,6 +412,9 @@ def post_reference(desc: str, price: Optional[float]) -> tuple[Optional[float], 
     usual = money(m.group(1) or m.group(2)) if m else None
     if usual and usual > price:
         return usual, "store_regular", sentence(m)
+    m = _REG_AFTER.search(text)
+    if m and money(m.group(1)) and money(m.group(1)) > price:
+        return money(m.group(1)), "store_regular", sentence(m)
     m = _DN_LOW.search(text)
     if m and money(m.group(1)):
         return round(price + money(m.group(1)), 2), "history", sentence(m)
