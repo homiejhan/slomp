@@ -883,3 +883,76 @@ What held up besides: Woot's plush sale ($10 off $30+, PLUSHTEN, to Oct 21) and 
 13–19), Krispy Kreme's Lab Dozen (to Oct 15) and Pizza Hut's Haunt Box (to Nov 2). P.F. Chang's happy hour and Bryan
 Street Tavern's Monday pizza, which builds have left out since Oct 8, are still offered per their sites; their
 entries' wording needs updating by hand. Evidence is in `docs/verification/manual-03.json`.
+
+### A fourth time on Oct 17, on new ground
+
+This round looked where the first three had not: sales across the deal sites, single-product posts in the four
+thinnest industries (Pets, Health, Automotive, Baby & Kids), the week's restaurant promotions, regular deals in San
+Antonio, El Paso, Corpus Christi, Lubbock and Fort Worth, and weekly-ad retailers. No page could be opened from the
+session that ran it, so the search saw result titles and the search tool's summaries. Ends and codes it reported
+without quoting the post were left out of the replay, which therefore tests store, offer, price and industry. The
+replay is now part of Slomp: `slomp replay posts.json` reads each post the way its site's feed carries it, through
+Slomp's own parsers and filters (`slomp/verify/replay.py` lists the fields). On round 3's 113 posts it gives the
+verdicts of the harness it replaces. Evidence is in `docs/verification/manual-04.json`.
+
+**What Slomp fetched.** Six scheduled builds ran on `main` (the second round) from Oct 15, 20:25 UTC, to Oct 17,
+01:22 UTC.
+
+| | These builds | Before |
+|---|---|---|
+| Online deals | 124–141 | 146–156 on Oct 14, 152–155 early on Oct 15 |
+| Sales at online stores | 156–170, at 39–44 stores | 144–153 |
+| Regular deals; promotions | 208–209; 28–29 | 207–209; 27–29 |
+| Weekly ads | 298–302 ads, 7,828–8,465 deals | 421 ads on Oct 13, during an overlap of two weeks' ads |
+| Ad items with no item-search result | 22–24% | 39% on Oct 13 |
+
+The second round changed online deals only by adding three Home keywords, which can only add deals, so the fall in
+online deals came from what the feeds posted, not from the code. The share of ad items without a search result is
+back to its usual level: the second round's re-read of searches that held an ended ad's items holds.
+
+**Regular deals the published site has never shown.** Every build logs the evidence pages it could not read. Nine
+sites have answered GitHub's servers with a bot check on every build since that log began on Oct 6: Cinemark, Regal,
+AMC, Star Cinema Grill, the Modern, Goodwill Central Texas, the Mexic-Arte, the Health Museum and the Nasher. So has the
+MFAH since it was added on Oct 14, and Mile High on the Cheap, a roundup, since Oct 11. A curated deal whose only
+evidence is on those sites has no successful read on record, so the published site leaves it out: 13 entries,
+among them Cinemark's Discount Tuesdays, Regal's Value Days (until Oct 10 the roundup stood for it), Star Cinema
+Grill's Tuesdays, the Modern's free Fridays and half-price Sundays, four Goodwill days and four museums' free days.
+`slomp serve`, run where those sites answer, can confirm them. AMC is not among the 13: its entry also cites two dated
+articles on sites that answer. The way to bring the 13 back without going around a bot check is the same, a second
+source on a site that answers; this round's searches ran out before it.
+
+**How accurately Slomp reads a post.** Of the 41 single-product posts replayed (dealnews, DealCatcher, The Inventory,
+9to5Toys, Hip2Save, Slickdeals), Slomp read no price more than $0.50 off what the post states, and it left out all 8
+that are not single-product deals: Woot's store-wide sales, a 9to5Toys roundup, a "Save $8 When You Buy 2" drugstore
+offer and a toilet-paper price "After CVS Rewards". It ranked none of the 33 real deals, on `main` or with this
+change. 26 have no reference price in the words the search showed; in the feed, the post's body usually states one.
+5 are The Inventory's titles that give only the saving ("40% Off", "$50 Off"), with the price in a body the search did
+not show. 2 were over 72 hours old. Of the 28 sales and 7 restaurant posts, Slomp kept 16 sales and 4 promotions on
+`main`, and 24 sales with this change. Every store it named was the post's (Banana Republic Factory's sale under
+Banana Republic, which the store list counts as one store).
+
+| Found by hand, not by Slomp | Cause | Changed |
+|---|---|---|
+| The Inventory's titles that give only the saving: "12-in-1 Air Fryer Toaster Oven Combo $30 Off on Amazon" (round 3's evidence), "Extra Wide Inflatable SUP 40% Off", "98-Inch TCL Mini-LED 4K TV Deal: Save $1,802" | The parser took a price only from the title or from "is now $X (N% off)"; "The current Amazon price of $129.98 represents a $30 discount from the $159.99 regular price" was read as no price | Yes: two amounts in the post that agree with the title's saving are its price and the price it was cut from, and "the $159.99 regular price" is read as a regular price. The air fryer now reads $129.98 against $159.99. Amounts that don't agree give no price |
+| Woot's workwear (Carhartt, Dickies), pest-prevention and wellness-aisle sales; Target's oral care deals; Apple Outlet deals at Best Buy | No industry: the words name no goods the rules knew, and the stores sell everything | Yes |
+| PUMA's Stock Up sale (9to5Toys, code STOCKUP), Wilson's fall sale, Dearfoams' friends and family sale | Stores Slomp did not know | Yes: added as brands, so their names in a title alone don't place a sale |
+| A cold-therapy knee ice machine; accounting software | No industry | Yes. An ice maker, and a cutter sold "with design software", still have none |
+| Taco Bell's $4 Paris Hilton Usual (Oct 20–26) and $1 Usual drop (Oct 20), Olive Garden's pasta bowl, Wendy's Boo Books | No dealnews or Slickdeals post found; Taco Bell's previous Usual week had both | No: Slomp reads the deal sites |
+| Shake Shack's free burger and Taco Bell's Kevin Hart Usual (dealnews) shown to Oct 24, past their Oct 18 and Oct 19 ends | The replay saw neither post's body nor dealnews' own end date | No: the feed carries both |
+| 15 regular deals: the Witte, the San Antonio Museum of Art, the McNay (Thursday nights, first Sundays), the Briscoe and the DoSeum in San Antonio; the Fort Worth Zoo's Half-Price Wednesdays and the Kimbell's half-price exhibitions (Tuesdays, Friday evenings); the Art Museum of South Texas's four monthly free days (Corpus Christi); Chimy's happy hour in Lubbock | Not in the curated list. San Antonio had no regular deal of its own | Yes, each with its page's own words. Eight of those phrases came back from the search without quotation marks, so the next builds' logs will show whether the pages carry them word for word; a phrase not found hides the deal |
+| P.F. Chang's happy hour, left out since Oct 8 | The page now reads "$6 Beer & Wine \| $9 Cocktails & Sake" and gives no national hours | Yes: the new prices; hours vary by location |
+| Bryan Street Tavern's Monday half-price pizza, left out since Oct 8 | Its heading moved from the home page to the specials page | Yes: the specials page |
+| Fuzzy's Taco Shop's taco Tuesday and happy hour, hidden since Oct 16 | The home page no longer says either. The only other wording is on a Katy store's page written before it opened and on out-of-state pages about 20 months old | No: checked again next time |
+| Jim's kids eat free (San Antonio), Tiago's kids eat free | Jim's has many branches and the search gave no list of their addresses; Tiago's home page shows signs of being hijacked | No |
+
+**H-E-B in Austin.** H-E-B's weekly-ad pages give a sale price ("$X each", with a price per pound or ounce) and
+seldom a regular price (1 of the 11 items the search saw). Its savings are separate offers: digital coupons ("$1 off
+Clorox Bleach, 77 - 81 oz."), Combo Loco ("buy this, get that free") and Meal Deals, which state no amount. Slomp
+leaves out an ad price with no saving by design, so most H-E-B items are left out, which is why Austin shows few
+H-E-B deals. The site build's per-merchant log, on this branch, will show how H-E-B's items fare once it runs on
+`main`. The search found no other retailer with a Texas weekly ad missing from Slomp's merchant list beyond the
+first round's Whole Foods and Natural Grocers.
+
+**Next time.** After a merge: the next build's per-merchant lines for H-E-B, and the evidence lines for the 15 new
+regular deals. A second, readable source for each regular deal whose only page turns GitHub's servers away. Fuzzy's
+current wording.

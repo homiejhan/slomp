@@ -6560,5 +6560,127 @@
    }
   ]
  },
- "replay_note": "The replay's moment is 2026-10-17 12:00 Central. 16 of the 57 online findings were left out of the replay: dealnews store-page listings whose titles carry no price, which is not the title the feed carries. 'main' is bfa4979 with the replay tool added; 'branch' is this change (round 3 included)."
+ "replay_note": "The replay's moment is 2026-10-17 12:00 Central. 16 of the 57 online findings were left out of the replay: dealnews store-page listings whose titles carry no price, which is not the title the feed carries. 'main' is bfa4979 with the replay tool added; 'branch' is this change (round 3 included).",
+ "unread_evidence_in_earlier_builds": {
+  "note": "Builds read in full to see whether the sites that answer GitHub's servers with a bot check were ever read. A bot-checked page whose last good read is under 7 days old is logged with '; last confirmed earlier'; no line carries it. Run 1 predates the log line.",
+  "runs": [
+   {
+    "run": 1,
+    "created_at": "2026-10-06T01:02:00Z",
+    "regular_deals": 200,
+    "evidence_not_read": []
+   },
+   {
+    "run": 2,
+    "created_at": "2026-10-06T01:24:37Z",
+    "regular_deals": 200,
+    "evidence_not_read": [
+     "uchi.uchirestaurants.com: the site answered with a bot check (5 pages)",
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "chuckecheese.com: the site answered with a bot check (2 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "amctheatres.com: the site answered with a bot check",
+     "starcinemagrill.net: the site answered with a bot check",
+     "rossstores.com: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "regmovies.com: the site answered with a bot check",
+     "thecontemporaryaustin.org: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "fuzzystacoshop.com: the page no longer says this"
+    ]
+   },
+   {
+    "run": 12,
+    "created_at": "2026-10-07T11:52:37Z",
+    "regular_deals": 205,
+    "evidence_not_read": [
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "amctheatres.com: the site answered with a bot check",
+     "starcinemagrill.net: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "regmovies.com: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "bryanstreettavern.com: the page no longer says this"
+    ]
+   },
+   {
+    "run": 18,
+    "created_at": "2026-10-09T11:59:28Z",
+    "regular_deals": 206,
+    "evidence_not_read": [
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "starcinemagrill.net: the site answered with a bot check",
+     "amctheatres.com: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "pfchangs.com: the page no longer says this",
+     "bryanstreettavern.com: the page no longer says this",
+     "regmovies.com: the site answered with a bot check"
+    ]
+   },
+   {
+    "run": 21,
+    "created_at": "2026-10-10T11:15:48Z",
+    "regular_deals": 206,
+    "evidence_not_read": [
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "starcinemagrill.net: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "regmovies.com: the site answered with a bot check",
+     "pfchangs.com: the page no longer says this",
+     "bryanstreettavern.com: the page no longer says this",
+     "amctheatres.com: the site answered with a bot check"
+    ]
+   },
+   {
+    "run": 25,
+    "created_at": "2026-10-11T11:29:18Z",
+    "regular_deals": 205,
+    "evidence_not_read": [
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "milehighonthecheap.com: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "starcinemagrill.net: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "regmovies.com: the site answered with a bot check",
+     "bryanstreettavern.com: the page no longer says this",
+     "pfchangs.com: the page no longer says this",
+     "amctheatres.com: the site answered with a bot check"
+    ]
+   },
+   {
+    "run": 28,
+    "created_at": "2026-10-12T13:20:29Z",
+    "regular_deals": 206,
+    "evidence_not_read": [
+     "goodwillcentraltexas.org: the site answered with a bot check (4 pages)",
+     "themodern.org: the site answered with a bot check (2 pages)",
+     "starcinemagrill.net: the site answered with a bot check",
+     "cinemark.com: the site answered with a bot check",
+     "milehighonthecheap.com: the site answered with a bot check",
+     "pfchangs.com: the page no longer says this",
+     "regmovies.com: the site answered with a bot check",
+     "thehealthmuseum.org: the site answered with a bot check",
+     "nashersculpturecenter.org: the site answered with a bot check",
+     "mexic-artemuseum.org: the site answered with a bot check",
+     "amctheatres.com: the site answered with a bot check"
+    ]
+   }
+  ]
+ }
 }
