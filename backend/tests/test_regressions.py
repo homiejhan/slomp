@@ -501,3 +501,12 @@ def test_oct17_sales_at_brands_slomp_did_not_know():
                  seller=seller, deal_type="sale", posted_at=now)
         s = StoreSales(None, None).sale(p, now, Counter())
         assert (s.store_name, s.industries) == (store, inds)
+
+
+# --- the fifth manual comparison (Oct 20, 2026) ----------------------------------------------------------------------
+def test_oct20_woot_category_sales_get_their_industry():
+    assert ind.from_text("Auto Parts & Accessories Sell Out Deals at Woot").industries == ["auto"]
+    assert ind.from_text("Auto Deals Market Sale at Woot").industries == ["auto"]
+    assert ind.from_text("Sports Overstock Clearance Deals at Woot").industries == ["sports"]
+    assert ind.from_text("Gloves & Safety Wear Sale at Woot").industries == ["home"]
+    assert ind.from_text("Gatorade Sports Drink 24-pack").industries == ["grocery"]      # not every "sports"
