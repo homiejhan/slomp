@@ -318,10 +318,12 @@ def summarize(t: Terms) -> str:
 
 
 # --- online deal posts -------------------------------------------------------------------------------------------
-# A price, not a saving or an order size: "$199 off" is no price at all (and never "$19"), nor "$50 discount",
+# A price, not the price it was cut from ("Originally $2,000 Samsung ... gaming monitor is down to $900", 9to5Toys),
+# nor a saving or an order size: "$199 off" is no price at all (and never "$19"), nor "$50 discount",
 # "$1,100 under the Pro model", "save $30", "free shipping w/ $35", "$10 off $30", "spend $9" or "on $49+".
 # 9to5Toys titles put the saving first: "... live again at $199 off".
 _PRICE_IN_TITLE = re.compile(r"(?<![\w$])(?<!\bsave )(?<!\bsaves )(?<!\bsaving )(?<!w/ )(?<!w/)(?<!\boff )(?<!\bspend )"
+                             r"(?<!\boriginally )(?<!\bregularly )(?<!\bwas )(?<!\breg\. )(?<!\blist )"
                              + _MONEY +
                              r"(?![\d,.]*\d)(?!\+)(?!\s?(?:off|credit|gift|reward|bonus|cash back|discount|savings?|less|"
                              r"under|below|cheaper|lower|or more)\b)", re.I)
@@ -342,6 +344,8 @@ _DN_LIST = re.compile(_MONEY + r" (?:\(about \d+%\) )?off (?:the |its |a )?" + _
 _DN_LIST2 = re.compile(r"(?:list price|list) (?:of |is )?" + _MONEY, re.I)
 _DN_SAVINGS = re.compile(r"that'?s (?:a |an )?" + _MONEY + r" (?:savings|saving)\b", re.I)
 _DN_OFF = re.compile(r"that'?s " + _MONEY + r" off\b", re.I)
+# "It's $12 under list price."
+_DN_UNDER = re.compile(_MONEY + r" (?:under|below) (?:the )?list(?: price)?\b", re.I)
 _DN_FROM_TO = re.compile(r"(?:drops?|cuts?|lowers?|reduces?|marked down|discounted) (?:it |this |the price )?"
                          r"(?:from |by )?" + _MONEY + r" to " + _MONEY, re.I)
 # 9to5Toys' words for the store's usual price: "This one normally fetches $37", "down from the usual $70 price tag",
@@ -418,7 +422,7 @@ def post_reference(desc: str, price: Optional[float]) -> tuple[Optional[float], 
     m = _DN_LOW.search(text)
     if m and money(m.group(1)):
         return round(price + money(m.group(1)), 2), "history", sentence(m)
-    m = _DN_SAVINGS.search(text) or _DN_OFF.search(text)
+    m = _DN_SAVINGS.search(text) or _DN_OFF.search(text) or _DN_UNDER.search(text)
     if m and money(m.group(1)):
         return round(price + money(m.group(1)), 2), "list", sentence(m)
     m = _DN_LIST2.search(text)

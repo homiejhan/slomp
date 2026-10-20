@@ -479,7 +479,7 @@ def test_oct17_goods_and_sales_without_an_industry():
     assert ind.from_text("Aospenice 19-Quart Cold Therapy Knee Ice Machine").industries == ["health"]
     assert ind.from_text("Argo Books Lifetime Accounting Software").industries == ["tech"]
     assert ind.from_text("Cricut Maker 3 with Design Space software").industries == []      # not every software
-    assert ind.from_text("Countertop Ice Machine").industries == []                      # an ice maker isn't therapy
+    assert ind.from_text("Countertop Ice Machine").industries == ["home"]                # an ice maker isn't therapy
     assert ind.from_text("Apple Outlet Deals at Best Buy").industries == ["tech"]
     assert ind.from_text("Carhartt, Dickies, Workwear & More Deals at Woot").industries == ["fashion"]
     assert ind.from_text("Woot Pest Prevention Deals").industries == ["home"]
@@ -510,3 +510,28 @@ def test_oct20_woot_category_sales_get_their_industry():
     assert ind.from_text("Sports Overstock Clearance Deals at Woot").industries == ["sports"]
     assert ind.from_text("Gloves & Safety Wear Sale at Woot").industries == ["home"]
     assert ind.from_text("Gatorade Sports Drink 24-pack").industries == ["grocery"]      # not every "sports"
+
+
+def test_oct20_a_title_that_names_the_old_price_first():
+    # 9to5Toys: read at $2,000, the price it was cut from
+    assert title_price("Originally $2,000 Samsung 4K 3D Odyssey gaming monitor is down to $900 today")[0] == 900
+    assert title_price("Was $50, now $30: Kids Puzzle Set")[0] == 30
+    assert title_price("Better Homes & Gardens Wood Serving Board Just $9.71 on Walmart.com (Reg. $30)")[0] == 9.71
+
+
+def test_oct20_dealnews_saving_under_list_and_the_inventorys_one_amount():
+    assert post_reference("It's $12 under list price.", 17.84)[:2] == (29.84, "list")
+    d = _inventory("Dreame 10Qt Dual-Basket Air Fryer With Ceramic Coating $20 Off", "Now $229.99 on Amazon\u2014$20 off.")
+    assert (d.price, d.reference_price) == (229.99, 249.99)
+    # a body that gives the price without the saving still gives no price
+    assert _inventory("Dreame 10Qt Dual-Basket Air Fryer $20 Off", "Now $229.99 on Amazon.") is None
+
+
+def test_oct20_goods_without_an_industry():
+    assert ind.from_text("Dynacraft Spider-Man 6V Super Car Ride-On").industries == ["toys"]
+    assert ind.from_text("Star Wars Imperial Remnant AT-RT RC Walker").industries == ["toys"]
+    assert ind.from_text("Godinger Dublin Crystal Cracker Tray").industries == ["home"]
+    assert ind.from_text("Waterdrop C33 Ice Maker Filter for GE Opal Ice Maker 3-Pack").industries == ["home"]
+    assert ind.from_text("Large Magnifying Glass w/ Lights").industries == ["office"]
+    assert ind.from_text("Utz Pub Mix 42 Oz. Barrel (Pack of 2)").industries == ["grocery"]
+    assert ind.from_text("Aospenice 19-Quart Cold Therapy Knee Ice Machine").industries == ["health"]

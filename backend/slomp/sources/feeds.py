@@ -309,6 +309,13 @@ def _inv_body_price(title: str, text: str) -> tuple[Optional[float], Optional[fl
                 err = abs((1 - p / r) * 100 - float(pc.group(1))) / 1.5    # within 1.5 points
             if err <= 1 and (best is None or err < best[0]):
                 best = (err, p, r)
+    if best is None and saving:
+        # One amount, with the title's saving beside it: "Now $229.99 on Amazon—$20 off."
+        for m in _AMOUNT.finditer(text):
+            p = money(m.group(1))
+            said = re.match(r"[^$]{0,30}?\$\s?(\d[\d,]*(?:\.\d{1,2})?)\s+off\b", text[m.end():m.end() + 45], re.I)
+            if p and p > saving and said and abs(money(said.group(1)) - saving) <= max(1.0, saving * 0.02):
+                return p, round(p + saving, 2)
     return (best[1], best[2]) if best else (None, None)
 
 

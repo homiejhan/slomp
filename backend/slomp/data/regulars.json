@@ -3965,6 +3965,282 @@
     }
    ],
    "site": "https://chimys.com/"
+  },
+  {
+   "id": "most-free-saturday-mornings",
+   "brand": "Museum of South Texas History",
+   "offer": "Free admission on Saturday mornings, before noon",
+   "days": [
+    "sat"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Museum of South Texas History",
+     "address": "200 N Closner Blvd, Edinburg, TX 78541"
+    }
+   ],
+   "time": "until noon",
+   "link": "https://mosthistory.org/visitor-information/",
+   "conditions": [
+    "not during special events and programming"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://mosthistory.org/visitor-information/",
+     "find": [
+      "Before noon on Saturdays"
+     ]
+    }
+   ],
+   "site": "https://mosthistory.org/"
+  },
+  {
+   "id": "tyler-museum-family-day",
+   "brand": "Tyler Museum of Art",
+   "offer": "Family Day: free admission and art projects on the second Saturday of each month",
+   "days": [
+    "second sat"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Tyler Museum of Art",
+     "address": "1300 S Mahon Ave, Tyler, TX 75701"
+    }
+   ],
+   "link": "https://tylermuseum.org/public-programs/",
+   "conditions": [
+    "afternoon hours: see the museum's page"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://tylermuseum.org/public-programs/",
+     "find": [
+      "the second Saturday of each month",
+      "free admission, interactive art projects"
+     ]
+    }
+   ],
+   "site": "https://tylermuseum.org/"
+  },
+  {
+   "id": "tyler-museum-first-friday",
+   "brand": "Tyler Museum of Art",
+   "offer": "Free admission all day on the first Friday of each month, with guided tours",
+   "days": [
+    "first fri"
+   ],
+   "industries": [
+    "entertainment"
+   ],
+   "kind": "museum",
+   "summary": "free admission",
+   "places": [
+    {
+     "name": "Tyler Museum of Art",
+     "address": "1300 S Mahon Ave, Tyler, TX 75701"
+    }
+   ],
+   "link": "https://tylermuseum.org/public-programs/",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://tylermuseum.org/public-programs/",
+     "find": [
+      "a full day of free admission plus guided tours"
+     ]
+    }
+   ],
+   "site": "https://tylermuseum.org/"
+  },
+  {
+   "id": "casa-do-brasil-waco-happy-hour",
+   "brand": "Casa do Brasil",
+   "offer": "Happy hour at the bar and patio, Sunday to Friday, 11 am to 7 pm",
+   "days": [
+    "sun",
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "kind": "restaurant",
+   "summary": "happy hour",
+   "places": [
+    {
+     "name": "Casa do Brasil Waco",
+     "address": "1001 Webster Ave, Waco, TX 76706"
+    }
+   ],
+   "time": "11 am-7 pm",
+   "link": "https://casadobrasil.com/waco/",
+   "conditions": [
+    "bar and patio",
+    "not on holidays"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://casadobrasil.com/waco/",
+     "find": [
+      "Happy hour is served at the bar and patio",
+      "Sunday through Friday from 11:00 a.m. to 7:00 p.m."
+     ]
+    }
+   ],
+   "site": "https://casadobrasil.com/"
+  },
+  {
+   "id": "casa-do-brasil-waco-kids-eat-free",
+   "brand": "Casa do Brasil",
+   "offer": "Kids eat free every day: two kids' full experiences with one adult full experience and a second entrée",
+   "days": [
+    "daily"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "kind": "restaurant",
+   "summary": "kids eat free",
+   "places": [
+    {
+     "name": "Casa do Brasil Waco",
+     "address": "1001 Webster Ave, Waco, TX 76706"
+    }
+   ],
+   "link": "https://casadobrasil.com/waco/",
+   "conditions": [
+    "kids 10 and under",
+    "with one full experience and a second entrée"
+   ],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://casadobrasil.com/waco/",
+     "find": [
+      "kids eat free EVERY DAY"
+     ]
+    }
+   ],
+   "site": "https://casadobrasil.com/"
+  },
+  {
+   "id": "twin-peaks-beaumont-happy-hour",
+   "brand": "Twin Peaks",
+   "offer": "Weekday happy hour, 2 to 6 pm: $1 off 22 oz. drafts, $6 select cocktails, wine and appetizers",
+   "days": [
+    "weekdays"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "kind": "bar",
+   "summary": "happy hour",
+   "places": [
+    {
+     "name": "Twin Peaks Beaumont",
+     "address": "3805 Interstate Highway 10 South, Beaumont, TX",
+     "lat": 30.041675,
+     "lon": -94.152257
+    }
+   ],
+   "time": "2-6 pm",
+   "link": "https://twinpeaksrestaurant.com/locations/beaumont-tx",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://twinpeaksrestaurant.com/locations/beaumont-tx",
+     "find": [
+      "$1 Off 22 oz. Twin Peaks Drafts",
+      "2:00 pm - 6:00 pm"
+     ]
+    }
+   ],
+   "site": "https://twinpeaksrestaurant.com/"
+  },
+  {
+   "id": "twin-peaks-mcallen-happy-hour",
+   "brand": "Twin Peaks",
+   "offer": "Weekday happy hour, 2 to 6 pm: $1 off 22 oz. drafts, $6 select cocktails, wine and appetizers",
+   "days": [
+    "weekdays"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "kind": "bar",
+   "summary": "happy hour",
+   "places": [
+    {
+     "name": "Twin Peaks McAllen",
+     "address": "901 W Expressway 83, McAllen, TX"
+    }
+   ],
+   "time": "2-6 pm",
+   "link": "https://twinpeaksrestaurant.com/locations/mcallen",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://twinpeaksrestaurant.com/locations/mcallen",
+     "find": [
+      "$1 Off 22 oz. Twin Peaks Drafts",
+      "2:00 pm - 6:00 pm"
+     ]
+    }
+   ],
+   "site": "https://twinpeaksrestaurant.com/"
+  },
+  {
+   "id": "twin-peaks-el-paso-fountains-happy-hour",
+   "brand": "Twin Peaks",
+   "offer": "Weekday happy hour, 2 to 7 pm and 10 to 11 pm: $4.29 22 oz. drafts and more",
+   "days": [
+    "weekdays"
+   ],
+   "industries": [
+    "dining"
+   ],
+   "kind": "bar",
+   "summary": "happy hour",
+   "places": [
+    {
+     "name": "Twin Peaks El Paso (The Fountains)",
+     "address": "8889 Gateway Boulevard West, El Paso, TX",
+     "lat": 31.767904,
+     "lon": -106.36891
+    }
+   ],
+   "time": "2-7 pm and 10-11 pm",
+   "link": "https://twinpeaksrestaurant.com/locations/the-fountains-tx",
+   "conditions": [],
+   "evidence": [
+    {
+     "kind": "official",
+     "url": "https://twinpeaksrestaurant.com/locations/the-fountains-tx",
+     "find": [
+      "$4.29 22 oz. Twin Peaks Drafts"
+     ]
+    }
+   ],
+   "site": "https://twinpeaksrestaurant.com/"
   }
  ]
 }
