@@ -956,3 +956,58 @@ first round's Whole Foods and Natural Grocers.
 **Next time.** After a merge: the next build's per-merchant lines for H-E-B, and the evidence lines for the 15 new
 regular deals. A second, readable source for each regular deal whose only page turns GitHub's servers away. Fuzzy's
 current wording.
+
+### A fifth time on Oct 20
+
+This round followed up the fourth's open items and went further: second sources, on sites that answer GitHub's
+servers, for the regular deals whose own pages don't; regular deals in nine more cities; the week's restaurant
+promotions; single-product posts in the six industries the fourth round left, after each site's wording for a
+reference price; and sales, after the posts' own sentences for codes and end dates. Evidence is in
+`docs/verification/manual-05.json`.
+
+**What Slomp fetched.** Eleven scheduled builds ran on `main` (still the second round) from Oct 17, 09:30 UTC, to Oct
+20, 01:56 UTC: 120–141 online deals, 138–160 sales at 35–44 stores, 208–210 regular deals, 25–29 promotions and
+289–309 weekly ads with 7,594–8,517 deals. Ad items with no item-search result fell to 17–19% from Oct 18 (23–25%
+before), the lowest yet. The evidence lines showed three changes:
+
+- The MFAH's robots.txt has turned AI assistants away since Oct 18. The registry is kept up with an AI assistant's
+  help, so Slomp no longer reads that page at all; the MFAH's free Thursdays need a source elsewhere.
+- Fuzzy's Taco Shop's evidence comes and goes. Its home page serves two versions, and 5 of the 13 builds from Oct 16
+  evening on found neither phrase. The fourth round called both deals hidden since Oct 16; they were hidden in those
+  five builds.
+- Bryan Street Tavern's home page carries its Monday heading again since Oct 19; this branch reads it from the
+  specials page in any case.
+
+**Accuracy.** Replayed on `main` and with this change:
+
+| | Posts | Kept on `main` | With this change |
+|---|---|---|---|
+| Online, the titles alone | 46 | 2 ranked | 3 |
+| Online, with the snippets the search gave as page text | 46 | 4 | 8 |
+| Sales | 25 | 12 | 17 |
+| Restaurant promotions | 10 | 9 | 9 |
+
+Where the search caught a post's own sentence for a code or an end, Slomp read it: ASICS (FIT40, ends Oct 20), Hurley
+at Woot (ends Oct 21), Under Armour (OCT40) and PUMA (STOCKUP). Every kept sale named the right store but one:
+Hip2Save's "Up to 75% Off adidas Shoes" is at eBay, and with no body to read (the post says where) the title's brand
+was taken. One online price was wrong: "Originally $2,000 Samsung 4K 3D Odyssey gaming monitor is down to $900 today"
+read at $2,000. It had no reference price, so it was never shown. Every other price was within $0.52 of the post's
+(a costume "Under $26" read at $26). Last year's posts carry dates with no year ("thru October 26"); Slomp reads such
+a date in its post's year, so a 2025 post is over, not this week's. On every earlier round's posts, nothing Slomp kept
+is lost and no kept price changes.
+
+| Found by hand, not by Slomp | Cause | Changed |
+|---|---|---|
+| "Originally $2,000 … down to $900 today" (9to5Toys) | The title's first amount was taken | Yes: an amount after "originally", "regularly", "was", "reg." or "list" is not the deal's price |
+| dealnews' "$12 under list price" | Not read | Yes, as a list price |
+| The Inventory's "Now $229.99 on Amazon—$20 off" under a "$20 Off" title | The fourth round's reading needed two amounts | Yes: one amount beside the title's saving is the price |
+| Woot's auto parts and accessories, auto deals, sports overstock, and gloves and safety wear sales | No industry | Yes |
+| A ride-on car, an RC walker, a cracker tray, an ice-maker filter, a magnifier, pub mix | No industry | Yes |
+| Free Saturday mornings at the Museum of South Texas History (Edinburg); the Tyler Museum of Art's first Fridays and Family Days; Casa do Brasil's happy hour and kids eat free (Waco); Twin Peaks' happy hours in McAllen, Beaumont and El Paso | Not in the curated list. The Rio Grande Valley, Tyler, Waco, Beaumont and El Paso had none | Yes: 8 entries, each with its page's own words (most came back unquoted, so the builds will show whether the pages carry them word for word) |
+| Cinergy's Discount Tuesdays (Amarillo, Midland, Odessa, Copperas Cove); Alamo Drafthouse's BFD Tuesdays (Laredo); Jorge's, the TAMIU planetarium, Urban Air | No branch addresses found for Cinergy; Alamo's site turns Slomp's reader away; the rest not confirmed | No |
+| Regal Value Days, off the published site since Oct 11 | Regal's page and the roundup that stood for it answer GitHub's servers with a bot check | Yes: Senior Daily's Regal page (updated Sep 28) as a second source |
+| The other 12 regular deals behind bot checks (Cinemark, Star Cinema Grill, the Modern's two, Goodwill Central Texas's four, the Mexic-Arte, the Health Museum, the Nasher, the MFAH) | No readable, dated page states them with their day: KXAN's Goodwill story lists the sales without days, the Modern's mentions are too old, the Cinemark ones cover several chains at once | No |
+| Taco Bell's $4 Paris Hilton Usual (Oct 20–26), Applebee's Hallowings Bucket (Oct 25–31) | No dealnews or Slickdeals post yet | No: Slomp reads the deal sites |
+
+**Next time.** After a merge: H-E-B's lines in the build's per-merchant log, and the evidence lines for the 23
+regular deals the fourth and fifth rounds added. A source for the 12 regular deals still behind bot checks.
