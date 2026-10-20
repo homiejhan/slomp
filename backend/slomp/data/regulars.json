@@ -102,6 +102,14 @@
      "source": "Mile High on the Cheap"
     },
     {
+     "kind": "article",
+     "url": "https://www.seniordaily.com/regal-cinemas-promos-deals/",
+     "find": [
+      "every Tuesday for Regal Crown Club members"
+     ],
+     "source": "Senior Daily"
+    },
+    {
      "kind": "official",
      "url": "https://www.regmovies.com/promotions/regal-value-days",
      "find": [
