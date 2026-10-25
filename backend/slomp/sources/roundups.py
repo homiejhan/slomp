@@ -204,27 +204,119 @@ def parse_edd(page: str, day: int, url: str) -> list[Listing]:
 PARSERS = {"kcl": parse_kcl, "edd": parse_edd}
 
 
+# --- a weekday's page that moved ----------------------------------------------------------------------------------
+# A site renames its weekday pages now and then and the old address keeps an old page (EatDrinkDeals' Tuesday page
+# moved to /tuesday-restaurant-specials-and-deals/ while /daily-deals-tuesday-restaurant-specials/ kept a 2017 one).
+# When a page is stale, unreadable or holds too few entries, the site's sitemaps (which its robots.txt lists, with
+# when each page was last modified) give the current one: its address names the day and restaurant, food or meal
+# deals or specials, it was modified lately, and it shares the most words with the address the page had.
+FRESH_DAYS = 45             # a page modified longer ago than this is stale (as regulars.LIVE_DAYS["list"])
+SITEMAP_FILES = 30          # the most sitemap files read on one site
+_DAYS = tuple(d.lower() for d in DAY_NAMES)
+_SITEMAP_SKIP = re.compile(r"(?:category|tag|author|image|video|product|attachment|format)[-_]?sitemap|\.gz$", re.I)
+
+
+def _address_words(url: str) -> set[str]:
+    return {w for w in re.split(r"[^a-z0-9]+", urlsplit(url).path.lower()) if w}
+
+
+def weekday_page(pages: list[tuple[str, Optional[date]]], day: int, like: str, today: date) -> str:
+    """The current page for a weekday among a site's pages (address, last modified), or ""."""
+    want, others = _address_words(like), set(_DAYS) - {_DAYS[day]}
+    best: Optional[tuple[tuple[int, date], str]] = None
+    for url, modified in pages:
+        words = _address_words(url)
+        if _DAYS[day] not in words or words & others or not words & {"restaurant", "restaurants", "food", "meal", "meals"} \
+                or not words & {"deal", "deals", "special", "specials"}:
+            continue
+        if modified is None or (today - modified).days > FRESH_DAYS:
+            continue
+        key = (len(words & want), modified)
+        if best is None or key > best[0]:
+            best = (key, url)
+    return best[1] if best else ""
+
+
+def _stale(found: list[Listing], today: date) -> bool:
+    return not found or found[0].modified is None or (today - found[0].modified).days > FRESH_DAYS
+
+
 class Roundups:
     def __init__(self, http: PoliteClient):
         self.http = http
 
-    async def read(self, use_cache: bool = True) -> tuple[list[Listing], list[dict]]:
+    async def read(self, use_cache: bool = True, today: Optional[date] = None) -> tuple[list[Listing], list[dict]]:
         """Every listing on every page, and one status row per page for the response's `sources`."""
+        today = today or date.today()
+        site_pages: dict[str, list[tuple[str, Optional[date]]]] = {}
+        lock = asyncio.Lock()
+
+        async def pages_at(origin: str) -> list[tuple[str, Optional[date]]]:
+            async with lock:                                 # one read of a site's sitemaps, however many pages moved
+                if origin not in site_pages:
+                    site_pages[origin] = await self.site_pages(origin)
+            return site_pages[origin]
+
         async def one(source: str, day: int, url: str) -> tuple[list[Listing], dict]:
-            name = f"{SOURCE_NAMES[source]}: {DAY_NAMES[day]}"
-            try:
-                r = await self.http.get(url, ttl_s=TTL["roundup"], html=True, use_cache=use_cache)
-            except FetchError as e:
-                return [], {"name": name, "ok": False, "error": e.reason, "url": url}
-            if r.status != 200:
-                return [], {"name": name, "ok": False, "error": f"HTTP {r.status}", "url": url}
-            found = PARSERS[source](r.text, day, r.final_url or url)
-            row = {"name": name, "ok": len(found) >= MIN_ENTRIES, "entries": len(found), "url": r.final_url or url,
-                   "modified": found[0].modified.isoformat() if found and found[0].modified else None,
-                   "read": datetime.fromtimestamp(r.fetched_at).astimezone().isoformat(timespec="minutes")}
-            if len(found) < MIN_ENTRIES:
-                row["error"] = "the page's layout may have changed: too few entries found"
-                found = []
+            found, row = await self._page(source, day, url, use_cache)
+            if not _stale(found, today):
+                return found, row
+            parts = urlsplit(url)
+            moved = weekday_page(await pages_at(f"{parts.scheme}://{parts.netloc}"), day, url, today)
+            if moved and moved not in (url, row.get("url")):
+                found2, row2 = await self._page(source, day, moved, use_cache)
+                if found2 and not _stale(found2, today):
+                    return found2, {**row2, "moved_from": url}
             return found, row
         results = await asyncio.gather(*(one(*p) for p in PAGES))
         return [x for found, _ in results for x in found], [row for _, row in results]
+
+    async def _page(self, source: str, day: int, url: str, use_cache: bool) -> tuple[list[Listing], dict]:
+        name = f"{SOURCE_NAMES[source]}: {DAY_NAMES[day]}"
+        try:
+            r = await self.http.get(url, ttl_s=TTL["roundup"], html=True, use_cache=use_cache)
+        except FetchError as e:
+            return [], {"name": name, "ok": False, "error": e.reason, "url": url}
+        if r.status != 200:
+            return [], {"name": name, "ok": False, "error": f"HTTP {r.status}", "url": url}
+        found = PARSERS[source](r.text, day, r.final_url or url)
+        row = {"name": name, "ok": len(found) >= MIN_ENTRIES, "entries": len(found), "url": r.final_url or url,
+               "modified": found[0].modified.isoformat() if found and found[0].modified else None,
+               "read": datetime.fromtimestamp(r.fetched_at).astimezone().isoformat(timespec="minutes")}
+        if len(found) < MIN_ENTRIES:
+            row["error"] = "the page's layout may have changed: too few entries found"
+            found = []
+        return found, row
+
+    async def site_pages(self, origin: str) -> list[tuple[str, Optional[date]]]:
+        """Every page the site's sitemaps list, with when it was last modified."""
+        todo = await self.http.sitemaps(origin + "/") or [origin + "/sitemap.xml"]
+        seen: set[str] = set()
+        out: list[tuple[str, Optional[date]]] = []
+        while todo and len(seen) < SITEMAP_FILES:
+            u = todo.pop(0)
+            if u in seen or _SITEMAP_SKIP.search(u):
+                continue
+            seen.add(u)
+            try:
+                r = await self.http.get(u, ttl_s=TTL["roundup"])
+            except FetchError:
+                continue
+            if r.status != 200:
+                continue
+            children: list[tuple[str, str]] = []
+            for kind, block in re.findall(r"<(sitemap|url)>(.*?)</\1>", r.text, flags=re.S):
+                loc = re.search(r"<loc>\s*([^<\s]+)\s*</loc>", block)
+                mod = re.search(r"<lastmod>\s*(\d{4}-\d{2}-\d{2})", block)
+                if not loc:
+                    continue
+                if kind == "sitemap":
+                    children.append((mod.group(1) if mod else "", htmllib.unescape(loc.group(1))))
+                    continue
+                try:
+                    out.append((htmllib.unescape(loc.group(1)), date.fromisoformat(mod.group(1)) if mod else None))
+                except ValueError:
+                    out.append((htmllib.unescape(loc.group(1)), None))
+            # the sitemaps changed most lately first: they hold the pages modified lately
+            todo += [u for _, u in sorted(children, key=lambda c: c[0], reverse=True)]
+        return out

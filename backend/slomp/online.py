@@ -46,6 +46,7 @@ class OnlineResult:
     excluded: Counter = field(default_factory=Counter)
     sources: list[dict] = field(default_factory=list)
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    left_out: dict[str, dict[str, str]] = field(default_factory=dict)   # reason -> the posts left out for it
 
     def all_deals(self) -> list[OnlineDeal]:
         seen, out = set(), []
@@ -63,7 +64,39 @@ class OnlineResult:
                 "excluded": dict(self.excluded.most_common()), "sources": self.sources}
 
 
-def classify_post(p: Post) -> ind.Classification:
+def classify_post(p: Post, learn: bool = True) -> ind.Classification:
+    """The source's own category, then the title's keywords, then the feed's industry; when none says, the learned
+    words, kept to what the seller sells (`learn=False` leaves them to the caller)."""
+    c = _classify_post(p)
+    if c.industries or not learn:
+        return c
+    shop = store_named(p.seller) if p.seller else None
+    return ind.learned(p.title, allowed=shop.sells if shop else None) or c
+
+
+def note_left_out(left_out: dict[str, dict[str, str]], why: Counter, p: Post) -> None:
+    """Note the post under each reason it was left out for, so a build's log can show which posts were left out, not
+    only how many: reason -> post id -> the post in a few words."""
+    for reason in why:
+        left_out.setdefault(reason, {})[p.id] = f"{p.title[:100]!r} ({SOURCE_NAMES.get(p.source, p.source)}" + \
+            (f", category {p.category!r})" if p.category else ")")
+
+
+def labelled_posts(posts) -> list[tuple[str, str, str, str]]:
+    """The posts dealnews files under a category of its own, as examples to learn industry words from."""
+    out = []
+    for p in posts:
+        if p.source != "dealnews" or not p.category:
+            continue
+        c = ind.from_dealnews(p.category, p.feed_industries)
+        row = ind.example("dealnews", norm(p.title)[:120], [p.title], c.industries) \
+            if ind.source_label(c.rule, None) else None
+        if row:
+            out.append(row)
+    return out
+
+
+def _classify_post(p: Post) -> ind.Classification:
     if p.source == "dealnews" and p.category:
         c = ind.from_dealnews(p.category, p.feed_industries)
         if c.industries:
@@ -138,11 +171,15 @@ class OnlineDeals:
                     have.feed_industries += [i for i in post.feed_industries if i not in have.feed_industries]
                 else:
                     posts[post.id] = post
+        if self.db:
+            self.db.label(labelled_posts(posts.values()))
 
         candidates: list[OnlineDeal] = []
         for post in posts.values():
+            before = res.excluded.copy()
             d = self._deal(post, now, res)
             if d is None:
+                note_left_out(res.left_out, res.excluded - before, post)
                 continue
             if not wanted & set(d.industries):
                 res.excluded["other industry"] += 1

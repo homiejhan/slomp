@@ -30,9 +30,10 @@ from typing import Iterable, Optional
 from zoneinfo import ZoneInfo
 
 from . import industries as ind
+from .config import TTL
 from .geo import ad_end_local, ad_start_local, miles, parse_time
 from .http import FetchError
-from .local import DETAIL_ROUNDS, DETAIL_TOP_N, LocalResult, _merge, score
+from .local import DETAIL_ROUNDS, DETAIL_TOP_N, LocalResult, _merge, labelled_items, score
 from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Terms
 from .promos import _NOT_A_PROMO, brand_in, promo_dates, recurring_days
 from .reference import cities, merchant as merchant_entry, norm
@@ -40,6 +41,7 @@ from .regulars import Regular, host_of, status_text
 from .sales import stores_payload
 from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
+from .sources.roundups import FRESH_DAYS
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
 from .terms import clean
 from .top import stores_of
@@ -47,6 +49,9 @@ from .top import stores_of
 ANCHOR_MI = 20.0             # every city is within this distance of an anchor ZIP whose ads it uses
 ANCHOR_POP = 50_000          # and every city this big is an anchor itself: its own ZIP's ads, as the server reads them
 MORE_SEARCHES = 6            # extra searches per merchant for the items of its ads no search has returned yet
+WORD_SEARCHES = 160          # searches by the words of the items still without a result (search_by_words)
+WORD_BATCH = 8               # of those, run at once
+WORD_MIN = 5                 # a word worth a search finds at least this many missing items, by the counts
 WINDOW_DAYS = 8              # one day past the page's 7, so a deal that starts between two builds is there
 ONLINE_LIMIT = 48            # online deals per industry: what the page asks the server for
 CENTRAL, MOUNTAIN = "America/Chicago", "America/Denver"
@@ -125,6 +130,49 @@ class Ads:
     keys: dict[tuple, str] = field(default_factory=dict)             # (ad, item) -> the server's duplicate test
     unread: dict[int, list[dict]] = field(default_factory=dict)      # ad id -> no-saving items with saving words
     stats: Counter = field(default_factory=Counter)
+
+
+async def search_by_words(flipp, ads: Ads, listings: dict[int, list[dict]], items_of: dict[int, set],
+                          anchor_list: list[City]) -> None:
+    """Search for the ad items no merchant search returned by the words of their own names.
+
+    A merchant search returns at most ~150 items, so an ad bigger than that keeps most of its items without a result
+    however many ZIPs are tried: when the holiday ads came out, 37-47% of 46,000 items had none, against 17-24% the
+    week before (Oct 20-25, 2026). The search also finds items by their words, across merchants. So the word that
+    most of the missing items share is searched for at the ZIP whose ads hold most of them, the hits that are missing
+    are kept, and so on until WORD_SEARCHES are spent or no word would find WORD_MIN items."""
+    hits = ads.hits
+    todo: dict[int, tuple[str, int, list[str]]] = {}       # missing item -> (a ZIP with its ad, the ad, its words)
+    for a in anchor_list:
+        for fid in ads.at.get(a.id) or []:
+            have = hits[ads.flyers[fid].merchant]
+            for raw in listings.get(fid) or []:
+                iid = raw.get("id")
+                if iid in items_of[fid] and iid not in have and iid not in todo:
+                    todo[iid] = (a.zip, fid, ind.words_of(clean(raw.get("brand")), clean(raw.get("name"))))
+    done: set[tuple[str, str]] = set()
+    while todo and ads.stats["word searches"] < WORD_SEARCHES:
+        gain: Counter = Counter((w, z) for z, _, words in todo.values() for w in words if (w, z) not in done)
+        room = WORD_SEARCHES - ads.stats["word searches"]
+        picks = [k for k, n in gain.most_common(min(WORD_BATCH, room)) if n >= WORD_MIN]
+        if not picks:
+            break
+        done |= set(picks)
+        ads.stats["word searches"] += len(picks)
+
+        async def one(word: str, zip_code: str) -> list[dict]:
+            try:
+                return (await flipp.search(zip_code, word, TTL["merchant_search"])).get("items") or []
+            except FetchError:
+                ads.stats["searches failed"] += 1
+                return []
+        for got in await asyncio.gather(*(one(w, z) for w, z in picks)):
+            for item in got:
+                iid = item.get("id")
+                if iid in todo and item.get("flyer_id") == todo[iid][1]:
+                    hits[ads.flyers[todo[iid][1]].merchant][iid] = item
+                    ads.stats["found by word searches"] += 1
+                    del todo[iid]
 
 
 async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, log=print) -> Ads:
@@ -206,10 +254,16 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
             await search(m, zip_code, {f for f in ids if items_of[f]})
             dry = 0 if missing & hits[m].keys() else dry + 1      # this search found some of them, or none
     await asyncio.gather(*(complete(m) for m in where))
+    await search_by_words(flipp, ads, listings, items_of, anchor_list)
     unsearched = sum(len(items_of[f] - hits[ads.flyers[f].merchant].keys()) for f in fids)
     ads.stats["items without a search result"] = unsearched
-    log(f"ads: {ads.stats['searches']} merchant searches; {unsearched} of {sum(map(len, items_of.values()))} items "
-        f"have no search result ({clock.time() - t0:.0f}s)")
+    log(f"ads: {ads.stats['searches']} merchant searches, {ads.stats['word searches']} word searches "
+        f"({ads.stats['found by word searches']} items found); {unsearched} of {sum(map(len, items_of.values()))} "
+        f"items have no search result ({clock.time() - t0:.0f}s)")
+    # the hits' own taxonomy labels teach the next builds the words of brands and goods no rule names
+    if getattr(svc, "db", None):
+        ads.stats["new labelled examples"] = svc.db.label(
+            row for m, got in hits.items() if m in ads.entries for row in labelled_items(ads.entries[m], got.values()))
 
     t0 = clock.time()
     central = anchor_list[0] if anchor_list[0].tz == CENTRAL else next(c for c in cities() if c.tz == CENTRAL)
@@ -449,6 +503,15 @@ async def regulars_file(svc: SlompService, now: datetime, log=print) -> dict:
     for (host, why), n in unread.most_common():
         log(f"regular deals: evidence not read at {host}: {why}" + (f" ({n} pages)" if n > 1 else ""))
     today = now.date()
+    for s in rset.sources:                             # the weekday roundups: a page that moved, went stale or broke
+        modified = date.fromisoformat(s["modified"]) if s.get("modified") else None
+        if s.get("moved_from"):
+            log(f"regular deals: {s['name']}: the page moved to {s['url']} (was {s['moved_from']})")
+        elif s.get("error") and s.get("url"):
+            log(f"regular deals: {s['name']}: {s['error']} ({s['url']})")
+        elif s.get("entries") and s.get("url") and (not modified or (today - modified).days > FRESH_DAYS):
+            log(f"regular deals: {s['name']}: last modified {s.get('modified') or 'on no date it states'}, too long "
+                f"ago to rely on ({s['url']})")
     # Your own file stays on your computer: the published site never shows it.
     shown = [r for r in rset.regulars if r.origin != "yours"]
     rows = [_regular(r, today) for r in shown]
@@ -503,6 +566,7 @@ async def promos_file(svc: SlompService, now: datetime) -> dict:
 # --- online deals -----------------------------------------------------------------------------------------------
 async def online_files(svc: SlompService, log=print) -> dict[str, dict]:
     files = {}
+    left_out: dict[str, dict[str, str]] = {}
     for i in ind.IDS:
         if not ind.BY_ID[i].online:
             continue
@@ -510,7 +574,28 @@ async def online_files(svc: SlompService, log=print) -> dict[str, dict]:
         res = await svc.online(i, ONLINE_LIMIT)
         files[f"online/{i}.json"] = res.to_dict()
         log(f"online: {i}: {len(res.deals.get(i, []))} deals ({clock.time() - t0:.0f}s)")
+        for reason, posts in getattr(res, "left_out", {}).items():
+            left_out.setdefault(reason, {}).update(posts)
+    for line in left_out_lines("online", left_out):
+        log(line)
     return files
+
+
+# The reasons a post can be left out for that may hide a real deal Slomp should have read: the build log names a few
+# of those posts, so a check of the build sees what was missed, not only how much.
+TELLING = ("no industry", "no price", "store not identified", "doesn't say the store ships")
+TELLING_SAMPLES = 4
+
+
+def left_out_lines(what: str, left_out: dict[str, dict[str, str]]) -> list[str]:
+    if not left_out:
+        return []
+    counts = sorted(((len(v), k) for k, v in left_out.items()), key=lambda x: (-x[0], x[1]))
+    lines = [f"{what}: posts left out: " + ", ".join(f"{k} {n}" for n, k in counts)]
+    for n, reason in counts:
+        if any(t in reason for t in TELLING):
+            lines.append(f"  {reason}: " + "; ".join(list(left_out[reason].values())[:TELLING_SAMPLES]))
+    return lines
 
 
 # --- online stores' sales ----------------------------------------------------------------------------------------
@@ -521,6 +606,8 @@ async def sales_file(svc: SlompService, log=print) -> dict:
     res = await svc.sales_result()
     log(f"store sales: {len(res.sales)} sales at {len({s.store or s.store_name for s in res.sales})} online stores "
         f"({clock.time() - t0:.0f}s)")
+    for line in left_out_lines("store sales", getattr(res, "left_out", {})):
+        log(line)
     return {"built": res.generated_at.isoformat(timespec="seconds"), "generated_at": res.generated_at.isoformat(),
             "sales": [s.to_dict() for s in res.sales], "stores": res.stores or stores_payload(),
             "excluded": dict(res.excluded.most_common()), "sources": res.sources}
@@ -569,6 +656,21 @@ def write(out: Path, files: dict[str, dict | str]) -> int:
     return total
 
 
+def learned_line(svc: SlompService, ads: Ads, onl: dict, sal: Optional[dict]) -> str:
+    """What the learned industry words did in this build, and what the build gave the next one to learn from."""
+    lex = getattr(svc, "lexicon", None) or ind.Lexicon()
+
+    def by_words(rule) -> bool:
+        return str(rule or "").startswith("learned:")
+    n_ads = sum(by_words(d.industry_rule) for v in ads.deals.values() for d in v)
+    n_online = len({d["id"] for f in onl.values() for v in f.get("deals", {}).values() for d in v
+                    if by_words(d.get("industry_rule"))})
+    n_sales = sum(by_words(s.get("industry_rule")) for s in (sal or {}).get("sales", []))
+    return (f"industries: {lex.words()} words learned from {lex.examples} labelled items and posts filed {n_ads} ad "
+            f"deals, {n_online} online deals and {n_sales} sales; this build adds "
+            f"{ads.stats['new labelled examples']} examples")
+
+
 async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = ANCHOR_MI, online: bool = True,
                 svc: Optional[SlompService] = None, prune: bool = False, log=print, inspect: Optional[dict] = None) -> dict:
     """Read everything and write the site into `out` (replacing what is there). Returns a summary. `prune` drops
@@ -595,6 +697,7 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         top = await top_file(svc, now, online)
         log(f"regular deals: {len(regs['regulars'])}; promotions: {len(promos['items'])} offers; "
             f"home page: {len(top['candidates'])} candidates for its biggest deals")
+        log(learned_line(svc, ads, onl, sal))
         files: dict[str, dict | str] = {}
         files.update({f"data/{k}": v for k, v in ad_files(ads).items()})
         files["data/stores.json"] = store_file(ads)

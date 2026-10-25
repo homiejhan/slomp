@@ -319,3 +319,55 @@ def test_the_build_logs_where_each_merchants_items_went():
                              "stated 2; 1 left out as no saving have words of one")
     assert lines[at + 2] == "    'H-E-B Shredded Cheese' price '2.50': 'Save $1.00'"      # not the bare price
     assert lines[at + 3] == "ads at austin (78703): 1 ads from 1 merchants: H-E-B"
+
+
+class _BigAd(_Flipp):
+    """A toy ad bigger than one merchant search: the search returns its first 2 items; the rest are found by words."""
+    NAMES = ["LEGO City Fire Truck", "LEGO Star Wars X-Wing", "LEGO Friends Cafe", "LEGO Technic Bulldozer",
+             "LEGO Duplo Train", "LEGO Icons Bouquet", "LEGO Minecraft Village", "LEGO Speed Champions Car",
+             "Barbie Dreamhouse", "Hot Wheels Track Set"]
+
+    def __init__(self, flyer):
+        super().__init__(flyer)
+        self.queries = []
+
+    def _item(self, i, name):
+        return {"id": 200 + i, "flyer_id": self.flyer.id, "merchant_name": "H-E-B", "name": name, "_L1": "Toys & Games",
+                "current_price": 20.0, "original_price": 30.0}
+
+    async def flyer_items(self, flyer_id):
+        return [{"id": 200 + i, "flyer_id": flyer_id, "name": n, "price": "20.00", "display_type": 1}
+                for i, n in enumerate(self.NAMES)]
+
+    async def merchant_items(self, zip_code, merchant, expect=()):
+        return [self._item(i, n) for i, n in enumerate(self.NAMES[:2])]
+
+    async def search(self, zip_code, query, ttl_s=None):
+        self.queries.append(query)
+        return {"items": [self._item(i, n) for i, n in enumerate(self.NAMES) if query.lower() in n.lower()]}
+
+
+def test_items_no_merchant_search_returned_are_searched_for_by_their_words():
+    import asyncio
+    from datetime import datetime
+    from types import SimpleNamespace
+
+    from slomp.local import LocalDeals
+    from slomp.reference import cities
+    from slomp.site import build_ads
+    from slomp.sources.flipp import Flyer
+    from slomp.sources.stores import StoreLocator
+    austin = next(c for c in cities() if c.id == "austin")
+    flyer = Flyer(1, "H-E-B", 0, datetime.fromisoformat("2026-10-14T00:00:00-05:00"),
+                  datetime.fromisoformat("2026-10-20T23:59:59-04:00"))
+    flipp = _BigAd(flyer)
+    svc = SimpleNamespace(flipp=flipp, stores=StoreLocator(), local_deals=LocalDeals(flipp, StoreLocator()),
+                          settings=SimpleNamespace(window_days=7))
+    lines: list[str] = []
+    ads = asyncio.run(build_ads(svc, [austin], datetime.fromisoformat("2026-10-16T12:00:00-05:00"), lines.append))
+    # the six LEGO sets the merchant search missed share a word; the Barbie and Hot Wheels items share none with
+    # enough others to be worth a search
+    assert flipp.queries == ["lego"]
+    assert set(ads.hits["H-E-B"]) == set(range(200, 208))
+    line = next(x for x in lines if "merchant searches" in x)
+    assert "1 word searches (6 items found); 2 of 10 items have no search result" in line

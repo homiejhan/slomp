@@ -59,6 +59,10 @@ class SlompService:
     def __init__(self, settings: Optional[Settings] = None):
         self.settings = settings or Settings()
         self.db = DB(self.settings.db_path)
+        # the words earlier reads learned from labelled items and posts (industries.Lexicon); this run's are added
+        # as it reads, for the next run
+        self.lexicon = ind.Lexicon.learn((w, i) for _, w, i in self.db.labelled(ind.LEARN_DAYS * 86400))
+        ind.use_lexicon(self.lexicon)
         self.http = PoliteClient(self.db, self.settings)
         self.flipp = FlippClient(self.http)
         self.stores = StoreLocator()
@@ -68,7 +72,7 @@ class SlompService:
         self.online_deals = OnlineDeals(self.feeds, self.prices, self.db)
         self.promos = RestaurantPromos(self.feeds, RestaurantLocator())
         self.regulars = Regulars(self.http, self.db, self.settings)
-        self.store_sales = StoreSales(self.feeds, self.http)
+        self.store_sales = StoreSales(self.feeds, self.http, self.db)
         self._cache: dict[tuple, tuple[float, object]] = {}
         self._locks: dict[tuple, asyncio.Lock] = {}
         self._refreshing: Optional[asyncio.Task] = None

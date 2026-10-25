@@ -174,7 +174,13 @@ Strongest evidence first: the source's own retailer field (dealnews), the store'
 `[target.com]`), where the post sends you ("head over to Kohl's"), then a registry store named in the title ("at
 Macy's", "on Target.com", "Prime Day" for Amazon). Matching uses the registry's spellings, longest first, as whole
 words (Gap Factory before Gap). A store not in the registry is kept under the name the source gives, with a generic
-icon, if its post says it ships.
+icon, if its post says it ships. A post from a site with no retailer field names such a store itself (Oct 25, 2026):
+the title's first capitalized words before a possessive or before event words and a sale word ("PUMA's Stock Up
+sale", "Wilson Fall Sale"), or "at X" ("Extra 30% off at Dearfoams"). The name counts only when something is left of
+it once event, department and goods words are taken out ("Fall Sale", "Kids' Sale" and "Costume Sale" name no store),
+and only when the post links to the name's own website (through affiliate redirects) or, for a name the title starts
+with, says it ships. What such a store sells comes from the post: its category, its words, a department its name
+gives, or the words learned from its labelled goods (DESIGN.md 4.4).
 
 ### 4.4 The offer, the code and the dates
 

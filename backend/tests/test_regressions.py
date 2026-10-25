@@ -436,7 +436,10 @@ def test_oct15_the_inventory_states_its_percent_in_the_title():
 
 def test_oct15_more_goods_get_their_industry():
     assert ind.from_text("Greenworks 40V 12-Inch Brushless Snow Shovel 4.0Ah Battery and Charger").industries == ["home"]
-    assert ind.from_text("Bluetti 900Wh Pioneer Na(Sodium) station").industries == ["home"]
+    # a brand is no rule's word (the sixth comparison took the brands out): the words learned from labelled items
+    # file it (test_oct25_learned_words_file_what_no_rule_names)
+    assert ind.from_text("Bluetti 900Wh Pioneer Na(Sodium) station").industries == []
+    assert ind.from_text("Bluetti AC180 Portable Power Station").industries == ["tech"]       # dealnews' own category
     assert ind.from_text("DIY Squishy Making Kit").industries == ["toys"]
     assert ind.from_text("Kids Fairy Potion Kit").industries == ["toys"]
     assert ind.from_text("TP-Link's tiny portable router").industries == ["tech"]
@@ -480,36 +483,52 @@ def test_oct17_goods_and_sales_without_an_industry():
     assert ind.from_text("Argo Books Lifetime Accounting Software").industries == ["tech"]
     assert ind.from_text("Cricut Maker 3 with Design Space software").industries == []      # not every software
     assert ind.from_text("Countertop Ice Machine").industries == ["home"]                # an ice maker isn't therapy
-    assert ind.from_text("Apple Outlet Deals at Best Buy").industries == ["tech"]
-    assert ind.from_text("Carhartt, Dickies, Workwear & More Deals at Woot").industries == ["fashion"]
+    assert ind.from_text("Carhartt, Dickies, Workwear & More Deals at Woot").industries == ["fashion"]   # "workwear"
     assert ind.from_text("Woot Pest Prevention Deals").industries == ["home"]
-    assert ind.from_text("Woot Wellness Aisle Clearance").industries == ["health"]
     assert ind.from_text("Wellness CORE Grain-Free Dry Dog Food").industries == ["pets"]    # the pet food brand
     assert "beauty" in ind.from_text("Target Oral Care & Sanitizing Essentials Deals").industries
+    # "Apple Outlet" and "Wellness Aisle" are no rule's words: Best Buy's line and the department's name file them
+    # (test_oct25_learned_words_file_what_no_rule_names, test_oct20_woot_category_sales_get_their_industry)
+    assert ind.from_text("Apple Outlet Deals at Best Buy").industries == []
 
 
-def test_oct17_sales_at_brands_slomp_did_not_know():
+def _sale(title, seller="", source="dealnews", text="", category="", links=(), now=None):
     from collections import Counter
 
     from slomp.sales import StoreSales
-    now = datetime(2026, 10, 17, 17, tzinfo=timezone.utc)
-    for title, seller, store, inds in (("Wilson Fall Sale: Up to 50% off + free shipping w/ $75", "Wilson", "Wilson",
-                                        ["sports"]),
-                                       ("Dearfoams Semi-Annual Friends & Family Sale: 20% off sitewide", "Dearfoams",
-                                        "Dearfoams", ["fashion"])):
-        p = Post(source="dealnews", id="dealnews:1", url="https://www.dealnews.com/x/1.html", title=title, text="",
-                 seller=seller, deal_type="sale", posted_at=now)
-        s = StoreSales(None, None).sale(p, now, Counter())
-        assert (s.store_name, s.industries) == (store, inds)
+    now = now or datetime(2026, 10, 17, 17, tzinfo=timezone.utc)
+    p = Post(source=source, id=f"{source}:1", url=f"https://www.{source}.com/x/1.html", title=title, text=text,
+             seller=seller, deal_type="sale" if source == "dealnews" else "", category=category, posted_at=now,
+             links=list(links))
+    why = Counter()
+    return StoreSales(None, None).sale(p, now, why), why
+
+
+def test_oct17_sales_at_brands_slomp_did_not_know():
+    # dealnews names the retailer in its own field and files the post under its own category: no store list needed
+    s, _ = _sale("Wilson Fall Sale: Up to 50% off + free shipping w/ $75", "Wilson", category="Sports Fitness")
+    assert (s.store, s.store_name, s.industries) == ("", "Wilson", ["sports"])
+    s, _ = _sale("Dearfoams Semi-Annual Friends & Family Sale: 20% off sitewide", "Dearfoams", category="Shoes",
+                 text="Shipping adds $6.95, or get free shipping on orders of $45 or more.")
+    assert (s.store_name, s.industries) == ("Dearfoams", ["fashion"])
 
 
 # --- the fifth manual comparison (Oct 20, 2026) ----------------------------------------------------------------------
 def test_oct20_woot_category_sales_get_their_industry():
     assert ind.from_text("Auto Parts & Accessories Sell Out Deals at Woot").industries == ["auto"]
-    assert ind.from_text("Auto Deals Market Sale at Woot").industries == ["auto"]
-    assert ind.from_text("Sports Overstock Clearance Deals at Woot").industries == ["sports"]
     assert ind.from_text("Gloves & Safety Wear Sale at Woot").industries == ["home"]
-    assert ind.from_text("Gatorade Sports Drink 24-pack").industries == ["grocery"]      # not every "sports"
+    # A sale named after a department is that department's: the industries' own names say which, so a store's
+    # "Auto Deals", "Sports Overstock" or "Wellness Aisle" sale needs no word of its own
+    for title, inds in (("Auto Deals Market Sale at Woot: Up to 60% off", ["auto"]),
+                        ("Sports Overstock Clearance Deals at Woot: Up to 70% off", ["sports"]),
+                        ("Wellness Aisle Clearance at Woot: Up to 80% off", ["health"]),
+                        ("Outdoors Clearance at Woot: Up to 50% off", ["sports"])):
+        s, _ = _sale(title, "Woot", text="Free shipping with Prime.")
+        assert (s.store, s.industries, s.industry_rule.split(":")[0]) == ("woot", inds, "department"), title
+    # a product is not a department's sale, and an event's name is no department ("Back to School")
+    assert ind.from_text("Gatorade Sports Drink 24-pack").industries == ["grocery"]
+    s, _ = _sale("Back to School Sale at Woot: Up to 50% off", "Woot", text="Free shipping with Prime.")
+    assert s is None or not s.industry_rule.startswith("department")
 
 
 def test_oct20_a_title_that_names_the_old_price_first():
@@ -535,3 +554,153 @@ def test_oct20_goods_without_an_industry():
     assert ind.from_text("Large Magnifying Glass w/ Lights").industries == ["office"]
     assert ind.from_text("Utz Pub Mix 42 Oz. Barrel (Pack of 2)").industries == ["grocery"]
     assert ind.from_text("Aospenice 19-Quart Cold Therapy Knee Ice Machine").industries == ["health"]
+
+
+# --- the sixth comparison (Oct 25, 2026): what is general, not what one search found ---------------------------------
+def _learned(*examples):
+    """A lexicon from (title, industries, how many such labelled examples)."""
+    return ind.Lexicon.learn((ind.words_of(t), inds) for t, inds, n in examples for _ in range(n))
+
+
+def test_oct25_learned_words_file_what_no_rule_names():
+    lex = _learned(("Bluetti AC180 Portable Power Station", ["tech"], 6), ("BLUETTI AC70 Solar Generator", ["tech"], 4),
+                   ("Dearfoams Women's Cozy Slipper", ["fashion"], 9),
+                   ("Honeycrisp Apple, 3 lb Bag", ["grocery"], 20), ("Apple iPad 11-inch", ["tech"], 12))
+    title = "Bluetti 900Wh Pioneer Na(Sodium) station"
+    assert ind.from_text(title).industries == []                      # no rule names the brand
+    assert lex.classify(title).industries == ["tech"] and lex.classify(title).rule == "learned:bluetti (10 labelled)"
+    assert lex.classify("Dearfoams Fireside Shearling Scuff").industries == ["fashion"]
+    # a word the labels disagree on is no word to file by ("apple": fruit and tablets), except where a store sells
+    # only one of them: Best Buy sells no groceries
+    assert lex.classify("Apple Outlet Deals").industries == []
+    best_buy = ("tech", "home", "toys", "office", "sports", "health", "auto")
+    assert lex.classify("Apple Outlet Deals", allowed=best_buy).industries == ["tech"]
+    # too few examples teach nothing
+    assert _learned(("Zyntrix Widget", ["home"], ind.LEARN_MIN - 1)).classify("Zyntrix Widget").industries == []
+    # the rules still come first, and the lexicon is used only once it is set
+    ind.use_lexicon(lex)
+    assert ind.from_text("Bluetti AC180 Portable Power Station").rule == "keywords:tech"
+    assert ind.learned(title).industries == ["tech"]
+    s, _ = _sale("Apple Outlet Deals at Best Buy: Up to 40% off", "Best Buy", text="Free shipping on $35.")
+    assert (s.store, s.industries) == ("bestbuy", ["tech"]) and s.industry_rule.startswith("learned:apple")
+    # an event's words are no goods': "Family Size" chips teach "family" groceries, not a Friends & Family Sale's
+    ind.use_lexicon(_learned(("Lay's Family Size Potato Chips", ["grocery"], 20)))
+    s, why = _sale("Zyntrix Friends & Family Sale: 30% off + free shipping", source="hip2save")
+    assert s is None and why["sale: no industry"] == 1
+
+
+def test_oct25_words_are_learned_only_from_the_sources_own_labels():
+    from slomp.local import labelled_items
+    from slomp.models import Merchant
+    from slomp.online import labelled_posts
+    walmart = Merchant("Walmart", [], [], [], [], ["grocery", "home", "tech"])
+    hits = [{"name": "Bluetti AC180 Portable Power Station", "_L1": "Electronics", "_L2": "Power"},
+            {"name": "Mystery Gift Box"},                                  # no taxonomy label: nothing to learn
+            {"name": "Great Value Chicken Breast", "_L1": "Media"}]          # a label that names no industry
+    rows = labelled_items(walmart, hits)
+    assert [(r[1], r[3]) for r in rows] == [("flipp", "tech")] and "bluetti" in rows[0][2].split()
+    petsmart = Merchant("PetSmart", [], [], [], [], ["pets"], exclusive=True)
+    assert [r[3] for r in labelled_items(petsmart, [{"name": "Zesty Paws Salmon Oil"}])] == ["pets"]
+    # a dealnews post under a category the table knows teaches; one under an unknown leaf, or from another site, not
+    posts = [Post(source="dealnews", id="dealnews:1", url="u", title="Bluetti AC180 Power Station for $399", text="",
+                  category="Power Stations"),
+             Post(source="dealnews", id="dealnews:2", url="u", title="Mystery Box for $5", text="", category="Nope"),
+             Post(source="slickdeals", id="slickdeals:3", url="u", title="Bluetti AC180 for $399", text="")]
+    assert [(r[1], r[3]) for r in labelled_posts(posts)] == [("dealnews", "tech")]
+    # what a keyword rule, a learned word or a merchant's line decided is never a label: the rules would teach
+    # themselves
+    for rule in ("keywords:tech", "learned:bluetti (10 labelled)", "merchant", "taxonomy:Food+keywords agree",
+                 "taxonomy:Food+not sold here, so keywords"):
+        assert not ind.source_label(rule, "Food, Beverages & Tobacco"), rule
+    assert ind.source_label("taxonomy:Electronics > Power", "Electronics")
+    assert not ind.source_label("override:home", None)                 # an override on an item with no label
+
+
+def test_oct25_labelled_examples_are_kept_between_builds(tmp_path):
+    import time
+
+    from slomp.db import Store
+    db = Store(tmp_path / "slomp.db")
+    row = ind.example("flipp", "walmart|bluettiac180", ["Bluetti AC180"], ["tech"])
+    assert db.label([row]) == 1 and db.label([row]) == 0              # the same item seen again is one example
+    assert db.labelled(60 * 86400) == [("flipp", ["bluetti"], ["tech"])]
+    db.label([ind.example("flipp", "walmart|old", ["Old Thing"], ["home"])], seen_at=time.time() - 90 * 86400)
+    assert len(db.labelled(60 * 86400)) == 1                          # forgotten after LEARN_DAYS
+
+
+def test_oct25_a_sale_at_a_store_no_list_knows():
+    # 9to5Toys, Oct 15: the title names the store, and the post links to its site
+    s, _ = _sale("PUMA's Stock Up sale slashes extra 40% off: Shoes, bags, hoodies, jackets, more from $8 (Up to 69% off)",
+                 source="9to5toys", text="If you have 4+ items, you'll get 40% off. Just apply code STOCKUP.",
+                 links=["https://click.linksynergy.com/deeplink?id=x&murl=https%3A%2F%2Fus.puma.com%2Fus%2Fen%2Fsale"])
+    assert (s.store, s.store_name, s.industries) == ("", "PUMA", ["fashion"])
+    assert s.raw["store_how"] == "the title names it (PUMA’s sale) and the post links to us.puma.com"
+    # a name before event words and a sale word, with shipping in the post; what it sells, its labelled goods say
+    s, why = _sale("Wilson Fall Sale: Up to 50% off + free shipping w/ $75", source="hip2save")
+    assert s is None and why["sale: no industry"] == 1
+    ind.use_lexicon(_learned(("Wilson Evolution Indoor Basketball", ["sports"], 9)))
+    s, _ = _sale("Wilson Fall Sale: Up to 50% off + free shipping w/ $75", source="hip2save")
+    assert (s.store_name, s.industries) == ("Wilson", ["sports"])
+    assert s.raw["store_how"] == "the title names it (Wilson sale) and the post says it ships"
+    # "at X" names a store only with a link to X's own site
+    ind.use_lexicon(_learned(("Dearfoams Women's Cozy Slipper", ["fashion"], 9)))
+    s, _ = _sale("Extra 30% off Sitewide at Dearfoams", source="hip2save", text="Free shipping on $45.",
+                 links=["https://www.dearfoams.com/sale"])
+    assert (s.store_name, s.industries) == ("Dearfoams", ["fashion"])
+    assert s.raw["store_how"] == "the title: 'at Dearfoams', and the post links to www.dearfoams.com"
+    s, why = _sale("Extra 30% off Sitewide at Dearfoams", source="hip2save", text="Free shipping on $45.")
+    assert s is None and why["sale: store not identified"] == 1
+    # events, departments and goods are not stores; nor is a store a post gives no sign of shipping from
+    for title in ("Fall Sale: Up to 50% off sitewide + free shipping", "Kids' Shoe Sale: 40% off + free shipping",
+                  "Halloween Costume Sale: Up to 60% off + free shipping", "Women's Boots Sale: 50% off + free shipping",
+                  "Extra 20% off at Checkout + free shipping", "Black Friday Deals: Up to 70% off + free shipping",
+                  "Today's Deals: Up to 50% off + free shipping"):
+        s, why = _sale(title, source="hip2save")
+        assert s is None and why["sale: store not identified"] == 1, title
+    s, why = _sale("Zyntrix Fall Sale: Up to 50% off", source="hip2save")
+    assert s is None and why["sale: store not identified"] == 1
+
+
+def test_oct25_air_conditioners_are_not_hair_care():
+    assert ind.from_text("Midea 8,000 BTU U-Shaped Smart Inverter Window Air Conditioner").industries == ["home"]
+    assert ind.from_text("Pantene Pro-V Conditioner").industries == ["beauty"]
+
+
+def test_oct25_the_build_log_names_the_posts_left_out():
+    import asyncio
+
+    from slomp.sales import StoreSales
+    from slomp.site import left_out_lines
+    now = datetime(2026, 10, 25, 15, tzinfo=timezone.utc)
+
+    class Feeds:
+        async def read(self, plan):
+            return [Post(source="hip2save", id="hip2save:1", url="u", title="Zyntrix Fall Sale: Up to 50% off", text="",
+                         posted_at=now),
+                    Post(source="dealnews", id="dealnews:2", url="u", title="Mystery Brand Sale: 30% off + free shipping",
+                         text="", seller="Mystery Brand", deal_type="sale", category="Nope", posted_at=now),
+                    Post(source="dealnews", id="dealnews:3", url="u", title="Expired: Old Sale 20% off", text="",
+                         posted_at=now)], ""
+    res = asyncio.run(StoreSales(Feeds(), None).run(now, check=False))
+    lines = left_out_lines("store sales", res.left_out)
+    assert lines[0] == "store sales: posts left out: sale: store not identified 2, sale: no industry 1"
+    assert lines[1] == ("  sale: store not identified: 'Zyntrix Fall Sale: Up to 50% off' (Hip2Save); "
+                        "'Expired: Old Sale 20% off' (dealnews)")
+    assert lines[2] == "  sale: no industry: 'Mystery Brand Sale: 30% off + free shipping' (dealnews, category 'Nope')"
+    assert left_out_lines("online", {}) == []
+
+
+def test_oct25_a_sale_that_names_several_departments_counts_for_each():
+    # Slickdeals, Oct 2026: shown under Toys only
+    s, _ = _sale("Kohl's Lowest Price of the Season Clearance Sale: Up to 85% Off Apparel, Toys + Extra 50% Off",
+                 source="slickdeals")
+    assert (s.store, s.industries) == ("kohls", ["fashion", "toys"])
+
+
+def test_oct25_a_shipping_condition_is_not_what_is_on_sale():
+    # dealnews, Oct 23: left out as "a membership" by the shipping clause its title ends with
+    s, _ = _sale("1-800-Flowers Friends & Family Event Sitewide Deals: Up to 25% off + free shipping w/ Passport "
+                 "membership", "1-800-Flowers", category="Flowers")
+    assert s is not None and s.store_name == "1-800-Flowers"
+    s, why = _sale("Sam's Club Membership: $25 off + free shipping", "Sam's Club", category="Warehouse Clubs")
+    assert s is None and why["not a store sale: a membership"] == 1

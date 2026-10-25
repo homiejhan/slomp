@@ -11,7 +11,8 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Iterable, Optional
 
@@ -116,8 +117,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"bird ?seed", r"aquarium", r"leash(?:es)?", r"dog bed", r"chew toys?", r"flea", r"heartgard",
                  r"nexgard", r"reptiles?", r"reptile terrariums?", r"aquariums?", r"fish tanks?", r"hamsters?", r"guinea pigs?", r"bird cages?", r"(?:pet|dog) gates?", r"purina", r"pedigree", r"blue buffalo", r"meow mix", r"friskies", r"milk-bone",
                  r"greenies", r"temptations", r"cosequin", r"dasuquin",
-                 r"(?:supplements?|vitamins?|chews?|treats?|medicine|shampoo|food|toys?|beds?|oils?) for (?:dogs?|cats?|pets?|puppies|kittens)",
-                 r"zesty paws"),
+                 r"(?:supplements?|vitamins?|chews?|treats?|medicine|shampoo|food|toys?|beds?|oils?) for (?:dogs?|cats?|pets?|puppies|kittens)"),
      ["pets"]),
     # Toy lines whose names say "baby" (sales verification, run 1: "ZURU My Mini Baby Sets" were filed under Baby)
     ("toy-brand", _rx(r"zuru", r"my mini baby", r"mini brands", r"baby alive", r"cry babies", r"l\.?o\.?l\.? surprise"),
@@ -136,7 +136,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
     # Car electronics: the Tech rule below would otherwise take them alone, and Automotive is the thinnest industry
     ("auto-gear", _rx(r"dash ?cams?", r"dash(?:board)? cameras?", r"car (?:dvrs?|stereos?|radios?)", r"carplay"),
      ["auto", "tech"]),
-    ("tech-brand", _rx(r"verizon", r"t-mobile", r"straight talk", r"tracfone", r"cricket wireless", r"boost mobile", r"total wireless", r"energizer", r"duracell", r"apple (?:airpods|ipad|iphone|macbook|imac|watch|tv|pencil|outlet|products?|devices?)", r"airpods", r"ipad", r"mac (?:studio|mini|pro)",
+    ("tech-brand", _rx(r"verizon", r"t-mobile", r"straight talk", r"tracfone", r"cricket wireless", r"boost mobile", r"total wireless", r"energizer", r"duracell", r"apple (?:airpods|ipad|iphone|macbook|imac|watch|tv|pencil|products?|devices?)", r"airpods", r"ipad", r"mac (?:studio|mini|pro)",
                        r"iphone", r"macbook", r"nintendo", r"playstation", r"ps5", r"xbox", r"switch 2",
                        r"galaxy (?:s\d+|z|tab|watch|buds)", r"pixel (?:\d+|buds|watch)", r"ring (?:video )?doorbell",
                        r"echo (?:dot|show|pop)", r"kindle", r"fire tv", r"roku", r"chromecast", r"fitbit",
@@ -150,6 +150,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"video games?", r"gaming", r"consoles?", r"controllers?", r"printers?", r"projectors?",
                  r"(?:wall|car|wireless|phone|laptop|gan|usb-?c) chargers?", r"charging (?:station|dock|pad|stand)", r"power banks?", r"graphics cards?", r"gpu", r"processors?", r"cpu",
                  r"motherboards?", r"desktop(?: pc| computer)?", r"computers?", r"streaming (?:stick|device)",
+                 r"(?:portable )?power stations?",                  # dealnews' own category: "Power Stations" (Tech)
                  r"smart (?:plug|bulb|home|display|lock)", r"camera", r"power strips?", r"surge protectors?",
                  r"(?:accounting|bookkeeping|tax|antivirus|office|photo editing|video editing|pdf) software",
                  r"software (?:licen[cs]es?|suites?|subscriptions?)"), ["tech"]),
@@ -165,23 +166,23 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                    r"ammo", r"ammunition", r"rifles?", r"shotguns?", r"handguns?", r"archery", r"crossbows?",
                    r"hiking", r"trail", r"coolers?", r"binoculars", r"scopes?", r"jerseys?", r"nfl", r"nba", r"mlb",
                    r"nhl", r"ncaa", r"skateboards?", r"scooters?", r"paddle ?boards?", r"swim(?:wear|suits?)?",
-                   r"yeti", r"stanley quencher", r"sports (?:overstock|gear|equipment|goods)"), ["sports"]),
-    ("health", _rx(r"bladder control", r"incontinence", r"male guards?", r"guards for men", r"composure", r"tena", r"prevail", r"(?:incontinence|bladder|maxi|panty|heating|sanitary|bed) pads", r"pads (?:or|&|and) (?:liners|underwear)", r"kinesiology", r"therapy tape", r"cold therapy", r"(?:knee|back|wrist|ankle) (?:brace|support)s?", r"braces?", r"compression (?:sleeves?|socks)", r"heating pads?", r"massagers?", r"tens unit", r"hydrogen peroxide", r"rubbing alcohol", r"isopropyl", r"cotton swabs", r"q-?tips", r"liners", r"poise", r"always discreet", r"laxative", r"miralax", r"acid reducer", r"omeprazole", r"famotidine", r"antacids?", r"epsom salt", r"hand sanitizer", r"sanitizer", r"sanitizing", r"wellness (?:aisle|essentials|products?)", r"allergy", r"sleep aid", r"zzzquil", r"vicks", r"theraflu", r"emergen-c", r"airborne", r"\w+ health", r"vitamins?", r"supplements?", r"multivitamin", r"probiotics?", r"melatonin", r"tablets",
+                   r"yeti", r"stanley quencher", r"sports (?:gear|equipment|goods)"), ["sports"]),
+    ("health", _rx(r"bladder control", r"incontinence", r"male guards?", r"guards for men", r"composure", r"tena", r"prevail", r"(?:incontinence|bladder|maxi|panty|heating|sanitary|bed) pads", r"pads (?:or|&|and) (?:liners|underwear)", r"kinesiology", r"therapy tape", r"cold therapy", r"(?:knee|back|wrist|ankle) (?:brace|support)s?", r"braces?", r"compression (?:sleeves?|socks)", r"heating pads?", r"massagers?", r"tens unit", r"hydrogen peroxide", r"rubbing alcohol", r"isopropyl", r"cotton swabs", r"q-?tips", r"liners", r"poise", r"always discreet", r"laxative", r"miralax", r"acid reducer", r"omeprazole", r"famotidine", r"antacids?", r"epsom salt", r"hand sanitizer", r"sanitizer", r"sanitizing", r"wellness (?:essentials|products?)", r"allergy", r"sleep aid", r"zzzquil", r"vicks", r"theraflu", r"emergen-c", r"airborne", r"\w+ health", r"vitamins?", r"supplements?", r"multivitamin", r"probiotics?", r"melatonin", r"tablets",
                    r"caplets", r"capsules", r"softgels", r"gummies", r"pain relie(?:f|ver)", r"allergy",
                    r"cold (?:&|and) flu", r"cough", r"antacid", r"first aid", r"bandages?", r"thermometers?",
                    r"blood pressure", r"covid", r"test kits?", r"pharmacy", r"prescriptions?", r"advil", r"tylenol",
                    r"motrin", r"aleve", r"claritin", r"zyrtec", r"mucinex", r"nyquil", r"dayquil", r"centrum",
                    r"nature made", r"protein powder", r"electrolytes?", r"contact lens(?:es)?", r"reading glasses",
-                   r"incontinence", r"depend", r"\d+ ?mg", r"opti-?free", r"(?:contact )?lens (?:solution|cases?)",
-                   r"saline solution", r"biotrue"), ["health"]),
+                   r"incontinence", r"depend", r"\d+ ?mg", r"(?:contact )?lens (?:solution|cases?)",
+                   r"saline solution", r"multi-?purpose (?:disinfecting )?solutions?"), ["health"]),
     ("beauty", _rx(r"setting (?:spray|powder|mist)", r"(?:face|makeup|eye|lip|lash|pore) primer", r"eyeshadow", r"bronzer", r"milani", r"covergirl", r"rimmel", r"wet n wild", r"(?:hair|face|facial|body|hand|eye|night|day|shave|shaving|curl|styling) (?:cream|mask|oil|gel|serum|treatment|butter|scrub|mist|mousse)", r"sheamoisture", r"leave-in", r"edge control", r"toner pads", r"cotton pads", r"makeup remover(?: pads| wipes)?", r"(?:exfoliating|cleansing) pads", r"manscaped", r"body groomers?", r"(?:beard|hair|nose|body) trimmers?", r"groomers?", r"balms?", r"lip balm", r"smashbox", r"glass skin", r"hand soap", r"bar soap", r"body lotion", r"jergens", r"suave", r"pantene", r"head (?:&|and) shoulders", r"herbal essences", r"secret", r"degree", r"old spice", r"axe", r"essential oils?", r"makeup", r"cosmetics?", r"lipsticks?", r"lip gloss", r"mascara", r"eyeliner", r"foundation",
-                   r"concealer", r"nail polish", r"nails", r"shampoos?", r"conditioners?", r"hair (?:care|dryer|color|spray)",
+                   r"concealer", r"nail polish", r"nails", r"shampoos?", r"(?<!air )conditioners?", r"hair (?:care|dryer|color|spray)",
                    r"skin ?care", r"serums?", r"moisturi[sz]ers?", r"lotions?", r"body wash", r"cleansers?",
                    r"fragrances?", r"perfumes?", r"cologne", r"eau de (?:parfum|toilette)", r"deodorants?",
                    r"antiperspirants?", r"razors?", r"shav(?:e|ing)", r"toothpaste", r"oral care", r"toothbrush(?:es)?",
                    r"mouthwash", r"sunscreen", r"olay", r"cerave", r"neutrogena", r"l'or[eé]al", r"maybelline",
                    r"revlon", r"dove", r"gillette", r"colgate", r"crest", r"sephora", r"ulta"), ["beauty"]),
-    ("fashion", _rx(r"drawstring bags?", r"crossbody(?: bags?)?", r"duffel(?: bags?)?", r"shoulder bags?", r"belt bags?", r"tote bags?", r"(?:gold|silver|figaro|rope|box|cuban|curb|snake|sparkle) chains?", r"chains", r"bangles?", r"halo rings?", r"platinum", r"ctw", r"diamond (?:rings?|necklaces?|earrings?|pendants?|studs?|bands?|bracelets?|jewelry)", r"lab-grown diamonds?", r"\d+mm bangle", r"denim", r"panties", r"briefs", r"boxers?", r"lingerie", r"flats", r"loafers", r"fleece", r"flannels?", r"outfits?", r"lab-(?:grown|created) (?:diamonds?|gemstones?)", r"gemstones?", r"sterling silver", r"1[04]k (?:gold|white gold|yellow gold|rose gold)", r"ct\.? t\.?w\.?", r"solitaire", r"pendants?", r"charms?", r"pajama sets?", r"sleepwear", r"activewear", r"workwear", r"carhartt", r"dickies", r"swimwear", r"t-?shirts?", r"tees?", r"shirts?", r"jeans", r"pants", r"shorts", r"dress(?:es)?", r"skirts?",
+    ("fashion", _rx(r"drawstring bags?", r"crossbody(?: bags?)?", r"duffel(?: bags?)?", r"shoulder bags?", r"belt bags?", r"tote bags?", r"(?:gold|silver|figaro|rope|box|cuban|curb|snake|sparkle) chains?", r"chains", r"bangles?", r"halo rings?", r"platinum", r"ctw", r"diamond (?:rings?|necklaces?|earrings?|pendants?|studs?|bands?|bracelets?|jewelry)", r"lab-grown diamonds?", r"\d+mm bangle", r"denim", r"panties", r"briefs", r"boxers?", r"lingerie", r"flats", r"loafers", r"fleece", r"flannels?", r"outfits?", r"lab-(?:grown|created) (?:diamonds?|gemstones?)", r"gemstones?", r"sterling silver", r"1[04]k (?:gold|white gold|yellow gold|rose gold)", r"ct\.? t\.?w\.?", r"solitaire", r"pendants?", r"charms?", r"pajama sets?", r"sleepwear", r"activewear", r"workwear", r"swimwear", r"t-?shirts?", r"tees?", r"shirts?", r"jeans", r"pants", r"shorts", r"dress(?:es)?", r"skirts?",
                     r"sweaters?", r"hoodies?", r"sweatshirts?", r"jackets?", r"coats?", r"vests?", r"socks",
                     r"underwear", r"bras?", r"leggings", r"pajamas?", r"boots", r"sneakers", r"shoes", r"sandals",
                     r"heels", r"slippers", r"handbags?", r"purses?", r"wallets?", r"backpacks?", r"jewelry",
@@ -195,7 +196,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"automotive", r"vehicle", r"truck bed", r"trailer hitch", r"floor mats", r"antifreeze",
                  r"mobil 1", r"castrol", r"pennzoil", r"armor ?all", r"meguiar'?s", r"obd-?(?:ii|2)?", r"car air fresheners?",
                  r"winch(?:es)?", r"tire (?:inflators?|pumps?|pressure gauges?)", r"car (?:covers?|jacks?)",
-                 r"auto (?:parts|accessories|deals|care)", r"car (?:parts|accessories)"), ["auto"]),
+                 r"auto (?:parts|accessories|care)", r"car (?:parts|accessories)"), ["auto"]),
     ("office", _rx(r"office", r"school supplies", r"notebooks?(?! pc)", r"binders?", r"pens?", r"pencils?",
                    r"markers?", r"highlighters?", r"staplers?", r"paper (?:ream|case)", r"copy paper", r"ink",
                    r"toner", r"envelopes?", r"desk organizers?", r"filing (?:cabinets?|folders?|boxes|supplies|systems?|trays?)", r"file folders?", r"labels?", r"calculators?",
@@ -212,12 +213,12 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"mowers?", r"trimmers?", r"leaf blowers?", r"plants?", r"mulch", r"soil", r"fertilizer",
                  r"tools?", r"drills?", r"saws?", r"wrench(?:es)?", r"screwdrivers?", r"ladders?", r"paint",
                  r"storage bins?", r"organizers?", r"shelv(?:es|ing)", r"faucets?", r"ceiling fans?", r"fans?",
-                 r"heaters?", r"air purifiers?", r"humidifiers?", r"generators?", r"(?:portable )?power stations?", r"bluetti", r"ecoflow",
-                 r"jackery", r"snow (?:shovels?|blowers?|throwers?)", r"tumblers?", r"water bottles?",
+                 r"heaters?", r"air purifiers?", r"humidifiers?", r"air conditioners?", r"generators?",
+                 r"snow (?:shovels?|blowers?|throwers?)", r"tumblers?", r"water bottles?",
                  r"dewalt", r"milwaukee", r"ryobi", r"craftsman", r"kobalt", r"black\+decker", r"garage door openers?", r"gardening",
                  r"home (?:&|and) kitchen", r"kitchen (?:deals|essentials|gadgets|tools|storage|appliances|gear|sale)"),
      ["home"]),
-    ("grocery", _rx(r"(?:red|white|rosé|rose|sparkling) (?:wine|blend)", r"cabernet(?: sauvignon)?", r"merlot", r"pinot (?:noir|grigio|gris)", r"chardonnay", r"sauvignon blanc", r"moscato", r"riesling", r"zinfandel", r"malbec", r"prosecco", r"champagne", r"apothic", r"barefoot", r"sutter home", r"yellow tail", r"la marca", r"meiomi", r"kendall[- ]jackson", r"josh cellars", r"19 crimes", r"seltzers?", r"hard cider", r"emergency food", r"food supply", r"salad dressing", r"dressing", r"pepperoni", r"extract", r"juices?", r"kool-aid", r"capri sun", r"gumm(?:y|ies)", r"lunchables?", r"kellogg\'?s", r"general mills", r"kraft", r"oscar mayer", r"hormel", r"armour", r"campbell\'?s", r"progresso", r"ragu", r"prego", r"barilla", r"velveeta", r"jell-?o", r"pudding", r"popcorn", r"pretzels", r"utz", r"(?:pub|snack|trail) mix", r"granola", r"bars", r"syrup", r"honey", r"peanut butter", r"jelly", r"spices?", r"seasonings?", r"flour", r"sugar", r"oil", r"budweiser", r"bud light", r"coors", r"miller lite", r"michelob", r"modelo", r"corona", r"dr ?pepper", r"sprite", r"fanta", r"7 ?up", r"canada dry", r"schweppes", r"mountain dew", r"gatorade", r"powerade", r"red bull", r"monster energy", r"celsius", r"hershey\'?s?", r"reese\'?s", r"kit ?kat", r"m&m\'?s", r"snickers", r"skittles", r"twix", r"blow pops?", r"tootsie", r"ferrero", r"nestle", r"mars", r"cake mix", r"brownie mix", r"frosting", r"morsels", r"meals?", r"dinners?", r"taco kit", r"fabric softener", r"downy", r"gain", r"suavitel", r"dish (?:liquid|soap|detergent)", r"palmolive", r"dawn", r"contractor bags", r"(?:trash|garbage|kitchen) bags", r"multi-purpose bags", r"air fresheners?", r"glade", r"plates", r"bowls", r"cups", r"utensils", r"foil", r"plastic wrap", r"zip ?loc\w*", r"hefty", r"glad", r"stain remover", r"spot remover", r"wrinkle releaser", r"chicken", r"beef", r"pork", r"steaks?", r"ground (?:beef|turkey)", r"bacon", r"sausages?",
+    ("grocery", _rx(r"(?:red|white|rosé|rose|sparkling) (?:wine|blend)", r"cabernet(?: sauvignon)?", r"merlot", r"pinot (?:noir|grigio|gris)", r"chardonnay", r"sauvignon blanc", r"moscato", r"riesling", r"zinfandel", r"malbec", r"prosecco", r"champagne", r"apothic", r"barefoot", r"sutter home", r"yellow tail", r"la marca", r"meiomi", r"kendall[- ]jackson", r"josh cellars", r"19 crimes", r"seltzers?", r"hard cider", r"emergency food", r"food supply", r"salad dressing", r"dressing", r"pepperoni", r"extract", r"juices?", r"kool-aid", r"capri sun", r"gumm(?:y|ies)", r"lunchables?", r"kellogg\'?s", r"general mills", r"kraft", r"oscar mayer", r"hormel", r"armour", r"campbell\'?s", r"progresso", r"ragu", r"prego", r"barilla", r"velveeta", r"jell-?o", r"pudding", r"popcorn", r"pretzels", r"(?:pub|snack|trail) mix", r"granola", r"bars", r"syrup", r"honey", r"peanut butter", r"jelly", r"spices?", r"seasonings?", r"flour", r"sugar", r"oil", r"budweiser", r"bud light", r"coors", r"miller lite", r"michelob", r"modelo", r"corona", r"dr ?pepper", r"sprite", r"fanta", r"7 ?up", r"canada dry", r"schweppes", r"mountain dew", r"gatorade", r"powerade", r"red bull", r"monster energy", r"celsius", r"hershey\'?s?", r"reese\'?s", r"kit ?kat", r"m&m\'?s", r"snickers", r"skittles", r"twix", r"blow pops?", r"tootsie", r"ferrero", r"nestle", r"mars", r"cake mix", r"brownie mix", r"frosting", r"morsels", r"meals?", r"dinners?", r"taco kit", r"fabric softener", r"downy", r"gain", r"suavitel", r"dish (?:liquid|soap|detergent)", r"palmolive", r"dawn", r"contractor bags", r"(?:trash|garbage|kitchen) bags", r"multi-purpose bags", r"air fresheners?", r"glade", r"plates", r"bowls", r"cups", r"utensils", r"foil", r"plastic wrap", r"zip ?loc\w*", r"hefty", r"glad", r"stain remover", r"spot remover", r"wrinkle releaser", r"chicken", r"beef", r"pork", r"steaks?", r"ground (?:beef|turkey)", r"bacon", r"sausages?",
                     r"ham", r"turkey", r"fish", r"salmon", r"shrimp", r"seafood", r"eggs", r"milk", r"cheese",
                     r"butter", r"yogurt", r"cream", r"bread", r"tortillas?", r"cereal", r"oatmeal", r"pasta",
                     r"rice", r"beans", r"soups?", r"sauce", r"salsa", r"chips", r"crackers", r"cookies", r"candy",
@@ -373,6 +374,150 @@ def text_industries(*texts: str) -> list[str]:
     return _dedupe(i for _, rx, inds in KEYWORD_RULES if rx.search(text) for i in inds)
 
 
+# --- a sale named after a department ------------------------------------------------------------------------------
+def _department_words() -> dict[str, str]:
+    """The departments the industries' own names and ids spell ("Sports & Outdoors" -> sports, outdoors; "Beauty &
+    Personal Care" -> beauty, personal care; "auto"), each with its industry: a store's "Sports Overstock Clearance"
+    or "Wellness Aisle" sale is that department's."""
+    out: dict[str, str] = {}
+    for i in INDUSTRIES:
+        if not i.online:
+            continue
+        for w in [i.id] + re.split(r"\s*[&,]\s*", i.name.lower()):
+            if len(w) >= 3:
+                out.setdefault(w, i.id)
+    return out
+
+
+DEPARTMENT_WORDS = _department_words()
+_DEPARTMENT = re.compile(r"\b(" + "|".join(sorted(map(re.escape, DEPARTMENT_WORDS), key=len, reverse=True)) +
+                         r")(?:'s)?\b", re.I)
+
+
+def from_department(name: str) -> Classification:
+    """The industries a sale's name gives by naming departments ("Auto Deals Market" -> auto)."""
+    found = _dedupe(DEPARTMENT_WORDS[m.group(1).lower()] for m in _DEPARTMENT.finditer(name or ""))
+    return Classification(found, "department:" + "+".join(found)) if found else Classification([], "")
+
+
+# --- words learned from what the sources label ---------------------------------------------------------------------
+# A brand or a kind of goods no rule names ("Bluetti", "Dearfoams") is learned from the items and posts that carry
+# their source's own label: Flipp's taxonomy on weekly-ad items, dealnews' category on its posts. A word counts once
+# it appears in LEARN_MIN distinct labelled examples and at least LEARN_SHARE of them carry the same industry, so a
+# word the labels disagree on ("apple": fruit and phones) is never used. The rules come first: a learned word decides
+# only what no rule does, and new brands and goods find their industry without anyone listing them.
+LEARN_MIN = 8
+LEARN_SHARE = 0.9
+LEARN_DAYS = 60             # examples older than this are forgotten: brands and the goods they make change
+_WORD = re.compile(r"[a-z][a-z0-9]*(?:['&+-][a-z0-9]+)*")
+_NOT_GOODS = frozenset("""
+    the and for with from your our this that all any new more only just each per set sets pack packs count size
+    sizes piece pieces pcs inch inches lbs gal qty assorted select selected variety varieties style styles color
+    colors colour item items deal deals sale sales off save saves savings saving free shipping shipped price prices
+    priced reg regular regularly now was get buy buys when plus extra coupon coupons code codes promo today limited
+    time exclusive bonus value great big best top low lowest sold store stores online shop clearance discount
+    discounts order orders spend members member rewards reward via has have its
+    """.split())
+
+
+def words_of(*texts: str) -> list[str]:
+    """The distinct words of a title that could name goods or a brand: three letters or more, not numbers, units or
+    the words of the deal itself. A possessive counts as its name ("Carter's" -> carter)."""
+    text = " ".join(t for t in texts if t).lower().replace("’", "'")
+    out: list[str] = []
+    for w in _WORD.findall(text):
+        w = re.sub(r"'s?$", "", w)
+        if len(w) >= 3 and w not in _NOT_GOODS and w not in out and not re.fullmatch(r"[a-z]{1,2}\d.*", w):
+            out.append(w)
+    return out
+
+
+@dataclass
+class Lexicon:
+    """For each word, how many distinct labelled examples carried each label (a label is a set of industries)."""
+    seen: dict[str, Counter] = field(default_factory=dict)
+    examples: int = 0
+
+    @classmethod
+    def learn(cls, examples: Iterable[tuple[Iterable[str], Iterable[str]]]) -> "Lexicon":
+        """From (words, industries) pairs, one per distinct item or post."""
+        lex = cls()
+        for words, inds in examples:
+            label = frozenset(i for i in inds if i in BY_ID)
+            if not label:
+                continue
+            lex.examples += 1
+            for w in set(words):
+                lex.seen.setdefault(w, Counter())[label] += 1
+        lex.seen = {w: c for w, c in lex.seen.items() if sum(c.values()) >= LEARN_MIN}
+        return lex
+
+    def industries_of(self, word: str, allowed: Optional[Iterable[str]] = None) -> tuple[list[str], int]:
+        """The industries nearly all of a word's examples carry, and how many examples there are. `allowed` keeps
+        the labels to what a store sells: at Best Buy, a word of phones and fruit is a word of phones."""
+        labels = self.seen.get(word) or Counter()
+        if allowed:
+            keep = set(allowed)
+            narrowed: Counter = Counter()
+            for label, n in labels.items():
+                if label & keep:
+                    narrowed[frozenset(label & keep)] += n
+            labels = narrowed
+        total = sum(labels.values())
+        if total < LEARN_MIN:
+            return [], total
+        share: Counter = Counter()
+        for label, n in labels.items():
+            for i in label:
+                share[i] += n
+        return [i for i in IDS if share[i] >= LEARN_SHARE * total], total
+
+    def classify(self, *texts: str, allowed: Optional[Iterable[str]] = None) -> Classification:
+        """The industries of the title's best-attested learned word."""
+        best: Optional[tuple[int, str, list[str]]] = None
+        for w in words_of(*texts):
+            inds, n = self.industries_of(w, allowed)
+            if inds and (best is None or (n, w) > (best[0], best[1])):
+                best = (n, w, inds)
+        if not best:
+            return Classification([], "")
+        return Classification(best[2], f"learned:{best[1]} ({best[0]} labelled)")
+
+    def words(self) -> int:
+        return sum(bool(self.industries_of(w)[0]) for w in self.seen)
+
+
+_LEXICON: Optional[Lexicon] = None
+
+
+def use_lexicon(lex: Optional[Lexicon]) -> None:
+    """The learned words classification falls back on (None: none)."""
+    global _LEXICON
+    _LEXICON = lex
+
+
+def learned(*texts: str, allowed: Optional[Iterable[str]] = None) -> Classification:
+    return _LEXICON.classify(*texts, allowed=allowed) if _LEXICON else Classification([], "")
+
+
+def example(source: str, key: str, texts: Iterable[str], industries: Iterable[str]) -> Optional[tuple[str, str, str, str]]:
+    """A labelled example as the database keeps it, one per distinct item or post (`key`): (key, source, words,
+    industries)."""
+    words = words_of(*texts)
+    inds = [i for i in industries if i in BY_ID]
+    return (f"{source}|{key}", source, " ".join(words), ",".join(inds)) if words and inds else None
+
+
+def source_label(rule: str, l1: Optional[str]) -> bool:
+    """Whether a classification is the source's own label, so its words can be learned from: a taxonomy label (or an
+    override of one) on an item that has one, a specialty store's item, a dealnews category. Never a keyword rule's,
+    a learned word's or a merchant's guess, which would teach the rules back to themselves."""
+    if "keywords" in rule or "not sold here" in rule or "ignored" in rule:
+        return False
+    return (bool(l1) and rule.startswith(("taxonomy:", "override:"))) or rule == "merchant:specialty store" or \
+        rule.startswith("dealnews:")
+
+
 def classify_ad_item(l1: Optional[str], l2: Optional[str], title: str, brand: str,
                      merchant_industries: Iterable[str], exclusive: bool = False,
                      sells: Iterable[str] = (), food: bool = True) -> Classification:
@@ -382,8 +527,8 @@ def classify_ad_item(l1: Optional[str], l2: Optional[str], title: str, brand: st
     Food, razor blades at Lowe's under Beverages). `sells` lists the industries a store carries; a label outside
     it is replaced by what the item's words say, or else by the store's own line of business."""
     prior = list(merchant_industries)
-    c = _classify_ad_item(l1, l2, title, brand, prior, exclusive, food)
     allowed = set(sells)
+    c = _classify_ad_item(l1, l2, title, brand, prior, exclusive, food, allowed)
     if not allowed or not c.industries:
         return c
     keep = [i for i in c.industries if i in allowed]
@@ -397,9 +542,10 @@ def classify_ad_item(l1: Optional[str], l2: Optional[str], title: str, brand: st
 
 
 def _classify_ad_item(l1: Optional[str], l2: Optional[str], title: str, brand: str, prior: list[str],
-                      exclusive: bool, food: bool) -> Classification:
-    """Taxonomy, then keywords, then the merchant's prior. A store that sells one kind of thing (PetSmart, Ulta,
-    AutoZone) decides outright: a terrarium at PetSmart is a pet supply, whatever the taxonomy calls it."""
+                      exclusive: bool, food: bool, allowed: Optional[set] = None) -> Classification:
+    """Taxonomy, then keywords, then learned words, then the merchant's prior. A store that sells one kind of thing
+    (PetSmart, Ulta, AutoZone) decides outright: a terrarium at PetSmart is a pet supply, whatever the taxonomy calls
+    it."""
     tax = from_taxonomy(l1, l2)
     if exclusive and prior:
         return Classification(prior, "merchant:specialty store", tax.category)
@@ -445,6 +591,9 @@ def _classify_ad_item(l1: Optional[str], l2: Optional[str], title: str, brand: s
         return Classification(hb, tax.rule + (f"+{text.rule}" if text.rule else ""), tax.category)
     if text.industries:
         return Classification(text.industries, text.rule, tax.category)
+    words = learned(brand, title, allowed=allowed)
+    if words.industries:
+        return Classification(words.industries, words.rule, tax.category)
     if prior:
         return Classification(prior, "merchant", tax.category)
     return Classification([], tax.rule or "unclassified", tax.category)

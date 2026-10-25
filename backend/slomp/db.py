@@ -1,5 +1,5 @@
-"""SQLite storage: the HTTP response cache, cross-site price observations, regular-deal evidence checks, and
-verification results.
+"""SQLite storage: the HTTP response cache, cross-site price observations, regular-deal evidence checks, the labelled
+examples industry words are learned from, and verification results.
 
 One file, one process. Calls are short and synchronous; a lock makes the connection safe to share between the
 event loop and worker threads.
@@ -28,6 +28,9 @@ CREATE TABLE IF NOT EXISTS regular_checks (
     key TEXT NOT NULL, url TEXT NOT NULL, checked_at REAL NOT NULL, found INTEGER NOT NULL, page_date TEXT, quote TEXT
 );
 CREATE INDEX IF NOT EXISTS regular_checks_key ON regular_checks(key, checked_at);
+CREATE TABLE IF NOT EXISTS labelled (
+    key TEXT PRIMARY KEY, source TEXT NOT NULL, words TEXT NOT NULL, industries TEXT NOT NULL, seen_at REAL NOT NULL
+);
 CREATE TABLE IF NOT EXISTS verify_runs (
     run_id TEXT PRIMARY KEY, iteration INTEGER, seed INTEGER, started_at REAL, finished_at REAL, summary TEXT
 );
@@ -121,6 +124,28 @@ class Store:
             rows = self._db.execute("SELECT checked_at, found, page_date, quote FROM regular_checks WHERE key = ? "
                                     "ORDER BY checked_at DESC LIMIT ?", (key, limit)).fetchall()
         return [{"checked_at": t, "found": bool(f), "page_date": d, "quote": q or ""} for t, f, d, q in rows]
+
+    # -- labelled examples: the words of items and posts that came with their source's own label ------------------
+    def label(self, rows: Iterable[tuple[str, str, str, str]], seen_at: Optional[float] = None) -> int:
+        """Record (key, source, words, industries) examples, one per distinct item or post; seeing one again only
+        updates when it was seen. Returns how many were new."""
+        t = seen_at or time.time()
+        rows = list(rows)
+        with self._lock:
+            before = self._db.execute("SELECT COUNT(*) FROM labelled").fetchone()[0]
+            self._db.executemany("INSERT INTO labelled VALUES (?, ?, ?, ?, ?) ON CONFLICT(key) DO UPDATE SET "
+                                 "words = excluded.words, industries = excluded.industries, seen_at = excluded.seen_at",
+                                 [(k, s, w, i, t) for k, s, w, i in rows])
+            self._db.commit()
+            return self._db.execute("SELECT COUNT(*) FROM labelled").fetchone()[0] - before
+
+    def labelled(self, since_s: float) -> list[tuple[str, list[str], list[str]]]:
+        """(source, words, industries) of the examples seen within `since_s`; older ones are forgotten."""
+        with self._lock:
+            self._db.execute("DELETE FROM labelled WHERE seen_at < ?", (time.time() - since_s,))
+            self._db.commit()
+            rows = self._db.execute("SELECT source, words, industries FROM labelled").fetchall()
+        return [(s, w.split(), i.split(",")) for s, w, i in rows]
 
     # -- verification ---------------------------------------------------------------------------------------------
     def verify_start(self, run_id: str, iteration: int, seed: int) -> None:

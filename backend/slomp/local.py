@@ -93,6 +93,23 @@ def _merge(listing: dict, hit: Optional[dict]) -> dict:
     return raw
 
 
+def labelled_items(m: Merchant, items) -> list[tuple[str, str, str, str]]:
+    """A merchant's search hits whose industry is the source's own label (the taxonomy, or a specialty store's
+    line), as examples to learn industry words from: one per distinct product name at the merchant."""
+    out = []
+    for raw in items:
+        l1 = raw.get("_L1")
+        if not l1 and not m.exclusive:
+            continue
+        title, brand = clean(raw.get("name")), clean(raw.get("brand"))
+        c = ind.classify_ad_item(l1, raw.get("_L2"), title, brand, m.industries, m.exclusive, m.sells, m.food)
+        row = ind.example("flipp", f"{norm(m.name)}|{norm(f'{brand} {title}')[:120]}", [brand, title], c.industries) \
+            if ind.source_label(c.rule, l1) else None
+        if row:
+            out.append(row)
+    return out
+
+
 class LocalDeals:
     def __init__(self, flipp: FlippClient, stores: StoreLocator):
         self.flipp, self.stores = flipp, stores

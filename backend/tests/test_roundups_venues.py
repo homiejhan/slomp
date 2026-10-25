@@ -145,3 +145,75 @@ def test_a_branch_the_chains_own_locator_no_longer_lists_is_not_shown_as_the_nea
     # a locator that looks incomplete is not used: Jack in the Box's has 16 branches near Texas against 504 on the map
     assert "Jack in the Box" not in venues._unlisted()
     assert len(V.find("Jack in the Box").locations) == len(venues._chains(False)[0][V.find("Jack in the Box").key].locations)
+
+
+# --- a weekday's page that moved (the sixth comparison, Oct 25, 2026) -------------------------------------------------
+EDD = "https://www.eatdrinkdeals.com/"
+SITE_PAGES = [(EDD + "daily-deals-tuesday-restaurant-specials/", date(2017, 3, 1)),     # the old address's old page
+              (EDD + "tuesday-restaurant-specials-and-deals/", date(2026, 10, 20)),
+              (EDD + "kids-eat-free-tuesday-restaurant-deals/", date(2026, 10, 22)),    # another roundup: fewer words
+              (EDD + "taco-bell-taco-tuesday/", date(2026, 10, 24)),                    # one chain's post
+              (EDD + "monday-through-tuesday-restaurant-deals/", date(2026, 10, 24)),   # names another day
+              (EDD + "wednesday-restaurant-deals-and-specials-2/", date(2026, 10, 21)),
+              (EDD + "daily-deals-saturday-restaurant-specials/", date(2026, 10, 23))]
+
+
+def test_a_weekday_page_that_moved_is_found_in_the_sites_sitemap():
+    from slomp.sources.roundups import weekday_page
+    today = date(2026, 10, 25)
+    assert weekday_page(SITE_PAGES, 1, EDD + "daily-deals-tuesday-restaurant-specials/", today) == \
+        EDD + "tuesday-restaurant-specials-and-deals/"
+    assert weekday_page(SITE_PAGES, 2, EDD + "daily-deals-wednesday-restaurant-specials/", today) == \
+        EDD + "wednesday-restaurant-deals-and-specials-2/"
+    assert weekday_page(SITE_PAGES, 4, EDD + "daily-deals-friday-restaurant-specials/", today) == ""   # none fresh
+
+
+def _edd_page(day_name, modified, chains=("Arby's", "Buffalo Wild Wings", "Chili's", "Denny's", "IHOP", "Sonic")):
+    body = "".join(f"<h2>{c}</h2><p>{c} has $5 off any order every {day_name}.</p>" for c in chains)
+    return f'<html><head><meta property="article:modified_time" content="{modified}T08:00:00+00:00"></head>' \
+           f"<body>{body}</body></html>"
+
+
+class _Site:
+    """A site with a robots.txt that lists a sitemap index, two sitemaps, and pages."""
+
+    def __init__(self, pages):
+        import time
+        self.pages, self.time, self.read = pages, time.time(), []
+
+    async def sitemaps(self, url):
+        return [EDD + "sitemap_index.xml"] if url.startswith(EDD) else []
+
+    async def get(self, url, *a, **k):
+        from slomp.http import Response
+        self.read.append(url)
+        if url == EDD + "sitemap_index.xml":
+            body = (f"<sitemapindex><sitemap><loc>{EDD}post-sitemap.xml</loc></sitemap>"
+                    f"<sitemap><loc>{EDD}category-sitemap.xml</loc></sitemap></sitemapindex>")
+        elif url == EDD + "post-sitemap.xml":
+            body = "<urlset>" + "".join(f"<url><loc>{u}</loc><lastmod>{d.isoformat()}T10:00:00+00:00</lastmod></url>"
+                                        for u, d in SITE_PAGES) + "</urlset>"
+        elif url in self.pages:
+            body = self.pages[url]
+        else:
+            return Response(url, url, 404, "text/html", b"", self.time)
+        return Response(url, url, 200, "text/html", body.encode(), self.time)
+
+
+def test_a_stale_roundup_page_is_replaced_by_the_current_one():
+    import asyncio
+
+    from slomp.sources import roundups
+    pages = {EDD + "daily-deals-tuesday-restaurant-specials/": _edd_page("Tuesday", "2017-03-01"),
+             EDD + "tuesday-restaurant-specials-and-deals/": _edd_page("Tuesday", "2026-10-20"),
+             EDD + "daily-deals-saturday-restaurant-specials/": _edd_page("Saturday", "2026-10-23")}
+    site = _Site(pages)
+    listings, rows = asyncio.run(roundups.Roundups(site).read(today=date(2026, 10, 25)))
+    tuesday = next(r for r in rows if r["name"] == "EatDrinkDeals: Tuesday")
+    assert tuesday["url"] == EDD + "tuesday-restaurant-specials-and-deals/"
+    assert tuesday["moved_from"] == EDD + "daily-deals-tuesday-restaurant-specials/" and tuesday["entries"] == 6
+    assert {x.modified for x in listings if x.source == "edd" and x.day == 1} == {date(2026, 10, 20)}
+    # a fresh page is read where it is; the sitemaps are read once, and a category sitemap not at all
+    saturday = next(r for r in rows if r["name"] == "EatDrinkDeals: Saturday")
+    assert "moved_from" not in saturday and saturday["entries"] == 6
+    assert site.read.count(EDD + "post-sitemap.xml") == 1 and EDD + "category-sitemap.xml" not in site.read

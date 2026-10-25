@@ -154,6 +154,13 @@ class PoliteClient:
         parser = self._robots[origin]
         return parser is None or parser.can_fetch("Slomp", url)
 
+    async def sitemaps(self, url: str) -> list[str]:
+        """The sitemaps the site's robots.txt lists (its `Sitemap:` lines)."""
+        await self.allowed(url)
+        parts = urlsplit(url)
+        parser = self._robots.get(f"{parts.scheme}://{parts.netloc}")
+        return list((parser.site_maps() if parser else None) or [])
+
     async def turns_away_ai(self, url: str) -> bool:
         """The site's robots.txt lets Slomp read this page but tells an AI assistant's agents, by name, to keep out."""
         if not await self.allowed(url):

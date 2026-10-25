@@ -371,9 +371,18 @@ converted to the effective per-unit saving.
 ### 4.4 Industry classification
 
 Order of evidence, strongest first: (1) the source's own taxonomy (Flipp `_L1/_L2`, dealnews category); (2) keyword
-rules on title and brand; (3) the merchant's prior (Old Navy → fashion). Multi-label is allowed where it reflects
-reality (Dick's running shoes are both fashion and sports). Each label records which rule produced it, so the
-verification harness can attribute errors to a rule.
+rules on title and brand; (3) words learned from what the sources label; (4) the merchant's prior (Old Navy →
+fashion). Multi-label is allowed where it reflects reality (Dick's running shoes are both fashion and sports). Each
+label records which rule produced it, so the verification harness can attribute errors to a rule.
+
+The keyword rules name kinds of goods, not brands. A brand or a product word no rule names is learned (Oct 25, 2026):
+every build keeps the words of the items and posts that carry their source's own label (Flipp's taxonomy on ad items
+with a search result, a specialty store's line, dealnews' category on its posts), one example per distinct product,
+for 60 days (`labelled` in the cache database). A word seen in 8 or more examples, 90% of which carry one industry,
+files a deal that nothing else does (`learned:<word>`), kept to what the store sells: "apple" is fruit and tablets,
+but at Best Buy only tablets. What a keyword rule or a learned word decided is never an example, so the rules don't
+teach themselves. A store's sale named after a department ("Sports Overstock", "Wellness Aisle") takes the
+department's industry from the industry list's own names.
 
 ### 4.5 Product identity and cross-site matching
 

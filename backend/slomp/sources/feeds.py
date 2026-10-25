@@ -257,6 +257,7 @@ def parse_hip2save(xml_bytes: bytes, feed: str, industries: list[str]) -> list[P
                         price=money(pm.group(1)) if pm else None, reference=money(rm.group(1)) if rm else None,
                         seller=sm.group(1).strip() if sm else "", category=", ".join(cats[:4]), feeds=[feed],
                         feed_industries=list(industries),
+                        links=_links((it.findtext(CONTENT) or "") + (it.findtext("description") or "")),
                         image=_image(getattr(_child(it, "thumbnail-image"), "text", ""), it.findtext("description"))))
     return out
 
@@ -388,6 +389,7 @@ def parse_9to5toys(xml_bytes: bytes, feed: str, industries: list[str]) -> list[P
                         posted_at=_when(it.findtext("pubDate")), reference=reference, price=price,
                         pct_stated=float(pm.group(1)) if pm and not reference else None,
                         seller=sm.group(1) if sm else "", feeds=[feed], feed_industries=list(industries),
+                        links=_links((it.findtext(CONTENT) or "") + (it.findtext("description") or "")),
                         image=re.sub(r"([?&]w=)\d{4}\b", r"\g<1>600", _image(it.findtext("description")))))
     return out
 

@@ -14,6 +14,7 @@ from collections import Counter
 from dataclasses import dataclass, field, replace
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Iterable, Optional
+from urllib.parse import parse_qs, unquote, urlsplit
 
 from zoneinfo import ZoneInfo
 
@@ -21,8 +22,9 @@ from . import industries as ind
 from .config import TTL
 from .http import FetchError, PoliteClient
 from .models import OnlineStore, StoreSale
-from .online import classify_post
+from .online import classify_post, labelled_posts, note_left_out
 from .promos import _DAY, _MONTH, _MONTHS, _RANGE_MD, _RANGE_NUM, _date
+from .reference import norm
 from .sources.feeds import SOURCE_NAMES, DealFeeds, FeedPlan, Post, plan, post_gone
 from .stores_online import _straight, registry, store_named, stores_in
 from .terms import bogo_of, clean
@@ -91,6 +93,94 @@ def find_store(p: Post) -> tuple[Optional[OnlineStore], str]:
     if not shops and len({x[1].key for x in named}) == 1:
         return named[0][1], "the title names it"
     return None, ""
+
+
+# --- a store the registry doesn't list ----------------------------------------------------------------------------
+# Deal sites post sales at more stores than any list keeps up with, and the post names the store: "PUMA's Stock Up
+# sale ...", "Wilson Fall Sale: ...", "... at Dearfoams". A name is the title's first capitalized words, before a
+# possessive or before event words and a sale word; it names a store only when something is left of it once the words
+# of events, departments and goods are taken out ("Fall Sale", "Kids' Sale" and "Costume Sale" name none). The post
+# must also show the store sells online: a link to the name's own website, or shipping ("at X" needs the website).
+_NAME_TOKEN = re.compile(r"(?:[A-Z][\w&.!+-]*|[a-z]+[A-Z][\w&.!+-]*|&)(?:'s|')?$")
+_SALE_NOUN = re.compile(r"^(?:sales?|events?|deals|clearance|savings|promo(?:tion)?s?|specials|markdowns?|blowout|"
+                        r"outlet)\b", re.I)
+_NOT_A_NAME = re.compile(r"^(?:massive|amazing|awesome|epic|insane|crazy|great|secret|surprise|select|selected|"
+                         r"checkout|cart|register|participating|local|retailers?|stores?|official)$", re.I)
+_HOST_WORDS = {"www", "www2", "shop", "store", "us", "en", "com", "net", "org", "co", "go", "click", "m"}
+
+
+def _goods_or_event(word: str) -> bool:
+    w = word.strip("'&.,!").lower()
+    return not w or len(norm(w)) < 2 or is_store_event(w) or bool(ind.from_department(w)) or \
+        bool(ind.text_industries(w)) or bool(ind.APPAREL_CUE.fullmatch(word)) or bool(_NOT_A_NAME.match(w))
+
+
+def _a_name(name: str) -> bool:
+    return any(not _goods_or_event(w) for w in name.split()) and not _DEAL_SITES.match(name)
+
+
+def _leading_name(title: str) -> tuple[str, bool]:
+    """The store a title starts with, and whether it was written as a possessive ("PUMA's ... sale")."""
+    words = _DECOR.sub("", _straight(title)).split()
+    for k in range(1, min(4, len(words) - 1) + 1):
+        last = words[k - 1]
+        if not _NAME_TOKEN.match(last) or (k > 1 and last != "&" and _goods_or_event(last)) or \
+                ind.APPAREL_CUE.fullmatch(last):
+            return "", False
+        rest = [w.strip(":,.!|") for w in words[k:k + 6]]
+        possessive = bool(re.search(r"'s?$", last)) and last != "&"
+        name = re.sub(r"'s?$", "", " ".join(words[:k]))
+        for j, w in enumerate(rest):
+            if _SALE_NOUN.match(w):
+                if (possessive or all(is_store_event(x) or not norm(x) for x in rest[:j])) and _a_name(name):
+                    return name, possessive
+                break
+            if j >= 4:
+                break
+        if possessive:
+            return "", False
+    return "", False
+
+
+def _hosts(urls: Iterable[str]) -> set[str]:
+    """The sites the links lead to, through affiliate redirects that carry the destination in their query."""
+    out: set[str] = set()
+    todo = [u for u in urls if u]
+    while todo:
+        u = todo.pop()
+        parts = urlsplit(u)
+        if parts.hostname:
+            out.add(parts.hostname.lower())
+        for values in parse_qs(parts.query).values():
+            todo += [unquote(v) for v in values if re.match(r"https?(?::|%3A)", v, re.I)]
+    return out
+
+
+def _own_site(name: str, urls: Iterable[str]) -> str:
+    key = norm(re.sub(r"^the\s+", "", name, flags=re.I))
+    for host in sorted(_hosts(urls)):
+        labels = [x for x in host.split(".") if x not in _HOST_WORDS]
+        if key and len(key) >= 3 and key in labels:
+            return host
+    return ""
+
+
+def named_store(p: Post) -> tuple[str, str]:
+    """A store the registry doesn't list, as the post names it, and how that was decided ("" when none is)."""
+    urls = list(p.links) + [p.merchant_link]
+    ships = bool(_SHIPS.search(f"{p.title} {p.text[:600]}"))
+    name, possessive = _leading_name(p.title)
+    if name:
+        site = _own_site(name, urls)
+        if site or ships:
+            return name, f"the title names it ({name}{'’s' if possessive else ''} sale)" + \
+                (f" and the post links to {site}" if site else " and the post says it ships")
+    for m in _PLACE.finditer(_straight(p.title)):
+        name = m.group(1).strip(" .,!")
+        site = _own_site(name, urls) if _a_name(name) else ""
+        if site:
+            return name, f"the title: {m.group(0).strip()!r}, and the post links to {site}"
+    return "", ""
 
 
 # --- what the sale offers ----------------------------------------------------------------------------------------
@@ -499,8 +589,10 @@ def not_a_sale(p: Post, o: Offer) -> str:
         return "one product, not a sale"
     if _ROUNDUP.search(t):
         return "a roundup of other deals"
+    # what is on sale, not how it ships: "+ free shipping w/ Passport membership" sells no membership
+    goods = _SHIP_TAIL.sub("", t)
     for rx, why in _NOT_SALE:
-        if rx.search(t) and not (why == "a gift card" and o.reward):
+        if rx.search(goods) and not (why == "a gift card" and o.reward):
             return why
     for rx, why in _NOT_SHIPPED:
         if rx.search(t):
@@ -595,11 +687,19 @@ def sale_industries(p: Post, store: Optional[OnlineStore], name: str, sitewide: 
     names nothing, or says "sitewide" at a store with a line of its own. Any other sale counts for what the post is
     about, kept to what the store sells. The first live run filed an AliExpress Halloween sale under Pets this way."""
     main = _ASIDE.sub("", _straight(p.title))
-    cls = classify_post(replace(p, title=main))
+    cls = classify_post(replace(p, title=main), learn=False)
     if not cls.industries and p.category:           # a dealnews leaf the category table lacks ("Shaving & Grooming")
         by_words = ind.from_text(p.category)
         cls = ind.Classification(by_words.industries, f"category words: {p.category}", p.category)
+    if not cls.industries and not is_store_event(name):     # a department's sale ("Sports Overstock Clearance")
+        cls = ind.from_department(name)
+    if not cls.industries:                          # a brand no rule names, by what its labelled goods were; an
+        # event's words are no goods' ("Family Size" teaches "family" grocery, but a Friends & Family Sale sells clothes)
+        cls = ind.learned(_EVENT_WORDS.sub(" ", main), allowed=store.sells if store else None)
     found = [i for i in cls.industries if i in ONLINE_IDS]
+    if cls.rule.startswith("keywords"):
+        # a sale on many products counts for every kind of goods its title names ("Up to 85% Off Apparel, Toys")
+        found += [i for i in ind.text_industries(main) if i in ONLINE_IDS and i not in found]
     order = lambda xs: [i for i in ONLINE_IDS if i in xs]                                    # noqa: E731
     if store and (sitewide or is_store_event(name)):
         named = [i for i in ind.text_industries(main, p.text[:700]) if i in ONLINE_IDS]
@@ -746,6 +846,7 @@ class SalesResult:
     sources: list[dict] = field(default_factory=list)
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     stores: dict = field(default_factory=dict)          # stores_payload() when computed: the page's store list
+    left_out: dict[str, dict[str, str]] = field(default_factory=dict)   # reason -> the posts left out for it
 
 
 def live_reason(s: StoreSale, now: datetime) -> str:
@@ -805,8 +906,8 @@ def to_payload(res: SalesResult, industries: list[str], now: Optional[datetime] 
 
 
 class StoreSales:
-    def __init__(self, feeds: DealFeeds, http: PoliteClient):
-        self.feeds, self.http = feeds, http
+    def __init__(self, feeds: DealFeeds, http: PoliteClient, db=None):
+        self.feeds, self.http, self.db = feeds, http, db
 
     async def run(self, now: Optional[datetime] = None, check: bool = True) -> SalesResult:
         now = now or datetime.now(timezone.utc)
@@ -825,11 +926,16 @@ class StoreSales:
                     have.feed_industries += [i for i in post.feed_industries if i not in have.feed_industries]
                 else:
                     posts[post.id] = post
+        if self.db:
+            self.db.label(labelled_posts(posts.values()))
         candidates = []
         for p in posts.values():
+            before = res.excluded.copy()
             s = self.sale(p, now, res.excluded)
             if s is not None:
                 candidates.append(s)
+            else:
+                note_left_out(res.left_out, res.excluded - before, p)
         candidates = dedupe(candidates, res.excluded)
         if check:
             await self._check(candidates, res.excluded)
@@ -846,13 +952,16 @@ class StoreSales:
             excluded[f"not a store sale: {why}"] += 1
             return None
         store, how = find_store(p)
-        name = store.name if store else (clean(p.seller) if p.source == "dealnews" and not
-                                          _DEAL_SITES.match(p.seller.strip()) else "")
+        name = store.name if store else ""
+        if not store and p.source == "dealnews" and p.seller and not _DEAL_SITES.match(p.seller.strip()):
+            name, how = clean(p.seller), "dealnews' retailer field"
+            if not _SHIPS.search(f"{p.title} {p.text[:600]}"):
+                excluded["sale: the post doesn't say the store ships"] += 1
+                return None
+        elif not store:
+            name, how = named_store(p)
         if not name:
             excluded["sale: store not identified"] += 1
-            return None
-        if not store and not _SHIPS.search(f"{p.title} {p.text[:600]}"):
-            excluded["sale: the post doesn't say the store ships"] += 1
             return None
         starts, ends, ends_how = sale_dates(p, now)
         if ends and ends < now:
