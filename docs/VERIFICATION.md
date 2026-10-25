@@ -1011,3 +1011,115 @@ is lost and no kept price changes.
 
 **Next time.** After a merge: H-E-B's lines in the build's per-merchant log, and the evidence lines for the 23
 regular deals the fourth and fifth rounds added. A source for the 12 regular deals still behind bot checks.
+
+### A sixth time on Oct 25: what holds for places no search has seen
+
+This round asked a second question besides what Slomp misses: whether its fixes would hold for stores, brands and
+places that no search has seen. Every fix of the five earlier rounds was looked at again. Those that named one store,
+brand or place were taken out, and each was replaced by a rule that finds such things from what Slomp reads. Evidence
+is in `docs/verification/manual-06.json`.
+
+**What Slomp fetched.** Twenty scheduled builds ran on `main` (still the second round) from Oct 20, 10:12 UTC, to Oct
+25, 01:20 UTC: 114–172 online deals (114–117 in the last two), 127–200 sales at 33–76 stores (the most on Oct 23),
+207–213 regular deals, 24–28 promotions, and 314–410 weekly ads with 9,044–10,306 deals. Ad items with no item-search
+result rose to 37–47% (17,482–21,438 of 45,801–47,493 items), from 17–19% the week before. The holiday ads came out
+and the ads grew from about 33,000 items to 46,000. A merchant search returns at most about 150 items, so a bigger ad
+keeps most of its items without a result however many ZIPs are tried. The evidence lines changed in four ways:
+
+- Goodwill Central Texas's four pages, the Mexic-Arte and the Health Museum were read again from Oct 24 (regular
+  deals 207 → 213).
+- Uchi's five pages, Chuck E. Cheese's two, Ross and the Contemporary Austin have answered with a bot check since Oct
+  22. Their deals stand on the last good read, for a week.
+- Fuzzy's Taco Shop's home page has not carried one of its two deals' phrases since Oct 22.
+- P.F. Chang's and Bryan Street Tavern's lines are `main`'s old wording and address; this branch has the new.
+
+**What was taken out.**
+
+| An earlier round added | Taken out because | What finds such things now |
+|---|---|---|
+| 28 regular deals at named places: the MFAH, the Witte, SAMA, the McNay (2), the Briscoe, the DoSeum, the Fort Worth Zoo, the Kimbell (2), the Art Museum of South Texas (4), the Museum of South Texas History, the Tyler Museum of Art (2), Chimy's in Lubbock (2), Casa do Brasil (2), Twin Peaks (3), Cowboy Chicken, Showbiz, Santikos, Movie Tavern | Each was one place a search found | The weekday roundups, for chains. For a place no roundup lists, nothing yet (below) |
+| PUMA, Wilson and Dearfoams as stores | Three stores a search found | A store the post names (DESIGN-online-stores.md 4.3) |
+| Brands in the industry rules: Zesty Paws, Bluetti, EcoFlow, Jackery, Carhartt, Dickies, Utz, Opti-Free, Biotrue | Brands, not kinds of goods | Words learned from labelled items and posts (DESIGN.md 4.4) |
+| One sale's wording: Apple "Outlet", "sports overstock", "wellness aisle", "auto deals" | One post's words | A sale named after a department takes the department's industry from the industry list's own names; learned words, kept to what the store sells |
+
+Kept: the kinds of goods the rules lacked (ice makers, dash cams, ride-ons, RC toys, serving trays, magnifiers, power
+stations, lens solution, workwear), the readers of prices, codes and dates, and the updates to three entries whose
+own pages changed (P.F. Chang's, Bryan Street Tavern, Regal). Merged, this takes Cowboy Chicken's Monday kids eat free
+off the published site. The MFAH's free Thursdays have not been shown since Oct 18.
+
+**What was added, all general.**
+
+- **Learned words.** Every build keeps the words of the items and posts that carry their source's own label: Flipp's
+  taxonomy on ad items, a specialty store's line, dealnews' category on its posts. A word in 8 or more such examples,
+  90% of them one industry, files what no rule does. For a store, it is kept to what the store sells.
+- **Department sales and several departments.** A sale named after a department takes that industry ("Protein &
+  Wellness Stock-Up Sale at Woot" → Health). A sale that names several kinds of goods counts for each ("Up to 85% Off
+  Apparel, Toys" at Kohl's was Toys only).
+- **Unknown stores.** A store is named from the post itself ("PUMA's Stock Up sale", "Wilson Fall Sale", "at
+  Dearfoams") when the post links to the store's own site or says it ships. Hip2Save's and 9to5Toys' links are now
+  kept with each post.
+- **Word searches for ad items.** Ad items that no merchant search returned are searched for by the words of their own
+  names, up to 160 searches a build.
+- **Roundup pages that moved.** When a weekday roundup page is stale, unreadable or nearly empty, the site's sitemaps
+  (listed in its robots.txt) give the current page.
+- **The build log.** It now shows what the learned words filed, the word searches, roundup pages that moved or went
+  stale, and the posts left out by reason. For the reasons that can hide a real deal (no industry, no price, store not
+  identified, no shipping stated) it names a few of the posts.
+- **Two misfilings found by checking the rules against dealnews' own category table.** Air conditioners were filed
+  under Beauty ("conditioner"); power stations went under Home, where dealnews files them under Tech.
+- **One misreading found by giving dealnews titles their shipping clause.** "+ free shipping w/ Passport membership"
+  made 1-800-Flowers' Friends & Family Event "a membership".
+
+**Accuracy.** The sample was taken without targeting: 58 online posts on all seven sites (52 single products, 6 not
+deals), 27 sales and 12 restaurant promotions for Halloween week. Search never showed a dealnews category, so the
+replay has none, and dealnews titles carry the shipping clause their URL shows. Replayed on `main` and with this
+change:
+
+| | Posts | Kept on `main` | With this change |
+|---|---|---|---|
+| Online | 58 | 7 ranked | 8 |
+| Sales | 27 | 19 | 21 |
+| Restaurant promotions (9 posts; URL slugs and a site banner left out) | 9 | 6 | 6 |
+
+The 6 posts that are not deals were all left out. No price was read more than $0.50 from the post's, and that one
+was dealnews' own update ("The price has changed to $9.99"). Seven single products have no industry by any rule: a
+storage shed, a kneeling pad, touch-screen gloves, a salt and pepper shaker, cooking spoons, a chef's knife and a
+sweeper kit. Learned words are meant for exactly these, since Flipp labels such goods every week, but this session
+can't read the builds' labelled items to show it. Against `main`, today's sample gains:
+
+- 1-800-Flowers' Friends & Family Event.
+- Woot's Protein & Wellness sale.
+- The Inventory's toddler costume, priced from the percent in its title (the third round's reading).
+- Kohl's clearance, now under Fashion as well as Toys.
+
+On every earlier round's posts, against this branch before the change: sales 75 → 70, online 36 → 35, promotions
+unchanged. Every post lost was one of the items taken out:
+
+- dealnews' Wilson and Dearfoams sales: dealnews files them under its own categories, which the replay lacks.
+- 9to5Toys' Bluetti station and Best Buy's Apple Outlet deals: these need learned words.
+- 9to5Toys' PUMA sale (in two rounds): it needs the post's link to puma.com, which the search never showed.
+
+Target's Halloween costumes and decor sale is now under Home as well as Toys.
+
+**Regular deals.** Of 12 roundup offers checked against the chains' own pages, 6 match, 3 don't and 3 couldn't be
+confirmed:
+
+- Ruby Tuesday's $6.99 burger ended Oct 13 by the chain's page, and both roundups still list it.
+- EatDrinkDeals gives Buffalo Wild Wings' second order free where the chain now says 50% off.
+
+Slomp takes a roundup modified within 45 days at its word; only the verification harness checks the chains' pages.
+EatDrinkDeals' Tuesday and Wednesday pages have moved, while the old addresses Slomp reads keep a 2017 page. That
+leaves those two days to The Krazy Coupon Lady alone. The new sitemap lookup is meant for this.
+
+The search also recorded 48 pages that list regular deals at local places by city: Houston's museum district pages,
+6AM City's guides for Austin, Dallas, Fort Worth and San Antonio, DFWChild's kids eat free by day, and KERA's and 360
+West's free museum days. They are what would find a new place's regular deal, but no reader for them exists yet. It
+would need to place a local business on the map; the registry already geocodes a street address through the Census
+geocoder.
+
+**Next time.** After a merge, the build log's new lines:
+
+- What the learned words filed: none on the first build, since it learns from nothing.
+- The word searches and the share of ad items without a search result.
+- Whether EatDrinkDeals' Tuesday and Wednesday pages are found.
+- The posts left out, read in place of a blind search.
