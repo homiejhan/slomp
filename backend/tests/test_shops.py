@@ -92,11 +92,12 @@ class _Net:
 
     def __init__(self, tmp_path, pages):
         self.client = PoliteClient(DB(tmp_path / "c.db"), Settings(cache_dir=tmp_path))
-        self.pages, self.calls = pages, []
+        self.pages, self.calls, self.headers = pages, [], {}
 
         async def fetch(url, params, headers, html, timeout_s):
             key = cache_key(url, params)
             self.calls.append(key)
+            self.headers[key] = headers or {}
             got = self.pages.get(key, 404)
             if isinstance(got, Exception):
                 raise got
@@ -276,3 +277,26 @@ def test_a_merchant_with_a_flipp_ad_and_no_mapped_stores_is_placed_by_its_name()
                          [city("austin")], lines.append))
     assert store_file(ads)["merchants"]["Far Away Market"][0][3] == "1 Sun St, El Paso"
     assert lines[-1] == "  merchants with a Flipp ad placed on the map by name: Far Away Market"
+
+
+def test_the_map_query_names_slomp_and_tries_the_next_server(tmp_path):
+    from slomp.sources.shops import OVERPASS, QUERY
+    first, mirror = (cache_key(u, {"data": QUERY}) for u in OVERPASS)
+    net = _Net(tmp_path, {first: 406, mirror: MAP})
+    net.pages[first] = (406, "<html><title>406 Not Acceptable</title><p>Please identify your application</p></html>")
+
+    async def fetch(url, params, headers, html, timeout_s, _orig=net.client._fetch):
+        key = cache_key(url, params)
+        net.headers[key] = headers or {}
+        got = net.pages.get(key, 404)
+        if isinstance(got, tuple):
+            return Response(key, key, got[0], "text/html", got[1].encode(), time.time())
+        return await _orig(url, params, headers, html, timeout_s)
+    net.client._fetch = fetch
+    sites, err = asyncio.run(ShopSites(net.client).directory())
+    assert err == "" and sorted(sites) == ["bikeshed.example", "sofa-town.example"]
+    assert net.headers[first]["User-Agent"].startswith("Slomp/1.0 (") and "Mozilla" not in net.headers[first]["User-Agent"]
+    # neither answers: the log says what each said
+    net2 = _Net(tmp_path / "b", {first: 406, mirror: 504})
+    sites, err = asyncio.run(ShopSites(net2.client).directory())
+    assert sites == {} and err == "overpass-api.de: HTTP 406; overpass.kumi.systems: HTTP 504"

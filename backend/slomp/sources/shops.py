@@ -37,7 +37,11 @@ from ..reference import merchants, norm
 from ..stores_online import registry
 from ..terms import clean
 
-OVERPASS = "https://overpass-api.de/api/interpreter"
+OVERPASS = ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter")
+# The Overpass servers turn away a client whose User-Agent doesn't name its application: overpass-api.de answered a
+# browser-like one with HTTP 406 (run 125, Nov 9, 2026), and its operator's terms ask for the application's name.
+OVERPASS_HEADERS = {"User-Agent": "Slomp/1.0 (deals near Texas cities; +https://github.com/homiejhan/slomp)",
+                    "Accept": "application/json, */*"}
 QUERY = """[out:json][timeout:900];
 area["ISO3166-2"="US-TX"]->.tx;
 (nwr["shop"]["website"](area.tx);nwr["shop"]["contact:website"](area.tx););
@@ -310,17 +314,25 @@ class ShopSites:
         self.budget = SITES_PER_BUILD
 
     async def directory(self) -> tuple[dict[str, ShopSite], str]:
-        """The shops on the map that give a website, by site, and "" or why the map could not be read."""
-        try:
-            r = await self.http.get(OVERPASS, {"data": QUERY}, ttl_s=MAP_TTL, timeout_s=900)
-        except FetchError as e:
-            return {}, e.reason
-        if r.status != 200:
-            return {}, f"HTTP {r.status}"
-        try:
-            return parse_map(r.json()), ""
-        except ValueError:
-            return {}, "the map's answer could not be read"
+        """The shops on the map that give a website, by site, and "" or why the map could not be read: each Overpass
+        server in turn, with what each said when it didn't answer."""
+        why = []
+        for url in OVERPASS:
+            server = urlsplit(url).hostname
+            try:
+                r = await self.http.get(url, {"data": QUERY}, ttl_s=MAP_TTL, timeout_s=900, headers=OVERPASS_HEADERS)
+            except FetchError as e:
+                why.append(f"{server}: {e.reason}")
+                continue
+            if r.status != 200:
+                said = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text[:2000])).strip()[:160]
+                why.append(f"{server}: HTTP {r.status}" + (f" ({said})" if said else ""))
+                continue
+            try:
+                return parse_map(r.json()), ""
+            except ValueError:
+                why.append(f"{server}: its answer could not be read")
+        return {}, "; ".join(why)
 
     def _fresh(self, url: str, params: Optional[dict] = None) -> bool:
         c = self.http.store.cache_get(cache_key(url, params))
