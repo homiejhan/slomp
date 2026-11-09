@@ -704,3 +704,22 @@ def test_oct25_a_shipping_condition_is_not_what_is_on_sale():
     assert s is not None and s.store_name == "1-800-Flowers"
     s, why = _sale("Sam's Club Membership: $25 off + free shipping", "Sam's Club", category="Warehouse Clubs")
     assert s is None and why["not a store sale: a membership"] == 1
+
+
+def test_nov09_the_online_left_out_posts_reach_the_build_log(tmp_path, monkeypatch):
+    # run 124 (Nov 9): the service merged each industry's result without the posts left out, so the log had no line
+    import asyncio
+
+    from slomp.config import Settings
+    from slomp.service import SlompService
+    monkeypatch.setenv("SLOMP_CACHE_DIR", str(tmp_path))
+    svc = SlompService(Settings())
+
+    async def run(inds, limit=25, compare=True):
+        res = OnlineResult(inds)
+        res.left_out["no industry"] = {f"dealnews:{inds[0]}": f"'A {inds[0]} post' (dealnews)"}
+        return res
+    svc.online_deals.run = run
+    merged = asyncio.run(svc.online(["tech", "home"]))
+    assert merged.left_out["no industry"] == {"dealnews:tech": "'A tech post' (dealnews)",
+                                              "dealnews:home": "'A home post' (dealnews)"}

@@ -139,6 +139,8 @@ class SlompService:
             merged.deals[i] = part.deals.get(i, [])[:limit]
             for k, v in part.excluded.items():          # shared feeds are counted once, not once per industry
                 merged.excluded[k] = max(merged.excluded[k], v)
+            for reason, posts in part.left_out.items():
+                merged.left_out.setdefault(reason, {}).update(posts)
             merged.sources += [x for x in part.sources if x["name"] not in names]
             names |= {x["name"] for x in part.sources}
             merged.generated_at = min(merged.generated_at, part.generated_at)
