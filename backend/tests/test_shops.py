@@ -300,3 +300,17 @@ def test_the_map_query_names_slomp_and_tries_the_next_server(tmp_path):
     net2 = _Net(tmp_path / "b", {first: 406, mirror: 504})
     sites, err = asyncio.run(ShopSites(net2.client).directory())
     assert sites == {} and err == "overpass-api.de: HTTP 406; overpass.kumi.systems: HTTP 504"
+
+
+def test_a_shop_tagged_with_another_business_site_is_not_read_as_its_own():
+    from slomp.sources.shops import own_site
+    # the first live map (run 126): a gun shop tagged with the rifle maker's site showed the maker's online prices
+    assert not own_site("henryusa.com", ["Barrels and Bullets"])
+    for host, name in (("bombcitysafes.com", "Bomb City Safes"), ("playtristore.com", "Playtri"),
+                       ("jeansjewelsandjesus.com", "Jeans Jewels And Jesus Boutique"), ("rei.com", "REI"),
+                       ("grovehillatx.com", "Grove Hill ATX"), ("sofa-town.example", "Sofa Town"),
+                       ("shop.magickcauldron.com", "Magick Cauldron")):
+        assert own_site(host, [name]), host
+    assert not own_site("shop.com", ["Main Street Shop"])            # a word of no name
+    m = parse_map({"elements": [_shop(9, "sports", "https://www.henryusa.com/", name="Barrels and Bullets")]})
+    assert m == {}

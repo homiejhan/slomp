@@ -23,6 +23,7 @@ import hashlib
 import html as htmllib
 import json
 import re
+import unicodedata
 from collections import Counter
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -33,7 +34,7 @@ from ..config import DAY
 from ..db import CachedResponse
 from ..geo import miles
 from ..http import Blocked, Disallowed, FetchError, PoliteClient, cache_key
-from ..reference import merchants, norm
+from ..reference import fold, merchants, norm
 from ..stores_online import registry
 from ..terms import clean
 
@@ -125,6 +126,33 @@ def _covered(host: str) -> bool:
     return any(host == d or host.endswith("." + d) for d in covered_hosts())
 
 
+_NAME_FILLER = frozenset("the and shop shops store stores company inc llc ltd market supply supplies outlet center "
+                         "centre co".split())
+_GENERIC_LABELS = frozenset("www shop store stores online us com net org co biz info".split())
+
+
+def own_site(host: str, names: Iterable[str]) -> bool:
+    """Whether a website is the shop's own: its address carries the shop's name, run together ("REI" -> rei.com) or
+    by a word of it ("Bomb City Safes" -> bombcitysafes.com). A shop tagged with the site of a brand it sells
+    ("Barrels and Bullets" -> henryusa.com, the rifle maker's) is not read as if the brand's prices were the shop's."""
+    labels = [x.replace("-", "") for x in host.split(".")[:-1] if x not in _GENERIC_LABELS]
+    if not labels:
+        return False
+    for name in names:
+        whole = fold(name)
+        words = [w for w in re.findall(r"[a-z0-9]+", fold_words(name)) if len(w) >= 4 and w not in _NAME_FILLER]
+        if any(whole and (whole == lab or (len(whole) >= 4 and (whole in lab or lab in whole))) for lab in labels) or \
+                any(w in lab for w in words for lab in labels):
+            return True
+    return False
+
+
+def fold_words(text: str) -> str:
+    """Lower case, accents removed, words kept apart (`fold` runs them together)."""
+    plain = unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", " ", plain.replace("&", " and "))
+
+
 def address(tags: dict) -> str:
     street = " ".join(x for x in (tags.get("addr:housenumber"), tags.get("addr:street")) if x)
     return ", ".join(x for x in (street, tags.get("addr:city", "")) if x)
@@ -188,7 +216,7 @@ def parse_map(data: dict) -> dict[str, ShopSite]:
         s.locations.append([round(lat, 6), round(lon, 6), name, address(tags), f"osm:{el.get('type')}/{el.get('id')}"])
     for host, s in sites.items():
         s.name = (names[host].most_common(1)[0][0] if names[host] else "") or host
-    return sites
+    return {h: s for h, s in sites.items() if own_site(h, list(names[h]) or [s.name])}
 
 
 @dataclass
