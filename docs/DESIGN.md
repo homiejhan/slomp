@@ -549,3 +549,29 @@ days after posting and never past 30 days, and the post page re-read before it i
 dealnews' editor-set end dates were missed two times in three (only 11:59 PM was taken as stated); `parse_dealnews` now
 treats every expiry as stated unless it is dealnews' placeholder, which also corrects the Online tab.
 
+
+
+## 13. Addendum: every store in an area, read store by store (Nov 9, 2026)
+
+Weekly ads come from Flipp, and only for the chains that publish there: about 80 a week, matched to the 81 chains in
+`merchants.json`. A store that publishes nowhere else was simply not in Slomp. So each area's stores are now also found
+on the map and read one by one (`sources/shops.py`):
+
+1. **Every shop with a website.** One Overpass query (weekly, cached) gives every OpenStreetMap shop in Texas that
+   tags a website, of a kind that sells goods (OpenStreetMap's `shop` values, each mapped to Slomp's industries:
+   `bicycle` → Sports, `furniture` → Home; services such as hairdressers are left out). Shops sharing a website are
+   one site with several locations. The chains whose deals come from Flipp, and the online stores in the registry,
+   are read there instead. A shop that opens, or gets mapped, appears by itself.
+2. **Its own website.** The home page says which platform the site runs on. Shopify sites publish every product with
+   its price and its "compare at" price (`/products.json`, basis `list`), WooCommerce sites the price and the regular
+   price (the Store API, basis `store_regular`). A product on sale by 10% or more is a deal, filed by its words, then
+   by what the store sells; a site keeps its 12 biggest savings. A site on neither platform is noted and left.
+   robots.txt is honored, a bot check is never worked around, a build reads at most 600 sites it has no fresh copy of,
+   and a price read is shown on that day and the next (it is read daily).
+3. **Shown with the weekly ads.** Each site is one more ad (a negative id) at every anchor within 50 mi of one of its
+   shops, its shops its stores; the page's engine and the server's search (`LocalDeals.run`) attach the shop nearest
+   the city the same way, so the parity check still holds. The card says the price is on the store's website.
+
+The same map also places a merchant with a Flipp ad that `merchants.json` lacks, by its name: its ad was shown as
+"not on the map" before. The build log reports the map, the sites read, their platforms, why the rest weren't read,
+and the sites with the most deals.

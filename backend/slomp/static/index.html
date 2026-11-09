@@ -667,7 +667,8 @@ dialog.tour::backdrop { background: transparent; }
     <p>Prices come from store ads and deal sites and can change. Check before you go.</p>
     <details>
       <summary>Where the deals come from <svg class="i chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary>
-      <p>Local prices are the ads retailers publish (via Flipp). Regular deals come from company pages and the
+      <p>Local prices are the ads retailers publish (via Flipp), and the sales stores near you state on their own
+         websites (stores found on OpenStreetMap). Regular deals come from company pages and the
          day-of-week lists at The Krazy Coupon Lady and EatDrinkDeals. Online deals and online stores' sales come from
          public deal sites (dealnews, Slickdeals, Hip2Save and others).</p>
     </details>
@@ -1116,7 +1117,9 @@ function nearPanel(L) {
     ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
     : nearEmpty(L, cur);
   const about = aboutHtml([
-    `Prices from the weekly ads of stores within ${L.radius_mi} mi of ${esc(L.city.name)}, for ${esc(dates)}. Ads can change, so check at the store.`,
+    `Prices from the weekly ads of stores within ${L.radius_mi} mi of ${esc(L.city.name)}, for ${esc(dates)}` +
+      ((L.sources || []).some(s => s.name === "Stores' own websites" && s.ok) ? ", and the sales nearby stores' own websites state" : "") +
+      ". Ads can change, so check at the store.",
     L.ads_from ? `This site reads weekly ads for a set of Texas cities. ${esc(L.city.name)} gets the ads published for ${esc(L.ads_from.name)}, ${L.ads_from.mi} mi away.` : "",
     "Tap a deal for its dates, its store's address and what its discount is measured against.",
   ], L.excluded);
@@ -1594,6 +1597,7 @@ function sheetHtml(d, photo, info) {
 
 function localDetail(d) {
   const L = S.data && S.data.local, tz = zone(), t = d.terms, st = d.store, promo = d.id.startsWith("promo:");
+  const site = d.id.startsWith("site:");          // a sale the store's own website states
   const rows = [], line = priceLine(t, false), badge = localBadge(d);
   // Headline: the price with its badge; a buy-one-get-one offer in words; or the badge alone ("40% off").
   const headline = line ? `<div class="price">${line}${badgeInline(badge)}</div>`
@@ -1602,9 +1606,10 @@ function localDetail(d) {
   const said = `${line} ${t.bogo} ${badge ? badge.text : ""}`.toLowerCase().replace(/<[^>]+>/g, " ");
   if (!promo && t.summary && (t.qty > 1 || t.hedge) && !said.includes(t.summary.toLowerCase())) rows.push(["Offer", esc(cap(t.summary))]);
   const oneDay = day(d.valid_from, tz) === day(d.valid_to, tz), undated = (t.conditions || []).includes("dates not stated");
-  rows.push(["Valid", undated ? "The post doesn't give dates"
-    : oneDay ? `${day(d.valid_from, tz)} only`
-    : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
+  rows.push(site ? ["Price as of", `${day(d.valid_from, tz)}, on the store's website. Sale prices can end any time.`]
+    : ["Valid", undated ? "The post doesn't give dates"
+      : oneDay ? `${day(d.valid_from, tz)} only`
+      : `${day(d.valid_from, tz)} to ${day(d.valid_to, tz)}${d.ends_in_days <= 0 ? " (ends today)" : ""}`]);
   rows.push(["Where", st
     ? `${esc(st.name)}, ${st.distance_mi} mi from ${esc(L.city.name)}${st.address ? `<br><span class="muted">${esc(st.address)}</span>` : ""}`
     : L ? `<span class="muted">This store isn't on the map, so Slomp can't confirm one is nearby.</span>` : chainWhere(d)]);
@@ -1623,7 +1628,7 @@ function localDetail(d) {
   return sheetHtml(d, false,
     `<p class="eyebrow">${esc(d.merchant)}${kind}</p><h2 id="detail-title">${esc(d.title)}</h2>` + headline +
     `<div class="hero-chips">${chips.join("")}</div>` +
-    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : "See it in the ad", true)}${actionHtml(d.retailer_url, "Store page", false)}${L ? cardToggleHtml(d) : nearHtml()}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, promo ? "Open the post" : site ? "See it on the store's site" : "See it in the ad", true)}${d.retailer_url !== d.source_url ? actionHtml(d.retailer_url, "Store page", false) : ""}${L ? cardToggleHtml(d) : nearHtml()}</div>` +
     `<div class="drops">${dropHtml("Details", factsHtml(rows))}${dropHtml("About this price", basis ? `<p>${basis}</p>` : "", esc((BASIS[t.basis] || [""])[0]))}</div>`);
 }
 

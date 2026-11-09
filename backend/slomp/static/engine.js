@@ -121,7 +121,10 @@ async function weeklyAds(city, wanted, radius, win, res) {
     res.sources.push({name: "Flipp weekly ads", ok: false, error: (at && at.error) || "no ads were read for this area"});
     return {deals: [], merchants: []};
   }
-  res.sources.push({name: "Flipp weekly ads", ok: true, ads: at.ads.length + at.out});
+  // A store's own website is an ad with a negative id (site.site_ads); Flipp's ads have positive ones.
+  const sites = at.ads.filter(id => Number(id) < 0).length;
+  res.sources.push({name: "Flipp weekly ads", ok: true, ads: at.ads.length - sites + at.out});
+  if (sites) res.sources.push({name: "Stores' own websites", ok: true, sites});
   const when = (o, k) => Date.parse(mountain && o[k + "m"] ? o[k + "m"] : o[k]);
   const ends = o => o.gone ? Math.min(when(o, "vt"), Date.parse(o.gone)) : when(o, "vt");
   if (at.out) res.add("ad outside the 7-day window", at.out);
@@ -189,10 +192,12 @@ async function weeklyAds(city, wanted, radius, win, res) {
 
 function adDeal(row, ad, vf, vt, win, tz) {
   const t = terms(row.terms);
+  const site = Number(ad.id) < 0;          // the store's own website (local.site_deals)
   return {
-    id: `flipp:${row.id}`, item_id: row.id, flyer_id: ad.id, title: row.title, merchant: ad.merchant, brand: "",
-    industries: row.industries, industry_rule: "", category: row.category || "", terms: t,
-    valid_from: isoIn(vf, tz), valid_to: isoIn(vt, tz), source_url: `https://flipp.com/en-us/item/${row.id}`,
+    id: `${site ? "site" : "flipp"}:${row.id}`, item_id: row.id, flyer_id: ad.id, title: row.title,
+    merchant: ad.merchant, brand: "", industries: row.industries, industry_rule: "", category: row.category || "",
+    terms: t, valid_from: isoIn(vf, tz), valid_to: isoIn(vt, tz),
+    source_url: row.source_url || `https://flipp.com/en-us/item/${row.id}`,
     retailer_url: row.retailer_url || "", image_url: row.image_url || "", store: null, store_status: "unknown",
     feed: !!row.feed, detailed: !!row.detailed, score: row.score || 0,
     starts_in_days: Math.max(0, daysBetween(win.start, vf, tz)), ends_in_days: daysBetween(win.start, vt, tz),

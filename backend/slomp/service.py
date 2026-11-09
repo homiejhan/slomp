@@ -25,6 +25,7 @@ from .sales import SalesResult, StoreSales, to_payload
 from .sources.feeds import DealFeeds
 from .sources.flipp import FlippClient
 from .sources.prices import PriceSources
+from .sources.shops import ShopSites
 from .sources.stores import RestaurantLocator, StoreLocator
 
 RESULT_TTL_S = 30 * 60
@@ -66,9 +67,10 @@ class SlompService:
         self.http = PoliteClient(self.db, self.settings)
         self.flipp = FlippClient(self.http)
         self.stores = StoreLocator()
+        self.shops = ShopSites(self.http)
         self.feeds = DealFeeds(self.http)
         self.prices = PriceSources(self.http, self.flipp)
-        self.local_deals = LocalDeals(self.flipp, self.stores)
+        self.local_deals = LocalDeals(self.flipp, self.stores, self.shops)
         self.online_deals = OnlineDeals(self.feeds, self.prices, self.db)
         self.promos = RestaurantPromos(self.feeds, RestaurantLocator())
         self.regulars = Regulars(self.http, self.db, self.settings)

@@ -37,6 +37,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .. import industries as ind
+from .. import local as local_mod
 from .. import service as service_mod
 from ..local import DETAIL_TOP_N, LocalDeals
 from ..reference import cities
@@ -222,6 +223,8 @@ async def run(out_dir: Path, n: int, seed: int, report: Path | None, anchor_mi: 
         return {m: built_hits[m] if m in built_hits else own.get(m, {}) for m in merchants}
     if not as_is:
         LocalDeals._merchant_hits = merchant_hits
+        # The stores' own sites: the server reads the ones the build read (from the cache), and no others.
+        local_mod.SITES_PER_SEARCH = 0
 
     anchor_list = anchors(anchor_mi)
     anchor_ids = {a.id for a in anchor_list}

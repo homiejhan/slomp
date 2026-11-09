@@ -33,7 +33,8 @@ from . import industries as ind
 from .config import TTL
 from .geo import ad_end_local, ad_start_local, miles, parse_time
 from .http import FetchError
-from .local import DETAIL_ROUNDS, DETAIL_TOP_N, LocalResult, _merge, labelled_items, score
+from .local import (DETAIL_ROUNDS, DETAIL_TOP_N, LocalResult, _merge, labelled_items, score, site_deals,
+                    site_merchant)
 from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Terms
 from .promos import _NOT_A_PROMO, brand_in, promo_dates, recurring_days
 from .reference import cities, merchant as merchant_entry, norm
@@ -42,6 +43,7 @@ from .sales import stores_payload
 from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
 from .sources.roundups import FRESH_DAYS
+from .sources.shops import SITES_PER_BUILD, ShopSite, same_name
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
 from .terms import clean
 from .top import stores_of
@@ -130,6 +132,8 @@ class Ads:
     keys: dict[tuple, str] = field(default_factory=dict)             # (ad, item) -> the server's duplicate test
     unread: dict[int, list[dict]] = field(default_factory=dict)      # ad id -> no-saving items with saving words
     stats: Counter = field(default_factory=Counter)
+    site_stores: dict[str, list] = field(default_factory=dict)       # a store found on the map -> its shops' rows
+    sites: dict[int, str] = field(default_factory=dict)              # a store's own site, as an ad: id -> its host
 
 
 async def search_by_words(flipp, ads: Ads, listings: dict[int, list[dict]], items_of: dict[int, set],
@@ -314,6 +318,64 @@ async def build_ads(svc: SlompService, anchor_list: list[City], now: datetime, l
     return ads
 
 
+async def site_ads(svc: SlompService, ads: Ads, anchor_list: list[City], log=print) -> None:
+    """Every store on the map with a website (sources/shops.py): the sales its own site states become an ad of its
+    own (its id negative), listed at every anchor within MAX_RADIUS_MI of one of its shops, its shops its stores, as
+    LocalDeals.run reads them for one city. A merchant with a Flipp ad that the store registry doesn't list gets its
+    shops from the map by its name."""
+    shops = getattr(svc, "shops", None)
+    if shops is None:
+        return
+    t0 = clock.time()
+    sites, err = await shops.directory()
+    if err or not sites:
+        log(f"stores' own sites: the map of shops could not be read ({err or 'no shops'})")
+        return
+    reads = await shops.read_all(sites.values(), budget=SITES_PER_BUILD)
+    made: list[tuple[ShopSite, list[LocalDeal]]] = []
+    for s in sorted(sites.values(), key=lambda s: s.key):
+        deals = site_deals(s, reads.get(s.host))
+        if not deals:
+            continue
+        fid, name = s.key, deals[0].merchant
+        ads.flyers[fid] = Flyer(fid, name, 0, deals[0].valid_from, deals[0].valid_to)
+        ads.entries[name] = site_merchant(s)
+        ads.deals[fid], ads.excluded[fid], ads.sites[fid] = deals, Counter(), s.host
+        ads.site_stores[name] = s.locations
+        for d in deals:
+            ads.times[(fid, d.item_id)] = (d.valid_from, d.valid_to)
+            ads.keys[(fid, d.item_id)] = dedupe_key(d)
+        for a in anchor_list:
+            if ads.at.get(a.id) is not None and any(miles(a.lat, a.lon, r[0], r[1]) <= MAX_RADIUS_MI for r in s.locations):
+                ads.at[a.id].append(fid)
+        made.append((s, deals))
+    placed = []
+    for name, m in list(ads.entries.items()):          # as LocalDeals.run does: a merchant the map has no store of
+        if m.name in ads.site_stores or _known(m):
+            continue
+        s = same_name(sites, m.name)
+        if s:
+            ads.site_stores[m.name] = s.locations
+            placed.append(m.name)
+    read = [r for r in reads.values() if not r.note.startswith("not read yet")]
+    kinds = Counter(r.platform or "neither" for r in read if not r.note or r.platform)
+    notes = Counter(re.sub(r" \(.*$", "", r.note) for r in read if r.note and not r.platform)
+    ads.stats.update({"shop sites": len(sites), "shop sites read": len(read), "shop sites with deals": len(made),
+                      "shop deals": sum(len(d) for _, d in made)})
+    log(f"stores' own sites: {sum(len(s.locations) for s in sites.values())} shops on the map with a website, "
+        f"{len(sites)} sites; read {len(read)} ({sum(r.charged for r in reads.values())} afresh), "
+        f"{len(sites) - len(read)} wait for a later build; {', '.join(f'{k} {v}' for k, v in kinds.most_common())}; "
+        f"{len(made)} sites with {sum(len(d) for _, d in made)} deals ({clock.time() - t0:.0f}s)")
+    if notes:
+        log("  no sales read: " + ", ".join(f"{k} {v}" for k, v in notes.most_common()))
+    for s, deals in sorted(made, key=lambda x: -len(x[1]))[:6]:
+        d = deals[0]
+        log(f"  {d.merchant} ({s.host}, {reads[s.host].platform}): {len(deals)} deals, e.g. {d.title[:60]!r} "
+            f"${d.terms.price:,.2f}, was ${d.terms.regular:,.2f}")
+    if placed:
+        log(f"  merchants with a Flipp ad placed on the map by name: {', '.join(sorted(placed))}")
+
+
 _NO_SAVING = ("ad price with no saving stated", "no saving amount")
 # Words of a saving in an item's own text: an item left out as having none, though its text has these, is a saving
 # Slomp may not be reading ("Save $1.00" beside a price, "get ... FREE" with another item, a store coupon).
@@ -420,14 +482,16 @@ def ad_files(ads: Ads) -> dict[str, dict]:
     merchants: dict[str, dict] = {}
     for fid, f in ads.flyers.items():
         m = ads.entries[f.merchant]
-        merchants[m.name] = {"uncertain": m.map_coverage == "sparse" or (not m.wikidata and not _known(m))}
+        # a store's own site is on the map by definition: a city with none of its shops within 50 mi is too far
+        merchants[m.name] = {"uncertain": fid > 0 and (m.map_coverage == "sparse" or
+                                                        (not m.wikidata and not _known(m)))}
         rows = []
         for d in ads.deals[fid]:
             vf, vt = ads.times[(fid, d.item_id)]
             row = {"id": d.item_id, "title": d.title, "industries": d.industries, "category": d.category,
                    "terms": _compact(d.terms.to_dict(), TERMS_DEFAULTS), **_zoned_ends(vf, vt),
                    "retailer_url": d.retailer_url, "image_url": d.image_url, "feed": d.feed, "detailed": d.detailed,
-                   "score": d.score, "dk": ads.keys[(fid, d.item_id)]}
+                   "score": d.score, "dk": ads.keys[(fid, d.item_id)], "source_url": d.source_url if fid < 0 else ""}
             rows.append({k: v for k, v in row.items() if v not in ("", False, None)})
         files[f"ads/{fid}.json"] = {"id": fid, "merchant": m.name, "excluded": dict(ads.excluded[fid]), "deals": rows}
     flyers = {fid: {"merchant": ads.entries[f.merchant].name, "flipp": f.merchant,
@@ -451,7 +515,8 @@ def store_file(ads: Ads) -> dict:
     data = _dataset()
     names = sorted({m.name for m in ads.entries.values()})
     return {"built": data.get("built", ""),
-            "merchants": {n: data["merchants"][n] for n in names if data["merchants"].get(n)}}
+            "merchants": {n: data["merchants"].get(n) or ads.site_stores[n] for n in names
+                          if data["merchants"].get(n) or ads.site_stores.get(n)}}
 
 
 # --- regular deals ----------------------------------------------------------------------------------------------
@@ -689,6 +754,7 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         online_task = asyncio.create_task(online_files(svc, log)) if online else None
         sales_task = asyncio.create_task(sales_file(svc, log)) if online else None
         ads = await ads_task
+        await site_ads(svc, ads, anchor_list, log)
         if inspect is not None:
             inspect["ads"] = ads
         regs, promos = await regs_task, await promos_task

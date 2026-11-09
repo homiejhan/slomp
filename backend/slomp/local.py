@@ -5,20 +5,22 @@ city -> ZIP -> ads -> items (+ taxonomy) -> terms -> industry -> stores -> windo
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import re
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta
 from typing import Optional
 from zoneinfo import ZoneInfo
 
 from . import industries as ind
-from .geo import ad_end_local, ad_start_local, days_between, parse_time
+from .geo import ad_end_local, ad_start_local, days_between, miles, parse_time
 from .http import FetchError
-from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Store
-from .reference import merchant as merchant_entry, norm
+from .models import BASIS_WEIGHT, City, LocalDeal, Merchant, Store, Terms
+from .reference import merchant as merchant_entry, merchants, norm
 from .sources.flipp import FlippClient, Flyer, is_product_link, item_url, junk_reason
-from .sources.stores import StoreLocator, StoreMap
+from .sources.shops import MIN_PCT, PER_SITE, ShopSite, ShopSites, SiteRead, near as sites_near, same_name
+from .sources.stores import MAX_RADIUS_MI, StoreLocator, StoreMap
 from .terms import ad_terms, clean
 
 DETAIL_TOP_N = 24           # full records read for the leading deals of each industry (the first page shown)
@@ -110,9 +112,69 @@ def labelled_items(m: Merchant, items) -> list[tuple[str, str, str, str]]:
     return out
 
 
+# --- the sales stores' own websites state (sources/shops.py) ---------------------------------------------------
+SITE_DAYS = 2               # a price read on a store's site is shown on the day of the read and the next; read daily
+SITES_PER_SEARCH = 40       # a server search reads at most this many stores' sites it has no fresh copy of
+CENTRAL = ZoneInfo("America/Chicago")
+
+
+def site_merchant(site: ShopSite) -> Merchant:
+    """A store found on the map, as a merchant: what its kind of shop sells is its line. Named as the shops are,
+    unless that is the name of a chain in the registry (then its site says which store it is)."""
+    taken = any(norm(site.name) in {norm(n) for n in (m.name, *m.flipp, *m.osm_names)} for m in merchants())
+    name = f"{site.name} ({site.host})" if taken else site.name
+    return Merchant(name=name, flipp=[], wikidata=[], osm_names=[], domains=[site.host],
+                    industries=list(site.industries), sells=list(site.industries), food="grocery" in site.industries)
+
+
+def site_deals(site: ShopSite, read: Optional[SiteRead]) -> list[LocalDeal]:
+    """The deals a store's own site states, the same for every city (the shop nearest a city is attached later):
+    a product on sale by at least MIN_PCT, filed by its words and then by what the store sells, at most PER_SITE of
+    them, the biggest savings first. Its dates run from the read for SITE_DAYS."""
+    if not read or not read.items or not read.read_at:
+        return []
+    m = site_merchant(site)
+    # From midnight of the day it was read to the end of the last day it is shown, as an ad states its days
+    day = datetime.fromtimestamp(read.read_at, CENTRAL).date()
+    last = day + timedelta(days=SITE_DAYS - 1)
+    vf = datetime(day.year, day.month, day.day, tzinfo=CENTRAL)
+    vt = datetime(last.year, last.month, last.day, 23, 59, 59, tzinfo=CENTRAL)
+    out: list[LocalDeal] = []
+    for it in read.items:
+        if it.pct < MIN_PCT or it.pct >= 95:
+            continue
+        cls = ind.classify_ad_item(None, None, it.title, it.words, m.industries, False, m.sells, m.food)
+        if not cls.industries:
+            continue
+        conditions = ["price on the store's website"] + (["some sizes or colors only"] if it.options else [])
+        terms = Terms(price=it.price, regular=it.regular, savings=round(it.regular - it.price, 2), pct=it.pct,
+                      basis=it.basis, conditions=conditions)
+        iid = int(hashlib.sha1(f"{site.host}|{it.url}|{it.title}".encode()).hexdigest()[:12], 16)
+        d = LocalDeal(id=f"site:{iid}", item_id=iid, flyer_id=site.key, title=it.title, merchant=m.name, brand="",
+                      industries=cls.industries, industry_rule=cls.rule, category=it.words[:80], terms=terms,
+                      valid_from=vf, valid_to=vt, source_url=it.url, retailer_url=it.url, image_url=it.image,
+                      detailed=True, raw={"site": site.host, "platform": read.platform})
+        d.score = score(d)
+        out.append(d)
+    out.sort(key=lambda d: (-d.score, -(d.terms.savings or 0), d.title))
+    seen, kept = set(), []
+    for d in out:                                   # one product in two sizes is one deal
+        if norm(d.title) not in seen:
+            seen.add(norm(d.title))
+            kept.append(d)
+    return kept[:PER_SITE]
+
+
+def site_stores(site: ShopSite, merchant: str, city: City) -> list[Store]:
+    """A site's shops within MAX_RADIUS_MI of a city, nearest first, as StoreLocator.near gives a chain's."""
+    rows = sorted(((round(miles(city.lat, city.lon, r[0], r[1]), 1), r) for r in site.locations), key=lambda x: x[0])
+    return [Store(merchant=merchant, name=r[2] or merchant, lat=r[0], lon=r[1], address=r[3], distance_mi=d,
+                  source="osm", ref=r[4]) for d, r in rows if d <= MAX_RADIUS_MI]
+
+
 class LocalDeals:
-    def __init__(self, flipp: FlippClient, stores: StoreLocator):
-        self.flipp, self.stores = flipp, stores
+    def __init__(self, flipp: FlippClient, stores: StoreLocator, shops: Optional[ShopSites] = None):
+        self.flipp, self.stores, self.shops = flipp, stores, shops
         self._feed_cache: dict[int, bool] = {}
 
     async def run(self, city: City, industries: list[str], radius_mi: float = 25.0,
@@ -138,6 +200,17 @@ class LocalDeals:
         store_map: StoreMap = self.stores.near(city, list({m.name: m for m in entries.values()}.values()))
         res.sources.append({"name": "OpenStreetMap stores", "ok": store_map.source_ok, "built": store_map.built,
                             **({"error": store_map.error} if store_map.error else {})})
+        sites: dict[str, ShopSite] = {}
+        if self.shops is not None:
+            sites, err = await self.shops.directory()
+            res.sources.append({"name": "Stores' own websites", "ok": not err, "sites": len(sites),
+                                **({"error": err} if err else {})})
+            # A merchant with an ad on Flipp that the store registry doesn't list: its shops, if the map has them
+            for m in {m.name: m for m in entries.values()}.values():
+                if not store_map.stores.get(m.name) and not self.stores.known(m):
+                    s = same_name(sites, m.name)
+                    if s:
+                        store_map.stores[m.name] = site_stores(s, m.name, city)
         ads_of: dict[str, set[int]] = {}
         for f in live:
             ads_of.setdefault(f.merchant, set()).add(f.id)
@@ -177,6 +250,7 @@ class LocalDeals:
                 candidates.append(deal)
 
         await self._learn_feeds(candidates)
+        candidates += await self._site_candidates(sites, city, wanted, start, end, store_map, seen, res)
         for d in candidates:
             self._attach_store(d, entries[d.merchant] if d.merchant in entries else merchant_entry(d.merchant),
                                store_map, radius_mi, res)
@@ -216,6 +290,40 @@ class LocalDeals:
             except FetchError:
                 return name, {}
         return dict(await asyncio.gather(*(one(n) for n in merchants)))
+
+    async def _site_candidates(self, sites: dict[str, ShopSite], city: City, wanted: set[str], start: datetime,
+                               end: datetime, store_map: StoreMap, seen: dict, res: LocalResult) -> list[LocalDeal]:
+        """The deals the own sites of the stores within MAX_RADIUS_MI state, read and kept as the published site's
+        build keeps them (site.site_ads): each site is one more ad, its shops its stores."""
+        if self.shops is None or not sites:
+            return []
+        nearby = sites_near(sites, city.lat, city.lon, MAX_RADIUS_MI)
+        reads = await self.shops.read_all(nearby, budget=SITES_PER_SEARCH)
+        out: list[LocalDeal] = []
+        for s in sorted(nearby, key=lambda s: s.key):
+            deals = site_deals(s, reads.get(s.host))
+            if not deals:
+                continue
+            store_map.stores[deals[0].merchant] = site_stores(s, deals[0].merchant, city)
+            vf, vt = deals[0].valid_from, deals[0].valid_to
+            if min(ad_end_local(vt, city.tz), vt) < start or ad_start_local(vf, city.tz) > end:
+                res.excluded["ad outside the 7-day window"] += 1
+                continue
+            vf_l, vt_l = ad_start_local(vf, city.tz), ad_end_local(vt, city.tz)
+            for d in deals:
+                if not wanted & set(d.industries):
+                    res.excluded["other industry"] += 1
+                    res.excluded_items[d.item_id] = f"other industry ({','.join(d.industries)}; {d.industry_rule})"
+                    continue
+                key = (d.merchant, norm(d.title), d.terms.price, d.terms.pct)
+                if key in seen:
+                    res.excluded["same item in another ad"] += 1
+                    continue
+                seen[key] = d
+                out.append(replace(d, valid_from=vf_l, valid_to=vt_l,
+                                   starts_in_days=max(0, days_between(start, vf_l, city.tz)),
+                                   ends_in_days=days_between(start, vt_l, city.tz)))
+        return out
 
     # -- one item -----------------------------------------------------------------------------------------------
     def _deal(self, raw: dict, flyer: Flyer, m: Merchant, city: City, start: datetime, end: datetime,
