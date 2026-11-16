@@ -438,7 +438,7 @@ def test_oct15_more_goods_get_their_industry():
     assert ind.from_text("Greenworks 40V 12-Inch Brushless Snow Shovel 4.0Ah Battery and Charger").industries == ["home"]
     # a brand is no rule's word (the sixth comparison took the brands out): the words learned from labelled items
     # file it (test_oct25_learned_words_file_what_no_rule_names)
-    assert ind.from_text("Bluetti 900Wh Pioneer Na(Sodium) station").industries == []
+    assert ind.from_text("Bluetti Pioneer Na(Sodium) station").industries == []
     assert ind.from_text("Bluetti AC180 Portable Power Station").industries == ["tech"]       # dealnews' own category
     assert ind.from_text("DIY Squishy Making Kit").industries == ["toys"]
     assert ind.from_text("Kids Fairy Potion Kit").industries == ["toys"]
@@ -566,7 +566,7 @@ def test_oct25_learned_words_file_what_no_rule_names():
     lex = _learned(("Bluetti AC180 Portable Power Station", ["tech"], 6), ("BLUETTI AC70 Solar Generator", ["tech"], 4),
                    ("Dearfoams Women's Cozy Slipper", ["fashion"], 9),
                    ("Honeycrisp Apple, 3 lb Bag", ["grocery"], 20), ("Apple iPad 11-inch", ["tech"], 12))
-    title = "Bluetti 900Wh Pioneer Na(Sodium) station"
+    title = "Bluetti Pioneer Na(Sodium) station"
     assert ind.from_text(title).industries == []                      # no rule names the brand
     assert lex.classify(title).industries == ["tech"] and lex.classify(title).rule == "learned:bluetti (10 labelled)"
     assert lex.classify("Dearfoams Fireside Shearling Scuff").industries == ["fashion"]
@@ -684,8 +684,8 @@ def test_oct25_the_build_log_names_the_posts_left_out():
     res = asyncio.run(StoreSales(Feeds(), None).run(now, check=False))
     lines = left_out_lines("store sales", res.left_out)
     assert lines[0] == "store sales: posts left out: sale: store not identified 2, sale: no industry 1"
-    assert lines[1] == ("  sale: store not identified: 'Zyntrix Fall Sale: Up to 50% off' (Hip2Save); "
-                        "'Expired: Old Sale 20% off' (dealnews)")
+    assert lines[1] == ("  sale: store not identified: 'Zyntrix Fall Sale: Up to 50% off' (Hip2Save; title name "
+                        "'Zyntrix', no links); 'Expired: Old Sale 20% off' (dealnews; title name 'Expired', no links)")
     assert lines[2] == "  sale: no industry: 'Mystery Brand Sale: 30% off + free shipping' (dealnews, category 'Nope')"
     assert left_out_lines("online", {}) == []
 
@@ -723,3 +723,108 @@ def test_nov09_the_online_left_out_posts_reach_the_build_log(tmp_path, monkeypat
     merged = asyncio.run(svc.online(["tech", "home"]))
     assert merged.left_out["no industry"] == {"dealnews:tech": "'A tech post' (dealnews)",
                                               "dealnews:home": "'A home post' (dealnews)"}
+
+
+def _named(title, text="", links=(), source="hip2save"):
+    from slomp.sales import named_store
+    return named_store(Post(source=source, id=f"{source}:1", url=f"https://www.{source}.com/x/1.html", title=title,
+                            text=text, posted_at=datetime(2026, 11, 16, 17, tzinfo=timezone.utc), links=list(links)))
+
+
+def test_nov16_a_store_named_after_the_offer():
+    # Hip2Save, Nov 10-16: the offer comes first and the store after it; 22 posts a build had no store
+    # a link to the name's own website, through an affiliate redirect, names it, whatever its words also mean
+    assert _named("Buy 1, Get 1 FREE Comfrt Workout Tops & Leggings",
+                  links=["https://go.skimresources.com/?id=1&url=https%3A%2F%2Fcomfrt.com%2Fcollections%2Fbogo"]) == \
+        ("Comfrt", "the title names it (Comfrt) and the post links to comfrt.com")
+    assert _named("Buy 1, Get 1 50% Off Hugz Weighted Stuffed Animals | Great Gift Idea",
+                  links=["https://hugz.com/collections/all"])[0] == "Hugz"
+    assert _named("Today ONLY: Up to 80% Off 32 Degrees Clothes + Free Shipping",
+                  links=["https://www.32degrees.com/collections/sale"])[0] == "32 Degrees"
+    assert _named("Up to 50% Off Mattress Firm Mattresses", links=["https://www.mattressfirm.com/sale"])[0] == \
+        "Mattress Firm"
+    # so do the post's own words sending the reader there
+    assert _named("Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)",
+                  "Hop on over to Comfrt where you can score up to 70% off hoodies.") == \
+        ("Comfrt", "the title names it (Comfrt) and the post says 'Hop on over to Comfrt'")
+    assert _named("Last Day to Score Buy 1, Get 1 FREE Comfrt Hoodies & Sweatpants!",
+                  "Hurry over to Comfrt.com where hoodies are buy one, get one free.")[0] == "Comfrt"
+    assert _named("*Rare* BOGO Free Charlotte Tilbury Makeup Sale + Free Shipping",
+                  "Head over to Charlotte Tilbury where makeup is buy one, get one free.")[0] == "Charlotte Tilbury"
+    assert _named("Up to 80% Off Soma Sale = $2 Panties, $10 Bras & More", "Head on over to Soma for this sale.")[0] == \
+        "Soma"
+    # "Offer" is a sale word: Slickdeals' "Barnes & Noble Offer: ..."
+    assert _named("Barnes & Noble Offer: The Criterion Collection Blu-rays 50% Off + Free S&H", source="slickdeals") == \
+        ("Barnes & Noble", "the title names it (Barnes & Noble sale) and the post says it ships")
+    # That a post ships does not say from where: the words after an offer are as often the goods as a store.
+    for title, text in (("Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)", "Hoodies from $19 shipped."),
+                        ("Up to 75% Off Electric Bikes + FREE Shipping", "Save big on Electric Bikes this week."),
+                        ("Up to 50% Off Stuffed Animals Sale + Free Shipping", "Save on Stuffed Animals at checkout."),
+                        ("Buy 1, Get 1 FREE Comfrt Hoodies & Sweatpants", "Cozy hoodies from Comfrt are back."),
+                        ("Up to 60% Off 2 Pairs of Shoes + Free Shipping", ""),
+                        ("Up to 50% Off Black Friday Deals", "")):
+        assert _named(title, text) == ("", ""), title
+    # goods that are goods only together are no store's name, at the start of a title either
+    for title in ("Stuffed Animals Sale: 50% off + free shipping", "Christmas Tree Sale: Up to 60% Off + Free Shipping"):
+        assert _named(title) == ("", ""), title
+    assert _named("Mattress Firm Sale: Up to 50% off + free shipping")[0] == "Mattress Firm"
+
+
+def test_nov16_the_log_says_what_an_unnamed_store_post_had_to_go_on():
+    from slomp.sales import store_evidence
+    p = Post(source="hip2save", id="hip2save:2", url="https://hip2save.com/deals/comfrt/", posted_at=None,
+             title="Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)", text="Hoodies from $19 shipped.",
+             links=["https://hip2save.com/deals/", "https://go.example.net/?u=https%3A%2F%2Fshop.example.org%2Fsale"])
+    assert store_evidence(p) == ("title name 'Comfrt', links to go.example.net, shop.example.org, says it ships")
+    p = Post(source="hip2save", id="hip2save:3", url="https://hip2save.com/deals/bikes/", posted_at=None,
+             title="Up to 75% Off Electric Bikes", text="Head over to Jasion where bikes are on sale.")
+    assert store_evidence(p) == "title name 'Electric', no links, sends readers to 'Jasion'"
+    s, why = _sale("Up to 75% Off Electric Bikes + FREE Shipping", source="hip2save")
+    assert s is None and why["sale: store not identified"] == 1
+
+
+def test_nov16_single_products_no_rule_named():
+    # Slickdeals, Nov 10-16: 21 posts with no industry. Kinds of goods, never their brands:
+    for title, inds in (
+            ("3-Pk 10' KYEHD 60W USB-C Fast Charging Cables $4", ["tech"]),
+            ("12-Pk LiCB AAA Rechargeable 1100mAh 1.2V NiMH Batteries $14.15", ["tech"]),
+            ("Google Nest Wifi Pro 6E AXE5400 Tri-Band Mesh Router (Various Colors) $70", ["tech"]),
+            ('Anbernic RG28XX 2.83" Retro Game Handheld (3 Colors) $33.45 + Free S&H', ["tech"]),
+            ("Anbernic RG DS Handheld Retro Game Emulation System (Various Colors) $81.85", ["tech"]),
+            ("Woot! App: 1-Year NordVPN Internet Security Software (10 Devices, Digital) $20", ["tech"]),
+            ("Prime Members: 4-Ct FLYRUIT Bluetooth Air Tracker Tags for Apple Find My (iOS Only) $10", ["tech"]),
+            ("Merach 3D Motion Rocking Stair Stepper w/ Resistance Bands $30 + Free S&H", ["sports"]),
+            ("Prime Members: 4-Pc ZEAGUS Metal Hand Grip Strengthener Set $13.05", ["sports"]),
+            ("2-Pk J-B Weld Original Steel Reinforced Epoxy $10.20", ["home"]),
+            ("2-Pk Dozyant Propane Tank Gauge Level Indicator & Leak Detector (5-40 lb) $13", ["home"]),
+            ('78" Gimfoom 6GPM Dual Power Cordless Fuel Transfer Pump w/ 4x Adapters $25', ["auto"]),
+            ("Melissa & Doug Deluxe Wooden Magnetic Responsibility Chart w/ 90 Magnets $10.30", ["toys"])):
+        assert ind.from_text(title).industries == inds, title
+    # and where no rule names the kind of goods, how it connects, what it runs on or what it holds says electronics
+    for title in ("2-Pk Tapo Smart Energy 2.4G WiFi 15A Monitoring Matter Compatible Plug $15",
+                  'Wyze Scale Ultra Wi-Fi/BluetoothSmart Scale w/ 4.3" Color Display (2 colors) $40',
+                  "2-Pk ECO-WORTHY 10.24kWh 48V 100Ah Wall Mount Battery $1456 + Free S&H",
+                  "Bluetti 900Wh Pioneer Na(Sodium) station"):
+        c = ind.from_text(title)
+        assert (c.industries, c.rule) == (["tech"], "keywords:gadget-cue"), title
+    # only then: a rule that names the goods still decides, and words that only sound alike do not count
+    assert ind.from_text("USB Rechargeable Bike Light").industries == ["sports"]
+    assert ind.from_text("Men's Heated Vest with USB Battery Pack").industries == ["fashion"]
+    assert ind.from_text("Lithium Battery Jump Starter").industries == ["auto"]
+    assert ind.from_text("Ryobi 18V Lithium-Ion Battery").industries == ["home"]
+    for title in ("Stepper Motor Driver Board", "Wood Router with Plunge Base", "Rechargeable Hand Warmer 2-Pack",
+                  "New/Select Former Subscribers: 1-Yr Paramount+ Premium Streaming Service $70"):
+        assert ind.from_text(title).industries == [], title
+
+
+def test_nov16_the_log_says_what_the_learned_words_know_of_an_unfiled_title():
+    lex = _learned(("Anbernic RG35XX Handheld", ["tech"], 6), ("Anbernic Carry Case", ["fashion"], 2),
+                   ("Zyntrix Widget", ["home"], 3))
+    assert lex.classify("Anbernic RG28XX").industries == []                  # 75% tech: under the share to file by
+    assert lex.explain("Anbernic RG28XX Zyntrix") == "anbernic: 8 labelled, 75% tech"
+    assert lex.explain("Zyntrix Widget") == "no word with 8 labelled examples"
+    ind.use_lexicon(lex)
+    assert ind.explain_unlearned("Anbernic RG28XX") == "anbernic: 8 labelled, 75% tech"
+    ind.use_lexicon(None)
+    assert ind.explain_unlearned("Anbernic RG28XX") == ""
+

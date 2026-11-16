@@ -134,7 +134,7 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                        r"throw blankets?", r"(?:espresso|coffee|cold brew) (?:machines?|makers?)", r"espresso", r"brewers?",
                        r"(?:stand|hand) mixers?", r"air fryers?", r"slow cookers?", r"pressure cookers?"), ["home"]),
     # Car electronics: the Tech rule below would otherwise take them alone, and Automotive is the thinnest industry
-    ("auto-gear", _rx(r"dash ?cams?", r"dash(?:board)? cameras?", r"car (?:dvrs?|stereos?|radios?)", r"carplay"),
+    ("auto-gear", _rx(r"dash ?cams?", r"dash(?:board)? cameras?", r"car (?:dvrs?|stereos?|radios?)", r"carplay", r"android auto"),
      ["auto", "tech"]),
     ("tech-brand", _rx(r"verizon", r"t-mobile", r"straight talk", r"tracfone", r"cricket wireless", r"boost mobile", r"total wireless", r"energizer", r"duracell", r"apple (?:airpods|ipad|iphone|macbook|imac|watch|tv|pencil|products?|devices?)", r"airpods", r"ipad", r"mac (?:studio|mini|pro)",
                        r"iphone", r"macbook", r"nintendo", r"playstation", r"ps5", r"xbox", r"switch 2",
@@ -144,8 +144,14 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
     ("tech", _rx(r"tvs?", r"television", r"oled", r"qled", r"4k", r"uhd", r"laptops?", r"notebook pc",
                  r"chromebooks?", r"tablet(?!s)", r"smartphones?", r"cell phones?", r"headphones?", r"earbuds?",
                  r"soundbars?", r"(?:bluetooth|smart|portable|bookshelf) speakers?", r"monitors?", r"keyboards?",
-                 r"mouse(?! ?trap)", r"routers? (?:wi-?fi|mesh)|wi-?fi (?:\d+ )?router|mesh wi-?fi", r"(?:travel|portable|gaming|wireless) routers?", r"ssd",
+                 r"mouse(?! ?trap)", r"routers? (?:wi-?fi|mesh)|wi-?fi (?:\d+ )?router|mesh wi-?fi", r"(?:travel|portable|gaming|wireless|mesh|(?:tri|dual)-band) routers?", r"ssd",
                  r"hard drive", r"flash drive", r"micro ?sd", r"memory card", r"usb-?c? (?:cable|hub|adapter|charger|dock)", r"hdmi", r"webcams?",
+                 r"(?:charging|charger|lightning|ethernet|aux|audio|video|displayport|coaxial|extension) cables?",
+                 r"(?:retro|handheld|arcade) (?:video )?(?:games?|gaming|consoles?)", r"game (?:handhelds?|emulat\w+|systems?)",
+                 r"(?:game|gaming) handhelds?", r"emulation", r"vpn", r"antivirus", r"(?:internet |online |cyber)security software",
+                 r"password managers?", r"(?:gps|bluetooth|item|key|luggage|fitness|activity) trackers?", r"tracker tags?",
+                 r"(?:power|solar) inverters?", r"solar (?:panels?|generators?|chargers?)",
+                 r"(?:rechargeable|alkaline|nimh|lifepo4|aa|aaa|9v|coin|button|cr\d{4}) (?:\w+ ){0,3}?batter(?:y|ies)",
                  r"(?:digital|instant|security|dash|action) cam(?:era)?s?", r"drones?", r"smart ?watch(?:es)?",
                  r"video games?", r"gaming", r"consoles?", r"controllers?", r"printers?", r"projectors?",
                  r"(?:wall|car|wireless|phone|laptop|gan|usb-?c) chargers?", r"charging (?:station|dock|pad|stand)", r"power banks?", r"graphics cards?", r"gpu", r"processors?", r"cpu",
@@ -158,7 +164,8 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"making kits?", r"squish(?:y|ies)", r"ride-?ons?", r"rc (?:cars?|trucks?|walkers?|boats?|helicopters?|planes?|vehicles?|crawlers?|robots?)", r"remote[- ]control (?:cars?|trucks?|toys?|boats?|helicopters?)", r"party favors?", r"board books?", r"picture books?", r"kids\' books?", r"slime", r"stickers?", r"activity kits?", r"coloring", r"pumpkin (?:decorating|carving)", r"trick or treat", r"halloween (?:craft\w*|activity)", r"lego", r"toys?", r"dolls?", r"action figures?", r"puzzles?", r"board games?", r"card games?",
                  r"playsets?", r"nerf", r"barbie", r"hot wheels", r"plush (?:toys?|animals?|dolls?|pals?|characters?)", r"stuffed animals?", r"squishmallows?", r"funko",
                  r"play-doh", r"crayola", r"crafts?", r"craft supplies", r"yarn", r"party supplies", r"balloons?",
-                 r"costumes?"), ["toys"]),            # Halloween decor is Home's (below): "Target Halloween Decor Sale"
+                 r"costumes?", r"(?:responsibility|chore|reward|behavior|potty) charts?", r"(?:wooden|magnetic) (?:blocks?|tiles?)",
+                 r"building (?:blocks?|sets?|toys?)"), ["toys"]),   # Halloween decor is Home's (below): "Target Halloween Decor Sale"
     ("sports", _rx(r"fishing", r"hunting", r"camping", r"tents?", r"sleeping bags?", r"kayaks?", r"golf",
                    r"basketballs?", r"footballs?", r"baseball", r"softball", r"soccer", r"tennis", r"pickleball",
                    r"volleyball", r"bikes?", r"bicycles?", r"cycling", r"treadmills?", r"dumbbells?", r"kettlebells?",
@@ -166,7 +173,11 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                    r"ammo", r"ammunition", r"rifles?", r"shotguns?", r"handguns?", r"archery", r"crossbows?",
                    r"hiking", r"trail", r"coolers?", r"binoculars", r"scopes?", r"jerseys?", r"nfl", r"nba", r"mlb",
                    r"nhl", r"ncaa", r"skateboards?", r"scooters?", r"paddle ?boards?", r"swim(?:wear|suits?)?",
-                   r"yeti", r"stanley quencher", r"sports (?:gear|equipment|goods)"), ["sports"]),
+                   r"yeti", r"stanley quencher", r"sports (?:gear|equipment|goods)",
+                   r"(?:stair|mini|aerobic|twist) steppers?", r"stair climbers?", r"ellipticals?", r"rowing machines?",
+                   r"resistance bands?", r"(?:hand )?grip strengtheners?", r"hand grippers?", r"pull-?up bars?",
+                   r"jump ropes?", r"(?:ab|foam) rollers?", r"weight (?:bench(?:es)?|plates?|racks?|vests?)", r"barbells?",
+                   r"punching bags?", r"trampolines?"), ["sports"]),
     ("health", _rx(r"bladder control", r"incontinence", r"male guards?", r"guards for men", r"composure", r"tena", r"prevail", r"(?:incontinence|bladder|maxi|panty|heating|sanitary|bed) pads", r"pads (?:or|&|and) (?:liners|underwear)", r"kinesiology", r"therapy tape", r"cold therapy", r"(?:knee|back|wrist|ankle) (?:brace|support)s?", r"braces?", r"compression (?:sleeves?|socks)", r"heating pads?", r"massagers?", r"tens unit", r"hydrogen peroxide", r"rubbing alcohol", r"isopropyl", r"cotton swabs", r"q-?tips", r"liners", r"poise", r"always discreet", r"laxative", r"miralax", r"acid reducer", r"omeprazole", r"famotidine", r"antacids?", r"epsom salt", r"hand sanitizer", r"sanitizer", r"sanitizing", r"wellness (?:essentials|products?)", r"allergy", r"sleep aid", r"zzzquil", r"vicks", r"theraflu", r"emergen-c", r"airborne", r"\w+ health", r"vitamins?", r"supplements?", r"multivitamin", r"probiotics?", r"melatonin", r"tablets",
                    r"caplets", r"capsules", r"softgels", r"gummies", r"pain relie(?:f|ver)", r"allergy",
                    r"cold (?:&|and) flu", r"cough", r"antacid", r"first aid", r"bandages?", r"thermometers?",
@@ -174,7 +185,8 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                    r"motrin", r"aleve", r"claritin", r"zyrtec", r"mucinex", r"nyquil", r"dayquil", r"centrum",
                    r"nature made", r"protein powder", r"electrolytes?", r"contact lens(?:es)?", r"reading glasses",
                    r"incontinence", r"depend", r"\d+ ?mg", r"(?:contact )?lens (?:solution|cases?)",
-                   r"saline solution", r"multi-?purpose (?:disinfecting )?solutions?"), ["health"]),
+                   r"saline solution", r"multi-?purpose (?:disinfecting )?solutions?",
+                   r"(?:bathroom|body(?: fat| weight)?|smart|weight) scales?"), ["health"]),
     ("beauty", _rx(r"setting (?:spray|powder|mist)", r"(?:face|makeup|eye|lip|lash|pore) primer", r"eyeshadow", r"bronzer", r"milani", r"covergirl", r"rimmel", r"wet n wild", r"(?:hair|face|facial|body|hand|eye|night|day|shave|shaving|curl|styling) (?:cream|mask|oil|gel|serum|treatment|butter|scrub|mist|mousse)", r"sheamoisture", r"leave-in", r"edge control", r"toner pads", r"cotton pads", r"makeup remover(?: pads| wipes)?", r"(?:exfoliating|cleansing) pads", r"manscaped", r"body groomers?", r"(?:beard|hair|nose|body) trimmers?", r"groomers?", r"balms?", r"lip balm", r"smashbox", r"glass skin", r"hand soap", r"bar soap", r"body lotion", r"jergens", r"suave", r"pantene", r"head (?:&|and) shoulders", r"herbal essences", r"secret", r"degree", r"old spice", r"axe", r"essential oils?", r"makeup", r"cosmetics?", r"lipsticks?", r"lip gloss", r"mascara", r"eyeliner", r"foundation",
                    r"concealer", r"nail polish", r"nails", r"shampoos?", r"(?<!air )conditioners?", r"hair (?:care|dryer|color|spray)",
                    r"skin ?care", r"serums?", r"moisturi[sz]ers?", r"lotions?", r"body wash", r"cleansers?",
@@ -196,7 +208,10 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"automotive", r"vehicle", r"truck bed", r"trailer hitch", r"floor mats", r"antifreeze",
                  r"mobil 1", r"castrol", r"pennzoil", r"armor ?all", r"meguiar'?s", r"obd-?(?:ii|2)?", r"car air fresheners?",
                  r"winch(?:es)?", r"tire (?:inflators?|pumps?|pressure gauges?)", r"car (?:covers?|jacks?)",
-                 r"auto (?:parts|accessories|care)", r"car (?:parts|accessories)"), ["auto"]),
+                 r"auto (?:parts|accessories|care)", r"car (?:parts|accessories)",
+                 r"fuel (?:transfer )?(?:pumps?|cans?|tanks?|additives?|stabilizers?|injectors?|filters?|lines?)",
+                 r"gas cans?", r"oil (?:filters?|drain pans?|changes?)", r"jumper cables?", r"battery (?:chargers?|tenders?|maintainers?)"),
+     ["auto"]),
     ("office", _rx(r"office", r"school supplies", r"notebooks?(?! pc)", r"binders?", r"pens?", r"pencils?",
                    r"markers?", r"highlighters?", r"staplers?", r"paper (?:ream|case)", r"copy paper", r"ink",
                    r"toner", r"envelopes?", r"desk organizers?", r"filing (?:cabinets?|folders?|boxes|supplies|systems?|trays?)", r"file folders?", r"labels?", r"calculators?",
@@ -216,7 +231,10 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"heaters?", r"air purifiers?", r"humidifiers?", r"air conditioners?", r"generators?",
                  r"snow (?:shovels?|blowers?|throwers?)", r"tumblers?", r"water bottles?",
                  r"dewalt", r"milwaukee", r"ryobi", r"craftsman", r"kobalt", r"black\+decker", r"garage door openers?", r"gardening",
-                 r"home (?:&|and) kitchen", r"kitchen (?:deals|essentials|gadgets|tools|storage|appliances|gear|sale)"),
+                 r"home (?:&|and) kitchen", r"kitchen (?:deals|essentials|gadgets|tools|storage|appliances|gear|sale)",
+                 r"epoxy", r"construction adhesives?", r"(?:super|wood|construction) glue", r"sealants?", r"caulk", r"duct tape",
+                 r"propane", r"(?:gas |propane |water )?leak detectors?", r"(?:smoke|carbon monoxide|co) (?:detectors?|alarms?)",
+                 r"(?:kitchen|food) scales?"),
      ["home"]),
     ("grocery", _rx(r"(?:red|white|rosé|rose|sparkling) (?:wine|blend)", r"cabernet(?: sauvignon)?", r"merlot", r"pinot (?:noir|grigio|gris)", r"chardonnay", r"sauvignon blanc", r"moscato", r"riesling", r"zinfandel", r"malbec", r"prosecco", r"champagne", r"apothic", r"barefoot", r"sutter home", r"yellow tail", r"la marca", r"meiomi", r"kendall[- ]jackson", r"josh cellars", r"19 crimes", r"seltzers?", r"hard cider", r"emergency food", r"food supply", r"salad dressing", r"dressing", r"pepperoni", r"extract", r"juices?", r"kool-aid", r"capri sun", r"gumm(?:y|ies)", r"lunchables?", r"kellogg\'?s", r"general mills", r"kraft", r"oscar mayer", r"hormel", r"armour", r"campbell\'?s", r"progresso", r"ragu", r"prego", r"barilla", r"velveeta", r"jell-?o", r"pudding", r"popcorn", r"pretzels", r"(?:pub|snack|trail) mix", r"granola", r"bars", r"syrup", r"honey", r"peanut butter", r"jelly", r"spices?", r"seasonings?", r"flour", r"sugar", r"oil", r"budweiser", r"bud light", r"coors", r"miller lite", r"michelob", r"modelo", r"corona", r"dr ?pepper", r"sprite", r"fanta", r"7 ?up", r"canada dry", r"schweppes", r"mountain dew", r"gatorade", r"powerade", r"red bull", r"monster energy", r"celsius", r"hershey\'?s?", r"reese\'?s", r"kit ?kat", r"m&m\'?s", r"snickers", r"skittles", r"twix", r"blow pops?", r"tootsie", r"ferrero", r"nestle", r"mars", r"cake mix", r"brownie mix", r"frosting", r"morsels", r"meals?", r"dinners?", r"taco kit", r"fabric softener", r"downy", r"gain", r"suavitel", r"dish (?:liquid|soap|detergent)", r"palmolive", r"dawn", r"contractor bags", r"(?:trash|garbage|kitchen) bags", r"multi-purpose bags", r"air fresheners?", r"glade", r"plates", r"bowls", r"cups", r"utensils", r"foil", r"plastic wrap", r"zip ?loc\w*", r"hefty", r"glad", r"stain remover", r"spot remover", r"wrinkle releaser", r"chicken", r"beef", r"pork", r"steaks?", r"ground (?:beef|turkey)", r"bacon", r"sausages?",
                     r"ham", r"turkey", r"fish", r"salmon", r"shrimp", r"seafood", r"eggs", r"milk", r"cheese",
@@ -250,6 +268,11 @@ PET_WORD = re.compile(r"\b(?:dogs?|cats?|pupp(?:y|ies)|kittens?|pets?)\b", re.I)
 # Applied only when no other rule matched: "Men's ...", "Juniors' ..." in a department-store ad is clothing.
 APPAREL_CUE = re.compile(r"\b(?:men'?s|women'?s|juniors'?|misses'?|girls'?|boys'?|toddler'?s?|plus size|big (?:&|and) tall)\b",
                          re.I)
+# Applied only when no rule names the product: the words of how a gadget connects, what it runs on and what it holds
+# ("USB-C", "Wi-Fi", "Bluetooth", "iOS", "1100mAh", "100Ah", "5120Wh"). Whatever carries them is electronics.
+GADGET_CUE = re.compile(r"\b(?:usb(?:-?[ac])?|wi-?fi(?: ?\d\w?)?|bluetooth|hdmi|ethernet|thunderbolt|nfc|ios|android|"
+                        r"\d+(?:\.\d+)?\s?(?:mah|k?wh|ah)|lifepo4|nimh|li-?ion|lithium-ion|rechargeable batter(?:y|ies))\b|"
+                        r"\b(?:wi-?fi|bluetooth)(?=[A-Z/])", re.I)
 TEXT_RULE_ORDER = tuple(r[0] for r in KEYWORD_RULES)
 
 # A health word next to a tech word ("smart watch blood pressure") is ambiguous; these words win outright.
@@ -326,6 +349,8 @@ def from_text(*texts: str) -> Classification:
             return Classification(["pets"], "keywords:pet-word")
         if APPAREL_CUE.search(text):
             return Classification(["fashion"], "keywords:apparel-cue")
+        if GADGET_CUE.search(text):
+            return Classification(["tech"], "keywords:gadget-cue")
         return Classification([], "")
     for name, inds in hits:
         if name in _DOMINANT:
@@ -486,6 +511,25 @@ class Lexicon:
     def words(self) -> int:
         return sum(bool(self.industries_of(w)[0]) for w in self.seen)
 
+    def explain(self, *texts: str, most: int = 3) -> str:
+        """Why no learned word files a title, for a build's log: its best-attested words and what their labelled
+        examples say ("anbernic: 12 labelled, 75% tech"). Words seen in fewer than LEARN_MIN examples are not kept,
+        so a title of only those has none to show."""
+        told = []
+        for w in words_of(*texts):
+            labels = self.seen.get(w)
+            if not labels:
+                continue
+            total = sum(labels.values())
+            share: Counter = Counter()
+            for label, n in labels.items():
+                for i in label:
+                    share[i] += n
+            top, n = share.most_common(1)[0]
+            told.append((total, f"{w}: {total} labelled, {round(100 * n / total)}% {top}"))
+        return "; ".join(t for _, t in sorted(told, reverse=True)[:most]) or \
+            f"no word with {LEARN_MIN} labelled examples"
+
 
 _LEXICON: Optional[Lexicon] = None
 
@@ -498,6 +542,11 @@ def use_lexicon(lex: Optional[Lexicon]) -> None:
 
 def learned(*texts: str, allowed: Optional[Iterable[str]] = None) -> Classification:
     return _LEXICON.classify(*texts, allowed=allowed) if _LEXICON else Classification([], "")
+
+
+def explain_unlearned(*texts: str) -> str:
+    """What the learned words know of a title no rule and no learned word filed ("" with no learned words in use)."""
+    return _LEXICON.explain(*texts) if _LEXICON else ""
 
 
 def example(source: str, key: str, texts: Iterable[str], industries: Iterable[str]) -> Optional[tuple[str, str, str, str]]:

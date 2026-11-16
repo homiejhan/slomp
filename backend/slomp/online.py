@@ -74,12 +74,12 @@ def classify_post(p: Post, learn: bool = True) -> ind.Classification:
     return ind.learned(p.title, allowed=shop.sells if shop else None) or c
 
 
-def note_left_out(left_out: dict[str, dict[str, str]], why: Counter, p: Post) -> None:
+def note_left_out(left_out: dict[str, dict[str, str]], why: Counter, p: Post, detail: str = "") -> None:
     """Note the post under each reason it was left out for, so a build's log can show which posts were left out, not
-    only how many: reason -> post id -> the post in a few words."""
+    only how many: reason -> post id -> the post in a few words (and what else the reason's reader needs)."""
     for reason in why:
         left_out.setdefault(reason, {})[p.id] = f"{p.title[:100]!r} ({SOURCE_NAMES.get(p.source, p.source)}" + \
-            (f", category {p.category!r})" if p.category else ")")
+            (f", category {p.category!r}" if p.category else "") + (f"; {detail})" if detail else ")")
 
 
 def labelled_posts(posts) -> list[tuple[str, str, str, str]]:
@@ -179,7 +179,8 @@ class OnlineDeals:
             before = res.excluded.copy()
             d = self._deal(post, now, res)
             if d is None:
-                note_left_out(res.left_out, res.excluded - before, post)
+                why = res.excluded - before
+                note_left_out(res.left_out, why, post, ind.explain_unlearned(post.title) if "no industry" in why else "")
                 continue
             if not wanted & set(d.industries):
                 res.excluded["other industry"] += 1
