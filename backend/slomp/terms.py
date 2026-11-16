@@ -192,6 +192,10 @@ _COUPON_WORDS = r"(?:[A-Za-z®™'/-]+\s+){0,4}?coupons?\b"
 _COUPON_AMOUNT = re.compile(_AMOUNT + r"\s?(?:off\s+)?(?:(?:(?:on|off)\s+(?:any\s+)?|when\s+you\s+buy\s+(?:any\s+)?)?" + _COUNT +
                             r"\s+)?" + _COUPON_WORDS + r"|\bcoupons?\s*[-–:]\s*" + _AMOUNT, re.I)
 _COUPON_NEXT = re.compile(r"^\s*" + _COUPON_WORDS, re.I)
+# Not a coupon's saving: what a coupon earns ("$5 gift card with coupon", "$8 rewards with coupon"), or the order it
+# takes ("$5 off $25 coupon": the $25).
+_COUPON_EARNS = re.compile(r"\b(?:gift\s*cards?|rewards?|extrabucks|cash\s*back|back|points|credit|rebate)\b", re.I)
+_ORDER_BEFORE = re.compile(r"\b(?:off|spend|of|over|on|purchase)\s*$", re.I)
 # The dollar figure sits where the price goes, after "SAVE": "INSTANTLY SAVE [$1] WHEN YOU BUY 2", "SAVE [$2] DG DIGITAL
 # COUPON". The words after it carry on the sentence; a lone "SAVE" over a price is a burst beside a price.
 _SAVE_BEFORE = re.compile(r"\b(?:instantly\s+)?save(\s+up\s+to)?\s*$", re.I)
@@ -256,7 +260,7 @@ def coupon_saving(text: str) -> Optional[tuple[float, int]]:
     given ("FINAL PRICE WITH COUPON", "/EA With Digital Coupon")."""
     for m in _COUPON_AMOUNT.finditer(text):
         amount = _amount(m, 1) or _amount(m, 5)
-        if amount:
+        if amount and not _COUPON_EARNS.search(m.group(0)) and not _ORDER_BEFORE.search(text[:m.start()]):
             return amount, _count(m.group(4))
     return None
 

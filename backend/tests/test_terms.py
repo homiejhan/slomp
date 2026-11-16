@@ -177,6 +177,11 @@ def test_a_coupons_amount_is_the_saving():
     t = _said("5.00", "2 POR $6.00 -$1.00 Digital Coupon", pre_price_text="2/")
     assert (t.price, t.regular) == (2.5, 3.0)
     assert _said(None, "75¢ OFF with Smart Coupon*†").savings == 0.75
+    # what a coupon earns, or the order it takes, is not what it saves
+    for words in ("$5 gift card with coupon", "Get $8 rewards with coupon", "$5 off $25 coupon"):
+        t = _said("9.99", words)
+        assert t.savings is None and t.basis == "none", words
+    assert _said("5.49", "$2.50 Digital mfr coupon + Spend $25 get $8 ExtraBucks Rewards").savings == 2.5
 
 
 def test_the_saving_printed_where_the_price_goes_after_save():
