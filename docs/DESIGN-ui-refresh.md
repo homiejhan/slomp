@@ -103,6 +103,33 @@ dropdown; the OpenStreetMap credit stays visible.
   system font. No web fonts are loaded.
 - Dark mode gets the same treatment; picture tiles stay light in both, because product cut-outs are on white.
 
+## Second pass: more room, drawn pictures, and arriving (Nov 16, 2026)
+
+Three things were asked for: better spacing, simple pictures in place of the emoji, and a fade-in.
+
+- **Pictures.** The emoji looked different on every device and had no color of their own to tie them to a
+  category. Slomp now draws its own: one simple two-tone picture per category (a laptop, a ball, a shirt, a house,
+  a lipstick, a capsule, a basket, a bear, a bottle, a paw, a car, a pencil, a fork and knife, a ticket), per kind
+  of place with regular deals (a clapperboard, a golf flag, a bowling pin, a museum, an elephant, a cocktail glass,
+  a cup, a bag) and per state of the page (a shop, a calendar, a globe, a cloud struck out, a sad face, a list, a
+  warning). Each is lines over a soft fill, on a 24-unit grid, kept as path data in the page (`ART`). The page draws
+  them as SVG and the share card's canvas draws the same paths, so the two always agree.
+- **Color.** Each category has a hue (`HUE`). `.tint` gives a picture that hue's dark tone and the tile behind it
+  the light one; the theme sets how light (`--tint-*`, `--ink-*`). So a category looks the same wherever it shows:
+  its tile in the search panel, its chip under the tabs, the round tile on a deal with no photo, an empty tab.
+- **Room.** The category tiles are larger rounded squares in one row of equal columns on a wide screen. There is
+  more space between the panel, the tabs, the chips and the cards, inside the cards and the details, and around the
+  welcome and the footer. A phone gets a little more too, without losing a card per screen.
+- **Arriving.** What is new on the page fades in and settles upward by 14 px over half a second: the page as it
+  opens, a search's results, a tab's chips and deals, each deal a moment after the one before (45 ms apart, 12 to a
+  round), and more deals as "Show more" adds them. What was already there stays put: choosing a category, a day or a
+  sort brings in its deals, not the tabs and chips above them (`render("search" | "tab" | "")` says which). The
+  details rise a little as they open. With "reduce motion" set, nothing moves or fades.
+
+Checked the way the first pass was, on a local stand-in for the server with sample deals read by Slomp's own
+readers: every tab, the details, an empty tab and the card's picture at desktop and phone widths, light and dark; what
+animates after a search, a tab and a category; reduced motion; no page errors.
+
 ## What must keep working
 
 The tour's targets (`.combo`, the `#chips` fieldset, `#results .tabs`, `#results [data-add]`, `#tour-btn`, `#go`);

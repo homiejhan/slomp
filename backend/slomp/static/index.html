@@ -17,7 +17,9 @@
   --grad: linear-gradient(135deg, #b13f91, #6e2459);           /* white text on it: 5.2:1 or more */
   --grad-shadow: 0 6px 16px rgba(110, 36, 89, .26);
   --logo-a: #b13f91; --logo-b: #6e2459;
-  --tile: #f6f2f5; --tint-s: 85%; --tint-l: 94%;                 /* category tiles: hsl(hue, s, l) */
+  --tile: #f6f2f5;
+  /* A category's color is a hue: its tile is hsl(hue, tint), the picture on it hsl(hue, ink). */
+  --tint-s: 85%; --tint-l: 93%; --ink-s: 58%; --ink-l: 36%;
   --urgent: #c2410c; --urgent-bg: #fff1e8; --soon: #a15c00;
   --warn-bg: #fff4de; --warn-ink: #8a5300; --ok-bg: #e3f4e8; --ok-ink: #18703a;
   --shadow-sm: 0 1px 2px rgba(31, 26, 33, .06);
@@ -36,7 +38,7 @@
     --accent: #e6a9d4; --accent-hover: #f0c1e3; --on-accent: #2a1023; --accent-soft: #34202f; --accent-ink: #efbfe0;
     --grad-shadow: 0 6px 16px rgba(0, 0, 0, .4);
     --logo-a: #d670bb; --logo-b: #9a3a84;
-    --tile: #ece6eb; --tint-s: 30%; --tint-l: 25%;
+    --tile: #ece6eb; --tint-s: 30%; --tint-l: 25%; --ink-s: 62%; --ink-l: 80%;
     --urgent: #ff9e7d; --urgent-bg: #3b1e12; --soon: #f3c276;
     --warn-bg: #3a2c12; --warn-ink: #f3c276; --ok-bg: #16301f; --ok-ink: #93d6a8;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
@@ -54,7 +56,7 @@ body {
   margin: 0; color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased;
   background: radial-gradient(1100px 420px at 50% -140px, var(--accent-soft), transparent 72%) no-repeat, var(--bg);
 }
-.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 a { color: var(--accent-ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .muted { color: var(--muted); }
@@ -65,18 +67,24 @@ legend { padding: 0; }
 .i { width: 1em; height: 1em; flex: none; }
 .seal { width: 15px; height: 15px; flex: none; color: var(--ok-ink); }
 .seal path { stroke: var(--surface); }
+/* Slomp's pictures: two-tone drawings, sized by the font size and drawn in the text color. --sw is how heavy the
+   lines are (bigger pictures take thinner ones). .tint gives a picture and the tile behind it a category's hue. */
+.art { width: 1em; height: 1em; flex: none; overflow: visible; fill: none; stroke: currentColor;
+       stroke-width: var(--sw, 1.7); stroke-linecap: round; stroke-linejoin: round; }
+.art .f { fill: currentColor; fill-opacity: .2; stroke: none; }
+.tint { color: hsl(var(--h, 320) var(--ink-s) var(--ink-l)); background: hsl(var(--h, 320) var(--tint-s) var(--tint-l)); }
 
 /* ---- header ---------------------------------------------------------------------------------------------- */
-.top { display: flex; align-items: center; gap: 8px 18px; flex-wrap: wrap; padding: 24px 0 20px; }
+.top { display: flex; align-items: center; gap: 10px 20px; flex-wrap: wrap; padding: 30px 0 26px; }
 .brand { display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; border-radius: 10px; }
 .brand svg { display: block; width: auto; height: 40px; }
 .tagline { margin: 0; color: var(--muted); font-size: 15px; }
 
 /* ---- search panel ---------------------------------------------------------------------------------------- */
-.panel { display: grid; gap: 20px; padding: 22px; background: var(--surface); border: 1px solid var(--line);
+.panel { display: grid; gap: 26px; padding: 28px 30px 26px; background: var(--surface); border: 1px solid var(--line);
          border-radius: var(--r-lg); box-shadow: var(--shadow-card); }
-.fields { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
-.label { display: block; margin-bottom: 8px; font-size: 13.5px; font-weight: 650; color: var(--muted); }
+.fields { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; align-items: end; }
+.label { display: block; margin-bottom: 10px; font-size: 13.5px; font-weight: 650; color: var(--muted); }
 .combo { position: relative; }
 .combo > svg { position: absolute; left: 16px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%);
                color: var(--accent); pointer-events: none; }
@@ -114,42 +122,46 @@ legend { padding: 0; }
 .btn[disabled] { opacity: .65; cursor: progress; }
 .btn .i { width: 16px; height: 16px; }
 
-/* What you're shopping for: a round picture per category, a check on the chosen ones. */
-.cats { display: flex; flex-wrap: wrap; gap: 10px 2px; }
-.cat { display: grid; justify-items: center; align-content: start; gap: 7px; min-width: 70px; padding: 4px 4px 2px;
+/* What you're shopping for: each category's picture on a tile of its color, a check on the chosen ones. */
+/* On a wide screen they are one row of equal columns (--n of them, set where they are drawn); a longer name runs a
+   little past its column, under its neighbours' free space. */
+.cats { display: grid; grid-template-columns: repeat(var(--n, 14), minmax(0, 1fr)); gap: 18px 0; }
+.cat { display: grid; justify-items: center; align-content: start; gap: 9px; min-width: 0; padding: 4px 0 2px;
        font: inherit; color: var(--muted); background: none; border: 0; border-radius: 14px; cursor: pointer;
        -webkit-tap-highlight-color: transparent; }
-.cat .ico { position: relative; display: grid; place-items: center; width: 54px; height: 54px; font-size: 26px;
-            line-height: 1; border-radius: 50%; background: hsl(var(--h, 320) var(--tint-s) var(--tint-l));
-            transition: transform .15s ease, box-shadow .15s ease; }
+.cat .ico { position: relative; display: grid; place-items: center; width: 58px; height: 58px; font-size: 29px;
+            line-height: 1; border-radius: 20px; --sw: 1.6; transition: transform .15s ease, box-shadow .15s ease; }
 .cat .lbl { font-size: 13px; font-weight: 600; line-height: 1.2; white-space: nowrap; }
 .cat:hover .ico { transform: translateY(-2px); }
 .cat[aria-pressed="true"] { color: var(--ink); }
 .cat[aria-pressed="true"] .lbl { font-weight: 750; }
 .cat[aria-pressed="true"] .ico { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
-.cat[aria-pressed="true"] .ico::after { content: "✓"; position: absolute; top: -4px; right: -4px; display: grid;
+.cat[aria-pressed="true"] .ico::after { content: "✓"; position: absolute; top: -6px; right: -6px; display: grid;
        place-items: center; width: 21px; height: 21px; font: 900 11px/1 var(--font); color: var(--on-accent);
        background: var(--accent); border: 2px solid var(--surface); border-radius: 50%; }
 .cat:focus-visible { outline: none; }
 .cat:focus-visible .ico { outline: 2px solid var(--accent); outline-offset: 7px; }
 .form-msg { margin: 0; font-size: 14px; color: var(--urgent); }
+@media (max-width: 1119px) {
+  .cats { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 16px 4px; }
+}
 
 /* Filter chips inside a tab. */
-.pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; font: inherit;
+.pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 15px; font: inherit;
         font-size: 14px; font-weight: 550; color: var(--ink); background: var(--surface);
         border: 1px solid var(--line-strong); border-radius: 999px; cursor: pointer; white-space: nowrap;
         transition: background .12s, border-color .12s; }
 .chip:hover { border-color: var(--accent); }
 .chip[aria-pressed="true"], .chip[aria-selected="true"] { background: var(--accent-soft); border-color: var(--accent);
         color: var(--accent-ink); font-weight: 700; }
-.chip .ico { font-size: 15px; line-height: 1; }
+.chip .ico { display: inline-grid; font-size: 17px; line-height: 1; --sw: 1.9; color: hsl(var(--h, 320) var(--ink-s) var(--ink-l)); }
 .chip .n { font-size: 12.5px; font-weight: 600; color: var(--muted); }
 .chip[aria-selected="true"] .n { color: inherit; }
 
 /* ---- results --------------------------------------------------------------------------------------------- */
 /* The tabs: a pill bar, the chosen tab filled. It scrolls sideways when it doesn't fit (a phone). */
-.tabs { display: flex; gap: 4px; width: fit-content; max-width: 100%; margin-top: 32px; padding: 5px; overflow-x: auto;
+.tabs { display: flex; gap: 4px; width: fit-content; max-width: 100%; margin-top: 40px; padding: 5px; overflow-x: auto;
         background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow-sm);
         scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
@@ -162,15 +174,15 @@ legend { padding: 0; }
 .tab .n { padding: 3px 8px; border-radius: 999px; font-size: 12.5px; font-weight: 700; background: var(--line);
           color: var(--muted); }
 .tab[aria-selected="true"] .n { background: rgba(255, 255, 255, .22); color: #fff; }
-.subhead { display: grid; gap: 14px; margin: 22px 0 20px; }
-.ctx { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.subhead { display: grid; gap: 18px; margin: 28px 0 26px; }
+.ctx { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; }
 .ctx-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .cchip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; font-size: 13.5px;
          font-weight: 550; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
          border-radius: 999px; white-space: nowrap; }
 .cchip .i { width: 15px; height: 15px; color: var(--accent); }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 22px 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 28px 22px; }
 .card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface); border: 1px solid var(--line);
         border-radius: var(--r-md); box-shadow: var(--shadow-card); cursor: pointer;
         transition: transform .16s ease, box-shadow .16s ease; }
@@ -186,7 +198,11 @@ legend { padding: 0; }
    The clip box shows just the picture, fitted to the tile; --r is set when the image loads. */
 .clip { width: min(100cqw - 28px, (100cqh - 28px) * var(--r, 1.6)); aspect-ratio: var(--r, 1.6); overflow: hidden; }
 .thumb .clip img { position: static; display: block; width: 100%; height: auto; padding: 0; }
-.thumb .ph { font-size: 48px; line-height: 1; }
+/* No photo: the deal's picture on a round tile of its category's color, sized to the tile it sits in. The photo tile
+   is light in both themes, so this one is too. */
+.ph { display: grid; place-items: center; border-radius: 50%; line-height: 1; --sw: 1.35;
+      --tint-s: 85%; --tint-l: 93%; --ink-s: 58%; --ink-l: 36%; }
+.thumb .ph { width: clamp(60px, 44cqw, 62cqh); height: clamp(60px, 44cqw, 62cqh); font-size: clamp(30px, 22cqw, 31cqh); }
 .thumb.has-img .ph { display: none; }
 /* Badges sit on the picture tile, which is light in both themes, so their colors don't follow the theme. */
 .badge { position: absolute; left: 10px; top: 10px; padding: 5px 10px; border-radius: 999px;
@@ -195,7 +211,7 @@ legend { padding: 0; }
 .badge.soft { color: #7a2765; background: #fff; box-shadow: inset 0 0 0 1.5px #8a2c72, 0 1px 3px rgba(31, 26, 33, .12); }
 .badge.inline { position: static; align-self: center; box-shadow: none; }
 .badge.inline.soft { background: transparent; color: var(--accent-ink); box-shadow: inset 0 0 0 1.5px var(--accent); }
-.body { display: flex; flex: 1; flex-direction: column; gap: 5px; padding: 13px 15px 14px; }
+.body { display: flex; flex: 1; flex-direction: column; gap: 6px; padding: 15px 17px 17px; }
 .price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-variant-numeric: tabular-nums; }
 .price b { font: 800 22px/1.15 var(--round); letter-spacing: -0.02em; }
 .price s { font-size: 14px; color: var(--muted); }
@@ -206,7 +222,7 @@ legend { padding: 0; }
 .title.long { -webkit-line-clamp: 3; }      /* an offer with no price line: the title is the offer */
 /* The card's last line: who and how far, and when it ends. */
 .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 3px 10px;
-        margin-top: auto; padding-top: 6px; font-size: 13px; color: var(--muted); }
+        margin-top: auto; padding-top: 9px; font-size: 13px; color: var(--muted); }
 .who { display: inline-flex; align-items: center; gap: 5px; min-width: 0; max-width: 100%; white-space: nowrap; }
 .who b { overflow: hidden; text-overflow: ellipsis; font-weight: 650; color: var(--ink); }
 .end { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
@@ -224,7 +240,8 @@ legend { padding: 0; }
 .body > .tag { align-self: flex-start; }
 
 /* Regular deals: one button per day of the coming week. */
-.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: -2px; scrollbar-width: none; }
+/* The padding leaves room for the chosen day's glow, which the row's scrolling would otherwise cut off. */
+.days { display: flex; gap: 10px; overflow-x: auto; padding: 10px 18px 26px; margin: -10px -18px -20px; scrollbar-width: none; }
 .days::-webkit-scrollbar { display: none; }
 .day { display: grid; flex: none; justify-items: center; gap: 1px; min-width: 66px; padding: 9px 12px 8px; font: inherit;
        color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
@@ -234,25 +251,25 @@ legend { padding: 0; }
 .day small { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .day[aria-selected="true"] { color: #fff; background: var(--grad); border-color: transparent; box-shadow: var(--grad-shadow); }
 .day[aria-selected="true"] small { color: rgba(255, 255, 255, .86); }
-.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
-.rcard { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 16px 18px;
+.rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(336px, 1fr)); gap: 20px; }
+.rcard { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; align-items: start; padding: 20px 20px 22px;
          background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card);
          cursor: pointer; transition: transform .16s ease, box-shadow .16s ease; }
 .rcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.rthumb { position: relative; display: grid; place-items: center; width: 64px; height: 64px; font-size: 30px;
-          line-height: 1; background: var(--accent-soft); border-radius: 18px; overflow: hidden; }
-/* A company's logo covers the icon once it loads; a square app icon fills the tile, other logos sit on white. */
+.rthumb { position: relative; display: grid; place-items: center; width: 64px; height: 64px; font-size: 32px;
+          line-height: 1; border-radius: 20px; overflow: hidden; --sw: 1.6; }
+/* A company's logo covers the picture once it loads; a square app icon fills the tile, other logos sit on white. */
 .rthumb img { position: absolute; inset: 0; width: 100%; height: 100%; padding: 8px; object-fit: contain;
               background: #fff; border: 1px solid var(--line); border-radius: inherit; opacity: 0;
               transition: opacity .2s ease; }
 .rthumb.cover img { padding: 0; object-fit: cover; border: 0; }
 .rthumb img.ok { opacity: 1; }
-.rcard .body { gap: 3px; padding: 0 34px 0 0; }        /* room for the + button */
+.rcard .body { gap: 4px; padding: 0 34px 0 0; }        /* room for the + button */
 .rcard .who { font-size: 13.5px; color: var(--muted); }
 .rcard .offer { font-size: 21px; line-height: 1.2; }
 .rcard .price b { font-size: 21px; color: var(--accent-ink); }
 .rcard .title { font-size: 14px; font-weight: 450; color: var(--muted); }
-.sched { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 7px; padding: 5px 11px;
+.sched { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 10px; padding: 5px 11px;
          font-size: 13px; font-weight: 650; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; }
 .sched .i { width: 14px; height: 14px; }
 .ctx .sort { margin-left: auto; }
@@ -267,23 +284,25 @@ legend { padding: 0; }
 .proof .how { display: inline-flex; align-items: center; gap: 6px; font-weight: 650; }
 .proof .how.off { font-weight: 400; color: var(--muted); }
 .proof q { color: var(--muted); quotes: "“" "”"; }
-.fine { margin: 26px 0 0; font-size: 13.5px; color: var(--muted); }
-.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 30px; font-size: 14px; }
+.fine { margin: 32px 0 0; font-size: 13.5px; color: var(--muted); }
+.more { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 36px; font-size: 14px; }
 
-.notice { display: flex; gap: 10px; margin: 20px 0 0; padding: 12px 16px; border-radius: var(--r-sm);
+.notice { display: flex; align-items: center; gap: 10px; margin: 24px 0 0; padding: 13px 18px; border-radius: var(--r-sm);
           font-size: 14px; color: var(--warn-ink); background: var(--warn-bg); }
-.empty { padding: 48px 20px; text-align: center; color: var(--muted); background: var(--surface);
+.notice .art { font-size: 19px; }
+.empty { padding: 56px 24px; text-align: center; color: var(--muted); background: var(--surface);
          border: 1px dashed var(--line-strong); border-radius: var(--r-md); }
-.empty .big { font-size: 44px; line-height: 1; }
-.empty h3 { margin: 14px 0 6px; font: 750 19px/1.3 var(--round); color: var(--ink); }
-.empty p { max-width: 520px; margin: 0 auto 16px; }
+.empty .big { display: inline-grid; place-items: center; width: 84px; height: 84px; font-size: 42px; line-height: 1;
+              border-radius: 50%; --sw: 1.4; }
+.empty h3 { margin: 18px 0 6px; font: 750 19px/1.3 var(--round); color: var(--ink); }
+.empty p { max-width: 520px; margin: 0 auto 18px; }
 
 /* "About these deals": how a tab works, its fine print and what was left out, folded away. */
-.about { margin-top: 36px; border-top: 1px solid var(--line); }
+.about { margin-top: 48px; border-top: 1px solid var(--line); }
 .about > summary, .drop > summary, footer summary { list-style: none; cursor: pointer; }
 .about > summary::-webkit-details-marker, .drop > summary::-webkit-details-marker,
 footer summary::-webkit-details-marker { display: none; }
-.about > summary { display: inline-flex; align-items: center; gap: 8px; padding: 16px 2px; font-size: 14.5px;
+.about > summary { display: inline-flex; align-items: center; gap: 8px; padding: 18px 2px; font-size: 14.5px;
                    font-weight: 650; color: var(--muted); }
 .about > summary:hover { color: var(--ink); }
 .about > summary .i { width: 17px; height: 17px; }
@@ -324,26 +343,26 @@ details[open] > summary .chev { transform: rotate(180deg); }
 .sid .slogo .initial { font-size: 22px; }
 .sid h2 { margin: 0; font: 750 23px/1.25 var(--round); letter-spacing: -0.015em; }
 .sid p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
-.sec { display: flex; align-items: baseline; gap: 8px; margin: 30px 0 14px; font: 750 18px/1.3 var(--round); }
+.sec { display: flex; align-items: baseline; gap: 8px; margin: 36px 0 16px; font: 750 18px/1.3 var(--round); }
 .sec .muted { font-weight: 600; font-size: 14px; }
 .codebox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
 .codebox code { padding: 6px 12px; font: 700 16px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .05em;
                 color: var(--accent-ink); background: var(--accent-soft); border: 1.5px dashed var(--accent); border-radius: 10px; }
 
 /* ---- welcome and loading --------------------------------------------------------------------------------- */
-.welcome { padding: 52px 0 8px; text-align: center; }
-.welcome h2 { margin: 0 0 8px; font: 800 clamp(27px, 4vw, 36px)/1.15 var(--round); letter-spacing: -0.025em; }
-.welcome > p { max-width: 520px; margin: 0 auto 18px; font-size: 16.5px; color: var(--muted); }
-.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin: 0 auto 8px; }
-.feat { display: grid; justify-items: center; align-content: start; gap: 4px; padding: 24px 18px 22px; text-align: center;
+.welcome { padding: 64px 0 8px; text-align: center; }
+.welcome h2 { margin: 0 0 10px; font: 800 clamp(27px, 4vw, 38px)/1.15 var(--round); letter-spacing: -0.025em; }
+.welcome > p { max-width: 520px; margin: 0 auto 22px; font-size: 16.5px; color: var(--muted); }
+.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 900px; margin: 0 auto 8px; }
+.feat { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 30px 22px 28px; text-align: center;
         background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card); }
-.feat .fi { display: grid; place-items: center; width: 62px; height: 62px; margin-bottom: 10px; font-size: 31px; line-height: 1;
-            border-radius: 20px; background: hsl(var(--h) var(--tint-s) var(--tint-l)); }
+.feat .fi { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 12px; font-size: 32px; line-height: 1;
+            border-radius: 22px; --sw: 1.6; }
 .feat b { font: 750 17.5px/1.25 var(--round); }
-.feat span { font-size: 14.5px; color: var(--muted); }
-.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-bottom: 40px;
+.feat > span:last-child { font-size: 14.5px; color: var(--muted); }
+.quick { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-bottom: 56px;
          font-size: 14px; }
-.status { display: flex; align-items: center; gap: 10px; margin: 30px 0 18px; font-size: 15px; color: var(--muted); }
+.status { display: flex; align-items: center; gap: 10px; margin: 36px 0 22px; font-size: 15px; color: var(--muted); }
 .spin { flex: none; width: 16px; height: 16px; border: 2px solid var(--line-strong); border-top-color: var(--accent);
         border-radius: 50%; animation: spin .8s linear infinite; }
 .skel { cursor: default; pointer-events: none; }
@@ -356,18 +375,18 @@ details[open] > summary .chev { transform: rotate(180deg); }
 /* ---- details --------------------------------------------------------------------------------------------- */
 dialog.sheet { width: min(840px, calc(100vw - 32px)); max-width: none; padding: 0; overflow: hidden; color: var(--ink);
                background: var(--surface); border: 0; border-radius: var(--r-lg); box-shadow: var(--shadow-lg); }
-dialog.sheet[open] { animation: rise .22s ease-out; }
-dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); }
-@keyframes rise { from { opacity: .4; transform: translateY(18px); } }
+dialog.sheet[open] { animation: rise .28s cubic-bezier(.2, .7, .2, 1); }
+dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); animation: appear .28s ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.985); } }
 .sheet-scroll { max-height: min(90vh, 880px); overflow: auto; overscroll-behavior: contain; }
 .sheet-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
 .pic { position: relative; display: grid; place-items: center; min-height: 340px; padding: 28px; background: var(--tile); }
 .pic img { max-width: 100%; max-height: 440px; object-fit: contain; mix-blend-mode: multiply; }
 .pic.cover { padding: 0; }
 .pic.cover img { width: 100%; height: 100%; max-height: none; object-fit: cover; mix-blend-mode: normal; }
-.pic .ph { font-size: 76px; line-height: 1; }
+.pic .ph { width: 148px; height: 148px; font-size: 76px; --sw: 1.25; }
 .pic.has-img .ph { display: none; }
-.info { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 30px 28px 26px; }
+.info { display: flex; flex-direction: column; gap: 16px; min-width: 0; padding: 34px 32px 30px; }
 .eyebrow { display: flex; align-items: center; gap: 6px; margin: 0 40px 0 0; font-size: 13.5px; font-weight: 650; color: var(--muted); }
 .info h2 { margin: -6px 0 0; font: 750 21px/1.3 var(--round); letter-spacing: -0.015em; }
 .info h2.says { margin: -8px 0 0; font: 450 16px/1.45 var(--font); letter-spacing: 0; color: var(--muted); }   /* a regular deal's own words, under its offer */
@@ -385,7 +404,7 @@ dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); }
 .hchip.warn { color: var(--warn-ink); background: var(--warn-bg); border-color: transparent; }
 .drops { border-top: 1px solid var(--line); }
 .drop { border-bottom: 1px solid var(--line); }
-.drop > summary { display: flex; align-items: center; gap: 10px; padding: 14px 2px; font-weight: 650; }
+.drop > summary { display: flex; align-items: center; gap: 10px; padding: 16px 2px; font-weight: 650; }
 .drop > summary > span:first-child { flex: none; }
 .drop > summary:hover { color: var(--accent-ink); }
 .drop > summary .note { margin-left: auto; overflow: hidden; font-size: 13px; font-weight: 500; color: var(--muted);
@@ -393,9 +412,9 @@ dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); }
 .drop > summary .chev { width: 18px; height: 18px; color: var(--muted); }
 .drop > summary .note + .chev { margin-left: 0; }
 .drop > summary > span:first-child + .chev { margin-left: auto; }
-.drop-body { padding: 0 2px 16px; font-size: 14.5px; }
+.drop-body { padding: 0 2px 18px; font-size: 14.5px; }
 .drop-body > p { margin: 0 0 8px; }
-.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 16px; margin: 0; font-size: 14px; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 18px; margin: 0; font-size: 14px; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; }
 .facts .tags { margin: 0; }
@@ -411,8 +430,8 @@ dialog.sheet::backdrop { background: rgba(20, 14, 19, .5); }
          background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow-sm);
          cursor: pointer; }
 
-footer { margin: 64px 0 32px; font-size: 13px; text-align: center; color: var(--muted); }
-footer p { max-width: 720px; margin: 0 auto 6px; }
+footer { margin: 80px 0 40px; font-size: 13px; text-align: center; color: var(--muted); }
+footer p { max-width: 720px; margin: 0 auto 8px; }
 footer details { max-width: 720px; margin: 0 auto; }
 footer summary { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
 footer summary:hover { color: var(--ink); }
@@ -429,7 +448,7 @@ footer details p { margin-top: 8px; }
 .add:hover { border-color: #8a2c72; transform: scale(1.07); }
 .add[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, #b13f91, #6e2459); border-color: transparent;
                             font-size: 18px; }
-.cell .rcard + .add { top: 12px; right: 12px; }
+.cell .rcard + .add { top: 16px; right: 16px; }
 .fab { position: fixed; z-index: 40; right: 20px; bottom: 20px; display: inline-flex; align-items: center; gap: 8px;
        height: 52px; padding: 0 16px 0 18px; font: 750 16px/1 var(--round); color: #fff; background: var(--grad);
        border: 0; border-radius: 999px; box-shadow: 0 10px 26px rgba(110, 36, 89, .38); cursor: pointer; }
@@ -488,8 +507,8 @@ dialog.tour::backdrop { background: transparent; }
 
 /* ---- the home page's biggest deals ----------------------------------------------------------------------------- */
 /* Nine deals, three at a time, that turn every 8 seconds until you do something with them (docs/DESIGN-top-deals.md). */
-.tops { margin: 0 0 36px; text-align: left; }
-.tops-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px 16px; margin-bottom: 12px; }
+.tops { margin: 0 0 56px; text-align: left; }
+.tops-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px 16px; margin-bottom: 16px; }
 .tops-head > div { min-width: 0; }
 .tops-head h3 { margin: 0; font: 800 22px/1.2 var(--round); letter-spacing: -0.015em; }
 .tops-head p { margin: 3px 0 0; font-size: 14.5px; color: var(--muted); }
@@ -499,11 +518,11 @@ dialog.tour::backdrop { background: transparent; }
 .tbtn:hover { border-color: var(--accent); }
 .tbtn .i { width: 18px; height: 18px; }
 /* The pages sit side by side and snap into place; the padding leaves room for the cards' shadows. */
-.ttrack { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; column-gap: 18px; margin: -10px -10px -6px;
+.ttrack { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; column-gap: 22px; margin: -10px -10px -6px;
           padding: 10px 10px 18px; scroll-padding-inline: 10px; overflow-x: auto; overscroll-behavior-x: contain;
           scroll-snap-type: x mandatory; scrollbar-width: none; }
 .ttrack::-webkit-scrollbar { display: none; }
-.tpage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; scroll-snap-align: start;
+.tpage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; scroll-snap-align: start;
          scroll-snap-stop: always; }
 /* The card holds its own absolutely placed parts (the seal's words for screen readers): otherwise those of the pages
    out of sight would sit outside the track's clipping and widen the whole page. */
@@ -528,12 +547,12 @@ dialog.tour::backdrop { background: transparent; }
 .tdot:focus-visible { outline: none; }
 .tdot:focus-visible b { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (max-width: 640px) {
-  .tops { margin-bottom: 28px; }
+  .tops { margin-bottom: 36px; }
   .tops-head { align-items: flex-start; }
   .tops-head h3 { font-size: 20px; }
   .tbtn[data-tgo] { display: none; }                   /* a phone swipes them; the dots still go to any three */
   /* A phone shows the three as rows: the picture at the left, the words beside it. */
-  .tpage { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .tpage { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .tcard { display: grid; grid-template-columns: 112px minmax(0, 1fr); }
   .tcard .thumb { aspect-ratio: auto; min-height: 120px; }
   .tcard .badge { left: 7px; top: 7px; padding: 3px 7px; font-size: 12px; }
@@ -541,42 +560,78 @@ dialog.tour::backdrop { background: transparent; }
   .tcard .title.long { -webkit-line-clamp: 2; }
 }
 
+/* ---- arriving -------------------------------------------------------------------------------------------- */
+/* What is new on the page fades in and settles upward: the page as it opens, a search's results, a tab's deals one
+   after another, more deals as they are added. What was already there stays put: choosing a category or a day
+   brings in its deals, not the tabs and chips above them. --k is an element's turn, --base where its group starts. */
+@keyframes arrive { from { opacity: 0; transform: translateY(14px); } }
+@keyframes appear { from { opacity: 0; } }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 10px); } }
+.top { animation: appear .5s ease-out backwards; }
+.panel, .grid > *, .rgrid > *, .tpage > *, .feats > *, .welcome > h2, .welcome > p, .quick, .tops, .empty,
+#results[data-arrive="search"] > .tabs, #results:is([data-arrive="search"], [data-arrive="tab"]) .subhead,
+.fab:not([hidden]) {
+  animation: arrive .52s cubic-bezier(.2, .7, .2, 1) backwards;
+  animation-delay: calc((var(--base, 0) + var(--k, 0)) * 45ms);
+}
+#results:is([data-arrive="search"], [data-arrive="tab"]) :is(.grid, .rgrid) { --base: 2; }      /* after the chips above them */
+:is(.grid, .rgrid, .tpage, .feats) > :nth-child(12n + 2) { --k: 1; }
+:is(.grid, .rgrid, .tpage, .feats) > :nth-child(12n + 3) { --k: 2; }
+:is(.grid, .rgrid) > :nth-child(12n + 4) { --k: 3; }
+:is(.grid, .rgrid) > :nth-child(12n + 5) { --k: 4; }
+:is(.grid, .rgrid) > :nth-child(12n + 6) { --k: 5; }
+:is(.grid, .rgrid) > :nth-child(12n + 7) { --k: 6; }
+:is(.grid, .rgrid) > :nth-child(12n + 8) { --k: 7; }
+:is(.grid, .rgrid) > :nth-child(12n + 9) { --k: 8; }
+:is(.grid, .rgrid) > :nth-child(12n + 10) { --k: 9; }
+:is(.grid, .rgrid) > :nth-child(12n + 11) { --k: 10; }
+:is(.grid, .rgrid) > :nth-child(12n + 12) { --k: 11; }
+.panel { --k: 1; }
+.welcome > p { --k: 1; }
+.quick { --k: 2; }
+.tops { --k: 4; }
+.tpage { --base: 5; }
+.feats { --base: 7; }
+.subhead { --k: 1; }
+.toast:not([hidden]) { animation: toast-in .24s ease-out; }
+
 /* ---- small screens --------------------------------------------------------------------------------------- */
 @media (max-width: 760px) {
-  .wrap { padding: 0 16px; }
-  .top { padding: 18px 0 14px; }
+  .wrap { padding: 0 18px; }
+  .top { padding: 20px 0 16px; }
   .brand svg { height: 36px; }
   .top .tagline { order: 3; width: 100%; font-size: 14.5px; }
-  .panel { gap: 18px; padding: 16px; }
+  .panel { gap: 20px; padding: 18px; }
   .fields { grid-template-columns: 1fr auto; }
   .fields > :first-child { grid-column: 1 / -1; }
   /* The categories are one row that scrolls sideways; the fade at the edge says there's more. */
-  .cats { flex-wrap: nowrap; gap: 2px; margin: 0 -16px; padding: 6px 12px 4px; overflow-x: auto; scrollbar-width: none;
-          scroll-snap-type: x proximity; scroll-padding: 0 12px;
+  .cats { display: flex; flex-wrap: nowrap; gap: 4px; margin: 0 -18px; padding: 8px 14px 4px; overflow-x: auto; scrollbar-width: none;
+          scroll-snap-type: x proximity; scroll-padding: 0 14px;
           -webkit-mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 28px), transparent);
           mask-image: linear-gradient(90deg, transparent, #000 12px, #000 calc(100% - 28px), transparent); }
   .cats::-webkit-scrollbar { display: none; }
-  .cat { flex: none; min-width: 66px; scroll-snap-align: start; }
-  .cat .ico { width: 50px; height: 50px; font-size: 24px; }
-  .tabs { margin-top: 24px; }
+  .cat { flex: none; min-width: 68px; scroll-snap-align: start; }
+  .cat .ico { width: 52px; height: 52px; font-size: 26px; border-radius: 18px; }
+  .tabs { margin-top: 28px; }
   .tab { height: 40px; padding: 0 13px 0 11px; font-size: 15px; }
   /* A tab's category chips: one row that scrolls sideways, like the tabs. */
-  .subhead .pills { flex-wrap: nowrap; margin: 0 -16px; padding: 2px 16px; overflow-x: auto; scrollbar-width: none; }
+  .subhead { gap: 14px; margin: 22px 0 20px; }
+  .subhead .pills { flex-wrap: nowrap; gap: 8px; margin: 0 -18px; padding: 2px 18px; overflow-x: auto; scrollbar-width: none; }
   .subhead .pills::-webkit-scrollbar { display: none; }
   .subhead .pills .chip { flex: none; }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; }
-  .rgrid { grid-template-columns: 1fr; gap: 12px; }
-  .body { padding: 11px 12px 12px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px 12px; }
+  .rgrid { grid-template-columns: 1fr; gap: 14px; }
+  .body { padding: 12px 13px 13px; }
   .price b { font-size: 19px; }
   .offer { font-size: 16px; }
   .title { font-size: 14px; }
-  .thumb .ph { font-size: 38px; }
   .badge { left: 8px; top: 8px; padding: 4px 8px; font-size: 13px; }
   .add { top: 7px; right: 7px; width: 34px; height: 34px; font-size: 21px; }
   .lchip { width: 32px; height: 32px; left: 8px; bottom: 8px; }
   .lchip.wide { width: 72px; height: 30px; }
-  .rcard { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; padding: 14px 14px 16px; }
-  .rthumb { width: 56px; height: 56px; border-radius: 16px; font-size: 26px; }
+  .rcard { grid-template-columns: 56px minmax(0, 1fr); gap: 14px; padding: 16px 16px 18px; }
+  .rthumb { width: 56px; height: 56px; border-radius: 18px; font-size: 28px; }
+  .cell .rcard + .add { top: 12px; right: 12px; }
   .rcard .offer, .rcard .price b { font-size: 19px; }
   /* The details rise from the bottom of the screen, as a sheet. */
   dialog.sheet { width: 100%; margin: auto 0 0; border-radius: var(--r-lg) var(--r-lg) 0 0; }
@@ -584,18 +639,21 @@ dialog.tour::backdrop { background: transparent; }
   .sheet-scroll { max-height: 92vh; }
   .sheet-grid { grid-template-columns: 1fr; }
   .pic { min-height: 230px; padding: 20px; }
-  .pic:not(.has-img) { min-height: 150px; }
+  .pic:not(.has-img) { min-height: 170px; }
+  .pic .ph { width: 108px; height: 108px; font-size: 56px; }
   .pic img { max-height: 250px; }
-  .info { padding: 20px 18px 22px; }
+  .info { padding: 22px 20px 24px; }
   .info .price b { font-size: 27px; }
-  .feats { grid-template-columns: 1fr; gap: 10px; margin-bottom: 0; }
-  .feat { grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto; justify-items: start; column-gap: 14px;
-          row-gap: 0; padding: 14px 16px; text-align: left; }
-  .feat .fi { grid-row: 1 / 3; width: 52px; height: 52px; margin: 0; font-size: 26px; border-radius: 16px; }
+  .feats { grid-template-columns: 1fr; gap: 12px; margin-bottom: 0; }
+  .feat { grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto; justify-items: start; column-gap: 16px;
+          row-gap: 0; padding: 16px 18px; text-align: left; }
+  .feat .fi { grid-row: 1 / 3; width: 52px; height: 52px; margin: 0; font-size: 27px; border-radius: 18px; }
   .feat b { align-self: end; }
-  .welcome { padding-top: 34px; }
-  .welcome > p { margin-bottom: 16px; }
-  .quick { margin-bottom: 30px; }
+  .welcome { padding-top: 40px; }
+  .welcome > p { margin-bottom: 18px; }
+  .quick { gap: 8px; margin-bottom: 36px; }
+  .empty { padding: 40px 18px; }
+  footer { margin: 56px 0 32px; }
 }
 @media (max-width: 520px) {
   .fields { grid-template-columns: 1fr; }
@@ -609,8 +667,10 @@ dialog.tour::backdrop { background: transparent; }
   .card, .rcard, .btn, .chip, .cat .ico, .day, .tab, .thumb img, .slogo img, .rthumb img, .add, .tour-spot, dialog.tour,
   .chev, .tbtn, .tdot, .tdot b { transition: none; }
   .card:hover, .rcard:hover, .add:hover, .cat:hover .ico { transform: none; }
-  dialog.sheet[open] { animation: none; }
+  dialog.sheet[open], dialog.sheet::backdrop { animation: none; }
   .spin, .skel .thumb, .skel .bar { animation: none; }
+  .top, .panel, .grid > *, .rgrid > *, .tpage > *, .feats > *, .welcome > *, .quick, .tops, .empty, .tabs, .subhead, .fab,
+  .toast { animation: none !important; }
 }
 </style>
 </head>
@@ -712,18 +772,81 @@ dialog.tour::backdrop { background: transparent; }
 <script>
 "use strict";
 const PAGE = 24;
-const ICON = {tech: "💻", sports: "⚽", fashion: "👕", home: "🏡", beauty: "💄", health: "💊", grocery: "🛒",
-              toys: "🧸", baby: "🍼", pets: "🐾", auto: "🚗", office: "✏️", dining: "🍽️", entertainment: "🎟️"};
+// Slomp's pictures: simple two-tone drawings on a 24-unit grid, one per category, kind of place and state of the
+// page. Each is [the filled shapes, the lines] as path data, so the page's SVG and the share card's canvas draw the
+// same picture. They take the color of the text around them; `.tint` gives that the category's own hue.
+const circ = (cx, cy, r) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0z`;
+const oval = (cx, cy, rx, ry) => `M${cx - rx} ${cy}a${rx} ${ry} 0 1 0 ${2 * rx} 0a${rx} ${ry} 0 1 0 ${-2 * rx} 0z`;
+const box = (x, y, w, h, r) => `M${x + r} ${y}h${w - 2 * r}a${r} ${r} 0 0 1 ${r} ${r}v${h - 2 * r}a${r} ${r} 0 0 1 ${-r} ${r}h${2 * r - w}a${r} ${r} 0 0 1 ${-r} ${-r}v${2 * r - h}a${r} ${r} 0 0 1 ${r} ${-r}z`;
+const dot = (x, y) => `M${x} ${y}h.01`;
+const both = (shape, lines = "") => [shape, shape + lines];
+const ART = {
+  // what you're shopping for
+  tech: both(box(5, 5, 14, 10, 1.6), "M2.5 18.5h19"),
+  sports: both(circ(12, 12, 8.5), "M3.5 12h17M12 3.5v17M6.2 5.8c2.6 3.4 2.6 9 0 12.4M17.8 5.8c-2.6 3.4-2.6 9 0 12.4"),
+  fashion: both("M8.6 4.2 3.8 6.8l1.9 3.9 2.5-1V19a1 1 0 0 0 1 1h5.6a1 1 0 0 0 1-1V9.7l2.5 1 1.9-3.9-4.8-2.6c-.5 1.3-1.8 2.1-3.4 2.1s-2.9-.8-3.4-2.1z"),
+  home: ["M5.5 10.2V19a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-8.8L12 4.6z",
+         "M3.5 11.6 12 4.2l8.5 7.4M5.5 10.2V19a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-8.8M10 20v-5.2h4V20"],
+  beauty: [box(8, 13, 8, 7.5, 1.2) + "M10.5 10V6.2l3-2.2v6z", box(8, 13, 8, 7.5, 1.2) + box(9.5, 10, 5, 3, .6) + "M10.5 10V6.2l3-2.2v6"],
+  health: ["M9.17 9.17 13.67 4.67A4 4 0 0 1 19.33 10.33L14.83 14.83z",
+           "M4.67 13.67 13.67 4.67A4 4 0 0 1 19.33 10.33L10.33 19.33A4 4 0 0 1 4.67 13.67zM9.17 9.17l5.66 5.66"],
+  grocery: both("M4.2 10h15.6l-1.5 8.3a1.8 1.8 0 0 1-1.8 1.5h-9a1.8 1.8 0 0 1-1.8-1.5z", "M8.3 10l2.6-5.6M15.7 10l-2.6-5.6M9.4 13v3.6M12 13v3.6M14.6 13v3.6"),
+  toys: [circ(12, 13, 7) + circ(6.6, 6.8, 2.6) + circ(17.4, 6.8, 2.6),
+         circ(12, 13, 7) + "M6.04 9.34A2.6 2.6 0 1 1 9.19 6.59M17.96 9.34A2.6 2.6 0 1 0 14.81 6.59" + oval(12, 15.3, 2.7, 2) + dot(12, 14.5) + dot(9.5, 11.6) + dot(14.5, 11.6)],
+  baby: both("M9.2 8.2h5.6c1 .9 1.6 2 1.6 3.4v7a2 2 0 0 1-2 2H9.6a2 2 0 0 1-2-2v-7c0-1.4.6-2.5 1.6-3.4z",
+             box(8.6, 5.6, 6.8, 2.6, .9) + "M10.4 5.6c0-1.6.6-2.9 1.6-2.9s1.6 1.3 1.6 2.9M7.6 13.4h2.6M7.6 16.4h2.6"),
+  pets: both("M12 12.4c-2.7 0-5 2.3-5 4.5 0 1.6 1.2 2.6 2.7 2.6 1 0 1.5-.5 2.3-.5s1.3.5 2.3.5c1.5 0 2.7-1 2.7-2.6 0-2.2-2.3-4.5-5-4.5z" +
+             oval(6.3, 10.6, 1.5, 2) + oval(9.7, 6.7, 1.6, 2.1) + oval(14.3, 6.7, 1.6, 2.1) + oval(17.7, 10.6, 1.5, 2)),
+  auto: ["M2.8 16.5v-3.1c0-1 .7-1.8 1.7-2l2.5-.5 1.8-3.3c.4-.7 1-1.1 1.8-1.1h4.1c.7 0 1.4.4 1.8 1l2.1 3.4 1.2.3c.9.2 1.5 1 1.5 1.9v3.4z",
+         "M2.8 16.5v-3.1c0-1 .7-1.8 1.7-2l2.5-.5 1.8-3.3c.4-.7 1-1.1 1.8-1.1h4.1c.7 0 1.4.4 1.8 1l2.1 3.4 1.2.3c.9.2 1.5 1 1.5 1.9v3.4" +
+         "M2.8 16.5h2.6M9.6 16.5h4.8M18.6 16.5h2.7M7 10.9h11.6" + circ(7.5, 16.5, 2.1) + circ(16.5, 16.5, 2.1)],
+  office: both("M4.2 19.8l1-4.4L16.4 4.2a1.9 1.9 0 0 1 2.7 0l.7.7a1.9 1.9 0 0 1 0 2.7L8.6 18.8z", "M14.4 6.2l3.4 3.4M5.2 15.4l3.4 3.4"),
+  dining: ["M17.2 3.5c-2.1 1.3-3.2 3.8-3.2 6.8v2.4h3.2z", "M5 3.5v4.7a2.2 2.2 0 0 0 4.4 0V3.5M7.2 3.5v17M17.2 20.5V3.5c-2.1 1.3-3.2 3.8-3.2 6.8v2.4h3.2"],
+  entertainment: both("M3.2 8.2c0-.9.8-1.7 1.7-1.7h14.2c.9 0 1.7.8 1.7 1.7v1.7a2.1 2.1 0 0 0 0 4.2v1.7c0 .9-.8 1.7-1.7 1.7H4.9c-.9 0-1.7-.8-1.7-1.7v-1.7a2.1 2.1 0 0 0 0-4.2z",
+                      "M14.6 6.5v1.6M14.6 10.6v2.8M14.6 15.9v1.6"),
+  // kinds of places with regular deals
+  cinema: both(box(3.8, 10.2, 16.4, 9.6, 1.6), "M3.6 10.1 2.9 7.3 17.5 3.4l.7 2.8zM6.6 6.3l1.9 2.5M10.6 5.2l1.9 2.5M14.5 4.2l1.9 2.5"),
+  golf: ["M9.5 4.2l8.2 3.1-8.2 3.1z" + circ(15.2, 18.3, 1.2), "M9.5 20V3.8M9.5 4.2l8.2 3.1-8.2 3.1M4 20h16" + circ(15.2, 18.3, 1.2)],
+  bowling: both(circ(15.6, 15.2, 5), dot(14.2, 13.2) + dot(16.6, 12.8) + dot(15.8, 15) +
+                "M7.2 3.4c1.2 0 2 .9 2 2.1 0 1-.6 1.7-.6 2.7 0 1.7 1.8 3.2 1.8 6.3 0 2.2-.7 4.1-1.4 5.7H5.4c-.7-1.6-1.4-3.5-1.4-5.7 0-3.1 1.8-4.6 1.8-6.3 0-1-.6-1.7-.6-2.7 0-1.2.8-2.1 2-2.1zM5.9 8.6h2.6"),
+  museum: both("M3.4 9.2 12 4l8.6 5.2z", "M6.2 11.6v5.6M10 11.6v5.6M14 11.6v5.6M17.8 11.6v5.6M4 19.8h16"),
+  zoo: ["M8.3 7.3C5.8 5.6 2.9 7 2.9 10.2c0 2.9 2.3 4.6 5.1 3.6zM15.7 7.3c2.5-1.7 5.4-.3 5.4 2.9 0 2.9-2.3 4.6-5.1 3.6z",
+        "M8.3 7.3C5.8 5.6 2.9 7 2.9 10.2c0 2.9 2.3 4.6 5.1 3.6M15.7 7.3c2.5-1.7 5.4-.3 5.4 2.9 0 2.9-2.3 4.6-5.1 3.6" +
+        "M8 8.8a4 4 0 0 1 8 0v4.4c0 1.2-.7 2-1.7 2.5v2.2a2.3 2.3 0 0 1-4.6 0v-2.2c-1-.5-1.7-1.3-1.7-2.5z" + dot(10.3, 10.6) + dot(13.7, 10.6)],
+  bar: both("M4.8 5.2h14.4L12 13.2z", "M12 13.2v6.3M8.2 19.7h7.6M16.4 2.6l-3.4 6.4"),
+  cafe: both("M5 9.6h11.4v5.2a4.8 4.8 0 0 1-4.8 4.8H9.8A4.8 4.8 0 0 1 5 14.8z",
+             "M16.4 11h1a2.4 2.4 0 0 1 0 4.8h-1M8.6 3.6c-.9 1.1.9 2.1 0 3.2M12.4 3.6c-.9 1.1.9 2.1 0 3.2"),
+  store: both("M5.6 8.6h12.8l.9 10.2a1.2 1.2 0 0 1-1.2 1.3H5.9a1.2 1.2 0 0 1-1.2-1.3z", "M9 11.4V7.2a3 3 0 0 1 6 0v4.2"),
+  // the rest of the page
+  tag: both("M3.6 12.4V5.2a1.6 1.6 0 0 1 1.6-1.6h7.2l8 8-8.8 8.8z", circ(8.2, 8.2, 1.3)),
+  shop: both("M3 4h18l-1.6 4.6a2.6 2.6 0 0 1-4.9.1 2.6 2.6 0 0 1-5 0 2.6 2.6 0 0 1-5-.1z", "M4.5 10.5V20h15v-9.5M10 20v-5h4v5"),
+  calendar: ["M3.5 10V8a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v2z", box(3.5, 5, 17, 15.5, 3) + "M3.5 10h17M8 3v4M16 3v4M8.6 15.2l2.3 2.3 4.5-4.6"],
+  globe: both(circ(12, 12, 9), "M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"),
+  offline: both("M7 18.5a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17.2 9.6 4.5 4.5 0 0 1 17 18.5z", "M4.5 3.5l15 17.5"),
+  oops: both(circ(12, 12, 8.8), dot(9, 10) + dot(15, 10) + "M8.8 15.8c.9-1.2 2-1.8 3.2-1.8s2.3.6 3.2 1.8"),
+  list: both(box(3.5, 5, 17, 14, 3), "M7.5 10h6M7.5 14h9"),
+  warn: both("M12 4.2 21 19.5H3z", "M12 10v4.2" + dot(12, 16.9)),
+};
+const art = name => {
+  const [fill, lines] = ART[name] || ART.tag;
+  return `<svg class="art" viewBox="0 0 24 24" aria-hidden="true"><path class="f" d="${fill}"/><path d="${lines}"/></svg>`;
+};
 const SHORT = {tech: "Tech", sports: "Sports", fashion: "Fashion", home: "Home", beauty: "Beauty", health: "Health",
                grocery: "Grocery", toys: "Toys", baby: "Baby & Kids", pets: "Pets", auto: "Auto", office: "Office",
                dining: "Dining", entertainment: "Entertainment"};
-// Regular deals have no ad picture, so the tile shows what kind of place it is.
-const KIND = {cinema: ["🎬", "Cinema"], golf: ["⛳", "Golf"], bowling: ["🎳", "Bowling"], museum: ["🏛️", "Museum"],
-              zoo: ["🦒", "Zoo"], bar: ["🍸", "Bar"], cafe: ["☕", "Café"], restaurant: ["🍽️", "Restaurant"],
-              store: ["🛍️", "Store"]};
-// A soft tint for each category's round tile (a hue; the theme sets how light).
+// Regular deals have no ad picture, so the tile shows what kind of place it is: [its picture, its name].
+const KIND = {cinema: ["cinema", "Cinema"], golf: ["golf", "Golf"], bowling: ["bowling", "Bowling"], museum: ["museum", "Museum"],
+              zoo: ["zoo", "Zoo"], bar: ["bar", "Bar"], cafe: ["cafe", "Café"], restaurant: ["dining", "Restaurant"],
+              store: ["store", "Store"]};
+// Each category's own color, as a hue: it tints the category's picture and the tile behind it (the theme sets how
+// light). Anything else takes the brand's.
 const HUE = {tech: 212, sports: 140, fashion: 330, home: 28, beauty: 350, health: 175, grocery: 92, toys: 48, baby: 196,
              pets: 36, auto: 222, office: 258, dining: 12, entertainment: 285};
+const BRAND_HUE = 320;
+const hueOf = id => HUE[id] ?? BRAND_HUE;
+// A picture on a tile of its hue; a pill's small picture, in its category's color.
+const tile = (cls, name, hue) => `<span class="${cls} tint" aria-hidden="true" style="--h: ${hue}">${art(name)}</span>`;
+const pillArt = id => `<span class="ico" aria-hidden="true" style="--h: ${hueOf(id)}">${art(id)}</span>`;
 // What a discount is measured against: [short label, sentence for the details view].
 const BASIS = {
   market: ["vs. other stores", "Compared with what other stores charge for the same product. Slomp checked those prices itself."],
@@ -811,8 +934,8 @@ async function boot() {
     meta = await api.meta();
   } catch {
     $("#results").innerHTML = STATIC
-      ? emptyHtml("📡", "Can't load Slomp's deals", "Check your connection, then reload the page.")
-      : emptyHtml("🔌", "Can't reach Slomp", "The server isn't answering. Check that it's running, then reload.");
+      ? emptyHtml("offline", "Can't load Slomp's deals", "Check your connection, then reload the page.")
+      : emptyHtml("offline", "Can't reach Slomp", "The server isn't answering. Check that it's running, then reload.");
     return;
   }
   const names = {};
@@ -852,9 +975,11 @@ function drawRadius() {
 
 function drawChips() {
   const box = $("#chips");
+  const n = Object.keys(S.industries).length;
+  box.style.setProperty("--n", n <= 16 ? n : Math.ceil(n / 2));      // one row; two when there are too many for one
   box.innerHTML = Object.values(S.industries).map(i =>
-    `<button type="button" class="cat" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" style="--h: ${HUE[i.id] ?? 320}" title="${esc(i.name + ": " + i.description)}">` +
-    `<span class="ico" aria-hidden="true">${ICON[i.id] || "🏷️"}</span><span class="lbl">${esc(short(i.id))}</span></button>`).join("");
+    `<button type="button" class="cat" aria-pressed="${S.inds.has(i.id)}" data-id="${i.id}" title="${esc(i.name + ": " + i.description)}">` +
+    `${tile("ico", i.id, hueOf(i.id))}<span class="lbl">${esc(short(i.id))}</span></button>`).join("");
   box.addEventListener("click", e => {
     const chip = e.target.closest(".cat");
     if (!chip) return;
@@ -969,7 +1094,7 @@ async function run() {
     if (token !== S.req) return;
     prepare(data);
     if (S.want) { focusOn(S.want); S.want = null; }
-    render();
+    render("search");
     maybeTour();
     $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
       (data.online ? `, ${onlineCount()} online, ${S.sales.length} sales at ${S.stores.length} online stores.` : ".");
@@ -1060,8 +1185,11 @@ const sortHtml = () => `<label class="sort">Sort <select id="sort">` +
 /* ---- results --------------------------------------------------------------------------------------------- */
 const TAB_ICON = {near: ICONS.pin, regulars: ICONS.repeat, online: ICONS.globe, sales: ICONS.percent, stores: ICONS.store};
 
-function render() {
+// `arriving` says what is new: "search" (everything), "tab" (the chosen tab's chips and deals), or nothing (only
+// the deals: a category, a day or a sort was chosen). The page fades in what is new and leaves the rest still.
+function render(arriving = "") {
   const {local: L, online: O, sales: SL} = S.data;
+  $("#results").dataset.arrive = arriving;
   const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${TAB_ICON[id]}${text}<span class="n">${n}</span></button>`;
   const panel = {near: () => nearPanel(L), regulars: () => regularsPanel(L), online: () => onlinePanel(O),
                  sales: () => salesPanel(SL), stores: () => storesPanel(SL)}[S.tab];
@@ -1100,7 +1228,7 @@ function pillsHtml(inds, current, count) {
   if (inds.length < 2) return "";
   return `<div class="pills" role="tablist" aria-label="Category">` + inds.map(i =>
     `<button type="button" class="chip" role="tab" aria-selected="${i === current}" data-ind="${i}">` +
-    `<span class="ico" aria-hidden="true">${ICON[i] || "🏷️"}</span>${esc(short(i))}<span class="n">${count(i)}</span></button>`).join("") + `</div>`;
+    `${pillArt(i)}${esc(short(i))}<span class="n">${count(i)}</span></button>`).join("") + `</div>`;
 }
 
 function nearPanel(L) {
@@ -1140,14 +1268,14 @@ function regularsPanel(L) {
   const pills = inds.length < 2 ? "" : `<div class="pills" role="tablist" aria-label="Category">` +
     [["all", "All", onDay.length]].concat(inds.map(i => [i, short(i), onDay.filter(d => d.industries.includes(i)).length])).map(([id, text, n]) =>
       `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
-      (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
+      (ART[id] ? pillArt(id) : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
   const down = (L.sources || []).filter(s => !s.ok && /Krazy|EatDrink|registry/i.test(s.name)).map(s => s.name);
   const notice = down.length ? noticeHtml(`We couldn't reach ${down.join(", ")} just now, so some deals may be missing.`) : "";
   const chips = [cchip(ICONS.pin, `Within ${L.radius_mi} mi of ${esc(L.city.name)}`), cchip(SEAL, "Confirmed by the company", "", "legend")];
   const what = cur === "all" ? "" : ` for ${esc(full(cur))}`;
   const body = list.length
     ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
-    : emptyHtml("📅", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
+    : emptyHtml("calendar", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
                 S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
   const about = aboutHtml([
     `Deals that repeat every week at places within ${L.radius_mi} mi of ${esc(L.city.name)}.`,
@@ -1165,7 +1293,7 @@ function onlinePanel(O) {
   const chips = [cchip(ICONS.globe, "Online, the same for every city", "", "legend"), cchip(SEAL, "Checked against other stores", "", "legend")];
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
-    : emptyHtml(ICON[cur] || "🏷️", `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
+    : emptyHtml(cur, `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
   const about = aboutHtml([
     "The biggest discounts posted on deal sites (dealnews, Slickdeals and others).",
     `Where another store sells the same product, the discount is measured against that store's price, and the deal is marked ${SEAL} Checked. Tap a deal to compare prices and see where it was posted.`,
@@ -1205,10 +1333,10 @@ function saleThumb(d) {
   const st = storeOf(d), src = pic(d.image_url);
   const logo = st && st.logo ? logoSrc(st.logo.url) : "", main = src || logo;
   const chip = st && (st.icon || st.mark), wide = !!(st && !st.icon && st.mark);       // a square icon, else the wordmark
-  const ph = d.industries.length > 2 ? "🛍️" : ICON[d.industries[0]] || "🛍️";
+  const ph = d.industries.length > 2 || !ART[d.industries[0]] ? "store" : d.industries[0];       // a sale on many things: a bag
   const img = u => `<img src="${esc(u)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   return `<div class="thumb${main ? " has-img" : ""}${src && PHOTO_FEEDS.has(d.source) ? " cover" : ""}${!src && logo ? " logo" : ""}">` +
-    `<span class="ph" aria-hidden="true">${ph}</span>${main ? img(main) : ""}` +
+    `${tile("ph", ph, hueOf(ph))}${main ? img(main) : ""}` +
     (d.badge ? `<span class="badge${d.badge_soft ? " soft" : ""}">${esc(d.badge)}</span>` : "") +
     (src && chip ? `<span class="lchip${wide ? " wide" : ""}">${img(logoSrc(chip.url))}</span>` : "") + `</div>`;
 }
@@ -1235,12 +1363,12 @@ function salesPanel(SL) {
   const pills = inds.length < 2 ? "" : `<div class="pills" role="tablist" aria-label="Category">` +
     [["all", "All", S.sales.length]].concat(inds.map(i => [i, short(i), S.sales.filter(d => d.industries.includes(i)).length])).map(([id, text, n]) =>
       `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
-      (ICON[id] ? `<span class="ico" aria-hidden="true">${ICON[id]}</span>` : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
+      (ART[id] ? pillArt(id) : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
   const down = (SL.sources || []).filter(s => !s.ok).length;
   const notice = down ? noticeHtml(`${down} of ${SL.sources.length} deal sites couldn't be reached just now, so some sales may be missing.`) : "";
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
-    : emptyHtml("🛍️", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
+    : emptyHtml("store", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
   const about = aboutHtml([
     "Sales, promo codes and sale events at online stores that ship anywhere in Texas. They're the same for every city.",
     "Each one links to the deal post it came from. Tap a sale for its code, its conditions and when it ends.",
@@ -1305,7 +1433,7 @@ function storesPanel(SL) {
   const list = S.view = sortStores(S.stores);
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.stores).map(storeCard).join("")}</div>` + moreHtml(list.length, S.shown.stores)
-    : emptyHtml("🏬", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
+    : emptyHtml("shop", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
   const about = aboutHtml(["Online stores that ship anywhere in Texas, with what each has on in your categories: its sales and its product deals from the Online tab. Tap a store to see it all."]);
   return `<div class="subhead">${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` + body + about;
 }
@@ -1330,25 +1458,29 @@ function nearEmpty(L, cur) {
   const n = onlineCount(), r = S.regulars.filter(d => d.industries.includes(cur)).length;
   const online = n && !localOnly ? `<button type="button" class="btn ghost small" data-tab="online">See ${n} online ${n === 1 ? "deal" : "deals"}</button>` : "";
   const regular = r ? `<button type="button" class="btn ghost small" data-tab="regulars" data-ind-for="${cur}">See ${r} regular ${r === 1 ? "deal" : "deals"}</button>` : "";
-  return emptyHtml(ICON[cur] || "🏷️", `No ads or promotions for ${esc(full(cur))} within ${L.radius_mi} mi of ${esc(L.city.name)} this week`, "",
+  return emptyHtml(cur, `No ads or promotions for ${esc(full(cur))} within ${L.radius_mi} mi of ${esc(L.city.name)} this week`, "",
                    hint + `<div class="actions center">${regular}${wider}${online}</div>`);
 }
 
-const noticeHtml = text => `<p class="notice"><span aria-hidden="true">⚠️</span><span>${esc(text)}</span></p>`;
-const emptyHtml = (icon, title, text, extra = "") =>
-  `<div class="empty"><div class="big" aria-hidden="true">${icon}</div><h3>${title}</h3>${text ? `<p>${text}</p>` : ""}${extra}</div>`;
+const noticeHtml = text => `<p class="notice">${art("warn")}<span>${esc(text)}</span></p>`;
+// Nothing to show: a picture (a category's, in its color, or one of the page's own), what happened, and what to do.
+const emptyHtml = (picture, title, text, extra = "") =>
+  `<div class="empty">${tile("big", picture, hueOf(picture))}<h3>${title}</h3>${text ? `<p>${text}</p>` : ""}${extra}</div>`;
 const moreHtml = (total, shown) => total > shown
   ? `<div class="more"><button type="button" class="btn ghost small" id="more">Show ${Math.min(PAGE, total - shown)} more</button><span class="muted" id="more-count">${shown} of ${total}</span></div>` : "";
 
 /* ---- cards ----------------------------------------------------------------------------------------------- */
 // Regular deals: a restaurant chain's deal on games is entertainment, so its tile is a ticket, not a plate.
-const iconOf = d => d.regular && !(d.regular.kind === "restaurant" && d.industries[0] !== "dining")
-  ? (KIND[d.regular.kind] || [])[0] || ICON[d.industries[0]] || "🏷️" : ICON[(d.industries || [])[0]] || "🏷️";
+const first = d => (d.industries || [])[0];
+const iconOf = d => d.regular && !(d.regular.kind === "restaurant" && first(d) !== "dining")
+  ? (KIND[d.regular.kind] || [])[0] || (ART[first(d)] ? first(d) : "tag") : ART[first(d)] ? first(d) : "tag";
+// The picture a deal shows where it has no photo: what it is, on a tile of its category's color.
+const phHtml = (d, cls = "ph") => tile(cls, iconOf(d), hueOf(first(d)));
 
 function thumbHtml(d, badge, photo) {
-  const src = pic(d.image_url), icon = iconOf(d);
+  const src = pic(d.image_url);
   const img = src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "";
-  return `<div class="thumb${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+  return `<div class="thumb${src ? " has-img" : ""}${photo ? " cover" : ""}">${phHtml(d)}` +
     (img && d.feed ? `<div class="clip">${img}</div>` : img) +      // feed ads: show the product, not the ad's price text
     (badge ? `<span class="badge${badge.soft ? " soft" : ""}">${esc(badge.text)}</span>` : "") + `</div>`;
 }
@@ -1456,7 +1588,7 @@ const logoSrc = u => /^data:image\//.test(u || "") ? u : pic(u);
 // takes over if it doesn't.
 function regularThumb(d) {
   const lg = d.regular.logo, src = lg ? logoSrc(lg.url) : "";
-  return `<div class="rthumb${src && lg.fit === "cover" ? " cover" : ""}" aria-hidden="true">${iconOf(d)}` +
+  return `<div class="rthumb tint${src && lg.fit === "cover" ? " cover" : ""}" aria-hidden="true" style="--h: ${hueOf(first(d))}">${art(iconOf(d))}` +
     (src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : "") + `</div>`;
 }
 
@@ -1591,8 +1723,8 @@ const actionHtml = (href, text, primary) => link(href)
 const badgeInline = b => b ? `<span class="badge inline${b.soft ? " soft" : ""}">${esc(b.text)}</span>` : "";
 
 function sheetHtml(d, photo, info) {
-  const src = logoSrc(d.image_url), icon = iconOf(d);
-  return `<div class="sheet-grid"><div class="pic${src ? " has-img" : ""}${photo ? " cover" : ""}"><span class="ph" aria-hidden="true">${icon}</span>` +
+  const src = logoSrc(d.image_url);
+  return `<div class="sheet-grid"><div class="pic${src ? " has-img" : ""}${photo ? " cover" : ""}">${phHtml(d)}` +
     (src ? `<img src="${esc(src)}" alt="" referrerpolicy="no-referrer">` : "") + `</div><div class="info">${info}</div></div>`;
 }
 
@@ -1709,15 +1841,15 @@ function openDetail(d) {
 /* ---- welcome, loading, errors ---------------------------------------------------------------------------- */
 // Before a search: the biggest cities to start with, nine of the biggest deals that need no city, and what a search
 // finds, as three pictures.
-const FEATS = [["🏪", 28, "Store ads", "This week's deals at stores near you"],
-               ["📅", 285, "Regulars", "Specials that repeat every week"],
-               ["🛍️", 212, "Online", "Top discounts and store-wide sales"]];
+const FEATS = [["shop", 28, "Store ads", "This week's deals at stores near you"],
+               ["calendar", 285, "Regulars", "Specials that repeat every week"],
+               ["globe", 212, "Online", "Top discounts and store-wide sales"]];
 function welcome() {
   $("#results").innerHTML = `<div class="welcome"><h2>Find this week's best deals</h2>` +
     `<p>Pick a Texas city and what you're shopping for.</p>` +
     `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div>` +
     topsShell() +
-    `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat" style="--h: ${h}"><span class="fi" aria-hidden="true">${ico}</span><b>${b}</b><span>${t}</span></div>`).join("")}</div></div>`;
+    `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat">${tile("fi", ico, h)}<b>${b}</b><span>${t}</span></div>`).join("")}</div></div>`;
   loadTop();
 }
 
@@ -1728,7 +1860,7 @@ function loading() {
 }
 
 function failed(message) {
-  $("#results").innerHTML = emptyHtml("😕", "That search didn't work", esc(message), `<button type="button" class="btn ghost small" id="retry">Try again</button>`);
+  $("#results").innerHTML = emptyHtml("oops", "That search didn't work", esc(message), `<button type="button" class="btn ghost small" id="retry">Try again</button>`);
 }
 
 function showMore() {
@@ -1842,7 +1974,7 @@ function topThumb(d) {
   if (k === "online") return thumbHtml(d, onlineBadge(d), PHOTO_FEEDS.has(d.source));
   if (!logo) return thumbHtml(d, localBadge(d), false);
   const b = localBadge(d);
-  return `<div class="thumb has-img logo"><span class="ph" aria-hidden="true">${iconOf(d)}</span>` +
+  return `<div class="thumb has-img logo">${phHtml(d)}` +
     `<img src="${esc(logo)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` +
     (b ? `<span class="badge${b.soft ? " soft" : ""}">${esc(b.text)}</span>` : "") + `</div>`;
 }
@@ -2026,7 +2158,7 @@ function snapshot(d) {
       : r ? runsText(r) + untilText(r) : w.text,
     urgent: !!(w && w.urgent),
     image: logo || pic(d.image_url), cover: logo ? r.logo.fit === "cover" : online && PHOTO_FEEDS.has(d.source),
-    clip: !online && !r && !!d.feed, icon: iconOf(d), city: online ? "" : L.city.name, url: d.source_url || "",
+    clip: !online && !r && !!d.feed, icon: iconOf(d), hue: hueOf(first(d)), city: online ? "" : L.city.name, url: d.source_url || "",
   };
 }
 
@@ -2035,7 +2167,7 @@ function saleSnapshot(d) {
   const w = saleWhen(d, zone()), st = storeOf(d), logo = st && st.logo ? logoSrc(st.logo.url) : "";
   return {key: cardKey(d), kind: "sale", merchant: d.store_name, title: d.name, badge: d.badge || "", soft: !!d.badge_soft,
           price: d.offer, was: "", note: "", where: "Online", when: w.text + (d.code ? ` · code ${d.code}` : ""), urgent: w.urgent,
-          image: pic(d.image_url) || logo, cover: !!d.image_url && PHOTO_FEEDS.has(d.source), clip: false, icon: "🛍️",
+          image: pic(d.image_url) || logo, cover: !!d.image_url && PHOTO_FEEDS.has(d.source), clip: false, icon: "store", hue: BRAND_HUE,
           city: "", url: d.source_url || ""};
 }
 
@@ -2104,7 +2236,7 @@ function openCard() {
       `<div class="sc-preview" id="card-preview"><div class="sc-wait"><span class="spin" aria-hidden="true"></span>Drawing your card…</div></div>` +
       `<ul class="sc-list">${card.items.map((x, k) => `<li><span><b>${esc(x.merchant)}</b> · ${esc(x.title)}</span>` +
         `<button type="button" class="btn small ghost" data-remove="${k}">Remove</button></li>`).join("")}</ul>`
-    : emptyHtml("🗂️", "Your card is empty", "Tap + on any deal to put it on your card, then share the card as a picture.")) + `</div>`;
+    : emptyHtml("list", "Your card is empty", "Tap + on any deal to put it on your card, then share the card as a picture.")) + `</div>`;
   if (!sheet.open) sheet.showModal();
   if (n) drawCardPicture();
 }
@@ -2218,6 +2350,34 @@ async function drawCard(c) {
   return canvas;
 }
 
+// A deal with no photo: its picture on a round tile of its category's color, as the page shows it. (A card kept from
+// before the pictures were drawn names an emoji instead, drawn as the text it is.)
+function drawArt(g, name, hue, cx, cy) {
+  if (!ART[name]) {
+    g.font = `92px ${getComputedStyle(document.body).fontFamily}`;
+    g.textAlign = "center";
+    g.fillStyle = "#1f1a21";
+    g.fillText(name || "", cx, cy + 32);
+    g.textAlign = "left";
+    return;
+  }
+  const h = hue ?? BRAND_HUE, size = 84, [fill, lines] = ART[name];
+  g.beginPath();
+  g.arc(cx, cy, 66, 0, 2 * Math.PI);
+  g.fillStyle = `hsl(${h} 85% 93%)`;
+  g.fill();
+  g.save();
+  g.translate(cx - size / 2, cy - size / 2);
+  g.scale(size / 24, size / 24);
+  g.fillStyle = g.strokeStyle = `hsl(${h} 58% 36%)`;
+  g.globalAlpha = 0.2;
+  g.fill(new Path2D(fill));
+  g.globalAlpha = 1;
+  g.lineWidth = 1.35; g.lineCap = "round"; g.lineJoin = "round";
+  g.stroke(new Path2D(lines));
+  g.restore();
+}
+
 function drawRow(g, f, x, picture, left, top) {
   const width = CARD_W - 2 * left, tile = 196, tx = left + 26, ty = top + (CARD_ROW - tile) / 2;
   roundRect(g, left, top, width, CARD_ROW, 26);
@@ -2228,13 +2388,7 @@ function drawRow(g, f, x, picture, left, top) {
   roundRect(g, tx, ty, tile, tile, 20);
   g.fillStyle = "#f6f2f5"; g.fill();
   if (picture) drawPicture(g, picture, x, tx, ty, tile);
-  else {
-    g.font = `92px ${getComputedStyle(document.body).fontFamily}`;
-    g.textAlign = "center";
-    g.fillStyle = "#1f1a21";
-    g.fillText(x.icon || "🏷️", tx + tile / 2, ty + tile / 2 + 32);
-    g.textAlign = "left";
-  }
+  else drawArt(g, x.icon, x.hue, tx + tile / 2, ty + tile / 2);
   if (x.badge) {
     g.font = f(750, 25);
     const bw = g.measureText(x.badge).width + 26, bx = tx + 10, by = ty + 10;
@@ -2369,7 +2523,7 @@ function wrapText(g, text, width, max) {
 const TOUR_KEY = "slomp.toured";
 const shown = el => el && el.getClientRects().length ? el : null;
 const TOUR = [
-  {title: "Welcome to Slomp 👋", next: "Show me",
+  {title: "Welcome to Slomp", next: "Show me",
    text: "This week's deals near any Texas city, the deals that repeat every week, and the biggest discounts online. A quick tour?"},
   {title: "Pick a city", at: () => $(".combo"),
    text: "Type a few letters of any Texas city."},
@@ -2466,7 +2620,7 @@ $("#results").addEventListener("click", e => {
   else if ((el = hit(".card[data-top]"))) openTop(Number(el.dataset.top));
   else if ((el = hit("[data-tab]"))) {
     if (el.dataset.tab === "stores" && S.tab === "stores") S.store = null;     // the Stores tab again: back to every store
-    S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render();
+    S.tab = el.dataset.tab; if (el.dataset.indFor) S.ind.regulars = el.dataset.indFor; render("tab");
   }
   else if ((el = hit("[data-store]"))) { S.store = el.dataset.store; render(); $("#results .tabs").scrollIntoView({block: "nearest"}); }
   else if (hit("[data-store-back]")) { S.store = null; render(); }
