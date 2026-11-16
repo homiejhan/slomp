@@ -1123,3 +1123,73 @@ geocoder.
 - The word searches and the share of ad items without a search result.
 - Whether EatDrinkDeals' Tuesday and Wednesday pages are found.
 - The posts left out, read in place of a blind search.
+
+### A week of builds on Nov 9–16: what their own logs showed
+
+This round had no manual search. The sixth round made every build say what it left out, so the week's twenty
+scheduled builds (runs 128–147, all on `main` at `ca21382`) were read instead: four lines of each log, and the posts
+and ad items they name. This session's environment still can't reach a deal source or the published site, so
+nothing below was checked against a live page.
+
+**What Slomp fetched.** On Nov 16 (run 147): 9 of 10 sources read; about 300 weekly ads; 182 sales at 74 online
+stores; 199 regular deals; 22 promotions. Of 41,637 ad items, 7,792 (18.7%) had no item-search result, after 363
+merchant searches and 160 word searches that found 4,384 items; the week before the word searches it was 37–47%.
+The learned words stood at 1,061, from 16,864 labelled items and posts, and filed 442 ad deals, 2 online deals and
+no sales.
+
+**Stores' own websites never caught up.** The map gave 4,496–4,505 Texas shops with a website, on 2,325–2,335
+sites. Every build spent all 600 of its reads, and the sites waiting went from 1,078 on the first scheduled build
+to 352 and then 256 on the last build before Nov 16, never to none: most reads went to asking again the sites that had already failed (a bot check, robots.txt, a dead address,
+a closed product listing) and to the shop platforms' daily product pages. On Nov 16 the first week's records, all
+kept for seven days, expired together: sites known fell from 2,069 to 1,268 and their deals from 1,971 at 219 sites
+to 1,386 at 149. The reads also held most of the build's connections, and builds took 7 to 21 minutes.
+*Fixed:* what a site said is remembered, failures included; reads go to products first, then new sites, then
+second looks; a store waiting its turn keeps its last deals; lifetimes are spread (DESIGN.md 13).
+
+**Savings stated only in words: 2,661 ad items in one build.** The log names items left out as "no saving stated"
+whose own words state one: H-E-B 466, Dollar General 419, CVS 407, Lowe's 306, Kroger 266, Brookshire's 198,
+Walgreens 184. Across the week the logs printed 183 distinct samples. Read by their wording, never by the store:
+
+| Kind of wording | From the logs | Now |
+|---|---|---|
+| A saving beside the price | "Save $250", "You save 25.00", "250.00 OFF REG. PRICE", "Sale! 50¢ OFF" | read |
+| A ceiling | "SAVE up to $2 per lb.", "SAVE UP TO $7.00", "Save up to $30" | read as "up to" |
+| A coupon's amount | "with $3 OFF Smart Coupon", "$4 DG DIGITAL COUPON", "$4.99-1.00 Digital Coupon", "Digital Coupon - $1.00" | read |
+| The figure where the price goes | "INSTANTLY SAVE [$1] WHEN YOU BUY 2", "SAVE [$2] DG DIGITAL COUPON" | read as a saving |
+| Another store's price | "Depart. store value 65.00", "THEIRS $8.99" | read (list basis) |
+| A percent for a quantity | "10% OFF When You Buy 6 or More", "SAVE 10% WHEN YOU BUY SIX OR MORE" | read |
+| For several items | "SAVE $60 When You Buy 6", "Buy 2 Get $12.00 Off", "$7 off 2 online coupon" | shared among them |
+| Buy and get | "BUY ONE AND GET ONE FREE", "BUY TWO AND GET ONE FREE", "BUY 1 GET FREE 1" | read |
+
+The old rule took a coupon off the printed price ("$8.95 with $1 OFF coupon" as $7.95). The same store's ad prints
+"$1.25 with $3 OFF Smart Coupon", so the printed price is the price with the coupon, and the rule was turned round.
+Left unread on purpose (about half the samples): a coupon with no amount ("FINAL PRICE WITH COUPON", "/EA With
+Digital Coupon"), a saving on an order ("Save $10 when you spend $40"), rewards, a different item that comes free
+(H-E-B's "Buy X get Y Free! with yellow coupon"), "BUY 2 GET FREE" with no count, and banner percents ("Up to 50% Off
+Kitchen Appliances + Extra 10% Off* with coupon"). Replayed on the 183 samples as the log gives them (the words
+joined, not the fields they came in), 66 now state a saving. Ten more are Dollar General's "SAVE ... DG DIGITAL
+COUPON" with the figure where the price goes; they are read when "SAVE" is the text before the price, which the
+log's joined words can't show.
+
+**Sales with no store: 22 a build, 10 different titles in the week.** Nine lead with the offer and name the store
+after it: "Up to 70% Off Comfrt Early Black Friday Sale", "Buy 1, Get 1 FREE Comfrt Hoodies & Sweatpants", "*Rare*
+BOGO Free Charlotte Tilbury Makeup Sale + Free Shipping", "Today ONLY: Up to 80% Off 32 Degrees Clothes + Free
+Shipping", Slickdeals' "Barnes & Noble Offer: ...". *Fixed* for a post that links to a website of that name or whose
+words send the reader there (DESIGN-online-stores.md 4.3). The log gives only titles, so whether these posts carry
+such a link or such words is not known; the log now says, for each post still left out, what it had to go on.
+
+**Online posts with no industry: 21 different titles, all Slickdeals.** Charging cables, a mesh router, retro game
+handhelds, home batteries, security software, tracker tags, a stair stepper, a grip strengthener, epoxy, a propane
+gauge, a fuel pump. *Fixed* by kinds of goods and, where no rule names the goods, by the words of how a gadget
+connects and what it holds (DESIGN.md 4.4): 20 of the 21 now have an industry. The one left is a streaming
+subscription, which is no industry's goods.
+
+**Not done.** A reader for the item that comes free with another (it needs a way to show two items as one offer).
+The Inventory's posts with no price in the title or the text. The 48 pages that list regular deals by city.
+
+**Next time.** After a merge, the build log's lines to read:
+
+- Stores' own sites: "wait for a later build" should fall to none within a few builds and stay there.
+- Ad items left out with a saving's words: fewer, and what kinds remain.
+- "store not identified": the evidence each post had, to see whether links or the post's words would name it.
+- "no industry": what the learned words know of each title.

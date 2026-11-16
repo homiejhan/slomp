@@ -368,6 +368,24 @@ basis can be trusted:
 Hedged claims ("up to 50% off", "starting at") are kept as promotions at half weight. BOGO and multi-buy are
 converted to the effective per-unit saving.
 
+A weekly-ad item states its saving in price fields or only in words. Where no field states one, the words beside the
+price are read (Nov 16, 2026; `terms.ad_terms`), by their wording and never by the store:
+
+| The ad's words | Read as |
+|---|---|
+| "Save $250", "You save 25.00", "250.00 OFF REG. PRICE", "SAVE 50¢" | the saving; the regular price is the price plus the saving. `store_regular` on a retailer's own feed, else `claimed_savings` |
+| "SAVE up to $2 per lb." | a ceiling: "up to", and no regular price made from it |
+| "with $3 OFF coupon", "$4 DIGITAL COUPON", "Digital Coupon - $1.00" | the coupon's amount is the saving (`claimed_savings`, "coupon required"). The printed price is the price with the coupon: one ad prints "$1.25 with $3 OFF coupon" |
+| "SAVE" before the price and words after it ("INSTANTLY SAVE [$1] WHEN YOU BUY 2") | the figure is the saving, not a price |
+| "Depart. store value 65.00", "THEIRS $8.99" | a price compared with other stores (`list`) |
+| "10% OFF When You Buy 6 or More", "-10% OFF" | a firm percent beside the price: the percent, never a regular price made from it |
+| "SAVE $60 When You Buy 6", "Buy 2 Get $12.00 Off", "$6 off 3" | shared among the items it is for, with "buy multiple" |
+
+Left unread on purpose: a saving on an order of some size ("$10 off $50", "save $10 when you spend $40") or on
+something else ("get $1 off tortillas", "50¢ off per gallon"), a coupon with no amount ("FINAL PRICE WITH COUPON"),
+rewards, a free item whose count is not said ("BUY 2 GET FREE"), a different item that comes free, and a banner's
+percent over many items ("Up to 50% Off Kitchen Appliances + Extra 10% Off with coupon").
+
 ### 4.4 Industry classification
 
 Order of evidence, strongest first: (1) the source's own taxonomy (Flipp `_L1/_L2`, dealnews category); (2) keyword
@@ -383,6 +401,13 @@ files a deal that nothing else does (`learned:<word>`), kept to what the store s
 but at Best Buy only tablets. What a keyword rule or a learned word decided is never an example, so the rules don't
 teach themselves. A store's sale named after a department ("Sports Overstock", "Wellness Aisle") takes the
 department's industry from the industry list's own names.
+
+Where no rule names the goods, two weaker cues decide, in this order after a pet word and an apparel cue: the words
+of how a gadget connects, what it runs on and what it holds ("USB-C", "Wi-Fi", "Bluetooth", "iOS", "1100mAh",
+"100Ah", "5120Wh") file it under Tech (`keywords:gadget-cue`, Nov 16, 2026). A rule that names the goods always comes
+first: a "USB rechargeable bike light" is sports gear. For each post still left without an industry, the build log
+says what the learned words know of its title ("anbernic: 12 labelled, 75% tech"), so a threshold is changed on
+evidence.
 
 ### 4.5 Product identity and cross-site matching
 
@@ -566,7 +591,7 @@ on the map and read one by one (`sources/shops.py`):
    its price and its "compare at" price (`/products.json`, basis `list`), WooCommerce sites the price and the regular
    price (the Store API, basis `store_regular`). A product on sale by 10% or more is a deal, filed by its words, then
    by what the store sells; a site keeps its 12 biggest savings. A site on neither platform is noted and left.
-   robots.txt is honored, a bot check is never worked around, a build reads at most 600 sites it has no fresh copy of,
+   robots.txt is honored, a bot check is never worked around, a build reads at most 600 sites over the network,
    and a price read is shown on that day and the next (it is read daily).
 3. **Shown with the weekly ads.** Each site is one more ad (a negative id) at every anchor within 50 mi of one of its
    shops, its shops its stores; the page's engine and the server's search (`LocalDeals.run`) attach the shop nearest
@@ -575,3 +600,19 @@ on the map and read one by one (`sources/shops.py`):
 The same map also places a merchant with a Flipp ad that `merchants.json` lacks, by its name: its ad was shown as
 "not on the map" before. The build log reports the map, the sites read, their platforms, why the rest weren't read,
 and the sites with the most deals.
+
+**What a site said is remembered (Nov 16, 2026).** The first week of builds never caught up: each spent all 600
+reads, most of them asking again the sites behind bot checks, robots.txt, dead addresses and closed product listings,
+so 250 to 1,000 sites were always waiting, and when the first week's records expired on the same day the stores'
+deals fell by a third. Now:
+
+- What Slomp knows of a site is kept in the response cache as a short note, not the page: the platform it runs on
+  (30 days), or why it could not be read. A bot check, a robots.txt refusal or a page that is gone is remembered for
+  14 days, a closed product listing for 7, an error or no answer for 3. The refusal robots.txt gives AI assistants is
+  not remembered: it depends on who runs the build, not on the site.
+- A build's reads go first to the shop platforms whose products have fallen due (the deals come from these), then to
+  sites never read, then to second looks at sites that had nothing.
+- A store waiting its turn keeps its last deals, and a product listing that fails today leaves yesterday's answer
+  standing. Both lapse by themselves, two days after the read.
+- Every lifetime is stretched by up to half, by the site's name, so sites read on one day don't all fall due on
+  another.

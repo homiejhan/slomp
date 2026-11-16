@@ -182,6 +182,16 @@ and only when the post links to the name's own website (through affiliate redire
 with, says it ships. What such a store sells comes from the post: its category, its words, a department its name
 gives, or the words learned from its labelled goods (DESIGN.md 4.4).
 
+Many titles lead with the offer and name the store after it (Nov 16, 2026): "Up to 70% Off Comfrt Early Black Friday
+Sale", "Buy 1, Get 1 FREE Comfrt Hoodies & Sweatpants", "Up to 80% Off 32 Degrees Clothes". The capitalized words
+after the offer name a store when the post links to a website of that very name (whatever the words also mean:
+"Mattress Firm", "32 Degrees") or its own words send the reader there ("Hop on over to Comfrt where ..."). That the
+post ships is not enough for these: the words after an offer are as often the goods ("Up to 50% Off Stuffed Animals
+Sale + Free Shipping"). Words that are goods only together ("Stuffed Animals", "Christmas Tree") name no store
+anywhere, and "Offer" is a sale word ("Barnes & Noble Offer: ..."). For each post still left without a store, the
+build log says what it had to go on: the name its title could mean, the sites it links to, where it sends readers and
+whether it says it ships.
+
 ### 4.4 The offer, the code and the dates
 
 - **Offer**, read from the title: a firm percent ("40% off everything", "30% to 40% off"), a ceiling ("up to 60%"),
