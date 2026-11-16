@@ -229,7 +229,8 @@ def test_the_published_page_shows_a_stores_sales_as_the_server_does(tmp_path):
     lines = []
     asyncio.run(site_ads(SimpleNamespace(shops=_Shops(sites, reads)), ads, [austin], lines.append))
     assert ads.at["austin"] == [sites["bikeshed.example"].key]            # El Paso's store is too far from Austin
-    assert lines[0].startswith("stores' own sites: 2 shops on the map with a website, 2 sites; read 2")
+    assert lines[0].startswith("stores' own sites: 2 shops on the map with a website, 2 sites; 2 known (0 read in this "
+                               "build, the rest remembered), 0 wait for a later build; shopify 2; 2 sites with 2 deals")
     files = ad_files(ads)
     row, = files[f"ads/{sites['bikeshed.example'].key}.json"]["deals"]
     assert row["source_url"] == "https://bikeshed.example/p/h" and row["dk"].startswith("Bike Shed|")
@@ -314,3 +315,80 @@ def test_a_shop_tagged_with_another_business_site_is_not_read_as_its_own():
     assert not own_site("shop.com", ["Main Street Shop"])            # a word of no name
     m = parse_map({"elements": [_shop(9, "sports", "https://www.henryusa.com/", name="Barrels and Bullets")]})
     assert m == {}
+
+
+# --- what a week of builds showed (runs 126-147, Nov 9-16, 2026) -----------------------------------------------------
+def _site(host, kind="bicycle", inds=("sports",)):
+    return ShopSite(host, host, (kind,), inds, [[30.27, -97.74, "", "", "osm:node/1"]])
+
+
+def test_a_site_that_could_not_be_read_is_remembered_not_asked_again_by_every_build(tmp_path):
+    # Sites behind bot checks, robots.txt and dead addresses were retried by every build and used up its reads
+    pages = _pages()
+    pages["https://gone.example/robots.txt"] = ""
+    pages["https://closed.example/robots.txt"] = ""
+    pages["https://closed.example/"] = '<link href="//cdn.shopify.com/x.css">'       # Shopify, its listing closed
+    net = _Net(tmp_path, pages)
+    sh = ShopSites(net.client)
+    hosts = ("walled.example", "private.example", "gone.example", "closed.example")
+    first = asyncio.run(sh.read_all([_site(h) for h in hosts], budget=10))
+    assert first["walled.example"].note == "the site answered with a bot check"
+    assert first["gone.example"].note == "the site answered HTTP 404"
+    assert first["closed.example"].note == "the products could not be read (HTTP 404)"
+    assert all(r.charged for r in first.values()) and sh.budget == 6
+    asked = len(net.calls)
+    again = asyncio.run(sh.read_all([_site(h) for h in hosts], budget=10))
+    assert {h: r.note for h, r in again.items()} == {h: r.note for h, r in first.items()}
+    assert len(net.calls) == asked and sh.budget == 10 and not any(r.charged for r in again.values())
+    # ... until its time comes: then it is looked at again, after the stores with deals and the sites never read
+    assert [sh.need(_site(h)) for h in hosts] == [0, 0, 0, 0]
+    rec = net.client.store.cache_get("https://gone.example/")
+    net.client.store.cache_put("https://gone.example/", rec.__class__(**{**rec.__dict__, "expires_at": time.time() - 1}))
+    assert sh.need(_site("gone.example")) == 3 and sh.need(_site("new.example")) == 2
+
+
+def test_a_store_keeps_its_last_deals_while_it_waits_for_a_read(tmp_path):
+    # Nov 16: the first week's reads fell due in one build; 1,067 sites waited and their 585 deals went with them
+    net = _Net(tmp_path, _pages())
+    sh = ShopSites(net.client)
+    bike, sofa = _site("bikeshed.example"), _site("sofa-town.example", "furniture", ("home",))
+    asyncio.run(sh.read_all([bike, sofa], budget=10))
+    store = net.client.store
+    for key in ("https://bikeshed.example/", "https://bikeshed.example/products.json?limit=250&page=1",
+                "https://sofa-town.example/wp-json/wc/store/products?on_sale=true&page=1&per_page=100"):
+        c = store.cache_get(key)                                   # a day on: everything has fallen due
+        store.cache_put(key, c.__class__(**{**c.__dict__, "fetched_at": c.fetched_at - 90000, "expires_at": time.time() - 1}))
+    assert (sh.need(bike), sh.need(sofa), sh.need(_site("new.example"))) == (1, 1, 2)
+    # one read to spend: it goes to a store with deals, before a site never read; the other store keeps yesterday's
+    asked = len(net.calls)
+    reads = asyncio.run(sh.read_all([_site("new.example"), bike, sofa], budget=1))
+    assert sorted(h for h, r in reads.items() if r.charged) in (["bikeshed.example"], ["sofa-town.example"])
+    assert len(reads["bikeshed.example"].items) == 2 and reads["sofa-town.example"].items[0].price == 799.0
+    assert reads["new.example"].note.startswith("not read yet") and len(net.calls) > asked
+    waited = next(r for r in reads.values() if r.items and not r.charged)
+    assert time.time() - waited.read_at > 80000                    # read yesterday: its deals lapse by themselves
+    # WooCommerce: the listing that answered is remembered, so the other is not asked for every day
+    assert store.cache_get("https://sofa-town.example/").body == \
+        b"<!-- slomp: the site runs on woocommerce /wp-json/wc/store/products -->"
+
+
+def test_a_products_page_that_fails_today_leaves_yesterdays_answer_standing(tmp_path):
+    pages = _pages()
+    net = _Net(tmp_path, pages)
+    sh = ShopSites(net.client)
+    bike = _site("bikeshed.example")
+    asyncio.run(sh.read_all([bike], budget=5))
+    key = "https://bikeshed.example/products.json?limit=250&page=1"
+    c = net.client.store.cache_get(key)
+    net.client.store.cache_put(key, c.__class__(**{**c.__dict__, "expires_at": time.time() - 1}))
+    pages[key] = 503
+    r = asyncio.run(sh.read_all([bike], budget=5))["bikeshed.example"]
+    assert len(r.items) == 2 and r.note == "" and r.charged
+    assert json.loads(net.client.store.cache_get(key).body)["_count"] == 3          # still kept for tomorrow
+    assert net.client.store.cache_get("https://bikeshed.example/").body == b"<!-- slomp: the site runs on shopify -->"
+
+
+def test_sites_read_on_one_day_do_not_all_fall_due_on_another():
+    from slomp.sources.shops import _spread
+    lives = {round(_spread(f"shop{i}.example", 30.0), 1) for i in range(400)}
+    assert min(lives) >= 30.0 and max(lives) <= 45.0 and len(lives) > 100

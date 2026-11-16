@@ -13,8 +13,10 @@ publish every product with its price and the price it was before:
                 regular")
 
 A site on neither is noted and left. The chains on Flipp, and the online stores whose sales the deal sites post, are
-read there, not here. robots.txt is honored, a bot check is never worked around, and a build reads at most
-SITES_PER_BUILD sites it has no fresh copy of; the rest wait for the next build.
+read there, not here. robots.txt is honored and a bot check is never worked around. A build reads at most
+SITES_PER_BUILD sites over the network: the shop platforms' products first (they are read daily), then sites never
+read, then second looks at sites that had nothing or could not be read. What a site said is remembered, a failure
+included, so it is not asked again by every build; a store waiting its turn keeps its last deals until they lapse.
 """
 from __future__ import annotations
 
@@ -23,6 +25,7 @@ import hashlib
 import html as htmllib
 import json
 import re
+import time
 import unicodedata
 from collections import Counter
 from dataclasses import dataclass, field
@@ -48,9 +51,15 @@ area["ISO3166-2"="US-TX"]->.tx;
 (nwr["shop"]["website"](area.tx);nwr["shop"]["contact:website"](area.tx););
 out center tags;"""
 MAP_TTL = 7 * DAY            # the shops on the map
-HOME_TTL = 7 * DAY           # a shop's home page: which platform its site runs on
+RECORD_TTL = 30 * DAY        # which platform a shop's site runs on: looked at again after this long, or longer (_spread)
+FAILED_TTL = 14 * DAY        # a site behind a bot check or robots.txt, or with no page at its address: tried again then
+ERROR_TTL = 3 * DAY          # a site that did not answer, or answered with an error
+PRODUCTS_FAILED_TTL = 7 * DAY   # a shop platform whose product listing is closed
 ITEMS_TTL = DAY              # what it has on sale
-SITES_PER_BUILD = 600        # sites read afresh in one build, at most
+SITES_PER_BUILD = 600        # sites read over the network in one build, at most
+PLATFORMS = ("shopify", "woocommerce")
+WOO_PATHS = ("/wp-json/wc/store/v1/products", "/wp-json/wc/store/products")
+NOT_YET = "not read yet: this build's reads were spent"
 SHOPIFY_PAGES = 4            # of 250 products each
 WOO_PAGES = 3                # of 100 products on sale each
 MIN_PCT = 10.0               # a smaller saving on a shop's site is not shown
@@ -95,8 +104,10 @@ _NOT_A_SHOP_SITE = re.compile(r"(?:^|\.)(?:facebook|instagram|twitter|x|tiktok|y
                               r"sites|weebly|blogspot|wordpress)\.(?:com|ee|ly|gl|page|site|co|net|org)$", re.I)
 _SHOPIFY = re.compile(r"cdn\.shopify\.com|\bShopify\.shop\s*=|\.myshopify\.com|shopify-section", re.I)
 _WOO = re.compile(r"/wp-content/plugins/woocommerce|\bwoocommerce(?:-page|-active|_params)?\b|wc-block-", re.I)
-# What the response cache keeps of a shop's home page: which platform it runs on, not the page (see _keep).
-_KEPT = re.compile(r"^<!-- slomp: the site runs on (\w*) -->")
+# What the response cache keeps of a shop's site: which platform it runs on (and, for WooCommerce, which listing
+# answered), or why it could not be read; not the page (see ShopSites._remember).
+_KEPT = re.compile(r"^<!-- slomp: the site runs on ?(\w*) ?(\S*) -->")
+_KEPT_FAILED = re.compile(r"^<!-- slomp: not read: (.*) -->", re.S)
 
 
 def host_of(url: str) -> str:
@@ -242,8 +253,8 @@ class SiteRead:
     items: list[SiteItem] = field(default_factory=list)
     note: str = ""                 # why nothing was read: "the site answered with a bot check", "not read yet", ...
     fetched: int = 0               # requests this read made over the network
-    read_at: float = 0.0           # when what it states was read (the newest of its pages)
-    charged: bool = False          # it spent one of the build's fresh reads
+    read_at: float = 0.0           # when what it states was read (the oldest of its product pages)
+    charged: bool = False          # it was read over the network this time, not answered from what is kept
 
 
 def _money(v) -> Optional[float]:
@@ -252,6 +263,33 @@ def _money(v) -> Optional[float]:
     except (TypeError, ValueError):
         return None
     return x if x > 0 else None
+
+
+def _spread(host: str, ttl_s: float) -> float:
+    """A lifetime up to half as long again, by the site's name, so that sites read on one day don't all fall due on
+    another: the first week's reads all lapsed in the same build, and a third of the stores' deals went with them."""
+    return ttl_s * (1 + int(hashlib.sha1(host.encode()).hexdigest()[:2], 16) / 510)
+
+
+def _json(body: bytes):
+    try:
+        return json.loads(body)
+    except ValueError:
+        return None
+
+
+def _record(rec: CachedResponse) -> tuple[str, str, str]:
+    """What is kept of a site: (the platform it runs on, the listing that answered, why it could not be read)."""
+    text = (rec.body or b"")[:4000].decode("utf-8", "replace")
+    failed = _KEPT_FAILED.match(text)
+    if failed:
+        return "", "", failed.group(1)
+    kept = _KEPT.match(text)
+    if kept:
+        return kept.group(1), kept.group(2), ""
+    if rec.status != 200:
+        return "", "", f"the site answered HTTP {rec.status}"
+    return platform_of((rec.body or b"").decode("utf-8", "replace")), "", ""
 
 
 def platform_of(page: str) -> str:
@@ -362,109 +400,169 @@ class ShopSites:
                 why.append(f"{server}: its answer could not be read")
         return {}, "; ".join(why)
 
-    def _fresh(self, url: str, params: Optional[dict] = None) -> bool:
-        c = self.http.store.cache_get(cache_key(url, params))
-        return bool(c and c.fresh)
+    # -- one site ----------------------------------------------------------------------------------------------
+    # What Slomp knows of a site is kept in the response cache under its address: the platform it runs on, or why it
+    # could not be read. A failure is remembered for a while, not tried again by every build: in the first week the
+    # sites behind bot checks, robots.txt and dead addresses were retried each time and used up the builds' reads, so
+    # a tenth of the stores were never read and the rest fell due on the same day (runs 126-147, Nov 9-16, 2026).
+    def _cached(self, url: str, params: Optional[dict] = None) -> Optional[CachedResponse]:
+        return self.http.store.cache_get(cache_key(url, params))
 
-    def _afford(self, out: SiteRead, url: str, params: Optional[dict] = None) -> bool:
-        """Whether a page can be read: it is cached and fresh, or the site has spent (or can still spend) one of the
-        build's fresh reads. A site costs one read however many of its pages it takes."""
-        if out.charged or self._fresh(url, params):
-            return True
-        if self.budget <= 0:
-            out.note = "not read yet: this build's reads were spent"
-            return False
-        self.budget -= 1
-        out.charged = True
-        return True
+    def _remember(self, site: ShopSite, text: str, ttl_s: float, final_url: str = "") -> None:
+        now = time.time()
+        self.http.store.cache_put(site.url, CachedResponse(site.url, 200, "text/html", final_url or site.url,
+                                                           f"<!-- slomp: {text} -->".encode(), now,
+                                                           now + _spread(site.host, ttl_s)))
 
-    async def read(self, site: ShopSite) -> SiteRead:
-        """What the site has on sale."""
+    def _products(self, site: ShopSite, rec: CachedResponse, platform: str, api: str) -> list[tuple]:
+        """The product listings to try for a site on a platform: (address, page-size key, size, pages, extra, parse,
+        kept, count), the one that worked last time first."""
+        host = urlsplit(rec.final_url or site.url).hostname or site.host
+        base = f"https://{host}"
+        if platform == "shopify":
+            return [(f"{base}/products.json", "limit", 250, SHOPIFY_PAGES, None, lambda d: shopify_items(d, host),
+                     _shopify_kept, lambda d: d.get("_count", len(d.get("products") or [])))]
+        paths = sorted(WOO_PATHS, key=lambda x: x != api)
+        return [(f"{base}{path}", "per_page", 100, WOO_PAGES, {"on_sale": "true"}, lambda d: woo_items(d, host),
+                 _woo_kept, lambda d: len(d) if isinstance(d, list) else d.get("_count", 0)) for path in paths]
+
+    def need(self, site: ShopSite) -> int:
+        """What reading a site would take, from what is already kept: 0 nothing (all of it is fresh), 1 its products
+        again (a known shop platform; the deals come from these), 2 a first read, 3 another look at a site that had
+        no platform or could not be read. A build's reads go to the lower numbers first."""
+        rec = self._cached(site.url)
+        if rec is None:
+            return 2
+        platform, api, _ = _record(rec)
+        if platform in PLATFORMS:
+            url, key, size, _, extra, *_ = self._products(site, rec, platform, api)[0]
+            page = self._cached(url, {**(extra or {}), key: size, "page": 1})
+            return 0 if page and page.fresh else 1
+        return 0 if rec.fresh else 3
+
+    async def read(self, site: ShopSite, fetch: bool = True) -> SiteRead:
+        """What the site has on sale. With `fetch` off, only what is kept is used, though it has fallen due: a store
+        keeps its last deals (they lapse by themselves two days after their read) while it waits its turn."""
         out = SiteRead()
-        if not self._afford(out, site.url):
+        rec = self._cached(site.url)
+        platform, api, note = _record(rec) if rec else ("", "", "")
+        if rec is None or (not rec.fresh and fetch and platform not in PLATFORMS):
+            if not fetch:
+                out.note = NOT_YET
+                return out
+            rec, platform, note = await self._look(site, out)
+            api = ""
+        if note or rec is None:
+            out.note = note
             return out
-        try:
-            home = await self.http.get(site.url, ttl_s=HOME_TTL, html=True)
-        except Blocked:
-            out.note = "the site answered with a bot check"
-            return out
-        except Disallowed as e:
-            out.note = e.reason
-            return out
-        except FetchError as e:
-            out.note = f"the site could not be read ({e.reason})"
-            return out
-        out.fetched += not home.from_cache
-        out.read_at = home.fetched_at
-        if home.status != 200:
-            out.note = f"the site answered HTTP {home.status}"
-            return out
-        out.platform = platform_of(home.text)
-        if not home.from_cache:
-            _keep(self.http, site.url, None, home, f"<!-- slomp: the site runs on {out.platform} -->".encode(),
-                  HOME_TTL)
-        base = f"https://{urlsplit(home.final_url or site.url).hostname or site.host}"
-        host = urlsplit(base).hostname or site.host
-        if out.platform == "shopify":
-            out.items = await self._pages(out, f"{base}/products.json", "limit", 250, SHOPIFY_PAGES,
-                                          lambda d: shopify_items(d, host), _shopify_kept,
-                                          lambda d: d.get("_count", len(d.get("products") or [])))
-        elif out.platform == "woocommerce":
-            for path in ("/wp-json/wc/store/v1/products", "/wp-json/wc/store/products"):
-                out.items = await self._pages(out, f"{base}{path}", "per_page", 100, WOO_PAGES,
-                                              lambda d: woo_items(d, host), _woo_kept,
-                                              lambda d: len(d) if isinstance(d, list) else d.get("_count", 0),
-                                              {"on_sale": "true"})
-                if out.items or out.note != "the products could not be read (HTTP 404)":
-                    break
-        else:
+        out.platform = platform
+        if platform not in PLATFORMS:
             out.note = "the site runs on no platform Slomp reads"
+            return out
+        failed = ""
+        for url, key, size, pages, extra, parse, kept, count in self._products(site, rec, platform, api):
+            got = SiteRead()
+            got.items = await self._pages(got, url, key, size, pages, extra, parse, kept, count, fetch)
+            out.fetched += got.fetched
+            out.charged = out.charged or got.charged
+            if got.read_at:
+                out.items, out.read_at, out.note = got.items, got.read_at, ""
+                path = urlsplit(url).path
+                if got.charged and (path != api and platform == "woocommerce" or rec.expires_at - time.time() < 7 * DAY):
+                    # the listing answered: the site is what the record says, for another while
+                    self._remember(site, f"the site runs on {platform} {path}".strip(), RECORD_TTL, rec.final_url)
+                return out
+            failed = got.note if failed in ("", NOT_YET) else failed
+        out.note = failed
+        if failed and failed != NOT_YET:
+            # No listing answers, and nothing is kept of one: the shop has closed it. Looked at again later.
+            self._remember(site, f"not read: {failed}", PRODUCTS_FAILED_TTL, rec.final_url)
         return out
 
-    async def _pages(self, out: SiteRead, url: str, size_key: str, size: int, pages: int, parse, kept, count,
-                     extra: Optional[dict] = None) -> list[SiteItem]:
-        """A platform's product pages, in order, until one comes back short. `kept` is what the cache keeps of one."""
+    async def _look(self, site: ShopSite, out: SiteRead) -> tuple[Optional[CachedResponse], str, str]:
+        """Read the site's home page for the platform it runs on, and keep the answer: (record, platform, why not)."""
+        out.charged = True
+        try:
+            home = await self.http.get(site.url, ttl_s=RECORD_TTL, html=True, use_cache=False)
+        except Blocked:
+            note, ttl = "the site answered with a bot check", FAILED_TTL
+        except Disallowed as e:
+            if "AI assistants" in e.reason:           # who runs Slomp today, not the site: nothing to remember
+                return None, "", e.reason
+            note, ttl = e.reason, FAILED_TTL
+        except FetchError as e:
+            note, ttl = f"the site could not be read ({e.reason})", ERROR_TTL
+        else:
+            out.fetched += 1
+            if home.status == 200:
+                platform = platform_of(home.text)
+                self._remember(site, f"the site runs on {platform}".strip(), RECORD_TTL, home.final_url)
+                return self._cached(site.url), platform, ""
+            # 202 is a page that asks the browser to wait and prove itself: a bot check by another name
+            note = f"the site answered HTTP {home.status}"
+            ttl = FAILED_TTL if home.status in (202, 401, 403, 404, 410) else ERROR_TTL
+        self._remember(site, f"not read: {note}", ttl)
+        return None, "", note
+
+    async def _pages(self, out: SiteRead, url: str, size_key: str, size: int, pages: int, extra: Optional[dict],
+                     parse, kept, count, fetch: bool) -> list[SiteItem]:
+        """A platform's product pages, in order, until one comes back short. `kept` is what the cache keeps of one.
+        `out.read_at` is when the oldest page used was read; it stays 0, with `out.note`, when the first page gave
+        nothing to go by."""
         items: list[SiteItem] = []
+        times: list[float] = []
         for page in range(1, pages + 1):
             params = {**(extra or {}), size_key: size, "page": page}
-            if not self._afford(out, url, params):
+            had = self._cached(url, params)
+            good = had if had and had.status == 200 and _json(had.body) is not None else None
+            if good and (good.fresh or not fetch):
+                data, at = _json(good.body), good.fetched_at
+            elif not fetch:
+                out.note = NOT_YET
                 break
-            try:
-                r = await self.http.get(url, params, ttl_s=ITEMS_TTL, robots=True)
-            except FetchError as e:
-                out.note = f"the products could not be read ({e.reason})"
+            else:
+                out.charged = True
+                data, at = None, 0.0
+                try:
+                    r = await self.http.get(url, params, ttl_s=ITEMS_TTL, robots=True, use_cache=False)
+                    out.fetched += 1
+                    fresh = _json(r.body) if r.status == 200 else None
+                    if fresh is not None:
+                        data, at = kept(fresh), r.fetched_at
+                        _keep(self.http, url, params, r, json.dumps(data, separators=(",", ":")).encode(), ITEMS_TTL)
+                    else:
+                        out.note = "the products could not be read (" + \
+                            (f"HTTP {r.status}" if r.status != 200 else "not JSON") + ")"
+                except FetchError as e:
+                    out.note = f"the products could not be read ({e.reason})"
+                if data is None and good:          # it answered before: the last answer stands, and stays kept
+                    self.http.store.cache_put(cache_key(url, params), good)
+                    data, at, out.note = _json(good.body), good.fetched_at, ""
+            if data is None:
                 break
-            out.fetched += not r.from_cache
-            out.read_at = max(out.read_at, r.fetched_at)
-            if r.status != 200:
-                out.note = f"the products could not be read (HTTP {r.status})"
-                break
-            try:
-                data = r.json()
-            except ValueError:
-                out.note = "the products could not be read (not JSON)"
-                break
-            if not r.from_cache:
-                data = kept(data)
-                _keep(self.http, url, params, r, json.dumps(data, separators=(",", ":")).encode(), ITEMS_TTL)
             items += parse(data)
+            times.append(at)
             if count(data) < size:
                 break
+        if times:
+            out.read_at, out.note = min(times), ""
         return items
 
     async def read_all(self, sites: Iterable[ShopSite], budget: Optional[int] = None,
                        at_once: int = 24) -> dict[str, SiteRead]:
-        """Every site's read, the cached ones first so the fresh reads (`budget` of them) go to sites not read yet."""
-        if budget is not None:
-            self.budget = budget
-        todo = sorted(sites, key=lambda s: (not self._fresh(s.url), hashlib.sha1(s.host.encode()).hexdigest()))
+        """Every site's read. At most `budget` sites are read over the network: first the known shop platforms whose
+        products have fallen due, then sites never read, then second looks; the rest use what is kept."""
+        self.budget = SITES_PER_BUILD if budget is None else budget
+        order = sorted(sites, key=lambda s: (self.need(s), hashlib.sha1(s.host.encode()).hexdigest()))
+        fetch = {s.host for s in [s for s in order if self.need(s)][:max(0, self.budget)]}
+        self.budget -= len(fetch)
         gate = asyncio.Semaphore(at_once)
         out: dict[str, SiteRead] = {}
 
         async def one(s: ShopSite) -> None:
             async with gate:
-                out[s.host] = await self.read(s)
-        await asyncio.gather(*(one(s) for s in todo))
+                out[s.host] = await self.read(s, s.host in fetch)
+        await asyncio.gather(*(one(s) for s in order))
         return out
 
 

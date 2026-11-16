@@ -43,7 +43,7 @@ from .sales import stores_payload
 from .service import RADII, SlompService
 from .sources.flipp import Flyer, junk_reason
 from .sources.roundups import FRESH_DAYS
-from .sources.shops import SITES_PER_BUILD, ShopSite, same_name
+from .sources.shops import NOT_YET, PLATFORMS, SITES_PER_BUILD, ShopSite, same_name
 from .sources.stores import MAX_RADIUS_MI, _dataset, _restaurants
 from .terms import clean
 from .top import stores_of
@@ -357,14 +357,15 @@ async def site_ads(svc: SlompService, ads: Ads, anchor_list: list[City], log=pri
         if s:
             ads.site_stores[m.name] = s.locations
             placed.append(m.name)
-    read = [r for r in reads.values() if not r.note.startswith("not read yet")]
-    kinds = Counter(r.platform or "neither" for r in read if not r.note or r.platform)
-    notes = Counter(re.sub(r" \(.*$", "", r.note) for r in read if r.note and not r.platform)
-    ads.stats.update({"shop sites": len(sites), "shop sites read": len(read), "shop sites with deals": len(made),
+    known = [r for r in reads.values() if r.note != NOT_YET]
+    kinds = Counter(r.platform for r in known if r.platform in PLATFORMS and not r.note)
+    notes = Counter(re.sub(r" \(.*$", "", r.note) for r in known if r.note)
+    ads.stats.update({"shop sites": len(sites), "shop sites read": len(known), "shop sites with deals": len(made),
                       "shop deals": sum(len(d) for _, d in made)})
     log(f"stores' own sites: {sum(len(s.locations) for s in sites.values())} shops on the map with a website, "
-        f"{len(sites)} sites; read {len(read)} ({sum(r.charged for r in reads.values())} afresh), "
-        f"{len(sites) - len(read)} wait for a later build; {', '.join(f'{k} {v}' for k, v in kinds.most_common())}; "
+        f"{len(sites)} sites; {len(known)} known ({sum(r.charged for r in reads.values())} read in this build, the "
+        f"rest remembered), {len(sites) - len(known)} wait for a later build; "
+        f"{', '.join(f'{k} {v}' for k, v in kinds.most_common())}; "
         f"{len(made)} sites with {sum(len(d) for _, d in made)} deals ({clock.time() - t0:.0f}s)")
     if notes:
         log("  no sales read: " + ", ".join(f"{k} {v}" for k, v in notes.most_common()))
@@ -649,7 +650,7 @@ async def online_files(svc: SlompService, log=print) -> dict[str, dict]:
 # The reasons a post can be left out for that may hide a real deal Slomp should have read: the build log names a few
 # of those posts, so a check of the build sees what was missed, not only how much.
 TELLING = ("no industry", "no price", "store not identified", "doesn't say the store ships")
-TELLING_SAMPLES = 4
+TELLING_SAMPLES = 8
 
 
 def left_out_lines(what: str, left_out: dict[str, dict[str, str]]) -> list[str]:

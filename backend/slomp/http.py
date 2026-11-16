@@ -120,7 +120,9 @@ class PoliteClient:
             self._client = httpx.AsyncClient(
                 follow_redirects=True, timeout=httpx.Timeout(s.request_timeout_s, connect=10.0),
                 headers={"User-Agent": s.user_agent, "Accept-Language": "en-US,en;q=0.9"},
-                limits=httpx.Limits(max_connections=32, max_keepalive_connections=16))
+                # room for the stores' own sites (read 24 at a time, some slow to answer) beside every other source:
+                # with 32, the site reads left the rest of a build waiting for a connection
+                limits=httpx.Limits(max_connections=96, max_keepalive_connections=24))
         return self._client
 
     def _host(self, host: str) -> _Host:
