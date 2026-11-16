@@ -1397,7 +1397,7 @@ function localBadge(d) {
     return {text: part ? `BOGO ${part[1]}%` : "BOGO", soft: true};
   }
   if (t.pct) return {text: `${t.hedge === "up to" ? "Up to " : ""}${Math.round(t.pct)}% off`, soft: !!(t.promo || t.hedge)};
-  if (t.savings) return {text: `${whole(money(t.savings))} off`, soft: true};
+  if (t.savings) return {text: `${t.hedge === "up to" ? "Up to " : ""}${whole(money(t.savings))} off`, soft: true};
   return null;
 }
 
@@ -1408,7 +1408,8 @@ function priceLine(t, claim = true) {
   if (t.price == null) return "";
   const unit = t.unit && t.unit !== "ea" ? `<small>/${esc(t.unit)}</small>` : "";
   const was = t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list") ? `<s>${money(t.regular)}</s>` : "";
-  const said = claim && t.basis === "claimed_savings" && t.savings ? `<small>save ${whole(money(t.savings))}, says the ad</small>` : "";
+  const said = claim && t.basis === "claimed_savings" && t.savings
+    ? `<small>save ${t.hedge === "up to" ? "up to " : ""}${whole(money(t.savings))}, says the ad</small>` : "";
   return `<b>${money(t.price)}</b>${unit}${was}${said}`;
 }
 
@@ -1618,7 +1619,8 @@ function localDetail(d) {
   if (promo) rows.push(["Note", `<span class="muted">A national promotion. Participation can vary by location.</span>`]);
   // What the discount is measured against, in plain words.
   const basis = !promo && BASIS[t.basis] ? esc(t.bogo ? "Compared with buying the same items at this store's regular price." : BASIS[t.basis][1]) +
-    (t.basis === "claimed_savings" && t.savings ? ` It says you save ${whole(money(t.savings))}.` : "") : "";
+    (t.basis === "claimed_savings" && t.savings
+      ? ` It says you save ${t.hedge === "up to" ? "up to " : ""}${whole(money(t.savings))}${t.qty > 1 ? " each" : ""}.` : "") : "";
   const w = when(d, tz), key = keyTag(tags);
   const chips = [st ? hchip(ICONS.pin, `${st.distance_mi} mi away`) : L ? hchip(ICONS.pin, "Store not on the map", "warn")
     : hchip(ICONS.pin, "All over Texas")];
@@ -2011,7 +2013,7 @@ function snapshot(d) {
   } else if (t.price != null) {
     price = money(t.price) + (t.unit && t.unit !== "ea" ? `/${t.unit}` : "");
     if (t.regular && !t.bogo && (t.basis === "store_regular" || t.basis === "list")) was = money(t.regular);
-    else if (t.basis === "claimed_savings" && t.savings) note = `save ${whole(money(t.savings))} per the ad`;
+    else if (t.basis === "claimed_savings" && t.savings) note = `save ${t.hedge === "up to" ? "up to " : ""}${whole(money(t.savings))} per the ad`;
   } else if (t.bogo) price = cap(t.bogo);
   const w = online || r ? null : when(d, L.city.tz);
   const logo = r && r.logo ? logoSrc(r.logo.url) : "";

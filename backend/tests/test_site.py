@@ -271,7 +271,8 @@ def test_a_cached_search_holding_an_ended_ads_items_is_read_again():
 
 # --- where each merchant's ad items went, in the build's log -----------------------------------------------------
 class _Flipp:
-    """One H-E-B ad at every ZIP: a price beside "Save $1.00", a price with its regular price, a bare price."""
+    """One H-E-B ad at every ZIP: a price beside a coupon with no amount, a price with its regular price, a bare
+    price."""
 
     def __init__(self, flyer):
         self.flyer = flyer
@@ -287,7 +288,7 @@ class _Flipp:
     async def merchant_items(self, zip_code, merchant, expect=()):
         food = {"merchant_name": "H-E-B", "flyer_id": self.flyer.id, "_L1": "Food, Beverages & Tobacco",
                 "_L2": "Food Items"}
-        return [{**food, "id": 101, "current_price": 2.5, "sale_story": "Save $1.00"},
+        return [{**food, "id": 101, "current_price": 2.5, "sale_story": "FINAL PRICE WITH COUPON"},
                 {**food, "id": 102, "current_price": 1.25, "original_price": 2.0}]
 
     async def item(self, item_id):
@@ -317,7 +318,7 @@ def test_the_build_logs_where_each_merchants_items_went():
                      "reasons first")
     assert lines[at + 1] == ("  H-E-B: 1 ads, 3 items, 2 with a search result, 1 deals; ad price with no saving "
                              "stated 2; 1 left out as no saving have words of one")
-    assert lines[at + 2] == "    'H-E-B Shredded Cheese' price '2.50': 'Save $1.00'"      # not the bare price
+    assert lines[at + 2] == "    'H-E-B Shredded Cheese' price '2.50': 'FINAL PRICE WITH COUPON'"      # not the bare price
     assert lines[at + 3] == "ads at austin (78703): 1 ads from 1 merchants: H-E-B"
 
 

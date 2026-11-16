@@ -80,11 +80,14 @@ def test_a_price_with_an_extra_coupon_is_not_a_percent():
     assert t.price == 149.99 and t.pct is None and not t.promo
 
 
-def test_store_coupon_amount_comes_off_the_ad_price():
-    # Family Dollar "$8.95 with $1 OFF Smart Coupon" was shown as "$8.95 off"
+def test_the_printed_price_is_the_price_with_the_coupon():
+    # Family Dollar "$8.95 with $1 OFF Smart Coupon" was shown as "$8.95 off", then as $7.95. The same ad prints
+    # "$1.25 with $3 OFF Smart Coupon": the price is what you pay with the coupon, the coupon is the saving.
     t = ad_terms({"price": "8.95", "post_price_text": "with $1 OFF Smart Coupon†"}, feed=False)
-    assert (t.price, t.regular, t.savings, t.basis) == (7.95, 8.95, 1.0, "claimed_savings")
+    assert (t.price, t.regular, t.savings, t.basis) == (8.95, 9.95, 1.0, "claimed_savings")
     assert "coupon required" in t.conditions
+    t = ad_terms({"price": "1.25", "post_price_text": "with $3 OFF Smart Coupon†"}, feed=True)
+    assert (t.price, t.savings, t.pct, t.basis) == (1.25, 3.0, 70.6, "claimed_savings")     # never the store's regular
 
 
 def test_bogo_percent_above_a_price_keeps_the_price():
@@ -104,3 +107,124 @@ def test_multi_buy_with_a_word_in_front():
     for pre in ("SALE 3 for", "BUY 2 FOR", "Sale Price 4 FOR", "— ONLY — 2/"):
         assert ad_terms({"current_price": "9", "pre_price_text": pre}, feed=False).qty > 1
     assert ad_terms({"current_price": "9", "pre_price_text": "Buy 2, Get 1"}, feed=False).qty == 1
+
+
+
+# Nov 16, 2026: a week of builds left 2,600 ad items out as "no saving stated" whose own words state one.
+def _said(price, words, **more):
+    return ad_terms({"current_price": price, "sale_story": words, **more}, feed=False)
+
+
+def test_a_saving_in_words_beside_the_price():
+    t = _said("649.99", "Save $250")                                  # the saving, with no regular price printed
+    assert (t.price, t.regular, t.savings, t.pct, t.basis) == (649.99, 899.99, 250.0, 27.8, "claimed_savings")
+    assert ad_terms({"current_price": "129.99", "sale_story": "Save $70, Sale"}, feed=True).basis == "store_regular"
+    assert _said("3.49", "SAVE 50¢").savings == 0.5
+    t = _said("3.00", "SAVE $1.50 on 2", pre_price_text="2/")         # 2 for $3, $1.50 less than two cost
+    assert (t.price, t.regular, t.savings) == (1.5, 2.25, 0.75) and "each" in t.summary
+
+
+def test_a_saving_with_no_dollar_sign():
+    t = _said("104.99", "You save 5.00")
+    assert (t.regular, t.savings) == (109.99, 5.0)
+    for words, amount in (("250.00 OFF REG. PRICE", 250.0), ("200 OFF REG. PRICE", 200.0), ("Sale! 50¢ OFF", 0.5),
+                          ("8.00 Off SAVE 8.00 WITH EACH PURCHASE OF ONE", 8.0)):
+        t = _said(None, words)                                        # no price at all: a promotion
+        assert (t.price, t.savings, t.promo) == (None, amount, True), words
+    assert _said("4.98", "Great Value 10.75 oz").basis == "none"      # a size is not an amount
+
+
+def test_a_saving_up_to_an_amount_is_a_ceiling():
+    t = _said("5.97", "SAVE up to $2 per lb.", post_price_text="lb.")
+    assert (t.price, t.regular, t.savings, t.pct, t.hedge) == (5.97, None, 2.0, 25.1, "up to")
+    assert "up to $2.00" in t.summary and "up to 25.1% off" in t.summary
+    t = _said(None, "Save up to $30")
+    assert (t.savings, t.promo, t.hedge) == (30.0, True, "up to") and t.summary == "up to $30.00 off"
+
+
+def test_a_saving_on_an_order_or_on_something_else_is_not_the_items():
+    for words in ("Save $10 when you spend $40 on select holiday decor", "SPEND $199 SAVE $50, SPEND $299 SAVE $80",
+                  "$10 off $50", "COMPRA 1 LB O MÁS / OBTÉN $1 OFF EN TORTILLAS DE MAÍZ", "$5 off your next order",
+                  "Buy 2 get $5 Rewards WITH CARD", "Save More with FOOD TOWN", "BUY BIG SAVE BIG", "SAVE",
+                  "Instant Savings* are on now", "Plus a 10% Fee at Checkout", "FINAL PRICE WITH COUPON",
+                  "/EA With Digital Coupon", "FREE $22.98 value", "Up to $298 value with purchase"):
+        t = _said("5.99", words)
+        assert t.basis == "none" and t.savings is None and t.pct is None, words
+    assert _said(None, "50¢ OFF PER GALLON WITH YOUR $50 GROCERY PURCHASE").savings is None
+
+
+def test_a_saving_for_several_is_shared_among_them():
+    t = _said("10.39", "FINAL PRICE When You Buy 6 SAVE $60 When You Buy 6 or more")
+    assert (t.regular, t.savings) == (20.39, 10.0) and "buy multiple" in t.conditions
+    t = _said("43.99", "Buy 2 Get $12.00 Off")
+    assert (t.price, t.savings, t.bogo) == (43.99, 6.0, "") and "buy multiple" in t.conditions
+
+
+def test_a_coupons_amount_is_the_saving():
+    for price, words, each in (("6.99", "with myWalgreens $1 off online coupon", 1.0),
+                               ("15.95", "FINAL PRICE WITH COUPON $4 DG DIGITAL COUPON", 4.0),
+                               ("5.49", "WITH CARD Also get savings with $2.50 Digital mfr coupon", 2.5),
+                               ("2.00", "with 75¢ OFF Smart Coupon†", 0.75),
+                               ("3.99", "ea. $4.99-1.00 Digital Coupon", 1.0),
+                               ("2.97", "ea Digital Coupon - $1.00", 1.0),
+                               ("1.77", "plus a 10% fee at checkout - 90¢ / EA DIGITAL COUPON FINAL PRICE", 0.9),
+                               ("13.00", "Earn $5 rewards when you buy 2**, $7 off 2 online coupon◊", 3.5)):
+        t = _said(price, words)
+        assert (t.price, t.savings, t.basis) == (float(price), each, "claimed_savings"), words
+        assert "coupon required" in t.conditions
+    t = _said("4.00", "with $1 OFF Smart Coupon†", pre_price_text="Sale! 2/")       # one coupon over the two
+    assert (t.qty, t.price, t.regular) == (2, 2.0, 2.5)
+    t = _said("5.00", "2 POR $6.00 -$1.00 Digital Coupon", pre_price_text="2/")
+    assert (t.price, t.regular) == (2.5, 3.0)
+    assert _said(None, "75¢ OFF with Smart Coupon*†").savings == 0.75
+
+
+def test_the_saving_printed_where_the_price_goes_after_save():
+    t = ad_terms({"current_price": "2.0", "pre_price_text": "SAVE", "post_price_text": "DG DIGITAL COUPON"}, feed=False)
+    assert (t.price, t.savings, t.promo) == (None, 2.0, True) and "coupon required" in t.conditions
+    t = ad_terms({"current_price": "1.0", "pre_price_text": "INSTANTLY SAVE", "post_price_text": "WHEN YOU BUY 2"},
+                 feed=False)
+    assert (t.price, t.savings, t.promo) == (None, 1.0, True) and "buy multiple" in t.conditions
+    t = ad_terms({"current_price": "9.99", "pre_price_text": "SAVE"}, feed=False)       # a burst over a price
+    assert (t.price, t.savings, t.promo) == (9.99, None, False)
+
+
+def test_a_price_compared_with_other_stores():
+    t = _said("39.99", "WITH CARD Depart. store value 65.00 You save 25.00")
+    assert (t.regular, t.savings, t.basis) == (65.0, 25.01, "list")
+    t = _said("3.99", "EACH THEIRS $8.99. SAVE UP TO 56% OFF FANCY STORES")
+    assert (t.regular, t.pct, t.basis) == (8.99, 55.6, "list")
+    assert _said("7.00", "20% BIGGER & HEAVIER THAN FANCY STORES' BATH SHEETS!, theirs $19.99").regular == 19.99
+
+
+def test_a_firm_percent_beside_a_price():
+    for words in ("10% OFF When You Buy 6 or More", "when you BUY 6 or more - 10% OFF", "-10% OFF",
+                  "member price -10% OFF When You Buy 6 or More", "SAVE 10% WHEN YOU BUY SIX OR MORE BOTTLES OF WINE"):
+        t = _said("22.49", words)
+        assert (t.price, t.pct, t.regular, t.hedge, t.basis) == (22.49, 10.0, None, "", "claimed_savings"), words
+    assert "buy multiple" in _said("13.99", "SAVE 10% WHEN YOU BUY SIX OR MORE BOTTLES OF WINE").conditions
+    assert _said("22.49", "- 10% OFF When You Buy 6", post_price_text="ea").hedge == ""
+    for words in ("Up to 50% Off Kitchen Appliances + Extra 10% Off* with coupon", "SAVE UP TO 40% OFF APPAREL*",
+                  "50% off 2nd", "20% off your next purchase", "Additional 15% off with card"):
+        assert _said("62.99", words).pct is None, words
+    t = _said(None, "Save 20% When you buy any 6 bottles of wine 750 ml. or larger")
+    assert (t.pct, t.promo) == (20.0, True) and "buy multiple" in t.conditions
+
+
+def test_a_price_that_runs_up_to_another_is_a_floor():
+    t = ad_terms({"current_price": "6.0", "post_price_text": "to $13.00 with myWalgreens",
+                  "sale_story": "$2 off Walgreens coupon◊"}, feed=False)
+    assert (t.price, t.savings, t.pct, t.regular, t.hedge) == (6.0, 2.0, None, None, "starting at")
+
+
+def test_buy_and_get_with_words_between():
+    assert bogo_of("BUY ONE AND GET ONE FREE") == ("buy 1 get 1 free", 50.0)
+    assert bogo_of("BUY TWO AND GET ONE FREE") == ("buy 2 get 1 free", 33.3)
+    assert bogo_of("BUY 1 GET FREE 1") == ("buy 1 get 1 free", 50.0)
+    # how many come free is not said, another item comes free, or the second one costs something
+    for words in ("BUY 2 GET FREE", "Buy 1 get free shipping", "Buy 2 Get $6.00 Off", "Buy 1 get 2nd for $1* WITH CARD",
+                  "Buy 2 get $5 ExtraBucks Rewards", "BUY 1 Classico Pasta Sauce, GET 1 FREE Clover Valley Spaghetti",
+                  "BUY ONE OF THESE GET 1 FREE SELECT POWER TOOL", "Buy 2 gallons"):
+        assert bogo_of(words) == ("", None), words
+    assert bogo_of("Buy 2 gallons, BOGO free") == ("buy 1 get 1 free", 50.0)
+
