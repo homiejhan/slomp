@@ -206,7 +206,8 @@ async def sale_dates(http: PoliteClient, s: StoreSale, now: datetime) -> tuple[s
     return PASS, det
 
 
-_PLACE = r"(?:at|on|from|via|over to|head to|run to|to)\s+"
+_PLACE = r"(?:at|on|from|via|over to|over|head to|run to|to)\s+"       # "hurry over Corkcicle where ..."
+_ITS_SALE = r"(?:'s)?\s+(?-i:(?:[A-Z&][\w'&-]*\s+){0,4})(?:sales?|events?|deals)\b"     # "the Lululemon Black Friday Sale"
 
 
 async def sale_store(http: PoliteClient, s: StoreSale) -> tuple[str, dict]:
@@ -218,6 +219,8 @@ async def sale_store(http: PoliteClient, s: StoreSale) -> tuple[str, dict]:
     st = by_key().get(s.store)
     said = [n for n in names if re.search(_PLACE + re.escape(n) + r"(?:\.com)?\b", text, re.I) or
             re.search(r"\bShop Now at " + re.escape(n), text, re.I) or _has(text, f"{n}.com") or
+            _has(text, f"{n.replace(' ', '')}.com") or                      # "BarefootDreams.com" for Barefoot Dreams
+            re.search(r"(?<!\w)" + re.escape(n) + _ITS_SALE, text, re.I) or
             re.search(r"(?:^|[.!?]\s+)" + re.escape(n) + r"(?:\s+\[[\w.]+\])?\s+(?:is (?:now )?offering|offers|has|is selling|"
                       r"now offers|is (?:now )?taking|knocks|takes|discounts)\b", text, re.I)]
     links = unquote(unquote(" ".join(re.findall(r'href="([^"]+)"', html)))).lower()

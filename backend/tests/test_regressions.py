@@ -894,3 +894,138 @@ def test_nov22_a_store_named_by_the_posts_own_words():
                         ("Up to 60% Off on Amazon.com + Free Shipping", "")):
         assert _named(title, text) == ("", ""), title
 
+
+
+NOV22 = datetime(2026, 11, 22, 17, tzinfo=timezone.utc)
+
+
+def test_nov22_more_ways_a_post_sends_its_reader_to_a_store():
+    # run 164's log showed how each post without a store begins: the store was there, in words Slomp did not read
+    # any "... over to" a website, or to a name and "where": a store of the registry
+    s, _ = _sale("Up to 75% Off Electric Bikes + FREE Shipping", source="hip2save", now=NOV22,
+                 text="For a limited time, make your way over to AliExpress.com where you can grab sweet deals on "
+                      "select electric bikes.")
+    assert (s.store, s.raw["store_how"]) == ("aliexpress", "the post: 'make your way over to AliExpress.com'")
+    # ... or one it doesn't list, spelled as the title spells it
+    assert _named("Up to 70% Off Barefoot Dreams Throws, Clothes, Gift Sets & More",
+                  "Today, November 20th only, click over to BarefootDreams.com for your last chance to score hot "
+                  "deals on throws. Shipping is free on orders of $50.") == \
+        ("Barefoot Dreams", "the post says 'click over to BarefootDreams.com' and that it ships")
+    assert _named("Up to 60% Off Hoodies + Free Shipping",
+                  "Today only, rush over to Minky Couture, where you can save big.")[0] == "Minky Couture"
+    # a name that starts with a number: the word after the number is the name's, whatever else it means
+    assert _named("Today ONLY: Up to 80% Off 32 Degrees Clothes + Free Shipping",
+                  "Today, October 25th only, hurry over to 32 Degrees where they are offering free shipping.") == \
+        ("32 Degrees", "the title names it (32 Degrees) and the post says 'hurry over to 32 Degrees'")
+    assert _named("Up to 60% Off Clothes + Free Shipping", "Hurry over to 32 Degrees where everything ships free.") == \
+        ("32 Degrees", "the post says 'Hurry over to 32 Degrees' and that it ships")
+    assert _named("Up to 60% Off 5.11 Tactical Boots + Free Shipping",
+                  "Head over to 5.11 Tactical where boots are 60% off.")[0] == "5.11 Tactical"
+    # the "to" left out before where the sentence goes on
+    assert _named("Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!",
+                  "Cheers to an awesome Corkcicle deal! Through November 30th only, hurry over Corkcicle where you "
+                  "can save 30% off.") == \
+        ("Corkcicle", "the title names it (Corkcicle) and the post says 'hurry over Corkcicle'")
+    # Not words that send no one anywhere, a page of the deal site, a page of goods (a store called "Stuffed" or
+    # "Air" is what main read here), a count of days, or a step of the order.
+    for title, text in (("Up to 50% Off Toys + Free Shipping", "These savings carry over to December 1st."),
+                        ("Up to 50% Off Toys + Free Shipping", "Savings carry over to January where prices go up."),
+                        ("Up to 50% Off Toys + Free Shipping", "Prices are low all over Texas where it is hot."),
+                        ("Up to 50% Off Toys + Free Shipping", "We handed the list over to the team."),
+                        ("Up to 50% Off Toys + Free Shipping", "Come on over to Hip2Save's deals page where we list them."),
+                        ("Up to 50% Off Toys + Free Shipping", "Click to Enlarge the picture, then Jump to Recipe."),
+                        ("Up to 50% Off Stuffed Animals + Free Shipping", "Hurry over to the Stuffed Animals page where prices are slashed."),
+                        ("Up to 50% Off Air Fryers + Free Shipping", "Head over to Air Fryers and save."),
+                        ("Up to 50% Off 12 Days of Deals + Free Shipping", "Head over to 12 Days of Deals where shipping is free."),
+                        ("Up to 50% Off Toys + Free Shipping", "Head to 5 Stores near you where pickup is free."),
+                        ("Extra 20% Off at Checkout + Free Shipping", "Use our code at Checkout. Head over to Checkout now.")):
+        assert _named(title, text) == ("", ""), (title, text)
+
+
+def test_nov22_a_store_the_title_misspells_is_the_one_whose_sale_the_post_names():
+    from slomp.sales import store_of_sale
+    # run 164: "lululelmon Black Friday Sale" names no store, and the post's first words name the store's sale
+    title = "lululelmon Black Friday Sale + Free Shipping = Popular Styles from $29 Shipped"
+    text = "You don't want to miss the prices during the Lululemon Black Friday Sale! Score HOT deals on apparel!"
+    s, _ = _sale(title, source="hip2save", text=text, category="Black Friday, Deals, Gift Ideas, Mens", now=NOV22)
+    assert (s.store, s.name, s.offer, s.industries) == ("lululemon", "Black Friday Sale", "From $29", ["fashion"])
+    assert s.raw["store_how"] == "the post names its sale: 'Lululemon Black Friday Sale'"
+
+    def read(title, text):
+        store, how, called = store_of_sale(Post(source="hip2save", id="hip2save:1", url="https://hip2save.com/x/",
+                                                title=title, text=text, posted_at=NOV22))
+        return (store.key if store else "", called)
+    assert read(title, text) == ("lululemon", "Black Friday Sale")
+    assert read("Early Black Friday Deals are LIVE + Free Shipping", "Shop Kohl's Early Black Friday Deals now!") == \
+        ("kohls", "Early Black Friday Deals")
+    assert read("Friends & Family Sale: 30% Off + Free Shipping", "The Kohl's Friends & Family Sale is back!") == \
+        ("kohls", "Friends & Family Sale")
+    # only a sale with a name of its own, which the title gives it too; only one store's; never against a store the
+    # title names
+    assert read("Up to 50% Off Air Fryers + Free Shipping", "These prices beat the Amazon Black Friday Sale!") == ("", "")
+    assert read("Up to 50% Off Clearance Sale + Free Shipping", "It is as good as the Amazon sale last week.") == ("", "")
+    assert read(title, "Go see Lululemon. Black Friday Sale prices are everywhere.") == ("", "")
+    assert read("Black Friday Sale is LIVE: Up to 50% Off",
+                "Shop the Target Black Friday Sale and the Walmart Black Friday Sale.") == ("", "")
+    assert read("Kohl's Black Friday Sale: Up to 60% Off", "It rivals the Amazon Black Friday Sale!") == ("", "")
+    # a store the title names, listed or not, is read first
+    s, _ = _sale("Comfrt Black Friday Sale: Up to 70% Off + Free Shipping", source="hip2save", now=NOV22,
+                 text="This rivals the Amazon Black Friday Sale!", category="Deals, Womens")
+    assert (s.store, s.store_name) == ("", "Comfrt")
+
+
+def test_nov22_what_a_store_named_by_the_posts_words_sells():
+    from slomp.sales import sale_name
+    # Once named, run 164's posts were filed by their store's own name: "Barefoot" is a wine and "Degree" a deodorant.
+    s, _ = _sale("Up to 70% Off Barefoot Dreams Throws, Clothes, Gift Sets & More", source="hip2save", now=NOV22,
+                 text="Today, November 20th only, click over to BarefootDreams.com for your last chance to score hot "
+                      "deals on throws. Shipping is free on orders of $50.")
+    assert (s.store_name, s.name, s.industries) == ("Barefoot Dreams", "Throws, Clothes, Gift Sets & More", ["fashion", "home"])
+    # ... and "Today ONLY:" before an offer is no sale's name
+    s, _ = _sale("Today ONLY: Up to 80% Off 32 Degrees Clothes + Free Shipping", source="hip2save", now=NOV22,
+                 text="Today, October 25th only, hurry over to 32 Degrees where they are offering free shipping.")
+    assert (s.store_name, s.name, s.industries, s.conditions) == ("32 Degrees", "Clothes", ["fashion"], ["today only"])
+    assert sale_name("Last Chance: Up to 50% Off Toys", None, "") == "Toys"
+    assert sale_name("Black Friday: Up to 50% Off Toys", None, "") == "Black Friday"          # a day is a sale's name
+    # the name still says what the store sells when nothing else does
+    s, _ = _sale("Up to 60% Off at Mattress Firm + Free Shipping", source="hip2save", now=NOV22,
+                 links=["https://www.mattressfirm.com/sale"])
+    assert (s.store_name, s.industries) == ("Mattress Firm", ["home"])
+    # a title that names no goods: the department the source files the post under; a headline about the deal site's
+    # own post gives the sale no name
+    s, _ = _sale("Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!", source="hip2save", now=NOV22,
+                 text="Cheers to an awesome Corkcicle deal! Through November 30th only, hurry over Corkcicle where you "
+                      "can save 30% off.", category="Deals, Gift Ideas, Home Deals & Tips, Sponsored Posts")
+    assert (s.store_name, s.name, s.offer, s.industries, s.industry_rule) == \
+        ("Corkcicle", "Sale", "30% off", ["home"], "category department:home")
+    # kinds of goods these titles named that no rule knew
+    for words, inds in (("Clothes", ["fashion"]), ("Kids Clothes", ["fashion"]), ("Loungewear", ["fashion"]),
+                        ("Knitwear & Rainwear", ["fashion"]), ("Sherpa Throws", ["home"]),
+                        ("Dog Clothes", ["pets"]), ("Doll Clothes", ["toys"]), ("Clothes Dryer", ["home"]),
+                        ("Clothes Hangers", []), ("Clothespins", []), ("Swear Jar", []), ("Cookware Set", ["home"]),
+                        ("Longwear Lipstick", ["beauty"]), ("Streetwear & Athleisure", ["fashion"]),
+                        ("Best Buy Throws In a Free Gift", [])):
+        assert ind.from_text(words).industries == inds, words
+
+
+def test_nov22_the_store_check_reads_the_wordings_the_sale_reader_does():
+    import asyncio
+    from types import SimpleNamespace
+
+    from slomp.verify import sales_checks as sc
+    from slomp.verify.checks import FAIL, PASS
+
+    def checked(store, store_name, title, body):
+        page = f'<html><body><article><div class="entry-content"><p>{body}</p></div></article></body></html>'
+
+        async def get(url, **_):
+            return SimpleNamespace(status=200, text=page, final_url=url)
+        sale = SimpleNamespace(source_url="https://hip2save.com/x/", store=store, store_name=store_name, title=title)
+        return asyncio.run(sc.sale_store(SimpleNamespace(get=get), sale))[0]
+    assert checked("", "Barefoot Dreams", "Up to 70% Off Barefoot Dreams Throws",
+                   "Today only, click over to BarefootDreams.com for your last chance.") == PASS
+    assert checked("", "Corkcicle", "Sip in Style With 30% Off Corkcicle",
+                   "Through November 30th only, hurry over Corkcicle where you can save 30%.") == PASS
+    assert checked("lululemon", "lululemon", "lululelmon Black Friday Sale + Free Shipping",
+                   "You don't want to miss the prices during the Lululemon Black Friday Sale!") == PASS
+    assert checked("", "Barefoot Dreams", "Up to 70% Off Throws", "Save on throws and robes today.") == FAIL

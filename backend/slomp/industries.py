@@ -131,7 +131,8 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                        r"bissell", r"(?:ice cream|frozen treat|waffle|bread|pasta|rice|yogurt|popcorn|soda|sandwich|pizza) makers?",
                        r"sheet sets?", r"(?:bath|beach|hand|kitchen) towels?", r"towel sets?", r"bedding(?: sets?)?",
                        r"comforter(?: sets?)?", r"duvet(?: covers?)?", r"quilts?", r"pillowcases?", r"throw pillows?",
-                       r"throw blankets?", r"(?:espresso|coffee|cold brew) (?:machines?|makers?)", r"espresso", r"brewers?",
+                       r"throw blankets?", r"throws(?! (?:in|a|an|the|its|out|down|up|off|away|open|back)\b)",     # the blankets
+                       r"(?:espresso|coffee|cold brew) (?:machines?|makers?)", r"espresso", r"brewers?",
                        r"(?:stand|hand) mixers?", r"air fryers?", r"slow cookers?", r"pressure cookers?"), ["home"]),
     # Car electronics: the Tech rule below would otherwise take them alone, and Automotive is the thinnest industry
     ("auto-gear", _rx(r"dash ?cams?", r"dash(?:board)? cameras?", r"car (?:dvrs?|stereos?|radios?)", r"carplay", r"android auto"),
@@ -203,6 +204,12 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                     r"necklaces?", r"earrings?", r"bracelets?", r"(?:diamond|gold|silver) (?:ring|band)s?",
                     r"(?<!smart )(?<!apple )(?<!galaxy )(?<!pixel )watch(?:es)?(?! ?(?:bands?|party|straps?|chargers?))", r"sunglasses", r"hats?", r"caps?(?! barbell)", r"scarf|scarves", r"belts?",
                     r"totes?", r"luggage", r"suitcases?", r"apparel", r"clothing", r"outerwear", r"blazers?",
+                    # "clothes", but not a pet's or a doll's, nor what clothes are kept, washed or hung on
+                    r"(?<!dog )(?<!cat )(?<!pet )(?<!doll )clothes(?! (?:hangers?|dryers?|drying|steamers?|racks?|pins?|"
+                    r"lines?|hampers?|baskets?|irons?|washers?|rods?|organizers?|storage|brush(?:es)?|shavers?|rails?))",
+                    # what is worn, by its kind ("longwear" is makeup, so not every word that ends so)
+                    r"(?:lounge|knit|mens|womens|rain|sports|street|night|beach|ski|snow|head|neck|leg|gym|yoga|resort|"
+                    r"dance)wear", r"athleisure",
                     r"suits?", r"polos?", r"flannel", r"cardigans?", r"joggers?", r"crocs", r"levi'?s", r"nike",
                     r"adidas", r"under armour", r"new balance", r"skechers", r"hoka", r"asics",
                     r"blouses?", r"trousers?", r"slacks", r"chinos", r"khakis", r"jumpsuits?", r"rompers?", r"tunics?",
