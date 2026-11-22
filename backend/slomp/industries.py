@@ -157,7 +157,9 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                  r"(?:wall|car|wireless|phone|laptop|gan|usb-?c) chargers?", r"charging (?:station|dock|pad|stand)", r"power banks?", r"graphics cards?", r"gpu", r"processors?", r"cpu",
                  r"motherboards?", r"desktop(?: pc| computer)?", r"computers?", r"streaming (?:stick|device)",
                  r"(?:portable )?power stations?",                  # dealnews' own category: "Power Stations" (Tech)
-                 r"smart (?:plug|bulb|home|display|lock)", r"camera", r"power strips?", r"surge protectors?",
+                 r"smart (?:plug|bulb|home|display|lock|ring|glasses|thermostat|speaker|doorbell|sensor|light|switch|outlet|tag|tv)",
+                 r"docking stations?", r"(?:laptop|usb-?c?|thunderbolt|phone) docks?",
+                 r"camera", r"power strips?", r"surge protectors?",
                  r"(?:accounting|bookkeeping|tax|antivirus|office|photo editing|video editing|pdf) software",
                  r"software (?:licen[cs]es?|suites?|subscriptions?)"), ["tech"]),
     ("toys", _rx(r"bubble (?:wand|machine|gun|blower|blaster|maker|solution|toy)", r"scrapbook(?:ing)?s?", r"photo albums?", r"fuse beads?", r"perler", r"bead kits?", r"craft kits?", r"sticker books?", r"coloring books?", r"creativity for kids", r"kids'? (?:craft|activity|science) (?:kits?|sets?)", r"(?:squishy|potion|slime|science|art) (?:making )?kits?",
@@ -202,7 +204,14 @@ KEYWORD_RULES: tuple[tuple[str, re.Pattern, list[str]], ...] = (
                     r"(?<!smart )(?<!apple )(?<!galaxy )(?<!pixel )watch(?:es)?(?! ?(?:bands?|party|straps?|chargers?))", r"sunglasses", r"hats?", r"caps?(?! barbell)", r"scarf|scarves", r"belts?",
                     r"totes?", r"luggage", r"suitcases?", r"apparel", r"clothing", r"outerwear", r"blazers?",
                     r"suits?", r"polos?", r"flannel", r"cardigans?", r"joggers?", r"crocs", r"levi'?s", r"nike",
-                    r"adidas", r"under armour", r"new balance", r"skechers", r"hoka", r"asics"), ["fashion"]),
+                    r"adidas", r"under armour", r"new balance", r"skechers", r"hoka", r"asics",
+                    r"blouses?", r"trousers?", r"slacks", r"chinos", r"khakis", r"jumpsuits?", r"rompers?", r"tunics?",
+                    r"camisoles?", r"tank tops?", r"pullovers?", r"turtlenecks?", r"overalls", r"bodysuits?", r"capris",
+                    r"skorts?", r"parkas?", r"windbreakers?", r"raincoats?", r"peacoats?", r"trench coats?", r"robes?(?! hooks?)",
+                    r"nightgowns?", r"gowns?", r"ponchos?", r"kimonos?", r"tights", r"hosiery", r"shapewear",
+                    r"beanies?", r"mittens", r"footwear", r"flip-?flops?", r"mules", r"clogs", r"moccasins?", r"oxfords",
+                    r"espadrilles", r"(?:slide|slip-on) sandals?", r"(?:pool|shower|comfort|sport) slides"),
+     ["fashion"]),
     ("auto", _rx(r"motor oil", r"car (?:battery|wash|wax|seat covers?|charger|mount|vacuum|care)", r"tires?",
                  r"wiper blades?", r"windshield", r"brake", r"spark plugs?", r"jump starter", r"headlights?",
                  r"automotive", r"vehicle", r"truck bed", r"trailer hitch", r"floor mats", r"antifreeze",
@@ -428,11 +437,13 @@ def from_department(name: str) -> Classification:
 # --- words learned from what the sources label ---------------------------------------------------------------------
 # A brand or a kind of goods no rule names ("Bluetti", "Dearfoams") is learned from the items and posts that carry
 # their source's own label: Flipp's taxonomy on weekly-ad items, dealnews' category on its posts. A word counts once
-# it appears in LEARN_MIN distinct labelled examples and at least LEARN_SHARE of them carry the same industry, so a
-# word the labels disagree on ("apple": fruit and phones) is never used. The rules come first: a learned word decides
-# only what no rule does, and new brands and goods find their industry without anyone listing them.
+# it appears in LEARN_MIN distinct labelled examples and at least LEARN_SHARE of them carry the same industry (or all
+# but LEARN_STRAY do: the sources mislabel now and then), so a word the labels disagree on ("apple": fruit and phones)
+# is never used. The rules come first: a learned word decides only what no rule does, and new brands and goods find
+# their industry without anyone listing them.
 LEARN_MIN = 8
 LEARN_SHARE = 0.9
+LEARN_STRAY = 1             # one example that disagrees is a stray label, however few there are: 7 of 8 still say it
 LEARN_DAYS = 60             # examples older than this are forgotten: brands and the goods they make change
 _WORD = re.compile(r"[a-z][a-z0-9]*(?:['&+-][a-z0-9]+)*")
 _NOT_GOODS = frozenset("""
@@ -495,7 +506,7 @@ class Lexicon:
         for label, n in labels.items():
             for i in label:
                 share[i] += n
-        return [i for i in IDS if share[i] >= LEARN_SHARE * total], total
+        return [i for i in IDS if share[i] >= LEARN_SHARE * total or (share[i] and total - share[i] <= LEARN_STRAY)], total
 
     def classify(self, *texts: str, allowed: Optional[Iterable[str]] = None) -> Classification:
         """The industries of the title's best-attested learned word."""

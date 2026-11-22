@@ -757,7 +757,7 @@ def test_nov16_a_store_named_after_the_offer():
     assert _named("Barnes & Noble Offer: The Criterion Collection Blu-rays 50% Off + Free S&H", source="slickdeals") == \
         ("Barnes & Noble", "the title names it (Barnes & Noble sale) and the post says it ships")
     # That a post ships does not say from where: the words after an offer are as often the goods as a store.
-    for title, text in (("Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)", "Hoodies from $19 shipped."),
+    for title, text in (("Up to 80% Off Soma Sale = $2 Panties, $10 Bras & More", "Panties from $2 shipped."),
                         ("Up to 75% Off Electric Bikes + FREE Shipping", "Save big on Electric Bikes this week."),
                         ("Up to 50% Off Stuffed Animals Sale + Free Shipping", "Save on Stuffed Animals at checkout."),
                         ("Buy 1, Get 1 FREE Comfrt Hoodies & Sweatpants", "Cozy hoodies from Comfrt are back."),
@@ -775,10 +775,12 @@ def test_nov16_the_log_says_what_an_unnamed_store_post_had_to_go_on():
     p = Post(source="hip2save", id="hip2save:2", url="https://hip2save.com/deals/comfrt/", posted_at=None,
              title="Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)", text="Hoodies from $19 shipped.",
              links=["https://hip2save.com/deals/", "https://go.example.net/?u=https%3A%2F%2Fshop.example.org%2Fsale"])
-    assert store_evidence(p) == ("title name 'Comfrt', links to go.example.net, shop.example.org, says it ships")
+    assert store_evidence(p) == ("title name 'Comfrt', links to go.example.net, shop.example.org, says it ships, "
+                                 "begins 'Hoodies from $19 shipped.'")
     p = Post(source="hip2save", id="hip2save:3", url="https://hip2save.com/deals/bikes/", posted_at=None,
              title="Up to 75% Off Electric Bikes", text="Head over to Jasion where bikes are on sale.")
-    assert store_evidence(p) == "title name 'Electric', no links, sends readers to 'Jasion'"
+    assert store_evidence(p) == ("title name 'Electric', no links, sends readers to 'Jasion', "
+                                 "begins 'Head over to Jasion where bikes are on sale.'")
     s, why = _sale("Up to 75% Off Electric Bikes + FREE Shipping", source="hip2save")
     assert s is None and why["sale: store not identified"] == 1
 
@@ -827,4 +829,68 @@ def test_nov16_the_log_says_what_the_learned_words_know_of_an_unfiled_title():
     assert ind.explain_unlearned("Anbernic RG28XX") == "anbernic: 8 labelled, 75% tech"
     ind.use_lexicon(None)
     assert ind.explain_unlearned("Anbernic RG28XX") == ""
+
+
+
+def test_nov22_kinds_of_clothing_and_gadgets_the_first_build_left_unfiled():
+    # run 161: the week's unfiled products were filed, and other kinds of goods took their place
+    for title, inds in (("Tommy Hilfiger Ivory Trousers Now 60% Off at Belk", ["fashion"]),
+                        ("MNK Pull-On Pocket Jumpsuit: 60% Off at Boscov's", ["fashion"]),
+                        ("Alfred Dunner Patchwork Blouse: About 60% Off at Boscov's", ["fashion"]),
+                        ("Prime Members: Baseus Spacemate RD1 10-in-1 Mini Docking Station $90 + Free S&H", ["tech"]),
+                        ("Oura Ring 5 Smart Ring + Earn $30 Target Circle Rewards $299 + Free S&H", ["tech"])):
+        assert ind.from_text(title).industries == inds, title
+    # words that only look like them
+    for title in ("Drano Max Gel Clog Remover", "Robe Hooks 2-Pack", "Dock Lines for Boats 2-Pack",
+                  "Smart Balance Buttery Spread"):
+        assert "fashion" not in ind.from_text(title).industries and "tech" not in ind.from_text(title).industries, title
+    assert ind.from_text("Diamond Ring 1/2 ct tw").industries == ["fashion"]          # a ring is still jewelry
+
+
+def test_nov22_one_stray_label_does_not_silence_a_learned_word():
+    # run 161's log: "slides: 8 labelled, 88% fashion" filed nothing, because 7 of 8 is under nine in ten
+    lex = _learned(("Easy Spirit Slides", ["fashion"], 7), ("Playground Slides", ["toys"], 1))
+    assert lex.classify("Easy Spirit Bateson 3 Slides: Cushioned Comfort, 60% Off").industries == ["fashion"]
+    # two that disagree are a real disagreement, and a word seen too seldom still teaches nothing
+    assert _learned(("Easy Spirit Slides", ["fashion"], 7), ("Playground Slides", ["toys"], 2)).classify("Slides").industries == []
+    assert _learned(("Easy Spirit Slides", ["fashion"], 6), ("Playground Slides", ["toys"], 1)).classify("Slides").industries == []
+    # where there are many examples, nine in ten is still the rule
+    lots = _learned(("Garden Hose", ["home"], 44), ("Panty Hose", ["fashion"], 6))
+    assert lots.classify("Hose").industries == []
+
+
+def test_nov22_a_store_named_by_the_posts_own_words():
+    # run 161's log: none of Hip2Save's unnamed posts carries a link, so only their words can name the store
+    # a website the title itself names, spelled as the post spells it
+    assert _named("Need New HVAC Filters? Extra 20% Off Any Size on FilterKing.com + Free Shipping!",
+                  "Head over to Filter King where you can save an extra 20%.") == \
+        ("Filter King", "the title names its website (FilterKing.com)")
+    assert _named("Extra 20% Off Any Size on FilterKing.com")[0] == "FilterKing"
+    assert _named("Up to 45% Off Custom Shades at Blinds.com + Free Shipping")[0] == "Blinds.com"   # named for its goods
+    # the site the post sends the reader to holds the title's name
+    assert _named("Buy 1, Get 1 50% Off Hugz Weighted Stuffed Animals | Helps w/ Anxiety & Stress",
+                  "Hurry over to GiveHugz.co where they are buy one, get one 50% off.") == \
+        ("Hugz", "the title names it (Hugz) and the post says 'Hurry over to GiveHugz.co'")
+    assert _named("Up to 70% Off Comfrt Hoodies", "Hop on over to Comfrt's Black Friday Sale and save.")[0] == "Comfrt"
+    # the title names no one: the store the post sends the reader to, when it ships
+    assert _named("These Luxury Blankets Are Worth the Hype! Take 50% OFF With Our Code",
+                  "Hop on over to Minky Couture where you can save 50%. Shipping is free on $75.") == \
+        ("Minky Couture", "the post says 'Hop on over to Minky Couture' and that it ships")
+    assert _named("These Luxury Blankets Are Worth the Hype! Take 50% OFF With Our Code",
+                  "Hop on over to Minky Couture where you can save 50%.") == ("", "")
+    # a sale named for the store's own event after the offer, in a post that ships
+    assert _named("Up to 75% Off Laura Geller Early Black Friday Sale | Full-Face Palette & Brush Set Just $39 Shipped") == \
+        ("Laura Geller", "the title names it after the offer (Laura Geller sale) and the post says it ships")
+    assert _named("Up to 70% Off Comfrt Early Black Friday Sale (Starting at $19!)", "Hoodies from $19 shipped.")[0] == "Comfrt"
+    # not goods given an event, a sale with no event of its own, a page of the deal site, a step of the order, an
+    # e-mail address, a site that only holds a word of the title, or a store of the registry (find_store reads those)
+    for title, text in (("Up to 50% Off Stuffed Animals Black Friday Sale + Free Shipping", ""),
+                        ("Up to 60% Off Air Fryers Black Friday Sale + Free Shipping", ""),
+                        ("Up to 80% Off Soma Sale + Free Shipping", ""),
+                        ("Up to 60% Off Toys + Free Shipping", "Head over to Hip2Save's deals page for more."),
+                        ("Up to 60% Off Toys + Free Shipping", "Head to the checkout and use our code."),
+                        ("Extra 20% Off: write to deals@filterking.com for a code + Free Shipping", ""),
+                        ("Buy 1, Get 1 FREE Hugz Animals", "Hurry over to TheBigHugzAndKissesCompany.com today."),
+                        ("Up to 60% Off on Amazon.com + Free Shipping", "")):
+        assert _named(title, text) == ("", ""), title
 
