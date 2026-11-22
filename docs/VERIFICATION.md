@@ -1321,3 +1321,63 @@ Checked offline on what the records keep: the 421 posts of rounds 1 to 6 read th
 Footwear ... Chukka Boot" from Pets to Fashion, a blouse and "Woot Docking Stations Sale" from nothing). 292 unit
 tests pass (286 before).
 
+### The build on those (run 164, Nov 22): how each unnamed post begins
+
+Merged the same day, and build 164 ran on them. Its log against the build before it (run 163, on the seventh
+comparison's changes, which also read Hip2Save's front page: more posts, and more of them without a store than run
+161's 23):
+
+| | Run 163 | Run 164 |
+|---|---|---|
+| Ad items left out as "no saving stated" whose words state one | 1,394 | 1,362 |
+| Sale posts with no store | 28 | 17 |
+| Online posts with no industry | 23 | 15 |
+| Store sales shown | 209 at 73 stores | 214 at 76 stores |
+
+Dollar General rose from 422 to 438 deals on the same ads, Tom Thumb from 30 to 32. The build took 640 s (644 s).
+
+The log now prints how each post without a store begins, and that was enough to see what was missing. Of the
+eight it printed, all from Hip2Save and none with a link:
+
+| The post | Its first words | Now |
+|---|---|---|
+| "Up to 75% Off Electric Bikes + FREE Shipping" | "make your way over to AliExpress.com where ..." | AliExpress |
+| "Up to 70% Off Barefoot Dreams Throws, Clothes, Gift Sets & More" | "click over to BarefootDreams.com for ..." | Barefoot Dreams |
+| "Today ONLY: Up to 80% Off 32 Degrees Clothes + Free Shipping" | "hurry over to 32 Degrees where ..." | 32 Degrees |
+| "Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!" | "hurry over Corkcicle where ..." | Corkcicle |
+| "lululelmon Black Friday Sale + Free Shipping = Popular Styles from $29 Shipped" | "... during the Lululemon Black Friday Sale!" | lululemon |
+| "Cabela's & Bass Pro Shops Black Friday Ad Preview \| ..." | "Check out the Cabela's Black Friday latest sale info ..." | none: two stores, and an ad preview |
+| "The Clean Skincare Brand Collin Loves Is Having Its BEST Black Friday Sale" | "... Collin has been using Verli Skincare ..." | none: no words send the reader there |
+| "Best Publix BOGO Deals \| ..." | "We've rounded up the best Publix BOGO deals ..." | none: a roundup of a grocer's weekly ad |
+
+None of the five needed a store's name written anywhere: each is a wording (any verb before "over to", the "to"
+left out, a name that starts with a number, a sale the post names as the title does), described in
+DESIGN-online-stores.md 4.3.
+
+Naming a store is not the end of it, so each of the five was followed through the rest of the reader, and three
+came out wrong once named:
+
+- "Barefoot Dreams Throws ..." was filed under Grocery and "32 Degrees Clothes" under Beauty: a store's own name was
+  read as the goods ("Barefoot" is a wine, "Degree" a deodorant). An unlisted store's title is now read without its
+  name first, and "clothes", "throws" and more kinds of clothing ("loungewear", "knitwear") are known as goods (they
+  were not). Not every word that ends in "-wear": the logs have "longwear", which is makeup.
+- The 32 Degrees sale was called "Today ONLY", and the Corkcicle one "Gave Hip2Save Readers an EXCLUSIVE Code". Now
+  "Clothes" and "Sale".
+- The Lululemon post states no discount; it is kept as the store's event because its sale is the one the post names,
+  and shows the price its title gives ("From $29").
+
+They now read: AliExpress, "Electric Bikes", up to 75% off, Sports; Barefoot Dreams, "Throws, Clothes, Gift Sets &
+More", up to 70% off, Fashion and Home; 32 Degrees, "Clothes", up to 80% off, today only, Fashion; Corkcicle, "Sale",
+30% off, Home (the department Hip2Save files it under); lululemon, "Black Friday Sale", from $29, Fashion. These are
+the posts as the log printed them, with only the first 110 characters of each text; the next build's log is the
+check on the whole posts.
+
+Two readings that were already on main turned out too wide while trying look-alikes, and are fixed: "Hurry over to
+the Stuffed Animals page" under "Up to 50% Off Stuffed Animals" named a store called "Stuffed", and "Head over to Air
+Fryers" one called "Air". The verification's own store check learned the same wordings, or it would have failed the
+new sales for not saying their store.
+
+Checked offline on what the records keep: the 421 posts of rounds 1 to 6 read the same before and after (108 kept,
+the same stores, sale names and offers); of 1,242 titles and item names one is filed differently, rightly
+("Everyday Deals on Clothes and Accessories for Women and Men", from nothing to Fashion). 296 unit tests pass (292
+before).

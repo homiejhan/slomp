@@ -228,6 +228,29 @@ the post's words are all there is. Four more ways a post names its store, strong
   link or the post's words. A phrase of goods no rule knows could still pass here; the log's "begins" line is how
   that would be seen.
 
+The build on those (run 164, Nov 22, 2026) printed how each post still without a store begins, and five of the
+eight named their store in the first sentence, in words Slomp did not read:
+
+- **Any verb before "over to"**: "make your way over to AliExpress.com where ...", "click over to BarefootDreams.com
+  for ...". No list of verbs ("head", "hop", "hurry", ...) is ever complete, so any "... over to" counts when what
+  follows shows a store is meant: a website, or a name and then "where" and what is there. "Savings carry over to
+  January" sends no one anywhere. A name the title also writes is spelled as the title spells it ("Barefoot
+  Dreams").
+- **The "to" left out**: "hurry over Corkcicle where you can save 30%", after one of the verbs and before "where".
+- **A name that starts with a number**: "hurry over to 32 Degrees". The word after the number is the name's
+  whatever else it means ("degrees" is otherwise a word of goods). A count of days or of stores is no name ("12
+  Days of Deals", "5 Stores").
+- **A registry store the title leaves out or misspells**: "lululelmon Black Friday Sale + Free Shipping", whose
+  post begins "You don't want to miss the prices during the Lululemon Black Friday Sale!". Last of all, when
+  nothing above names a store: the one registry store whose sale the post's first words name by the name the title
+  gives the sale. The sale must have a name of its own (event words between the store and the sale word: "the
+  Amazon sale" names none), the title must name no store, and a second store's sale leaves it open. The sale is
+  then called what the post calls it ("Black Friday Sale").
+
+One reading of the round before was too wide and is narrower now: "Hop on over to Comfrt's Black Friday Sale"
+confirms the title's "Comfrt" because the words after the name are the store's sale (a possessive, or event words
+and a sale word). "Hurry over to the Stuffed Animals page" had confirmed a store called "Stuffed".
+
 ### 4.4 The offer, the code and the dates
 
 - **Offer**, read from the title (below: when the title names a sale and leaves the offer out): a firm percent ("40% off everything", "30% to 40% off"), a ceiling ("up to 60%"),
@@ -243,6 +266,12 @@ the post's words are all there is. Four more ways a post names its store, strong
   the sale's highlights, so a plain percent is shown as the most the sale gives ("up to"), unless the words say it is
   on everything. The same holds for a list of highlights after a colon ("FREE Poinsettias, BOGO Offers, 70% Off
   Trees & More"): a percent that is not the list's first item is one item's.
+- **The sale's name** is the title without the store, the offer and shipping ("Deal Days Shoe Sale"). What stands
+  before a colon is the name only when it names something: "Today ONLY: Up to 80% Off 32 Degrees Clothes" is
+  "Clothes", not "Today ONLY" (a day is a name: "Black Friday: ..."). A headline about the deal site's own post
+  ("Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!") names no sale, and the card says "Sale". An event
+  that states no discount shows the one price its title gives beside its name ("... = Popular Styles from $29
+  Shipped": "From $29").
 - **Code**: only a code the post states: after "promo code", "coupon code", "use code" or "with code", quoted, or in
   capitals and digits ("TAKE25"). "No promo code needed" is not a code. The code's own sentence decides whether it is
   this sale's: a code for cardholders ("J.Crew Credit Card holders can stack an extra 20% off with code CARDLOVE"), for
@@ -270,7 +299,12 @@ the post's words are all there is. Four more ways a post names its store, strong
   counts for the kinds of goods its post names, kept to what the store sells; for the store's whole line when the post
   names none. "Everything" makes a sale store-wide only when the sale names nothing narrower: "LEGO Deal Days Event: 40%
   off everything" is everything LEGO. (The first version gave a store-wide event every industry the store sells, which
-  put an AliExpress Halloween sale under Pets; the first live run caught it.)
+  put an AliExpress Halloween sale under Pets; the first live run caught it.) A store the registry doesn't list has
+  no line to keep its sale to, and its own name is not what it sells: once named, "Barefoot Dreams Throws" was filed
+  under Grocery for the wine and "32 Degrees Clothes" under Beauty for the deodorant. Such a store's title is read
+  without its name first, and with it only when nothing else places the sale ("Up to 60% Off at Mattress Firm").
+  When neither the title, the feed nor the category's words say, the department the source files the post under
+  does ("Home Deals & Tips").
 - **Duplicates**: the same store, offer and end posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is
   one card; the dealnews post leads and the others are listed.
 - **Checks**: each sale's post page is re-read (cached an hour) and the sale is dropped when the page is gone,
