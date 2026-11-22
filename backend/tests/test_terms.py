@@ -233,3 +233,29 @@ def test_buy_and_get_with_words_between():
         assert bogo_of(words) == ("", None), words
     assert bogo_of("Buy 2 gallons, BOGO free") == ("buy 1 get 1 free", 50.0)
 
+
+
+# Nov 22, 2026: the first build with the readers above still left out three wordings.
+def test_instantly_save_takes_an_amount_whatever_follows():
+    t = ad_terms({"current_price": "1.0", "pre_price_text": "INSTANTLY SAVE", "post_price_text": "*"}, feed=False)
+    assert (t.price, t.savings, t.promo) == (None, 1.0, True)
+    t = ad_terms({"current_price": "5", "pre_price_text": "SAVE UP TO"}, feed=False)
+    assert (t.price, t.savings, t.promo, t.hedge) == (None, 5.0, True, "up to")
+    t = ad_terms({"current_price": "9.99", "pre_price_text": "SAVE", "post_price_text": "*"}, feed=False)
+    assert (t.price, t.savings, t.promo) == (9.99, None, False)          # a bare "SAVE" is still a burst over a price
+
+
+def test_a_saving_with_a_word_before_the_amount():
+    t = _said("19.99", "SAVE ADDITIONAL $8 WHEN YOU BUY 2, Earn 4x POINTS", post_price_text="ea member price")
+    assert (t.price, t.savings, t.regular) == (19.99, 4.0, 23.99) and "buy multiple" in t.conditions
+    assert _said("9.99", "Save an extra $2").savings == 2.0
+    assert _said("9.99", "Save extra 20% with coupon").savings is None      # a percent is no amount
+
+
+def test_a_saving_off_a_list_price():
+    t = _said("49.99", "$20 OFF MSRP")
+    assert (t.regular, t.savings, t.basis) == (69.99, 20.0, "list")
+    t = _said("49.99", "UP TO $50 OFF MSRP", post_price_text="- $69.99")       # "$49.99 - $69.99, up to $50 off MSRP"
+    assert (t.price, t.regular, t.savings, t.hedge, t.basis) == (49.99, None, 50.0, "up to", "list")
+    assert "up to $50.00" in t.summary
+    assert _said("49.99", "$20 off tortillas").savings is None

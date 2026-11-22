@@ -167,7 +167,9 @@ _COUNT = r"(\d{1,2}|two|three|four|five|six)"
 _COUNTS = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6}
 # "Save $250", "You save 25.00", "SAVE up to $2 per lb."; "$1 off", "250.00 OFF REG. PRICE", "200 OFF REG. PRICE",
 # "Up to $4 off".
-_SAVE_TEXT = re.compile(r"\b(?:you\s+)?sav(?:e|es|ings?)(?:\s+of)?\s+(up\s+to\s+)?" + _AMOUNT + r"(?!\s?%)", re.I)
+# and with a word between: "SAVE ADDITIONAL $8 WHEN YOU BUY 2", "save an extra $5", "save instantly $2".
+_SAVE_TEXT = re.compile(r"\b(?:you\s+)?sav(?:e|es|ings?)(?:\s+of)?(?:\s+(?:an?\s+)?(?:additional|extra|another)|\s+instantly)?"
+                        r"\s+(up\s+to\s+)?" + _AMOUNT + r"(?!\s?%)", re.I)
 _OFF_TEXT = re.compile(r"(?:\b(up\s+to)\s+)?(?:" + _AMOUNT + r"\s?off\b|(?<![\d.$,])(\d{1,4})\s?off(?=\s+reg))", re.I)
 # What makes an amount something other than this item's saving. Anywhere in the text, an order size: "SPEND $199 SAVE
 # $50", "save $10 when you spend $40", "with your $50 grocery purchase".
@@ -182,8 +184,9 @@ _NOT_THIS = re.compile(r"^\s*(?:(?:on|with|w/|of)\s+)?(?:(?:your|a|an|any)\s+)?\
 _FOR_SEVERAL = re.compile(r"^\s*(?:(?:on|off)\s+(?:any\s+)?|when\s+you\s+buy\s+(?:any\s+)?|wyb\s+)?" + _COUNT +
                           r"\b(?!\s?(?:%|\.\d|¢|oz\b|lbs?\b|ct\b|pk\b))", re.I)
 _BUY_GET = re.compile(r"\bbuy\s+" + _COUNT + r"\s*,?\s*(?:and\s+)?get\s+$", re.I)     # "Buy 2 Get $12.00 Off"
-# The words that may follow this item's own saving: none, a new clause, "reg. price", "per lb.", "with card".
-_THIS_ITEM = re.compile(r"^\s*(?:$|[^\w\s$]|reg\b|regular\b|each\b|ea\b|(?:per\s+|/\s?)?(?:lb|pound|oz|item|bottle|pkg|"
+# The words that may follow this item's own saving: none, a new clause, "reg. price", "MSRP", "per lb.", "with card".
+_THIS_ITEM = re.compile(r"^\s*(?:$|[^\w\s$]|reg\b|regular\b|(?:the\s+)?(?:msrp|list|retail|original)\b|each\b|ea\b|"
+                        r"(?:per\s+|/\s?)?(?:lb|pound|oz|item|bottle|pkg|"
                         r"pack)\b|with\b|w/|when\b|instantly\b|sale\b|now\b|today\b)", re.I)
 # A coupon's amount: "with $3 OFF Smart Coupon", "$1 off online coupon", "$4 DG DIGITAL COUPON", "$2.50 Digital mfr
 # coupon", "75¢ OFF with Smart Coupon", "- 90¢ / EA DIGITAL COUPON", "Digital Coupon - $1.00", "$4.99-1.00 Digital
@@ -198,8 +201,13 @@ _COUPON_EARNS = re.compile(r"\b(?:gift\s*cards?|rewards?|extrabucks|cash\s*back|
 _ORDER_BEFORE = re.compile(r"\b(?:off|spend|of|over|on|purchase)\s*$", re.I)
 # The dollar figure sits where the price goes, after "SAVE": "INSTANTLY SAVE [$1] WHEN YOU BUY 2", "SAVE [$2] DG DIGITAL
 # COUPON". The words after it carry on the sentence; a lone "SAVE" over a price is a burst beside a price.
-_SAVE_BEFORE = re.compile(r"\b(?:instantly\s+)?save(\s+up\s+to)?\s*$", re.I)
+_SAVE_BEFORE = re.compile(r"\b(?:instantly\s+)?save(?:\s+instantly)?(?:\s+an?)?(?:\s+(?:extra|additional))?(\s+up\s+to)?\s*$",
+                          re.I)
 _SAVE_AFTER = re.compile(r"^\W*(?:when\b|with\b|w/|on\b|off\b|instantly\b|per\b|each\b)|\bcoupons?\b", re.I)
+# "INSTANTLY SAVE [$1] *", "SAVE UP TO [$5]", "SAVE AN EXTRA [$2]": these words take an amount, whatever follows it.
+_SAVE_SURE = re.compile(r"\binstantly\s+save\b|\bsave\s+(?:instantly|up\s+to|(?:an?\s+)?(?:extra|additional))\s*$", re.I)
+# A saving measured from a list price, not the store's own: "UP TO $50 OFF MSRP", "$20 off list".
+_OFF_LIST = re.compile(r"\boff\s+(?:the\s+)?(?:msrp|list|retail)\b", re.I)
 # The price runs up to another one ("$6.00 to $13.00"): a floor, not the price of each.
 _PRICE_RANGE = re.compile(r"^(?:to|-|–)\s?\$\s?\d", re.I)
 _REG = re.compile(r"\b(?:reg(?:ular(?:ly)?)?\.?|was|orig(?:inal(?:ly)?)?\.?|normally|retail)\s*(?:price)?\s*:?\s*"
@@ -331,7 +339,8 @@ def ad_terms(raw: dict, *, feed: bool, merchant_membership: str = "") -> Terms:
         if t.promo:
             price = None
     # The same with the words in front: "INSTANTLY SAVE [$1] WHEN YOU BUY 2", "SAVE [$2] with digital coupon".
-    elif price is not None and not original and _SAVE_BEFORE.search(pre) and _SAVE_AFTER.search(f"{post} {story}".strip()):
+    elif price is not None and not original and _SAVE_BEFORE.search(pre) and \
+            (_SAVE_SURE.search(pre) or _SAVE_AFTER.search(f"{post} {story}".strip())):
         t.savings, t.promo, t.price, price = price, True, None, None
 
     # Multi-buy: "2/" or "2 for" before the price -> per-unit price.
@@ -394,16 +403,20 @@ def ad_terms(raw: dict, *, feed: bool, merchant_membership: str = "") -> Terms:
             each = round(amount / max(n, t.qty), 2)
             if n > 1 and "buy multiple" not in t.conditions:
                 t.conditions.append("buy multiple")
+            listed = bool(_OFF_LIST.search(said))            # "... OFF MSRP": measured from a list price
             if ceiling or t.hedge:
                 # "Save up to $2", or a price that is a floor: the ad's claim, and no regular price made from it. The
                 # percent of a ceiling is a ceiling; a saving off "from $6" has none.
-                t.savings, t.basis = each, "claimed_savings"
-                if t.hedge in ("", "up to"):
-                    t.hedge, t.pct = "up to", pct(price, round(price + each, 2))
+                floor = t.hedge not in ("", "up to")
+                t.savings, t.basis = each, "list" if listed else "claimed_savings"
+                if ceiling or not floor:
+                    t.hedge = "up to"
+                if not floor:
+                    t.pct = pct(price, round(price + each, 2))
                 t.summary = summarize(t)
                 return t
             regular = round(price + each, 2)
-            basis = "store_regular" if feed and own else "claimed_savings"
+            basis = "list" if listed else "store_regular" if feed and own else "claimed_savings"
         else:
             firm = stated_percent(said)
             if firm and not t.hedge:
