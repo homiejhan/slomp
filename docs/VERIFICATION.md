@@ -1283,6 +1283,54 @@ and digital game sales, which the Sales tab leaves out by design. 8 are later wa
   58 are on none: most were posted by 9to5Toys, which Slomp does not read when run by an AI assistant.
 - **Entertainment** was not searched, and the search by hand should be run again with pages it can open.
 
+**The second pass, the same day.** The first pass's 200 searches ran out, so entertainment and the second checks of
+every slice were searched again with a fixed share of the allowance each: 191 searches, 164 findings (30
+entertainment, 55 sales, 72 single products, 7 restaurant and store offers; 23 on a store's own page, 23 on two
+sources, 118 on one). Again no page could be opened. Its findings were compared with the build published at 08:21
+UTC, which already had the rules above, and with a fresh read of the feeds. They are in the same file, under
+`second_pass`.
+
+- **Entertainment.** Of 30 offers, 15 are subscriptions (Paramount+ at $2.99 a month, Prime Video channels "up to
+  79% off", Apple TV, STARZ, PlayStation Plus, Audible), 5 are gift cards and one is digital games: Slomp leaves all
+  21 out by design, and reads none of dealnews' streaming, movie-ticket or gift-card categories. Eight are passes,
+  tickets and memberships at venues (Six Flags' 2027 Silver Pass at $69, SeaWorld San Antonio "up to 55% off", the
+  San Antonio and Fort Worth zoos, Meow Wolf), which no deal site Slomp reads had posted. One is a dated offer at a
+  chain Slomp lists regular deals for (Cinemark's $5 Holiday Movie Clubhouse tickets on Saturdays and Mondays, Nov
+  28 to Dec 14). Nothing here is a miss of the filters; whether Slomp should list subscriptions and passes is its
+  owner's decision.
+- **Restaurants.** 7-Eleven's Black Friday pizza was confirmed by a second dated source, with a Cyber Monday code
+  beside it. The Black Friday offers recorded for Moe's, Arby's and Whataburger each rest on one 2026 roundup, not
+  two sources as first counted, and the Torchy's card may be the 2025 release's. No 2026 offer was found for 13
+  other chains.
+- **Sales.** 27 of 55 were shown that morning. Ulta's main event was posted after that build and is kept now.
+  Fifteen were on none of Slomp's sources (Sephora, Microsoft Store, Google Store, West Elm, Peloton).
+- **Single products.** 4 of 72 are shown, 16 are on Slomp's sources with no price to compare, 52 on none.
+
+One thing the comparison showed was wrong, and it is general:
+
+| What happened | Rule now |
+| --- | --- |
+| "Costco Black Friday Appliances Deals: Up to $1,100 off" was on dealnews and not among the posts Slomp read: it was on the second page of Costco's feed. Measured: Macy's 20 posts on dealnews spanned 1.9 days and the 19 behind them held ten Black Friday sales still running; Hip2Save's 100 posts for women spanned 2.5 days. A sale that leaves a feed's first page vanished from Slomp at the next build, still running (Michael Kors' did between two reads that day) | Every dealnews and Hip2Save feed is read on while a page comes back full and still holds a post from the last 30 days, at most two pages further (DESIGN-online-stores.md 2.2) |
+
+The pass also met five live sales left out as "store not identified" though the post said where to go ("Stanley 1913
+Black Friday Sale", Gerber Childrenswear, Minky Couture, Nutrafol, Filter King). The build's own log had shown the
+same that morning and the rules for it were already on `main` (the section below), so nothing more was added: this
+pass's own rule for it was dropped in favour of those. A rule for sitewide sales that Slickdeals titles lead with a
+store's name for was written and taken out again: every post it would have found that day was from 2023 or 2024.
+
+**The second pass, tested.** On the day's posts, the same rules reading first pages only and reading on: 3,182 →
+6,102 posts; 259 → 372 sales at 77 → 101 stores, 178 → 251 of them named for Black Friday or Cyber Monday at 65 →
+83 stores; 282 → 398 online deals ranked; 12 → 16 restaurant promotions (Wingstop's and three of KFC's were on the
+restaurant feed's second page). No store was lost. Of the 225 deal-site posts both passes recorded by title, 39
+were among the posts read before and 54 are now; 47 of the rest are on 9to5Toys, and most others are earlier waves
+that had ended. Live at 20:50 UTC, through Slomp's own client: **328 sales at 96 stores** (222 at 75 in the build
+published at 13:28 UTC), 196 named for Black Friday or Cyber Monday at 80 stores (140 at 65). Twenty-five stores
+gained a card, among them Costco, IKEA, Kate Spade, Microsoft Store, GameStop, PUMA and Verizon. Four are not in
+this run for reasons of their own: one sale had ended, and three posts were on 9to5Toys, which a run started by an
+assistant does not read. A first full read took 83 more requests to dealnews and 17 to Hip2Save. On the page, a
+search for Austin shows 327 sales with no page error. A replay reads no feeds, so rounds 1–6 are unchanged; 295 unit
+tests pass, four of them new.
+
 ### The first build with the Nov 16 changes (run 161, Nov 22), and what its log led to
 
 The changes of "A week of builds" were merged on Nov 22 and build 161 ran on them. Its log against the build before

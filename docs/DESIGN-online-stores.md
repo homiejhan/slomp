@@ -61,6 +61,15 @@ lululemon (9), Newegg (7) and Costco (7). These feeds catch sales that fall off 
 dealnews listings looked promising and are not used: "Store Events" (`c40`) turned out to be seasonal products
 (Halloween decorations), and "Coupons" (`t2`) held 40 posts, 38 of them evergreen coupon posts from May and June.
 
+**A feed's first page is not the feed.** A dealnews feed gives 20 to 25 posts and `&start=N` gives the next ones;
+a Hip2Save feed gives 100 and `?paged=2` the next. In a quiet week the first page of a store's feed covers weeks. On
+Nov 22, 2026, five days before Black Friday, Macy's 20 posts on dealnews spanned 1.9 days and the 19 behind them
+held ten Black Friday sales still running; Costco's Black Friday posts were all on its second page; Hip2Save's 100
+posts for women spanned 2.5 days. A sale that leaves the first page is gone from Slomp at the next build, although
+it has not ended. So every dealnews and Hip2Save feed (stores, categories, latest, restaurants) is read on while a
+page comes back full and still holds a post from the last 30 days, at most two pages further. That day it brought
+6,102 posts where the first pages gave 3,182, for about 100 more requests at each site's own pace.
+
 ### 2.3 Old coupon posts stay in the feeds
 
 Store feeds keep evergreen coupon posts for months: DSW's feed held 14 "Sitewide Promo Code" posts from May and June,
@@ -184,8 +193,8 @@ and gives way to a sale of the same store, named for the same day, that does sta
 ("FREE Lowe's Black Friday Buckets", a single product's "Black Friday Deal") still states no discount.
 
 Such headlines are often filed under no category Slomp reads ("Target's Black Friday Deals Start 11/22" was on
-Hip2Save's front page only), so the sales pipeline also reads Hip2Save's own front-page feed, two pages of it: about
-a day and a half of posts, of which one in nine is in no category feed.
+Hip2Save's front page only), so the sales pipeline also reads Hip2Save's own front-page feed, read on like every
+feed (2.2): one post in nine there is in no category feed.
 
 ### 4.3 Which store
 
