@@ -1147,11 +1147,13 @@ const nameOf = d => isSale(d) ? d.store_name : "seller" in d ? d.seller || "Onli
 // ("kids eat free with an adult entrée", "a free pizza when they buy one": like buy one, get one); a price with
 // nothing to compare it to has no percent.
 const TAKES_PURCHASE = /\b(?:(?:with|when (?:you|they))\b|w\/)[^.]{0,40}\b(?:purchase|buy|order)|\b(?:with|per) (?:an? |each |every |any )?(?:adult|regular|full-priced)\b/i;
+const FREE_CARRIAGE = /\bfree\s+(?:delivery|shipping|pickup)\b|\b(?:delivery|shipping)(?:\s+fees?)?\s*:?\s*(?:is\s+)?free\b/gi;   // top.py
 function savePct(d) {
   if (d.discount_pct != null) return d.discount_pct;
   const t = d.terms || {};
   if (t.pct) return t.pct;
-  if (!/\bfree\b/i.test(t.summary || "")) return null;
+  const summary = (t.summary || "").replace(FREE_CARRIAGE, " ");      // free delivery is not something free
+  if (!/\bfree\b/i.test(summary)) return null;
   const purchase = (t.conditions || []).some(c => /^with\b/i.test(c)) || /kids eat free/i.test(t.summary) || TAKES_PURCHASE.test(d.title);
   return purchase ? 50 : 100;
 }
@@ -1312,6 +1314,7 @@ const SMALL_HOURS = 4 * 36e5;
 function saleWhen(d, tz) {
   const now = Date.now();
   if (d.starts_at && Date.parse(d.starts_at) > now) return {text: `Starts ${day(d.starts_at, tz)}`, urgent: false};
+  if (!d.ends_at && d.event_ends_at && Date.parse(d.event_ends_at) >= now) return {text: `On through ${d.event}`, urgent: false};
   if (!d.ends_at) return {text: d.posted_at ? `Posted ${ago(d.posted_at)}` : "No end date given", urgent: false};
   const at = Date.parse(d.ends_at), hour = Number(new Date(at).toLocaleString("en-US", {hour: "numeric", hourCycle: "h23", timeZone: tz}));
   const last = new Date(hour < 4 ? at - SMALL_HOURS : at).toISOString(), end = day(last, tz);
@@ -1799,9 +1802,10 @@ const endText = (iso, tz) => new Date(iso).toLocaleString("en-US", {weekday: "sh
 
 function saleDetail(d) {
   const tz = zone(), st = storeOf(d), site = st ? link(st.site) : "";
-  const rows = [["Offer", esc(d.offer)]];
+  const rows = [["Offer", esc(d.offer) + (d.offer_how ? `<br><span class="muted">${esc(cap(d.offer_how))}</span>` : "")]];
   if (d.starts_at && Date.parse(d.starts_at) > Date.now()) rows.push(["Starts", esc(day(d.starts_at, tz))]);
   rows.push(["Ends", d.ends_at ? esc(endText(d.ends_at, tz)) + (d.ends_how ? `<br><span class="muted">${esc(d.ends_how.startsWith("the ") ? cap(d.ends_how) : d.ends_how)}</span>` : "")
+    : d.event_ends_at ? `<span class="muted">No end date given. It is named for ${esc(d.event)}, so Slomp shows it through ${esc(day(d.event_ends_at, tz))}.</span>`
     : `<span class="muted">No end date given. Slomp shows it for 7 days after it was posted.</span>`]);
   if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
   if (d.shipping) rows.push(["Shipping", esc(d.shipping)]);

@@ -26,7 +26,7 @@ treated as a refusal, and `SLOMP_ASSISTANT=1`, so sites that turn AI assistants 
 | S1 | A **Sales** tab lists every live sale, code or sale event at an online store that ships, in the chosen industries. |
 | S2 | Each sale shows the store, the offer in a few words, the promo code when there is one, when it ends (or that no end was given and when it was posted), its conditions (members only, minimum order, select items, in the app), and a link to its source. |
 | S3 | A **Stores** tab lists the online stores with a live sale or product deal in the chosen industries; a store opens to its sales, its product deals and its own site. |
-| S4 | Nothing is shown past its end date, and nothing undated is shown more than 7 days after it was posted. |
+| S4 | Nothing is shown past its end date, and nothing undated is shown more than 7 days after it was posted, unless it is named for a day still ahead ("Black Friday Sale"): then through that day. |
 | S5 | Sales sort like every other tab: best deal first, ending soonest, A–Z, Z–A. "Up to" percentages count as ceilings, not promises. |
 | S6 | The web page, the API, the CLI and the published site show the same sales. |
 | S7 | 200 live tests check accuracy and quality, as for the rest of Slomp. |
@@ -168,6 +168,25 @@ coupon, clearance, savings, specials, outlet). It is left out, with a counted re
 - **not shipped**: in-store only, pickup only, a digital store (PlayStation Store, Nintendo eShop), software, or a local
   service (Great Clips). A registry store ships by definition; another store counts only when its post says it ships.
 
+Those words are looked for in what is on sale, not in what comes with it: once the offer is stated, what follows a
+plus is an extra ("Up to 36% off + trade-in offers", "Up to 50% Off + FREE Gift Card Giveaway!").
+
+**A store's event named for a day needs no stated discount.** The largest events of the year are announced without
+one ("Kohl's Black Friday Sale Starts at 12am CT!", "Want a Peek at Walmart's Black Friday Deals? Get Ready to Shop
+on 11/23!"), and the seventh manual comparison (Nov 22, 2026) found Slomp showing nothing for Walmart, Kohl's or
+JCPenney in Black Friday week because of it. A post is such an event when its title names a day of the calendar in
+`slomp/days.py` (Black Friday, Cyber Monday, Memorial Day, ...) and a sale (sale, deals, event, savings, specials,
+doorbusters, clearance), and either the sale's name is nothing but the event ("Black Friday Sale"), or the store's own
+name stands right before the event's ("Walmart's Black Friday Deals"), or the title gives a price in place of a
+discount ("... Deals for From $15", "... for Under $50"). The card says "Sale event, no discount stated", or the
+price ("From $15"); it ranks after every sale that states a discount, never reaches the home page's biggest deals,
+and gives way to a sale of the same store, named for the same day, that does state one. A day's name on anything else
+("FREE Lowe's Black Friday Buckets", a single product's "Black Friday Deal") still states no discount.
+
+Such headlines are often filed under no category Slomp reads ("Target's Black Friday Deals Start 11/22" was on
+Hip2Save's front page only), so the sales pipeline also reads Hip2Save's own front-page feed, two pages of it: about
+a day and a half of posts, of which one in nine is in no category feed.
+
 ### 4.3 Which store
 
 Strongest evidence first: the source's own retailer field (dealnews), the store's domain in the post (Slickdeals'
@@ -194,9 +213,19 @@ whether it says it ships.
 
 ### 4.4 The offer, the code and the dates
 
-- **Offer**, read from the title: a firm percent ("40% off everything", "30% to 40% off"), a ceiling ("up to 60%"),
+- **Offer**, read from the title (below: when the title names a sale and leaves the offer out): a firm percent ("40% off everything", "30% to 40% off"), a ceiling ("up to 60%"),
   an extra percent on sale prices ("extra 25%"), dollars off with a threshold ("$10 off $30"), BOGO ("buy 1, get 1 50%
   off", "buy 2, get 1 free"). The card's offer line is written from these parts, so it always agrees with the badge.
+- **An offer beside the sale's name.** Hip2Save names the sale and then tells the offer after " | " or " = ", or in a
+  parenthesis ("Nordstrom Black Friday Sale is LIVE | Up to 75% Off Baublebar, LEGO, UGG & More", "Target's Black
+  Friday Deals Start 11/22 (50% Off Thousands of Gifts!)"); that part used to be dropped as an aside, which it is
+  when the offer leads ("40% Off Target Handbags = Styles from $9"). When the title names a sale or a day and states
+  no offer before the aside, the aside is read. When the title states none at all, the post's own sentence that sends
+  the reader to the store is read ("Through November 29th, head over to Crocs.com where you can score up to 60% off
+  select styles during their Black Friday sale"), and the card's details quote it. Either way the offer is one of
+  the sale's highlights, so a plain percent is shown as the most the sale gives ("up to"), unless the words say it is
+  on everything. The same holds for a list of highlights after a colon ("FREE Poinsettias, BOGO Offers, 70% Off
+  Trees & More"): a percent that is not the list's first item is one item's.
 - **Code**: only a code the post states: after "promo code", "coupon code", "use code" or "with code", quoted, or in
   capitals and digits ("TAKE25"). "No promo code needed" is not a code. The code's own sentence decides whether it is
   this sale's: a code for cardholders ("J.Crew Credit Card holders can stack an extra 20% off with code CARDLOVE"), for
@@ -205,9 +234,17 @@ whether it says it ships.
 - **Conditions**: members only (Prime, Target Circle, rewards), minimum order, select items, exclusions, new
   customers, in the app, online only. **Shipping**: "free shipping w/ $35" becomes "Free shipping on $35+".
 - **End**: the dealnews expiry when it is not the placeholder (2.4); else the post's words ("ends October 7",
-  "through October 8th", "today only", "10/6–10/7"), read as the end of that day in Central time; else none.
+  "through October 8th", "today only", "Deals End TONIGHT", "Last Day!", "10/6–10/7"), read as the end of that day in
+  Central time; else none. **Start**: "starts November 23", and from the title "Deals Start 11/22", "Get Ready to
+  Shop on 11/23", "Starts Monday", "Starts at 12am CT" (the midnight after the post).
+- **The day a sale is named for** (`slomp/days.py`: the United States' shopping days and when each falls). A sale
+  named for a day that had not passed when it was posted ("Belk Black Friday Sale", posted November 14) and stating
+  no end lasts through that day at least: its name says so. A sale named as the wave before a day ("Early Black
+  Friday Sale", "Pre-", "Preview", "Countdown to", "Warm-Up") says only that it ends before it, so the 7 days stand.
+  A stated end always wins. Reading the post's page again cannot settle this: on November 22, 2026 the pages of
+  three dealnews sales that had ended by their own dates were still up, unmarked.
 - **Live**, at the moment of the search: not past its end; posted within 30 days; posted within 7 days if it has no
-  end; starting within the next 7 days.
+  end, or not past the day it is named for; starting within the next 7 days.
 
 ### 4.5 Industries, duplicates, checks and order
 

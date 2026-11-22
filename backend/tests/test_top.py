@@ -171,6 +171,9 @@ def test_how_big_a_deal_is_as_best_deal_first_counts_it():
     assert top.badge_pct({"terms": {"pct": 50, "summary": "half price"}}) == 50
     assert top.badge_pct({"title": "Kids Bowl Free", "terms": {"summary": "kids bowl free"}}) == 100
     assert top.badge_pct({"title": "x", "terms": {"summary": "kids eat free"}}) == 50
+    # free delivery is not something free (Arby's "Delivery: Free all month" led the home page on Nov 22, 2026)
+    assert top.badge_pct({"title": "Arby's Delivery: Free all month", "terms": {"summary": "delivery: free all month"}}) is None
+    assert top.badge_pct({"title": "x", "terms": {"summary": "free delivery + free fries"}}) == 100
     assert top.badge_pct({"title": "x", "terms": {"summary": "free taco", "conditions": ["with a $1 purchase"]}}) == 50
     assert top.badge_pct({"title": "Free Medium Fries w/ Any Purchase", "terms": {"summary": "free medium fries"}}) == 50
     assert top.badge_pct({"title": "$12.99 all you can play", "terms": {"price": 12.99, "summary": "$12.99"}}) is None

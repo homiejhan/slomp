@@ -178,7 +178,8 @@ async def sale_dates(http: PoliteClient, s: StoreSale, now: datetime) -> tuple[s
         return FAIL, {**det, "why": "shown after its end"}
     if s.posted_at and now - s.posted_at > timedelta(days=POSTED_DAYS):
         return FAIL, {**det, "why": f"posted over {POSTED_DAYS} days ago"}
-    if not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)):
+    if not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)) and \
+            not (s.event_ends_at and now <= s.event_ends_at):
         return FAIL, {**det, "why": f"no end and posted over {UNDATED_DAYS} days ago"}
     _, page, final, why = await read(http, s.source_url)
     if why:
@@ -233,7 +234,7 @@ _USD_ANY = re.compile(r"\$\s?(\d[\d,]*)(?:\.\d\d)?")
 def sale_offer(s: StoreSale) -> tuple[str, dict]:
     """The badge and the offer line come from the title's own figures; a firm percent is not an "up to" one in
     disguise; the code is in the post as written."""
-    title = s.title.replace("’", "'")
+    title = f"{s.title} {s.offer_how}".replace("’", "'")      # the title, or the post's sentence the offer is from
     pcts = {float(x) for x in _PCT_ANY.findall(title)}
     usds = {float(x.replace(",", "")) for x in _USD_ANY.findall(title)}
     problems = []
@@ -276,7 +277,8 @@ def quality(sales: list[StoreSale], now: datetime, what: str) -> tuple[str, dict
                 problems.append(f"{s.id} ended {s.ends_at}")
             elif s.posted_at and now - s.posted_at > timedelta(days=POSTED_DAYS):
                 problems.append(f"{s.id} posted {s.posted_at}")
-            elif not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)):
+            elif not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)) and \
+                    not (s.event_ends_at and now <= s.event_ends_at):
                 problems.append(f"{s.id} has no end and was posted {s.posted_at}")
     elif what == "order":
         for a, b in zip(sales, sales[1:]):

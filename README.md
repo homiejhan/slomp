@@ -91,9 +91,11 @@ Where sales come from: dated posts by deal-site editors (dealnews, including eac
 Hip2Save, Slickdeals and 9to5Toys). Coupon-code sites are not used: their codes carry no dates. A promo code is shown
 only when the post states it, and only if its own sentence makes it this sale's code (not a cardholder's, another
 store's, or one whose day has passed). A sale is shown until its end (dealnews' own end date, or the post's words:
-"ends October 8", "through 10/13", "today only"); a sale with no end is shown for 7 days after it was posted, and
+"ends October 8", "through 10/13", "today only"); a sale with no end is shown for 7 days after it was posted, or
+through the day it is named for when that is later ("Black Friday Sale": through Black Friday), and
 nothing posted more than 30 days ago is shown, which keeps out the old "sitewide promo code" posts deal sites leave in
-their feeds. "Best deal first" counts an "up to" percentage at half its distance above what is certain, since it is a
+their feeds. A store's own event named for a day ("Kohl's Black Friday Sale Starts at 12am CT!") is listed even when its post
+states no discount, marked "Sale event", after every sale that states one. "Best deal first" counts an "up to" percentage at half its distance above what is certain, since it is a
 ceiling on a few items. The stores Slomp knows by name are in
 [backend/slomp/data/online_stores.json](backend/slomp/data/online_stores.json); their logos come from each store's own
 site or its Wikidata entry (`python scripts/build_logos.py --stores`).

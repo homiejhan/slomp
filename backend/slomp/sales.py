@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 
 from zoneinfo import ZoneInfo
 
+from . import days
 from . import industries as ind
 from .config import TTL
 from .http import FetchError, PoliteClient
@@ -33,6 +34,7 @@ CENTRAL = ZoneInfo("America/Chicago")
 POSTED_DAYS = 30           # a sale posted longer ago than this is not shown, whatever end it states (evergreen coupons)
 UNDATED_DAYS = 7           # a sale with no end is shown this long after it was posted
 AHEAD_DAYS = 7             # a sale that starts later than this is not shown yet
+EVENT_OFFER, EVENT_BADGE = "Sale event, no discount stated", "Sale event"   # a store's event named for a day
 SOURCE_ORDER = ("dealnews", "Slickdeals", "Hip2Save", "9to5Toys", "The Inventory", "Ben's Bargains", "DealCatcher")
 ONLINE_IDS = tuple(i for i in ind.IDS if ind.BY_ID[i].online)
 
@@ -332,6 +334,11 @@ _SALE_WORDS = re.compile(r"\b(?:sales?|deals?|event|promo(?:tion)?s?|codes?|coup
                          r"friends\s?(?:&|and)\s?family)\b", re.I)
 _ONE_PRICE = re.compile(r"(?:\bfor|:|\bjust|\bonly|=|\bnow|\bat)\s+\$\s?\d[\d,]*(?:\.\d\d)?\b(?!\s?(?:off|\+|or more))|"
                         r"\b\d{1,2} cents\b", re.I)
+_AND_MORE = re.compile(r"(?:&|\band|\+)\s+(?:so much\s+)?more\b", re.I)
+# The nouns that name a sale of many things: "Deal", one thing's, is not one.
+_SALE_NOUNS = re.compile(r"\b(?:sales?|deals|events?|savings|specials|doorbusters?|clearance|markdowns?)\b", re.I)
+_PRICE_NOTE = re.compile(r"\b(from|starting at|start(?:s|ing)? at|as low as|under|for less than)\s*(?:just\s+|only\s+)?"
+                         r"\$\s?(\d[\d,]*(?:\.\d\d)?)", re.I)
 _PRICE_HEDGE = re.compile(r"\b(?:from|starting at|as low as|under|for less than|prices? (?:start\s+)?(?:at|from)|"
                           r"deals? from|styles? from|start(?:ing)? at)\s*(?:just\s+|only\s+)?\$", re.I)
 
@@ -375,8 +382,65 @@ def offer_part(title: str) -> str:
     return _ASIDE.sub("", _SHIP_TAIL.sub("", split_title(title)[1])).strip()
 
 
+def aside_of(title: str) -> str:
+    """What a title says after " | " or " = ", without shipping: Hip2Save's example price or list, and sometimes the
+    offer itself ("Nordstrom Black Friday Sale is LIVE | Up to 75% Off Baublebar, LEGO, UGG & More")."""
+    m = re.search(r"\s+[|=]\s+(.*)$", _straight(title))
+    return _SHIP_TAIL.sub("", m.group(1)).strip() if m else ""
+
+
+def names_a_sale(text: str) -> bool:
+    """Whether words name a sale or a day stores hold sales on ("Black Friday Ad Preview"), not one product."""
+    return bool(_SALE_NOUNS.search(text)) or bool(days.named(text))
+
+
+def _at_most(o: Offer, said: str) -> Offer:
+    """An offer told beside a sale's name rather than as its offer: one of its highlights, so a plain percent is the
+    most the sale gives, unless the words say it is on everything."""
+    if o.pct is not None and not o.buy_n and not (_SITEWIDE.search(said) or _EVERYTHING.search(said)):
+        o.upto, o.pct, o.min_spend = max(o.upto or 0, o.pct), None, None
+    return o
+
+
 def parse_offer(title: str) -> Offer:
-    t = re.sub(r"\(([^()]*%[^()]*)\)", r" \1 ", offer_part(title))      # "(Up to 64% off)"
+    """The offer a title states. A title that names a sale and leaves its offer to an aside is read there ("Target's
+    Black Friday Deals Start 11/22 (50% Off Thousands of Gifts!)", "... Sale is LIVE | Up to 75% Off ...")."""
+    part = offer_part(title)
+    head = re.sub(r"\([^()]*\)", " ", part)
+    if head == part or not names_a_sale(head) or _parse(head).any:
+        o = _parse(part)
+    else:
+        o = _at_most(_parse(part), part)          # the offer is in a parenthesis after the sale's name
+    if not o.any and names_a_sale(_ASIDE.sub("", _straight(title))):
+        aside = aside_of(title)
+        o = _at_most(_parse(aside), aside)
+    return o
+
+
+def said_offer(p: Post) -> tuple[Offer, str]:
+    """The offer in the sentence of a post that sends the reader to the store ("Through December 1st, head over to
+    Nordstrom.com where you can save up to 75% off popular designer and name brands during their Black Friday
+    Sale!"), and that sentence. For a title that names a sale and not its discount. What one sentence says of a sale
+    is the most it gives, so a plain percent is read as a ceiling unless the sentence says it is on everything."""
+    text = _straight(p.text[:900])
+    for m in _SENT_TO.finditer(text):
+        said = _sentence(text, m.start())
+        o = _parse(_SHIP_TAIL.sub("", said[max(0, said.find(m.group(0))):]))
+        if o.any:
+            return _at_most(o, said), said
+    return Offer(), ""
+
+
+def price_note(title: str) -> str:
+    """The price a sale's title gives in place of a discount: "From $15", "Under $50"."""
+    m = _PRICE_NOTE.search(_SHIP_TAIL.sub("", _straight(title)))
+    if not m:
+        return ""
+    return ("Under " if re.match(r"under|for less than", m.group(1), re.I) else "From ") + _usd(float(m.group(2).replace(",", "")))
+
+
+def _parse(text: str) -> Offer:
+    t = re.sub(r"\(([^()]*%[^()]*)\)", r" \1 ", text)      # "(Up to 64% off)"
     o = Offer()
     m = _BUY_N_PCT.search(t)
     if m:
@@ -423,6 +487,11 @@ def parse_offer(title: str) -> Offer:
             m = _PCT_OF.search(t3)
             if m and float(m.group(1)) == o.pct:
                 o.min_spend = float(m.group(2).replace(",", ""))
+            # A list of highlights ("$5 Throw Blankets, 50% Off Gift Sets & More", "FREE Poinsettias, BOGO Offers,
+            # 70% Off Trees & More"): a percent that is not its first item is one item's, the most the sale gives.
+            at = next(m for m in _PCT.finditer(t3) if float(m.group(1)) == o.pct)
+            if _AND_MORE.search(t3) and "," in t3[:at.start()] and "%" not in t3[:at.start()] and not o.buy_n:
+                o.upto, o.pct, o.min_spend = max(o.upto or 0, o.pct), None, None
     m = _SPEND.search(t)
     if m:
         o.min_spend, o.off = float(m.group(1).replace(",", "")), float(m.group(2).replace(",", ""))
@@ -675,13 +744,14 @@ _NOT_SHIPPED = [
     (re.compile(r"\bdigital (?:download|delivery|code|games?|movies?|titles?)\b|\bemail delivery\b|\be-?shop\b|"
                 r"\bplaystation store\b|\bxbox store\b|\bsteam\b|\bgoogle play\b|\bapp store\b|\bstreaming\b|"
                 r"\bmovies? (?:to own|deals)\b|\bapple tv\b|\bvudu\b|\bfandango at home\b|\bkindle\b|\baudible\b|"
-                r"\bebooks?\b|\bsoftware\b|\bvpn\b|\bantivirus\b", re.I), "digital, not shipped"),
+                r"\bebooks?\b|\bsoftware\b|\b\w*vpn\b|\bantivirus\b", re.I), "digital, not shipped"),
 ]
 _SHIPS = re.compile(r"\bshipping\b|\bshipped\b|\bships\b|\bs&h\b|\bdelivery\b|\bdelivered\b", re.I)
 
 
-def not_a_sale(p: Post, o: Offer) -> str:
-    """Why a post is not a sale at an online store that ships, or "" when it is one."""
+def not_a_sale(p: Post, o: Offer, event: bool = False) -> str:
+    """Why a post is not a sale at an online store that ships, or "" when it is one. With `event`, a store's own
+    event named for a day (StoreSales.sale decides that), which needs no stated discount."""
     t = _straight(p.title)
     main = _ASIDE.sub("", t)
     if p.deal_type == "product":
@@ -690,18 +760,24 @@ def not_a_sale(p: Post, o: Offer) -> str:
         return "a roundup of other deals"
     # what is on sale, not how it ships: "+ free shipping w/ Passport membership" sells no membership
     goods = _SHIP_TAIL.sub("", t)
+    # ... and not what comes with it: once the offer is stated, what follows a plus is an extra ("Up to 36% off +
+    # trade-in offers", "Up to 50% Off + FREE Gift Card Giveaway!")
+    plus = goods.find(" + ")
+    if plus > 0 and parse_offer(goods[:plus]).any:
+        goods = goods[:plus]
     for rx, why in _NOT_SALE:
         if rx.search(goods) and not (why == "a gift card" and o.reward):
             return why
     for rx, why in _NOT_SHIPPED:
         if rx.search(t):
             return why
-    if not o.any:
+    if not o.any and not event:
         return "no discount stated"
     if p.deal_type != "sale" and not _SALE_WORDS.search(main) and o.upto is None and o.extra is None and \
             len(set(re.findall(r"\$\s?(\d[\d,]*(?:\.\d\d)?)", p.text[:600]))) <= 2 and \
-            re.search(r"\b(?:just|only|for)\s+\$\s?\d", p.text[:600], re.I):
-        return "one product, not a sale"         # "50% Off Cosequin Supplements": the post prices one bottle
+            re.search(r"\b(?:just|only|for|now|is|are)\s+\$\s?\d", p.text[:600], re.I):
+        # "50% Off Cosequin Supplements": the post prices one bottle ("for $18", "now $38.80 at Belk")
+        return "one product, not a sale"
     many = (p.deal_type == "sale" or bool(_SALE_WORDS.search(main)) or o.upto is not None or o.extra is not None or
             bool(o.min_spend) or bool(_SITEWIDE.search(main) or _EVERYTHING.search(main)) or bool(o.buy_n) or
             bool(_CATEGORY_NOUNS.search(main)) or bool(o.bogo))
@@ -726,14 +802,64 @@ _OFFER_WORDS = re.compile(
     r"\b(?:prices?|styles?|deals?|items?)\s+(?:from|starting at)\s+(?:just\s+)?\$[\d.,]+(?:\s+shipped)?", re.I)
 
 
+# How a headline says where a sale stands, which is no part of its name: "is LIVE", "Starts at 12am CT!", "Start
+# 11/22", "End TONIGHT", "NOW", "New deals added". The sale is named before it.
+_WHEN = (r"(?:now|today|tonight|tomorrow|soon|(?:on\s+)?\d{1,2}/\d{1,2}|at\s+(?:midnight|\d{1,2}(?::\d\d)?\s?[ap]\.?m\.?)"
+         r"(?:\s+[pcme][sd]?t)?|(?:on\s+|this\s+)?(?:mon|tues|wednes|thurs|fri|satur|sun)day)")
+_STATUS = re.compile(r"\b(?:is|are)\s+(?:now\s+)?(?:live|here|on|back)\b(?:\s+now\b)?|\blive\s+now\b|\bnow\s+live\b|"
+                     r"\blive\s*(?=[|=!(]|$)|"
+                     r"\b(?:starts?|begins?|kicks?\s+off|ends?)\s+" + _WHEN + r"\b|\bnew deals added\b|"
+                     r"\bnow\b(?=\s*$|\s+(?:to|and|for)\s|\s*[|(!&+–-])|"
+                     r"\b(?:going on|happening)\s+now\b", re.I)
+_LAST_DAY = re.compile(r"^\s*last\s+(?:day|chance)\s+(?:of|for|to shop)\s+(?:the\s+)?", re.I)
+
+
+def _named_part(t: str) -> str:
+    """A title up to where it says how the sale stands, when a sale is named before that."""
+    m = _STATUS.search(t)
+    if m and _SALE_NOUNS.search(t[:m.start()]):
+        return t[:m.start()]
+    return _STATUS.sub(" ", t) if m else t
+
+
+def event_phrase(title: str) -> str:
+    """The sale a title names for a day, in its own words: "Black Friday Deals" of "Want a Peek at Walmart's Black
+    Friday Deals? Get Ready to Shop on 11/23!", "Early Black Friday Sale". "" when it names none."""
+    t = _straight(title)
+    for _, rx, _ in days.DAYS:
+        for m in rx.finditer(t):
+            before, after = t[:m.start()].split(), re.findall(r"[\w'-]+|[^\w\s]", t[m.end():])
+            lead = []
+            while before and re.fullmatch(r"early|pre-?|annual|big|official|countdown|to", before[-1], re.I):
+                lead.insert(0, before.pop())
+            lead = lead[next((i for i, w in enumerate(lead) if not re.fullmatch(r"to", w, re.I)), len(lead)):]
+            tail = []
+            if _SALE_NOUNS.search(m.group(0)):          # a holiday is matched with its sale: "Halloween Clearance"
+                return " ".join(lead + [m.group(0)])
+            for w in after[:5]:
+                if not re.fullmatch(r"[\w'-]+", w) or not is_store_event(w):
+                    break
+                tail.append(w)
+                if _SALE_NOUNS.fullmatch(w):
+                    return " ".join(lead + [m.group(0)] + tail)
+    return ""
+
+
 def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
     """The sale in a few words, without the store, the offer or shipping: "Deal Days Shoe Sale"."""
     head, _ = split_title(title)
     t = head or _straight(title)
     while _ASIDE.search(t):
         t = _ASIDE.sub("", t)
+    t = _named_part(_LAST_DAY.sub("", t))
+    while _ASIDE.search(t):
+        t = _ASIDE.sub("", t)
     t = _FOR_MEMBERS.sub("", _DECOR.sub("", t))
     t = _SHIP_TAIL.sub("", t)
+    # dealnews writes the offer after "for": "... Deals for From $15", "... Deals for Up to 40% off + extra 15% off"
+    t = re.sub(r"\s+for\s+(?:(?:deals|prices|styles)\s+)?(?:up\s?to\b|an?\s+extra\b|extra\b|from\b|under\b|starting at\b|"
+               r"as low as\b|\d{1,3}\s?%|\$\s?\d).*$", "", t, flags=re.I)
+    t = re.sub(r"\s+" + _PRICE_NOTE.pattern + r".*$", "", t, flags=re.I)                  # "... Sale Clothing from $10.48"
     t = _OFFER_WORDS.sub(" ", t)
     names = sorted(set((store.names if store else ()) + ((store_name,) if store_name else ())), key=len, reverse=True)
     for n in names:
@@ -742,7 +868,7 @@ def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
         t = re.sub(r"(?<![\w&'.-])" + n + r"(?:\.com)?(?:'s)?(?![\w&-])", " ", t, flags=re.I)
     t = _DECOR.sub("", t)
     t = re.sub(r"\s+(?:for|w/|with|on|at|in|from)\s*$", "", re.sub(r"[\s|=+:–—-]+$", "", re.sub(r"^[\s|=+:–—!*-]+", "", t)))
-    t = re.sub(r"\s{2,}", " ", t).strip(" ,.;!*")
+    t = re.sub(r"\s{2,}", " ", t).strip(" ,.;!*?()")
     return t if len(t) >= 3 else ("Sitewide sale" if _SITEWIDE.search(title) else "Sale")
 
 
@@ -839,8 +965,15 @@ _END_DAY = re.compile(r"\b" + _END_WORDS + r"\s+(?:this\s+)?(" + "|".join(_WEEKD
 _START_MD = re.compile(r"\b(?:starts?|starting|begins?|beginning|kicks? off|launch(?:es)?)\s+(?:on\s+)?(?:\w+day,?\s+)?" +
                        _MONTH + r"\s+" + _DAY + r"\b", re.I)
 _ONLY_MD = re.compile(r"\b(?:today,?\s+)?(?:\w+day,?\s+)?" + _MONTH + r"\s+" + _DAY + r",?\s+only\b", re.I)
-_TODAY_ONLY = re.compile(r"\btoday[- ]only\b|\bends today\b|\bends tonight\b|\bone[- ]day (?:only|sale)\b|\b1-day sale\b",
-                         re.I)
+_TODAY_ONLY = re.compile(r"\btoday[- ]only\b|\bends? today\b|\bends? tonight\b|\bone[- ]day (?:only|sale)\b|"
+                         r"\b1-day sale\b", re.I)
+_LAST_DAY_SAID = re.compile(r"\blast day\b", re.I)          # in a headline; a body's "last day to order" is another day
+# A start a headline gives in figures or by the clock: "Deals Start 11/22", "Get Ready to Shop on 11/23", "Starts
+# Monday", "Starts at 12am CT". Read in the title only: a body's other dates are about other things.
+_START_NUM = re.compile(r"\b(?:starts?|starting|begins?|beginning|kicks? off|launch(?:es)?|shop)\s+(?:on\s+)?(?:\w+day,?\s+)?"
+                        r"(\d{1,2})/(\d{1,2})(?:/\d{2,4})?(?![\d/])", re.I)
+_START_DAY = re.compile(r"\b(?:starts?|begins?|kicks? off)\s+(?:on\s+|this\s+)?(" + "|".join(_WEEKDAYS) + r")\b", re.I)
+_START_NEXT = re.compile(r"\b(?:starts?|begins?|kicks? off)\s+(?:tomorrow\b|tonight\b|at\s+(?:midnight|12\s?a\.?m\.?))", re.I)
 
 
 def _end_of(d: date) -> datetime:
@@ -900,13 +1033,24 @@ def sale_dates(p: Post, now: datetime) -> tuple[Optional[datetime], Optional[dat
         m = _ONLY_MD.search(text)
         if m:
             end, how = _date(_MONTHS[m.group(1)[:3].lower()], int(m.group(2)), posted), f"the post says “{m.group(0).strip()}”"
-    if end is None and _TODAY_ONLY.search(text):
+    if end is None and (_TODAY_ONLY.search(text) or _LAST_DAY_SAID.search(title)):
         end, how = posted, "the post says “today only”"
+    explicit = False
     if start is None:
         m = _START_MD.search(text)
         if m:
-            start = _date(_MONTHS[m.group(1)[:3].lower()], int(m.group(2)), posted)
-    explicit = bool(_START_MD.search(text))
+            start, explicit = _date(_MONTHS[m.group(1)[:3].lower()], int(m.group(2)), posted), True
+    if start is None:
+        m = _START_NUM.search(title)
+        if m and 1 <= int(m.group(1)) <= 12 and 1 <= int(m.group(2)) <= 31:
+            start, explicit = _date(int(m.group(1)), int(m.group(2)), posted), True
+    if start is None:
+        m = _START_DAY.search(title)
+        if m:                                      # the next such day after the post
+            start, explicit = posted + timedelta(days=(_WEEKDAYS.index(m.group(1).lower()) - posted.weekday()) % 7 or 7), True
+        elif _START_NEXT.search(title):            # the midnight after the post
+            late = (p.posted_at or now).astimezone(CENTRAL).hour >= 2
+            start, explicit = posted + timedelta(days=1 if late else 0), True
     if p.expires_stated and p.expires_at:
         # The source's own end wins; a range in the words may be about something else ("Kohl's Cash, redeemable
         # October 9–19"), so only a stated start before that end is kept.
@@ -931,6 +1075,10 @@ def sale_plans() -> list[FeedPlan]:
                                 f"https://www.dealnews.com/s{s.dealnews}/?rss=1", []))
     out += [FeedPlan("dealnews", "dealnews latest", "https://www.dealnews.com/?rss=1&sort=time", []),
             FeedPlan("dealnews", "dealnews popular", "https://www.dealnews.com/?rss=1&sort=hotness", [])]
+    # Hip2Save's own front page: the posts it files under no category Slomp reads, a store's event among them
+    # ("Target's Black Friday Deals Start 11/22"). Two pages are about a day and a half of posts.
+    out += [FeedPlan("hip2save", "hip2save latest", "https://hip2save.com/feed/", []),
+            FeedPlan("hip2save", "hip2save latest, page 2", "https://hip2save.com/feed/?paged=2", [])]
     for q in ("sitewide", "storewide"):
         out.append(FeedPlan("slickdeals", f"slickdeals q={q}",
                             f"https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1&q={q}",
@@ -954,7 +1102,8 @@ def live_reason(s: StoreSale, now: datetime) -> str:
         return "sale: ended"
     if s.posted_at and now - s.posted_at > timedelta(days=POSTED_DAYS):
         return f"sale: posted over {POSTED_DAYS} days ago"
-    if not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)):
+    if not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)) and \
+            not (s.event_ends_at and now <= s.event_ends_at):       # a sale named for a day lasts through it
         return f"sale: no end date and posted over {UNDATED_DAYS} days ago"
     if s.starts_at and s.starts_at > now + timedelta(days=AHEAD_DAYS):
         return f"sale: starts after the next {AHEAD_DAYS} days"
@@ -1047,7 +1196,17 @@ class StoreSales:
     # -- one post -----------------------------------------------------------------------------------------------
     def sale(self, p: Post, now: datetime, excluded: Counter) -> Optional[StoreSale]:
         o = parse_offer(p.title)
+        main = _ASIDE.sub("", _straight(p.title))
+        offer_how = ""
+        if not o.any and names_a_sale(main) and (not _ONE_PRICE.search(main) or _PRICE_HEDGE.search(main)):
+            o, said = said_offer(p)          # the title names a sale and not its discount: the post's own sentence
+            offer_how = f"the post says “{said[:200]}”" if o.any else ""
         why = not_a_sale(p, o)
+        # A sale named for a day, with no discount stated anywhere: whether it is the store's own event is decided
+        # below, once the store and the sale's name are known.
+        headline = why == "no discount stated" and bool(days.named(main)) and bool(_SALE_NOUNS.search(main))
+        if headline:
+            why = not_a_sale(p, o, event=True)
         if why:
             excluded[f"not a store sale: {why}"] += 1
             return None
@@ -1063,26 +1222,46 @@ class StoreSales:
         if not name:
             excluded["sale: store not identified"] += 1
             return None
+        title = clean(p.title)
+        sname = sale_name(title, store, name)
+        note = ""
+        if headline:
+            # The store's own event ("Kohl's Black Friday Sale Starts at 12am CT!", "Want a Peek at Walmart's Black
+            # Friday Deals?") or a sale that gives a price in place of a discount ("... Deals for From $15"). A day's
+            # name on anything else ("Black Friday Buckets") states no discount and names no sale of the store's.
+            note, phrase = price_note(title), event_phrase(main)
+            own = phrase and re.search(r"(?:^|[\s(])" + re.escape(_straight(name)) + r"(?:\.com)?(?:'s|')?\s+(?:\w+\s+)?$",
+                                       main[:main.find(phrase)] + " ", re.I)
+            if not is_store_event(sname) and own:
+                sname = phrase
+            if not (is_store_event(sname) or note):
+                excluded["not a store sale: no discount stated"] += 1
+                return None
         starts, ends, ends_how = sale_dates(p, now)
+        posted = (p.posted_at or now).astimezone(CENTRAL).date()
+        # The day the sale is named for. With no end stated it lasts through that day, unless it is named as the wave
+        # before it ("Early Black Friday Sale"), which ends some day before.
+        day = days.day_of(main, posted)
+        through = _end_of(day[1]) if day and not ends and not days.BEFORE.search(main) else None
         if ends and ends < now:
             excluded["sale: ended"] += 1
             return None
         if p.posted_at and now - p.posted_at > timedelta(days=POSTED_DAYS):
             excluded[f"sale: posted over {POSTED_DAYS} days ago"] += 1
             return None
-        if not ends and (not p.posted_at or now - p.posted_at > timedelta(days=UNDATED_DAYS)):
+        if not ends and (not p.posted_at or now - p.posted_at > timedelta(days=UNDATED_DAYS)) and \
+                not (through and now <= through):
             excluded[f"sale: no end date and posted over {UNDATED_DAYS} days ago"] += 1
             return None
-        title = clean(p.title)
-        sname = sale_name(title, store, name)
         sitewide = bool(_SITEWIDE.search(title)) or (bool(_EVERYTHING.search(title)) and is_store_event(sname))
         inds, rule = sale_industries(p, store, sname, sitewide)
         if not inds:
             excluded["sale: no industry"] += 1
             return None
         text, badge, soft = offer_text(o)
+        if not text:                    # an event with no discount stated: the price it gives instead, or that it is on
+            text, badge, soft = (note, note, True) if note else (EVENT_OFFER, EVENT_BADGE, True)
         conditions = conditions_of(o, title, p.text)
-        posted = (p.posted_at or now).astimezone(CENTRAL).date()
         code, code_note, code_conditions = code_of(p.title, p.text, store, posted, now.astimezone(CENTRAL).date())
         conditions += [c for c in code_conditions if c not in conditions]
         if sitewide and "most items" not in conditions:
@@ -1097,6 +1276,7 @@ class StoreSales:
             extra_upto=o.extra_upto, bogo=o.bogo, bogo_pct=o.bogo_pct, code=code, code_note=code_note,
             conditions=conditions,
             shipping=shipping_of(title), sitewide=sitewide, starts_at=starts, ends_at=ends, ends_how=ends_how,
+            event=day[0] if day else "", event_ends_at=through, offer_how=offer_how,
             posted_at=p.posted_at, source=source, source_url=p.url, image_url=p.image,
             industries=inds, industry_rule=rule, discount_pct=r,
             score=round((r or 0.0) * weight, 2), raw={"feeds": p.feeds, "store_how": how, "text": p.text[:1500]})
@@ -1142,6 +1322,8 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
                 continue
             if (k.ends_at.date() if k.ends_at else None) != (s.ends_at.date() if s.ends_at else None):
                 continue
+            if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
+                continue                          # the wave before a day and the day's own sale are two sales
             a, b = _words(k.name), _words(s.name)
             if a == b or (a and b and len(a & b) / min(len(a), len(b)) >= 0.6):
                 same = k
@@ -1153,6 +1335,19 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             excluded["sale: same sale posted elsewhere"] += 1
         else:
             kept.append(s)
-    return kept
+    # An event's headline with no discount stated ("Amazon's Black Friday Sale Is Live") adds nothing to a sale of
+    # the same store, named for the same day, that states one.
+    stated = lambda s: any(v is not None for v in (s.pct, s.upto, s.extra, s.off)) or bool(s.bogo)   # noqa: E731
+    out: list[StoreSale] = []
+    for s in kept:
+        better = None if stated(s) or not s.event else next(
+            (k for k in kept if k is not s and stated(k) and k.event == s.event
+             and (k.store or k.store_name) == (s.store or s.store_name)), None)
+        if better:
+            better.also_posted.append({"source": s.source, "url": s.source_url, "title": s.title})
+            excluded["sale: same sale posted elsewhere"] += 1
+        else:
+            out.append(s)
+    return out
 
 
