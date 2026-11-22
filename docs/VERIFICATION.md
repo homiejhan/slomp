@@ -1282,3 +1282,42 @@ and digital game sales, which the Sales tab leaves out by design. 8 are later wa
 - **Single products.** 4 of 84 are shown, 22 are on Slomp's sources with no price to compare (so never ranked), and
   58 are on none: most were posted by 9to5Toys, which Slomp does not read when run by an AI assistant.
 - **Entertainment** was not searched, and the search by hand should be run again with pages it can open.
+
+### The first build with the Nov 16 changes (run 161, Nov 22), and what its log led to
+
+The changes of "A week of builds" were merged on Nov 22 and build 161 ran on them. Its log against the build before
+it (run 160, the old code, three hours earlier):
+
+| | Run 160 | Run 161 |
+|---|---|---|
+| Ad items left out as "no saving stated" whose words state one | 2,793 | 1,377 |
+| Stores' own sites waiting for a read | 567 | 334 |
+| Deals from stores' own sites | 2,017 at 221 sites | 2,077 at 227 sites |
+| Sale posts with no store | 30 | 23 |
+| Online posts with no industry | 27 | 25 |
+
+Where both builds read the same ads, the deals rose: H-E-B 563 to 731, Albertsons 30 to 60, Tom Thumb 14 to 30.
+Online deals were 115 (129 to 137 in the three builds before) and the build took 1,088 s (518 to 700 s); nothing in
+the change removes online deals, and it was the first build after Sunday's new ads, but neither is explained. The
+published deals themselves could not be read from this session, only the log.
+
+The log's new lines said what to do next:
+
+- **Savings.** What is still left out is as intended (a different item that comes free, a coupon with no amount,
+  rewards), but for three wordings: "INSTANTLY SAVE [$1] *", "SAVE ADDITIONAL $8 WHEN YOU BUY 2" and "UP TO $50 OFF
+  MSRP". All three are read now (DESIGN.md 4.3).
+- **Stores.** Eight unnamed posts were printed with what they had to go on, all from Hip2Save, and none carries a
+  link. Three name the store in a way no rule connected (a website in the title, a site whose name holds the
+  title's, a store named only in the post), and one is a sale named for the store's own event after the offer.
+  All four are read now (DESIGN-online-stores.md 4.3). Four have nothing Slomp can use: a title naming goods only,
+  "32 Degrees" and "Barefoot Dreams" with no word of where, and a code "gave" to readers. The log now also prints
+  how each unnamed post begins.
+- **Industries.** The week's unfiled products were filed, and other kinds took their place: a blouse, trousers, a
+  jumpsuit, a smart ring, a docking station. Those kinds are named now, and a learned word is no longer silenced
+  by one stray label (DESIGN.md 4.4). DVDs and gift cards belong to no industry Slomp shows online.
+
+Checked offline on what the records keep: the 421 posts of rounds 1 to 6 read the same before and after as sales
+(108 kept, the same stores); of 1,242 titles and item names, three are filed differently, each rightly ("Cat
+Footwear ... Chukka Boot" from Pets to Fashion, a blouse and "Woot Docking Stations Sale" from nothing). 292 unit
+tests pass (286 before).
+

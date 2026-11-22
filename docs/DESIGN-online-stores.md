@@ -208,8 +208,25 @@ after the offer name a store when the post links to a website of that very name 
 post ships is not enough for these: the words after an offer are as often the goods ("Up to 50% Off Stuffed Animals
 Sale + Free Shipping"). Words that are goods only together ("Stuffed Animals", "Christmas Tree") name no store
 anywhere, and "Offer" is a sale word ("Barnes & Noble Offer: ..."). For each post still left without a store, the
-build log says what it had to go on: the name its title could mean, the sites it links to, where it sends readers and
-whether it says it ships.
+build log says what it had to go on: the name its title could mean, the sites it links to, where it sends readers,
+whether it says it ships, and how it begins.
+
+The first build to print that (run 161, Nov 22, 2026) showed that Hip2Save's posts carry no links at all, so there
+the post's words are all there is. Four more ways a post names its store, strongest first:
+
+- **A website the title names**: "Extra 20% Off Any Size on FilterKing.com" is at Filter King, spelled as the post
+  spells it. A site named for what it sells keeps its ".com": "Blinds.com" is a store, "Blinds" is not.
+- **The site the post sends the reader to holds the title's name**: "Hurry over to GiveHugz.co" for the title's
+  "Hugz", "Hop on over to Comfrt's Black Friday Sale" for "Comfrt". A site that merely contains a short word of the
+  title does not count: the name must begin or end the site's name and be at least half of it.
+- **The title names no one**: the store the post sends the reader to ("Hop on over to Minky Couture where ..."),
+  when the post says it ships. Not a registry store (those are read first), a deal site, or words of events and
+  goods ("head over to the Black Friday Sale").
+- **A sale named for the store's own event after the offer**: "Up to 75% Off Laura Geller Early Black Friday Sale ...
+  Just $39 Shipped", when the post ships and sends the reader nowhere else. Event words must stand between the name
+  and the sale word: goods are seldom given an event of their own, and "Up to 80% Off Soma Sale" alone still needs a
+  link or the post's words. A phrase of goods no rule knows could still pass here; the log's "begins" line is how
+  that would be seen.
 
 ### 4.4 The offer, the code and the dates
 

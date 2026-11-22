@@ -380,6 +380,9 @@ price are read (Nov 16, 2026; `terms.ad_terms`), by their wording and never by t
 | "Depart. store value 65.00", "THEIRS $8.99" | a price compared with other stores (`list`) |
 | "10% OFF When You Buy 6 or More", "-10% OFF" | a firm percent beside the price: the percent, never a regular price made from it |
 | "SAVE $60 When You Buy 6", "Buy 2 Get $12.00 Off", "$6 off 3" | shared among the items it is for, with "buy multiple" |
+| "INSTANTLY SAVE [$1] *", "SAVE UP TO [$5]" before the price | the figure is the saving, whatever follows it (a bare "SAVE" still needs words after it: it may be a burst over a price) |
+| "SAVE ADDITIONAL $8 WHEN YOU BUY 2", "save an extra $2" | a saving, with the word between |
+| "$20 OFF MSRP", "UP TO $50 OFF MSRP" | a saving measured from a list price (`list`) |
 
 Left unread on purpose: a saving on an order of some size ("$10 off $50", "save $10 when you spend $40") or on
 something else ("get $1 off tortillas", "50¢ off per gallon"), a coupon with no amount ("FINAL PRICE WITH COUPON"),
@@ -407,7 +410,9 @@ of how a gadget connects, what it runs on and what it holds ("USB-C", "Wi-Fi", "
 "100Ah", "5120Wh") file it under Tech (`keywords:gadget-cue`, Nov 16, 2026). A rule that names the goods always comes
 first: a "USB rechargeable bike light" is sports gear. For each post still left without an industry, the build log
 says what the learned words know of its title ("anbernic: 12 labelled, 75% tech"), so a threshold is changed on
-evidence.
+evidence. The first such log (run 161) showed "slides: 8 labelled, 88% fashion" filing nothing: with few examples,
+nine in ten means all of them. One example that disagrees is now taken as a stray label however few there are
+(`LEARN_STRAY`), so 7 of 8 files a deal; two that disagree are still a disagreement.
 
 ### 4.5 Product identity and cross-site matching
 
