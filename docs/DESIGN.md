@@ -340,7 +340,7 @@ merchants still work: they fall back to exact-name OSM matching and are flagged 
 ### 4.2 Polite HTTP layer
 
 One client wraps every network call:
-- **Rate limits per host** (token bucket): Flipp 4/s, Overpass 1 concurrent, dealnews and Slickdeals 1/s, Amazon 0.5/s,
+- **Rate limits per host** (token bucket): Flipp 4/s, Overpass 1 concurrent, dealnews one request every 2 s (its robots.txt asks for `Crawl-delay: 2`), Slickdeals 1/s, Amazon 0.5/s,
   other retailers 1/s.
 - **Retries** on timeouts, 429 and 5xx: exponential backoff with jitter, max 3, honoring `Retry-After`.
 - **Circuit breaker per host:** opens after 5 consecutive failures for 60 s, so one broken source cannot slow the rest

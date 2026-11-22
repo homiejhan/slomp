@@ -1193,3 +1193,92 @@ The Inventory's posts with no price in the title or the text. The 48 pages that 
 - Ad items left out with a saving's words: fewer, and what kinds remain.
 - "store not identified": the evidence each post had, to see whether links or the post's words would name it.
 - "no industry": what the learned words know of each title.
+
+### A seventh time on Nov 22: Black Friday week
+
+Five days before Black Friday the question was whether Slomp finds the week's deals. A search by hand covered every
+category; its findings were compared with the build published that morning and with the posts Slomp's own sources
+carried that day; the filters were then changed by general rules and tested on the day's posts, live, and on the
+page. Evidence is in `docs/verification/manual-07.json`.
+
+**The search by hand.** Seven slices (big-box and department stores; tech, office and home; fashion, sports, beauty
+and health; toys, baby, pets, auto and grocery; dining and entertainment; single products; Texas weekly ads), 2026
+only, each finding from the store's own page or two dated sources where one could be had, deal-site titles word for
+word. It returned 239 findings: 106 sales and events, 84 single products, 29 restaurant offers and 20 weekly ads; 49
+on a store's own page, 63 on two sources, 127 on one. Three limits apply. The allowance of 200 web searches ran
+out, so second-pass checks were cut short in every slice and **entertainment was not searched** (one finding). No
+page could be opened (store and news sites are outside the session's network), so every quote is a search result's
+wording. And findings are matched to Slomp by store and event, so one card counts for each wave of a store's event.
+
+**What Slomp showed.** The build published at 06:41 UTC had 187 sales at 58 stores, 112 of them named for Black
+Friday or Cyber Monday at 44 stores. It had no Black Friday card for Walmart, Target, Kohl's, JCPenney, Nordstrom,
+Belk, Staples, CVS, Walgreens or HP, although its own sources carried a post for each. Of 225 posts naming Black
+Friday or Cyber Monday on the feeds it reads, 135 were shown. Weekly ads were not the gap: Flipp listed 56 ads for
+Austin and 78 for Houston, among them Target's week-long circular (Nov 22–29), Home Depot's "BLACK FRIDAY DEALS",
+JCPenney's "Black Friday Deals", Academy's "Black Friday Preview" (Nov 26–28) and H-E-B's, Kroger's and Randalls'
+Thanksgiving ads, and 17 of the 20 ads found by hand are read from there.
+
+**Why posts were dropped, and the rule for each.** None of the rules names a store, a brand or a place.
+
+| What happened | Rule now |
+| --- | --- |
+| The biggest events are announced with no percentage ("Kohl's Black Friday Sale Starts at 12am CT!", "Want a Peek at Walmart's Black Friday Deals? Get Ready to Shop on 11/23!"), and a sale had to state a discount | A store's own event named for a day of the calendar (`slomp/days.py`) is listed without one, marked "Sale event", after every sale that states a discount, and gives way to that store's sale for the same day that does state one |
+| Hip2Save puts the offer after the sale's name ("Nordstrom Black Friday Sale is LIVE \| Up to 75% Off ...", "Target's Black Friday Deals Start 11/22 (50% Off Thousands of Gifts!)"), where Slomp dropped it as an aside | When the title names a sale and states no offer before the aside, the aside is read; when it states none at all, the post's own sentence sending the reader to the store is read and quoted. A plain percent found this way is shown as the most the sale gives |
+| "Belk Black Friday Sale", posted Nov 14 with no end, was hidden after 7 days, on Nov 21 | A sale named for a day not yet past lasts through that day when no end is stated. A wave before it ("Early", "Pre-", "Preview", "Countdown") keeps the 7 days |
+| "Samsung Black Friday Sale 2026: Up to 36% off + trade-in offers" was left out as a trade-in | Once the offer is stated, what follows a plus comes with the sale and is not what is on sale |
+| "Deals Start 11/22", "Shop on 11/23", "Starts at 12am CT", "Deals End TONIGHT" and "Last Day!" were not read | Read from the title |
+| Names kept the headline's status ("Black Friday Sale is Live: FREE Poinsettias, Offers, Trees & More") | The sale is named before the words that say how it stands |
+| "FREE Poinsettias, BOGO Offers, 70% Off Trees & More" was shown as 70% off | In a list of highlights, a percent that is not the first item is one item's: "up to" |
+| The Inventory's single products ("Glitzhome 18\" Frosty Santa: 60% Off Modern Holiday Decor") were shown as sales at a firm 60%, two of them among the home page's biggest deals | A post with no sale word that prices one thing ("now $38.80 at Belk") is one product |
+| "Target's Black Friday Deals Start 11/22" was in none of the category feeds Slomp reads | Hip2Save's own front page is read too (two pages: one post in nine is in no category feed) |
+| dealnews' robots.txt asks for `Crawl-delay: 2`; Slomp asked once a second | One request every 2 seconds |
+| "Arby's Delivery: Free all month" ranked on the home page as a free item | Free delivery is not something free |
+
+One thing the page check cannot do was measured: the pages of three dealnews sales that had ended by their own dates
+(adidas, Target, Best Buy) were still up and unmarked, so reading a post's page again does not tell a live undated
+sale from an ended one. That is why the wave before a day is not carried through it.
+
+**On the day's posts.** The filters before and after, on the same 3,171 posts: 203 → 249 sales (before duplicates
+are merged), 50 newly kept and 4 no longer kept (the three single products and a sale whose last day was Nov 21).
+Posts naming Black Friday or Cyber Monday that are shown: 135 → 174 of 225; the rest ended (14), are waves before
+the day with no end (9), state no discount and are no store's event (7), name no store Slomp can tell (6), are
+subscriptions, gift cards and digital goods (10), or fall to five other rules (one product, a roundup, over 30 days
+old, no word that the store ships).
+
+**Live.** The real pipeline, through Slomp's own client with the assistant setting on: 140 feeds (9to5Toys skipped,
+its robots.txt turns AI assistants away; Ben's Bargains answered 403), every kept sale's page read again, 196
+requests to dealnews at one every 2 seconds, 390 seconds for the first full read (two shorter runs followed as the
+rules were finished; the figures are the last one's). It kept **211 sales at 72 stores** (187 at 58 that
+morning), 139 of them named for Black Friday or Cyber Monday at 63 stores (112 at 44). Nineteen stores gained a
+Black Friday card and none lost one: Walmart, Target, Kohl's, JCPenney, Nordstrom, Belk, Staples, CVS, Walgreens, HP,
+Academy, Bath & Body Works, Crocs, Under Armour, Northern Tool, Herman Miller, Michael Kors, Spanx and Comfrt. Six
+are events with no discount stated (Walmart from Nov 23, Kohl's and CVS from Nov 22, Bath & Body Works, Northern
+Tool, Spanx); six took their offer from the post's own sentence; 44 undated sales are shown through Black Friday.
+
+**On the page.** The site's files were built from that run and opened in a browser: a search for Austin shows 210
+sales at 72 stores on the Sales tab (2,621 deals near the city, 112 regular deals, 109 online deals), with no page
+error; an event's card reads "Sale event, no discount stated", and its details "No end date given. It is named for
+Black Friday, so Slomp shows it through Fri, Nov 27." engine.js and the server pick the same sales in the same order
+at five moments from Nov 22 to Dec 2 (207, 176, 139, 98 and 26 sales).
+
+**Earlier rounds.** The 421 posts recorded in rounds 1–6, replayed before and after: 156 kept before, 157 after,
+none lost. The new one is "Lowe's Halloween Clearance" of round 3, a store's event named for a day. 286 unit tests
+pass (274 before).
+
+**The 106 sales and events found by hand.** 35 were shown that morning and 9 more are found now. 29 were on none of
+Slomp's sources that day (Five Below, Dollar General, Sonos, Crate & Barrel, PlayStation Direct, Discount Tire, tire
+rebates, baby-gear brands). 9 are on its sources and still not shown: Costco (its one post is 25 days old and its
+title puts no store's name before "Black Friday Savings"), Ulta (its early wave ended and the main event had no
+post), Cabela's and Bass Pro (a title naming two stores names neither to Slomp), the early waves of DSW and Carter's,
+and digital game sales, which the Sales tab leaves out by design. 8 are later waves with no post yet (Cyber Monday),
+8 are giveaways and doorbusters at the store's door, and 8 are memberships, store cards, gift cards and rebates.
+
+**Still missed.**
+
+- **Restaurants.** None of the ten Black Friday week offers found by hand (Chipotle's buy-one-get-one on Nov 25,
+  Moe's on Nov 27–29, Whataburger's on Nov 25–30, 7-Eleven's pizza, Arby's fries) was on the three feeds promotions
+  are read from, and Hip2Save has no readable restaurant feed. Twelve of the 29 dining findings are gift-card bonuses
+  ("$15 bonus card with $50 in gift cards") and seven are priced holiday meals; Slomp leaves both out by design.
+- **Single products.** 4 of 84 are shown, 22 are on Slomp's sources with no price to compare (so never ranked), and
+  58 are on none: most were posted by 9to5Toys, which Slomp does not read when run by an AI assistant.
+- **Entertainment** was not searched, and the search by hand should be run again with pages it can open.

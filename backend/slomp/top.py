@@ -82,6 +82,8 @@ def _central() -> City:
 
 # --- how big a deal is ------------------------------------------------------------------------------------------
 _FREE = re.compile(r"\bfree\b", re.I)
+_FREE_CARRIAGE = re.compile(r"\bfree\s+(?:delivery|shipping|pickup)\b|\b(?:delivery|shipping)(?:\s+fees?)?\s*:?\s*(?:is\s+)?free\b",
+                            re.I)
 _TAKES_PURCHASE = re.compile(r"\b(?:(?:with|when (?:you|they))\b|w/)[^.]{0,40}\b(?:purchase|buy|order)|"
                              r"\b(?:with|per) (?:an? |each |every |any )?(?:adult|regular|full-priced)\b", re.I)
 
@@ -94,7 +96,7 @@ def badge_pct(d: dict) -> Optional[float]:
     t = d.get("terms") or {}
     if t.get("pct"):
         return float(t["pct"])
-    summary = t.get("summary") or ""
+    summary = _FREE_CARRIAGE.sub(" ", t.get("summary") or "")    # free delivery is not something free
     if not _FREE.search(summary):
         return None
     purchase = any(re.match(r"with\b", c, re.I) for c in t.get("conditions") or []) or \
@@ -211,8 +213,8 @@ def sale_items(res: SalesResult, stores: dict, now: datetime) -> list[dict]:
         ends = [s.ends_at] if s.ends_at else []
         if s.posted_at:
             ends.append(s.posted_at + timedelta(days=POSTED_DAYS))
-            if not s.ends_at:
-                ends.append(s.posted_at + timedelta(days=UNDATED_DAYS))
+            if not s.ends_at:                     # ... or through the day it is named for (sales.live_reason)
+                ends.append(max(s.posted_at + timedelta(days=UNDATED_DAYS), s.event_ends_at or s.posted_at))
         out.append(_item(s.to_dict(), "sale", stores[s.store]["name"], s.score,
                          since=s.starts_at - timedelta(days=AHEAD_DAYS) if s.starts_at else None,
                          until=min(ends) if ends else None))

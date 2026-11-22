@@ -364,7 +364,8 @@ function liveReason(s, now) {              // sales.live_reason
   const ends = s.ends_at ? Date.parse(s.ends_at) : null, posted = s.posted_at ? Date.parse(s.posted_at) : null;
   if (ends !== null && ends < now) return "sale: ended";
   if (posted !== null && now - posted > POSTED_DAYS * 864e5) return `sale: posted over ${POSTED_DAYS} days ago`;
-  if (ends === null && (posted === null || now - posted > UNDATED_DAYS * 864e5)) {
+  if (ends === null && (posted === null || now - posted > UNDATED_DAYS * 864e5) &&
+      !(s.event_ends_at && now <= Date.parse(s.event_ends_at))) {      // a sale named for a day lasts through it
     return `sale: no end date and posted over ${UNDATED_DAYS} days ago`;
   }
   if (s.starts_at && Date.parse(s.starts_at) > now + AHEAD_DAYS * 864e5) return `sale: starts after the next ${AHEAD_DAYS} days`;

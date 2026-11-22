@@ -20,7 +20,7 @@ RATE_LIMITS: dict[str, float] = {
     "backflipp.wishabi.com": 4.0,
     "overpass-api.de": 0.5,
     "overpass.kumi.systems": 0.5,
-    "www.dealnews.com": 1.0,
+    "www.dealnews.com": 0.5,           # its robots.txt asks for "Crawl-delay: 2"
     "slickdeals.net": 1.0,
     "www.amazon.com": 0.5,
     "www.newegg.com": 1.0,

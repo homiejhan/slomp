@@ -452,3 +452,138 @@ def test_a_coupon_in_quotes_a_prime_shipping_line_and_same_day_pickup():
 def test_halloween_decor_is_home():
     assert ind.from_text("Target Halloween Decor Sale: Up to 40% off").industries == ["home"]
     assert ind.from_text("Halloween Costumes for Kids").industries == ["toys"]
+
+
+# --- Black Friday week (docs/VERIFICATION.md, "A seventh time"). Titles and texts are posts read on Nov 22, 2026. ----
+BF_NOW = datetime(2026, 11, 22, 1, 0, tzinfo=CT)
+
+
+def bf(title, text="", source="hip2save", days_ago=0.2, **kw):
+    kw.setdefault("deal_type", "")
+    return post(title, text, source=source, posted=BF_NOW - timedelta(days=days_ago), **kw)
+
+
+def one(p, now=BF_NOW):
+    ex = Counter()
+    return StoreSales(None, None).sale(p, now, ex), ", ".join(ex)
+
+
+def test_an_offer_after_the_sales_name_is_read_as_the_most_it_gives():
+    assert offer("Nordstrom Black Friday Sale is LIVE | Up to 75% Off Baublebar, LEGO, UGG & More")[0] == "Up to 75% off"
+    assert offer("40% Off Target Handbags = Styles from $9")[0] == "40% off"             # the offer leads: no change
+    o = parse_offer("Target’s Black Friday Deals Start 11/22 (50% Off Thousands of Gifts!)")
+    assert (o.pct, o.upto) == (None, 50)
+    o = parse_offer("Walgreens Black Friday Sneak Peek | $5 Throw Blankets, 50% Off Gift Sets & More")
+    assert (o.pct, o.upto) == (None, 50)
+    # a list of highlights after a colon: the percent is one item's
+    o = parse_offer("Michaels Black Friday Sale is Live: FREE Poinsettias, BOGO Offers, 70% Off Trees & More!")
+    assert (o.pct, o.upto, o.bogo) == (None, 70, "buy one, get one deals")
+    assert parse_offer("Kohl's Toy Sale: 40% off toys, games & more").pct == 40          # the list's first item: the sale's
+    assert not parse_offer("KitchenAid Mixer Just $199 Shipped | 50% Off!").any           # names no sale: an aside stays one
+
+
+def test_a_stores_event_named_for_a_day_is_shown_without_a_stated_discount():
+    s, _ = one(bf("Kohl’s Black Friday Sale Starts at 12am CT!", "The Kohl's Black Friday deals are live now!", days_ago=0.1))
+    assert (s.store, s.name, s.offer, s.badge, s.score) == ("kohls", "Black Friday Sale", "Sale event, no discount stated", "Sale event", 0)
+    assert s.starts_at.date().isoformat() == "2026-11-22" and s.event == "Black Friday"
+    assert s.event_ends_at == datetime(2026, 11, 27, 23, 59, 59, tzinfo=CT) and not s.ends_at
+    s, _ = one(bf("Want a Peek at Walmart’s Black Friday Deals? Get Ready to Shop on 11/23!"))
+    assert (s.store, s.name, s.starts_at.date().isoformat()) == ("walmart", "Black Friday Deals", "2026-11-23")
+    s, _ = one(bf("Macy's Black Friday Small Appliance Deals for Under $50 + free shipping w/ $39", source="dealnews",
+                  seller="Macy's", deal_type="sale"))
+    assert (s.name, s.offer, s.badge, s.badge_soft) == ("Black Friday Small Appliance Deals", "Under $50", "Under $50", True)
+    # a day's name on something that is no sale of the store's states no discount
+    for title, seller in (("FREE Lowe’s Black Friday Buckets November 27th (Will You Get the One w/ $2,000 in Prizes?!)", ""),
+                          ("Nintendo Switch 2 + Mario Kart World Bundle Black Friday Deal", "Nintendo"),
+                          ("Walmart Fall Savings Are Here", "")):
+        s, why = one(bf(title, seller=seller, source="dealnews" if seller else "hip2save"))
+        assert s is None and why == "not a store sale: no discount stated", title
+
+
+def test_the_posts_own_sentence_gives_the_offer_a_title_leaves_out():
+    s, _ = one(bf("Crocs Black Friday Sale | Cozy Clogs & Holiday Styles from $18",
+                  "Through November 29th, head over to Crocs.com where you can score up to 60% off select styles during "
+                  "their Black Friday sale! Plus, shipping is free on orders of $55."))
+    assert (s.store_name, s.name, s.offer) == ("Crocs", "Black Friday Sale", "Up to 60% off")
+    assert s.ends_at.date().isoformat() == "2026-11-29" and "head over to Crocs.com" in s.offer_how
+    # a plain percent in that sentence is the most the sale gives, unless it is on everything
+    s, _ = one(bf("Old Navy Black Friday Sale is Live", "Hop on over to Old Navy where you can score 50% off pajamas today!"))
+    assert (s.pct, s.upto) == (None, 50)
+    s, _ = one(bf("Old Navy Black Friday Sale is Live", "Hop on over to Old Navy where you can score 50% off everything!"))
+    assert (s.pct, s.upto) == (50, None)
+
+
+def test_a_sale_named_for_a_day_lasts_through_it_when_no_end_is_stated():
+    belk = bf("Belk Black Friday Sale: Up to 80% off + free shipping w/ $99", source="dealnews", seller="Belk",
+              deal_type="sale", days_ago=8)
+    s, _ = one(belk)
+    assert s.event_ends_at == datetime(2026, 11, 27, 23, 59, 59, tzinfo=CT)
+    assert live_reason(s, datetime(2026, 11, 27, 20, 0, tzinfo=CT)) == ""
+    assert live_reason(s, datetime(2026, 11, 28, 9, 0, tzinfo=CT)) == "sale: no end date and posted over 7 days ago"
+    # the wave before the day says it ends before it, not when: the seven days stand
+    s, why = one(bf("Belk Early Black Friday Sale: Up to 60% off + free shipping w/ $99", source="dealnews", seller="Belk",
+                    deal_type="sale", days_ago=12))
+    assert s is None and why == "sale: no end date and posted over 7 days ago"
+    # a stated end still wins
+    s, _ = one(bf("adidas Black Friday Sale: Up to 60% off", "Ends November 24.", source="dealnews", seller="adidas",
+                  deal_type="sale", days_ago=3))
+    assert s.ends_at.date().isoformat() == "2026-11-24" and s.event_ends_at is None and s.event == "Black Friday"
+
+
+def test_what_comes_with_a_sale_is_not_what_is_on_sale():
+    samsung = bf("Samsung Black Friday Sale 2026: Up to 36% off + trade-in offers + free delivery", source="dealnews",
+                 seller="Samsung", deal_type="sale")
+    assert not_a_sale(samsung, parse_offer(samsung.title)) == ""
+    cabelas = bf("Cabela’s & Bass Pro Shops Black Friday Ad Preview | Up to 50% Off + FREE Gift Card Giveaway!")
+    assert not_a_sale(cabelas, parse_offer(cabelas.title)) == ""
+    trade = bf("Samsung Galaxy Trade-In Deals: Up to $900 off", source="dealnews", seller="Samsung", deal_type="sale")
+    assert not_a_sale(trade, parse_offer(trade.title)) == "a trade-in"
+    vpn = bf("NordVPN Black Friday Deals: Up to 78% off + free shipping", source="dealnews", seller="NordVPN", deal_type="sale")
+    assert not_a_sale(vpn, parse_offer(vpn.title)) == "digital, not shipped"
+
+
+def test_a_post_that_prices_one_thing_is_one_product():
+    p = bf("Glitzhome 18\" Frosty Santa: 60% Off Modern Holiday Decor",
+           "Give your mantel white-and-silver elegance with Glitzhome's 18\" porcelain-face Frosty Santa, now $38.80 at "
+           "Belk, about 60% off the $97 price.", source="theinventory")
+    assert not_a_sale(p, parse_offer(p.title)) == "one product, not a sale"
+
+
+def test_a_headline_says_when_a_sale_starts_and_that_this_is_its_last_day():
+    starts, ends, _ = sale_dates(bf("New CVS Black Friday Deals Start 11/22 (+ Select Offers Already Live!)"), BF_NOW)
+    assert starts.date().isoformat() == "2026-11-22" and ends is None
+    for title in ("Kohl’s Early Black Friday Deals End TONIGHT = Big Savings on Cuisinart, Shark, & More!",
+                  "Under Armour Black Friday Warm Up Sale = Up to 60% Off Hoodies – Last Day!"):
+        _, ends, how = sale_dates(bf(title, days_ago=0.5), BF_NOW)
+        assert ends.date().isoformat() == "2026-11-21" and how == "the post says “today only”", title
+    # "last day" in a body is some other day's ("the last day to order for Christmas delivery")
+    _, ends, _ = sale_dates(bf("Macy's Black Friday Sale: Up to 60% off", "The last day to order for Christmas delivery is December 20."), BF_NOW)
+    assert ends is None
+    assert sale_name("Lowe's Live Christmas Trees Sale: Up to 40% off", None, "Lowe's") == "Live Christmas Trees Sale"
+    assert sale_name("Shop adidas Black Friday Sale Now to Score 60% Off + FREE Shipping", None, "adidas") == "Black Friday Sale"
+    kohls = by_key()["kohls"]
+    assert sale_name("Kohl’s Black Friday Sale Starts at 12am CT!", kohls, "Kohl's") == "Black Friday Sale"
+    assert sale_name("Michaels Black Friday Sale is Live: FREE Poinsettias, BOGO Offers, 70% Off Trees & More!", None,
+                     "Michaels") == "Black Friday Sale"
+    assert sale_name("QVC Black Friday Sale for Up to 42% off + extra $20 off $40 + free shipping", None, "QVC") == "Black Friday Sale"
+    assert sale_name("Macy's Black Friday Men's Deals: New deals added, up to 80% off + free shipping w/ $39", None,
+                     "Macy's") == "Black Friday Men's Deals"
+
+
+def test_an_event_with_no_discount_yields_to_the_stores_sale_for_that_day_that_states_one():
+    a, _ = one(bf("Amazon’s Black Friday Sale Is Live (Score Huge Savings on Tech, Clothes, Beauty, & More!)"))
+    b, _ = one(bf("Amazon Black Friday Sale 2026: Up to 70% off + free shipping w/ Prime", source="dealnews",
+                  seller="Amazon", deal_type="sale"))
+    c, _ = one(bf("Kohl’s Black Friday Sale Starts at 12am CT!"))
+    ex = Counter()
+    kept = dedupe([a, b, c], ex)
+    assert [s.id for s in kept] == [b.id, c.id] and ex["sale: same sale posted elsewhere"] == 1
+    assert b.also_posted[0]["source"] == "Hip2Save"
+
+
+def test_the_wave_before_a_day_and_the_days_own_sale_are_two_sales():
+    early, _ = one(bf("Last Chance: Target Early Black Friday Deals | Up to 50% Off Stanley, Boots, & More", days_ago=0.6))
+    main, _ = one(bf("Target’s Black Friday Deals Start 11/22 (50% Off Thousands of Gifts!)"))
+    assert (early.name, main.name, early.badge, main.badge) == ("Early Black Friday Deals", "Black Friday Deals", "Up to 50%", "Up to 50%")
+    assert main.industries and main.starts_at.date().isoformat() == "2026-11-22"
+    assert len(dedupe([early, main], Counter())) == 2
