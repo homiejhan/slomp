@@ -14,7 +14,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from functools import lru_cache
 from typing import Optional
@@ -438,14 +438,45 @@ def plan(industries: list[str]) -> list[FeedPlan]:
     return out
 
 
+PAGE_FULL = {"dealnews": 20, "hip2save": 100}     # a page of a site's feed with this many posts may have more behind it
+MORE_PAGES = 2             # how many further pages of a feed are read
+FRESH_DAYS = 30            # a page with nothing posted in this long ends the reading (sales.POSTED_DAYS)
+
+
 class DealFeeds:
     def __init__(self, http: PoliteClient):
         self.http = http
 
     async def read(self, p: FeedPlan) -> tuple[list[Post], str]:
-        """(posts, error). Errors are reported per feed so one dead feed can't sink the result."""
+        """(posts, error). Errors are reported per feed so one dead feed can't sink the result.
+
+        A feed's first page is not the feed. dealnews gives 20 to 25 posts at a time ("&start=N" gives the next ones)
+        and Hip2Save 100 ("?paged=2"). In a busy week that is a day or two of posts: on Nov 22, 2026 Macy's 20 on
+        dealnews spanned 1.9 days, and the 19 behind them held ten Black Friday sales still running; Hip2Save's 100
+        posts for women spanned 2.5 days. So Slomp reads on while a page comes back full and still holds a post recent
+        enough to show, up to MORE_PAGES more. A later page that fails leaves what was read standing."""
+        posts, err = await self._page(p, p.url)
+        full = PAGE_FULL.get(p.source)
+        if err or not full or (p.source == "dealnews" and "rss=1" not in p.url):
+            return posts, err
+        seen, got, start = {x.id for x in posts}, posts, len(posts)
+        for page in range(2, 2 + MORE_PAGES):
+            now = datetime.now(timezone.utc)
+            if len(got) < full or not any(x.posted_at and now - x.posted_at <= timedelta(days=FRESH_DAYS) for x in got):
+                break
+            more = f"&start={start}" if p.source == "dealnews" else f"{'&' if '?' in p.url else '?'}paged={page}"
+            got, err = await self._page(p, p.url + more)
+            new = [x for x in got if x.id not in seen]
+            if err or not new:
+                break
+            posts += new
+            seen |= {x.id for x in new}
+            start += len(got)
+        return posts, ""
+
+    async def _page(self, p: FeedPlan, url: str) -> tuple[list[Post], str]:
         try:
-            r = await self.http.get(p.url, ttl_s=TTL["feed"])
+            r = await self.http.get(url, ttl_s=TTL["feed"])
         except FetchError as e:
             return [], e.reason
         if r.status != 200:
