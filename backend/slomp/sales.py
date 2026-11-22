@@ -1145,9 +1145,8 @@ def sale_plans() -> list[FeedPlan]:
     out += [FeedPlan("dealnews", "dealnews latest", "https://www.dealnews.com/?rss=1&sort=time", []),
             FeedPlan("dealnews", "dealnews popular", "https://www.dealnews.com/?rss=1&sort=hotness", [])]
     # Hip2Save's own front page: the posts it files under no category Slomp reads, a store's event among them
-    # ("Target's Black Friday Deals Start 11/22"). Two pages are about a day and a half of posts.
-    out += [FeedPlan("hip2save", "hip2save latest", "https://hip2save.com/feed/", []),
-            FeedPlan("hip2save", "hip2save latest, page 2", "https://hip2save.com/feed/?paged=2", [])]
+    # ("Target's Black Friday Deals Start 11/22"). Read on past its first page like every feed (DealFeeds.read).
+    out.append(FeedPlan("hip2save", "hip2save latest", "https://hip2save.com/feed/", []))
     for q in ("sitewide", "storewide"):
         out.append(FeedPlan("slickdeals", f"slickdeals q={q}",
                             f"https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1&q={q}",

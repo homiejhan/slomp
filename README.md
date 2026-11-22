@@ -88,7 +88,8 @@ Online stores ship anywhere, so they belong to no city. Two tabs cover them, the
   its product deals from the Online tab, with a link to its site.
 
 Where sales come from: dated posts by deal-site editors (dealnews, including each major store's own dealnews feed,
-Hip2Save, Slickdeals and 9to5Toys). Coupon-code sites are not used: their codes carry no dates. A promo code is shown
+Hip2Save, Slickdeals and 9to5Toys), read past each feed's first page while it is full of recent posts: in a busy week
+that page is a day or two. Coupon-code sites are not used: their codes carry no dates. A promo code is shown
 only when the post states it, and only if its own sentence makes it this sale's code (not a cardholder's, another
 store's, or one whose day has passed). A sale is shown until its end (dealnews' own end date, or the post's words:
 "ends October 8", "through 10/13", "today only"); a sale with no end is shown for 7 days after it was posted, or
