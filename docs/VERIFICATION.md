@@ -1445,10 +1445,11 @@ assistant setting. The builds before it on the same day's posts: run 166 (21:03 
 | Restaurant promotions | 55 | 55 | 42 |
 
 **The posts.** Of the eight posts run 168 printed without a store, five are named in run 169 and gone from the
-list: the four of this round that were still in the feeds (Lululemon, AliExpress, 32 Degrees, Barefoot Dreams) and
-one no rule was written for, "Up to 90% Off Otterbox Phone Cases", whose post begins "hustle over to Woot.com where
-...": a verb on no list, read because any verb before "over to" is. Three remain, as expected (two stores in one
-title, a store the post never sends the reader to, and "Life in Lilac", below).
+list: four of this round's five (Lululemon, AliExpress, 32 Degrees, Barefoot Dreams; the Corkcicle post was not
+among the eight either build printed, so the log says nothing of it) and one no rule was written for, "Up to 90%
+Off Otterbox Phone Cases", whose post begins "hustle over to Woot.com where ...": a verb on no list, read because
+any verb before "over to" is. Three remain, as expected (two stores in one title, a store the post never sends the
+reader to, and "Life in Lilac", below).
 
 **Most of them were old.** The posts say so themselves: "Today, October 25th only" (32 Degrees), "Through October
 31st" (Otterbox), "Today, November 20th only" (Barefoot Dreams). Once named they are left out as ended, which is why
