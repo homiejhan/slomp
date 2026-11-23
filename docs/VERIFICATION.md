@@ -1429,3 +1429,48 @@ Checked offline on what the records keep: the 421 posts of rounds 1 to 6 read th
 the same stores, sale names and offers); of 1,242 titles and item names one is filed differently, rightly
 ("Everyday Deals on Clothes and Accessories for Women and Men", from nothing to Fashion). 296 unit tests pass (292
 before).
+
+### The build on those (run 169, Nov 23): the posts were named, and most of them were old
+
+Merged on Nov 23 with the change that reads feeds past their first page, and build 169 ran at 05:18 UTC with the
+assistant setting. The builds before it on the same day's posts: run 166 (21:03 UTC, the assistant setting) and run
+168 (03:50 UTC, scheduled, without it), both on the code before this round's.
+
+| | Run 166 | Run 168 | Run 169 |
+|---|---|---|---|
+| Sale posts with no store | 34 | 40 | 27 |
+| Sale posts left out as ended | 132 | 132 | 137 |
+| Sale posts left out as posted over 30 days ago | 539 | 535 | 538 |
+| Store sales shown | 328 at 95 stores | 326 at 95 | 318 at 91 |
+| Restaurant promotions | 55 | 55 | 42 |
+
+**The posts.** Of the eight posts run 168 printed without a store, five are named in run 169 and gone from the
+list: the four of this round that were still in the feeds (Lululemon, AliExpress, 32 Degrees, Barefoot Dreams) and
+one no rule was written for, "Up to 90% Off Otterbox Phone Cases", whose post begins "hustle over to Woot.com where
+...": a verb on no list, read because any verb before "over to" is. Three remain, as expected (two stores in one
+title, a store the post never sends the reader to, and "Life in Lilac", below).
+
+**Most of them were old.** The posts say so themselves: "Today, October 25th only" (32 Degrees), "Through October
+31st" (Otterbox), "Today, November 20th only" (Barefoot Dreams). Once named they are left out as ended, which is why
+that count rose as the unnamed count fell. A post's store is looked for before its dates, so the log's list of
+unnamed posts shows posts of any age, and since feeds are read past their first page most of what it shows is old.
+The count of 27 overstates what is missing, and the eight posts printed are not the eight that matter. The dates
+should be checked first.
+
+**The totals cannot be read as this round's effect.** Sales fell by 8 and promotions by 13 between runs 168 and 169,
+an hour and a half apart. Promotions come from code that shares nothing with this round's change. Counts the change
+cannot touch moved as much: posts left out as subscriptions were 18, 13 and 11 in the three builds, online posts
+with no price 78, 86 and 65. Run 168 read 9to5Toys and run 169, started with the assistant setting, did not. And a
+feed's later page that fails is dropped without a word, so two builds need not have read the same posts. The log
+does not say how many posts a build read, nor which stores its sales are at; both would have settled this.
+
+**What the list showed next**, each a wording and none a store's name:
+
+- "Our Place Black Friday Sale Gets Even Better ..." and "head to Our Place": a sale the title names for the store,
+  which the post's sending words confirm. Today that needs a link or shipping.
+- "browse OOFOS.com and score ...", "Novilla.com is offering ...": the post writes the website of the title's name.
+- "Life in Lilac Black Friday Sale", "Dr. Martens Boots": a name with a small word or an abbreviation inside it.
+- "Ruggable's Pre-Black Friday Sale" in a post about a coupon: the sale is online, though nothing says it ships.
+
+One reading narrowed in this round was narrowed too far and was put back after the build: words that go on after
+the title's name confirm it ("Hop on over to Minky Couture" for "Minky") unless they are goods only together.
