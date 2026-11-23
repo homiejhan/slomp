@@ -921,6 +921,10 @@ def test_nov22_more_ways_a_post_sends_its_reader_to_a_store():
         ("32 Degrees", "the post says 'Hurry over to 32 Degrees' and that it ships")
     assert _named("Up to 60% Off 5.11 Tactical Boots + Free Shipping",
                   "Head over to 5.11 Tactical where boots are 60% off.")[0] == "5.11 Tactical"
+    # the words go on after the title's name: the store's sale, or the rest of its name; no shipping is needed
+    assert _named("Up to 70% Off Comfrt Hoodies", "Hop on over to Comfrt Black Friday Sale and save.")[0] == "Comfrt"
+    assert _named("Up to 60% Off Minky Blankets", "Hop on over to Minky Couture where you can save.") == \
+        ("Minky", "the title names it (Minky) and the post says 'Hop on over to Minky Couture'")
     # the "to" left out before where the sentence goes on
     assert _named("Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!",
                   "Cheers to an awesome Corkcicle deal! Through November 30th only, hurry over Corkcicle where you "

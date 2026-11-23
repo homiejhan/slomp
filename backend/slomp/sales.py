@@ -336,8 +336,9 @@ def _sent_names(text: str) -> list[tuple[str, str]]:
 
 def _sent_there(name: str, text: str) -> str:
     """The post's own words sending the reader to this store, or "": "Hop on over to Comfrt.com where ...", and where
-    the site's name holds the store's, "Head over to GiveHugz.co" for Hugz or "... to Comfrt's Black Friday Sale"
-    (the store's sale: "... to the Stuffed Animals page" is not a store called Stuffed)."""
+    the site's name holds the store's, "Head over to GiveHugz.co" for Hugz, or the words go on after it, "... to
+    Comfrt's Black Friday Sale", "... to Minky Couture" for Minky. Not when the words are goods only together: "... to
+    the Stuffed Animals page" is no store called Stuffed."""
     key = norm(re.sub(r"^the\s+", "", name, flags=re.I))
     if len(key) < 3:
         return ""
@@ -345,8 +346,7 @@ def _sent_there(name: str, text: str) -> str:
         said_key, parts = norm(said), said.split()
         whole = said_key == key
         k = len(name.split())                     # "Comfrt's Black Friday Sale" begins with Comfrt
-        begins = len(parts) > k and norm(re.sub(r"'s?$", "", " ".join(parts[:k]))) == key and \
-            (bool(re.search(r"'s?$", parts[k - 1])) or all(is_store_event(w) or _SALE_NOUN.match(w) for w in parts[k:]))
+        begins = len(parts) > k and norm(re.sub(r"'s?$", "", " ".join(parts[:k]))) == key and _a_name(said)
         inside = len(parts) == 1 and len(key) >= 4 and 2 * len(key) >= len(said_key) and \
             (said_key.startswith(key) or said_key.endswith(key))
         if whole or begins or inside:

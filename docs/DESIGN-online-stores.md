@@ -256,9 +256,9 @@ eight named their store in the first sentence, in words Slomp did not read:
   Amazon sale" names none), the title must name no store, and a second store's sale leaves it open. The sale is
   then called what the post calls it ("Black Friday Sale").
 
-One reading of the round before was too wide and is narrower now: "Hop on over to Comfrt's Black Friday Sale"
-confirms the title's "Comfrt" because the words after the name are the store's sale (a possessive, or event words
-and a sale word). "Hurry over to the Stuffed Animals page" had confirmed a store called "Stuffed".
+One reading of the round before was too wide and is narrower now: words that go on after the title's name confirm
+it ("Hop on over to Comfrt's Black Friday Sale" for "Comfrt", "... to Minky Couture" for "Minky"), but not when they
+are goods only together. "Hurry over to the Stuffed Animals page" had confirmed a store called "Stuffed".
 
 ### 4.4 The offer, the code and the dates
 
