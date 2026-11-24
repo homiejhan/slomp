@@ -174,9 +174,12 @@ def store_of_sale(p: Post) -> tuple[Optional[OnlineStore], str, str]:
 # possessive, before event words and a sale word, or before the goods on sale; it names a store only when something
 # is left of it once the words of events, departments and goods are taken out ("Fall Sale", "Kids' Sale" and "Costume
 # Sale" name none). A name may start with a number, and then the word after it is the name's whatever else it means
-# ("32 Degrees"). The post must also show the sale is at that store, online: a link to the name's own website, its
-# own words sending the reader there ("Hop on over to Comfrt where ..."), or, for a sale named after the store, that
-# it ships. A name before goods ("Comfrt Hoodies") could as well be a brand sold elsewhere, so shipping is not enough.
+# ("32 Degrees"); it may hold a small word or an abbreviation ("Life in Lilac", "Dr. Martens"). Words after which a
+# sale's own name goes on are no store's ("Stock Up Sale", "Pink Friday Sale"). The post must also show the sale is
+# at that store, online: a link to the name's own website or that site's address in its text, its own words sending
+# the reader there ("Hop on over to Comfrt where ..."), or, for a sale named after the store, that it ships (or gives
+# a code, or is sitewide, where the title says whose sale it is). A name before goods ("Comfrt Hoodies") could as well
+# be a brand sold elsewhere, so shipping is not enough.
 #
 # Hip2Save's posts carry no links at all (run 161, Nov 22, 2026), so there the post's words are all there is: a
 # website the title itself names ("... on FilterKing.com"), the site the post sends the reader to when its name holds
@@ -196,6 +199,14 @@ _LEAD_OFFER = re.compile(
     r"buy\s+(?:\d+|one|two),?\s+get\s+(?:\d+|one|two)\s+(?:free|\d{1,3}\s?%\s+off|half\s+off))\s+"
     r"(?:(?:on|at|of|the|all|select|any|your)\s+)*", re.I)
 _NUMBER = re.compile(r"\d+(?:\.\d+)?$")           # a name may start with one: "32 Degrees", "5.11 Tactical"
+# The small words a name may hold between two capitalized ones ("Life in Lilac", "House of Harlow", "Made by Mary"),
+# and an abbreviation, whose full stop does not end the name ("Dr. Martens", "St. John").
+_CONNECT = frozenset(("in", "of", "by", "the", "and", "de", "la", "du"))
+_ABBREVIATED = re.compile(r"(?:[A-Z]|[B-DF-HJ-NP-TV-Z][b-df-hj-np-tv-z]{1,3})\.$")      # no vowel: not "Now.", "Up."
+# Words after which a sale's name goes on: what stands before them is part of that name, not a store ("Stock Up Sale",
+# "Buy More, Save More Sale", "Spend & Save Event", "Fill a Bag Sale"). So is a word before a weekday ("Pink Friday").
+_GOES_ON = frozenset(("up", "more", "off", "out", "to", "of", "in", "on", "at", "for", "with", "a", "an", "the", "your",
+                      "our", "and", "&", "+", "plus"))
 
 
 def _goods_or_event(word: str) -> bool:
@@ -224,12 +235,16 @@ def _named_sale(words: list[str]) -> tuple[str, bool, bool]:
     """The store these words start with, whether it was written as a possessive ("PUMA's ... sale"), and whether
     the sale is named for an event of its own ("Wilson Fall Sale", not "Soma Sale")."""
     for k in range(1, min(4, len(words) - 1) + 1):
-        last = words[k - 1]
-        if not _NAME_TOKEN.match(last) or (k > 1 and last != "&" and _goods_or_event(last)) or \
-                ind.APPAREL_CUE.fullmatch(last):
+        last, nxt = words[k - 1], words[k].strip(":,.!|")
+        if k > 1 and (last == "&" or last in _CONNECT) and _NAME_TOKEN.match(nxt):
+            continue                              # "Barnes & Noble", "Life in Lilac": the name goes on
+        if not _NAME_TOKEN.match(last) or (k > 1 and _goods_or_event(last)) or ind.APPAREL_CUE.fullmatch(last):
             return "", False, False
         rest = [w.strip(":,.!|") for w in words[k:k + 6]]
-        possessive = bool(re.search(r"'s?$", last)) and last != "&"
+        possessive = bool(re.search(r"'s?$", last))
+        if not possessive and (nxt.lower() in _WEEKDAYS or
+                               (nxt.lower() in _GOES_ON and not _LEAD_OFFER.match(" ".join(words[k:])))):
+            continue                              # a sale's own name goes on: "Stock Up Sale", "Pink Friday Sale"
         name = re.sub(r"'s?$", "", " ".join(words[:k]))
         for j, w in enumerate(rest):
             if _SALE_NOUN.match(w):
@@ -263,18 +278,22 @@ def _after_offer(title: str) -> list[str]:
 
 def _first_words(words: list[str]) -> list[str]:
     """The capitalized words these start with, as far as a name could run: at most three, up to punctuation or a
-    sale word. A number may lead ("32 Degrees")."""
+    sale word. A number may lead ("32 Degrees"), a small word may stand between two of them and makes room for a
+    fourth ("Life in Lilac"), and an abbreviation's full stop is not the name's end ("Dr. Martens")."""
     run: list[str] = []
-    for i, word in enumerate(words[:4]):
+    for i, word in enumerate(words[:5]):
         token = word.strip(":,.!|")
-        numbered = not run and bool(_NUMBER.match(token)) and i + 1 < len(words) and \
-            bool(_NAME_TOKEN.match(words[i + 1].strip(":,.!|")))
-        if len(run) == 3 or _SALE_NOUN.match(token) or not (numbered or _NAME_TOKEN.match(token)):
+        named_next = i + 1 < len(words) and bool(_NAME_TOKEN.match(words[i + 1].strip(":,.!|")))
+        numbered = not run and bool(_NUMBER.match(token)) and named_next
+        joins = bool(run) and run[-1] not in _CONNECT and word in _CONNECT and named_next
+        if len(run) == 3 + any(w in _CONNECT for w in run) or _SALE_NOUN.match(token) or \
+                not (numbered or joins or _NAME_TOKEN.match(token)):
             break
-        run.append(re.sub(r"'s?$", "", token))
-        if token != word:                         # punctuation ends a name
+        abbreviated = bool(_ABBREVIATED.match(word)) and named_next
+        run.append(word if abbreviated else re.sub(r"'s?$", "", token))
+        if token != word and not abbreviated:     # punctuation ends a name
             break
-    while run and run[-1] == "&":
+    while run and (run[-1] == "&" or run[-1] in _CONNECT):
         run.pop()
     return run
 
@@ -286,9 +305,10 @@ def _names_in(words: list[str], goods_too: bool) -> list[str]:
     run = _first_words(words)
     if not goods_too:
         first = 2 if run and _NUMBER.match(run[0]) else 0       # the word after a leading number is the name's
-        stop = next((i for i, w in enumerate(run) if i >= first and w != "&" and _goods_or_event(w)), len(run))
+        stop = next((i for i, w in enumerate(run)
+                     if i >= first and w != "&" and w not in _CONNECT and _goods_or_event(w)), len(run))
         run = run[:stop]
-    names = [" ".join(run[:k]) for k in range(len(run), 0, -1) if run[k - 1] != "&"]
+    names = [" ".join(run[:k]) for k in range(len(run), 0, -1) if run[k - 1] != "&" and run[k - 1] not in _CONNECT]
     return [n for n in names if not _NUMBER.match(n) and not is_store_event(n) and not _DEAL_SITES.match(n) and
             (goods_too or _a_name(n) or _numbered(n))]
 
@@ -320,8 +340,9 @@ def _own_site(name: str, urls: Iterable[str]) -> str:
 _TITLE_SITE = re.compile(r"(?<![\w@.-])((?:[A-Za-z0-9][A-Za-z0-9-]*\.)*([A-Za-z0-9][A-Za-z0-9-]{2,})\." + _TLD + r")\b(?![\w@/-])")
 
 
-def _sent_names(text: str) -> list[tuple[str, str]]:
-    """Where a post's own words send the reader: (the name as written, without ".com"; the words that say so)."""
+def _sent_names(text: str) -> list[tuple[str, str, str, str]]:
+    """Where a post's own words send the reader: (the name as written, without ".com"; the words that say so; those
+    words up to the name; the text from the name on, for a name the reading cut short at a small word)."""
     out = []
     for rx in (_SENT_TO, _PLACE):
         for m in rx.finditer(text):
@@ -330,7 +351,7 @@ def _sent_names(text: str) -> list[tuple[str, str]]:
             said = re.sub(r"\." + _TLD + r"\b.*$", "", m.group(1).strip(" .,!"), flags=re.I)
             said = re.sub(r"'s?$", "", re.sub(r"^the\s+", "", said, flags=re.I))
             if said:
-                out.append((said, m.group(0).strip()))
+                out.append((said, m.group(0).strip(), text[m.start():m.start(1)], text[m.start(1):m.start(1) + 80]))
     return out
 
 
@@ -338,11 +359,12 @@ def _sent_there(name: str, text: str) -> str:
     """The post's own words sending the reader to this store, or "": "Hop on over to Comfrt.com where ...", and where
     the site's name holds the store's, "Head over to GiveHugz.co" for Hugz, or the words go on after it, "... to
     Comfrt's Black Friday Sale", "... to Minky Couture" for Minky. Not when the words are goods only together: "... to
-    the Stuffed Animals page" is no store called Stuffed."""
+    the Stuffed Animals page" is no store called Stuffed. A name with a small word in it is read to its end ("Head
+    over to Life in Lilac", where the reading of a name stops at "in")."""
     key = norm(re.sub(r"^the\s+", "", name, flags=re.I))
     if len(key) < 3:
         return ""
-    for said, words in _sent_names(text):
+    for said, words, lead, tail in _sent_names(text):
         said_key, parts = norm(said), said.split()
         whole = said_key == key
         k = len(name.split())                     # "Comfrt's Black Friday Sale" begins with Comfrt
@@ -351,7 +373,37 @@ def _sent_there(name: str, text: str) -> str:
             (said_key.startswith(key) or said_key.endswith(key))
         if whole or begins or inside:
             return words
+        cut_short = len(parts) < k and re.match(r"(?:the\s+)?" + re.escape(name) + r"(?![\w-])", tail, re.I)
+        if cut_short:                             # "Life" of "Head over to Life in Lilac"
+            return (lead + cut_short.group(0)).strip()
     return ""
+
+
+def _site_said(name: str, text: str) -> str:
+    """The website of this very name as the post's words write it, or "": "browse OOFOS.com and score ...",
+    "Novilla.com is offering ..." under a title that names OOFOS or Novilla."""
+    key = norm(re.sub(r"^the\s+", "", name, flags=re.I))
+    if len(key) >= 3:
+        for m in _TITLE_SITE.finditer(text):
+            if norm(m.group(2)) == key:
+                return m.group(1)
+    return ""
+
+
+# What says a sale is online when its post says nothing of shipping: a code to enter, or that it is on the whole site
+# ("Ruggable's Pre-Black Friday Sale" in a post about its coupon code, "... with an EXTRA Promo Code!").
+_CODED = re.compile(r"\b(?:promo|coupon|discount)\s?codes?\b|\b(?:use|using|with|enter|apply)\s+(?:our\s+|the\s+|an?\s+)?"
+                    r"(?:exclusive\s+|extra\s+)?(?:promo\s+|coupon\s+)?code\b|\bsite-?wide\b|\bentire site\b", re.I)
+_TEXT_URL = re.compile(r"https?://[^\s<>\"')\]]+", re.I)
+
+
+def _online(p: Post) -> str:
+    """How a post shows that its sale is online, in the words a log can print ("" when it does not)."""
+    words = f"{p.title} {p.text[:600]}"
+    if _SHIPS.search(words):
+        return "says it ships"
+    m = _CODED.search(words)
+    return "" if not m else "says it is sitewide" if re.search(r"site", m.group(0), re.I) else "gives a code"
 
 
 def _sent_store(text: str, title: str = "") -> tuple[str, str]:
@@ -389,25 +441,39 @@ def _as_titled(name: str, title: str) -> str:
 
 def named_store(p: Post) -> tuple[str, str]:
     """A store the registry doesn't list, as the post names it, and how that was decided ("" when none is)."""
-    urls = list(p.links) + [p.merchant_link]
+    urls = list(p.links) + [p.merchant_link] + _TEXT_URL.findall(p.text[:1500])      # a link, or an address written out
     title, text = _straight(p.title), _straight(p.text[:900])
-    ships = bool(_SHIPS.search(f"{p.title} {p.text[:600]}"))
+    online = _online(p)
+    ships = online == "says it ships"
     lead = _DECOR.sub("", title).split()
     after = _after_offer(p.title)
 
-    name, possessive = _name_before_sale(lead)
+    # A sale the title names for its store ("Wilson Fall Sale", "PUMA's Stock Up sale"), in a post that links to the
+    # store's site, ships, writes the site's address, or sends the reader there. A code or "sitewide" shows the sale
+    # is online as shipping does, where the title says whose sale it is: a possessive, or an event of the store's own.
+    name, possessive, event = _named_sale(lead)
     if name:
+        told = f"the title names it ({name}{'’s' if possessive else ''} sale)"
         site = _own_site(name, urls)
-        if site or ships:
-            return name, f"the title names it ({name}{'’s' if possessive else ''} sale)" + \
-                (f" and the post links to {site}" if site else " and the post says it ships")
+        if site:
+            return name, f"{told} and the post links to {site}"
+        if ships:
+            return name, f"{told} and the post says it ships"
+        site = _site_said(name, text)
+        if site:
+            return name, f"{told} and the post names its website ({site})"
+        sent = _sent_there(name, text)
+        if sent:
+            return name, f"{told} and the post says {sent!r}"
+        if online and (possessive or event):
+            return name, f"{told} and the post {online}"
     # A website the title names is the store, spelled as the post spells it where it does ("Filter King"). One named
     # for what it sells keeps its ".com": "Blinds.com" is a store, "Blinds" is not.
     for m in _TITLE_SITE.finditer(title):
         host, label = m.group(1), m.group(2)
         if store_named(host) or _DEAL_SITES.match(label):
             continue
-        spelled = next((said for said, _ in _sent_names(text) if norm(said) == norm(label)), label)
+        spelled = next((x[0] for x in _sent_names(text) if norm(x[0]) == norm(label)), label)
         return (spelled if _a_name(label) else host), f"the title names its website ({host})"
     # A name the post links to a site of, at the start of the title or after its offer; then one its words send the
     # reader to. That a post ships says nothing of where: "Stuffed Animals Sale + Free Shipping" names no store.
@@ -415,19 +481,26 @@ def named_store(p: Post) -> tuple[str, str]:
         site = _own_site(name, urls)
         if site:
             return name, f"the title names it ({name}) and the post links to {site}"
+    # ... or whose website the post writes out ("browse OOFOS.com and score ..."). A site named for what it sells
+    # keeps its ".com", as in a title.
+    for name in _names_in(after or lead, True):
+        site = _site_said(name, text)
+        if site:
+            return (name if _a_name(name) or _numbered(name) else site), \
+                f"the title names it ({name}) and the post names its website ({site})"
     for name in _names_in(after or lead, False):
         sent = _sent_there(name, text)
         if sent:
             return name, f"the title names it ({name}) and the post says {sent!r}"
-    # The title names no one the post confirms: the store the post sends the reader to, when it says it ships.
+    # The title names no one the post confirms: the store the post sends the reader to, when the sale is online.
     name, sent = _sent_store(text, title)
-    if name and ships:
-        return name, f"the post says {sent!r} and that it ships"
+    if name and online:
+        return name, f"the post says {sent!r} and " + ("that it ships" if ships else online)
     # A sale named for the store's own event after the offer ("Up to 75% Off Laura Geller Early Black Friday Sale"),
-    # in a post that ships and sends the reader nowhere else. Goods are seldom given an event of their own.
+    # in a post of an online sale that sends the reader nowhere else. Goods are seldom given an event of their own.
     name, possessive, event = _named_sale(after) if after else ("", False, False)
-    if name and (possessive or event) and ships:
-        return name, f"the title names it after the offer ({name}{'’s' if possessive else ''} sale) and the post says it ships"
+    if name and (possessive or event) and online:
+        return name, f"the title names it after the offer ({name}{'’s' if possessive else ''} sale) and the post {online}"
     for m in _PLACE.finditer(title):
         name = m.group(1).strip(" .,!")
         site = _own_site(name, urls) if _a_name(name) or _numbered(name) else ""
@@ -442,13 +515,14 @@ def store_evidence(p: Post) -> str:
     words = _after_offer(p.title) or _DECOR.sub("", _straight(p.title)).split()
     names = [n for n in (_name_before_sale(words)[0], *_names_in(words, False)) if n]
     own = urlsplit(p.url).hostname or ""
-    hosts = sorted(h for h in _hosts(list(p.links) + [p.merchant_link]) if h != own)
+    hosts = sorted(h for h in _hosts(list(p.links) + [p.merchant_link] + _TEXT_URL.findall(p.text[:1500])) if h != own)
     text = _straight(clean(p.text))
     sent = next((m.group(1) for m in _SENT_TO.finditer(text[:900])), "")
+    online = _online(p)
     return (f"title name {names[0]!r}" if names else "no name in the title") + \
         (f", links to {', '.join(hosts[:4])}" if hosts else ", no links") + \
         (f", sends readers to {sent!r}" if sent else "") + \
-        (", says it ships" if _SHIPS.search(f"{p.title} {p.text[:600]}") else "") + \
+        (f", {online}" if online else "") + \
         (f", begins {text[:110]!r}" if text else "")
 
 
@@ -1013,15 +1087,40 @@ def event_phrase(title: str) -> str:
     return ""
 
 
+def _the_sale_part(t: str, names: Iterable[str]) -> str:
+    """A title without the sentences that say nothing of the sale, the writer's comment before or after it: "Up to 55%
+    Off Novilla Mattresses? Now That's Dreamy!", "Hurry! Up to 60% Off Boots & Shoes". A sentence stays when it
+    states an offer or a price, or names a sale, a day, the store or any goods."""
+    parts = re.split(r"(?<=[?!])\s+(?=\S)", t)
+    if len(parts) < 2:
+        return t
+
+    def tells(x: str) -> bool:
+        return bool(_OFFER_WORDS.search(x) or re.search(r"\$\s?\d|\d\s?%", x) or names_a_sale(x) or
+                    ind.text_industries(x) or ind.from_department(x).industries or
+                    any(re.search(r"(?<![\w&'.-])" + re.escape(_straight(n)) + r"(?![\w&-])", x, re.I) for n in names if n))
+    kept = [x for x in parts if tells(x)]
+    return " ".join(kept) if kept else t
+
+
+# The verb between a sale's name and its offer, in a headline that is a sentence: "PUMA's Stock Up sale slashes extra
+# 40% off: Shoes, bags, ...", "... event takes up to 60% off". The sale is named before it. Not a sale on something
+# ("Sale on Toys: Up to 50% Off").
+_PREDICATE = re.compile(r"\b(sales?|events?|deals|clearance)\s+"
+                        r"(?!(?:on|of|for|at|with|in|from|and|sales?|events?|deals|clearance)\b)(?:[a-z]+\s+){1,2}"
+                        r"(?=" + _OFFER_WORDS.pattern + r").*$", re.I)
+
+
 def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
     """The sale in a few words, without the store, the offer or shipping: "Deal Days Shoe Sale"."""
     head, _ = split_title(title)
     if head and not _DECOR.sub("", head + ":").strip():      # "Today ONLY: Up to 80% Off ..." names nothing before the offer
         head = ""
-    t = head or _straight(title)
+    names = sorted(set((store.names if store else ()) + ((store_name,) if store_name else ())), key=len, reverse=True)
+    t = _the_sale_part(head or _straight(title), names)
     while _ASIDE.search(t):
         t = _ASIDE.sub("", t)
-    t = _named_part(_LAST_DAY.sub("", t))
+    t = _PREDICATE.sub(r"\1", _named_part(_LAST_DAY.sub("", t)))
     while _ASIDE.search(t):
         t = _ASIDE.sub("", t)
     t = _FOR_MEMBERS.sub("", _DECOR.sub("", t))
@@ -1031,7 +1130,6 @@ def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
                r"as low as\b|\d{1,3}\s?%|\$\s?\d).*$", "", t, flags=re.I)
     t = re.sub(r"\s+" + _PRICE_NOTE.pattern + r".*$", "", t, flags=re.I)                  # "... Sale Clothing from $10.48"
     t = _OFFER_WORDS.sub(" ", t)
-    names = sorted(set((store.names if store else ()) + ((store_name,) if store_name else ())), key=len, reverse=True)
     for n in names:
         n = re.escape(_straight(n))
         t = re.sub(r"\s+(?:at|on|from|via|@)\s+(?:the\s+)?" + n + r"(?:\.com)?(?:'s)?\b", " ", t, flags=re.I)
@@ -1041,6 +1139,14 @@ def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
     t = re.sub(r"\s{2,}", " ", t).strip(" ,.;!*?()")
     if _DEAL_SITE_SAID.search(t):               # a headline about the post, not a sale's name
         t = ""
+    # A headline that goes on after the sale it names: "Black Friday Sale Gets Even Better with an EXTRA Promo Code"
+    # is the Black Friday Sale. What goes on stays when it says what is on sale or which wave of the sale this is
+    # ("Black Friday Deals on Toys", "Black Friday Sale Preview").
+    event = event_phrase(_ASIDE.sub("", _straight(title)))
+    if event and len(t) > len(event) and t.lower().startswith(event.lower() + " "):
+        more = t[len(event):]
+        if not (ind.text_industries(more) or ind.from_department(more).industries or days.BEFORE.search(more)):
+            t = t[:len(event)]
     return t if len(t) >= 3 else ("Sitewide sale" if _SITEWIDE.search(title) else "Sale")
 
 
@@ -1051,7 +1157,8 @@ def sale_name(title: str, store: Optional[OnlineStore], store_name: str) -> str:
 _EVENT_WORDS = re.compile(
     r"\b(?:sales?|deals?|days?|weeks?|weekend|events?|promo(?:tion)?s?|codes?|coupons?|clearance|flash|outlet|specials?|"
     r"savings|offers?|doorbusters?|friends|family|fall|spring|summer|winter|autumn|holidays?|halloween|thanksgiving|"
-    r"christmas|black|friday|cyber|monday|labor|memorial|presidents|back|to|school|anniversary|big|top|stars?|daily|"
+    r"christmas|black|friday|cyber|monday|tuesday|wednesday|thursday|saturday|sunday|labor|memorial|presidents|back|to|"
+    r"school|anniversary|big|top|stars?|daily|"
     r"today|only|members?|appreciation|annual|semi-annual|mega|super|hot|last|chance|hours?|online|exclusive|circle|"
     r"biggest|bigger|mania|"
     r"prime|early|access|countdown|handpicked|popular|picks|rated|price|in|bag|drop|mystery|digital|new|season|end|"
@@ -1396,6 +1503,25 @@ class StoreSales:
         if why:
             excluded[f"not a store sale: {why}"] += 1
             return None
+        # When, before where: a post that has ended or is too old is left out whatever store it is at, so the posts
+        # left out for want of a store (a build's log prints them) are all posts that would otherwise be shown. Run
+        # 169 (Nov 23, 2026) printed eight unnamed posts and five were from October and August.
+        starts, ends, ends_how = sale_dates(p, now)
+        posted = (p.posted_at or now).astimezone(CENTRAL).date()
+        # The day the sale is named for. With no end stated it lasts through that day, unless it is named as the wave
+        # before it ("Early Black Friday Sale"), which ends some day before.
+        day = days.day_of(main, posted)
+        through = _end_of(day[1]) if day and not ends and not days.BEFORE.search(main) else None
+        if ends and ends < now:
+            excluded["sale: ended"] += 1
+            return None
+        if p.posted_at and now - p.posted_at > timedelta(days=POSTED_DAYS):
+            excluded[f"sale: posted over {POSTED_DAYS} days ago"] += 1
+            return None
+        if not ends and (not p.posted_at or now - p.posted_at > timedelta(days=UNDATED_DAYS)) and \
+                not (through and now <= through):
+            excluded[f"sale: no end date and posted over {UNDATED_DAYS} days ago"] += 1
+            return None
         store, how = find_store(p)
         name, called = store.name if store else "", ""
         if not store and p.source == "dealnews" and p.seller and not _DEAL_SITES.match(p.seller.strip()):
@@ -1429,22 +1555,6 @@ class StoreSales:
             aside = aside_of(p.title)                 # the one price an event's title gives beside its name:
             if not note and len(re.findall(r"\$\s?\d", aside)) == 1:    # "... = Popular Styles from $29 Shipped"
                 note = price_note(aside)
-        starts, ends, ends_how = sale_dates(p, now)
-        posted = (p.posted_at or now).astimezone(CENTRAL).date()
-        # The day the sale is named for. With no end stated it lasts through that day, unless it is named as the wave
-        # before it ("Early Black Friday Sale"), which ends some day before.
-        day = days.day_of(main, posted)
-        through = _end_of(day[1]) if day and not ends and not days.BEFORE.search(main) else None
-        if ends and ends < now:
-            excluded["sale: ended"] += 1
-            return None
-        if p.posted_at and now - p.posted_at > timedelta(days=POSTED_DAYS):
-            excluded[f"sale: posted over {POSTED_DAYS} days ago"] += 1
-            return None
-        if not ends and (not p.posted_at or now - p.posted_at > timedelta(days=UNDATED_DAYS)) and \
-                not (through and now <= through):
-            excluded[f"sale: no end date and posted over {UNDATED_DAYS} days ago"] += 1
-            return None
         sitewide = bool(_SITEWIDE.search(title)) or (bool(_EVERYTHING.search(title)) and is_store_event(sname))
         inds, rule = sale_industries(p, store, sname, sitewide, name)
         if not inds:

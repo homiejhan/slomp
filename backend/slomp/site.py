@@ -41,6 +41,7 @@ from .reference import cities, merchant as merchant_entry, norm
 from .regulars import Regular, host_of, status_text
 from .sales import stores_payload
 from .service import RADII, SlompService
+from .sources.feeds import SOURCE_NAMES
 from .sources.flipp import Flyer, junk_reason
 from .sources.roundups import FRESH_DAYS
 from .sources.shops import NOT_YET, PLATFORMS, SITES_PER_BUILD, ShopSite, same_name
@@ -664,6 +665,67 @@ def left_out_lines(what: str, left_out: dict[str, dict[str, str]]) -> list[str]:
     return lines
 
 
+def feed_lines(feeds) -> list[str]:
+    """For a build's log: how many posts each deal site's feeds gave, how many pages were read past a first page, and
+    the feeds that could not be read. Two builds' counts of sales, online deals and promotions can only be compared
+    when they read the same posts (run 169, Nov 23, 2026 showed 13 fewer promotions and nothing said why)."""
+    read = getattr(feeds, "read_log", None) or {}
+    if not read:
+        return []
+    by_site: dict[str, list] = defaultdict(lambda: [set(), 0, 0])        # the posts' ids, feeds, pages past the first
+    for r in read.values():
+        site = by_site[r["source"]]
+        site[0] |= r["ids"]
+        site[1] += 1
+        site[2] += max(0, r["pages"] - 1)
+    order = sorted(by_site.items(), key=lambda kv: (-len(kv[1][0]), kv[0]))
+    lines = [f"deal feeds: {sum(len(v[0]) for _, v in order)} posts from {len(read)} feeds: " +
+             ", ".join(f"{SOURCE_NAMES.get(k, k)} {len(v[0])} from {v[1]}" for k, v in order) +
+             f"; pages read past a first page: {sum(v[2] for _, v in order)}"]
+    for label, key in (("not read", "error"), ("a later page not read", "cut")):
+        failed = sorted(f"{name} ({r[key]})" for name, r in read.items() if r[key])
+        if failed:
+            lines.append(f"  {label}: " + "; ".join(failed[:FEEDS_NAMED]) +
+                         (f"; and {len(failed) - FEEDS_NAMED} more" if len(failed) > FEEDS_NAMED else ""))
+    return lines
+
+
+FEEDS_NAMED = 12
+NAMED_SAMPLES = 40
+
+
+def _how_kind(how: str) -> str:
+    """How a sale's store was decided, without the words of the one post: "the title names it and the post says …"."""
+    kind = re.sub(r"\s*\([^()]*\)", "", how)
+    kind = re.sub(r"\"[^\"]*\"|'[^']*'", "…", kind)
+    return re.sub(r"links to \S+$", "links to its site", kind) or "not said"
+
+
+def named_store_lines(sales: Iterable) -> list[str]:
+    """For a build's log: how the sales' stores were decided, and every sale at a store Slomp keeps no entry for that
+    the post's own words named. Those readings can go wrong ("Stuffed" of "the Stuffed Animals page"), and the log is
+    where a check of the build sees each one."""
+    sales = list(sales)
+    if not sales:
+        return []
+
+    def how(s) -> str:
+        return str((s.raw or {}).get("store_how", ""))
+    listed = Counter(_how_kind(how(s)) for s in sales if s.store)
+    unlisted = [s for s in sales if not s.store]
+    lines = ["store sales: stores on Slomp's list were decided by: " + ", ".join(f"{k} {n}" for k, n in listed.most_common())]
+    if unlisted:
+        kinds = Counter(_how_kind(how(s)) for s in unlisted)
+        lines.append(f"store sales: {len(unlisted)} sales at {len({s.store_name for s in unlisted})} stores Slomp keeps "
+                     "no entry for, decided by: " + ", ".join(f"{k} {n}" for k, n in kinds.most_common()))
+        worded = sorted((s for s in unlisted if not how(s).startswith("dealnews")), key=lambda s: (s.store_name.lower(), s.id))
+        for s in worded[:NAMED_SAMPLES]:
+            lines.append(f"  {s.store_name}: {s.title[:80]!r} ({s.source}; {how(s)}; {', '.join(s.industries)})")
+        if len(worded) > NAMED_SAMPLES:
+            lines.append(f"  and {len(worded) - NAMED_SAMPLES} more")
+    return lines
+
+
 # --- online stores' sales ----------------------------------------------------------------------------------------
 async def sales_file(svc: SlompService, log=print) -> dict:
     """Every sale not yet ended when read; engine.js applies the industries and the moment of the search, as
@@ -672,6 +734,8 @@ async def sales_file(svc: SlompService, log=print) -> dict:
     res = await svc.sales_result()
     log(f"store sales: {len(res.sales)} sales at {len({s.store or s.store_name for s in res.sales})} online stores "
         f"({clock.time() - t0:.0f}s)")
+    for line in named_store_lines(res.sales):
+        log(line)
     for line in left_out_lines("store sales", getattr(res, "left_out", {})):
         log(line)
     return {"built": res.generated_at.isoformat(timespec="seconds"), "generated_at": res.generated_at.isoformat(),
@@ -764,6 +828,8 @@ async def build(out: Path, now: Optional[datetime] = None, anchor_mi: float = AN
         top = await top_file(svc, now, online)
         log(f"regular deals: {len(regs['regulars'])}; promotions: {len(promos['items'])} offers; "
             f"home page: {len(top['candidates'])} candidates for its biggest deals")
+        for line in feed_lines(getattr(svc, "feeds", None)):
+            log(line)
         log(learned_line(svc, ads, onl, sal))
         files: dict[str, dict | str] = {}
         files.update({f"data/{k}": v for k, v in ad_files(ads).items()})

@@ -446,6 +446,10 @@ FRESH_DAYS = 30            # a page with nothing posted in this long ends the re
 class DealFeeds:
     def __init__(self, http: PoliteClient):
         self.http = http
+        # What each feed gave, for a build's log: feed name -> its site, the posts' ids, how many pages were read, why
+        # the first page failed ("error") and why a later one did ("cut": what was read stands, but two builds that
+        # differ by a page have not read the same posts, and nothing else would say so).
+        self.read_log: dict[str, dict] = {}
 
     async def read(self, p: FeedPlan) -> tuple[list[Post], str]:
         """(posts, error). Errors are reported per feed so one dead feed can't sink the result.
@@ -457,9 +461,11 @@ class DealFeeds:
         enough to show, up to MORE_PAGES more. A later page that fails leaves what was read standing."""
         posts, err = await self._page(p, p.url)
         full = PAGE_FULL.get(p.source)
+        seen = {x.id for x in posts}
+        note = self.read_log[p.name] = {"source": p.source, "ids": seen, "pages": 0 if err else 1, "error": err, "cut": ""}
         if err or not full or (p.source == "dealnews" and "rss=1" not in p.url):
             return posts, err
-        seen, got, start = {x.id for x in posts}, posts, len(posts)
+        got, start = posts, len(posts)
         for page in range(2, 2 + MORE_PAGES):
             now = datetime.now(timezone.utc)
             if len(got) < full or not any(x.posted_at and now - x.posted_at <= timedelta(days=FRESH_DAYS) for x in got):
@@ -468,10 +474,12 @@ class DealFeeds:
             got, err = await self._page(p, p.url + more)
             new = [x for x in got if x.id not in seen]
             if err or not new:
+                note["cut"] = err
                 break
             posts += new
             seen |= {x.id for x in new}
             start += len(got)
+            note["pages"] += 1
         return posts, ""
 
     async def _page(self, p: FeedPlan, url: str) -> tuple[list[Post], str]:

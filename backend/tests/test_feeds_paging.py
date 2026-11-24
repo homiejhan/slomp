@@ -61,3 +61,21 @@ def test_hip2save_pages_by_number_and_a_site_with_no_pages_is_read_once():
     assert read({s: rss(range(25))}, url=s, source="slickdeals")[2] == [s]
     d = "https://www.dealnews.com/x/"                                             # not a dealnews feed address
     assert read({d: rss(range(30))}, url=d)[2] == [d]
+
+
+def test_what_each_feed_gave_is_kept_for_the_build_log():
+    from slomp.site import feed_lines
+    u = "https://www.dealnews.com/s1/Store/?rss=1"
+    feeds = DealFeeds(Http({u: rss(range(20)), u + "&start=20": rss(range(20, 40))}))       # the third page fails
+    asyncio.run(feeds.read(FeedPlan("dealnews", "dealnews store A", u, [])))
+    asyncio.run(feeds.read(FeedPlan("hip2save", "hip2save latest", "https://hip2save.com/feed/", [])))   # not there
+    assert feeds.read_log["dealnews store A"]["pages"] == 2 and feeds.read_log["dealnews store A"]["cut"] == "HTTP 404"
+    assert feed_lines(feeds) == [
+        "deal feeds: 40 posts from 2 feeds: dealnews 40 from 1, Hip2Save 0 from 1; pages read past a first page: 1",
+        "  not read: hip2save latest (HTTP 404)",
+        "  a later page not read: dealnews store A (HTTP 404)"]
+    # a reading that ends as planned (the same posts again, a short page) is not a failure
+    feeds = DealFeeds(Http({u: rss(range(20)), u + "&start=20": rss(range(20))}))
+    asyncio.run(feeds.read(FeedPlan("dealnews", "dealnews store A", u, [])))
+    assert feed_lines(feeds) == ["deal feeds: 20 posts from 1 feeds: dealnews 20 from 1; pages read past a first page: 0"]
+    assert feed_lines(None) == []
