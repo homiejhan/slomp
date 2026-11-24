@@ -483,10 +483,12 @@ async function search({city: cityId, industries, radius_mi = 25, limit = 25, now
     built: M.built,
   };
   const onlineInds = inds.filter(i => !localOnly.has(i));
-  const unread = {industries: onlineInds, generated_at: null, sales: [], counts: {sales: 0, stores: 0}, stores: {},
+  // Sales cover the online industries and one local one: Movies & Entertainment's subscriptions and tickets (api.search)
+  const hasSales = new Set(M.industries.filter(i => i.sales ?? i.online).map(i => i.id)), saleInds = inds.filter(i => hasSales.has(i));
+  const unread = {industries: saleInds, generated_at: null, sales: [], counts: {sales: 0, stores: 0}, stores: {},
                   excluded: {}, sources: [{name: "Online stores' sales", ok: false, error: "couldn't be loaded"}]};
   return {local, online: onlineInds.length ? await online(onlineInds, Math.max(1, Math.min(100, Number(limit) || 25))) : null,
-          sales: onlineInds.length ? await storeSales(onlineInds, start).catch(() => unread) : null};
+          sales: saleInds.length ? await storeSales(saleInds, start).catch(() => unread) : null};
 }
 
 const SlompStatic = {

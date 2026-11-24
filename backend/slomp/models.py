@@ -281,6 +281,7 @@ class StoreSale:
     event: str = ""                     # the day the sale is named for: "Black Friday" (slomp/days.py)
     event_ends_at: Optional[datetime] = None    # the end of that day, for a sale that states no end: shown through it
     offer_how: str = ""                 # where the offer comes from when the title doesn't state it: the post's sentence
+    what: str = ""                      # "" a sale at a store that ships; "subscription", "tickets" (slomp/entertainment.py)
     posted_at: Optional[datetime] = None
     source: str = ""                    # "dealnews", "Hip2Save", ...
     source_url: str = ""

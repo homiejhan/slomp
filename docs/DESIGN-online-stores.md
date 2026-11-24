@@ -29,6 +29,7 @@ treated as a refusal, and `SLOMP_ASSISTANT=1`, so sites that turn AI assistants 
 | S4 | Nothing is shown past its end date, and nothing undated is shown more than 7 days after it was posted, unless it is named for a day still ahead ("Black Friday Sale"): then through that day. |
 | S5 | Sales sort like every other tab: best deal first, ending soonest, A–Z, Z–A. "Up to" percentages count as ceilings, not promises. |
 | S6 | The web page, the API, the CLI and the published site show the same sales. |
+| S8 | Movies & Entertainment, a local industry, has sales too: subscriptions, and tickets, passes and memberships, bought online and marked for what they are (4.6). |
 | S7 | 200 live tests check accuracy and quality, as for the rest of Slomp. |
 
 | Property | Target | Why |
@@ -356,6 +357,45 @@ five were from October and August.
 - **Order**: best deal first ranks by what a shopper can count on: a firm percent counts in full, an "up to" ceiling
   at half its distance above the firm part, BOGO as its per-item saving, "$10 off $30" as half of a third. Members-only
   and select-items sales rank a little lower.
+
+### 4.6 Entertainment bought online: subscriptions, tickets and passes
+
+Movies & Entertainment was discount days at places near you and nothing else, and sales were at stores that ship, so
+a subscription or a ticket was left out twice over ("a subscription", "digital, not shipped", "a local service"). In
+Black Friday week of 2026 a search by hand found 30 entertainment offers, 15 of them subscriptions and 9 tickets,
+passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass"). They are listed now
+(`slomp/entertainment.py`), on the Sales tab under Movies & Entertainment, each marked **Subscription** or **Tickets
+& passes**.
+
+- **Which posts.** The source says what a post is, not a list of services. dealnews files them under Streaming
+  Services (and the two categories beneath it), Movie Tickets and Things to Do, and Slomp reads those three feeds; a
+  post of any feed under one of those categories is one. A post from a site that gives no category (Slickdeals,
+  Hip2Save) is one only when its title says so in plain words: a streaming service priced by the month or called a
+  subscription ("... Streaming Service Plan $1/Month"), or tickets, admission or a season pass ("Movie Ticket
+  Offer"). "Paramount+ Only $2.99/Month" from such a site says neither and is not read; that is the cost of naming
+  no service.
+- **What stays out.** Gift cards, as everywhere in Slomp. An offer for one group of people (students, teachers, the
+  military). Under the ticket categories, goods that ship (a roll of paper tickets, a board game). Under Streaming
+  Services, one price or "free" with no term in the title: a film to buy, a channel that is always free. A post that
+  states no price, no discount and nothing free ("Sign Up Now"), and one whose seller is not named.
+- **The offer** is read from the title: a price by the month or year with its term ("$5.49 a month for 12 months",
+  badge "$5.49/mo"; "From $2.99/mo"), one price ("$36", "$45 for 6 months"), a percent or dollars off as for any sale,
+  or "Free". When the post gives the regular price ("down from $10.99", "versus the regular $8.99 monthly price") the
+  offer says so and the saving ranks the card; failing that, a percent the post states ("takes 75% off STARZ
+  subscriptions"). The card's details quote the sentence. A price with nothing to compare it to ranks last, as a
+  store's event with no discount does.
+- **The seller** is the source's own (dealnews' store field): the service, or who sells it (Amazon for a Prime Video
+  channel, Giftory for an AMC ticket package). The name keeps the title's words, without the price.
+- **When**: as for any sale (4.4). A plan priced "through December 31" and posted in August is past the 30 days and
+  not shown: it is the standing price by then, not a deal.
+- **Where it shows.** An industry now says two things: `online` (product deals and sales at stores that ship) and
+  whether it has sales at all (`sales`: the online industries and Movies & Entertainment). The API, the engine and
+  the page ask the second for the Sales and Stores tabs, so choosing only Movies & Entertainment gives Near you,
+  Regulars, Sales and Stores, and no Online tab. These offers are not among the home page's biggest deals.
+
+What this does not reach: a venue's own sale that no deal site posts. Six Flags' 2027 pass, SeaWorld San Antonio's
+Black Friday presale and the zoos' membership sales were found by hand on the venues' own pages only; reading those
+would be a registry of venue pages, as regular deals have.
 
 ## 5. Trade-offs
 

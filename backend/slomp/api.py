@@ -64,7 +64,7 @@ async def meta() -> dict:
         "cities": [{"id": c.id, "name": c.name, "county": c.county, "population": c.population, "zip": c.zip,
                     "kind": c.kind} for c in cities()],
         "industries": [{"id": i.id, "name": i.name, "description": i.description,
-                        "online": i.online} for i in ind.INDUSTRIES],
+                        "online": i.online, "sales": i.sales} for i in ind.INDUSTRIES],
         "radii_mi": list(RADII),
     }
 
@@ -92,13 +92,16 @@ async def sales(request: Request, industries: str = Query(..., description="comm
 async def search(request: Request, city: str = Query(...), industries: str = Query(...),
                  radius_mi: float = Query(25.0), limit: int = Query(25, ge=1, le=100)) -> dict:
     s = svc(request)
-    online_inds = [i for i in ind.parse_ids(industries)[0] if ind.BY_ID[i].online]
-    local_task = s.local(city, industries, radius_mi)
-    if online_inds:
-        loc, onl, sal = await asyncio.gather(local_task, s.online(",".join(online_inds), limit),
-                                             s.sales(",".join(online_inds)))
-        return {"local": loc.to_dict(), "online": onl.to_dict(), "sales": sal}
-    return {"local": (await local_task).to_dict(), "online": None, "sales": None}
+    chosen = ind.parse_ids(industries)[0]
+    online_inds = [i for i in chosen if ind.BY_ID[i].online]
+    sale_inds = [i for i in chosen if ind.BY_ID[i].sales]       # Movies & Entertainment has sales and no product deals
+
+    async def none():
+        return None
+    loc, onl, sal = await asyncio.gather(s.local(city, industries, radius_mi),
+                                         s.online(",".join(online_inds), limit) if online_inds else none(),
+                                         s.sales(",".join(sale_inds)) if sale_inds else none())
+    return {"local": loc.to_dict(), "online": onl.to_dict() if onl else None, "sales": sal}
 
 
 @app.get("/api/v1/top")
