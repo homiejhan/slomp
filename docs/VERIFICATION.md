@@ -1659,3 +1659,55 @@ LEGOLAND Dallas/Fort Worth.
 known, and one that answers with a bot check will be reported as not read. The Fort Worth Zoo in a run no assistant
 starts. Any week but this one: the rules were shaped on Black Friday week's pages; a page left up, an end that has
 passed and an old year are covered by unit tests only. 326 unit tests pass, 12 of them new (`tests/test_venues.py`).
+
+### The first published build with Entertainment (run 173, Nov 24): two rough edges
+
+The scheduled build of 16:01 UTC was the first on the Entertainment listing, and the first of it no assistant
+started, so Hip2Save was read: 442 sales at 132 stores, 82 of them from Hip2Save's 3,600 posts, one feed failing
+(Ben's Bargains, HTTP 403). Movies & Entertainment had 29 offers from 13 sellers, 23 subscriptions and 6 tickets.
+Read through, the list had two rough edges, and both are fixed.
+
+**One offer as three cards.** Amazon Music Unlimited's three free months stood three times, from three dealnews
+posts: "Amazon Music Unlimited 3-Month Trial: Free" (Nov 12), "... 3-Month Subscription: free" (Nov 13) and "...
+Black Friday Offer: 3 months for free" (Nov 24), all Amazon's, all ending Jan 11. A subscription's posts were one
+card only when their names were the same words, a rule made so that two channels at one price stay two; "Trial",
+"Subscription" and "Black Friday Offer" are three wordings of one thing. Names are now compared by what they are
+for and for how long: the words for the kind of offer and the day it is named for are set aside, and the term is
+compared on its own (`sales.offer_words`). That also closes a hole the old rule had: it dropped the figures, so a
+3-month and a 6-month trial at one seller would have been one card.
+
+**A seller shown as a web address.** A Slickdeals post's card read "disneyplus.com" beside dealnews' "Disney+" cards.
+Slickdeals gives a store Slomp's registry doesn't know as its address, and the listing showed what it was given. The
+post writes the name itself, beside the address or at the head of the sentence ("Disney Plus is offering 1-Year
+Disney+ w/ Hulu ..."), and that name is shown when its letters spell the address (`feeds.written_name`). Then a
+seller has one spelling across a build (`sales.name_sellers`): "Disney+", "Disney Plus" and "disneyplus.com" are the
+same letters once "+" is read as "plus", and the best-ranked source's spelling is used for all.
+
+**On that build's own 442 sales**, with both rules: one seller's name changes ("disneyplus.com" to "Disney+") and
+two cards are merged (the two later Amazon Music posts into the first), 440 sales. Nothing else changes: no store's
+sale is merged or renamed, and "Prime Video Black Friday STARZ Subscription Deal" and "... Paramount+ ..." at $2.99 a
+month are still two. On the morning's live build of 343 sales, nothing changes.
+
+**On Slickdeals' posts of the day** (687, read Nov 24 17:20 UTC): 23 give a web address for a seller, 17 different
+addresses. The post writes a name that spells the address for 11 (Shokz, 32 Degrees, PlayStation Store,
+ThatDailyDeal, ShopSimon, Urban Outfitters, Fanatical, Steam, Cat Footwear, SideDeal, DiscountMugs) and none for 6,
+rightly: beside lg.com stands a television's name, beside homeandcooksales.com the word "deal", and four give the
+address only inside a link. These names are used for Entertainment's sellers only. Product deals on the Online tab
+keep the address, because the price comparison uses it to leave the store's own site out.
+
+**Live**, through Slomp's client (Nov 24, 17:25 UTC, started by an assistant, so without Hip2Save): 373 sales at 112
+stores, 38 under Movies & Entertainment from 24 sellers: 20 subscriptions and 18 tickets and passes, 12 of those from
+places' own pages. Amazon Music Unlimited is one card, "3-Month Trial", with the other two posts listed under it. No
+card's seller is a web address. The Disney+ post from Slickdeals was no longer among the day's posts, so its seller
+was not seen renamed live. engine.js and the server pick the same sales in the same order at six moments, with
+Movies & Entertainment alone and with every industry that has sales.
+
+**The checks.** The harness's duplicates check compared a subscription's names by shared words and called STARZ and
+Paramount+ at one price a duplicate; it compares them as the pipeline does now, and on the published list it reports
+the three Amazon Music cards and not the two channels. It also reports two pairs of store sales the pipeline keeps
+apart on purpose, an early Black Friday sale and the day's own at Foot Locker and at Target; that disagreement is
+older than this change and is left as it is.
+
+**What was not tested.** The Disney+ post as its feed gave it: it had left Slickdeals' feeds when this was written,
+and its page reads "Disney Plus is offering ...". Both wordings, with the address in brackets and without, are in
+the unit tests. 329 unit tests pass, three of them new.
