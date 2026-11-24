@@ -1532,3 +1532,41 @@ sales at Woot are named shorter by the same rule ("latest monitor sale", "audio 
 Checked offline on what the records keep: of the 421 posts of rounds 1 to 6, three read differently, all above
 (PUMA's sale kept, two Woot names); of 1,559 titles and item names none is filed differently. 306 unit tests pass
 (299 before).
+
+### Build 172 (Nov 24): Hip2Save now turns AI assistants away
+
+Merged on Nov 24, and build 172 ran at 10:13 UTC, started with the assistant setting like the checks before it. The
+log's new line about the feeds, on its first run:
+
+    deal feeds: 3780 posts from 142 feeds: dealnews 2951 from 89, Slickdeals 729 from 35, DealCatcher 50 from 1,
+    The Inventory 50 from 1, 9to5Toys 0 from 1, Ben's Bargains 0 from 1, Hip2Save 0 from 14; pages read past a
+    first page: 96
+      not read: 9to5toys (the site's robots.txt turns away AI assistants); bensbargains (HTTP 403); hip2save
+      health-wellness (the site's robots.txt turns away AI assistants); ... [all 14 Hip2Save feeds]
+
+Hip2Save's robots.txt now tells AI assistants by name to keep out. The four builds started with the assistant
+setting before this one (runs 161, 164, 166 and 169) had all read it, so the change came between Nov 23, 05:18 UTC
+and Nov 24, 10:13 UTC. Slomp's own reader is still let in: the scheduled build seven hours earlier (run 171) read
+it. Nothing was done to get around it.
+
+| | Run 171 (scheduled) | Run 172 (started by the assistant) |
+|---|---|---|
+| Store sales shown | 410 at 109 stores | 312 at 80 |
+| Online deals | 208 | 137 |
+| Restaurant promotions | 56 | 56 |
+| Sale posts with no store | 35 | 2 |
+
+What follows from it:
+
+- **A build the assistant starts now publishes a thinner site**, without Hip2Save's sales and deals, until the next
+  scheduled build. Builds meant for the page should be started by the schedule or by the owner.
+- **This round was not tested by this build.** Its wordings are all read from Hip2Save's posts, and build 172 had
+  none: no sale at a store named by a post's words (25 sales at 24 unlisted stores, all by dealnews' retailer
+  field). A scheduled build's log will show them.
+- **For the owner to decide**: whether the assistant goes on reading what the logs of scheduled builds print of
+  Hip2Save's posts (titles and their first 110 characters), as it has of 9to5Toys' since that site turned
+  assistants away.
+
+With dates checked before stores and Hip2Save unread, two posts were left without a store, both from Slickdeals and
+neither a store's sale (a phone plan, a sale of digital films). One named store had no industry: "DiscountMugs
+Sale", whose goods are in its one-word name.
