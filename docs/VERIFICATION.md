@@ -1533,6 +1533,47 @@ Checked offline on what the records keep: of the 421 posts of rounds 1 to 6, thr
 (PUMA's sale kept, two Woot names); of 1,559 titles and item names none is filed differently. 306 unit tests pass
 (299 before).
 
+### Entertainment bought online (Nov 24): what the second pass's 30 findings led to
+
+The second pass found 30 entertainment offers and Slomp showed none: 21 were subscriptions, gift cards and digital
+games, left out by design, and 9 were tickets, passes and memberships no source carried. The owner decided that
+subscriptions and tickets belong under Movies & Entertainment, and they are listed now (`slomp/entertainment.py`;
+DESIGN-online-stores.md 4.6): on the Sales tab, marked "Subscription" or "Tickets & passes", read from dealnews'
+Streaming Services, Movie Tickets and Things to Do, and from any post whose title says in plain words that it is
+one. Gift cards stay out.
+
+**On the day's posts** (read Nov 24, 08:20 UTC, with the three feeds: 61, 13 and 6 posts): 35 offers before duplicates
+are merged and pages read again. Left out, each with its reason: 4 for one group of people (students, teachers, the
+military), 4 with no seller named, 2 gift cards, 2 goods that ship under the ticket categories (a roll of paper
+tickets, a board game), 2 that are no subscription (a series to buy, films that are always free), 2 with no price or
+discount; and by the same times as any sale, the plans posted months ago.
+
+**Live**, through Slomp's own client: 330 sales at 87 stores, 26 of them entertainment offers from 10 sellers: 20
+subscriptions (Paramount+ at $2.99 a month for 2 months, regularly $13.99; eleven Prime Video channels and bundles;
+Peacock from $2.99 a month; HBO Max at $5.49 a month for 12 months, regularly $10.99; MasterClass 50% off; YouTube
+TV) and 6 tickets and passes (two AMC ticket packages, one at $36 where the post gives $98; two Fandango ticket
+offers; Groupon's sale; free photos with Santa). Eight offers whose posts dealnews had taken down were dropped by
+the page re-read, as any sale's would be. None is among the home page's biggest deals. A first run kept 14: a
+store's Black Friday sale was taking its subscriptions as duplicates of itself, and two channels at one price were
+merged; both rules now leave them alone.
+
+**On the page**, with only Movies & Entertainment chosen: Near you, Regulars, Sales (26) and Stores (10), no Online
+tab, the chip "Bought online", and a card's details quote the sentence that gives the regular price. With Tech
+beside it the Sales tab has both, each under its own category; with only Restaurants & Dining there is no Sales tab.
+No page error. engine.js and the server pick the same sales in the same order at four moments from Nov 24 to Dec 3,
+with Movies & Entertainment alone (25, 21, 8, 3) and with every industry that has sales (327, 266, 69, 27).
+
+**Against the 30 findings.** Eight are shown now, all subscriptions: Paramount+ (monthly and annual), Prime Video's
+channel sale, Apple TV, STARZ, Crunchyroll and Peacock. Not shown: the nine at venues (Six Flags' 2027 pass,
+SeaWorld San Antonio, Texas Tides, the San Antonio and Fort Worth zoos, Meow Wolf, Moody Gardens, AMC's popcorn
+pass) and Cinemark's $5 tickets, which no deal site posted, so reading two more of dealnews' categories did not
+bring them; the five gift cards and the digital games, by design; and six subscriptions that were not among the
+day's posts in those categories. The tickets Slomp does show are the ones deal sites post.
+
+**What was not tested live.** Hip2Save's robots.txt turns AI assistants away by name as of Nov 24 (it did not on Nov 22), so a run an
+assistant starts no longer reads it (scheduled builds do). The rule for a site that gives no category was therefore
+tested on Slickdeals' posts and in unit tests only. 314 unit tests pass, eight of them new.
+
 ### Build 172 (Nov 24): Hip2Save now turns AI assistants away
 
 Merged on Nov 24, and build 172 ran at 10:13 UTC, started with the assistant setting like the checks before it. The

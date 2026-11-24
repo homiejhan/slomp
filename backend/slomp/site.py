@@ -760,7 +760,7 @@ def meta_file(anchor_list: list[City], built: datetime, parts: dict) -> dict:
                     "kind": c.kind, "lat": c.lat, "lon": c.lon, "tz": c.tz, "anchor": a.id,
                     "anchor_mi": round(d, 1)})
     return {"built": built.isoformat(timespec="seconds"), "cities": out,
-            "industries": [{"id": i.id, "name": i.name, "description": i.description, "online": i.online}
+            "industries": [{"id": i.id, "name": i.name, "description": i.description, "online": i.online, "sales": i.sales}
                            for i in ind.INDUSTRIES],
             "radii_mi": list(RADII), "window_days": 7, "anchor_mi": ANCHOR_MI,
             "anchors": {a.id: {"name": a.name, "zip": a.zip} for a in anchor_list}, "parts": parts}

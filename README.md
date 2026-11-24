@@ -84,6 +84,8 @@ Online stores ship anywhere, so they belong to no city. Two tabs cover them, the
   in the categories you chose. Each shows the store's logo, the offer ("Up to 60% off + extra 25% off"), the promo
   code when there is one (the details view has a **Copy** button), when it ends, and its conditions (Prime or rewards
   members, minimum order, select items, in the app). Every card links to the post it came from.
+  Under Movies & Entertainment the tab lists what is bought online and not shipped: streaming subscriptions
+  ("$5.49 a month for 12 months, regularly $10.99") and tickets, passes and memberships, each marked for what it is.
 - **Stores**: the online stores with something on in your categories, as logo tiles. Open one to see its sales and
   its product deals from the Online tab, with a link to its site.
 
@@ -192,7 +194,8 @@ python scripts/build_logos.py                                                # a
 
 Tech & Electronics, Sports & Outdoors, Fashion & Apparel, Home & Garden, Beauty & Personal Care, Health & Wellness,
 Grocery & Household, Toys Games & Hobbies, Baby & Kids, Pets, Automotive, Office & School, Restaurants & Dining and
-Movies & Entertainment. The last two are local only: promotions and regular deals at places near you.
+Movies & Entertainment. The last two are local: promotions and regular deals at places near you. Movies &
+Entertainment also has sales bought online: streaming subscriptions, and tickets, passes and memberships.
 
 ## Limits
 

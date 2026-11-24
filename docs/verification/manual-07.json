@@ -13211,6 +13211,276 @@
   "decisions_for_the_owner": [
    "Entertainment in Black Friday week is subscriptions (15 of 30 findings), gift cards (5) and passes or tickets at venues (9). Slomp leaves the first two out by design and reads no source for the third.",
    "Regular deals the search met and Slomp does not list: McDonald's free medium fries with a $1 purchase in the app on Fridays; Cinemark's $5 Holiday Movie Clubhouse tickets on Saturdays and Mondays, Nov 28 to Dec 14."
-  ]
+  ],
+  "entertainment_listing_nov24": {
+   "what": "The owner's decision on the second pass's entertainment findings: list subscriptions, tickets and passes under Movies & Entertainment (slomp/entertainment.py; docs/DESIGN-online-stores.md 4.6).",
+   "feeds_added": {
+    "dealnews c1183 streaming services": 61,
+    "dealnews c654 movie tickets": 13,
+    "dealnews c333 things to do": 6
+   },
+   "on_the_days_posts": {
+    "read_at": "2026-11-24T08:20Z",
+    "posts": 3851,
+    "entertainment_offers_before_duplicates_and_page_reads": 35
+   },
+   "live_run": {
+    "sales": 330,
+    "stores": 87,
+    "entertainment_offers": 26,
+    "by_kind": {
+     "subscription": 20,
+     "tickets": 6
+    },
+    "sellers": [
+     "Amazon",
+     "Bass Pro Shops",
+     "Fandango",
+     "Giftory",
+     "Groupon",
+     "HBO max",
+     "MasterClass",
+     "Paramount+",
+     "Peacock TV",
+     "YouTube TV"
+    ],
+    "left_out": {
+     "entertainment: a discount for a group of people": 4,
+     "entertainment: seller not named": 3,
+     "entertainment: not a subscription": 2,
+     "entertainment: no price or discount stated": 2,
+     "entertainment: a gift card": 2,
+     "entertainment: goods that ship, not a ticket": 2
+    },
+    "offers": [
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday Paramount+ Subscription Deals",
+      "$2.99 a month for 2 months, regularly $13.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Paramount+",
+      "Paramount+ Premium Plan Black Friday Deal",
+      "$2.99 a month for 2 months, regularly $14",
+      "2026-12-01"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday AMC+ Subscription Deals",
+      "From $1.99 a month for 2 months, regularly $7.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday MGM+ Subscription Deal",
+      "$1.99 a month for 2 months, 75% off",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday STARZ Subscription Deal",
+      "$2.99 a month for 2 months, 75% off",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday AMC+, MGM+ & STARZ Bundle Deals",
+      "$5.49 a month for 2 months, regularly $21.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday FOX One Subscription Deal",
+      "$4.99 a month for a month, regularly $19.99",
+      "2026-12-01"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday BritBox Subscription Deals",
+      "$2.75 a month for 2 months, regularly $10.99",
+      "2026-12-01"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "CNN All Access Black Friday Subscription via Prime Video",
+      "$1.99 a month for 6 months, regularly $6.99",
+      "2026-12-01"
+     ],
+     [
+      "subscription",
+      "Peacock TV",
+      "Peacock Black Friday Subscription Deals",
+      "From $2.99 a month for 3 months, regularly $8.99",
+      "2026-11-30"
+     ],
+     [
+      "tickets",
+      "Giftory",
+      "AMC Theatres Movie Package for 2 w/ Fountain Drinks and Popcorn",
+      "$36, regularly $98",
+      ""
+     ],
+     [
+      "tickets",
+      "Giftory",
+      "AMC Tickets for 2 + Popcorn",
+      "$26, 63% off",
+      "2026-11-25"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday Crunchyroll Subscription Deals",
+      "From $3.99 a month for 6 months, regularly $9.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday Apple TV Subscription Deal",
+      "$6.99 a month for 6 months, regularly $14.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "HBO Max Basic Black Friday Subscription Deal on Prime Video",
+      "$5.49 a month for 12 months, regularly $11",
+      "2026-12-01"
+     ],
+     [
+      "subscription",
+      "HBO max",
+      "HBO Max Black Friday Basic w/ Ads Plan Deal",
+      "$5.49 a month for 12 months, regularly $10.99",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "MasterClass",
+      "MasterClass Pre-Black Friday Sale",
+      "50% off",
+      ""
+     ],
+     [
+      "tickets",
+      "Groupon",
+      "Groupon Black Friday Sale",
+      "Up to 80% off",
+      "2026-11-29"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Prime Video Black Friday Subscription Deals",
+      "Up to 79% off",
+      "2026-11-30"
+     ],
+     [
+      "subscription",
+      "Paramount+",
+      "Paramount+ Essential & Premium Annual Streaming Plans",
+      "30% off",
+      ""
+     ],
+     [
+      "subscription",
+      "YouTube TV",
+      "YouTube TV Live TV Streaming Plan New User Offer",
+      "$68 a month for 5 months, regularly $82.99",
+      "2026-11-26"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Amazon Music Unlimited 3-Month Trial",
+      "Free",
+      "2027-01-11"
+     ],
+     [
+      "subscription",
+      "Amazon",
+      "Amazon Prime Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $5.50/Month & More",
+      "$5.50 a month",
+      ""
+     ],
+     [
+      "tickets",
+      "Bass Pro Shops",
+      "Bass Pro Shops Santa's Wonderland Santa Photos",
+      "Free",
+      "2026-12-24"
+     ],
+     [
+      "tickets",
+      "Fandango",
+      "Fandango Everest: The Other Side Movie Ticket Offer",
+      "$15 off",
+      "2026-11-30"
+     ],
+     [
+      "tickets",
+      "Fandango",
+      "Fandango Samsung Save to Wallet Offer",
+      "$20 off",
+      "2026-12-31"
+     ]
+    ],
+    "note": "through Slomp's client with the assistant setting on (Hip2Save and 9to5Toys not read: their robots.txt turns AI assistants away); eight offers whose posts dealnews had taken down were dropped by the page re-read"
+   },
+   "page": {
+    "entertainment_only_tabs": [
+     "Near you 0",
+     "Regulars 10",
+     "Sales 26",
+     "Stores 10"
+    ],
+    "with_tech_tabs": [
+     "Near you 103",
+     "Regulars 10",
+     "Online 32",
+     "Sales 112",
+     "Stores 34"
+    ],
+    "with_tech_pills": [
+     "All 112",
+     "Tech 86",
+     "Entertainment 26"
+    ],
+    "dining_only_tabs": [
+     "Near you 15",
+     "Regulars 92"
+    ],
+    "page_errors": [],
+    "engine_equals_server": "the same sales in the same order at four moments from Nov 24 to Dec 3, with Movies & Entertainment alone (25, 21, 8, 3) and with every industry that has sales (327, 266, 69, 27)"
+   },
+   "second_pass_findings_now_shown": {
+    "E216": "Paramount+ Premium Plan Black Friday Deal: $2.99 a month for 2 months",
+    "E217": "Paramount+ Essential & Premium Annual Streaming Plans: 30% off",
+    "E218": "Paramount+ Essential & Premium Annual Streaming Plans: 30% off",
+    "E219": "Prime Video Black Friday Subscription Deals: Up to 79% off",
+    "E220": "Prime Video Black Friday Apple TV Subscription Deal: $6.99 a month for 6 months",
+    "E221": "Prime Video Black Friday STARZ Subscription Deal: $2.99 a month for 2 months",
+    "E222": "Prime Video Black Friday Crunchyroll Subscription Deals: From $3.99 a month for 6 months",
+    "E223": "Peacock Black Friday Subscription Deals: From $2.99 a month for 3 months"
+   },
+   "second_pass_findings_still_not_shown": {
+    "passes, tickets and memberships at venues (E202, E207-E214)": "no deal site Slomp reads posted them: the venues' own pages only",
+    "E200 Cinemark's $5 Holiday Movie Clubhouse tickets": "no deal site posted it",
+    "gift cards (E201, E203-E205) and digital games (E229)": "left out by design",
+    "E206 AAA members' ticket offer": "read from Slickdeals and kept on the day's posts; not in the live result",
+    "E215, E224-E228": "not among the day's posts under dealnews' three categories (Disney+ and Hulu's was only expected; Audible, Kindle+, NFL Sunday Ticket and PlayStation Plus are filed elsewhere or were not posted)"
+   }
+  }
  }
 }

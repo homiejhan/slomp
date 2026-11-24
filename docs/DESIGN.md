@@ -551,7 +551,8 @@ in weekly ads and rarely in deal feeds, so v1 missed them. They are now a third 
 their own design document: [DESIGN-regular-deals.md](DESIGN-regular-deals.md). In short: two day-of-week roundup
 pages are parsed automatically, a curated registry points at company pages and the words that must be on them, each
 card names its evidence, and deals announced only on social media can be added by hand. The fourteenth industry,
-Movies & Entertainment, is local-only like Restaurants & Dining. Two 200-test runs in the Austin, Houston and Dallas
+Movies & Entertainment, is local like Restaurants & Dining, and since Nov 24, 2026 also lists subscriptions and tickets
+bought online (DESIGN-online-stores.md 4.6). Two 200-test runs in the Austin, Houston and Dallas
 areas and an audit of every regular deal are in [VERIFICATION.md](VERIFICATION.md#regular-deals).
 
 

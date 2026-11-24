@@ -25,6 +25,12 @@ class Industry:
     name: str
     description: str
     online: bool = True         # False: deals at places near you only (restaurants, entertainment)
+    bought_online: bool = False  # a local industry with offers bought online all the same: subscriptions and tickets
+
+    @property
+    def sales(self) -> bool:
+        """Whether the Sales tab has something for it: sales at stores that ship, or offers bought online."""
+        return self.online or self.bought_online
 
 
 INDUSTRIES: tuple[Industry, ...] = (
@@ -41,12 +47,13 @@ INDUSTRIES: tuple[Industry, ...] = (
     Industry("auto", "Automotive", "Car parts, tools, accessories, tires, car care"),
     Industry("office", "Office & School", "Office supplies, school supplies, printers, office furniture"),
     Industry("dining", "Restaurants & Dining", "Restaurant promotions and regular deals at places near you", online=False),
-    Industry("entertainment", "Movies & Entertainment", "Discount days at cinemas, arcades, bowling, museums and zoos near you",
-             online=False),
+    Industry("entertainment", "Movies & Entertainment", "Discount days at cinemas, arcades, bowling, museums and zoos near you; "
+             "streaming subscriptions, tickets and passes online", online=False, bought_online=True),
 )
 IDS = tuple(i.id for i in INDUSTRIES)
 BY_ID = {i.id: i for i in INDUSTRIES}
 LOCAL_ONLY = frozenset(i.id for i in INDUSTRIES if not i.online)
+SALE_IDS = tuple(i.id for i in INDUSTRIES if i.sales)       # the industries the Sales tab covers
 
 
 def parse_ids(raw: str | Iterable[str]) -> tuple[list[str], list[str]]:
