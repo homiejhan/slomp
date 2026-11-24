@@ -13743,6 +13743,98 @@
     "pass": 326,
     "new": 12
    }
+  },
+  "first_published_build_run_173": {
+   "what": "The first scheduled build on the Entertainment listing (run 173, Nov 24, 16:01 UTC, commit d161c3e), read through, and the two rough edges it showed.",
+   "published": {
+    "sales": 442,
+    "stores": 132,
+    "entertainment_offers": 29,
+    "subscriptions": 23,
+    "tickets": 6,
+    "sellers": 13,
+    "hip2save": {
+     "feeds_read": 14,
+     "posts": 3600,
+     "sales": 82
+    },
+    "feeds_failing": {
+     "bensbargains": "HTTP 403"
+    }
+   },
+   "rough_edges": [
+    {
+     "seen": "Amazon Music Unlimited's three free months as three cards",
+     "posts": [
+      "Amazon Music Unlimited 3-Month Trial: Free (dealnews, Nov 12)",
+      "Amazon Music Unlimited 3-Month Subscription: free (dealnews, Nov 13)",
+      "Amazon Music Unlimited Black Friday Offer: 3 months for free (dealnews, Nov 24)"
+     ],
+     "cause": "a subscription's posts were one card only when their names were the same words",
+     "rule": "names are compared by what they are for and for how long: the words for the kind of offer and the day it is named for are set aside, and the term is compared on its own (sales.offer_words)"
+    },
+    {
+     "seen": "a Slickdeals post's seller shown as 'disneyplus.com' beside dealnews' 'Disney+' cards",
+     "cause": "Slickdeals gives a store the registry doesn't know as its web address, and the listing showed it",
+     "rule": "the name the post writes for the store is shown when its letters spell the address (feeds.written_name); then one spelling for a seller across a build, '+' read as 'plus' (sales.name_sellers)"
+    }
+   ],
+   "on_the_published_442_sales": {
+    "sellers_renamed": {
+     "disneyplus.com": "Disney+"
+    },
+    "cards_merged": 2,
+    "sales_after": 440,
+    "other_changes": 0
+   },
+   "on_the_mornings_live_343_sales": {
+    "changes": 0
+   },
+   "slickdeals_posts_of_the_day": {
+    "read_at": "2026-11-24T17:20Z",
+    "posts": 687,
+    "with_an_address_for_a_seller": 23,
+    "addresses": 17,
+    "named_by_the_post": [
+     "Shokz",
+     "32 Degrees",
+     "PlayStation Store",
+     "ThatDailyDeal",
+     "ShopSimon",
+     "Urban Outfitters",
+     "Fanatical",
+     "Steam",
+     "Cat Footwear",
+     "SideDeal",
+     "DiscountMugs"
+    ],
+    "not_named": {
+     "lg.com": "a television's name stands beside it",
+     "homeandcooksales.com": "the word 'deal' stands beside it",
+     "slickdeals.net, bestbuy.7tiv.net, chick-fil-a.com, fanflix.co": "the address is only inside a link"
+    }
+   },
+   "live_run": {
+    "read_at": "2026-11-24T17:25Z",
+    "sales": 373,
+    "stores": 112,
+    "entertainment_offers": 38,
+    "sellers": 24,
+    "subscriptions": 20,
+    "tickets": 18,
+    "from_places_own_pages": 12,
+    "amazon_music_cards": 1,
+    "sellers_shown_as_an_address": 0,
+    "engine_equals_server_at_moments": 6
+   },
+   "harness": "quality('duplicates') compares subscriptions as the pipeline does; on the published list it reports the three Amazon Music cards and not two channels at one price. It still reports an early Black Friday sale and the day's own (Foot Locker, Target) as duplicates, which the pipeline keeps apart on purpose; left as it is.",
+   "not_tested": [
+    "the Disney+ post as Slickdeals' feed gave it: it had left the feeds; its page reads 'Disney Plus is offering ...'"
+   ],
+   "unit_tests": {
+    "pass": 329,
+    "new": 3
+   }
   }
  }
 }
