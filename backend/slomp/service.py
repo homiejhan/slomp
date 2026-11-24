@@ -49,11 +49,11 @@ def resolve_city(city_id: str) -> City:
     raise InputError(f"unknown city {city_id!r}: choose a Texas city id from /api/v1/meta", near)
 
 
-def resolve_industries(raw, online_only: bool = False) -> list[str]:
+def resolve_industries(raw, online_only: bool = False, sales: bool = False) -> list[str]:
     ok, bad = ind.parse_ids(raw)
     if bad or not ok:
         raise InputError(f"unknown industries {bad}" if bad else "choose at least one industry", list(ind.IDS))
-    return [i for i in dict.fromkeys(ok) if not online_only or ind.BY_ID[i].online]
+    return [i for i in dict.fromkeys(ok) if (not online_only or ind.BY_ID[i].online) and (not sales or ind.BY_ID[i].sales)]
 
 
 class SlompService:
@@ -201,10 +201,10 @@ class SlompService:
 
     async def sales(self, industries, now: Optional[datetime] = None, use_cache: bool = True) -> dict:
         """Sales at online stores in the chosen industries, live at `now` (the moment of the request)."""
-        inds = resolve_industries(industries, online_only=True)
+        inds = resolve_industries(industries, sales=True)
         if not inds:
-            raise InputError("Restaurants & Dining and Movies & Entertainment have local deals only; choose another "
-                             "industry for online stores' sales", [i for i in ind.IDS if ind.BY_ID[i].online])
+            raise InputError("Restaurants & Dining has local deals only; choose another industry for sales",
+                             list(ind.SALE_IDS))
         return to_payload(await self.sales_result(use_cache), inds, now)
 
     async def warm(self) -> None:

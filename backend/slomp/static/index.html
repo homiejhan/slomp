@@ -1097,7 +1097,7 @@ async function run() {
     render("search");
     maybeTour();
     $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
-      (data.online ? `, ${onlineCount()} online, ${S.sales.length} sales at ${S.stores.length} online stores.` : ".");
+      (data.sales ? `${data.online ? `, ${onlineCount()} online` : ""}, ${S.sales.length} sales at ${S.stores.length} online stores.` : ".");
   } catch (e) {
     if (token === S.req) failed(e.message);
   } finally {
@@ -1347,17 +1347,27 @@ function saleThumb(d) {
 // A sale's card: the offer in words only when it says more than the badge ("60% off + extra 25% off"), the sale's
 // name, its code (what you need at checkout) or else a membership it needs, and the store and the end.
 const sameOffer = (a, b) => norm(a || "").replace(/off/g, "") === norm(b || "").replace(/off/g, "");
+// An entertainment offer bought online: a subscription, or tickets, passes and memberships (entertainment.py).
+const WHAT = {subscription: "Subscription", tickets: "Tickets & passes"};
 function saleCard(d, i) {
   const w = saleFace(d, S.data.local.city.tz);
   const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
   const key = d.code ? `<span class="tag code">Code ${esc(d.code)}</span>` : keyTag(d.conditions || []);
   return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${saleThumb(d)}<div class="body">` +
-    `${offer}<h3 class="title">${esc(d.name)}</h3>${key}${footHtml(d.store_name, "", w)}</div></article>${addHtml(d, i)}</div>`;
+    `${offer}<h3 class="title">${esc(d.name)}</h3>${key}${footHtml(d.store_name, WHAT[d.what] ? ` · ${WHAT[d.what]}` : "", w)}</div></article>${addHtml(d, i)}</div>`;
 }
 
 // What Slomp left out: only what concerns sales (the product posts in the same feeds are the Online tab's).
 const saleLeftout = ex => Object.fromEntries(Object.entries(ex || {})
   .filter(([k]) => !/no discount stated|one product, not a sale/.test(k)).map(([k, n]) => [k.replace(/^sale: /, ""), n]));
+
+// The chips over a list of sales: those at stores that ship, and Movies & Entertainment's subscriptions and tickets,
+// which are bought online and not shipped.
+function shipChips(sales) {
+  const bought = sales.some(d => d.what), shipped = sales.some(d => !d.what) || !sales.length;
+  return [...(shipped ? [cchip(ICONS.truck, "Ships anywhere in Texas")] : []),
+          ...(bought ? [cchip(ICONS.globe, shipped ? "Subscriptions and tickets: bought online" : "Bought online")] : [])];
+}
 
 function salesPanel(SL) {
   const cur = S.ind.sales, inInd = d => cur === "all" || d.industries.includes(cur);
@@ -1372,11 +1382,14 @@ function salesPanel(SL) {
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
     : emptyHtml("store", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
+  // Movies & Entertainment's are not shipped: subscriptions, and tickets, passes and memberships, bought online.
+  const bought = list.some(d => d.what), shipped = list.some(d => !d.what) || !list.length;
   const about = aboutHtml([
-    "Sales, promo codes and sale events at online stores that ship anywhere in Texas. They're the same for every city.",
+    ...(shipped ? ["Sales, promo codes and sale events at online stores that ship anywhere in Texas. They're the same for every city."] : []),
+    ...(bought ? ["Subscriptions to watch, listen and play, and tickets, passes and memberships for places to go: bought online, the same for every city."] : []),
     "Each one links to the deal post it came from. Tap a sale for its code, its conditions and when it ends.",
   ], saleLeftout(SL.excluded));
-  return notice + `<div class="subhead">${pills}${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` + body + about;
+  return notice + `<div class="subhead">${pills}${ctxHtml(shipChips(list))}</div>` + body + about;
 }
 
 // The online stores with something on in the chosen categories: their sales, and their product deals from the
@@ -1437,8 +1450,8 @@ function storesPanel(SL) {
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.stores).map(storeCard).join("")}</div>` + moreHtml(list.length, S.shown.stores)
     : emptyHtml("shop", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
-  const about = aboutHtml(["Online stores that ship anywhere in Texas, with what each has on in your categories: its sales and its product deals from the Online tab. Tap a store to see it all."]);
-  return `<div class="subhead">${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` + body + about;
+  const about = aboutHtml(["Online stores that ship anywhere in Texas, and sellers of subscriptions and tickets, with what each has on in your categories: its sales and its product deals from the Online tab. Tap a store to see it all."]);
+  return `<div class="subhead">${ctxHtml(shipChips(S.sales))}</div>` + body + about;
 }
 
 // One store: its sales, then its product deals, in one list for the + buttons and the details view.
@@ -1448,7 +1461,7 @@ function storePage(g) {
   const head = `<div class="shead"><button type="button" class="btn ghost small" data-store-back>← All stores</button>` +
     `<div class="sid">${storeLogo(g)}<div><h2>${esc(g.name)}</h2><p>${esc(storeCounts(g))}</p></div></div>` +
     (site ? actionHtml(site, `Visit ${esc(hostOf(site))}`, false) : "") + `</div>`;
-  return `<div class="subhead">${head}${ctxHtml([cchip(ICONS.truck, "Ships anywhere in Texas")])}</div>` +
+  return `<div class="subhead">${head}${ctxHtml(shipChips(S.view))}</div>` +
     (sales.length ? `<h3 class="sec">Sales <span class="muted">${sales.length}</span></h3><div class="grid">${sales.map((d, k) => saleCard(d, k)).join("")}</div>` : "") +
     (deals.length ? `<h3 class="sec">Product deals <span class="muted">${deals.length}</span></h3><div class="grid">${deals.map((d, k) => onlineCard(d, sales.length + k)).join("")}</div>` : "");
 }
@@ -1809,7 +1822,7 @@ function saleDetail(d) {
     : `<span class="muted">No end date given. Slomp shows it for 7 days after it was posted.</span>`]);
   if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
   if (d.shipping) rows.push(["Shipping", esc(d.shipping)]);
-  rows.push(["Store", site ? `<a href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(d.store_name)}</a>` : esc(d.store_name)]);
+  rows.push([d.what ? "Sold by" : "Store", site ? `<a href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(d.store_name)}</a>` : esc(d.store_name)]);
   const source = [["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
     (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]];
   if ((d.also_posted || []).length) source.push(["Also posted", d.also_posted.map(p => siteLink(p.url, p.source)).join(", ")]);
@@ -1823,7 +1836,7 @@ function saleDetail(d) {
   const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
   const shown = d.image_url || !(st && st.logo) ? d : {...d, image_url: logoSrc(st.logo.url)};
   return sheetHtml(shown, !!d.image_url && PHOTO_FEEDS.has(d.source),
-    `<p class="eyebrow">${esc(d.store_name)} · online store</p><h2 id="detail-title">${esc(d.title)}</h2>` +
+    `<p class="eyebrow">${esc(d.store_name)} · ${WHAT[d.what] ? WHAT[d.what].toLowerCase() + ", bought online" : "online store"}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
     (offer || (d.badge ? `<div class="price">${badgeInline({text: d.badge, soft: d.badge_soft})}</div>` : "")) + code +
     `<div class="hero-chips">${chips.join("")}</div>` +
     `<div class="actions">${actionHtml(d.source_url, "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>` +

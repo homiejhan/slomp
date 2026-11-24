@@ -1372,6 +1372,8 @@ def sale_plans() -> list[FeedPlan]:
     # Hip2Save's own front page: the posts it files under no category Slomp reads, a store's event among them
     # ("Target's Black Friday Deals Start 11/22"). Read on past its first page like every feed (DealFeeds.read).
     out.append(FeedPlan("hip2save", "hip2save latest", "https://hip2save.com/feed/", []))
+    from . import entertainment                     # subscriptions, tickets and passes (it builds on this module)
+    out += list(entertainment.FEEDS)
     for q in ("sitewide", "storewide"):
         out.append(FeedPlan("slickdeals", f"slickdeals q={q}",
                             f"https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1&q={q}",
@@ -1488,6 +1490,10 @@ class StoreSales:
 
     # -- one post -----------------------------------------------------------------------------------------------
     def sale(self, p: Post, now: datetime, excluded: Counter) -> Optional[StoreSale]:
+        from . import entertainment                 # it builds on this module
+        kind = entertainment.kind_of(p)
+        if kind:                                    # a subscription, or tickets: not a sale at a store that ships
+            return entertainment.offer(p, kind, now, excluded)
         o = parse_offer(p.title)
         main = _ASIDE.sub("", _straight(p.title))
         offer_how = ""
@@ -1627,6 +1633,8 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
                 continue                          # the wave before a day and the day's own sale are two sales
             a, b = _words(k.name), _words(s.name)
+            if (k.what or s.what) and a != b:
+                continue                          # a subscription's name is the offer: "... STARZ ..." is not "... MGM+ ..."
             if a == b or (a and b and len(a & b) / min(len(a), len(b)) >= 0.6):
                 same = k
                 break
@@ -1642,7 +1650,7 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
     stated = lambda s: any(v is not None for v in (s.pct, s.upto, s.extra, s.off)) or bool(s.bogo)   # noqa: E731
     out: list[StoreSale] = []
     for s in kept:
-        better = None if stated(s) or not s.event else next(
+        better = None if stated(s) or not s.event or s.what else next(
             (k for k in kept if k is not s and stated(k) and k.event == s.event
              and (k.store or k.store_name) == (s.store or s.store_name)), None)
         if better:
