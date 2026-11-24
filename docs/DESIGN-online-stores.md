@@ -351,7 +351,8 @@ five were from October and August.
   When neither the title, the feed nor the category's words say, the department the source files the post under
   does ("Home Deals & Tips").
 - **Duplicates**: the same store, offer and end posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is
-  one card; the dealnews post leads and the others are listed.
+  one card; the dealnews post leads and the others are listed. A subscription or a ticket is compared more closely
+  (4.6): two channels at one price are two offers.
 - **Checks**: each sale's post page is re-read (cached an hour) and the sale is dropped when the page is gone,
   redirects elsewhere, or is marked expired.
 - **Order**: best deal first ranks by what a shopper can count on: a firm percent counts in full, an "up to" ceiling
@@ -385,7 +386,18 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
   subscriptions"). The card's details quote the sentence. A price with nothing to compare it to ranks last, as a
   store's event with no discount does.
 - **The seller** is the source's own (dealnews' store field): the service, or who sells it (Amazon for a Prime Video
-  channel, Giftory for an AMC ticket package). The name keeps the title's words, without the price.
+  channel, Giftory for an AMC ticket package). The name keeps the title's words, without the price. Slickdeals gives a
+  store it does not know as its web address, and the first build showed a card sold by "disneyplus.com". The post
+  writes the name beside the address ("Disney Plus [disneyplus.com] is offering ..."), and that name is shown when its
+  letters spell the address; a product's name beside a link to it does not. Then one spelling for a seller across a
+  build: names that are the same letters, with "+" read as "plus" ("Disney+", "Disney Plus", "disneyplus.com"), are
+  one seller, written as the best-ranked source writes it, a name before an address.
+- **The same offer posted more than once** is one card when the seller, the badge and the end day are the same and
+  the names say the same thing for the same term. What the post calls the offer ("Trial", "Subscription", "Offer",
+  "Plan") and the day it is named for are set aside; the service, the tier and the term are not. dealnews posted
+  Amazon Music Unlimited's three free months as a "3-Month Trial", a "3-Month Subscription" and a "Black Friday
+  Offer: 3 months", and the first build showed three cards. "... STARZ ..." and "... Paramount+ ..." at one price
+  stay two, and so do three months and six.
 - **When**: as for any sale (4.4). A plan priced "through December 31" and posted in August is past the 30 days and
   not shown: it is the standing price by then, not a deal.
 - **Where it shows.** An industry now says two things: `online` (product deals and sales at stores that ship) and

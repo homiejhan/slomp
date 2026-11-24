@@ -23,7 +23,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 from ..config import TTL
 from ..geo import parse_time
 from ..http import FetchError, PoliteClient
-from ..reference import DATA, store_from_domain
+from ..reference import DATA, norm, store_from_domain
 from ..terms import clean, money, post_reference, title_price
 
 DN = "{https://www.dealnews.com/ns/rss/1.0.htm}"
@@ -214,6 +214,46 @@ def parse_slickdeals(xml_bytes: bytes, feed: str, industries: list[str]) -> list
 
 # "Target [ target.com ] has 799-Piece LEGO ... on sale for $51.99": one store's price in a multi-store post
 _SD_STORE_PRICE = re.compile(r"\[\s*((?:[a-z0-9-]+\.)+[a-z]{2,})\s*\] has [^$]{3,220}?\bfor \*?\$\s?(\d[\d,]*(?:\.\d\d)?)")
+
+
+ADDRESS = re.compile(r"(?:[a-z0-9-]+\.)+[a-z]{2,}", re.I)          # a store given as its web address: "disneyplus.com"
+
+
+def seller_key(name: str) -> str:
+    """One seller under its spellings: "Disney+", "Disney Plus" and "disneyplus.com" are the same letters."""
+    n = clean(name).lower()
+    if ADDRESS.fullmatch(n):
+        n = n.removeprefix("www.").rsplit(".", 1)[0]
+    return norm(n.replace("+", " plus "))
+
+
+_NAME_RUN = r"((?:[A-Z0-9][\w&'’.!+\-]*\s+){1,4})"
+_SELLS = r"(?:has|offers|is offering|is selling)\b"
+
+
+def written_name(text: str, address: str) -> str:
+    """The name a post writes for the store whose web address it gives: the words just before the address in
+    brackets ("32 Degrees [32degrees.com] has ...", "Disney Plus [ disneyplus.com ] is offering ..."), or the words
+    that open a sentence saying it sells the thing ("Disney Plus is offering ..."). Only words that spell the
+    address count, so a product's name beside a link to it is not taken for the store. "" when there is none."""
+    label = seller_key(address)
+    if len(label) < 3:
+        return ""
+    for rx in (_NAME_RUN + r"\[\s*" + re.escape(address) + r"\s*\]", r"(?:^|[.!]\s+)" + _NAME_RUN + _SELLS):
+        for m in re.finditer(rx, text):
+            words, loose = m.group(1).split(), ""
+            for i in range(len(words) - 1, -1, -1):             # the fewest words that spell it
+                name = " ".join(words[i:])
+                key = seller_key(name)
+                if ADDRESS.fullmatch(name) or len(key) < 3:
+                    continue
+                if key == label:
+                    return name
+                if not loose and (key.startswith(label) or label.startswith(key) or (len(label) >= 4 and label in key)):
+                    loose = name                                # "PlayStation Store" for playstation.com, "Steam" for steampowered.com
+            if loose:
+                return loose
+    return ""
 
 
 def slickdeals_store(text: str, title: str) -> str:

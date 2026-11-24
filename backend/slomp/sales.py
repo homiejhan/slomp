@@ -26,7 +26,7 @@ from .models import OnlineStore, StoreSale
 from .online import classify_post, labelled_posts, note_left_out
 from .promos import _DAY, _MONTH, _MONTHS, _RANGE_MD, _RANGE_NUM, _date
 from .reference import norm
-from .sources.feeds import SOURCE_NAMES, DealFeeds, FeedPlan, Post, plan, post_gone
+from .sources.feeds import ADDRESS, SOURCE_NAMES, DealFeeds, FeedPlan, Post, plan, post_gone, seller_key
 from .stores_online import _straight, registry, store_named, stores_in
 from .terms import bogo_of, clean
 
@@ -1480,6 +1480,7 @@ class StoreSales:
             else:
                 why = res.excluded - before
                 note_left_out(res.left_out, why, p, store_evidence(p) if "sale: store not identified" in why else "")
+        name_sellers(candidates)
         candidates = dedupe(candidates, res.excluded)
         if check:
             await self._check(candidates, res.excluded)
@@ -1624,6 +1625,40 @@ def _words(text: str) -> set[str]:
     return {w for w in re.findall(r"[a-z0-9]+", text.lower()) if w not in _STOP and not w.isdigit()}
 
 
+def name_sellers(sales: list[StoreSale]) -> None:
+    """One spelling for a seller the registry doesn't know. Its posts name it, and two sources may write it two ways:
+    dealnews "Disney+", Slickdeals "Disney Plus" or only "disneyplus.com" (Nov 24, 2026). Names that are the same
+    letters are one seller, shown as a name before an address and as the best-ranked source writes it."""
+    rank = {s: k for k, s in enumerate(SOURCE_ORDER)}
+    unknown = [s for s in sales if not s.store and s.store_name]
+    best: dict[str, str] = {}
+    for s in sorted(unknown, key=lambda s: (bool(ADDRESS.fullmatch(s.store_name)), rank.get(s.source, 99),
+                                            s.posted_at or datetime.max.replace(tzinfo=timezone.utc))):
+        best.setdefault(seller_key(s.store_name), s.store_name)
+    for s in unknown:
+        s.store_name = best.get(seller_key(s.store_name), s.store_name)
+
+
+# Words that say what kind of offer a subscription's post is, not what it is for. The same three free months were
+# posted as "Amazon Music Unlimited 3-Month Trial", "... 3-Month Subscription" and "... Black Friday Offer: 3 months"
+# (dealnews, Nov 12 to 24, 2026) and were three cards.
+_OFFER_KIND = {"subscription", "subscriptions", "trial", "trials", "offer", "offers", "plan", "plans", "month", "months",
+               "year", "years", "annual", "yearly", "monthly"}
+_TERM = re.compile(r"\b(\d+|one|two|three|four|five|six|twelve)[- ]?(month|year)s?\b|\b(annual|yearly)\b", re.I)
+_TERM_N = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "twelve": "12"}
+
+
+def offer_words(name: str) -> tuple[frozenset, frozenset]:
+    """What a subscription or ticket post's name says it is for, and for how long: its words without the day it is
+    named for and without the words for the kind of offer, and its terms ("3-Month" and "3 months" are one)."""
+    terms = frozenset("1 year" if m.group(3) else f"{_TERM_N.get(m.group(1).lower(), m.group(1))} {m.group(2).lower()}"
+                      for m in _TERM.finditer(name))
+    name = _TERM.sub(" ", name)
+    for _, rx, _ in days.DAYS:
+        name = rx.sub(" ", name)
+    return frozenset(_words(name) - _OFFER_KIND), terms
+
+
 def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
     """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same offer, same
     end, and names that share most of their words. The best-sourced post leads; the others are listed with it."""
@@ -1640,8 +1675,13 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
                 continue                          # the wave before a day and the day's own sale are two sales
             a, b = _words(k.name), _words(s.name)
-            if (k.what or s.what) and a != b:
-                continue                          # a subscription's name is the offer: "... STARZ ..." is not "... MGM+ ..."
+            if k.what or s.what:
+                # A subscription's name is the offer: "... STARZ ..." is not "... MGM+ ...", and three months are not
+                # six. What the post calls the offer, and the day it is named for, are not part of that.
+                if offer_words(k.name) != offer_words(s.name):
+                    continue
+                same = k
+                break
             if a == b or (a and b and len(a & b) / min(len(a), len(b)) >= 0.6):
                 same = k
                 break
