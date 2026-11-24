@@ -1475,3 +1475,60 @@ does not say how many posts a build read, nor which stores its sales are at; bot
 
 One reading narrowed in this round was narrowed too far and was put back after the build: words that go on after
 the title's name confirm it ("Hop on over to Minky Couture" for "Minky") unless they are goods only together.
+
+### What followed (Nov 24): the log made to answer, and four more wordings
+
+**The totals, settled by the next builds.** Two scheduled builds ran on the same code after run 169:
+
+| | Run 168 | Run 169 | Run 170 | Run 171 |
+|---|---|---|---|---|
+| Built (UTC) | Nov 23, 03:50 | Nov 23, 05:18 | Nov 23, 16:14 | Nov 24, 03:23 |
+| Code | before the round | the round | the round | the round |
+| Store sales shown | 326 at 95 stores | 318 at 91 | 357 at 99 | 410 at 109 |
+| Restaurant promotions | 55 | 42 | 55 | 56 |
+| Sale posts with no store | 40 | 27 | 32 | 35 |
+
+Run 169's lower counts were that build's, not the change's: the promotions came back on the same code. What that
+build failed to read cannot be told from its log, which is the point of the first change below.
+
+**The log, made to answer.** Three changes, none of which alters what is shown:
+
+- A post's dates are checked before its store, so the posts left out for want of a store are all posts that would
+  otherwise be shown.
+- The log says how each sale's store was decided, and prints every sale at a store Slomp keeps no entry for that
+  the post's own words named.
+- The log says how many posts each deal site's feeds gave, how many pages were read past a first page, and which
+  feeds or later pages could not be read. A later page that failed used to be dropped without a word.
+
+**Four wordings**, from the posts runs 169 to 171 printed (DESIGN-online-stores.md 4.3):
+
+| The post | Its words | Now |
+|---|---|---|
+| "Our Place Black Friday Sale Gets Even Better with an EXTRA Promo Code!" | "... head to Our Place to ..." | Our Place: the title names the sale's store and the post sends the reader there |
+| "Over 55% Off OOFOS Sandals & Shoes + Free Shipping" | "... browse OOFOS.com and score ..." | OOFOS: the post writes the website of the title's name |
+| "Up to 55% Off Novilla Mattresses? Now That's Dreamy!" | "... Novilla.com is offering ..." | Novilla, the same way |
+| "Life in Lilac Black Friday Sale: Up to 50% Off EVERYTHING ..." | "... Life in Lilac! Life in Lilac is ..." | the name is read whole; a store once the post sends the reader there, names its site, ships or gives a code |
+| "Last Day to Score Up to 55% Off Dr. Martens Boots & Shoes" | "Lace up for the latest deal on Dr. Martens boots ..." | the name is read whole ("Dr" before); a store on the same terms |
+| "Ruggable's Pre-Black Friday Sale = Up to 40% Off ..." | "This Ruggable Rug coupon doesn't come around often ..." | Ruggable once the post gives a code: a code shows a sale is online as shipping does |
+
+The log prints the first 110 characters of a post, so for the last three the rest of the post decides, and the tests
+write an ending for each. The next build's log will show which were named, and how.
+
+A post of the fifth round that never had a store has one now, from its saved text: "PUMA's Stock Up sale slashes
+extra 40% off: ...", whose post says "Just apply code STOCKUP during checkout".
+
+**Found by probing, not in any log.** Before a code was let stand in for shipping, titles that name a sale and no
+store were tried, and the first word of the sale's own name was being read as a store whenever the post shipped:
+"Buy More, Save More Sale" as "Buy", "Stock Up Sale" as "Stock", "Spend & Save Event" as "Spend", "Pink Friday Sale"
+as "Pink", "Travel Tuesday Sale" as "Travel Tuesday". Whether any reached the page is not known (the published
+page cannot be read from this session, and the log did not list stores until now). They are turned away now; "Mix
+& Match Sale" and "Lightning Deals" are not, and would show in the log's new list.
+
+**Sale names.** Following the newly named posts through, three names were not names: "Black Friday Sale Gets Even
+Better with an EXTRA Promo Code", "Mattresses? Now That's Dreamy", "Stock Up sale slashes : Shoes, bags, hoodies,
+jackets, more". Now "Black Friday Sale", "Mattresses" and "Stock Up sale" (DESIGN-online-stores.md 4.4). Two saved
+sales at Woot are named shorter by the same rule ("latest monitor sale", "audio sale").
+
+Checked offline on what the records keep: of the 421 posts of rounds 1 to 6, three read differently, all above
+(PUMA's sale kept, two Woot names); of 1,559 titles and item names none is filed differently. 306 unit tests pass
+(299 before).

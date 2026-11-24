@@ -260,6 +260,36 @@ One reading of the round before was too wide and is narrower now: words that go 
 it ("Hop on over to Comfrt's Black Friday Sale" for "Comfrt", "... to Minky Couture" for "Minky"), but not when they
 are goods only together. "Hurry over to the Stuffed Animals page" had confirmed a store called "Stuffed".
 
+The builds on those (runs 169 to 171, Nov 23 and 24, 2026) left a list of posts that were still running, and four
+more wordings:
+
+- **A sale the title names for its store, and the post sends the reader there**: "Our Place Black Friday Sale Gets
+  Even Better with an EXTRA Promo Code!", whose post says "head to Our Place". A sale named for its store used to
+  need a link or shipping.
+- **The website of the title's name, written in the post**: "browse OOFOS.com and score ..." under "Over 55% Off
+  OOFOS Sandals", "Novilla.com is offering ..." under "Up to 55% Off Novilla Mattresses". A website of that very
+  name is as good as a link to it, and so is an address written into the text (Slickdeals' posts do that). A site
+  named for what it sells keeps its ".com", as in a title.
+- **A small word or an abbreviation inside a name**: "Life in Lilac", "House of Harlow", "Made by Mary" (in, of, by,
+  the, and, de, la, du, between two capitalized words), and "Dr. Martens", "St. John", whose full stop is not the
+  name's end. The post's sending words are read to the name's end for these ("Head over to Life in Lilac").
+- **A code or "sitewide" instead of shipping**: "Ruggable's Pre-Black Friday Sale" in a post about its promo code
+  says nothing of shipping, and a code to enter shows a sale is online as well as shipping does. It counts where the
+  title says whose sale it is (a possessive, or an event of the store's own), and for the store a post sends the
+  reader to. A bare "Zyntrix Sale" with a code still needs a link or the post's words.
+
+Letting a code stand in for shipping called for a look at what else leads a title, and words of a sale's own name
+were being read as stores whenever the post shipped: "Buy More, Save More Sale" as a store called "Buy", "Stock Up
+Sale" as "Stock", "Pink Friday Sale" as "Pink". A name is no store's when the sale's name goes on after it: before
+a small word ("Stock Up", "Buy More", "Fill a Bag", "Spend & Save") or a weekday ("Pink Friday", "Travel Tuesday").
+A possessive is exempt ("PUMA's Stock Up sale"), and so is an offer ("Wilson Up to 50% Off Sale"). "Mix & Match Sale"
+and "Lightning Deals" in a post that ships are still read as stores: nothing in their shape tells them from "Barnes &
+Noble Offer". The build log now prints every store named this way, which is where one would be seen.
+
+**When, before where.** A post that has ended or is too old is left out before its store is looked for. The posts
+left out for want of a store are then all posts that would otherwise be shown: run 169 printed eight of them and
+five were from October and August.
+
 ### 4.4 The offer, the code and the dates
 
 - **Offer**, read from the title (below: when the title names a sale and leaves the offer out): a firm percent ("40% off everything", "30% to 40% off"), a ceiling ("up to 60%"),
@@ -280,7 +310,12 @@ are goods only together. "Hurry over to the Stuffed Animals page" had confirmed 
   "Clothes", not "Today ONLY" (a day is a name: "Black Friday: ..."). A headline about the deal site's own post
   ("Corkcicle Gave Hip2Save Readers an EXCLUSIVE 30% OFF Code!") names no sale, and the card says "Sale". An event
   that states no discount shows the one price its title gives beside its name ("... = Popular Styles from $29
-  Shipped": "From $29").
+  Shipped": "From $29"). A title that is more than one sentence is read without the writer's comment ("Up to 55%
+  Off Novilla Mattresses? Now That's Dreamy!" is "Mattresses"); a sentence stays when it states an offer or a price
+  or names a sale, the store or any goods. A headline that goes on after the sale it names ends there: "Black
+  Friday Sale Gets Even Better with an EXTRA Promo Code" is the Black Friday Sale, and "PUMA's Stock Up sale slashes
+  extra 40% off: Shoes, bags, ..." the Stock Up sale. What goes on stays when it says what is on sale or which wave
+  this is ("Black Friday Deals on Toys", "Black Friday Sale Preview").
 - **Code**: only a code the post states: after "promo code", "coupon code", "use code" or "with code", quoted, or in
   capitals and digits ("TAKE25"). "No promo code needed" is not a code. The code's own sentence decides whether it is
   this sale's: a code for cardholders ("J.Crew Credit Card holders can stack an extra 20% off with code CARDLOVE"), for
@@ -351,6 +386,18 @@ are goods only together. "Hurry over to the Stuffed Animals page" had confirmed 
 A test that can't be made is inconclusive and replaced, as in the other plans.
 
 Results: [VERIFICATION.md, Online stores' sales](VERIFICATION.md#online-stores-sales).
+
+**What a build's log says of the sales**, so that a build can be checked from its log alone:
+
+- how many sales at how many stores, and how the stores were decided (the source's store field, the title, the
+  post's words), counted;
+- every sale at a store Slomp keeps no entry for that the post's own words named: the store, the title, how it was
+  decided and its industries. These are the readings that can go wrong, so each one is printed (up to 40);
+- the posts left out, by reason, and for the reasons that may hide a real sale (no store, no industry, no word of
+  shipping) eight of the posts, each with what it had to go on;
+- for all the deal feeds together: how many posts each site gave from how many feeds, how many pages were read past
+  a first page, and the feeds or later pages that could not be read. Two builds' counts can be compared only when
+  they read the same posts: run 169 showed 13 fewer promotions than the build before it and nothing said why.
 
 ## 7. What was built
 
