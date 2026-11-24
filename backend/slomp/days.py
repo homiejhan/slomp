@@ -75,6 +75,9 @@ DAYS: tuple[tuple[str, re.Pattern, Callable[[int], date]], ...] = tuple(
 # "Countdown to Black Friday", "Black Friday Warm-Up Sale") says it ends before the day, not when.
 BEFORE = re.compile(r"\bearly\b|\bpre(?:-\s?|\s+)(?=[a-z])|\bpreview\b|\bsneak peek\b|\bcountdown\b|\bwarm[- ]?up\b|\bkick-?off\b|"
                     r"\bahead of\b|\bbefore\b", re.I)
+# A day's name as a web address writes it: "/overtexas/black-friday-deal".
+SLUG = re.compile(r"black-?friday|cyber-?(?:monday|week)|(?:memorial|labor|presidents|veterans|columbus|mothers|fathers|"
+                  r"valentines|boxing)-?day|fourth-of-july|thanksgiving|halloween|easter|christmas|new-?years", re.I)
 AHEAD_DAYS = 60            # a day further ahead of the post than this is next year's: the post is about this year's
 
 

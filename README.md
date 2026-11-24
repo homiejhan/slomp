@@ -86,6 +86,8 @@ Online stores ship anywhere, so they belong to no city. Two tabs cover them, the
   members, minimum order, select items, in the app). Every card links to the post it came from.
   Under Movies & Entertainment the tab lists what is bought online and not shipped: streaming subscriptions
   ("$5.49 a month for 12 months, regularly $10.99") and tickets, passes and memberships, each marked for what it is.
+  Theme parks, zoos and other places in Texas are read from their own ticket pages ("Save up to 55% on Tickets, Passes
+  and More! Offer Ends Nov 30th"): each card quotes the page, links to it and says which city the place is in.
 - **Stores**: the online stores with something on in your categories, as logo tiles. Open one to see its sales and
   its product deals from the Online tab, with a link to its site.
 
@@ -217,4 +219,8 @@ Entertainment also has sales bought online: streaming subscriptions, and tickets
   still up, but can't check the sale on the store's own site (a fifth of stores answer with a bot check, and Amazon's
   and eBay's sites tell AI assistants by name to keep out). A sale that only a store's own site or email announces is
   missing.
+- A place's own ticket sale is read from a hand-kept list of pages
+  ([backend/slomp/data/venue_pages.json](backend/slomp/data/venue_pages.json)): a place that is not on it is missing,
+  and so is a sale its page words in a way Slomp does not read. What a pass holder gets (10% off in the cafe, tickets
+  for friends) is not a sale and is left out.
 - For personal research: respect each source's terms.

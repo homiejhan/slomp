@@ -1,0 +1,20 @@
+{
+ "about": "Places in Texas that sell tickets, passes and memberships on their own sites, and the page where each sells them. Slomp reads these pages on every build (slomp/entertainment.py) and shows a sale when the page states one: a saving on a ticket, a pass or a membership, in the page's own words. This file says where to look, never what the offer is. `pages` are a venue's standing pages; a sale page they link to (\"black-friday-deal\", \"special-offers\") is found from them and read too. `site` is the name shown as the source.",
+ "venues": [
+  {"name": "Six Flags Over Texas", "city": "Arlington", "site": "sixflags.com", "pages": ["https://www.sixflags.com/overtexas/daily-tickets"]},
+  {"name": "Six Flags Fiesta Texas", "city": "San Antonio", "site": "sixflags.com", "pages": ["https://www.sixflags.com/fiestatexas/daily-tickets"]},
+  {"name": "Schlitterbahn New Braunfels", "city": "New Braunfels", "site": "sixflags.com", "pages": ["https://www.sixflags.com/schlitterbahnnewbraunfels/daily-tickets"]},
+  {"name": "SeaWorld San Antonio", "city": "San Antonio", "site": "seaworld.com", "pages": ["https://seaworld.com/san-antonio/tickets/"]},
+  {"name": "Texas Tides", "city": "Galveston", "site": "enchantedparks.com", "pages": ["https://txtides.enchantedparks.com/passes-and-tickets/"]},
+  {"name": "San Antonio Zoo", "city": "San Antonio", "site": "sazoo.org", "pages": ["https://sazoo.org/", "https://sazoo.org/membership/", "https://sazoo.org/buy-tickets/"]},
+  {"name": "Houston Zoo", "city": "Houston", "site": "houstonzoo.org", "pages": ["https://www.houstonzoo.org/plan-your-visit/membership/"]},
+  {"name": "Dallas Zoo", "city": "Dallas", "site": "dallaszoo.com", "pages": ["https://www.dallaszoo.com/plan-your-visit/buy-tickets/", "https://www.dallaszoo.com/membership/"]},
+  {"name": "Fort Worth Zoo", "city": "Fort Worth", "site": "fortworthzoo.org", "pages": ["https://www.fortworthzoo.org/"]},
+  {"name": "Meow Wolf", "city": "Houston and Grapevine", "site": "meowwolf.com", "pages": ["https://meowwolf.com/portal-pass"]},
+  {"name": "Moody Gardens", "city": "Galveston", "site": "moodygardens.com", "pages": ["https://www.moodygardens.com/attractions/tickets", "https://www.moodygardens.com/memberships"]},
+  {"name": "SEA LIFE Grapevine", "city": "Grapevine", "site": "visitsealife.com", "pages": ["https://www.visitsealife.com/grapevine/tickets-passes/"]},
+  {"name": "SEA LIFE San Antonio", "city": "San Antonio", "site": "visitsealife.com", "pages": ["https://www.visitsealife.com/san-antonio/tickets-passes/"]},
+  {"name": "LEGOLAND Discovery Center Dallas/Fort Worth", "city": "Grapevine", "site": "legolanddiscoverycenter.com", "pages": ["https://www.legolanddiscoverycenter.com/dallas-fw/tickets-passes/"]},
+  {"name": "LEGOLAND Discovery Center San Antonio", "city": "San Antonio", "site": "legolanddiscoverycenter.com", "pages": ["https://www.legolanddiscoverycenter.com/san-antonio/tickets-passes/"]}
+ ]
+}

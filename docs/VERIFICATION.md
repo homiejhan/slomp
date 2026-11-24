@@ -1573,3 +1573,89 @@ day's posts in those categories. The tickets Slomp does show are the ones deal s
 **What was not tested live.** Hip2Save's robots.txt turns AI assistants away by name as of Nov 24 (it did not on Nov 22), so a run an
 assistant starts no longer reads it (scheduled builds do). The rule for a site that gives no category was therefore
 tested on Slickdeals' posts and in unit tests only. 314 unit tests pass, eight of them new.
+
+### Places' own ticket pages (Nov 24): the venue offers no deal site carried
+
+Ten of the second pass's entertainment findings were at places to go: the nine at venues (Six Flags' 2027 pass,
+SeaWorld San Antonio, Texas Tides, the San Antonio and Fort Worth zoos, Meow Wolf's two, Moody Gardens, AMC's popcorn
+pass) and Cinemark's $5 tickets. No deal site posted them. The owner asked for them to be read from the places' own
+pages, and allowed this session to reach those sites. They are read now (`slomp/entertainment.py`, "a venue's own
+page"; DESIGN-online-stores.md 4.6): `slomp/data/venue_pages.json` lists 15 places in Texas and where each sells its
+tickets, and what is on sale comes from the page on every build, in the page's words.
+
+**The pages were read first**, 30 of them on 14 sites, through Slomp's own client with the assistant setting on: 27
+read, one address guessed wrong (404), and two not read: the Fort Worth Zoo's robots.txt turns AI assistants away by
+name, and cinemark.com answers from a host this session may not reach.
+
+**A first version read each page as one run of words, and it took perks for sales.** On those 27 pages it showed
+"20% off" for Moody Gardens (a member's "20% Off at concessions and restaurants", then "15% Off any attraction ticket
+purchase", also a member's benefit), "20% off" for LEGOLAND Discovery Center ("20% off admission for friends and
+family who visit with you", then "10% off in our Cafe" read up against the next tile's "New Pass"), and it dropped
+SeaWorld's headline because a menu's "Military Offers" sat 46 characters before it. Its quotes ran on into the next
+tile. The reader now takes a page block by block, as it is laid out, and settles what a percent is off from its own
+line and the lines touching it. On the same 27 pages: 17 state a saving on tickets and 10 state none, and each of
+the 10 is right: Moody Gardens' three (its Black Friday offer is hotel rooms; its ticket discounts are a member's and
+the military's), LEGOLAND's two ticket pages (perks, and "40% off ends September 10, 2026", which is over), the San
+Antonio Zoo's membership and ticket pages, the Dallas Zoo's home page (its saving is on a plush toy that comes with
+tickets) and membership page, and a Six Flags page that says nothing itself.
+
+**Live**, through Slomp's client: 33 pages read, the 18 listed that could be and 15 sale pages found from them
+("black-friday-deal", "special-offers", "promotions", "discount-offers"). 12 of the 15 places state a sale:
+
+| Place | Shown | The page's words |
+|---|---|---|
+| Six Flags Over Texas, Six Flags Fiesta Texas, Schlitterbahn New Braunfels | 2027 Silver Pass for $69, ends Nov 27 | "Get a 2027 Silver Pass for $69. Ends 11/27." |
+| SeaWorld San Antonio | Up to 50% off, through Black Friday | "Black Friday: Save Up to 50% on Tickets!" |
+| Texas Tides (Galveston) | Up to 55% off, ends Nov 30 | "Save up to 55% on Tickets, Passes and More! Offer Ends Nov 30th" |
+| San Antonio Zoo | Membership for $39.99, through Black Friday | "For a limited time, get a San Antonio Zoo Membership for just $39.99, SAVE $15, and receive TWO FREE bonuses!" |
+| Houston Zoo | 10% off memberships, code MERRY26 | "Get 10% off Membership GC with code MERRY26" |
+| Dallas Zoo | 10% off memberships, ends Nov 30 | "Now through Nov. 30, save 10% on membership!" |
+| Meow Wolf (Houston and Grapevine) | 20% off a Portal Pass | "20% off + 2 free months Portal Pass Supremium" |
+| SEA LIFE Grapevine, SEA LIFE San Antonio | 50% off the Texas Annual Pass, through Black Friday | "Black Friday Sale: 50% Off Texas Annual Pass" |
+| LEGOLAND Discovery Center Dallas/Fort Worth | 25% off an Annual Pass, ends Dec 1 | "Black Friday Annual Pass Sale: 25% off a Whole Year of Fun" |
+
+No card: Moody Gardens and LEGOLAND Discovery Center San Antonio (read; no sale on tickets stated), and the Fort Worth
+Zoo (not read). Four things the live read showed, each fixed:
+
+- My list had Texas Tides in Houston, and its own page gives Galveston. The six places whose pages give an address
+  were then checked against it. The others' cities are in their names or, for Six Flags Over Texas, Fiesta Texas,
+  Meow Wolf and LEGOLAND Dallas/Fort Worth, from what I know of them and not from a page.
+- The San Antonio Zoo states its sale on its home page and not where it sells memberships, so its home page is
+  listed.
+- LEGOLAND's sale names the pass before the percent. That is read when the line names the ticket's own sale, and
+  not otherwise.
+- Meow Wolf's card first read "Up to 50% off", from its headline "up to 50% off tickets". The next lines of that
+  page say what it is: "Buy One, Get One 50% Off ... save 50% on a second General Admission ticket". Half off the
+  second is not half off, so a percent the page says is off the second of two is no longer shown under the page's
+  looser name for it, and the card is the pass's 20%.
+
+**The whole build, live**: 355 sales at 103 stores. Movies & Entertainment has 38 offers from 22 sellers: 20
+subscriptions and 18 tickets and passes, 6 of them from deal sites' posts and 12 from places' own pages. None is among
+the home page's biggest deals.
+
+**Each card checked against its page.** The harness's four checks (`slomp/verify/sales_checks.py`, which now reads a
+place's own page for the words Slomp quotes, the end it shows and the code): each of the 12 pages read again, not
+from the cache: 48 of 48 pass.
+
+**On the page**, with only Movies & Entertainment chosen: Sales (38) and Stores (22). A place's card gives its name in
+full and its city ("Six Flags Fiesta Texas · San Antonio"; three parks sell the same pass, and which park is the
+point), its details quote the page, say "Read less than an hour ago on sixflags.com" and "This is Six Flags Over
+Texas's own page, not a deal site's post", and the button reads "See it on sixflags.com". The tab's notes name the
+place that could not be read (Fort Worth Zoo), under Movies & Entertainment only; the notice over the list counts
+the 142 deal-site feeds and not the 15 places. No page error, and nothing scrolls sideways at a phone's width.
+engine.js and the server pick the same sales in the same order at six moments from Nov 24 to Dec 2, with Movies &
+Entertainment alone (37, 33, 30, 27, 7, 3) and with every industry that has sales (351, 293, 246, 126, 63, 55).
+
+**Against the ten findings.** Shown: Six Flags' pass, SeaWorld San Antonio, Texas Tides, the San Antonio Zoo, and
+Meow Wolf's 20% off a Portal Pass Supremium. Two differ from what the hand search wrote down, and Slomp shows the
+page: Six Flags' pass ends 11/27 by its page, not Nov 30, and SeaWorld's headline on Nov 24 is up to 50%, not 55%.
+Not shown: Meow Wolf's buy-one-get-one on tickets, which is not a percent off; the Fort Worth Zoo (robots.txt);
+Moody Gardens, whose offer is hotel rooms; AMC's popcorn pass, which is a snack plan and on no listed page; and
+Cinemark's $5 tickets, whose site this session could not reach, so it is not listed. Six cards are for places the
+hand search did not name: Schlitterbahn New Braunfels, the Houston and Dallas zoos, the two SEA LIFE aquariums and
+LEGOLAND Dallas/Fort Worth.
+
+**What was not tested.** A scheduled build: whether these sites answer GitHub's runners as they answered here is not
+known, and one that answers with a bot check will be reported as not read. The Fort Worth Zoo in a run no assistant
+starts. Any week but this one: the rules were shaped on Black Friday week's pages; a page left up, an end that has
+passed and an old year are covered by unit tests only. 326 unit tests pass, 12 of them new (`tests/test_venues.py`).

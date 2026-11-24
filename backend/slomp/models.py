@@ -282,6 +282,8 @@ class StoreSale:
     event_ends_at: Optional[datetime] = None    # the end of that day, for a sale that states no end: shown through it
     offer_how: str = ""                 # where the offer comes from when the title doesn't state it: the post's sentence
     what: str = ""                      # "" a sale at a store that ships; "subscription", "tickets" (slomp/entertainment.py)
+    own_site: bool = False              # read on the seller's own page, not in a deal site's post (a venue's tickets page)
+    city: str = ""                      # the Texas city that place is in ("San Antonio"); "" for anything sold everywhere
     posted_at: Optional[datetime] = None
     source: str = ""                    # "dealnews", "Hip2Save", ...
     source_url: str = ""

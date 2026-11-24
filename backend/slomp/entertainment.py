@@ -10,16 +10,24 @@ What is one is the source's to say, not a list of services': dealnews files thes
 Movie Tickets and Things to Do, and Slomp reads those three feeds for them. A post from a site that gives no category
 is one only when its title says so in plain words ("... Streaming Service Plan $1/Month", "Movie Ticket Offer").
 Gift cards stay out, as everywhere in Slomp, and so does anything for one group of people (students, the military).
+
+A place's own sale on its tickets is on no deal site, so the second half of this module reads the places' own pages:
+slomp/data/venue_pages.json says where each sells its tickets, and what is on sale comes from the page, in its words.
 """
 from __future__ import annotations
 
+import asyncio
+import html as htmllib
 import json
 import re
 from collections import Counter
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import lru_cache
 from typing import Optional
+from urllib.parse import urljoin, urlsplit
 
+from . import days
 from .models import StoreSale
 from .reference import DATA, norm
 from .sources.feeds import SOURCE_NAMES, FeedPlan, Post, dealnews_url
@@ -228,3 +236,304 @@ def offer(p: Post, kind: str, now: datetime, excluded: Counter) -> Optional[Stor
         industries=[ENTERTAINMENT],
         industry_rule=f"dealnews: {p.category}" if p.source == "dealnews" and p.category else "the title says what it is",
         discount_pct=pct, score=round(pct or 0.0, 2), raw={"feeds": p.feeds, "store_how": "the post's seller", "text": p.text[:1500]})
+
+
+# --- a venue's own page ----------------------------------------------------------------------------------------------
+# A place's own sale on its tickets, passes and memberships is on no deal site: in Black Friday week of 2026 Six Flags
+# Over Texas, SeaWorld San Antonio, Texas Tides and two zoos each ran one, and only their own pages said so. So Slomp
+# reads those pages itself. slomp/data/venue_pages.json says where a venue sells its tickets; what the offer is comes
+# from the page, each build, in the page's words. A page that states no saving shows nothing.
+#
+# The hard part is telling a sale from a perk. The same pages list what a pass holder gets ("10% off in our Cafe",
+# "20% off admission for friends and family who visit with you"), and read as one run of words a perk sits right
+# beside the next pass's name. So a page is read block by block, as it is laid out: a heading, a tile's label, a
+# paragraph are each a line, and what a percent is off is settled by its own line and the lines touching it.
+_BLOCK = re.compile(r"</?(?:p|div|li|ul|ol|h[1-6]|section|article|header|footer|nav|main|aside|table|tr|td|th|br|button|form|"
+                    r"label|figure|figcaption|blockquote|dl|dt|dd|hr|title|option|summary|details|caption)\b[^>]*>", re.I)
+_PASS_WORD = r"(?:tickets?|pass(?:es)?|memberships?)"
+_PASS = re.compile(r"\b" + _PASS_WORD + r"\b", re.I)
+# A saving as a percent: "Save up to 55% on Tickets, Passes and More!", "50% Off Texas Annual Pass". A perk is often
+# worded otherwise ("20% Food and Beverage Discount") and then never comes up.
+_SAVING = re.compile(r"\bsave\s+(up\s?to\s+)?(\d{1,2})\s?%|\b(up\s?to\s+)?(\d{1,2})\s?%\s+off\b", re.I)
+# What the percent is off, when the line goes on to say and it is the ticket: "off Texas Annual Pass", "on Tickets,
+# Passes and More", "off * a membership". A few words may come between, but none that turns the ticket into the way
+# to get the saving ("10% off select items with your pass").
+_ON_IT = re.compile(r"\s*(?:off\s+)?(?:on\s+)?(?:[*+]\s*)?((?:(?!(?:with|for|at|in|to|when|using|by|per|and)\b)[\w'’&+-]+,?\s+){0,4}?"
+                    + _PASS_WORD + r")\b", re.I)
+# ... or the line says nothing about what it is off ("Black Friday: Save up to 50%", "20% off + 2 free months",
+# "15% off for a limited time"), and the ticket is named beside it.
+_BARE = re.compile(r"\s*(?:$|[!.*+|,;:–—-]|(?:for a limited time|today|now|during|this|ends?|through|until|when you|"
+                   r"with (?:promo )?code|online)\b)", re.I)
+# A line that names a ticket, as a tile's label does: "Single-Day Ticket", "SeaWorld 2027 Season Pass (1 Park)".
+_NAMED = re.compile(r"\b(?:Tickets?|Pass(?:es)?|Memberships?|Admission|TICKETS?|PASS(?:ES)?|MEMBERSHIPS?|ADMISSION)\b")
+# The ticket's own name: the capitalized words that end at it ("Texas Annual Pass", "Portal Passes").
+_ITS_NAME = re.compile(r"((?:[A-Z0-9][\w'’&+-]*\s+){1,4}(?:Tickets?|Pass(?:es)?|Memberships?))\b")
+# Not the visitor's own ticket: one for whoever a pass holder brings, or the second of two.
+_NOT_OURS = re.compile(r"\bfriends?\b|\bguests?\b|\bbring-a-friend\b|\bwho visit with you\b|\bwhen visiting with\b|"
+                       r"\b(?:second|2nd|additional|extra|companion)\b", re.I)
+# Half off the second ticket is a quarter off two, and a page's headline may still call it "up to 50% off tickets".
+_TWO_FOR = re.compile(r"\bbuy\s+one\b|\bbogo\b|\b(?:second|2nd)\b", re.I)
+# Not everyone's: an offer for one group of people, or what a member or pass holder gets.
+_ONE_GROUP = re.compile(r"\b(?:military|first responders?|veterans?|seniors?|students?|teachers?|educators?|groups?|"
+                        r"(?:members?|pass\s?holders?|pass members?)\s+(?:\w+\s+){0,2}(?:save|enjoy|receive|get)|"
+                        r"as an? (?:\w+\s+)?(?:member|pass\s?holder))\b", re.I)
+# A list of what a pass or membership comes with says so above it.
+_COMES_WITH = re.compile(r"\b(?:benefits?|perks?|includes?|included)\b", re.I)
+# What a percent is off of when it is a perk and not the ticket.
+_PERK = re.compile(r"\b(?:food|beverages?|dining|drinks?|meals?|retail|merchandise|gift shop|shop(?:ping)?|parking|photos?|"
+                   r"cabanas?|lockers?|birthday|parties|camps?|classes|strollers?|rentals?|tours?|encounters?|hotel|rooms?|spa|"
+                   r"caf[eé]|restaurants?|concessions?|products?|items|purchases?)\b", re.I)
+# A price for one, where the page is speaking of a sale: "Get a 2027 Silver Pass for $69. Ends 11/27." A price by the
+# month is a payment plan.
+_FOR_PRICE = re.compile(r"\b((?:\d{4}\s+)?(?:[A-Z][\w'’-]*\s+){0,3}(?:Pass(?:es)?|Tickets?|Memberships?))\s+(?:for|as\s+low\s+as|from|"
+                        r"starting\s+at)\s+(?:just\s+|only\s+)?\$\s?(\d[\d,]*(?:\.\d\d)?)(?!\d|[.,]\d|\s*(?:/|per\b|a\s+mo|each\b|monthly))")
+_SALE_CUE = re.compile(r"\b(?:sale|deals?|limited[- ]time|special offers?|offer ends|ends\s+\d|(?:now\s+)?through\s+(?:\w+\.?\s+)?\d)\b", re.I)
+_PRICES = re.compile(r"\s*(?:\$\s?[\d,]+(?:\.\d\d)?\s*){1,2}$")              # a tile's was and now: "$145.99 $59.99"
+_YEAR = re.compile(r"\b(20\d\d)\b")
+_SAYS_WHEN = re.compile(r"\b(?:ends?|through|thru|until|expires?|valid)\b", re.I)     # the line under an offer, dating it
+_STOP = re.compile(r"(?<=[.!?])\s+(?=[A-Z])")                               # a sentence ends: not at "Nov. 30" or "$3.89"
+# A link on a venue's page worth following: its sale's own page, named for a day or for what it is.
+_SALE_PATH = re.compile(r"black-?friday|cyber-?(?:monday|week)|(?:memorial|labor|presidents|veterans|mothers|fathers)-?day|"
+                        r"fourth-of-july|(?<![a-z])(?:deals?|offers?|sales?|specials?|promotions?)(?![a-z])", re.I)
+_NOT_THAT_PATH = re.compile(r"group|military|student|teacher|birthday|dining|drinks?|food|corporate|hotel|meal|camp|feed\b|"
+                            r"events?|packages?|spa\b|fitness|locals?\b", re.I)
+FOLLOW = 3                 # how many sale pages of a venue are read beside the ones listed
+LONG = 200                 # a line longer than this is a paragraph: its sentences are read one by one
+_KINDS = (("membership", "Memberships"), ("pass", "Passes"), ("ticket", "Tickets"))
+
+
+@dataclass
+class PageOffer:
+    """One saving a venue's page states."""
+    pct: Optional[float] = None
+    upto: bool = False
+    price: Optional[float] = None
+    thing: str = ""                      # the ticket's own name, when the page gives one: "2027 Silver Pass"
+    kind: str = ""                       # what it is, when it has no name: "Memberships"
+    said: str = ""                       # the page's words
+    around: str = ""                     # those words with the heading over them: where the sale is named and dated
+
+
+@lru_cache(maxsize=1)
+def venue_pages() -> list[dict]:
+    return json.loads((DATA / "venue_pages.json").read_text())["venues"]
+
+
+def page_lines(page: str) -> list[str]:
+    """The text a visitor sees, a line for each block of the page: a heading, a tile's label, a paragraph."""
+    from .regulars import page_texts, tidy
+    body = re.sub(r"<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", page, flags=re.S | re.I)
+    body = re.sub(r"<[^>]+>", " ", _BLOCK.sub("\n", body))
+    lines = [ln for ln in (tidy(htmllib.unescape(ln)) for ln in body.split("\n")) if ln]
+    if sum(map(len, lines)) < 400:                       # a page its scripts build: its wording is in its data
+        data = page_texts(page)[1]
+        lines += [data] if data else []
+    return lines
+
+
+def _sentence(line: str, lo: int, hi: int) -> tuple[int, int]:
+    """Where the sentence holding line[lo:hi] starts and ends. A short line is one statement whole."""
+    if len(line) <= LONG:
+        return 0, len(line)
+    starts = [m.end() for m in _STOP.finditer(line, 0, lo)]
+    end = _STOP.search(line, hi)
+    return (starts[-1] if starts else 0), (end.start() if end else len(line))
+
+
+def _kind(words: str) -> str:
+    return next((plural for stem, plural in _KINDS if stem in words.lower()), "")
+
+
+def _names_one(line: str) -> bool:
+    return len(line) <= 70 and bool(_NAMED.search(line)) and "$" not in line and "%" not in line and \
+        not (_NOT_OURS.search(line) or _PERK.search(line) or _ONE_GROUP.search(line))
+
+
+def page_offers(lines: list[str], this_year: int) -> list[PageOffer]:
+    """The savings on tickets, passes and memberships a venue's page states, each in the page's words. `lines` is the
+    page as page_lines() gives it."""
+    n = len(lines)
+    short = lambda i: lines[i] if 0 <= i < n and len(lines[i]) <= 90 else ""        # noqa: E731  a heading or a label
+    found: list[tuple[int, int, dict]] = []      # (first line, last line, what was read)
+    perks: set[int] = set()                      # lines that state a saving on something else
+    bare: dict[int, float] = {}                  # lines that state a percent and nothing more
+    two_for: set[float] = set()                  # percents the page says are off the second of two tickets
+    for i, line in enumerate(lines):
+        for m in _SAVING.finditer(line):
+            pct, upto = float(m.group(2) or m.group(4)), bool(m.group(1) or m.group(3))
+            a, b = _sentence(line, m.start(), m.end())
+            sent, rest = line[a:b], line[m.end():b]
+            near = line if len(line) <= 600 else line[max(0, a - 200):b + 200]     # where a long line dates the offer
+            on = _ON_IT.match(rest)
+            if _TWO_FOR.search(sent) and _PASS.search(sent):
+                two_for.add(pct)
+            if on and (_PERK.search(on.group(1)) or _NOT_OURS.search(sent)):
+                perks.add(i)
+                continue
+            if on:
+                its = _ITS_NAME.search(on.group(1))
+                found.append((i, i, dict(pct=pct, upto=upto, thing=its.group(1) if its else "", kind=_kind(on.group(1)),
+                                         said=sent, near=near, own=True)))
+                continue
+            before = line[a:m.start()][-90:]
+            lead = _ITS_NAME.findall(before)
+            if not _BARE.match(rest):
+                # It goes on to name something that is not a ticket. That is a perk, unless the line began by naming
+                # the ticket's own sale: "Black Friday Annual Pass Sale: 25% off a Whole Year of Fun".
+                if lead and (_SALE_CUE.search(before) or days.named(before)) and not (_PERK.search(rest) or _NOT_OURS.search(sent)):
+                    found.append((i, i, dict(pct=pct, upto=upto, thing=lead[-1], kind=_kind(lead[-1]), said=sent, near=near, own=True)))
+                else:
+                    perks.add(i)
+                continue
+            if _NOT_OURS.search(sent):
+                continue
+            bare.setdefault(i, pct)
+            if lead:                              # the ticket is named on the same line: "Any Day Ticket: Save 25%"
+                found.append((i, i, dict(pct=pct, upto=upto, thing=lead[-1], kind=_kind(lead[-1]), said=sent, near=near)))
+                continue
+            # ... or on the line beside it: its tile's label, over it or under it, a price or the same badge between
+            for step in (-1, 1):
+                j, hops = i + step, 0
+                while 0 <= j < n and hops < 2 and (_PRICES.match(lines[j]) or lines[j] == line):
+                    j, hops = j + step, hops + 1
+                if 0 <= j < n and _names_one(lines[j]):
+                    lo, hi = min(i, j), max(i, j)
+                    its = _ITS_NAME.search(lines[j])
+                    found.append((lo, hi, dict(pct=pct, upto=upto, thing=its.group(1) if its else "", kind=_kind(lines[j]),
+                                               said=" ".join(dict.fromkeys(lines[lo:hi + 1])))))
+                    break
+        for m in _FOR_PRICE.finditer(line):
+            a, b = _sentence(line, m.start(), m.end())
+            if _SALE_CUE.search(line) or days.named(line) or _SALE_CUE.search(short(i - 1)) or days.named(short(i - 1)):
+                found.append((i, i, dict(price=float(m.group(2).replace(",", "")), thing=m.group(1).strip(),
+                                         said=line if len(line) <= LONG else line[a:b], check=line[a:b], own=True,
+                                         near=line if len(line) <= 600 else line[max(0, a - 200):b + 200])))
+    out: list[PageOffer] = []
+    for lo, hi, o in found:
+        own = o.pop("own", False)
+        check = o.pop("check", o["said"])
+        if own and o.get("pct") is not None and (lo - 1 in perks or hi + 1 in perks):       # one of a list of perks
+            continue
+        if o.get("pct") is not None and (_COMES_WITH.search(short(lo - 1)) or _COMES_WITH.search(short(lo - 2))):
+            continue                                                                        # under "Member Benefits"
+        if not own and any(k in bare and bare[k] != o["pct"] for k in (lo - 1, hi + 1) if not lo <= k <= hi):
+            continue                                                                        # a table of what each tier gets
+        if _ONE_GROUP.search(check) or _ONE_GROUP.search(short(lo - 1)) or _ONE_GROUP.search(short(hi + 1)):
+            continue
+        if o.get("pct") in two_for and not o.get("thing"):                                  # the page's own name for a two-for
+            continue
+        under = short(hi + 1) if _SAYS_WHEN.search(short(hi + 1)) and not _SAVING.search(short(hi + 1)) else ""
+        around = " ".join(x for x in (short(lo - 1), o.pop("near", "") or " ".join(lines[lo:hi + 1]), under) if x)
+        years = [int(y) for y in _YEAR.findall(around)]
+        if years and max(years) < this_year:                                                # "Black Friday 2024": an old page
+            continue
+        for name in days.named(o.get("thing", "")):           # "Black Friday Annual Pass" is an Annual Pass
+            o["thing"] = clean(re.sub(re.escape(name), "", o["thing"], flags=re.I))
+        out.append(PageOffer(said=clean(o.pop("said"))[:240], around=around, **o))
+    return out
+
+
+def sale_links(page_html: str, page_url: str) -> list[str]:
+    """The venue's own sale pages a page links to: same site, same section of it, a path that names a sale."""
+    here = urlsplit(page_url)
+    section = here.path.strip("/").split("/")[0] if here.path.strip("/").count("/") else ""
+    found: dict[str, int] = {}
+    for href in re.findall(r'href="([^"#?]+)', page_html):
+        u = urlsplit(urljoin(page_url, href))
+        if u.hostname != here.hostname or u.path.rstrip("/") == here.path.rstrip("/"):
+            continue
+        if section and not u.path.strip("/").startswith(section + "/"):
+            continue
+        tail = u.path.strip("/")[len(section):]
+        if _SALE_PATH.search(tail) and not _NOT_THAT_PATH.search(tail):
+            found.setdefault(f"https://{u.hostname}{u.path}", 0 if days.SLUG.search(tail) else 1)
+    return [u for u, _ in sorted(found.items(), key=lambda kv: (kv[1], len(kv[0]), kv[0]))][:FOLLOW]
+
+
+def _dates(text: str, now: datetime) -> tuple[Optional[datetime], Optional[datetime], str]:
+    """When the sale a page states starts and ends, read as a post's words are (sales.sale_dates), and an end that has
+    already passed. A post never states one of those; a page left up does ("40% off ends September 10"), and to
+    read it the words are dated as if written some months ago."""
+    from .sales import sale_dates
+    first = None
+    for back in (0, 90, 180):
+        starts, ends, how = sale_dates(Post(source="", id="", url="", title="", text=text, posted_at=now - timedelta(days=back)), now)
+        first = first or (starts, ends, how)
+        if ends:
+            return (starts if not back else None), ends, how
+    return first
+
+
+def venue_sale(venue: dict, read: list[tuple[str, list[str]]], now: datetime) -> Optional[StoreSale]:
+    """A venue's sale as its pages state it: the biggest saving, in the page's words, with the page it is on. `read`
+    is [(page address, the page's lines)]. None when no page states a saving that is still on."""
+    from .sales import CENTRAL, _end_of, code_of, event_phrase
+    today = now.astimezone(CENTRAL).date()
+    live: list[tuple[tuple, PageOffer, str, tuple]] = []
+    for url, lines in read:
+        for o in page_offers(lines, today.year):
+            dates = _dates(o.around, now)
+            day = days.day_of(o.around, today)
+            if dates[1] and dates[1] < now:
+                continue                                         # the page still says it, and says it is over
+            if days.named(o.around) and not day and not dates[1]:
+                continue                                         # named for a day that is not coming: a page left up
+            live.append(((o.pct is not None, o.pct or 0.0, -(o.price or 0.0), dates[1] is not None, day is not None), o, url, dates))
+    if not live:
+        return None
+    _, o, url, (starts, ends, ends_how) = max(live, key=lambda x: x[0])     # the first of equals: the top of the page
+    pcts = {x[1].pct for x in live if x[1].pct is not None}
+    day = days.day_of(o.around, today)
+    event = event_phrase(o.around) or (f"{day[0]} sale" if day else "")
+    if o.pct is not None:
+        upto = o.upto or (not o.thing and len(pcts) > 1)         # several savings and none named: this one is the most
+        words, badge = (f"Up to {o.pct:g}% off", f"Up to {o.pct:g}%") if upto else (f"{o.pct:g}% off", f"{o.pct:g}% off")
+        pct, rank = None if upto else o.pct, o.pct / 2 if upto else o.pct
+        name = event if event and o.thing.lower() in event.lower() else f"{event}: {o.thing}" if event else \
+            o.thing or o.kind or "Tickets and passes"
+    else:                                                        # the offer line names the pass: the name is the sale's
+        upto, words, badge, pct, rank = False, f"{o.thing} for {_usd(o.price)}", _usd(o.price), None, None
+        name = event or _kind(o.thing) or "Tickets and passes"
+    site = venue.get("site") or (urlsplit(url).hostname or "").removeprefix("www.")
+    return StoreSale(
+        id="sale:venue:" + re.sub(r"[^a-z0-9]+", "-", venue["name"].lower()).strip("-"), store="", store_name=venue["name"],
+        title=o.said, name=name, offer=words, badge=badge, badge_soft=upto, what=TICKETS, own_site=True,
+        code=code_of(o.said, "", None, today, today)[0], pct=pct, upto=o.pct if upto else None,
+        starts_at=starts, ends_at=ends, ends_how=ends_how.replace("the post says", "the page says"),
+        event=day[0] if day else "", event_ends_at=_end_of(day[1]) if day and not ends else None,
+        offer_how=f"{site} says “{o.said}”", posted_at=now, checked_at=now, source=site, source_url=url,
+        industries=[ENTERTAINMENT], industry_rule="a venue's own page", discount_pct=rank, score=round(rank or 0.0, 2),
+        city=venue.get("city", ""), raw={"store_how": "slomp/data/venue_pages.json", "text": o.around})
+
+
+async def venue_sales(http, now: datetime) -> tuple[list[StoreSale], list[dict]]:
+    """Every listed venue's sale, read from its own pages now, and what was read: (sales, sources). A page that can't
+    be read (robots.txt, a bot check, an error) is reported and never worked around."""
+    from .config import TTL
+    from .http import FetchError
+
+    async def one(venue: dict) -> tuple[Optional[StoreSale], dict]:
+        read, error, todo, seen, followed = [], "", list(venue["pages"]), set(), 0
+        while todo:
+            url = todo.pop(0)
+            if url in seen:
+                continue
+            seen.add(url)
+            try:
+                r = await http.get(url, ttl_s=TTL["page"], html=True)
+            except FetchError as e:
+                error = error or e.reason
+                continue
+            if r.status != 200:
+                error = error or f"HTTP {r.status}"
+                continue
+            read.append((r.final_url or url, page_lines(r.text)))
+            if url in venue["pages"]:
+                more = [u for u in sale_links(r.text, r.final_url or url) if u not in seen and u not in todo][:FOLLOW - followed]
+                todo, followed = todo + more, followed + len(more)
+        sale = venue_sale(venue, read, now) if read else None
+        # `own_site` sets it apart from the deal sites: a place that can't be read is one card missing, not a feed
+        return sale, {"name": f"{venue['name']} (its own site)", "own_site": True, "ok": bool(read), "posts": int(sale is not None),
+                      **({"error": error} if error and not read else {})}
+    got = await asyncio.gather(*(one(v) for v in venue_pages()))
+    return [s for s, _ in got if s is not None], [src for _, src in got]

@@ -393,9 +393,51 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
   the page ask the second for the Sales and Stores tabs, so choosing only Movies & Entertainment gives Near you,
   Regulars, Sales and Stores, and no Online tab. These offers are not among the home page's biggest deals.
 
-What this does not reach: a venue's own sale that no deal site posts. Six Flags' 2027 pass, SeaWorld San Antonio's
-Black Friday presale and the zoos' membership sales were found by hand on the venues' own pages only; reading those
-would be a registry of venue pages, as regular deals have.
+**A place's own sale, read from its own page.** A place's sale on its own tickets is on no deal site: in Black Friday
+week of 2026 Six Flags' 2027 pass, SeaWorld San Antonio's sale, Texas Tides' and two zoos' membership offers were on
+their own pages only. Slomp reads those pages itself, on every build (`slomp/entertainment.py`, "a venue's own page").
+
+- **Where to look** is a list, `slomp/data/venue_pages.json`: a place in Texas, its city, and the page where it sells
+  its tickets, passes or memberships. The list never says what an offer is. A sale's own page that one of those pages
+  links to is read too (same site, same section of it, a path that names a sale: "black-friday-deal",
+  "special-offers", "promotions"; not one for groups, the military, events or hotel packages), three at most.
+- **The page is read block by block**, as it is laid out: a heading, a tile's label and a paragraph are each a line.
+  Read as one run of words, a perk sits right beside the next pass's name ("10% off in our Cafe New Pass $59"), and
+  a menu's "Military Offers" sits beside the headline. What a percent is off is settled by its own line and the
+  lines touching it.
+- **What is a sale.** A saving whose own line says it is on a ticket, a pass or a membership ("Save up to 55% on
+  Tickets, Passes and More!", "50% Off Texas Annual Pass", "save 10% on membership"). A line that states a percent
+  and nothing more, beside the tile's label that names the ticket ("Single-Day Ticket" over "Black Friday: Save up to
+  50%"; "20% off + 2 free months" over "Portal Pass Supremium"; a was and a now, or the same badge, may sit between).
+  A line that names the ticket's own sale ("Black Friday Annual Pass Sale: 25% off a Whole Year of Fun"). And a
+  price for a named pass where its line or the heading over it speaks of a sale ("Get a 2027 Silver Pass for $69.
+  Ends 11/27."); a price by the month is a payment plan and is not read.
+- **What is a perk.** The same pages list what a pass holder gets, and none of that is a sale: a percent off anything
+  else (food, the shop, parking, "Quick Queue"); a ticket for whoever comes along, or the second of two ("for friends
+  and family who visit with you", "Bring-A-Friend", "a second General Admission ticket"); a saving on tickets that
+  sits in a list of perks (the line beside it is a perk, or the heading over it says benefits, perks or includes: a
+  member's "15% off any attraction ticket purchase"); a table of what each tier gets (two percents side by side);
+  and an offer for one group of people (the military, seniors, students), as everywhere in Entertainment. Half off
+  the second of two tickets is not half off either: when a page says a percent is off "a second" ticket, its
+  headline's looser "up to 50% off tickets" is not shown.
+- **The card.** One for a place: the biggest saving its pages state that is still on, quoted in the page's words and
+  linked to that page, with the place's name in full and its city (`StoreSale.own_site`, `.city`). It says "Up to"
+  when the page does, or when the pages state several savings and the biggest names no ticket; a saving on a named
+  pass keeps its figure. Of two statements of the same saving, the one that gives an end date or names its day
+  leads, then the one higher on the page. A place that could not be read is not counted among the deal sites that
+  could not be reached; under Movies & Entertainment the tab's notes name it.
+- **When.** The end the page states, on the offer's line, the heading over it or the line under it ("deal ends
+  December 1st!"). With no end, a sale named for a day lasts through it (4.4). Not shown: an offer whose stated end
+  has passed, one that names a year gone by, and one named for a day that is not in the coming week with no end
+  stated, which is a page left up. An offer with no end and no day is shown while the page states it: the page is
+  read again on every build, so there is no post to go stale.
+- **What can't be read is reported**, never worked around: robots.txt (the Fort Worth Zoo turns AI assistants away
+  by name, so a run an assistant starts does not read it), a bot check, an error. The build's sources list has a
+  line for each place.
+
+What this still does not reach: a place that is not on the list, a sale a place announces only by email or on
+social media, and one its page words in a way these rules do not read (SeaWorld's "Save Over 35%" on a pass is
+passed over; its "Save Up to 50% on Tickets" is read).
 
 ## 5. Trade-offs
 

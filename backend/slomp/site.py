@@ -736,6 +736,10 @@ async def sales_file(svc: SlompService, log=print) -> dict:
         f"({clock.time() - t0:.0f}s)")
     for line in named_store_lines(res.sales):
         log(line)
+    places = [s for s in res.sources if s.get("own_site")]          # the venues' own ticket pages (slomp/entertainment.py)
+    if places:
+        log(f"places' own pages: {sum(s['posts'] for s in places)} of {len(places)} state a sale" +
+            "".join(f"; {s['name'].removesuffix(' (its own site)')} not read ({s.get('error') or 'no page'})" for s in places if not s["ok"]))
     for line in left_out_lines("store sales", getattr(res, "left_out", {})):
         log(line)
     return {"built": res.generated_at.isoformat(timespec="seconds"), "generated_at": res.generated_at.isoformat(),

@@ -225,6 +225,8 @@ legend { padding: 0; }
         margin-top: auto; padding-top: 9px; font-size: 13px; color: var(--muted); }
 .who { display: inline-flex; align-items: center; gap: 5px; min-width: 0; max-width: 100%; white-space: nowrap; }
 .who b { overflow: hidden; text-overflow: ellipsis; font-weight: 650; color: var(--ink); }
+.who.whole { display: block; white-space: normal; }      /* a place's name in full: which park it is, is the point */
+.who.whole b { overflow: visible; }
 .end { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .end .i { width: 13px; height: 13px; }
 .end.urgent { font-weight: 700; color: var(--urgent); }
@@ -1315,7 +1317,7 @@ function saleWhen(d, tz) {
   const now = Date.now();
   if (d.starts_at && Date.parse(d.starts_at) > now) return {text: `Starts ${day(d.starts_at, tz)}`, urgent: false};
   if (!d.ends_at && d.event_ends_at && Date.parse(d.event_ends_at) >= now) return {text: `On through ${d.event}`, urgent: false};
-  if (!d.ends_at) return {text: d.posted_at ? `Posted ${ago(d.posted_at)}` : "No end date given", urgent: false};
+  if (!d.ends_at) return {text: d.posted_at && !d.own_site ? `Posted ${ago(d.posted_at)}` : "No end date given", urgent: false};
   const at = Date.parse(d.ends_at), hour = Number(new Date(at).toLocaleString("en-US", {hour: "numeric", hourCycle: "h23", timeZone: tz}));
   const last = new Date(hour < 4 ? at - SMALL_HOURS : at).toISOString(), end = day(last, tz);
   if (end === day(new Date(now).toISOString(), tz)) return {text: "Ends today", urgent: true, last};
@@ -1354,7 +1356,8 @@ function saleCard(d, i) {
   const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
   const key = d.code ? `<span class="tag code">Code ${esc(d.code)}</span>` : keyTag(d.conditions || []);
   return `<div class="cell"><article class="card" role="button" tabindex="0" data-i="${i}">${saleThumb(d)}<div class="body">` +
-    `${offer}<h3 class="title">${esc(d.name)}</h3>${key}${footHtml(d.store_name, WHAT[d.what] ? ` · ${WHAT[d.what]}` : "", w)}</div></article>${addHtml(d, i)}</div>`;
+    `${offer}<h3 class="title">${esc(d.name)}</h3>${key}${d.own_site ? footHtml(d.store_name, d.city ? ` · ${esc(d.city)}` : "", w, true)
+      : footHtml(d.store_name, WHAT[d.what] ? ` · ${WHAT[d.what]}` : "", w)}</div></article>${addHtml(d, i)}</div>`;
 }
 
 // What Slomp left out: only what concerns sales (the product posts in the same feeds are the Online tab's).
@@ -1377,8 +1380,11 @@ function salesPanel(SL) {
     [["all", "All", S.sales.length]].concat(inds.map(i => [i, short(i), S.sales.filter(d => d.industries.includes(i)).length])).map(([id, text, n]) =>
       `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
       (ART[id] ? pillArt(id) : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
-  const down = (SL.sources || []).filter(s => !s.ok).length;
-  const notice = down ? noticeHtml(`${down} of ${SL.sources.length} deal sites couldn't be reached just now, so some sales may be missing.`) : "";
+  // A place's own ticket page (slomp/entertainment.py) is not a deal site: one that can't be read is one card missing.
+  const feeds = (SL.sources || []).filter(s => !s.own_site), down = feeds.filter(s => !s.ok).length;
+  const notice = down ? noticeHtml(`${down} of ${feeds.length} deal sites couldn't be reached just now, so some sales may be missing.`) : "";
+  const unread = SL.industries.includes("entertainment") && (cur === "all" || cur === "entertainment")
+    ? (SL.sources || []).filter(s => s.own_site && !s.ok).map(s => s.name.replace(/ \(its own site\)$/, "")) : [];
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
     : emptyHtml("store", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
@@ -1387,7 +1393,9 @@ function salesPanel(SL) {
   const about = aboutHtml([
     ...(shipped ? ["Sales, promo codes and sale events at online stores that ship anywhere in Texas. They're the same for every city."] : []),
     ...(bought ? ["Subscriptions to watch, listen and play, and tickets, passes and memberships for places to go: bought online, the same for every city."] : []),
-    "Each one links to the deal post it came from. Tap a sale for its code, its conditions and when it ends.",
+    ...(list.some(d => d.own_site) ? ["Places in Texas are read from their own ticket pages, and each one says which city it is in."] : []),
+    ...(unread.length ? [`${esc(unread.join(", "))}: ${unread.length === 1 ? "its own page" : "their own pages"} couldn't be read this time, so a sale there would be missing.`] : []),
+    `Each one links to the deal post${list.some(d => d.own_site) ? " or the page" : ""} it came from. Tap a sale for its code, its conditions and when it ends.`,
   ], saleLeftout(SL.excluded));
   return notice + `<div class="subhead">${pills}${ctxHtml(shipChips(list))}</div>` + body + about;
 }
@@ -1536,7 +1544,7 @@ function faceWhen(d, tz) {
 }
 const endHtml = w => w ? `<span class="end${w.urgent ? " urgent" : w.soon ? " soon" : ""}">${ICONS.clock}${esc(w.text)}</span>` : "";
 // A card's last line: who (and how far), and when it ends.
-const footHtml = (who, more, w) => `<div class="foot"><span class="who"><b>${esc(who)}</b>${more}</span>${endHtml(w)}</div>`;
+const footHtml = (who, more, w, whole) => `<div class="foot"><span class="who${whole ? " whole" : ""}"><b>${esc(who)}</b>${more}</span>${endHtml(w)}</div>`;
 
 function localBadge(d) {
   const t = d.terms;
@@ -1819,12 +1827,17 @@ function saleDetail(d) {
   if (d.starts_at && Date.parse(d.starts_at) > Date.now()) rows.push(["Starts", esc(day(d.starts_at, tz))]);
   rows.push(["Ends", d.ends_at ? esc(endText(d.ends_at, tz)) + (d.ends_how ? `<br><span class="muted">${esc(d.ends_how.startsWith("the ") ? cap(d.ends_how) : d.ends_how)}</span>` : "")
     : d.event_ends_at ? `<span class="muted">No end date given. It is named for ${esc(d.event)}, so Slomp shows it through ${esc(day(d.event_ends_at, tz))}.</span>`
+    : d.own_site ? `<span class="muted">No end date given. Slomp shows it while the place's own page says so.</span>`
     : `<span class="muted">No end date given. Slomp shows it for 7 days after it was posted.</span>`]);
   if ((d.conditions || []).length) rows.push(["Conditions", allTags(d.conditions)]);
   if (d.shipping) rows.push(["Shipping", esc(d.shipping)]);
+  if (d.city) rows.push(["Where", `${esc(d.city)}, Texas`]);
   rows.push([d.what ? "Sold by" : "Store", site ? `<a href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(d.store_name)}</a>` : esc(d.store_name)]);
-  const source = [["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
-    (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]];
+  // A place's own page (slomp/entertainment.py) is read afresh each time the deals are gathered: there is no post.
+  const source = d.own_site ? [["Read", `${d.checked_at ? readAgo(d.checked_at) + " on " : "On "}${siteLink(d.source_url, d.source)}` +
+      `<br><span class="muted">This is ${esc(d.store_name)}'s own page, not a deal site's post. The offer is in its words.</span>`]]
+    : [["Posted", `${d.posted_at ? ago(d.posted_at) + " on " : "On "}${esc(d.source)}` +
+      (d.checked_at ? `<br><span class="muted">Slomp read the post again ${readAgo(d.checked_at)}, and it was still up.</span>` : "")]];
   if ((d.also_posted || []).length) source.push(["Also posted", d.also_posted.map(p => siteLink(p.url, p.source)).join(", ")]);
   // The code is what you need at checkout, so it stays in sight with its Copy button.
   const code = d.code ? `<div class="codebox"><code>${esc(d.code)}</code><button type="button" class="btn small ghost" data-copy="${esc(d.code)}">Copy</button>` +
@@ -1836,10 +1849,10 @@ function saleDetail(d) {
   const offer = d.offer && !sameOffer(d.offer, d.badge) ? `<div class="offer">${esc(d.offer)}</div>` : "";
   const shown = d.image_url || !(st && st.logo) ? d : {...d, image_url: logoSrc(st.logo.url)};
   return sheetHtml(shown, !!d.image_url && PHOTO_FEEDS.has(d.source),
-    `<p class="eyebrow">${esc(d.store_name)} · ${WHAT[d.what] ? WHAT[d.what].toLowerCase() + ", bought online" : "online store"}</p><h2 id="detail-title">${esc(d.title)}</h2>` +
+    `<p class="eyebrow">${esc(d.store_name)} · ${d.city ? esc(d.city) + " · " : ""}${WHAT[d.what] ? WHAT[d.what].toLowerCase() + ", bought online" : "online store"}</p><h2 id="detail-title">${esc(d.own_site ? d.name : d.title)}</h2>` +
     (offer || (d.badge ? `<div class="price">${badgeInline({text: d.badge, soft: d.badge_soft})}</div>` : "")) + code +
     `<div class="hero-chips">${chips.join("")}</div>` +
-    `<div class="actions">${actionHtml(d.source_url, "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>` +
+    `<div class="actions">${actionHtml(d.source_url, d.own_site ? `See it on ${esc(d.source)}` : "Open the deal post", true)}${site ? actionHtml(site, `Go to ${esc(hostOf(site))}`, false) : ""}${cardToggleHtml(d)}</div>` +
     `<div class="drops">${dropHtml("Details", factsHtml(rows))}${dropHtml("Where this comes from", factsHtml(source), esc(d.source))}</div>`);
 }
 

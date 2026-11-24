@@ -112,7 +112,31 @@ def _num_in(text: str, n: str) -> bool:
     return re.search(re.escape(k) + r"(?![\d])", t) is not None
 
 
+def _same(text: str) -> str:
+    return re.sub(r"\s+", " ", text.replace("’", "'").replace("‘", "'")).strip().lower()
+
+
+async def own_page(http: PoliteClient, s: StoreSale) -> tuple[str, dict]:
+    """A sale read from the seller's own page (a venue's tickets page, slomp/entertainment.py): the page is the
+    seller's, and it still says the words Slomp quotes, the end Slomp shows and the code."""
+    from ..entertainment import page_lines
+    det = {"url": s.source_url, "quote": s.title, "ends_how": s.ends_how}
+    if not (urlsplit(s.source_url).hostname or "").endswith(s.source):
+        return FAIL, {**det, "why": f"the page is not on {s.source}"}
+    _, page, _, why = await read(http, s.source_url)
+    if why == "HTTP 404":
+        return FAIL, {**det, "why": "the page was removed (404)"}
+    if why:
+        return INCONCLUSIVE, {**det, "why": why}
+    text = _same(" ".join(page_lines(page)))
+    said_end = s.ends_how.split("“", 1)[-1].rstrip("”") if "“" in s.ends_how else ""
+    gone = [q for q in (s.title, said_end, s.code) if q and _same(q) not in text]
+    return (FAIL, {**det, "why": f"the page no longer says {gone[0]!r}"}) if gone else (PASS, det)
+
+
 async def sale_source(http: PoliteClient, s: StoreSale) -> tuple[str, dict]:
+    if getattr(s, "own_site", False):
+        return await own_page(http, s)
     text, page, final, why = await read(http, s.source_url)
     if why == "HTTP 404":
         return FAIL, {"why": "the post was removed (404)", "url": s.source_url}
@@ -181,6 +205,8 @@ async def sale_dates(http: PoliteClient, s: StoreSale, now: datetime) -> tuple[s
     if not s.ends_at and (not s.posted_at or now - s.posted_at > timedelta(days=UNDATED_DAYS)) and \
             not (s.event_ends_at and now <= s.event_ends_at):
         return FAIL, {**det, "why": f"no end and posted over {UNDATED_DAYS} days ago"}
+    if getattr(s, "own_site", False):                              # a page states many dates: the one Slomp shows is the one it quotes
+        return await own_page(http, s)
     _, page, final, why = await read(http, s.source_url)
     if why:
         return INCONCLUSIVE, {**det, "why": why}
@@ -211,6 +237,8 @@ _ITS_SALE = r"(?:'s)?\s+(?-i:(?:[A-Z&][\w'&-]*\s+){0,4})(?:sales?|events?|deals)
 
 
 async def sale_store(http: PoliteClient, s: StoreSale) -> tuple[str, dict]:
+    if getattr(s, "own_site", False):                              # the seller is whoever's page it is
+        return await own_page(http, s)
     _, page, final, why = await read(http, s.source_url)
     if why:
         return INCONCLUSIVE, {"why": why, "url": s.source_url}
