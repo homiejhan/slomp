@@ -30,7 +30,7 @@ from urllib.parse import urljoin, urlsplit
 from . import days
 from .models import StoreSale
 from .reference import DATA, norm
-from .sources.feeds import SOURCE_NAMES, FeedPlan, Post, dealnews_url
+from .sources.feeds import ADDRESS, SOURCE_NAMES, FeedPlan, Post, dealnews_url, written_name
 from .stores_online import _straight, store_named
 from .terms import clean, post_reference
 
@@ -204,6 +204,10 @@ def offer(p: Post, kind: str, now: datetime, excluded: Counter) -> Optional[Stor
         return None
     seller = "" if _DEAL_SITES.match((p.seller or "").strip()) else clean(p.seller or "")
     store = store_named(seller) if seller else find_store(p)[0]
+    if not store and ADDRESS.fullmatch(seller):
+        # A seller the registry doesn't know, given as its web address ("disneyplus.com"): the post writes its name
+        # beside it, and that is what a card shows. Failing that the address stays.
+        seller = written_name(_straight(p.text), seller) or seller
     name = store.name if store else seller
     if not name:
         excluded["entertainment: seller not named"] += 1

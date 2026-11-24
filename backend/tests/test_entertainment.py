@@ -199,3 +199,72 @@ def test_the_api_gives_entertainment_its_sales_and_no_product_deals(tmp_path, mo
     flags = {i["id"]: (i["online"], i["sales"]) for i in meta["industries"]}
     assert flags["entertainment"] == (False, True) and flags["dining"] == (False, False) and flags["tech"] == (True, True)
     assert refused.status_code == 422           # dining has no sales: the API says so
+
+
+def test_one_offer_posted_under_three_names_is_one_card():
+    # dealnews, Nov 12 to 24, 2026: the same three free months, and the published list showed three cards
+    from slomp.sales import dedupe, offer_words
+    ends = dict(expires_at=datetime(2027, 1, 11, 11, 0, tzinfo=CT), expires_stated=True)
+    music = dict(category="Music Streaming Services", seller="Amazon", **ends)
+    trial, _ = one(post("Amazon Music Unlimited 3-Month Trial: Free", days_ago=12, **music))
+    sub, _ = one(post("Amazon Music Unlimited 3-Month Subscription: free", days_ago=11, **music))
+    friday, _ = one(post("Amazon Music Unlimited Black Friday Offer: 3 months for free", days_ago=0.1, **music))
+    assert [s.name for s in (trial, sub, friday)] == ["Amazon Music Unlimited 3-Month Trial", "Amazon Music Unlimited 3-Month Subscription",
+                                                      "Amazon Music Unlimited Black Friday Offer: 3 months"]
+    ex = Counter()
+    kept = dedupe([friday, sub, trial], ex)
+    assert [s.name for s in kept] == ["Amazon Music Unlimited 3-Month Trial"] and ex["sale: same sale posted elsewhere"] == 2
+    assert [p["title"] for p in kept[0].also_posted] == [sub.title, friday.title]
+    # another term, another service or another tier is another offer
+    six, _ = one(post("Amazon Music Unlimited 6-Month Trial: Free", **music))
+    hd, _ = one(post("Amazon Music Unlimited Family Plan 3-Month Trial: Free", **music))
+    audible, _ = one(post("Audible Premium Plus 3-Month Trial: Free", **music))
+    assert len(dedupe([trial, six, hd, audible], Counter())) == 4
+    assert offer_words("Paramount+ Premium Plan Black Friday Deal") == offer_words("Paramount+ Premium Cyber Monday Subscription Offer")
+    assert offer_words("Paramount+ Essential Annual Plan") != offer_words("Paramount+ Essential Monthly Plan")
+    assert offer_words("Peacock 12-Month Plan") == offer_words("Peacock twelve month subscription") != offer_words("Peacock 1-Year Plan")
+
+
+def test_a_seller_given_as_its_web_address_is_shown_by_the_name_the_post_writes():
+    # Slickdeals, Nov 24, 2026: the card's seller read "disneyplus.com" beside dealnews' "Disney+" cards
+    from slomp.sales import dedupe, name_sellers
+    from slomp.sources.feeds import seller_key, written_name
+    title = "1-Year Disney+ w/ Hulu Premium Bundle w/ No Ads Streaming Subscription $15/Month (Valid thru 12/1)"
+    said = "Disney Plus [disneyplus.com] is offering 1-Year Disney+ w/ Hulu Premium Bundle w/ No Ads Streaming Subscription on sale for $14.99/month"
+    sd, _ = one(post(title, said, source="slickdeals", seller="disneyplus.com", days_ago=0.1))
+    assert (sd.store, sd.store_name, sd.offer) == ("", "Disney Plus", "$15 a month")
+    bare, _ = one(post(title, "Offer valid for new and eligible returning subscribers only https://www.disneyplus.com/welcome",
+                       source="slickdeals", seller="disneyplus.com", days_ago=0.1))
+    assert bare.store_name == "disneyplus.com"                      # the post writes no name: what the source gives stays
+    # one spelling for a seller across a build: a name before an address, and the best-ranked source's
+    dn, _ = one(post("Disney+ & Hulu Bundle Black Friday Deals for From $4.99/mo for a year", seller="Disney+", category="Streaming Services"))
+    hbo, _ = one(post("HBO Max Black Friday Basic w/ Ads Plan Deal for $5.49/mo", seller="HBO max"))
+    sales = [sd, bare, dn, hbo]
+    name_sellers(sales)
+    assert [s.store_name for s in sales] == ["Disney+", "Disney+", "Disney+", "HBO max"]
+    assert len(dedupe(sales, Counter())) == 3                       # the two Slickdeals posts were the same offer all along
+    alone = [one(post(title, said, source="slickdeals", seller="disneyplus.com"))[0]]
+    name_sellers(alone)
+    assert alone[0].store_name == "Disney Plus"
+    assert seller_key("Disney+") == seller_key("Disney Plus") == seller_key("disneyplus.com") == seller_key("www.disneyplus.com") == "disneyplus"
+    # the words beside an address are the store's name only when they spell it
+    assert written_name("32 Degrees [32degrees.com] has Men's Cool Classic T-Shirts", "32degrees.com") == "32 Degrees"
+    assert written_name("Deal Details Urban Outfitters [ urbanoutfitters.com ] has", "urbanoutfitters.com") == "Urban Outfitters"
+    assert written_name("PlayStation Store [playstation.com] has select games", "playstation.com") == "PlayStation Store"
+    assert written_name("Thanks to Eragorn. Disney Plus is offering a bundle. https://www.disneyplus.com/welcome", "disneyplus.com") == "Disney Plus"
+    assert written_name('Go to the page for the 77" C6 OLED evo AI 4K Smart TV [lg.com] and add it to cart', "lg.com") == ""
+    assert written_name("Check this deal [homeandcooksales.com] before it ends", "homeandcooksales.com") == ""
+    assert written_name("Catfootwear.com [catfootwear.com] has work boots", "catfootwear.com") == ""
+
+
+def test_the_duplicates_check_compares_subscriptions_as_the_pipeline_does():
+    from slomp.verify import sales_checks as sc
+    amazon = dict(seller="Amazon")
+    starz, _ = one(post("Prime Video Black Friday STARZ Subscription Deal for $2.99/mo.", **amazon))
+    paramount, _ = one(post("Prime Video Black Friday Paramount+ Subscription Deals for $2.99/mo.", **amazon))
+    assert sc.quality([starz, paramount], NOW, "duplicates")[0] == "pass"            # two channels at one price
+    music = dict(category="Music Streaming Services", **amazon)
+    trial, _ = one(post("Amazon Music Unlimited 3-Month Trial: Free", **music))
+    sub, _ = one(post("Amazon Music Unlimited 3-Month Subscription: free", **music))
+    verdict, det = sc.quality([trial, sub], NOW, "duplicates")
+    assert verdict == "fail" and "Amazon Music Unlimited 3-Month Subscription" in det["problems"][0]
