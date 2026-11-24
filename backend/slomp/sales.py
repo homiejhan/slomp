@@ -1484,6 +1484,13 @@ class StoreSales:
         if check:
             await self._check(candidates, res.excluded)
             candidates = [s for s in candidates if not s.raw.get("gone")]
+        if self.http is not None:
+            # Tickets, passes and memberships on sale at the places themselves (docs/DESIGN-online-stores.md 4.6):
+            # read from their own pages just now, so there is no post to check again and none to be a duplicate of.
+            from . import entertainment
+            venues, read = await entertainment.venue_sales(self.http, now)
+            candidates += venues
+            res.sources += read
         res.sales = sorted(candidates, key=lambda s: (-s.score, s.store_name.lower(), s.id))
         res.stores = stores_payload()
         return res

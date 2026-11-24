@@ -13481,6 +13481,268 @@
     "E206 AAA members' ticket offer": "read from Slickdeals and kept on the day's posts; not in the live result",
     "E215, E224-E228": "not among the day's posts under dealnews' three categories (Disney+ and Hulu's was only expected; Audible, Kindle+, NFL Sunday Ticket and PlayStation Plus are filed elsewhere or were not posted)"
    }
+  },
+  "venue_pages_nov24": {
+   "what": "The owner's decision on the ten findings at places to go (nine at venues and Cinemark's tickets): read each place's own ticket page on every build (slomp/entertainment.py, 'a venue's own page'; slomp/data/venue_pages.json; docs/DESIGN-online-stores.md 4.6).",
+   "pages_read_first": {
+    "pages": 30,
+    "sites": 14,
+    "read": 27,
+    "not_found": 1,
+    "not_read": {
+     "fortworthzoo.org": "robots.txt turns AI assistants away by name",
+     "cinemark.com": "answers from a host this session may not reach"
+    }
+   },
+   "first_version_misreads": [
+    "Moody Gardens: a member's '20% Off at concessions and restaurants' and '15% Off any attraction ticket purchase' shown as a sale",
+    "LEGOLAND Discovery Center: '20% off admission for friends and family who visit with you', and '10% off in our Cafe' read up against the next tile's 'New Pass'",
+    "SeaWorld San Antonio: the headline dropped because a menu's 'Military Offers' sat just before it",
+    "quotes that ran on into the next tile"
+   ],
+   "on_the_27_pages_read_first": {
+    "state_a_saving_on_tickets": 17,
+    "state_none": 10
+   },
+   "live_run": {
+    "read_at": "2026-11-24T11:10:26.576436+00:00",
+    "places_listed": 15,
+    "pages_read": 33,
+    "listed_pages_read": 18,
+    "sale_pages_found_from_them": 15,
+    "places_with_a_sale": 12,
+    "no_sale_stated": [
+     "Moody Gardens",
+     "LEGOLAND Discovery Center San Antonio"
+    ],
+    "not_read": {
+     "Fort Worth Zoo": "the site's robots.txt turns away AI assistants"
+    },
+    "cards": [
+     {
+      "place": "SEA LIFE Grapevine",
+      "city": "Grapevine",
+      "name": "Black Friday Sale: Texas Annual Pass",
+      "offer": "50% off",
+      "ends": "",
+      "through": "Black Friday",
+      "code": "",
+      "page_says": "Black Friday Sale: 50% Off Texas Annual Pass",
+      "page": "https://www.visitsealife.com/grapevine/black-friday-sale/"
+     },
+     {
+      "place": "SEA LIFE San Antonio",
+      "city": "San Antonio",
+      "name": "Black Friday Sale: Texas Annual Pass",
+      "offer": "50% off",
+      "ends": "",
+      "through": "Black Friday",
+      "code": "",
+      "page_says": "Black Friday Sale: 50% Off Texas Annual Pass",
+      "page": "https://www.visitsealife.com/san-antonio/black-friday-sale/"
+     },
+     {
+      "place": "Texas Tides",
+      "city": "Galveston",
+      "name": "Black Friday Deals",
+      "offer": "Up to 55% off",
+      "ends": "2026-11-30",
+      "through": "",
+      "code": "",
+      "page_says": "Save up to 55% on Tickets, Passes and More! Offer Ends Nov 30th",
+      "page": "https://txtides.enchantedparks.com/black-friday-deals/"
+     },
+     {
+      "place": "LEGOLAND Discovery Center Dallas/Fort Worth",
+      "city": "Grapevine",
+      "name": "Black Friday sale: Annual Pass",
+      "offer": "25% off",
+      "ends": "2026-12-01",
+      "through": "",
+      "code": "",
+      "page_says": "Black Friday Annual Pass Sale: 25% off a Whole Year of Fun",
+      "page": "https://www.legolanddiscoverycenter.com/dallas-fw/ticket-deals/discount-offers/"
+     },
+     {
+      "place": "SeaWorld San Antonio",
+      "city": "San Antonio",
+      "name": "Black Friday sale",
+      "offer": "Up to 50% off",
+      "ends": "",
+      "through": "Black Friday",
+      "code": "",
+      "page_says": "Black Friday: Save Up to 50% on Tickets!",
+      "page": "https://seaworld.com/san-antonio/tickets/"
+     },
+     {
+      "place": "Meow Wolf",
+      "city": "Houston and Grapevine",
+      "name": "Portal Pass",
+      "offer": "20% off",
+      "ends": "",
+      "through": "",
+      "code": "",
+      "page_says": "20% off + 2 free months Portal Pass Supremium",
+      "page": "https://meowwolf.com/portal-pass"
+     },
+     {
+      "place": "Dallas Zoo",
+      "city": "Dallas",
+      "name": "Memberships",
+      "offer": "10% off",
+      "ends": "2026-11-30",
+      "through": "",
+      "code": "",
+      "page_says": "Now through Nov. 30, save 10% on membership!",
+      "page": "https://www.dallaszoo.com/plan-your-visit/buy-tickets/"
+     },
+     {
+      "place": "Houston Zoo",
+      "city": "Houston",
+      "name": "Memberships",
+      "offer": "10% off",
+      "ends": "",
+      "through": "",
+      "code": "MERRY26",
+      "page_says": "Get 10% off Membership GC with code MERRY26",
+      "page": "https://www.houstonzoo.org/plan-your-visit/membership/"
+     },
+     {
+      "place": "San Antonio Zoo",
+      "city": "San Antonio",
+      "name": "Black Friday sale",
+      "offer": "San Antonio Zoo Membership for $39.99",
+      "ends": "",
+      "through": "Black Friday",
+      "code": "",
+      "page_says": "For a limited time, get a San Antonio Zoo Membership for just $39.99, SAVE $15, and receive TWO FREE bonuses!",
+      "page": "https://sazoo.org/"
+     },
+     {
+      "place": "Schlitterbahn New Braunfels",
+      "city": "New Braunfels",
+      "name": "Black Friday sale",
+      "offer": "2027 Silver Pass for $69",
+      "ends": "2026-11-27",
+      "through": "",
+      "code": "",
+      "page_says": "Get a 2027 Silver Pass for $69. Ends 11/27. Plus, a FREE Bring-A-Friend ticket with new passes, renewals, and memberships.",
+      "page": "https://www.sixflags.com/schlitterbahnnewbraunfels/daily-tickets"
+     },
+     {
+      "place": "Six Flags Fiesta Texas",
+      "city": "San Antonio",
+      "name": "Black Friday sale",
+      "offer": "2027 Silver Pass for $69",
+      "ends": "2026-11-27",
+      "through": "",
+      "code": "",
+      "page_says": "Get a 2027 Silver Pass for $69. Ends 11/27. Plus, a FREE Bring-A-Friend ticket with new passes, renewals and memberships",
+      "page": "https://www.sixflags.com/fiestatexas/daily-tickets"
+     },
+     {
+      "place": "Six Flags Over Texas",
+      "city": "Arlington",
+      "name": "Black Friday sale",
+      "offer": "2027 Silver Pass for $69",
+      "ends": "2026-11-27",
+      "through": "",
+      "code": "",
+      "page_says": "Get a 2027 Silver Pass for $69. Ends 11/27. Plus, a FREE Bring-A-Friend ticket with new passes, renewals and memberships.",
+      "page": "https://www.sixflags.com/overtexas/daily-tickets"
+     }
+    ],
+    "whole_build": {
+     "sales": 355,
+     "stores": 103,
+     "entertainment_offers": 38,
+     "entertainment_sellers": 22,
+     "subscriptions": 20,
+     "tickets_from_deal_sites": 6,
+     "tickets_from_places_own_pages": 12
+    }
+   },
+   "checks": {
+    "what": "sale_source, sale_dates, sale_store and sale_offer on each card, its page read again and not from the cache",
+    "pass": 48,
+    "of": 48
+   },
+   "page": {
+    "tabs_with_entertainment_alone": [
+     "Near you",
+     "Regulars",
+     "Sales 38",
+     "Stores 22"
+    ],
+    "page_errors": 0,
+    "phone_scrolls_sideways": false,
+    "engine_equals_server": {
+     "moments": 6,
+     "entertainment_alone": [
+      37,
+      33,
+      30,
+      27,
+      7,
+      3
+     ],
+     "every_industry_with_sales": [
+      351,
+      293,
+      246,
+      126,
+      63,
+      55
+     ]
+    },
+    "deal_site_notice_counts": {
+     "feeds": 142,
+     "not_places": 15
+    }
+   },
+   "against_the_venue_findings": {
+    "shown": [
+     "Six Flags 2027 Silver Pass",
+     "SeaWorld San Antonio",
+     "Texas Tides",
+     "San Antonio Zoo",
+     "Meow Wolf: 20% off a Portal Pass Supremium"
+    ],
+    "differs_from_the_hand_search": {
+     "Six Flags": "the page says Ends 11/27, the hand search wrote Nov 30",
+     "SeaWorld San Antonio": "the page's headline on Nov 24 is up to 50%, the hand search wrote up to 55%"
+    },
+    "not_shown": {
+     "Meow Wolf: buy one, get one 50% off tickets": "not a percent off",
+     "Fort Worth Zoo": "robots.txt",
+     "Moody Gardens": "its offer is hotel rooms, not tickets",
+     "AMC Popcorn Pass": "a snack plan, on no listed page",
+     "Cinemark $5 tickets": "its site could not be reached from this session, so it is not listed"
+    },
+    "shown_and_not_in_the_hand_search": [
+     "Schlitterbahn New Braunfels",
+     "Houston Zoo",
+     "Dallas Zoo",
+     "SEA LIFE Grapevine",
+     "SEA LIFE San Antonio",
+     "LEGOLAND Discovery Center Dallas/Fort Worth"
+    ]
+   },
+   "found_and_fixed_on_the_way": [
+    "the list had Texas Tides in Houston; its page gives Galveston",
+    "the San Antonio Zoo states its sale on its home page, which is now listed",
+    "LEGOLAND's sale names the pass before the percent",
+    "Meow Wolf's headline 'up to 50% off tickets' is its name for half off a second ticket; the card first read 'Up to 50% off' and is now the pass's 20%"
+   ],
+   "not_tested": [
+    "a scheduled build from GitHub's runners",
+    "the Fort Worth Zoo in a run no assistant starts",
+    "any week but Black Friday week"
+   ],
+   "unit_tests": {
+    "pass": 326,
+    "new": 12
+   }
   }
  }
 }
