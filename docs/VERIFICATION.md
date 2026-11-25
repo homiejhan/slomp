@@ -1711,3 +1711,54 @@ older than this change and is left as it is.
 **What was not tested.** The Disney+ post as its feed gave it: it had left Slickdeals' feeds when this was written,
 and its page reads "Disney Plus is offering ...". Both wordings, with the address in brackets and without, are in
 the unit tests. 329 unit tests pass, three of them new.
+
+### The build with places' own pages (run 174, Nov 25): what it settled, and two more rough edges
+
+The scheduled build of 01:29 UTC was the first on the venue pages and on the two fixes above: 488 sales at 157
+stores, every one of the 142 feeds read. Movies & Entertainment had 39 offers from 26 sellers: 20 subscriptions and
+19 tickets and passes, 13 of them from places' own pages.
+
+**What had not been tested, and now is.** All 15 places' sites answered GitHub's runners; none sent a bot check. 13
+state a sale. The Fort Worth Zoo, which a run an assistant starts does not read, was read: "Our Black Friday Sale is
+live! Enjoy 15% off gift memberships.", the offer the hand search had found there. Moody Gardens and LEGOLAND
+Discovery Center San Antonio were read and state no sale on tickets, as in the live run. The other 12 cards are the
+live run's, word for word.
+
+**The two fixes held.** Amazon Music Unlimited's three free months is one card, with the two other posts listed
+under it, and no seller under Movies & Entertainment is shown as a web address.
+
+**A store's sale listed as a subscription.** "Musician's Friend Black Friday Deals: Up to 60% off + free shipping"
+stood under Movies & Entertainment, marked Subscription: dealnews filed it under Streaming Services, and Slomp takes
+dealnews' category for what a post is. Of the day's 81 posts under dealnews' three categories (read Nov 25, 04:20
+UTC), 62 are under the subscription ones. Shipping cannot tell them apart: dealnews ends 14 of the other 61 titles
+with a shipping note too ("Disney+ NFL+ Premium & RedZone Bundle Streaming Plan for $45.99/mo + free shipping").
+What can: a subscription's post names one. Six of the 62 titles name none. Three state one price, "free" or no
+offer and were already left out, one is for teachers, and of the two sales left, MasterClass's words say "50% off
+the first year of a membership" and Musician's Friend's speak of guitars, basses and amps. So a post under a
+subscription category that states a percent or dollars off and no price, and names no subscription in its title or
+its own words, is judged as any store's sale is (`entertainment.a_stores_sale`). On the 81 posts that changes one,
+and it leaves Movies & Entertainment: Slomp's registry does not know the store, so it is left out as a sale with no
+industry.
+
+**One bundle as two cards.** Prime Video's AMC+, MGM+ and STARZ bundle stood twice: dealnews' "Prime Video Black
+Friday AMC+, MGM+ & STARZ Bundle Deals", $5.49 a month for 2 months, ending Nov 30, and Slickdeals' "Amazon Prime
+Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $5.50/Month & More", with no end. The price is a cent
+apart, one post gives no end, and the names differ by the seller's own name, "Streaming" and "& More". Two posts
+whose names say the same thing for the same term are now one offer when the price is the same or a cent apart and
+the end is the same or given by only one (`sales.same_price`, `sales.offer_said`); the term is read from the name
+or the offer line. In run 174's list four pairs of offers at one seller are priced within a cent: this one, and
+three that stay apart because they are for other things (STARZ and Paramount+ at $2.99, and HBO Max beside each of
+the bundle's two posts). A store's sale is held to the same badge and the same end as before.
+
+**On the published builds' own sales.** Run 174's 475 sales from posts: one pair merged, the bundle, and nothing
+else. Run 173's 442: the same pair, beside that round's two.
+
+**Live**, through Slomp's client (Nov 25, 04:25 UTC, started by an assistant, so without Hip2Save and the Fort Worth
+Zoo): 394 sales at 122 stores, 36 under Movies & Entertainment from 24 sellers: 18 subscriptions and 18 tickets and
+passes, 12 of those from places' own pages. Musician's Friend's sale is not listed, under Movies & Entertainment or
+anywhere. The bundle is one card, dealnews' at $5.49 a month ending Nov 30, with the Slickdeals post listed under
+it. Amazon Music Unlimited is still one card and no seller is a web address. engine.js and the server pick the same
+sales in the same order at six moments, with Movies & Entertainment alone and with every industry that has sales.
+
+**What was not tested.** A store's sale filed under a ticket category: none was among the day's posts, and those
+categories are not second-guessed. 331 unit tests pass, two of them new.
