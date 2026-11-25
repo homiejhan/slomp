@@ -71,7 +71,8 @@ _A_GAME = re.compile(r"\bdigital\b|\bdownload\b|\bdlc\b|\bxbox\b|\bplaystation\b
 def kind_of(p: Post) -> str:
     """"subscription", "tickets", or "" for a post that is neither."""
     if p.source == "dealnews" and p.category:
-        return _leaves().get(norm(p.category), "")          # dealnews says what its post is
+        kind = _leaves().get(norm(p.category), "")          # dealnews says what its post is
+        return "" if kind == SUBSCRIPTION and a_stores_sale(p) else kind
     title = _straight(p.title)
     if _SAYS_STREAMING.search(title):
         return SUBSCRIPTION
@@ -106,6 +107,24 @@ def _n(word: str) -> int:
 
 def _usd(v: float) -> str:
     return f"${v:,.2f}".replace(".00", "")
+
+
+# What a post's own words call a subscription. "Channels" and "passes" are left to the title: a store's sale speaks
+# of 8-channel mixers and season passes too.
+_SAYS_ONE = re.compile(r"\bsubscri(?:ptions?|bers?|be)\b|\bmemberships?\b|(?<!payment )\bplans?\b|\btrials?\b|"
+                       r"\bstream(?:ing|s)\b|" + _PER, re.I)
+
+
+def a_stores_sale(p: Post) -> bool:
+    """A store's sale that dealnews filed under a subscription category: "Musician's Friend Black Friday Deals: Up to
+    60% off + free shipping" stood under Streaming Services (Nov 24, 2026) and was listed as a subscription. It
+    states a percent or dollars off and no price, and neither its title nor its own words name a subscription, a
+    plan, a membership, a trial or a term. "MasterClass Pre-Black Friday Sale: 50% off" names none in its title and
+    is one: its words are "50% off the first year of a membership". Shipping settles nothing here: dealnews ends
+    "Disney+ ... Streaming Plan for $45.99/mo + free shipping" the same way."""
+    title = _straight(p.title)
+    words, _, price, _, _ = offer_of(p)
+    return bool(words) and price is None and not _A_TERM.search(title) and not _SAYS_ONE.search(_straight(p.text[:600]))
 
 
 def offer_of(p: Post) -> tuple[str, str, Optional[float], Optional[float], str]:
