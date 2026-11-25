@@ -13835,6 +13835,109 @@
     "pass": 329,
     "new": 3
    }
+  },
+  "published_build_run_174": {
+   "what": "The first scheduled build on the venue pages and the two fixes of run 173 (run 174, Nov 25, 01:29 UTC, commit c400f33), read through.",
+   "published": {
+    "sales": 488,
+    "stores": 157,
+    "feeds": 142,
+    "feeds_failing": 0,
+    "entertainment_offers": 39,
+    "sellers": 26,
+    "subscriptions": 20,
+    "tickets": 19,
+    "from_places_own_pages": 13
+   },
+   "venue_pages_from_githubs_runners": {
+    "places": 15,
+    "read": 15,
+    "refused": 0,
+    "with_a_sale": 13,
+    "no_sale_stated": [
+     "Moody Gardens",
+     "LEGOLAND Discovery Center San Antonio"
+    ],
+    "fort_worth_zoo": {
+     "read": true,
+     "why_now": "this build was not started by an assistant",
+     "offer": "15% off",
+     "page_says": "Our Black Friday Sale is live! Enjoy 15% off gift memberships. Learn more here."
+    },
+    "other_12_cards_same_as_the_live_run": true
+   },
+   "run_173_fixes_held": {
+    "amazon_music_unlimited_cards": 1,
+    "posts_listed_under_it": 2,
+    "entertainment_sellers_shown_as_an_address": 0
+   },
+   "rough_edges": [
+    {
+     "seen": "Musician's Friend Black Friday Deals: Up to 60% off + free shipping, listed as a subscription",
+     "cause": "dealnews filed the post under Streaming Services, and its category is what says a post is a subscription",
+     "rule": "under a subscription category, a post that states a percent or dollars off and no price is one only when its title or its own words name a subscription, a membership, a plan, a trial or a term (entertainment.a_stores_sale); otherwise it is judged as any store's sale",
+     "on_the_days_posts": {
+      "read_at": "2026-11-25T04:20Z",
+      "posts_under_the_three_categories": 81,
+      "under_subscription_categories": 62,
+      "other_titles_with_a_shipping_note": 14,
+      "titles_naming_no_subscription": 6,
+      "posts_whose_kind_changes": 1,
+      "what_becomes_of_it": "left out as a sale with no industry: the registry does not know the store"
+     }
+    },
+    {
+     "seen": "Prime Video's AMC+, MGM+ and STARZ bundle as two cards",
+     "posts": [
+      "Prime Video Black Friday AMC+, MGM+ & STARZ Bundle Deals for $5.49/mo. (dealnews; $5.49 a month for 2 months; ends Nov 30)",
+      "Amazon Prime Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $5.50/Month & More (Slickdeals; no end)"
+     ],
+     "cause": "one offer was two posts only when the badge and the end day were the same and the names the same words",
+     "rule": "two subscriptions or two tickets whose names say the same thing for the same term are one offer when the price is the same or a cent apart and the end is the same or given by only one (sales.same_price, sales.offer_said); the seller's own name and 'Streaming' are set aside, and the term is read from the name or the offer line, in months",
+     "pairs_at_one_seller_priced_within_a_cent_in_run_174": {
+      "merged": 1,
+      "kept_apart": 3
+     }
+    }
+   ],
+   "replay": {
+    "run_174_sales_from_posts": {
+     "before": 475,
+     "after": 474,
+     "merged": [
+      "the bundle's two posts"
+     ]
+    },
+    "run_173_sales": {
+     "before": 442,
+     "after": 439,
+     "merged": [
+      "Amazon Music Unlimited's three posts into one",
+      "the bundle's two posts"
+     ]
+    }
+   },
+   "live_run": {
+    "read_at": "2026-11-25T04:25Z",
+    "sales": 394,
+    "stores": 122,
+    "entertainment_offers": 36,
+    "sellers": 24,
+    "subscriptions": 18,
+    "tickets": 18,
+    "from_places_own_pages": 12,
+    "musicians_friend_listed": false,
+    "bundle_cards": 1,
+    "amazon_music_cards": 1,
+    "engine_equals_server_at_moments": 6
+   },
+   "not_tested": [
+    "a store's sale filed under a ticket category: none among the day's posts, and those categories are not second-guessed"
+   ],
+   "unit_tests": {
+    "pass": 331,
+    "new": 2
+   }
   }
  }
 }
