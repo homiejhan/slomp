@@ -379,6 +379,12 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
   military). Under the ticket categories, goods that ship (a roll of paper tickets, a board game). Under Streaming
   Services, one price or "free" with no term in the title: a film to buy, a channel that is always free. A post that
   states no price, no discount and nothing free ("Sign Up Now"), and one whose seller is not named.
+- **A store's sale filed under a subscription category** is not a subscription. dealnews put "Musician's Friend
+  Black Friday Deals: Up to 60% off + free shipping" under Streaming Services, and the second build listed it as
+  one. A post there that states a percent or dollars off and no price is a subscription when its title or its own
+  words name one (a subscription, a membership, a plan, a trial, a term): "MasterClass Pre-Black Friday Sale: 50%
+  off" says "50% off the first year of a membership". One that names none is judged as any store's sale is.
+  Shipping settles nothing: dealnews ends a streaming plan's title with "+ free shipping" too.
 - **The offer** is read from the title: a price by the month or year with its term ("$5.49 a month for 12 months",
   badge "$5.49/mo"; "From $2.99/mo"), one price ("$36", "$45 for 6 months"), a percent or dollars off as for any sale,
   or "Free". When the post gives the regular price ("down from $10.99", "versus the regular $8.99 monthly price") the
@@ -394,10 +400,16 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
   one seller, written as the best-ranked source writes it, a name before an address.
 - **The same offer posted more than once** is one card when the seller, the badge and the end day are the same and
   the names say the same thing for the same term. What the post calls the offer ("Trial", "Subscription", "Offer",
-  "Plan") and the day it is named for are set aside; the service, the tier and the term are not. dealnews posted
-  Amazon Music Unlimited's three free months as a "3-Month Trial", a "3-Month Subscription" and a "Black Friday
-  Offer: 3 months", and the first build showed three cards. "... STARZ ..." and "... Paramount+ ..." at one price
-  stay two, and so do three months and six.
+  "Plan", "Streaming") and the day it is named for are set aside, and so is the seller's own name; the service, the
+  tier and the term are not. The term is read from the name or the offer line, in months. dealnews posted Amazon
+  Music Unlimited's three free months as a "3-Month Trial", a "3-Month Subscription" and a "Black Friday Offer: 3
+  months", and the first build showed three cards. "... STARZ ..." and "... Paramount+ ..." at one price stay two,
+  and so do three months and six.
+- **Two sources, one offer.** Compared that closely, two posts are the same offer though their sources put it a
+  little differently: a price a cent apart is one source rounding the other's ($5.49 a month at dealnews is
+  "$5.50/Month" at Slickdeals), and an end only one of them gives is that offer's end. The second build showed
+  Prime Video's AMC+, MGM+ and STARZ bundle twice for want of this. A store's sale is still held to the same badge
+  and the same end.
 - **When**: as for any sale (4.4). A plan priced "through December 31" and posted in August is past the 30 days and
   not shown: it is the standing price by then, not a deal.
 - **Where it shows.** An industry now says two things: `online` (product deals and sales at stores that ship) and

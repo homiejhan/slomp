@@ -222,7 +222,8 @@ def test_one_offer_posted_under_three_names_is_one_card():
     assert len(dedupe([trial, six, hd, audible], Counter())) == 4
     assert offer_words("Paramount+ Premium Plan Black Friday Deal") == offer_words("Paramount+ Premium Cyber Monday Subscription Offer")
     assert offer_words("Paramount+ Essential Annual Plan") != offer_words("Paramount+ Essential Monthly Plan")
-    assert offer_words("Peacock 12-Month Plan") == offer_words("Peacock twelve month subscription") != offer_words("Peacock 1-Year Plan")
+    assert offer_words("Peacock 12-Month Plan") == offer_words("Peacock twelve month subscription") == offer_words("Peacock 1-Year Plan") \
+        != offer_words("Peacock 6-Month Plan")
 
 
 def test_a_seller_given_as_its_web_address_is_shown_by_the_name_the_post_writes():
@@ -268,3 +269,70 @@ def test_the_duplicates_check_compares_subscriptions_as_the_pipeline_does():
     sub, _ = one(post("Amazon Music Unlimited 3-Month Subscription: free", **music))
     verdict, det = sc.quality([trial, sub], NOW, "duplicates")
     assert verdict == "fail" and "Amazon Music Unlimited 3-Month Subscription" in det["problems"][0]
+
+
+def test_one_offer_from_two_sources_a_cent_apart_is_one_card():
+    # run 174, Nov 25, 2026: the bundle stood twice, $5.49 a month from dealnews and "$5.50/Month" from Slickdeals
+    from slomp.sales import dedupe, same_price
+    nov30 = dict(expires_at=datetime(2026, 11, 30, 23, 59, tzinfo=CT), expires_stated=True)
+    dn, _ = one(post("Prime Video Black Friday AMC+, MGM+ & STARZ Bundle Deals for $5.49/mo.",
+                     "Prime members get the AMC+, MGM+ and STARZ bundle for $5.49 per month for 2 months, down from $21.99.",
+                     seller="Amazon", days_ago=3, **nov30))
+    sd, _ = one(post("Amazon Prime Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $5.50/Month & More",
+                     "Amazon For those interested Note, offer valid for Amazon Prime Members only [ amazon.com ]", source="slickdeals", seller="Amazon"))
+    assert (dn.badge, dn.offer, sd.badge, sd.ends_at) == ("$5.49/mo", "$5.49 a month for 2 months, regularly $21.99", "$5.50/mo", None)
+    hbo, _ = one(post("HBO Max Basic Black Friday Subscription Deal on Prime Video for $5.49/mo.", "It is $5.49 per month for 12 months.",
+                      seller="Amazon", expires_at=datetime(2026, 12, 1, 23, 59, tzinfo=CT), expires_stated=True))
+    starz, _ = one(post("Prime Video Black Friday STARZ Subscription Deal for $2.99/mo.", seller="Amazon", **nov30))
+    paramount, _ = one(post("Prime Video Black Friday Paramount+ Subscription Deals for $2.99/mo.", seller="Amazon", **nov30))
+    ex = Counter()
+    kept = dedupe([sd, hbo, starz, paramount, dn], ex)
+    assert sorted(s.id for s in kept) == sorted(s.id for s in (dn, hbo, starz, paramount)) and ex["sale: same sale posted elsewhere"] == 1
+    assert [(p["source"], p["title"]) for p in dn.also_posted] == [("Slickdeals", sd.title)] and dn.badge == "$5.49/mo"
+    # when the post that leads gives no end, the other's is the offer's
+    first, _ = one(post("Amazon Prime Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $5.50/Month", source="dealnews",
+                        seller="Amazon", days_ago=5))
+    later, _ = one(post("Prime Video Black Friday AMC+, MGM+ & STARZ Bundle Deals for $5.49/mo for 2 months", seller="Amazon", days_ago=1, **nov30))
+    led = dedupe([later, first], Counter())
+    assert [s.id for s in led] == [first.id] and first.ends_at == later.ends_at and first.ends_how == "dealnews gives this end date"
+    # the same services for another term, or at another price, are another offer
+    six, _ = one(post("Amazon Prime Video Bundle Offers: 6-Month MGM+, Starz & AMC+ Streaming $5.50/Month", source="slickdeals", seller="Amazon"))
+    dear, _ = one(post("Amazon Prime Video Bundle Offers: 2-Month MGM+, Starz & AMC+ Streaming $6/Month", source="slickdeals", seller="Amazon"))
+    assert len(dedupe([dn, six, dear], Counter())) == 3
+    assert same_price("$5.49/mo", "$5.50/mo") and same_price("$14.99/mo", "$15/mo") and same_price("$36", "$36")
+    assert not same_price("$5.49/mo", "$5.59/mo") and not same_price("$5.49/mo", "$5.50") and not same_price("From $2.99/mo", "$3/mo")
+    assert not same_price("Up to 50%", "Up to 50%") and not same_price("Free", "Free")           # not prices: those must be the same badge
+    # a store's sale is compared as before: one end stated and one not are two
+    from slomp.sales import StoreSales
+    a = StoreSales(None, None).sale(Post(source="dealnews", id="dealnews:1", url="u", title="Kohl's Black Friday Sale: Up to 50% off + free shipping",
+                                         text="", seller="Kohl's", deal_type="sale", category="Clothing", posted_at=NOW - timedelta(days=1),
+                                         **nov30), NOW, Counter())
+    b = StoreSales(None, None).sale(Post(source="hip2save", id="hip2save:2", url="u", title="Kohl's Black Friday Sale: Up to 50% Off",
+                                         text="", posted_at=NOW - timedelta(days=1)), NOW, Counter())
+    assert a and b and len(dedupe([a, b], Counter())) == 2
+
+
+def test_a_stores_sale_filed_under_streaming_services_is_not_a_subscription():
+    # run 174, Nov 25, 2026: dealnews filed this under Streaming Services and it was listed as a subscription
+    words = ("Musician's Friend is running its Black Friday sale with discounts across guitars, basses, amps, keyboards, drums, recording "
+             "gear, and DJ equipment. Promo code \"BLACKFRIDAY\" adds savings on Fender, D'Angelico, Simmons, and other select brands. "
+             "Shipping is free. Sale ends November 29. Shop Now at Musician's Friend")
+    mf = post("Musician's Friend Black Friday Deals: Up to 60% off + free shipping", words, category="Streaming Services",
+              seller="Musician's Friend", deal_type="sale")
+    assert ent.a_stores_sale(mf) and ent.kind_of(mf) == ""
+    s, why = one(mf)
+    assert s is None or (s.what == "" and "entertainment" not in s.industries), why          # judged as any store's sale is
+    # a subscription service's own sale names none in its title, and its words do
+    mc = post("MasterClass Pre-Black Friday Sale: 50% off", "MasterClass is taking 50% off the first year of a membership in its "
+              "Pre-Black Friday sale.", category="Streaming Services", seller="MasterClass", deal_type="sale")
+    assert ent.kind_of(mc) == "subscription" and one(mc)[0].what == "subscription"
+    # shipping settles nothing: dealnews ends a streaming plan's title the same way
+    for title in ("Disney+ Hulu Bundle 6-Month Streaming Deal: 50% off for 6 months + free shipping",
+                  "YouTube TV Base Plan New User Offer: $75 off first 5 months + free shipping",
+                  "Prime Video Black Friday Subscription Deals: Up to 79% off + free shipping w/ Prime"):
+        assert ent.kind_of(post(title, category="Video Streaming Services")) == "subscription", title
+    # a price with no term is still left out as before, with its own reason
+    assert one(post("I Love Lucy: The Complete Series Digital TV Series for $20 + no shipping required", seller="Fandango"))[1] \
+        == "entertainment: not a subscription"
+    # only a subscription category is second-guessed, and only dealnews gives one
+    assert ent.kind_of(post("Groupon Black Friday Sale: Up to 80% off", category="Things to Do", seller="Groupon")) == "tickets"

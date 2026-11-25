@@ -1643,34 +1643,62 @@ def name_sellers(sales: list[StoreSale]) -> None:
 # posted as "Amazon Music Unlimited 3-Month Trial", "... 3-Month Subscription" and "... Black Friday Offer: 3 months"
 # (dealnews, Nov 12 to 24, 2026) and were three cards.
 _OFFER_KIND = {"subscription", "subscriptions", "trial", "trials", "offer", "offers", "plan", "plans", "month", "months",
-               "year", "years", "annual", "yearly", "monthly"}
+               "year", "years", "annual", "yearly", "monthly", "streaming", "service", "services", "more"}
 _TERM = re.compile(r"\b(\d+|one|two|three|four|five|six|twelve)[- ]?(month|year)s?\b|\b(annual|yearly)\b", re.I)
-_TERM_N = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "twelve": "12"}
+_TERM_N = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "twelve": 12}
+# A price as a badge shows it: "$5.49/mo", "From $2.99/mo", "$36".
+_BADGE_PRICE = re.compile(r"(From )?\$(\d[\d,]*(?:\.\d\d)?)(/mo|/yr)?")
 
 
-def offer_words(name: str) -> tuple[frozenset, frozenset]:
-    """What a subscription or ticket post's name says it is for, and for how long: its words without the day it is
-    named for and without the words for the kind of offer, and its terms ("3-Month" and "3 months" are one)."""
-    terms = frozenset("1 year" if m.group(3) else f"{_TERM_N.get(m.group(1).lower(), m.group(1))} {m.group(2).lower()}"
-                      for m in _TERM.finditer(name))
+def offer_words(name: str, offer: str = "", seller: str = "") -> tuple[frozenset, frozenset]:
+    """What a subscription or ticket post says it is for, and for how long. Its name's words, without the day it is
+    named for, the words for the kind of offer and the seller's own name ("Amazon Prime Video ..." and "Prime Video
+    ..." at Amazon); and its terms in months, from the name or the offer line ("2-Month ..." and "$5.49 a month for
+    2 months" are one, and so are a year and 12 months)."""
+    def months(m: re.Match) -> int:
+        if m.group(3):
+            return 12
+        n = _TERM_N.get(m.group(1).lower()) or int(m.group(1))
+        return n * 12 if m.group(2).lower() == "year" else n
+    terms = frozenset(months(m) for m in _TERM.finditer(f"{name} {offer}"))
     name = _TERM.sub(" ", name)
     for _, rx, _ in days.DAYS:
         name = rx.sub(" ", name)
-    return frozenset(_words(name) - _OFFER_KIND), terms
+    return frozenset(_words(name) - _OFFER_KIND - _words(seller)), terms
+
+
+def offer_said(s: StoreSale) -> tuple[frozenset, frozenset]:
+    return offer_words(s.name, s.offer, s.store_name)
+
+
+def same_price(a: str, b: str) -> bool:
+    """Two badges that state one price: the same, or a cent apart, which is one source rounding the other's ($5.49 a
+    month at dealnews is "$5.50/Month" at Slickdeals, and $14.99 is "$15")."""
+    x, y = _BADGE_PRICE.fullmatch(a or ""), _BADGE_PRICE.fullmatch(b or "")
+    return bool(x and y and x.group(1) == y.group(1) and x.group(3) == y.group(3)
+                and abs(float(x.group(2).replace(",", "")) - float(y.group(2).replace(",", ""))) < 0.015)
 
 
 def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
     """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same offer, same
-    end, and names that share most of their words. The best-sourced post leads; the others are listed with it."""
+    end, and names that share most of their words. The best-sourced post leads; the others are listed with it.
+
+    A subscription or a ticket is compared more closely by what it is and more loosely by how its sources put it
+    (docs/DESIGN-online-stores.md 4.6): its name must say the same thing for the same term, and then a price a cent
+    apart or an end only one of the posts gives is the same offer still."""
     rank = {s: k for k, s in enumerate(SOURCE_ORDER)}
     ordered = sorted(sales, key=lambda s: (rank.get(s.source, 99), not s.code, s.posted_at or datetime.max.replace(tzinfo=timezone.utc)))
     kept: list[StoreSale] = []
     for s in ordered:
         same = None
         for k in kept:
-            if (k.store or k.store_name) != (s.store or s.store_name) or k.badge != s.badge:
+            if (k.store or k.store_name) != (s.store or s.store_name):
                 continue
-            if (k.ends_at.date() if k.ends_at else None) != (s.ends_at.date() if s.ends_at else None):
+            both = bool(k.what) and k.what == s.what            # two subscriptions, or two tickets
+            if k.badge != s.badge and not (both and same_price(k.badge, s.badge)):
+                continue
+            ke, se = (k.ends_at.date() if k.ends_at else None), (s.ends_at.date() if s.ends_at else None)
+            if ke != se and not (both and None in (ke, se)):
                 continue
             if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
                 continue                          # the wave before a day and the day's own sale are two sales
@@ -1678,7 +1706,7 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             if k.what or s.what:
                 # A subscription's name is the offer: "... STARZ ..." is not "... MGM+ ...", and three months are not
                 # six. What the post calls the offer, and the day it is named for, are not part of that.
-                if offer_words(k.name) != offer_words(s.name):
+                if offer_said(k) != offer_said(s):
                     continue
                 same = k
                 break
@@ -1689,6 +1717,8 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             same.also_posted.append({"source": s.source, "url": s.source_url, "title": s.title})
             if not same.code and s.code:
                 same.code = s.code
+            if not same.ends_at and s.ends_at:           # the end only one of two sources gives (a subscription's posts)
+                same.ends_at, same.ends_how = s.ends_at, s.ends_how
             excluded["sale: same sale posted elsewhere"] += 1
         else:
             kept.append(s)

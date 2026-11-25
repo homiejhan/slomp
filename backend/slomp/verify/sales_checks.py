@@ -19,7 +19,7 @@ from ..config import TTL
 from ..http import Blocked, Disallowed, FetchError, PoliteClient
 from ..models import StoreSale
 from ..promos import _MONTHS, _date
-from ..sales import POSTED_DAYS, UNDATED_DAYS, _words, offer_words
+from ..sales import POSTED_DAYS, UNDATED_DAYS, _words, offer_said
 from ..sources.feeds import post_gone
 from ..stores_online import by_key
 from .checks import FAIL, INCONCLUSIVE, PASS
@@ -299,7 +299,7 @@ def quality(sales: list[StoreSale], now: datetime, what: str) -> tuple[str, dict
                 a, b = _words(s.name), _words(other.name)
                 if getattr(s, "what", "") or getattr(other, "what", ""):
                     # a subscription's name is the offer: two channels at one price share most words and are two
-                    same = offer_words(s.name) == offer_words(other.name)
+                    same = offer_said(s) == offer_said(other)
                 else:
                     same = a == b or bool(a and b and len(a & b) / min(len(a), len(b)) >= 0.6)
                 if same:
