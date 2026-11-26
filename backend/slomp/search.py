@@ -10,9 +10,11 @@ How words are matched:
 - Every word typed must be found (and "a", "the", "for" and the like are not asked for).
 - Case, accents and punctuation don't matter, and an apostrophe is not a break: "kohls" finds "Kohl's", "loreal"
   finds "L'Oréal", "t-shirt" finds "T-Shirt".
-- A word is found at the start of a word: "run" finds "Running", "shoe" finds "Shoes".
-- A plural finds its singular and the other way round: "shoes" finds "Shoe", "battery" finds "Batteries". Only a
-  whole word counts there, so "lens" does not find "Lenovo".
+- A word of four letters or more is found at the start of a word: "head" finds "Headphones", "lego" finds
+  "LEGOLAND". A shorter one must be the whole word, so "car" does not find "Cart" or "Card", and "tv" finds "TV".
+- A plural finds its singular and the other way round: "shoes" finds "Shoe", "battery" finds "Batteries", "tv"
+  finds "TVs". Only a whole word counts there, so "lens" does not find "Lenovo".
+- A word written joined or apart is the same word: "tshirt" finds "T-Shirt", and "ear buds" finds "Earbuds".
 
 With keywords and no industry chosen, every industry is searched. Online deals are narrowed before the best of each
 industry are taken, so a search reaches past the ones a page would otherwise show.
@@ -29,7 +31,7 @@ from typing import Iterable, Optional
 FILLER = frozenset({"a", "an", "and", "or", "the", "for", "of", "in", "on", "at", "to", "with"})
 MAX_WORDS = 8               # words asked for in one search; more are ignored
 MAX_CHARS = 100             # of the text typed
-_SIBILANT = ("sses", "shes", "ches", "xes", "zes")
+STARTS = 4                  # a word this long is found at the start of a word; a shorter one must be the whole word
 
 
 def fold(text) -> str:
@@ -42,11 +44,12 @@ def fold(text) -> str:
 
 
 def singulars(word: str) -> tuple[str, ...]:
-    """What a plural may be the plural of: "batteries" -> battery, batterie; "boxes" -> box; "shoes" -> shoe."""
+    """What a plural may be the plural of: "batteries" -> battery, batterie; "boxes" -> box, boxe; "shoes" -> sho,
+    shoe; "tvs" -> tv. Not every one is a word; one that is not finds nothing."""
     if len(word) > 4 and word.endswith("ies"):
         return word[:-3] + "y", word[:-1]
-    if len(word) > 3 and word.endswith(_SIBILANT):
-        return (word[:-2],)
+    if len(word) > 3 and word.endswith("es"):
+        return word[:-2], word[:-1]
     if len(word) > 2 and word.endswith("s") and not word.endswith("ss"):
         return (word[:-1],)
     return ()
@@ -75,18 +78,32 @@ def said(item: dict) -> str:
     return " ".join(str(p) for p in parts if p)
 
 
+def same(a: str, b: str) -> bool:
+    """One word and its plural are the same word."""
+    return a == b or a in singulars(b) or b in singulars(a)
+
+
 def found(word: str, text_words: Iterable[str]) -> bool:
-    """Whether one word asked for is among a deal's words: as the start of one, or as its plural or its singular."""
-    mine = singulars(word)
-    return any(t.startswith(word) or t in mine or word in singulars(t) for t in text_words)
+    """Whether one word asked for is among a deal's words: as one of them, its plural or its singular, or, when it
+    is long enough, as the start of one."""
+    starts = len(word) >= STARTS
+    return any(same(word, t) or (starts and t.startswith(word)) for t in text_words)
 
 
 def matches(item: dict, asked: list[str]) -> bool:
     """Whether a deal says every word asked for. No words asked: every deal does."""
     if not asked:
         return True
-    have = set(fold(said(item)).split())
-    return all(found(w, have) for w in asked)
+    have = fold(said(item)).split()
+    joined = [a + b for a, b in zip(have, have[1:])]            # "t shirt" as one word, for "tshirt"
+    for i, w in enumerate(asked):
+        if found(w, have) or any(same(w, j) for j in joined):
+            continue
+        # ... and two words asked for as one, for a deal that writes them so: "ear buds" finds "Earbuds"
+        pairs = ([asked[i - 1] + w] if i else []) + ([w + asked[i + 1]] if i + 1 < len(asked) else [])
+        if not any(found(p, have) for p in pairs):
+            return False
+    return True
 
 
 def query(q) -> Optional[dict]:

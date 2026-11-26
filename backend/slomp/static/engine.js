@@ -392,15 +392,15 @@ async function storeSales(inds, now, asked = []) {
 
 /* ---- keyword search (search.py) ----------------------------------------------------------------------------- */
 // The same deals, narrowed to the ones that say the words typed. Written twice, here and in slomp/search.py, and
-// kept this small so the two are the same: every word must be found in what a card shows, at the start of a word,
-// or as that word's plural or singular.
+// kept this small so the two are the same: every word must be found in what a card shows, as a word of it, that
+// word's plural or singular, or (from four letters) the start of one; joined or apart is the same word.
 const FILLER = new Set(["a", "an", "and", "or", "the", "for", "of", "in", "on", "at", "to", "with"]);
-const MAX_WORDS = 8, MAX_CHARS = 100;
+const MAX_WORDS = 8, MAX_CHARS = 100, STARTS = 4;
 const fold = text => String(text == null ? "" : text).normalize("NFKD").toLowerCase().replace(/[\u0300-\u036f]/g, "")
   .replace(/['’‘`]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
 function singulars(w) {                    // search.singulars
   if (w.length > 4 && w.endsWith("ies")) return [w.slice(0, -3) + "y", w.slice(0, -1)];
-  if (w.length > 3 && ["sses", "shes", "ches", "xes", "zes"].some(e => w.endsWith(e))) return [w.slice(0, -2)];
+  if (w.length > 3 && w.endsWith("es")) return [w.slice(0, -2), w.slice(0, -1)];
   if (w.length > 2 && w.endsWith("s") && !w.endsWith("ss")) return [w.slice(0, -1)];
   return [];
 }
@@ -418,12 +418,17 @@ function said(d) {                         // search.said
           store && store.name, product && product.brand, product && product.model, regular && regular.days_text,
           ...(d.conditions || [])].filter(Boolean).map(String).join(" ");
 }
+const sameWord = (a, b) => a === b || singulars(b).includes(a) || singulars(a).includes(b);      // search.same
+const foundIn = (w, have) => have.some(t => sameWord(w, t) || (w.length >= STARTS && t.startsWith(w)));   // search.found
 function says(d, asked) {                  // search.matches
   if (!asked.length) return true;
   const have = fold(said(d)).split(" ").filter(Boolean);
-  return asked.every(w => {
-    const mine = singulars(w);
-    return have.some(t => t.startsWith(w) || mine.includes(t) || singulars(t).includes(w));
+  const joined = have.slice(0, -1).map((a, k) => a + have[k + 1]);         // "t shirt" as one word, for "tshirt"
+  return asked.every((w, i) => {
+    if (foundIn(w, have) || joined.some(j => sameWord(w, j))) return true;
+    // two words asked for as one, for a deal that writes them so: "ear buds" finds "Earbuds"
+    const pairs = (i ? [asked[i - 1] + w] : []).concat(i + 1 < asked.length ? [w + asked[i + 1]] : []);
+    return pairs.some(p => foundIn(p, have));
   });
 }
 const queryOf = (q, asked) => asked.length                                  // search.query

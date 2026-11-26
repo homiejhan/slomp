@@ -643,9 +643,16 @@ offer, its code, its conditions and its city. A discount's figures are found whe
 - Every word typed must be found. "a", "the", "for" and nine like them are not asked for; at most 8 words are.
 - Text is compared folded: lowercase, accents off, an apostrophe dropped ("Kohl's" is "kohls", "L'Oréal" is
   "loreal"), anything else that is not a letter or a digit a break ("T-Shirt" is "t shirt").
-- A word is found at the start of a word: "run" finds "Running", "lego" finds "LEGOLAND".
+- A word of four letters or more is found at the start of a word: "head" finds "Headphones", "lego" finds
+  "LEGOLAND". A shorter one must be the whole word. Tried on a build's deals for Austin, the first version, which
+  let any word start one, found a camera's "16X Zoom" for "zoo" and a wreath "with" a "fir" for "wi-fi"; three
+  letters start too many words ("car": cart, card, carpet).
 - A plural finds its singular and the other way round, a whole word at a time: "shoes" finds "Shoe", "battery"
-  finds "Batteries", and "lens" does not find "Lenovo". There is no stemming beyond that and no spelling help.
+  finds "Batteries", "tv" finds "TVs", and "lens" does not find "Lenovo". There is no stemming beyond that and no
+  spelling help.
+- A word written joined or apart is the same word: "tshirt" finds "T-Shirt" (two words of the deal, side by side,
+  that spell the word asked for), and "ear buds" finds "Earbuds" (two words asked for, side by side, that start
+  one of the deal's). On the same deals "tshirt" had found nothing and "t-shirt" 34.
 
 **Where it runs.** `q` is a parameter of the four search endpoints, of the CLI's `local`, `online` and `sales`
 (`-q`), and of engine.js' `search`. With words and no industry, every industry is searched. Online deals are
