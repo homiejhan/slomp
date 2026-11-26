@@ -21,19 +21,26 @@ SALE = {"id": "sale:dealnews:2", "store": "kohls", "store_name": "Kohl's", "titl
         "name": "Black Friday Sale", "offer": "Up to 60% off", "code": "ENJOY15", "conditions": ["Kohl's Rewards members"], "industries": ["fashion"]}
 VENUE = {"id": "sale:venue:x", "store": "", "store_name": "L'Oréal Zoo & Café", "title": "Save up to 55% on Tickets, Passes and More!",
          "name": "Black Friday Deals", "offer": "Up to 55% off", "city": "Galveston", "industries": ["entertainment"]}
-EVERY = [AD, REGULAR, ONLINE, SALE, VENUE]
+TEE = {"id": "flipp:3", "title": "Old Navy Crew-Neck T-Shirt for Boys", "merchant": "Old Navy", "category": "Apparel", "industries": ["fashion"]}
+BUDS = {"id": "dealnews:9", "title": "JLab Go Air Pop Earbuds w/ Wi-Fi Dock and Airfryer Lid for $10", "seller": "Target", "industries": ["tech"]}
+EVERY = [AD, REGULAR, ONLINE, SALE, VENUE, TEE, BUDS]
 
 # What is typed, and the deals above it should find.
 ASKS = {
-    "": [0, 1, 2, 3, 4], "   ": [0, 1, 2, 3, 4], "the for of": [0, 1, 2, 3, 4],       # nothing asked: every deal
+    "": [0, 1, 2, 3, 4, 5, 6], "   ": [0, 1, 2, 3, 4, 5, 6], "the for of": [0, 1, 2, 3, 4, 5, 6],       # nothing asked: every deal
     "nike": [0], "NIKE": [0], "nike shoes": [0], "shoe": [0], "shoes for kids": [0], "kid": [0],
-    "run": [0], "runner": [0], "runners": [0], "academy": [0], "apparel": [0],
+    "runn": [0], "runner": [0], "runners": [0], "academy": [0], "apparel": [0, 5],
+    "run": [], "aca": [], "acad": [0], "leg": [], "ps": [0], "p": [],            # under four letters: the whole word, or nothing
     "lego": [2], "Lego decorations": [2], "decoration": [2], "40743": [2], "amazon": [2], "promo": [2],
     "kohls": [3], "kohl's": [3], "KOHL’S": [3], "enjoy15": [3], "rewards": [3], "friday": [3, 4], "black friday sale": [3],
     "loreal": [4], "l'oreal": [4], "L'Oréal": [4], "cafe": [4], "café": [4], "galveston": [4], "passes": [4], "pass": [4],
     "ticket": [4], "zoo café": [4],
     "happy hour": [1], "thursday": [1], "burger": [1], "burgers": [1], "cocktail": [1], "sliders half off": [1],
-    "t-shirt": [], "lens": [], "nike lego": [], "zzyzx": [], "shoes amazon": [],
+    "lens": [], "nike lego": [], "zzyzx": [], "shoes amazon": [],
+    # written joined or apart, it is the same word
+    "t-shirt": [5], "tshirt": [5], "tshirts": [5], "t shirts": [5], "boys tshirt": [5], "old navy tee": [],
+    "earbuds": [6], "ear buds": [6], "earbud": [6], "wifi": [6], "wi-fi": [6], "air fryer": [6], "airfryer": [6], "air pop": [6],
+    "shirtboys": [], "navyt": [], "ear": [], "buds": [],        # only whole words are joined, and only words side by side
     "up to": [3, 4],                                 # "to" is not asked for; "up" is
     "55": [4], "60% off": [3], "24": [2],            # a price is found where the title states it, not in the ad's terms
 }
@@ -60,8 +67,11 @@ def test_how_words_are_read():
              ("watches", "watch"), ("tvs", "tv"), ("glasses", "glass")]
     for plural, single in pairs:
         assert search.found(plural, [single]) and search.found(single, [plural]), (plural, single)
-    assert not search.found("lens", ["lenovo"]) and search.found("len", ["lenovo"])     # a start, not a made-up singular
-    assert not search.found("glass", ["gas"]) and search.found("bus", ["buses"]) and not search.found("buses", ["bu"])
+    for plural, single in pairs + [("buses", "bus"), ("tomatoes", "tomato"), ("cases", "case"), ("kids", "kid")]:
+        assert search.same(plural, single) and search.same(single, plural), (plural, single)
+    assert not search.found("lens", ["lenovo"]) and search.found("leno", ["lenovo"])    # a start, not a made-up singular
+    assert not search.found("len", ["lenovo"]) and not search.found("car", ["cart", "card", "carpet"]) and search.found("car", ["cars"])
+    assert not search.found("glass", ["gas"]) and not search.found("buses", ["bu"]) and search.found("tv", ["tvs"])
     assert search.singulars("glass") == () and search.singulars("as") == ()
 
 
