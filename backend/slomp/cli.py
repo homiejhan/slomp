@@ -6,6 +6,8 @@
     slomp regulars [--all]                                  the regular deals Slomp knows, with each one's evidence
     slomp online -i tech,fashion [-n 15] [--json]           Output 2: biggest verified online discounts
     slomp sales -i fashion,home [-n 20] [--json]            sales at online stores (the Sales and Stores tabs)
+    slomp local austin -q "lego star wars"                  -q on local, online or sales: only the deals that say every
+                                                            word; with it, -i may be left out (every industry)
     slomp top [--json]                                      the home page's biggest deals, the same anywhere in Texas
     slomp verify --iteration N [--tests 200] [--seed S]     the live verification harness
     slomp verify --iteration N --plan regulars              the same for regular deals (Austin, Houston, Dallas areas)
@@ -28,9 +30,10 @@ from datetime import date
 from pathlib import Path
 
 from . import industries as ind
+from . import search as keywords
 from .models import BASIS_TEXT
 from .reference import find_cities
-from .service import InputError, SlompService
+from .service import ONLINE_MAX, InputError, SlompService, searched
 
 
 def _money(v) -> str:
@@ -125,18 +128,27 @@ def print_online(res, limit: int) -> None:
 async def _run(args) -> int:
     svc = SlompService()
     try:
+        # -q narrows any of the three to the deals that say every word (slomp/search.py); with it, -i may be left out
+        industries, asked = searched(getattr(args, "industries", ""), getattr(args, "query", ""))
+        says = lambda rows: [d for d in rows if keywords.matches(d.to_dict(), asked)]          # noqa: E731
+        if asked and not args.json:
+            print(f"searching for: {' '.join(asked)}")
         if args.cmd == "local":
-            res = await svc.local(args.city, args.industries, args.radius)
+            res = await svc.local(args.city, industries, args.radius)
+            res.deals, res.promotions, res.unconfirmed, res.regulars = map(says, (res.deals, res.promotions, res.unconfirmed, res.regulars))
             print(json.dumps(res.to_dict(), indent=1) if args.json else "", end="")
             if not args.json:
                 print_local(res, args.limit)
         elif args.cmd == "online":
-            res = await svc.online(args.industries, args.limit, compare=not args.no_compare)
+            if asked:
+                industries = [i for i in ind.parse_ids(industries)[0] if ind.BY_ID[i].online] or industries
+            res = await svc.online(industries, ONLINE_MAX if asked else args.limit, compare=not args.no_compare)
+            res.deals = {i: says(rows)[:args.limit] for i, rows in res.deals.items()}
             print(json.dumps(res.to_dict(), indent=1) if args.json else "", end="")
             if not args.json:
                 print_online(res, args.limit)
         elif args.cmd == "sales":
-            res = await svc.sales(args.industries)
+            res = keywords.sales(await svc.sales(industries), asked)
             if args.json:
                 print(json.dumps(res, indent=1))
             else:
@@ -218,17 +230,20 @@ def main(argv=None) -> int:
     sub.add_parser("industries", help="list the industries")
     lo = sub.add_parser("local", help="deals near a city in the next 7 days")
     lo.add_argument("city")
-    lo.add_argument("-i", "--industries", required=True)
+    lo.add_argument("-i", "--industries", default="")
+    lo.add_argument("-q", "--query", default="", help="keywords: only the deals that say every word; with it, -i may be left out")
     lo.add_argument("-r", "--radius", type=float, default=25.0, choices=(10.0, 25.0, 50.0))
     lo.add_argument("-n", "--limit", type=int, default=15)
     lo.add_argument("--json", action="store_true")
     on = sub.add_parser("online", help="biggest verified online discounts")
-    on.add_argument("-i", "--industries", required=True)
+    on.add_argument("-i", "--industries", default="")
+    on.add_argument("-q", "--query", default="", help="keywords: only the deals that say every word; with it, -i may be left out")
     on.add_argument("-n", "--limit", type=int, default=15)
     on.add_argument("--json", action="store_true")
     on.add_argument("--no-compare", action="store_true", help="skip other-site price checks (faster)")
     sa = sub.add_parser("sales", help="sales at online stores")
-    sa.add_argument("-i", "--industries", required=True)
+    sa.add_argument("-i", "--industries", default="")
+    sa.add_argument("-q", "--query", default="", help="keywords: only the sales that say every word; with it, -i may be left out")
     sa.add_argument("-n", "--limit", type=int, default=20)
     sa.add_argument("--json", action="store_true")
     tp = sub.add_parser("top", help="the home page's biggest deals")

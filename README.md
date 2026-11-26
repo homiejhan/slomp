@@ -37,6 +37,8 @@ slomp local austin -i dining,entertainment     # restaurant promotions and regul
 slomp regulars                                 # every regular deal Slomp knows, with the state of its evidence
 slomp online -i tech,home -n 10                # biggest verified online discounts
 slomp sales -i fashion,home -n 20              # sales at online stores (the Sales and Stores tabs)
+slomp local austin -q "nike shoes"             # keywords: only the deals that say every word, in every industry
+slomp sales -i toys -q lego                    # ... or in the ones you name (-q works on local, online and sales)
 slomp top                                      # the home page's 9 biggest deals, the same anywhere in Texas
 slomp serve                                    # web page at http://localhost:8000, API docs at /docs
 pytest                                        # offline unit tests
@@ -55,6 +57,15 @@ five tabs, **Near you**, **Regulars**, **Online**, **Sales** and **Stores**. Cli
 against, dates, the nearest store, conditions, other stores' prices, and links to the ad or deal post. Searches are
 kept in the address bar, so a results page can be bookmarked or shared. Pictures are the ad clippings and deal-post
 photos, loaded from their sources.
+
+**Keywords.** Under the city is a box for what you are looking for: "LEGO", "air fryer", "Nike shoes". The search
+then shows only the deals that say every word, in what a card shows of them: the title, the store or seller, the
+brand, the category, and for a sale its name, offer, code and city. Case, accents and punctuation don't matter
+("kohls" finds Kohl's), a word is found at the start of a word ("run" finds Running), and a plural finds its singular
+and the other way round ("shoes" finds Shoe, "battery" finds Batteries). With keywords you can leave the categories
+empty, and every category is searched; each tab then opens on all its matches, with the categories that have some
+as chips. The words are in the address bar with the rest of the search. Nothing new is looked up: the same deals
+are found, and the ones that don't say the words are left out, so a deal no source carries is still not there.
 
 Each tab has a **Sort** menu: best deal first (the biggest discount on the card's badge; something free counts as 100%
 off, or 50% when it takes a purchase), ending soonest, or the company's name A–Z or Z–A. The page remembers the
