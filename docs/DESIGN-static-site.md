@@ -75,7 +75,8 @@ down the list may not have been.
 
 ```
 index.html            the page (the server's page plus engine.js; a flag switches it to static mode)
-engine.js             the per-search work (section 1), the same response shape as /api/v1/search
+engine.js             the per-search work (section 1), the same response shape as /api/v1/search; keyword search
+                      is done here too, by the rule of slomp/search.py written a second time (DESIGN.md 14)
 data/meta.json        cities (with coordinates, time zone and anchor), industries, radii, build time, source status
 data/ads/index.json   every live ad: merchant, dates; each anchor's ads; per-merchant map flags
 data/ads/<id>.json    one ad's deals, all industries (a search loads its anchor's, ~40 of these)

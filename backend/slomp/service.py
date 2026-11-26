@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from . import industries as ind
+from . import search as keywords
 from . import top as top_deals
 from .config import Settings
 from .db import Store as DB
@@ -54,6 +55,13 @@ def resolve_industries(raw, online_only: bool = False, sales: bool = False) -> l
     if bad or not ok:
         raise InputError(f"unknown industries {bad}" if bad else "choose at least one industry", list(ind.IDS))
     return [i for i in dict.fromkeys(ok) if (not online_only or ind.BY_ID[i].online) and (not sales or ind.BY_ID[i].sales)]
+
+
+def searched(industries, q) -> tuple:
+    """(the industries a search is in, the words it asks for). With words and no industry, every industry."""
+    asked = keywords.words(q)
+    none = not (industries.strip() if isinstance(industries, str) else list(industries or []))
+    return (list(ind.IDS) if asked and none else industries), asked
 
 
 class SlompService:
@@ -147,6 +155,24 @@ class SlompService:
             names |= {x["name"] for x in part.sources}
             merged.generated_at = min(merged.generated_at, part.generated_at)
         return merged
+
+    async def search(self, city_id: str, industries="", radius_mi: float = 25.0, limit: int = 25, q: str = "") -> dict:
+        """Deals near a city, online deals and sales in one answer (/api/v1/search), narrowed to the deals that say
+        the words in `q` when it has any (slomp/search.py)."""
+        industries, asked = searched(industries, q)
+        chosen = resolve_industries(industries)
+        online_inds = [i for i in chosen if ind.BY_ID[i].online]
+        sale_inds = [i for i in chosen if ind.BY_ID[i].sales]   # Movies & Entertainment has sales and no product deals
+
+        async def none():
+            return None
+        # with words, every online deal kept is looked through, and the best `limit` of those that say them shown
+        loc, onl, sal = await asyncio.gather(self.local(city_id, chosen, radius_mi),
+                                             self.online(online_inds, ONLINE_MAX if asked else limit) if online_inds else none(),
+                                             self.sales(sale_inds) if sale_inds else none())
+        return {"local": keywords.local(loc.to_dict(), asked),
+                "online": keywords.online(onl.to_dict(), asked, max(1, min(int(limit), ONLINE_MAX))) if onl else None,
+                "sales": keywords.sales(sal, asked) if sal else None, "query": keywords.query(q)}
 
     def _online_part(self, i: str, compare: bool = True):
         """One industry's online deals, cached at the largest size, so "tech" and "tech,fashion", any limit, the

@@ -8,6 +8,8 @@
   GET /api/v1/online        ?industries=tech,fashion&limit=25                   Output 2
   GET /api/v1/sales         ?industries=fashion,home                            sales at online stores
   GET /api/v1/search        all three, in one response
+                            &q=lego+star+wars on any of the four: only the deals that say every word (slomp/search.py);
+                            with q, industries may be left out and every industry is searched
   GET /api/v1/top           the home page's biggest deals: chains found all over Texas, big online stores
   GET /api/v1/health        per-source status
 """
@@ -22,8 +24,9 @@ from fastapi import FastAPI, Query, Request
 from fastapi.responses import FileResponse, JSONResponse
 
 from . import industries as ind
+from . import search as keywords
 from .reference import cities
-from .service import RADII, InputError, SlompService
+from .service import ONLINE_MAX, RADII, InputError, SlompService, searched
 
 STATIC = Path(__file__).parent / "static"
 
@@ -69,39 +72,43 @@ async def meta() -> dict:
     }
 
 
+INDUSTRIES = Query("", description="comma-separated industry ids; with q they may be left out, and every industry is searched")
+KEYWORDS = Query("", description="keywords: only the deals that say every word (\"lego star wars\")")
+
+
+def _asked(payload: dict, q: str) -> dict:
+    """An answer with how its keywords were read, when it had any."""
+    return {**payload, "query": keywords.query(q)} if keywords.words(q) else payload
+
+
 @app.get("/api/v1/local")
 async def local(request: Request, city: str = Query(..., description="city id from /api/v1/meta"),
-                industries: str = Query(..., description="comma-separated industry ids"),
-                radius_mi: float = Query(25.0)) -> dict:
+                industries: str = INDUSTRIES, radius_mi: float = Query(25.0), q: str = KEYWORDS) -> dict:
+    industries, asked = searched(industries, q)
     res = await svc(request).local(city, industries, radius_mi)
-    return res.to_dict()
+    return _asked(keywords.local(res.to_dict(), asked), q)
 
 
 @app.get("/api/v1/online")
-async def online(request: Request, industries: str = Query(...), limit: int = Query(25, ge=1, le=100)) -> dict:
-    res = await svc(request).online(industries, limit)
-    return res.to_dict()
+async def online(request: Request, industries: str = INDUSTRIES, limit: int = Query(25, ge=1, le=100),
+                 q: str = KEYWORDS) -> dict:
+    industries, asked = searched(industries, q)
+    if asked and not ind.parse_ids(industries)[1]:            # every industry: the ones that have online deals
+        industries = [i for i in ind.parse_ids(industries)[0] if ind.BY_ID[i].online] or industries
+    res = await svc(request).online(industries, ONLINE_MAX if asked else limit)
+    return _asked(keywords.online(res.to_dict(), asked, limit), q)
 
 
 @app.get("/api/v1/sales")
-async def sales(request: Request, industries: str = Query(..., description="comma-separated industry ids")) -> dict:
-    return await svc(request).sales(industries)
+async def sales(request: Request, industries: str = INDUSTRIES, q: str = KEYWORDS) -> dict:
+    industries, asked = searched(industries, q)
+    return _asked(keywords.sales(await svc(request).sales(industries), asked), q)
 
 
 @app.get("/api/v1/search")
-async def search(request: Request, city: str = Query(...), industries: str = Query(...),
-                 radius_mi: float = Query(25.0), limit: int = Query(25, ge=1, le=100)) -> dict:
-    s = svc(request)
-    chosen = ind.parse_ids(industries)[0]
-    online_inds = [i for i in chosen if ind.BY_ID[i].online]
-    sale_inds = [i for i in chosen if ind.BY_ID[i].sales]       # Movies & Entertainment has sales and no product deals
-
-    async def none():
-        return None
-    loc, onl, sal = await asyncio.gather(s.local(city, industries, radius_mi),
-                                         s.online(",".join(online_inds), limit) if online_inds else none(),
-                                         s.sales(",".join(sale_inds)) if sale_inds else none())
-    return {"local": loc.to_dict(), "online": onl.to_dict() if onl else None, "sales": sal}
+async def search(request: Request, city: str = Query(...), industries: str = INDUSTRIES,
+                 radius_mi: float = Query(25.0), limit: int = Query(25, ge=1, le=100), q: str = KEYWORDS) -> dict:
+    return await svc(request).search(city, industries, radius_mi, limit, q)
 
 
 @app.get("/api/v1/top")

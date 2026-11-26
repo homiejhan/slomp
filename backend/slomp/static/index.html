@@ -92,6 +92,13 @@ legend { padding: 0; }
                background: var(--bg); border: 1px solid var(--line-strong); border-radius: 999px; }
 .combo input::placeholder { color: var(--faint); font-weight: 400; }
 .combo input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* keywords: optional, under the city */
+.combo input[type="search"] { -webkit-appearance: none; appearance: none; }
+.kw .opt { margin-left: 6px; font-weight: 450; color: var(--faint); }
+.kw .hint { margin: 9px 0 0; font-size: 13px; color: var(--muted); }
+/* over the tabs: what a keyword search looked for */
+.found { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 34px 0 -18px; font-size: 15px; color: var(--muted); }
+.found b { color: var(--ink); font-weight: 650; overflow-wrap: anywhere; }
 .listbox { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 8px); margin: 0; padding: 6px;
            list-style: none; max-height: 336px; overflow: auto; background: var(--surface);
            border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-md); }
@@ -714,6 +721,15 @@ dialog.tour::backdrop { background: transparent; }
         </fieldset>
         <button class="btn primary" id="go" type="submit">Find deals</button>
       </div>
+      <div class="kw">
+        <label class="label" for="q">Looking for something?<span class="opt">Optional</span></label>
+        <div class="combo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="q" type="search" maxlength="100" autocomplete="off" spellcheck="false" enterkeyhint="search"
+                 placeholder="Keywords, like LEGO, air fryer or Nike shoes" aria-describedby="q-hint">
+        </div>
+        <p class="hint" id="q-hint">With keywords, you can leave the categories empty to search them all.</p>
+      </div>
       <fieldset>
         <legend class="label">What are you shopping for?</legend>
         <div class="cats" id="chips"></div>
@@ -886,7 +902,8 @@ const S = {cities: [], byId: {}, byLabel: {}, industries: {}, radii: [10, 25, 50
            radius: 25, auto: false, data: null, near: [], regulars: [], days: [], day: null, tab: "near",
            ind: {near: null, regulars: "all", online: null, sales: "all"},
            shown: {near: PAGE, regulars: PAGE, online: PAGE, sales: PAGE, stores: PAGE},
-           sales: [], stores: [], store: null, view: [], req: 0, sort: "best", want: null};
+           sales: [], stores: [], store: null, view: [], req: 0, sort: "best", want: null,
+           query: null};          // the keywords the search shown was narrowed to, as the answer read them
 
 /* ---- helpers --------------------------------------------------------------------------------------------- */
 const $ = (s, r = document) => r.querySelector(s);
@@ -961,8 +978,11 @@ function restore() {
   const city = S.byId[q.get("city") || saved.city];
   if (city) pick(city);
   const fromUrl = (q.get("industries") || "").split(",").filter(i => S.industries[i]);
-  const inds = fromUrl.length ? fromUrl : (saved.industries || []).filter(i => S.industries[i]);
-  if (inds.length) S.inds = new Set(inds);
+  const words = (q.get("q") || "").trim().slice(0, 100);
+  $("#q").value = words;
+  // a link with keywords and no categories means every category: don't fill in the ones chosen last time
+  const inds = fromUrl.length ? fromUrl : words && q.get("city") ? [] : (saved.industries || []).filter(i => S.industries[i]);
+  if (inds.length || (words && q.get("city"))) S.inds = new Set(inds);
   const r = Number(q.get("radius") || saved.radius);
   if (S.radii.includes(r)) S.radius = r;
   try { const sort = localStorage.getItem("slomp.sort"); if (SORTS.some(([k]) => k === sort)) S.sort = sort; } catch {}
@@ -1083,22 +1103,25 @@ async function run() {
     if (city) pick(city);
     else { msg(typed ? `No Texas city matches “${typed}”.` : "Choose a city to start."); $("#city").focus(); return; }
   }
-  const inds = Object.keys(S.industries).filter(i => S.inds.has(i));
-  if (!inds.length) { msg("Choose at least one thing you're shopping for."); return; }
+  const chosen = Object.keys(S.industries).filter(i => S.inds.has(i));
+  const words = $("#q").value.trim().replace(/\s+/g, " ");
+  if (!chosen.length && !words) { msg("Choose at least one thing you're shopping for, or type what you're looking for."); return; }
+  const inds = chosen.length ? chosen : Object.keys(S.industries);       // keywords and no category: every category
   msg("");
-  try { localStorage.setItem("slomp.search", JSON.stringify({city: S.sel.id, industries: inds, radius: S.radius})); } catch {}
-  history.replaceState(null, "", `?city=${S.sel.id}&industries=${inds.join(",")}&radius=${S.radius}`);
+  try { localStorage.setItem("slomp.search", JSON.stringify({city: S.sel.id, industries: chosen, radius: S.radius})); } catch {}
+  history.replaceState(null, "", `?city=${S.sel.id}${chosen.length ? `&industries=${chosen.join(",")}` : ""}&radius=${S.radius}` +
+    (words ? `&q=${encodeURIComponent(words)}` : ""));
   const token = ++S.req;
   busy(true);
   loading();
   try {
-    const data = await api.search({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48});
+    const data = await api.search({city: S.sel.id, industries: inds.join(","), radius_mi: S.radius, limit: 48, ...(words ? {q: words} : {})});
     if (token !== S.req) return;
     prepare(data);
     if (S.want) { focusOn(S.want); S.want = null; }
     render("search");
     maybeTour();
-    $("#sr").textContent = `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
+    $("#sr").textContent = (S.query ? `For ${S.query.q}: ` : "") + `${S.near.length} deals near ${data.local.city.name}, ${S.regulars.length} regular deals` +
       (data.sales ? `${data.online ? `, ${onlineCount()} online` : ""}, ${S.sales.length} sales at ${S.stores.length} online stores.` : ".");
   } catch (e) {
     if (token === S.req) failed(e.message);
@@ -1114,8 +1137,9 @@ function prepare(data) {
   S.near = [...L.deals, ...L.promotions, ...L.unconfirmed]
     .sort((a, b) => (b.score - a.score) || ((b.terms.savings || 0) - (a.terms.savings || 0)));
   const onInds = O ? Object.keys(O.deals) : [];
-  S.ind.near = L.industries.find(i => S.near.some(d => d.industries.includes(i))) || L.industries[0];
-  S.ind.online = onInds.find(i => O.deals[i].length) || onInds[0] || null;
+  S.query = data.query || null;
+  S.ind.near = S.query ? "all" : L.industries.find(i => S.near.some(d => d.industries.includes(i))) || L.industries[0];
+  S.ind.online = S.query && O ? "all" : onInds.find(i => O.deals[i].length) || onInds[0] || null;
   // Regular deals, each under the days it runs on in the coming week. Today's weekday falls in the window twice
   // (today and a week from today); the second one is shown only for a deal whose turn today has already passed.
   const today = L.window.start.slice(0, 10), last = addDays(today, 6);
@@ -1197,7 +1221,7 @@ function render(arriving = "") {
   const tab = (id, text, n) => `<button type="button" class="tab" role="tab" id="tab-${id}" aria-controls="panel" aria-selected="${S.tab === id}" data-tab="${id}">${TAB_ICON[id]}${text}<span class="n">${n}</span></button>`;
   const panel = {near: () => nearPanel(L), regulars: () => regularsPanel(L), online: () => onlinePanel(O),
                  sales: () => salesPanel(SL), stores: () => storesPanel(SL)}[S.tab];
-  $("#results").innerHTML = staleHtml(L) +
+  $("#results").innerHTML = staleHtml(L) + foundHtml() +
     `<div class="tabs" role="tablist" aria-label="Where">${tab("near", "Near you", S.near.length)}${tab("regulars", "Regulars", S.regulars.length)}${O ? tab("online", "Online", onlineCount()) : ""}` +
     `${SL ? tab("sales", "Sales", S.sales.length) + tab("stores", "Stores", S.stores.length) : ""}</div>` +
     `<div id="panel" role="tabpanel" aria-labelledby="tab-${S.tab}">${panel()}</div>` +
@@ -1208,6 +1232,27 @@ function render(arriving = "") {
 }
 
 const readAgo = iso => Date.now() - new Date(iso) < 36e5 ? "less than an hour ago" : ago(iso);
+
+/* ---- keyword search ---------------------------------------------------------------------------------------- */
+// The answer comes already narrowed to the deals that say the words (slomp/search.py, engine.js); the page says what
+// was looked for, opens each tab on every category's matches, and offers the way back.
+const clearBtn = `<button type="button" class="btn ghost small" data-clear-q>Clear keywords</button>`;
+function foundHtml() {
+  if (!S.query) return "";
+  const every = !Object.keys(S.industries).some(i => S.inds.has(i));
+  return `<p class="found"><span>Deals that say <b>“${esc(S.query.q)}”</b>${every ? ", in every category" : ""}</span>${clearBtn}</p>`;
+}
+const nothingSaid = what => emptyHtml("list", `No ${what} say “${esc(S.query.q)}”`,
+  "Try fewer or different words, or look in another tab.", `<div class="actions center">${clearBtn}</div>`);
+// The categories that have matches, with All first, as the Sales tab's are.
+function foundPills(inds, cur, count, total) {
+  const have = inds.filter(i => count(i));
+  if (have.length < 2) return "";
+  return `<div class="pills" role="tablist" aria-label="Category">` +
+    [["all", "All", total]].concat(have.map(i => [i, short(i), count(i)])).map(([id, text, n]) =>
+      `<button type="button" class="chip" role="tab" aria-selected="${id === cur}" data-ind="${id}">` +
+      (ART[id] ? pillArt(id) : "") + `${esc(text)}<span class="n">${n}</span></button>`).join("") + `</div>`;
+}
 
 // The published site works from data read on a schedule; say so when that data is more than a day old.
 function staleHtml(L) {
@@ -1238,7 +1283,7 @@ function pillsHtml(inds, current, count) {
 function nearPanel(L) {
   const cur = S.ind.near, tz = L.city.tz;
   const count = i => S.near.filter(d => d.industries.includes(i)).length;
-  const list = S.view = sortDeals(S.near.filter(d => d.industries.includes(cur)));
+  const list = S.view = sortDeals(cur === "all" ? S.near : S.near.filter(d => d.industries.includes(cur)));
   const down = (L.sources || []).filter(s => !s.ok).map(s => s.name);
   const notice = down.length ? noticeHtml(`We couldn't reach ${down.join(", ")} just now, so some deals may be missing.`) : "";
   const dates = `${day(L.window.start, tz)} to ${day(L.window.end, tz)}`;
@@ -1247,7 +1292,7 @@ function nearPanel(L) {
   if (L.ads_from) chips.push(cchip(ICONS.store, `Ads from ${esc(L.ads_from.name)}`, `Weekly ads as published for ${L.ads_from.name}, ${L.ads_from.mi} mi away`));
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.near).map((d, i) => localCard(d, i, tz)).join("")}</div>` + moreHtml(list.length, S.shown.near)
-    : nearEmpty(L, cur);
+    : S.query ? nothingSaid("ads or promotions near you") : nearEmpty(L, cur);
   const about = aboutHtml([
     `Prices from the weekly ads of stores within ${L.radius_mi} mi of ${esc(L.city.name)}, for ${esc(dates)}` +
       ((L.sources || []).some(s => s.name === "Stores' own websites" && s.ok) ? ", and the sales nearby stores' own websites state" : "") +
@@ -1255,7 +1300,8 @@ function nearPanel(L) {
     L.ads_from ? `This site reads weekly ads for a set of Texas cities. ${esc(L.city.name)} gets the ads published for ${esc(L.ads_from.name)}, ${L.ads_from.mi} mi away.` : "",
     "Tap a deal for its dates, its store's address and what its discount is measured against.",
   ], L.excluded);
-  return notice + `<div class="subhead">${pillsHtml(L.industries, cur, count)}${ctxHtml(chips)}</div>` + body + about;
+  const pills = S.query ? foundPills(L.industries, cur, count, S.near.length) : pillsHtml(L.industries, cur, count);
+  return notice + `<div class="subhead">${pills}${ctxHtml(chips)}</div>` + body + about;
 }
 
 function regularsPanel(L) {
@@ -1279,6 +1325,7 @@ function regularsPanel(L) {
   const what = cur === "all" ? "" : ` for ${esc(full(cur))}`;
   const body = list.length
     ? `<div class="rgrid">${list.slice(0, S.shown.regulars).map(regularCard).join("")}</div>` + moreHtml(list.length, S.shown.regulars)
+    : S.query && !S.regulars.length ? nothingSaid("regular deals near you")
     : emptyHtml("calendar", S.regulars.length ? `No regular deals${what} on ${dateText(S.day, {weekday: "long"})}` : `No regular deals${what} within ${L.radius_mi} mi of ${esc(L.city.name)}`,
                 S.regulars.length ? "Try another day." : "Regular deals are mostly at restaurants, cinemas and entertainment spots. Add Dining or Entertainment to your search.");
   const about = aboutHtml([
@@ -1291,18 +1338,21 @@ function regularsPanel(L) {
 
 function onlinePanel(O) {
   const inds = Object.keys(O.deals), cur = S.ind.online;
-  const list = S.view = sortDeals(O.deals[cur] || []);
+  const seen = new Set(), every = Object.values(O.deals).flat().filter(d => !seen.has(d.id) && seen.add(d.id));
+  const list = S.view = sortDeals(cur === "all" ? every : O.deals[cur] || []);
   const down = (O.sources || []).filter(s => !s.ok).length;
   const notice = down ? noticeHtml(`${down} of ${O.sources.length} deal sites couldn't be reached just now, so some deals may be missing.`) : "";
   const chips = [cchip(ICONS.globe, "Online, the same for every city", "", "legend"), cchip(SEAL, "Checked against other stores", "", "legend")];
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.online).map(onlineCard).join("")}</div>` + moreHtml(list.length, S.shown.online)
+    : S.query ? nothingSaid("online deals")
     : emptyHtml(cur, `No online deals for ${esc(full(cur))} right now`, "Deal posts change through the day, so check back later.");
   const about = aboutHtml([
     "The biggest discounts posted on deal sites (dealnews, Slickdeals and others).",
     `Where another store sells the same product, the discount is measured against that store's price, and the deal is marked ${SEAL} Checked. Tap a deal to compare prices and see where it was posted.`,
   ], O.excluded);
-  return notice + `<div class="subhead">${pillsHtml(inds, cur, i => O.deals[i].length)}${ctxHtml(chips)}</div>` + body + about;
+  const pills = S.query ? foundPills(inds, cur, i => O.deals[i].length, every.length) : pillsHtml(inds, cur, i => O.deals[i].length);
+  return notice + `<div class="subhead">${pills}${ctxHtml(chips)}</div>` + body + about;
 }
 
 /* ---- online stores: their sales, and the stores ---------------------------------------------------------- */
@@ -1387,6 +1437,7 @@ function salesPanel(SL) {
     ? (SL.sources || []).filter(s => s.own_site && !s.ok).map(s => s.name.replace(/ \(its own site\)$/, "")) : [];
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.sales).map(saleCard).join("")}</div>` + moreHtml(list.length, S.shown.sales)
+    : S.query && !S.sales.length ? nothingSaid("sales")
     : emptyHtml("store", `No sales at online stores${cur === "all" ? "" : " for " + esc(full(cur))} right now`, "Stores post new sales through the day, so check back later.");
   // Movies & Entertainment's are not shipped: subscriptions, and tickets, passes and memberships, bought online.
   const bought = list.some(d => d.what), shipped = list.some(d => !d.what) || !list.length;
@@ -1457,6 +1508,7 @@ function storesPanel(SL) {
   const list = S.view = sortStores(S.stores);
   const body = list.length
     ? `<div class="grid">${list.slice(0, S.shown.stores).map(storeCard).join("")}</div>` + moreHtml(list.length, S.shown.stores)
+    : S.query ? nothingSaid("online stores' sales or deals")
     : emptyHtml("shop", "No online store has anything on in these categories right now", "Stores post new sales through the day, so check back later.");
   const about = aboutHtml(["Online stores that ship anywhere in Texas, and sellers of subscriptions and tickets, with what each has on in your categories: its sales and its product deals from the Online tab. Tap a store to see it all."]);
   return `<div class="subhead">${ctxHtml(shipChips(S.sales))}</div>` + body + about;
@@ -1876,7 +1928,7 @@ const FEATS = [["shop", 28, "Store ads", "This week's deals at stores near you"]
                ["globe", 212, "Online", "Top discounts and store-wide sales"]];
 function welcome() {
   $("#results").innerHTML = `<div class="welcome"><h2>Find this week's best deals</h2>` +
-    `<p>Pick a Texas city and what you're shopping for.</p>` +
+    `<p>Pick a Texas city and what you're shopping for, or type what you're looking for.</p>` +
     `<div class="quick"><span class="muted">Popular:</span>${S.cities.slice(0, 6).map(c => `<button type="button" class="chip" data-city="${c.id}">${esc(c.name)}</button>`).join("")}</div>` +
     topsShell() +
     `<div class="feats">${FEATS.map(([ico, h, b, t]) => `<div class="feat">${tile("fi", ico, h)}<b>${b}</b><span>${t}</span></div>`).join("")}</div></div>`;
@@ -2657,6 +2709,7 @@ $("#results").addEventListener("click", e => {
   else if ((el = hit("[data-day]"))) { S.day = el.dataset.day; S.shown.regulars = PAGE; render(); }
   else if ((el = hit("[data-ind]"))) { S.ind[S.tab] = el.dataset.ind; S.shown[S.tab] = PAGE; render(); }
   else if (hit("#more")) showMore();
+  else if (hit("[data-clear-q]")) { $("#q").value = ""; if (Object.keys(S.industries).some(i => S.inds.has(i))) run(); else { history.replaceState(null, "", location.pathname); S.data = null; welcome(); msg(""); } }
   else if (hit("#retry")) run();
   else if (hit("[data-wider]")) { S.radius = 50; drawRadiusValue(); run(); }
   else if ((el = hit("[data-city]"))) { pick(S.byId[el.dataset.city]); run(); }

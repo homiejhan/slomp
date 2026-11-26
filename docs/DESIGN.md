@@ -226,6 +226,7 @@ valid values.
 | `/api/v1/local?city=austin&industries=tech,sports&radius_mi=25` | Output 1 |
 | `/api/v1/online?industries=tech,fashion&limit=25` | Output 2 |
 | `/api/v1/search?city=austin&industries=tech` | Both outputs in one response |
+| `...&q=lego+star+wars` on any of the four above | Keywords: only the deals that say every word (section 14). With `q`, `industries` may be left out |
 | `/api/v1/health` | Per-source status: last success, error rate, circuit state |
 
 Response shape (abridged):
@@ -622,3 +623,43 @@ deals fell by a third. Now:
   standing. Both lapse by themselves, two days after the read.
 - Every lifetime is stretched by up to half, by the site's name, so sites read on one day don't all fall due on
   another.
+
+## 14. Addendum: keyword search (Nov 26, 2026)
+
+A search was a city and the industries chosen, and what it found could only be browsed. Keywords narrow it: "lego",
+"air fryer", "nike shoes" (`slomp/search.py`).
+
+**What it is, and is not.** The keywords are applied to what a search has already found. No source is asked anything
+new, so the accuracy rules that decide what is a deal are untouched, and a deal Slomp does not carry is not found by
+asking for it. That is the trade: a search stays as fast and as exact as before, and it cannot reach what the
+sources' own search boxes would.
+
+**What is searched** is what a card shows of a deal: its title, the store or seller, the brand, the category its
+source files it under, a regular deal's days, an online deal's product brand and model, and for a sale its name, its
+offer, its code, its conditions and its city. A discount's figures are found where the title states them.
+
+**How words match.**
+
+- Every word typed must be found. "a", "the", "for" and nine like them are not asked for; at most 8 words are.
+- Text is compared folded: lowercase, accents off, an apostrophe dropped ("Kohl's" is "kohls", "L'Oréal" is
+  "loreal"), anything else that is not a letter or a digit a break ("T-Shirt" is "t shirt").
+- A word is found at the start of a word: "run" finds "Running", "lego" finds "LEGOLAND".
+- A plural finds its singular and the other way round, a whole word at a time: "shoes" finds "Shoe", "battery"
+  finds "Batteries", and "lens" does not find "Lenovo". There is no stemming beyond that and no spelling help.
+
+**Where it runs.** `q` is a parameter of the four search endpoints, of the CLI's `local`, `online` and `sales`
+(`-q`), and of engine.js' `search`. With words and no industry, every industry is searched. Online deals are
+narrowed before the best of each industry are taken, so a search looks through all 100 kept per industry and not
+the page of them a search without words returns. Counts follow the narrowed lists; what was left out and why is as
+the search without words reports it. The answer says how the words were read (`query`: the text, and the words asked
+for), or `null` when none were.
+
+**Written twice.** The published site answers searches in the browser, so the rule is in engine.js as well. It is
+kept small enough to be the same in both: `tests/test_search.py` runs the two on the same deals and on odd text
+(accents, full-width letters, ligatures), and checks that the engine's narrowed answer is what `search.py` makes of
+its own full one.
+
+**On the page.** A box under the city, optional. The words go in the address bar (`&q=`). A search with words and
+no category chosen sends every category. Over the tabs the page says what was looked for, with a button that takes
+the words away; each tab opens on all its matches, with the categories that have some as chips; a tab with none
+says so.

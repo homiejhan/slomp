@@ -341,14 +341,14 @@ function regularDeal(r, inds, near, dates, windows, win, tz) {   // Regulars._de
 }
 
 /* ---- online deals (service.SlompService.online) ----------------------------------------------------------- */
-async function online(inds, limit) {
+async function online(inds, limit, asked = []) {
   const missing = {deals: {}, excluded: {}, sources: [{name: "Online deals", ok: false, error: "couldn't be loaded"}]};
   const parts = await Promise.all(inds.map(i => load(`online/${i}.json`).catch(() => missing)));
   const deals = {}, excluded = new Map(), sources = [], names = new Set();
   let generated = null;
   parts.forEach((part, k) => {
     const i = inds[k];
-    deals[i] = (part.deals[i] || []).slice(0, limit);
+    deals[i] = (part.deals[i] || []).filter(d => says(d, asked)).slice(0, limit);
     for (const [why, n] of Object.entries(part.excluded)) excluded.set(why, Math.max(excluded.get(why) || 0, n));
     for (const s of part.sources) if (!names.has(s.name)) { names.add(s.name); sources.push(s); }
     if (part.generated_at && (!generated || Date.parse(part.generated_at) < Date.parse(generated))) generated = part.generated_at;
@@ -372,7 +372,7 @@ function liveReason(s, now) {              // sales.live_reason
   return "";
 }
 
-async function storeSales(inds, now) {
+async function storeSales(inds, now, asked = []) {
   const F = await load("sales.json"), wanted = new Set(inds), res = new Result(), shown = [];
   for (const [why, n] of Object.entries(F.excluded)) res.add(why, n);
   for (const s of F.sales) {
@@ -382,12 +382,52 @@ async function storeSales(inds, now) {
     else shown.push(s);
   }
   const ends = s => s.ends_at ? Date.parse(s.ends_at) : Infinity;
+  if (asked.length) shown.splice(0, shown.length, ...shown.filter(s => says(s, asked)));
   shown.sort((a, b) => (b.score - a.score) || (ends(a) - ends(b)) ||
     cmp(a.store_name.toLowerCase(), b.store_name.toLowerCase()) || cmp(a.id, b.id));
   return {industries: inds, generated_at: F.generated_at, sales: shown,
           counts: {sales: shown.length, stores: new Set(shown.map(s => s.store || s.store_name)).size},
           stores: F.stores, excluded: res.counts(), sources: F.sources};
 }
+
+/* ---- keyword search (search.py) ----------------------------------------------------------------------------- */
+// The same deals, narrowed to the ones that say the words typed. Written twice, here and in slomp/search.py, and
+// kept this small so the two are the same: every word must be found in what a card shows, at the start of a word,
+// or as that word's plural or singular.
+const FILLER = new Set(["a", "an", "and", "or", "the", "for", "of", "in", "on", "at", "to", "with"]);
+const MAX_WORDS = 8, MAX_CHARS = 100;
+const fold = text => String(text == null ? "" : text).normalize("NFKD").toLowerCase().replace(/[\u0300-\u036f]/g, "")
+  .replace(/['’‘`]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+function singulars(w) {                    // search.singulars
+  if (w.length > 4 && w.endsWith("ies")) return [w.slice(0, -3) + "y", w.slice(0, -1)];
+  if (w.length > 3 && ["sses", "shes", "ches", "xes", "zes"].some(e => w.endsWith(e))) return [w.slice(0, -2)];
+  if (w.length > 2 && w.endsWith("s") && !w.endsWith("ss")) return [w.slice(0, -1)];
+  return [];
+}
+function askedWords(q) {                   // search.words
+  const out = [];
+  for (const w of fold(String(q == null ? "" : q).slice(0, MAX_CHARS)).split(" ")) {
+    if (w && !FILLER.has(w) && !out.includes(w)) out.push(w);
+  }
+  return out.slice(0, MAX_WORDS);
+}
+function said(d) {                         // search.said
+  const obj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const store = obj(d.store), product = obj(d.product), regular = obj(d.regular);
+  return [d.title, d.name, d.merchant, d.seller, d.store_name, d.brand, d.category, d.offer, d.code, d.city,
+          store && store.name, product && product.brand, product && product.model, regular && regular.days_text,
+          ...(d.conditions || [])].filter(Boolean).map(String).join(" ");
+}
+function says(d, asked) {                  // search.matches
+  if (!asked.length) return true;
+  const have = fold(said(d)).split(" ").filter(Boolean);
+  return asked.every(w => {
+    const mine = singulars(w);
+    return have.some(t => t.startsWith(w) || mine.includes(t) || singulars(t).includes(w));
+  });
+}
+const queryOf = (q, asked) => asked.length                                  // search.query
+  ? {q: String(q == null ? "" : q).slice(0, MAX_CHARS).split(/\s+/).filter(Boolean).join(" "), words: asked} : null;
 
 /* ---- the home page's biggest deals (top.pick) ------------------------------------------------------------- */
 // The build ranked the candidates (top.candidates); which of them to show depends on the moment, so it's done here.
@@ -445,13 +485,15 @@ async function getMeta(check = false) {
 }
 
 // /api/v1/search: {local, online, sales}. `now` (an ISO time) is for the parity check; the page leaves it out.
-async function search({city: cityId, industries, radius_mi = 25, limit = 25, now} = {}) {
+async function search({city: cityId, industries, radius_mi = 25, limit = 25, now, q = ""} = {}) {
   const M = await getMeta(true);
   const city = cities.get(String(cityId || "").trim().toLowerCase());
   if (!city) throw new Error("Choose a Texas city from the list.");
   const known = new Set(M.industries.map(i => i.id)), localOnly = new Set(M.industries.filter(i => !i.online).map(i => i.id));
-  const raw = Array.isArray(industries) ? industries : String(industries || "").split(",");
-  const inds = [...new Set(raw.map(i => String(i).trim().toLowerCase()).filter(i => known.has(i)))];
+  const asked = askedWords(q);
+  let raw = (Array.isArray(industries) ? industries : String(industries || "").split(",")).map(i => String(i).trim().toLowerCase()).filter(Boolean);
+  if (asked.length && !raw.length) raw = M.industries.map(i => i.id);        // words and no industry: every industry
+  const inds = [...new Set(raw.filter(i => known.has(i)))];
   if (!inds.length) throw new Error("Choose at least one thing you're shopping for.");
   const radius = Number(radius_mi);
   if (!M.radii_mi.includes(radius)) throw new Error(`Choose a distance of ${M.radii_mi.join(", ")} miles.`);
@@ -466,9 +508,10 @@ async function search({city: cityId, industries, radius_mi = 25, limit = 25, now
     promos = promos.concat(await part(res, "Restaurant promotions", () => promotions(city, radius, win, res), []));
     promos.sort((a, b) => (b.score - a.score) || (a.ends_in_days - b.ends_in_days) || cmp(a.title, b.title));
   }
-  const regular = await part(res, "Regular deals registry", () => regulars(city, inds, radius, win, res), []);
-  const deals = ads.deals.filter(d => d.store_status !== "unmapped" && d.kind !== "promotion");
-  const unconfirmed = ads.deals.filter(d => d.store_status === "unmapped");
+  let regular = await part(res, "Regular deals registry", () => regulars(city, inds, radius, win, res), []);
+  let deals = ads.deals.filter(d => d.store_status !== "unmapped" && d.kind !== "promotion");
+  let unconfirmed = ads.deals.filter(d => d.store_status === "unmapped");
+  if (asked.length) [deals, promos, unconfirmed, regular] = [deals, promos, unconfirmed, regular].map(l => l.filter(d => says(d, asked)));
   const local = {
     city: {id: city.id, name: city.name, county: city.county, zip: city.zip, tz, lat: city.lat, lon: city.lon},
     industries: inds, radius_mi: radius, window: {start: isoIn(win.start, tz), end: isoIn(win.end, tz)},
@@ -487,12 +530,14 @@ async function search({city: cityId, industries, radius_mi = 25, limit = 25, now
   const hasSales = new Set(M.industries.filter(i => i.sales ?? i.online).map(i => i.id)), saleInds = inds.filter(i => hasSales.has(i));
   const unread = {industries: saleInds, generated_at: null, sales: [], counts: {sales: 0, stores: 0}, stores: {},
                   excluded: {}, sources: [{name: "Online stores' sales", ok: false, error: "couldn't be loaded"}]};
-  return {local, online: onlineInds.length ? await online(onlineInds, Math.max(1, Math.min(100, Number(limit) || 25))) : null,
-          sales: saleInds.length ? await storeSales(saleInds, start).catch(() => unread) : null};
+  return {local, online: onlineInds.length ? await online(onlineInds, Math.max(1, Math.min(100, Number(limit) || 25)), asked) : null,
+          sales: saleInds.length ? await storeSales(saleInds, start, asked).catch(() => unread) : null,
+          query: queryOf(q, asked)};
 }
 
 const SlompStatic = {
   meta: () => getMeta(), search, top,
+  keywords: {words: askedWords, says, fold},        // for the test that runs this beside slomp/search.py
   configure(opts) { if (opts.loader) { loader = opts.loader; memo.clear(); meta = null; } },
 };
 root.SlompStatic = SlompStatic;
