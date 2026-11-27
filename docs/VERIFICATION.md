@@ -1859,7 +1859,7 @@ set aside:
 |---|---|
 | the same sale | 11 |
 | a sale whose name shares most of its other words (Best Buy's half-price appliance and phone deals) | 5 |
-| a sale of something else, joined by the day's name (Gillette, Vitamix, Ninja, Yeti and Dyson under "GearWrench Black Friday Deals at Amazon"; 14 of Fanatics' sales under its storewide one) | 103 |
+| a sale of something else, joined by the day's name (Gillette, Vitamix, Ninja, Yeti and Dyson under "GearWrench Black Friday Deals at Amazon"; 16 of Fanatics' sales under its storewide one) | 103 |
 | a post with no discount stated, for something else ("Lowe's Black Friday Hand Tools Deals for From $15" under its appliance sale) | 61 |
 
 So about 160 sales that are not the card they are under are listed only as "also posted" on it. The second kind
