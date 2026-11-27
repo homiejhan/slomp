@@ -336,3 +336,35 @@ def test_a_stores_sale_filed_under_streaming_services_is_not_a_subscription():
         == "entertainment: not a subscription"
     # only a subscription category is second-guessed, and only dealnews gives one
     assert ent.kind_of(post("Groupon Black Friday Sale: Up to 80% off", category="Things to Do", seller="Groupon")) == "tickets"
+
+
+def test_one_offer_whose_two_posts_give_its_end_in_two_time_zones_is_one_card():
+    # run 180, Nov 27, 2026: dealnews gave the end as 11:59 PM Eastern on Nov 30 in one post, and in the other as
+    # 3 AM Eastern on Dec 1, which is midnight Pacific that same night
+    from zoneinfo import ZoneInfo
+
+    from slomp.sales import dedupe, end_day
+    ET = ZoneInfo("America/New_York")
+    eastern, pacific = datetime(2026, 11, 30, 23, 59, tzinfo=ET), datetime(2026, 12, 1, 3, 0, tzinfo=ET)
+    assert end_day(eastern) == end_day(pacific) == eastern.date() and end_day(None) is None
+    assert end_day(datetime(2026, 12, 1, 23, 59, tzinfo=ET)).isoformat() == "2026-12-01"       # a day later is a day later
+    first, _ = one(post("Prime Video Black Friday Apple TV Subscription Deal for $6.99/mo. + free shipping", "It is $6.99 per month for 6 months.",
+                        seller="Amazon", days_ago=4, expires_at=eastern, expires_stated=True))
+    again, _ = one(post("Prime Video Black Friday Apple TV Subscription Deal for $6.99/mo. for 6 months + free shipping", seller="Amazon",
+                        days_ago=2, expires_at=pacific, expires_stated=True))
+    later, _ = one(post("Prime Video Black Friday Apple TV Subscription Deal for $6.99/mo. for 6 months", seller="Amazon",
+                        days_ago=1, expires_at=datetime(2026, 12, 7, 23, 59, tzinfo=ET), expires_stated=True))
+    ex = Counter()
+    kept = dedupe([again, later, first], ex)
+    assert sorted(s.id for s in kept) == sorted([first.id, later.id]) and ex["sale: same sale posted elsewhere"] == 1
+    assert [p["title"] for p in first.also_posted] == [again.title]
+    from slomp.verify import sales_checks as sc
+    assert sc.quality([first, again], NOW, "duplicates")[0] == "fail"          # the check sees the pair as the pipeline does
+    # a store's sales are still held to the same calendar day: their names share too many words to loosen it
+    from slomp.sales import StoreSales
+    mk = lambda title, ends: StoreSales(None, None).sale(Post(                                          # noqa: E731
+        source="dealnews", id=f"dealnews:{abs(hash(title))}", url="u", title=title, text="", seller="Macy's", deal_type="sale",
+        category="Clothing", posted_at=NOW - timedelta(days=1), expires_at=ends, expires_stated=True), NOW, Counter())
+    a, b = mk("Cole Haan Black Friday Men's Deals at Macy's: Up to 70% off + free shipping w/ $39", eastern), \
+        mk("Nike Black Friday Deals at Macy's: Up to 70% off + free shipping w/ $39", pacific)
+    assert a and b and len(dedupe([a, b], Counter())) == 2

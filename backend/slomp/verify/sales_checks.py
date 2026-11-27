@@ -294,7 +294,8 @@ def quality(sales: list[StoreSale], now: datetime, what: str) -> tuple[str, dict
     if what == "duplicates":
         seen: dict = {}
         for s in sales:
-            key = (s.store or s.store_name, s.badge, s.ends_at.date() if s.ends_at else None)
+            key = (s.store or s.store_name, s.badge,          # the end day as the pipeline compares it (sales.dedupe)
+                   None if not s.ends_at else end_day(s.ends_at) if getattr(s, "what", "") else s.ends_at.date())
             for other in seen.get(key, []):
                 a, b = _words(s.name), _words(other.name)
                 if getattr(s, "what", "") or getattr(other, "what", ""):

@@ -1679,6 +1679,16 @@ def same_price(a: str, b: str) -> bool:
                 and abs(float(x.group(2).replace(",", "")) - float(y.group(2).replace(",", ""))) < 0.015)
 
 
+def end_day(ends: Optional[datetime]) -> Optional[date]:
+    """The day a shopper would say a sale ends, in Texas. One ending in the small hours here ends the day before:
+    midnight Pacific on November 30 is 2 AM Central on December 1, and both are "through November 30". The page
+    shows ends the same way."""
+    if ends is None:
+        return None
+    local = ends.astimezone(CENTRAL)
+    return (local - timedelta(hours=4)).date() if local.hour < 4 else local.date()
+
+
 def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
     """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same offer, same
     end, and names that share most of their words. The best-sourced post leads; the others are listed with it.
@@ -1698,6 +1708,11 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             if k.badge != s.badge and not (both and same_price(k.badge, s.badge)):
                 continue
             ke, se = (k.ends_at.date() if k.ends_at else None), (s.ends_at.date() if s.ends_at else None)
+            if both:
+                # The same end day, as a shopper would say it: dealnews gave one offer's end as 11:59 PM Eastern on
+                # Nov 30 in one post and as 3 AM Eastern on Dec 1, midnight Pacific that night, in another. Only
+                # for these, whose names are compared closely: a store's sales share too many words for it yet.
+                ke, se = end_day(k.ends_at), end_day(s.ends_at)
             if ke != se and not (both and None in (ke, se)):
                 continue
             if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
