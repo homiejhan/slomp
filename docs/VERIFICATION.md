@@ -1825,3 +1825,46 @@ engine only, and the server's answers through the API with stand-ins for its sou
 Spelling: "leggo" finds nothing. A published build with it.
 
 338 unit tests pass, seven of them new (`tests/test_search.py`).
+
+### Runs 179 and 180 (Nov 27): keyword search published, an offer shown twice, and what stores' sales lose
+
+**Keyword search on the published site** was the part not tested before. Run 179 published it, and in a browser on
+https://homiejhan.github.io/slomp/ a link with words and no category, words typed, words nothing says and the words
+taken away all behave as on the test copy: "lego" for Austin gave 1 ad nearby, 3 online deals and 6 sales; "nike
+shoes" 16 nearby and 7 online. No page error, nothing scrolls sideways at a phone's width. The two fixes of run 174
+held: no Musician's Friend sale under Movies & Entertainment, and the Prime Video bundle is one card with the
+Slickdeals post under it. Run 179 was started by an assistant, so it skipped Hip2Save and the Fort Worth Zoo; the
+scheduled run 180 read them again: 595 sales at 165 stores, all 142 feeds read, 102 sales from Hip2Save, 13 cards
+from places' own pages.
+
+**One offer as two cards, again, for a new reason.** Run 180 showed "Prime Video Black Friday Apple TV Subscription
+Deal" twice and "Prime Video Black Friday Subscription Deals: Up to 79% off" twice. dealnews posted each twice, and
+gave the end as 11:59 PM Eastern on Nov 30 in one post and 3 AM Eastern on Dec 1 in the other, which is midnight
+Pacific that same night. End days were compared by calendar day. For subscriptions and tickets they are now the day
+a shopper would say (`sales.end_day`): an end in the small hours in Texas belongs to the day before, as the page
+already shows ends. On run 180's own 582 sales from posts that merges those two pairs and nothing else.
+
+**Why not for stores' sales too.** Tried on the same 582, the rule for every sale merged 13: those two, one real
+duplicate (Target's Christmas lights, from dealnews and Hip2Save), and ten sales of different things, among them
+Macy's Nike sale into its Cole Haan sale, and Walmart's LEGO sale into its sports sale. They were being kept apart
+only because their ends were written in different time zones. A store's sales are one sale when the store, the
+badge and the end day are the same and their names share 60% of their words, and in this week "Black" and "Friday"
+are two of the three words in most names.
+
+**What that rule already costs, measured and not fixed here.** Of run 180's 555 cards for stores' sales, 72 have
+other posts under them, 180 posts in all. Reading each against the card it is under, with the day it is named for
+set aside:
+
+| The post under the card is | Posts |
+|---|---|
+| the same sale | 11 |
+| a sale whose name shares most of its other words (Best Buy's half-price appliance and phone deals) | 5 |
+| a sale of something else, joined by the day's name (Gillette, Vitamix, Ninja, Yeti and Dyson under "GearWrench Black Friday Deals at Amazon"; 14 of Fanatics' sales under its storewide one) | 103 |
+| a post with no discount stated, for something else ("Lowe's Black Friday Hand Tools Deals for From $15" under its appliance sale) | 61 |
+
+So about 160 sales that are not the card they are under are listed only as "also posted" on it. The second kind
+comes from the rule that an event's headline with no discount yields to a sale of the same store and day that
+states one, which was made for "Amazon's Black Friday Sale Is Live". Changing either decides how many cards a store
+shows in such a week, and that is the owner's call; the measure is here for it.
+
+339 unit tests pass, one of them new.
