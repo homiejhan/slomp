@@ -13944,7 +13944,7 @@
   "what": "Keyword search (slomp/search.py; docs/DESIGN.md 14): a search narrowed to the deals that say the words typed. No source and no rule about what a deal is changed.",
   "rule_in_both_places": {
    "deals": 7,
-   "searches": 80,
+   "searches": 83,
    "odd_text": "accents, full-width letters, ligatures, both apostrophes, 300 characters",
    "same_words_same_folding_same_deals_found": true,
    "engine_answer_with_words_equals_search_py_on_its_answer_without": true
