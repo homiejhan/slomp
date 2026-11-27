@@ -408,8 +408,12 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
 - **Two sources, one offer.** Compared that closely, two posts are the same offer though their sources put it a
   little differently: a price a cent apart is one source rounding the other's ($5.49 a month at dealnews is
   "$5.50/Month" at Slickdeals), and an end only one of them gives is that offer's end. The second build showed
-  Prime Video's AMC+, MGM+ and STARZ bundle twice for want of this. A store's sale is still held to the same badge
-  and the same end.
+  Prime Video's AMC+, MGM+ and STARZ bundle twice for want of this. The end day is the one a shopper would say: an
+  end in the small hours in Texas belongs to the day before, as the page shows it. dealnews gave one offer's end as
+  11:59 PM Eastern on November 30 in one post and as 3 AM Eastern on December 1, midnight Pacific that night, in
+  another, and the offer stood twice. A store's sale is still held to the same badge and the same calendar day:
+  its names are compared more loosely, and in a week when every sale is a "Black Friday" one, that looseness
+  already joins sales that are not the same (VERIFICATION.md, run 180).
 - **When**: as for any sale (4.4). A plan priced "through December 31" and posted in August is past the 30 days and
   not shown: it is the standing price by then, not a deal.
 - **Where it shows.** An industry now says two things: `online` (product deals and sales at stores that ship) and
