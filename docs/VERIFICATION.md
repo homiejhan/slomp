@@ -1762,3 +1762,66 @@ sales in the same order at six moments, with Movies & Entertainment alone and wi
 
 **What was not tested.** A store's sale filed under a ticket category: none was among the day's posts, and those
 categories are not second-guessed. 331 unit tests pass, two of them new.
+
+### Keyword search (Nov 26): what it finds on real deals, and what that changed
+
+A search can be narrowed to the deals that say the words typed (`slomp/search.py`, DESIGN.md 14). It adds no source
+and no rule about what a deal is, so what was to be verified is the matching itself, that the server and the
+published site match alike, and that the page handles it.
+
+**The rule, in both places.** The published site matches in the browser, so the rule is in engine.js too. One test
+runs the two on the same seven deals, one of each kind, with 80 searches, and on odd text (accents, full-width
+letters, ligatures, an apostrophe of each kind, 300 characters): the same words read, the same folding, the same
+deals found. Another builds a small site and checks that the engine's answer to a search with words is what
+`search.py` makes of the engine's own answer without them: the same deals in the same order in every part, the
+same counts, online deals narrowed before the best two are taken.
+
+**On real deals** (a copy of the published site's files for Austin, 25 miles, every industry, with the sales of the
+Nov 25 live run), a first version let any word asked for start a word of the deal. Three things showed, and the
+rule changed for each:
+
+- "zoo" found a camera with "16X Zoom", and "wi-fi" found 51 ads, one a wreath "with" a "fir" bow: one, two and
+  three letters start too many words. A word under four letters must now be the whole word, or its plural or
+  singular. "zoo" finds the three zoos' sales and no ad; "wi-fi" finds 23.
+- "tshirt" found nothing and "t-shirt" found 34. Words written joined or apart are now the same word. Both find the
+  same 26; the eight gone were ads with a word starting with "t" and a shirt.
+- "buses" did not find "bus": a plural in -es is now read both ways.
+
+With the rule as it is, on the same deals:
+
+| Typed | Near you | Regulars | Online | Sales |
+|---|---|---|---|---|
+| lego | 1 | 0 | 1 | 7 |
+| nike shoes | 15 | 0 | 2 | 0 |
+| air fryer, airfryer | 17 | 0 | 3 | 0 |
+| tv, tvs | 39 | 0 | 2 | 6 |
+| 65 tv | 6 | 0 | 0 | 0 |
+| kohls | 77 | 0 | 6 | 5 |
+| happy hour | 0 | 20 | 0 | 0 |
+| dog food | 10 | 0 | 0 | 0 |
+| earbuds, ear buds | 6 | 0 | 2 | 0 |
+| smartwatch, smart watch | 1 | 0 | 2 | 0 |
+
+The first deals of each were read and say what was asked: "65 tv" is six 65-inch televisions, "happy hour" twenty
+restaurants' happy hours, "kohls" Kohl's own ads and sales, "lego" Target's LEGO ad, a LEGO set at Amazon, five
+stores' LEGO sales and LEGOLAND's pass. "nike shoes" finds a "Nike Air Max 270" whose title has no "shoes": its ad
+files it under Shoes, and the category is searched.
+
+**In a browser**, on the same files: a link with words and no category (`?city=austin&q=lego`) fills the box,
+leaves every category unchosen, searches them all and says so over the tabs; words typed and sent with Enter or the
+button go into the address; each tab opens on all its matches, with the categories that have some as chips ("All
+15, Sports 11, Fashion 15"); words that nothing says give each tab its own "No ... say" with a button that takes
+the words away; that button returns to the start when no category is chosen, and to the same search without the
+words when some are. A search without words is as it was. No page error, and nothing scrolls sideways at a phone's
+width.
+
+**Live, through the server's code** (the CLI, Nov 26 to 27, started by an assistant, so without Hip2Save):
+`slomp sales -q lego` gave 6 sales at 5 stores across every industry with sales; `slomp local austin -q "nike
+shoes" -r 10` gave 5 deals and 9 promotions, each a Nike shoe; `slomp sales -i fashion -q zzyzx` gave none; and
+`slomp sales` with neither words nor an industry is refused, as before.
+
+**What was not tested.** The page against a running server: in a browser it was tried on the published site's
+engine only, and the server's answers through the API with stand-ins for its sources and through the CLI live.
+Spelling: "leggo" finds nothing. A published build with it.
+
+338 unit tests pass, seven of them new (`tests/test_search.py`).
