@@ -13939,5 +13939,174 @@
     "new": 2
    }
   }
+ },
+ "keyword_search_nov26": {
+  "what": "Keyword search (slomp/search.py; docs/DESIGN.md 14): a search narrowed to the deals that say the words typed. No source and no rule about what a deal is changed.",
+  "rule_in_both_places": {
+   "deals": 7,
+   "searches": 80,
+   "odd_text": "accents, full-width letters, ligatures, both apostrophes, 300 characters",
+   "same_words_same_folding_same_deals_found": true,
+   "engine_answer_with_words_equals_search_py_on_its_answer_without": true
+  },
+  "on_real_deals": {
+   "data": "a copy of the published site's files for Austin (25 miles, every industry) with the sales of the Nov 25 live run",
+   "first_version_showed": [
+    "'zoo' found a camera with '16X Zoom'; 'wi-fi' found 51 ads, one a wreath 'with' a 'fir' bow -> a word under four letters must be the whole word",
+    "'tshirt' found nothing and 't-shirt' 34 -> words written joined or apart are the same word (both find 26)",
+    "'buses' did not find 'bus' -> a plural in -es is read both ways"
+   ],
+   "counts_near_regulars_online_sales": {
+    "lego": [
+     1,
+     0,
+     1,
+     7
+    ],
+    "nike shoes": [
+     15,
+     0,
+     2,
+     0
+    ],
+    "air fryer": [
+     17,
+     0,
+     3,
+     0
+    ],
+    "airfryer": [
+     17,
+     0,
+     3,
+     0
+    ],
+    "tv": [
+     39,
+     0,
+     2,
+     6
+    ],
+    "tvs": [
+     39,
+     0,
+     2,
+     6
+    ],
+    "65 tv": [
+     6,
+     0,
+     0,
+     0
+    ],
+    "kohls": [
+     77,
+     0,
+     6,
+     5
+    ],
+    "happy hour": [
+     0,
+     20,
+     0,
+     0
+    ],
+    "dog food": [
+     10,
+     0,
+     0,
+     0
+    ],
+    "earbuds": [
+     6,
+     0,
+     2,
+     0
+    ],
+    "ear buds": [
+     6,
+     0,
+     2,
+     0
+    ],
+    "smartwatch": [
+     1,
+     0,
+     2,
+     0
+    ],
+    "smart watch": [
+     1,
+     0,
+     2,
+     0
+    ],
+    "zoo": [
+     0,
+     0,
+     0,
+     3
+    ],
+    "wi-fi": [
+     23,
+     0,
+     0,
+     0
+    ],
+    "wifi": [
+     23,
+     0,
+     0,
+     0
+    ],
+    "t-shirt": [
+     26,
+     0,
+     0,
+     0
+    ],
+    "tshirt": [
+     26,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "browser": {
+   "page_errors": 0,
+   "phone_scrolls_sideways": false,
+   "steps": [
+    "a link with words and no category",
+    "words typed, sent with Enter and with the button",
+    "words nothing says",
+    "the words taken away with no category chosen, and with some chosen",
+    "a search without words"
+   ]
+  },
+  "live_cli": {
+   "when": "2026-11-26/27, started by an assistant (without Hip2Save)",
+   "slomp sales -q lego": {
+    "sales": 6,
+    "stores": 5
+   },
+   "slomp local austin -q 'nike shoes' -r 10": {
+    "deals": 5,
+    "promotions": 9
+   },
+   "slomp sales -i fashion -q zzyzx": {
+    "sales": 0
+   },
+   "slomp sales": "refused: choose at least one industry"
+  },
+  "not_tested": [
+   "the page against a running server (in a browser: the published site's engine only)",
+   "spelling help: 'leggo' finds nothing",
+   "a published build with it"
+  ],
+  "unit_tests": {
+   "pass": 338,
+   "new": 7
+  }
  }
 }
