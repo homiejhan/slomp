@@ -1770,7 +1770,7 @@ and no rule about what a deal is, so what was to be verified is the matching its
 published site match alike, and that the page handles it.
 
 **The rule, in both places.** The published site matches in the browser, so the rule is in engine.js too. One test
-runs the two on the same seven deals, one of each kind, with 80 searches, and on odd text (accents, full-width
+runs the two on the same seven deals, of every kind, with 83 searches, and on odd text (accents, full-width
 letters, ligatures, an apostrophe of each kind, 300 characters): the same words read, the same folding, the same
 deals found. Another builds a small site and checks that the engine's answer to a search with words is what
 `search.py` makes of the engine's own answer without them: the same deals in the same order in every part, the
