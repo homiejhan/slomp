@@ -1930,4 +1930,18 @@ from the day's own sale now. On the published list of run 180 it reports the two
 fixed, and HSN's two $20 codes, which are one card now; no longer the early and day-of pairs at Foot Locker and
 Target. On the new list it passes.
 
+**Live, and on the page.** A full build read live on Nov 28 at 00:49 UTC, started by an assistant (140 of 157
+feeds read; Hip2Save's 15 and the Fort Worth Zoo skipped, Ben's Bargains answered 403), gave 602 sales: 565
+stores' sales at 102 stores, 21 subscriptions and 16 tickets, 12 of them from places' own pages, with 73 posts
+under another card. The harness's duplicates check passes on it, and engine.js gives the same sales in the same
+order as the server at six moments (601 down to 161). In a browser on the built site, searching by a store's
+name: Kohl's 22 sales with both outerwear cards, Fanatics 20, Target 16; a card's details list the posts under
+it; no page error, and nothing scrolls sideways at a phone's width.
+
+**Left as it was.** Three pairs of cards are the same in everything but the end day: HP's "Black Friday Sale"
+posted on Nov 23 with no end and again on Nov 27 ending Nov 29, Target's "Black Friday Sale" with no end beside
+its "4-Day Black Friday Sale" ending Nov 29, and two Woot promo-code posts with different ends. A store's sales
+with different end days were two sales before this change and still are; Target's 4-day sale shows now because
+it is no longer under its toy deals.
+
 341 unit tests pass; two are new.
