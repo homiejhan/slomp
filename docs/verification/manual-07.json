@@ -14108,5 +14108,100 @@
    "pass": 338,
    "new": 7
   }
+ },
+ "store_sales_told_apart_nov28": {
+  "what": "A store's sales are the same sale when the store, the badge, the end day and the day they are named for are the same and what is left of their names is the same words (sales.sale_said; DESIGN-online-stores.md 4.5). Before, names sharing 60% of their words were one sale, and the day's name was most of the words.",
+  "measured_on_the_published_build": {
+   "run": 180,
+   "posts_under_another_sales_card": 180,
+   "the_same_sale": 11,
+   "names_sharing_most_other_words": 5,
+   "a_sale_of_something_else_joined_by_the_days_name": 103,
+   "no_discount_stated_for_something_else": 61
+  },
+  "on_the_days_sales_before_merging": {
+   "read_at": "2026-11-28T00:16Z, started by an assistant (without Hip2Save)",
+   "posts": 4031,
+   "sales": 665,
+   "at_stores": 635,
+   "subscriptions_and_tickets": 30,
+   "cards": {
+    "as_it_was": 494,
+    "as_it_is": 595
+   },
+   "discounted_sales_under_another_card": {
+    "as_it_was": 115,
+    "as_it_is": 14
+   },
+   "no_discount_posts_under_a_card": {
+    "as_it_was": 49,
+    "as_it_is": 51
+   },
+   "subscriptions_and_tickets_under_another": {
+    "as_it_was": 5,
+    "as_it_is": 5
+   },
+   "cards_again": 101,
+   "cards_again_read_against_the_card_they_were_under": {
+    "a_sale_of_something_else": 99,
+    "the_same_sale_under_a_longer_name": [
+     "Home Depot: 'Black Friday Garage Storage and Shelving Deals' beside 'Black Friday Garage Storage Deals'",
+     "eBay: 'Open-Box and Refurb Apple Black Friday Deals' beside 'Refurb Apple Black Friday Deals'"
+    ]
+   },
+   "still_under_another_card": {
+    "the_same_name_from_the_same_source": 13,
+    "event_for_sale": "lululemon 'Black Friday Event' under its 'Black Friday Sale'"
+   },
+   "no_discount_posts": {
+    "moved_under_the_stores_own_sale_for_the_day": 36,
+    "under_the_stores_own_sale_now": 44,
+    "at_stores_with_no_own_sale_that_states_a_discount": 7
+   },
+   "cards_by_store": {
+    "Amazon": [
+     76,
+     97
+    ],
+    "Fanatics": [
+     5,
+     22
+    ],
+    "Kohl's": [
+     7,
+     22
+    ],
+    "eBay": [
+     23,
+     33
+    ],
+    "Macy's": [
+     28,
+     35
+    ],
+    "adidas": [
+     7,
+     13
+    ],
+    "Best Buy": [
+     26,
+     32
+    ],
+    "Nike": [
+     2,
+     6
+    ]
+   }
+  },
+  "harness_duplicates_check": {
+   "on_run_180_as_it_was": 4,
+   "on_run_180_as_it_is": "2: the two Prime Video pairs that PR 10 merges; not the wave before the day against the day's own sale (Foot Locker, Target)",
+   "on_the_new_list": "pass"
+  },
+  "not_decided": "whether a post with no discount stated ('... Deals for From $15') should be a card of its own",
+  "unit_tests": {
+   "pass": 341,
+   "new": 2
+  }
  }
 }

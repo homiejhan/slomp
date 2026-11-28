@@ -1868,3 +1868,45 @@ states one, which was made for "Amazon's Black Friday Sale Is Live". Changing ei
 shows in such a week, and that is the owner's call; the measure is here for it.
 
 339 unit tests pass, one of them new.
+
+### A store's sales told apart by what they are of (Nov 28)
+
+The measure above led to the change (`sales.sale_said`; DESIGN-online-stores.md 4.5): two posts are the same sale
+when the store, the badge and the end day are the same, they are named for the same day, and what is left of their
+names is the same words. The day is when, not what.
+
+**On the day's sales before any merging** (4,031 posts read live on Nov 28, 00:16 UTC, without Hip2Save; 665 sales,
+635 of them at stores), the rule as it was and the rule as it is:
+
+| | As it was | As it is |
+|---|---|---|
+| Cards | 494 | 595 |
+| Sales with a discount stated, under another sale's card | 115 | 14 |
+| Posts with no discount stated, under a sale that states one | 49 | 51 |
+| Subscriptions and tickets under another's card | 5 | 5 |
+
+All 101 sales that are cards again were read against the card they had been under. 99 are sales of something
+else: a brand's sale under another brand's (Yeti, Olight, Motorola and Apple's AirPods under "Gillette Black Friday
+Deals" at Amazon), a category's under another's (boots, luggage, fine jewelry and cookware under "Black Friday
+Outerwear Deals" at Kohl's), or under the store's own sale for the day (17 of Fanatics'). Two are the same sale
+under a longer name and are two cards now: Home Depot's "Garage Storage and Shelving Deals" beside "Garage Storage
+Deals", and eBay's "Open-Box and Refurb Apple" beside "Refurb Apple". That is the cost of asking for the same
+words, and it errs toward showing a sale twice, each card linked to its own post, and away from hiding one.
+
+Of the 14 still under another card, 13 are the same sale posted again by the same source, name for name ("adidas
+Terrex Black Friday Sale" twice, "Fanatics Black Friday Sale" twice), and one is lululemon's "Black Friday Event"
+under its "Black Friday Sale": "event" says no more of what a sale is of than "sale" does. The stores that gain
+most: Amazon 76 to 97 cards, Fanatics 5 to 22, Kohl's 7 to 22, eBay 23 to 33, Macy's 28 to 35.
+
+**Posts with no discount stated** ("... Deals for From $15") still give way to a sale of the same store and day
+that states one, as designed (4.2). They now go under the store's own sale for that day when it has one: 36 moved
+there, as "Kohl's Black Friday Deals for Everything under $10" from under "Black Friday Outerwear Deals" to under
+"Black Friday Sale", and 44 of the 51 are under the store's own sale. The other 7 are at stores with no sale of
+their own for the day that states a discount (Belk, Macy's, Woot, Red Pocket). Whether such posts should be cards
+of their own is still the owner's to say.
+
+**The checks.** The harness's duplicates check compares as the pipeline does, and it knows the wave before a day
+from the day's own sale now. On the published list of run 180 it reports the two Prime Video pairs, which PR 10
+fixed, and no longer the early and day-of pairs at Foot Locker and Target. On the new list it passes.
+
+341 unit tests pass, two of them new.
