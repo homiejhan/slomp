@@ -1945,3 +1945,36 @@ with different end days were two sales before this change and still are; Target'
 it is no longer under its toy deals.
 
 341 unit tests pass; two are new.
+
+### One sale posted with an end and without one (Nov 28)
+
+The owner's call on the pairs left above: merge them. An end only one of two posts states is no difference when
+the sale is named for a day, which bounds it, or when the two names are the same words; the card takes the stated
+end (`sales.same_sale`; DESIGN-online-stores.md 4.5). With no day and other words they stay two: a store's
+clearance goes on after its flash sale ends, though neither name names any goods. Two different stated ends are
+still two sales.
+
+**On the same 665 sales read before merging**, 590 cards become 588, and the two that go are the two pairs named:
+HP's "Black Friday Sale" posted on Nov 23 with no end is under the Nov 27 post that ends Nov 29, and Target's
+"4-Day Black Friday Sale" is under its "Black Friday Sale", which now ends Nov 29 as the 4-day post says.
+
+**On the saved published builds** four pairs of cards would be one, and each reads as one sale: HP's, Nike's
+"Black Friday Sale" from dealnews with no end and from Hip2Save ending Nov 28, Walmart's "Black Friday Toy Deals"
+with its "Top 100 Toys Deals", and adidas's from dealnews with 9to5Toys' "Save this Black Friday" post. No pair in
+any saved list is of the kind the rule keeps apart (no day, other words), so that part is tested by unit tests only.
+
+**The checks.** The pair test is one function now, asked by the pipeline of the day's posts and by the harness's
+duplicates check of a finished list, so the two cannot drift. On the published list of run 180 the check reports
+four pairs (the two Prime Video pairs, HSN's codes, HP's sale); on the live build of 00:49 UTC, made before this
+change, HP's and Target's; on the new list none.
+
+**Live, and on the page.** A full build read live on Nov 28 at 05:30 UTC, started by an assistant (140 of 157
+feeds read, as before), gave 587 sales: 550 stores' sales at 102 stores, 21 subscriptions and 16 tickets, with 72
+posts under another card. The duplicates check passes on it, and engine.js gives the same sales in the same order
+as the server at six moments. In a browser, Target shows one "Black Friday Sale" card, "Ends Sun", with the 4-day
+post listed in its details, and HP one; no page error, and nothing scrolls sideways at a phone's width.
+
+**Still two cards:** the same sale with two different ends stated, as Woot's two promo-code posts (Nov 27 and
+Nov 29) and AliExpress's "Black Friday Sale" (Dec 3 and Dec 4).
+
+341 unit tests pass. One that said a store's sale with an end and without is two now says it is one.
