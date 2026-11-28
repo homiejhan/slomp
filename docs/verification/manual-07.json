@@ -14268,5 +14268,69 @@
    "pass": 341,
    "new": 2
   }
+ },
+ "one_end_missing_nov28": {
+  "what": "The owner's call: a sale posted with an end and without one is one card. An end only one of two posts states is no difference when the sale is named for a day, or when the two names are the same words; the card takes the stated end (sales.same_sale; DESIGN-online-stores.md 4.5). With no day and other words they stay two. Two different stated ends are still two sales.",
+  "on_the_days_sales_before_merging": {
+   "read_at": "2026-11-28T00:16Z, the same 665 sales",
+   "cards": {
+    "before": 590,
+    "now": 588
+   },
+   "merged": [
+    "HP 'Black Friday Sale': the Nov 23 post with no end under the Nov 27 post ending Nov 29",
+    "Target '4-Day Black Friday Sale' ending Nov 29 under 'Black Friday Sale', which takes that end"
+   ]
+  },
+  "on_the_saved_published_builds": {
+   "pairs_that_would_be_one": [
+    "HP 'Black Friday Sale' (dealnews twice)",
+    "Nike 'Black Friday Sale': dealnews with no end, Hip2Save ending Nov 28",
+    "Walmart 'Black Friday Toy Deals' ending Nov 29 with 'Black Friday Top 100 Toys Deals' with no end",
+    "adidas 'Black Friday Sale' (dealnews) ending Nov 28 with 9to5Toys' 'Save this Black Friday' post with no end"
+   ],
+   "each_reads_as_one_sale": true,
+   "pairs_of_the_kind_kept_apart": 0
+  },
+  "harness_duplicates_check": {
+   "asks": "sales.same_sale of every two cards of a store, the function the pipeline merges by",
+   "on_run_180": "4: the two Prime Video pairs, HSN's codes, HP's sale",
+   "on_the_live_build_before_this_change": "2: HP's and Target's",
+   "on_the_new_list": "pass"
+  },
+  "live_build": {
+   "when": "2026-11-28T05:30Z, started by an assistant",
+   "feeds": {
+    "read": 140,
+    "of": 157
+   },
+   "sales": 587,
+   "stores_sales": 550,
+   "stores": 102,
+   "subscriptions": 21,
+   "tickets": 16,
+   "from_places_own_pages": 12,
+   "posts_under_another_card": 72,
+   "harness_duplicates_check": "pass",
+   "engine_js_same_as_server": "same sales, same order at six moments",
+   "browser": {
+    "page_errors": 0,
+    "phone_scrolls_sideways": false,
+    "target": "one 'Black Friday Sale' card, 'Ends Sun', the 4-day post listed in its details",
+    "hp": "one 'Black Friday Sale' card, 'Ends Sun'"
+   }
+  },
+  "still_two_cards": [
+   "Woot 'Black Friday Promo Code': ends Nov 27 and Nov 29",
+   "AliExpress 'Black Friday Sale': ends Dec 3 and Dec 4"
+  ],
+  "not_tested": [
+   "the rule that keeps a clearance and a flash sale apart, on real posts (unit tests only)",
+   "a read with Hip2Save"
+  ],
+  "unit_tests": {
+   "pass": 341,
+   "changed": 1
+  }
  }
 }
