@@ -608,9 +608,13 @@ def test_sales_of_different_things_named_for_one_day_are_different_sales():
     assert len(dedupe(sales_at("adidas", "Black Friday Men's Accessories Deals", "Black Friday Men's Jacket Deals"), Counter())) == 2
     assert len(dedupe(sales_at("Best Buy", "Half-Price (or Better) Black Friday Appliance Deals", "Half-Price (or Better) Black Friday Phone Deals"),
                       Counter())) == 2
-    # the same sale twice is still one: "Deals" for "Sale", the year, the store's own name, a plural, another order
+    # the same sale twice is still one: "Deals" for "Sale", the year, the store's own name, a plural, another order,
+    # and the words a source dresses an event's name in, which name no goods (Hip2Save's "Target's BIG Black Friday
+    # Sale Is LIVE" beside dealnews's "Target Black Friday Sale", run 180)
     for a, b in (("Black Friday Sale", "Black Friday Deals 2026"), ("Black Friday Sale", "Kohl's Black Friday Sale"),
-                 ("Black Friday Sale", "Black Friday Event"),
+                 ("Black Friday Sale", "Black Friday Event"), ("Black Friday Sale", "BIG Black Friday Sale"),
+                 ("Black Friday Promo Code", "Best of Black Friday Deals"),
+                 ("Black Friday Outerwear Deals", "Black Friday Outerwear Doorbusters"), ("Black Friday Toy Deals", "Black Friday Top 100 Toys Deals"),
                  ("Black Friday Cell Phone Sale", "Black Friday Cell Phones Deals"), ("Terrex Black Friday Sale", "Black Friday Terrex Deals"),
                  ("Black Friday Printing Deals", "Printing Black Friday Deals")):
         pair = sales_at("Kohl's", a) + sales_at("Kohl's", b, source="Hip2Save")
@@ -651,3 +655,11 @@ def test_an_events_headline_goes_under_the_stores_own_sale_for_the_day():
     # with no sale of the store's own for the day, the headline goes under the first that states a discount, as before
     live.also_posted, brand.also_posted = [], []
     assert [s.id for s in dedupe([live, brand], Counter())] == [brand.id] and brand.also_posted
+    # of the store's sales that name no goods, the plainest name is its own sale for the day
+    for x in (live, brand, own):
+        x.also_posted = []
+    clearance, _ = one(bf("Amazon Black Friday Clearance: Up to 80% off + free shipping w/ Prime", source="dealnews", seller="Amazon",
+                          deal_type="sale"))
+    assert clearance and clearance.name == "Black Friday Clearance"
+    kept = dedupe([live, clearance, brand, own], Counter())
+    assert len(kept) == 3 and [p["source"] for p in own.also_posted] == ["Hip2Save"] and not clearance.also_posted

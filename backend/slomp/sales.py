@@ -1679,19 +1679,28 @@ def same_price(a: str, b: str) -> bool:
                 and abs(float(x.group(2).replace(",", "")) - float(y.group(2).replace(",", ""))) < 0.015)
 
 
+def _beside_the_day(s: StoreSale) -> str:
+    """A sale's name without the days it names and without the word that sets it before them ("Early")."""
+    name = s.name
+    for _, rx, _ in days.DAYS:
+        name = rx.sub(" ", name)
+    return days.BEFORE.sub(" ", name)
+
+
 def sale_said(s: StoreSale) -> tuple[frozenset, frozenset]:
     """What a store's sale is named for, and what it is a sale of: (the days its name names, its name's other
     words). The day is when, not what. In Black Friday week most names are "<something> Black Friday Deals", and
     counted among a name's words the day made Gillette's sale at Amazon the same sale as GearWrench's: the published
-    list of Nov 27, 2026 had 103 sales of something else under another sale's card. The store's own name, a word
-    that sets a sale before its day ("Early"), a year and "event" (a sale, as "sale" and "deals" are) are set aside
-    as well; a plural is its singular."""
-    name = s.name
-    named = frozenset(days.named(name))
-    for _, rx, _ in days.DAYS:
-        name = rx.sub(" ", name)
-    words = _words(days.BEFORE.sub(" ", name)) - _words(s.store_name) - {"event", "events"}
-    return named, frozenset(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words)
+    list of Nov 27, 2026 had 103 sales of something else under another sale's card.
+
+    The words that name an event and no goods (_EVENT_WORDS: "sale", "event", "doorbusters", "promo code", "big",
+    "best of") are set aside as well, with the store's own name; a plural is its singular. So the whole store's sale
+    is one sale however a source dresses its name: dealnews "Target Black Friday Sale" and Hip2Save "Target's BIG
+    Black Friday Sale Is LIVE" (Nov 27, 2026)."""
+    rest = _EVENT_WORDS.sub(" ", re.sub(r"[^\w\s'-]", " ", _straight(_beside_the_day(s))))
+    words = _words(rest) - _words(s.store_name)
+    return (frozenset(days.named(s.name)),
+            frozenset(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words))
 
 
 def end_day(ends: Optional[datetime]) -> Optional[date]:
@@ -1751,13 +1760,15 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
             kept.append(s)
     # An event's headline with no discount stated ("Amazon's Black Friday Sale Is Live") adds nothing to a sale of
     # the same store, named for the same day, that states one: the store's own sale for that day when there is
-    # one, the one whose name names nothing but the day.
+    # one, which names no goods, and of those the plainest name ("Black Friday Sale" before "Black Friday Clearance").
+    plain = lambda k: (1, 0) if sale_said(k)[1] else \
+        (0, len(_words(_beside_the_day(k)) - _words(k.store_name)))                         # noqa: E731
     stated = lambda s: any(v is not None for v in (s.pct, s.upto, s.extra, s.off)) or bool(s.bogo)   # noqa: E731
     out: list[StoreSale] = []
     for s in kept:
         better = None if stated(s) or not s.event or s.what else next(iter(sorted(
             (k for k in kept if k is not s and stated(k) and k.event == s.event
-             and (k.store or k.store_name) == (s.store or s.store_name)), key=lambda k: bool(sale_said(k)[1]))), None)
+             and (k.store or k.store_name) == (s.store or s.store_name)), key=plain)), None)
         if better:
             better.also_posted.append({"source": s.source, "url": s.source_url, "title": s.title})
             excluded["sale: same sale posted elsewhere"] += 1
