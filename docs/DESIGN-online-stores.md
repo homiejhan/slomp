@@ -355,7 +355,7 @@ five were from October and August.
 - **Duplicates**: the same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is one card; the
   dealnews post leads and the others are listed. Two posts are the same sale when the store, the badge and the end
   day are the same, neither states a number the other states differently, they are named for the same day, and
-  their names say the same thing once that day is set aside (`sales.sale_said`). The day a sale is named for is when, not what. Names used to be the same when they shared
+  their names say the same thing once that day is set aside (`sales.same_sale`, `sales.sale_said`). The day a sale is named for is when, not what. Names used to be the same when they shared
   60% of their words, the day's among them, and in Black Friday week most names are "<something> Black Friday
   Deals": Gillette's, Vitamix's, Ninja's and Dyson's sales at Amazon were listed under GearWrench's, and 16 of
   Fanatics' under its storewide one. Of the 180 posts under another sale's card on Nov 27, 103 were sales of
@@ -365,7 +365,12 @@ five were from October and August.
   "doorbusters", "promo code", "big", "best of", a year); a plural is its singular. "Black Friday Sale", "Kohl's
   Black Friday Deals 2026" and Hip2Save's "BIG Black Friday Sale Is LIVE" are one sale; the store's own sale and
   its sale on jackets are two, and so are its Black Friday and Cyber Monday sales. The end day is the one a shopper
-  would say (4.6). The badge is an offer's leading part, so the numbers are compared too (`sales.same_numbers`):
+  would say (4.6). An end only one of the two posts states is no difference when the sale is named for a day,
+  which bounds it, or when the two names are the same words: "Target Black Friday Sale", posted with no end, and
+  "Target 4-Day Black Friday Sale" ending Nov 29 are one card, which takes the stated end. With no day and other
+  words they are two, since a store's clearance goes on after its flash sale ends, though neither name names any
+  goods. Two different stated ends are two sales. The badge is an offer's leading part, so the numbers are
+  compared too (`sales.same_numbers`):
   Kohl's outerwear doorbusters at "up to 80% off + extra 20% off" are not its outerwear sale at "up to 60% off +
   extra 20% off", though both show "Extra 20%"; a number only one post states is no difference. The costs, both
   ways: the same sale under two unlike names ("Garage Storage and Shelving Deals", "Garage Storage Deals") is two
