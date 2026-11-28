@@ -20,7 +20,7 @@ from ..http import Blocked, Disallowed, FetchError, PoliteClient
 from ..models import StoreSale
 from ..promos import _MONTHS, _date
 from .. import days
-from ..sales import POSTED_DAYS, UNDATED_DAYS, offer_said, sale_said
+from ..sales import POSTED_DAYS, UNDATED_DAYS, offer_said, sale_said, same_numbers
 from ..sources.feeds import post_gone
 from ..stores_online import by_key
 from .checks import FAIL, INCONCLUSIVE, PASS
@@ -301,7 +301,7 @@ def quality(sales: list[StoreSale], now: datetime, what: str) -> tuple[str, dict
                     # a subscription's name is the offer: two channels at one price share most words and are two
                     same = offer_said(s) == offer_said(other)
                 else:                                 # the day a sale is named for is when, not what (sales.sale_said)
-                    same = sale_said(s) == sale_said(other) and \
+                    same = sale_said(s) == sale_said(other) and same_numbers(s, other) and \
                         bool(days.BEFORE.search(s.name)) == bool(days.BEFORE.search(other.name))
                 if same:
                     problems.append(f"{other.id} and {s.id}: {s.store_name} {s.badge} {s.name!r}")

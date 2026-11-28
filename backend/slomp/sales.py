@@ -1703,6 +1703,15 @@ def sale_said(s: StoreSale) -> tuple[frozenset, frozenset]:
             frozenset(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words))
 
 
+def same_numbers(a: StoreSale, b: StoreSale) -> bool:
+    """Neither sale states a number the other states differently. The badge is the offer's leading part, and two
+    offers can share it: Kohl's outerwear doorbusters at "up to 80% off + extra 20% off" and its outerwear sale at
+    "up to 60% off + extra 20% off" both show "Extra 20%" (Nov 28, 2026). A number only one of them states is no
+    difference: one source writes the ceiling and another leaves it out."""
+    return all(x is None or y is None or x == y
+               for x, y in ((a.pct, b.pct), (a.upto, b.upto), (a.extra, b.extra), (a.off, b.off)))
+
+
 def end_day(ends: Optional[datetime]) -> Optional[date]:
     """The day a shopper would say a sale ends, in Texas. One ending in the small hours here ends the day before:
     midnight Pacific on November 30 is 2 AM Central on December 1, and both are "through November 30". The page
@@ -1714,9 +1723,9 @@ def end_day(ends: Optional[datetime]) -> Optional[date]:
 
 
 def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
-    """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same offer, same
-    end day, named for the same day, and names that say the same thing once that day is set aside (sale_said). The
-    best-sourced post leads; the others are listed with it.
+    """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same badge and no
+    number stated differently, same end day, named for the same day, and names that say the same thing once that
+    day is set aside (sale_said). The best-sourced post leads; the others are listed with it.
 
     A subscription or a ticket is compared more closely by what it is and more loosely by how its sources put it
     (docs/DESIGN-online-stores.md 4.6): its name must say the same thing for the same term, and then a price a cent
@@ -1746,7 +1755,7 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
                     continue
                 same = k
                 break
-            if sale_said(k) == sale_said(s):
+            if sale_said(k) == sale_said(s) and same_numbers(k, s):
                 same = k
                 break
         if same:

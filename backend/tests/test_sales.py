@@ -614,13 +614,21 @@ def test_sales_of_different_things_named_for_one_day_are_different_sales():
     for a, b in (("Black Friday Sale", "Black Friday Deals 2026"), ("Black Friday Sale", "Kohl's Black Friday Sale"),
                  ("Black Friday Sale", "Black Friday Event"), ("Black Friday Sale", "BIG Black Friday Sale"),
                  ("Black Friday Promo Code", "Best of Black Friday Deals"),
-                 ("Black Friday Outerwear Deals", "Black Friday Outerwear Doorbusters"), ("Black Friday Toy Deals", "Black Friday Top 100 Toys Deals"),
+                 ("Black Friday Outerwear Deals", "Black Friday Outerwear Doorbusters"),
+                 ("Black Friday Toy Deals", "Black Friday Top 100 Toys Deals"),
                  ("Black Friday Cell Phone Sale", "Black Friday Cell Phones Deals"), ("Terrex Black Friday Sale", "Black Friday Terrex Deals"),
                  ("Black Friday Printing Deals", "Printing Black Friday Deals")):
         pair = sales_at("Kohl's", a) + sales_at("Kohl's", b, source="Hip2Save")
         ex = Counter()
         kept = dedupe(pair, ex)
         assert len(kept) == 1 and kept[0].source == "dealnews" and ex["sale: same sale posted elsewhere"] == 1, (a, b)
+    # one badge, two offers: "up to 80% off + extra 20% off" is not "up to 60% off + extra 20% off" (Kohl's, Nov 28).
+    # A ceiling only one post states is no difference
+    deals, busters = sales_at("Kohl's", "Black Friday Outerwear Deals", "Black Friday Outerwear Doorbusters", badge="Extra 20%")
+    deals.upto, busters.upto = 60, 80
+    assert len(dedupe([deals, busters], Counter())) == 2
+    busters.upto = None
+    assert len(dedupe([deals, busters], Counter())) == 1
     # a sale named for another day is another sale, and so is the wave before a day
     assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Cyber Monday Sale"), Counter())) == 2
     assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Early Black Friday Sale"), Counter())) == 2

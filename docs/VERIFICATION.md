@@ -1871,39 +1871,40 @@ shows in such a week, and that is the owner's call; the measure is here for it.
 
 ### A store's sales told apart by what they are of (Nov 28)
 
-The measure above led to the change (`sales.sale_said`; DESIGN-online-stores.md 4.5): two posts are the same sale
-when the store, the badge and the end day are the same, they are named for the same day, and what is left of their
-names is the same words. The day is when, not what. The words that name an event and no goods ("sale", "event",
-"doorbusters", "promo code", "big", "best of") are set aside too, by the list that already tells the whole store's
-sale from a brand's.
+The measure above led to the change (`sales.sale_said`, `sales.same_numbers`; DESIGN-online-stores.md 4.5): two
+posts are the same sale when the store, the badge and the end day are the same, neither states a number the other
+states differently, they are named for the same day, and what is left of their names is the same words. The day
+is when, not what. The words that name an event and no goods ("sale", "event", "doorbusters", "promo code", "big",
+"best of") are set aside too, by the list that already tells the whole store's sale from a brand's.
 
 **On the day's sales before any merging** (4,031 posts read live on Nov 28, 00:16 UTC, without Hip2Save; 665 sales,
 635 of them at stores), the rule as it was and the rule as it is:
 
 | | As it was | As it is |
 |---|---|---|
-| Cards | 494 | 589 |
-| Sales with a discount stated, under another sale's card | 115 | 20 |
+| Cards | 494 | 590 |
+| Sales with a discount stated, under another sale's card | 115 | 19 |
 | Posts with no discount stated, under a sale that states one | 49 | 51 |
 | Subscriptions and tickets under another's card | 5 | 5 |
 
-All 96 sales that are cards again were read against the card they had been under. 93 are sales of something else:
+All 97 sales that are cards again were read against the card they had been under. 94 are sales of something else:
 a brand's sale under another brand's (Yeti, Olight, Motorola and Apple's AirPods under "Gillette Black Friday
 Deals" at Amazon), a category's under another's (boots, luggage, fine jewelry and cookware under "Black Friday
-Outerwear Deals" at Kohl's), or under the store's own sale for the day (15 of Fanatics'). Three name nearly the
-same goods and are two cards now: Home Depot's "Garage Storage and Shelving Deals" beside "Garage Storage Deals",
-eBay's "Open-Box and Refurb Apple" beside "Refurb Apple", and adidas's "Men's Hats & Accessories Deals" beside
-"Men's Accessories Deals". That is the cost of asking for the same words, and it errs toward showing a sale
-twice, each card linked to its own post, and away from hiding one.
+Outerwear Deals" at Kohl's), under the store's own sale for the day (15 of Fanatics'), or the same goods at
+another offer (Kohl's outerwear doorbusters, up to 80% off where its outerwear sale says up to 60%). Three name
+nearly the same goods and are two cards now: Home Depot's "Garage Storage and Shelving Deals" beside "Garage
+Storage Deals", eBay's "Open-Box and Refurb Apple" beside "Refurb Apple", and adidas's "Men's Hats & Accessories
+Deals" beside "Men's Accessories Deals". That is the cost of asking for the same words, and it errs toward
+showing a sale twice, each card linked to its own post, and away from hiding one.
 
-Of the 20 still under another card, 13 are the same sale posted again by the same source, name for name ("adidas
-Terrex Black Friday Sale" twice, "Fanatics Black Friday Sale" twice). The other 7 differ only in words that name
+Of the 19 still under another card, 13 are the same sale posted again by the same source, name for name ("adidas
+Terrex Black Friday Sale" twice, "Fanatics Black Friday Sale" twice). The other 6 differ only in words that name
 no goods: lululemon's "Black Friday Event" under its "Black Friday Sale", Woot's "Best of Black Friday Deals"
-under its "Black Friday Promo Code" (both an extra 30%), HSN's "Holiday Promo Code" under its "Coupon Code" (both
-$20 off; the rule as it was kept these two apart), Walmart's "Black Friday Top 100 Toys Deals" under its "Black
-Friday Toy Deals", and three sets of doorbusters under the sale of the same goods (Kohl's outerwear, Fanatics'
-NHL and NBA). The stores that gain most: Amazon 76 to 97 cards, Fanatics 5 to 20, Kohl's 7 to 21, eBay 23 to 33,
-Macy's 28 to 35.
+under its "Black Friday Promo Code" (both an extra 30%), HSN's "Holiday Promo Code" under its "Coupon Code" (one
+code, $20 off; the rule as it was kept these two apart), Walmart's "Black Friday Top 100 Toys Deals" under its
+"Black Friday Toy Deals", and Fanatics' NHL and NBA doorbusters under its NHL and NBA sales. Under the rule as it
+was, 10 of the 115 stated a number differently from the card they were under; now none does. The stores that gain
+most, in sales shown: Amazon 61 to 82, Fanatics 5 to 20, Kohl's 7 to 22, eBay 23 to 33, Macy's 28 to 35.
 
 **One sale from two sources.** The day's read had no Hip2Save, so this was checked on the six saved published
 builds that have it (Nov 22 to 27): every post with a discount stated that the rule as it was had put under a
@@ -1912,8 +1913,10 @@ Sale" from dealnews with Hip2Save's "Shop Target's Black Friday Deals NOW" (two 
 Friday Sale Is LIVE", and Wayfair's. Four are sales of something else and come apart: adidas's accessory sale
 and its storewide one, and at Amazon ASUS with Belkin, Yeti with LEGO, Yeti with BIOptimizers. Asking for the very
 same words, as this change first did, kept "BIG Black Friday Sale" apart from "Black Friday Sale" and would have
-shown Target's sale twice; that is why event words are set aside. Not tested: pairs from two sources that the
-rule as it was kept apart, which need a read with Hip2Save.
+shown Target's sale twice; that is why event words are set aside. On the seven saved published builds, 32 merged
+posts are the same sale by name, and none states a number differently from its card, so comparing the numbers
+splits none of them. Not tested: pairs from two sources that the rule as it was kept apart, which need a
+read with Hip2Save.
 
 **Posts with no discount stated** ("... Deals for From $15") still give way to a sale of the same store and day
 that states one, as designed (4.2). They now go under the store's own sale for that day when it has one, and of
