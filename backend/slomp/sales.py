@@ -1687,6 +1687,12 @@ def _beside_the_day(s: StoreSale) -> str:
     return days.BEFORE.sub(" ", name)
 
 
+def _name_words(s: StoreSale) -> frozenset:
+    """Every word of a sale's name beside the day and the store. "Clearance" and "Flash Sale" differ here, though
+    neither names any goods."""
+    return frozenset(_words(_beside_the_day(s)) - _words(s.store_name))
+
+
 def sale_said(s: StoreSale) -> tuple[frozenset, frozenset]:
     """What a store's sale is named for, and what it is a sale of: (the days its name names, its name's other
     words). The day is when, not what. In Black Friday week most names are "<something> Black Friday Deals", and
@@ -1722,47 +1728,54 @@ def end_day(ends: Optional[datetime]) -> Optional[date]:
     return (local - timedelta(hours=4)).date() if local.hour < 4 else local.date()
 
 
-def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
-    """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days): same store, same badge and no
-    number stated differently, same end day, named for the same day, and names that say the same thing once that
-    day is set aside (sale_said). The best-sourced post leads; the others are listed with it.
+def same_sale(k: StoreSale, s: StoreSale) -> bool:
+    """Whether two posts are one sale. dedupe asks it of the day's posts, and the harness's duplicates check of a
+    finished list. The same store, the same badge and no number stated differently, the same end day, named for the
+    same day, and names that say the same thing once that day is set aside (sale_said).
+
+    An end only one of the two states is no difference when the sale is named for a day, which bounds it, or when
+    the two names are the same words: dealnews posted "Target Black Friday Sale" with no end and, four days later,
+    "Target 4-Day Black Friday Sale" ending Nov 29 (2026). With no day and other words it is one: a store's
+    clearance, which goes on, is not its flash sale ending Sunday, though neither name names any goods.
 
     A subscription or a ticket is compared more closely by what it is and more loosely by how its sources put it
     (docs/DESIGN-online-stores.md 4.6): its name must say the same thing for the same term, and then a price a cent
     apart or an end only one of the posts gives is the same offer still."""
+    if (k.store or k.store_name) != (s.store or s.store_name):
+        return False
+    both = bool(k.what) and k.what == s.what            # two subscriptions, or two tickets
+    if k.badge != s.badge and not (both and same_price(k.badge, s.badge)):
+        return False
+    # The same end day, as a shopper would say it: dealnews gave one offer's end as 11:59 PM Eastern on Nov 30 in
+    # one post and as 3 AM Eastern on Dec 1, midnight Pacific that night, in another.
+    ke, se = end_day(k.ends_at), end_day(s.ends_at)
+    one_end = ke != se and None in (ke, se)             # an end only one of the two states
+    if ke != se and not one_end:
+        return False
+    if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
+        return False                                    # the wave before a day and the day's own sale are two sales
+    if k.what or s.what:
+        # A subscription's name is the offer: "... STARZ ..." is not "... MGM+ ...", and three months are not six.
+        # What the post calls the offer, and the day it is named for, are not part of that.
+        return (both or not one_end) and offer_said(k) == offer_said(s)
+    if sale_said(k) != sale_said(s) or not same_numbers(k, s):
+        return False
+    return not one_end or bool(sale_said(k)[0]) or _name_words(k) == _name_words(s)
+
+
+def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
+    """The same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is one card (same_sale). The
+    best-sourced post leads; the others are listed with it, and it takes the code or the end only another gives."""
     rank = {s: k for k, s in enumerate(SOURCE_ORDER)}
     ordered = sorted(sales, key=lambda s: (rank.get(s.source, 99), not s.code, s.posted_at or datetime.max.replace(tzinfo=timezone.utc)))
     kept: list[StoreSale] = []
     for s in ordered:
-        same = None
-        for k in kept:
-            if (k.store or k.store_name) != (s.store or s.store_name):
-                continue
-            both = bool(k.what) and k.what == s.what            # two subscriptions, or two tickets
-            if k.badge != s.badge and not (both and same_price(k.badge, s.badge)):
-                continue
-            # The same end day, as a shopper would say it: dealnews gave one offer's end as 11:59 PM Eastern on
-            # Nov 30 in one post and as 3 AM Eastern on Dec 1, midnight Pacific that night, in another.
-            ke, se = end_day(k.ends_at), end_day(s.ends_at)
-            if ke != se and not (both and None in (ke, se)):
-                continue
-            if bool(days.BEFORE.search(k.name)) != bool(days.BEFORE.search(s.name)):
-                continue                          # the wave before a day and the day's own sale are two sales
-            if k.what or s.what:
-                # A subscription's name is the offer: "... STARZ ..." is not "... MGM+ ...", and three months are not
-                # six. What the post calls the offer, and the day it is named for, are not part of that.
-                if offer_said(k) != offer_said(s):
-                    continue
-                same = k
-                break
-            if sale_said(k) == sale_said(s) and same_numbers(k, s):
-                same = k
-                break
+        same = next((k for k in kept if same_sale(k, s)), None)
         if same:
             same.also_posted.append({"source": s.source, "url": s.source_url, "title": s.title})
             if not same.code and s.code:
                 same.code = s.code
-            if not same.ends_at and s.ends_at:           # the end only one of two sources gives (a subscription's posts)
+            if not same.ends_at and s.ends_at:           # the end only one of the posts gives
                 same.ends_at, same.ends_how = s.ends_at, s.ends_how
             excluded["sale: same sale posted elsewhere"] += 1
         else:
@@ -1770,8 +1783,7 @@ def dedupe(sales: list[StoreSale], excluded: Counter) -> list[StoreSale]:
     # An event's headline with no discount stated ("Amazon's Black Friday Sale Is Live") adds nothing to a sale of
     # the same store, named for the same day, that states one: the store's own sale for that day when there is
     # one, which names no goods, and of those the plainest name ("Black Friday Sale" before "Black Friday Clearance").
-    plain = lambda k: (1, 0) if sale_said(k)[1] else \
-        (0, len(_words(_beside_the_day(k)) - _words(k.store_name)))                         # noqa: E731
+    plain = lambda k: (1, 0) if sale_said(k)[1] else (0, len(_name_words(k)))                # noqa: E731
     stated = lambda s: any(v is not None for v in (s.pct, s.upto, s.extra, s.off)) or bool(s.bogo)   # noqa: E731
     out: list[StoreSale] = []
     for s in kept:

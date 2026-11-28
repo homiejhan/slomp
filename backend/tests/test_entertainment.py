@@ -302,14 +302,14 @@ def test_one_offer_from_two_sources_a_cent_apart_is_one_card():
     assert same_price("$5.49/mo", "$5.50/mo") and same_price("$14.99/mo", "$15/mo") and same_price("$36", "$36")
     assert not same_price("$5.49/mo", "$5.59/mo") and not same_price("$5.49/mo", "$5.50") and not same_price("From $2.99/mo", "$3/mo")
     assert not same_price("Up to 50%", "Up to 50%") and not same_price("Free", "Free")           # not prices: those must be the same badge
-    # a store's sale is compared as before: one end stated and one not are two
+    # a store's sale named for a day is one sale too when only one post states its end (test_sales has the rest)
     from slomp.sales import StoreSales
     a = StoreSales(None, None).sale(Post(source="dealnews", id="dealnews:1", url="u", title="Kohl's Black Friday Sale: Up to 50% off + free shipping",
                                          text="", seller="Kohl's", deal_type="sale", category="Clothing", posted_at=NOW - timedelta(days=1),
                                          **nov30), NOW, Counter())
     b = StoreSales(None, None).sale(Post(source="hip2save", id="hip2save:2", url="u", title="Kohl's Black Friday Sale: Up to 50% Off",
                                          text="", posted_at=NOW - timedelta(days=1)), NOW, Counter())
-    assert a and b and len(dedupe([a, b], Counter())) == 2
+    assert a and b and [x.id for x in dedupe([b, a], Counter())] == [a.id] and [p["source"] for p in a.also_posted] == ["Hip2Save"]
 
 
 def test_a_stores_sale_filed_under_streaming_services_is_not_a_subscription():

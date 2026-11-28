@@ -19,8 +19,7 @@ from ..config import TTL
 from ..http import Blocked, Disallowed, FetchError, PoliteClient
 from ..models import StoreSale
 from ..promos import _MONTHS, _date
-from .. import days
-from ..sales import POSTED_DAYS, UNDATED_DAYS, offer_said, sale_said, same_numbers
+from ..sales import POSTED_DAYS, UNDATED_DAYS, same_sale
 from ..sources.feeds import post_gone
 from ..stores_online import by_key
 from .checks import FAIL, INCONCLUSIVE, PASS
@@ -293,19 +292,13 @@ def quality(sales: list[StoreSale], now: datetime, what: str) -> tuple[str, dict
     """One whole list, as a search shows it."""
     problems = []
     if what == "duplicates":
-        seen: dict = {}
+        seen: dict = {}                               # two cards the pipeline's own rule calls one sale (sales.same_sale)
         for s in sales:
-            key = (s.store or s.store_name, s.badge, end_day(s.ends_at) if s.ends_at else None)
-            for other in seen.get(key, []):
-                if getattr(s, "what", "") or getattr(other, "what", ""):
-                    # a subscription's name is the offer: two channels at one price share most words and are two
-                    same = offer_said(s) == offer_said(other)
-                else:                                 # the day a sale is named for is when, not what (sales.sale_said)
-                    same = sale_said(s) == sale_said(other) and same_numbers(s, other) and \
-                        bool(days.BEFORE.search(s.name)) == bool(days.BEFORE.search(other.name))
-                if same:
+            store = s.store or s.store_name
+            for other in seen.get(store, []):
+                if same_sale(other, s):
                     problems.append(f"{other.id} and {s.id}: {s.store_name} {s.badge} {s.name!r}")
-            seen.setdefault(key, []).append(s)
+            seen.setdefault(store, []).append(s)
         if len({s.id for s in sales}) != len(sales):
             problems.append("the same id twice")
     elif what == "fresh":

@@ -629,6 +629,22 @@ def test_sales_of_different_things_named_for_one_day_are_different_sales():
     assert len(dedupe([deals, busters], Counter())) == 2
     busters.upto = None
     assert len(dedupe([deals, busters], Counter())) == 1
+    # an end only one post states (dealnews, Nov 22 and 26, 2026: "Target Black Friday Sale" with no end, then
+    # "Target 4-Day Black Friday Sale" ending Nov 29): one sale when it is named for a day, and the card takes the end
+    ends = BF_NOW + timedelta(days=2)
+    open_, dated = sales_at("Target", "Black Friday Sale", ends=None) + sales_at("Target", "4-Day Black Friday Sale", ends=ends)
+    kept = dedupe([open_, dated], Counter())
+    assert len(kept) == 1 and kept[0].ends_at == ends and len(kept[0].also_posted) == 1
+    # with no day in the names, the same words are one sale and other words are two: a clearance goes on after a
+    # flash sale ends, though neither names any goods
+    assert len(dedupe(sales_at("Kohl's", "Sitewide Sale", ends=None) + sales_at("Kohl's", "Sitewide Sale", ends=ends), Counter())) == 1
+    assert len(dedupe(sales_at("Kohl's", "Clearance", ends=None) + sales_at("Kohl's", "Flash Sale", ends=ends), Counter())) == 2
+    assert len(dedupe(sales_at("Kohl's", "Clearance", ends=ends) + sales_at("Kohl's", "Flash Sale", ends=ends), Counter())) == 1
+    # goods still tell sales apart, and so does the wave before the day; two stated ends are two sales
+    assert len(dedupe(sales_at("Target", "Black Friday Sale", ends=None) + sales_at("Target", "Black Friday Toy Deals", ends=ends), Counter())) == 2
+    assert len(dedupe(sales_at("Target", "Early Black Friday Sale", ends=None) + sales_at("Target", "Black Friday Sale", ends=ends), Counter())) == 2
+    assert len(dedupe(sales_at("Woot", "Black Friday Promo Code", ends=ends) +
+                      sales_at("Woot", "Black Friday Promo Code", ends=ends + timedelta(days=2)), Counter())) == 2
     # a sale named for another day is another sale, and so is the wave before a day
     assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Cyber Monday Sale"), Counter())) == 2
     assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Early Black Friday Sale"), Counter())) == 2
