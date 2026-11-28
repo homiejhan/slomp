@@ -14110,7 +14110,7 @@
   }
  },
  "store_sales_told_apart_nov28": {
-  "what": "A store's sales are the same sale when the store, the badge, the end day and the day they are named for are the same and what is left of their names is the same words, with the words that name an event and no goods set aside (sales.sale_said, sales._EVENT_WORDS; DESIGN-online-stores.md 4.5). Before, names sharing 60% of their words were one sale, and the day's name was most of the words.",
+  "what": "A store's sales are the same sale when the store, the badge, the end day and the day they are named for are the same, neither states a number the other states differently, and what is left of their names is the same words, with the words that name an event and no goods set aside (sales.sale_said, sales.same_numbers, sales._EVENT_WORDS; DESIGN-online-stores.md 4.5). Before, names sharing 60% of their words were one sale, and the day's name was most of the words.",
   "measured_on_the_published_build": {
    "run": 180,
    "posts_under_another_sales_card": 180,
@@ -14127,11 +14127,11 @@
    "subscriptions_and_tickets": 30,
    "cards": {
     "as_it_was": 494,
-    "as_it_is": 589
+    "as_it_is": 590
    },
    "discounted_sales_under_another_card": {
     "as_it_was": 115,
-    "as_it_is": 20
+    "as_it_is": 19
    },
    "no_discount_posts_under_a_card": {
     "as_it_was": 49,
@@ -14141,14 +14141,15 @@
     "as_it_was": 5,
     "as_it_is": 5
    },
-   "cards_again": 96,
+   "cards_again": 97,
    "cards_again_read_against_the_card_they_were_under": {
-    "a_sale_of_something_else": 93,
+    "a_sale_of_something_else": 94,
     "nearly_the_same_goods_two_cards_now": [
      "Home Depot: 'Black Friday Garage Storage and Shelving Deals' beside 'Black Friday Garage Storage Deals'",
      "eBay: 'Open-Box and Refurb Apple Black Friday Deals' beside 'Refurb Apple Black Friday Deals'",
      "adidas: 'Men's Black Friday Hats & Accessories Deals' beside 'Black Friday Men's Accessories Deals'"
-    ]
+    ],
+    "of_those_the_same_goods_at_another_offer": "Kohl's 'Black Friday Outerwear Doorbusters' (up to 80% off + extra 20%) beside 'Black Friday Outerwear Deals' (up to 60% off + extra 20%)"
    },
    "still_under_another_card": {
     "the_same_name_from_the_same_source": 13,
@@ -14157,7 +14158,6 @@
      "Woot 'Best of Black Friday Deals' under 'Black Friday Promo Code'",
      "HSN 'Holiday Promo Code' under 'Coupon Code' (one code, HOLIDAY26; kept apart by the rule as it was)",
      "Walmart 'Black Friday Top 100 Toys Deals' under 'Black Friday Toy Deals'",
-     "Kohl's 'Black Friday Outerwear Doorbusters' under 'Black Friday Outerwear Deals'",
      "Fanatics 'Black Friday NHL Doorbusters Sale' under 'NHL Black Friday Sale'",
      "Fanatics 'NBA Black Friday Doorbusters Sale' under 'NBA Black Friday Deals'"
     ]
@@ -14167,10 +14167,10 @@
     "under_the_stores_own_sale_now": 47,
     "at_stores_with_no_own_sale_that_states_a_discount": 4
    },
-   "cards_by_store": {
+   "store_sales_by_store": {
     "Amazon": [
-     76,
-     97
+     61,
+     82
     ],
     "Fanatics": [
      5,
@@ -14178,7 +14178,7 @@
     ],
     "Kohl's": [
      7,
-     21
+     22
     ],
     "eBay": [
      23,
@@ -14200,6 +14200,10 @@
      2,
      6
     ]
+   },
+   "stating_a_number_differently_from_their_card": {
+    "as_it_was": 10,
+    "as_it_is": 0
    }
   },
   "one_sale_from_two_sources": {
@@ -14216,7 +14220,8 @@
     "Amazon: ASUS and Belkin; Yeti and LEGO; Yeti and BIOptimizers"
    ],
    "the_very_same_words_first_tried": "kept Target's 'BIG Black Friday Sale' apart from its 'Black Friday Sale'",
-   "not_tested": "pairs from two sources that the rule as it was kept apart"
+   "not_tested": "pairs from two sources that the rule as it was kept apart",
+   "numbers": "on the seven saved published builds, 32 merged posts are the same sale by name and none states a number differently from its card"
   },
   "harness_duplicates_check": {
    "on_run_180_as_it_was": 4,

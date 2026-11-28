@@ -354,8 +354,8 @@ five were from October and August.
   does ("Home Deals & Tips").
 - **Duplicates**: the same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is one card; the
   dealnews post leads and the others are listed. Two posts are the same sale when the store, the badge and the end
-  day are the same, they are named for the same day, and their names say the same thing once that day is set aside
-  (`sales.sale_said`). The day a sale is named for is when, not what. Names used to be the same when they shared
+  day are the same, neither states a number the other states differently, they are named for the same day, and
+  their names say the same thing once that day is set aside (`sales.sale_said`). The day a sale is named for is when, not what. Names used to be the same when they shared
   60% of their words, the day's among them, and in Black Friday week most names are "<something> Black Friday
   Deals": Gillette's, Vitamix's, Ninja's and Dyson's sales at Amazon were listed under GearWrench's, and 16 of
   Fanatics' under its storewide one. Of the 180 posts under another sale's card on Nov 27, 103 were sales of
@@ -365,11 +365,13 @@ five were from October and August.
   "doorbusters", "promo code", "big", "best of", a year); a plural is its singular. "Black Friday Sale", "Kohl's
   Black Friday Deals 2026" and Hip2Save's "BIG Black Friday Sale Is LIVE" are one sale; the store's own sale and
   its sale on jackets are two, and so are its Black Friday and Cyber Monday sales. The end day is the one a shopper
-  would say (4.6). The costs, both ways: the same sale under two unlike names ("Garage Storage and Shelving
-  Deals", "Garage Storage Deals") is two cards, each linked to its own post, where it used to be one; and two
-  sales of one store with the same badge and end that differ only in an event word (its doorbusters on outerwear
-  and its outerwear sale) are one card with the other post listed. A subscription or a ticket is compared in its
-  own way (4.6): two channels at one price are two offers.
+  would say (4.6). The badge is an offer's leading part, so the numbers are compared too (`sales.same_numbers`):
+  Kohl's outerwear doorbusters at "up to 80% off + extra 20% off" are not its outerwear sale at "up to 60% off +
+  extra 20% off", though both show "Extra 20%"; a number only one post states is no difference. The costs, both
+  ways: the same sale under two unlike names ("Garage Storage and Shelving Deals", "Garage Storage Deals") is two
+  cards, each linked to its own post, where it used to be one; and two sales of one store with the same offer and
+  end that differ only in an event word (its NHL doorbusters and its NHL sale) are one card with the other post
+  listed. A subscription or a ticket is compared in its own way (4.6): two channels at one price are two offers.
 - **Checks**: each sale's post page is re-read (cached an hour) and the sale is dropped when the page is gone,
   redirects elsewhere, or is marked expired.
 - **Order**: best deal first ranks by what a shopper can count on: a firm percent counts in full, an "up to" ceiling
