@@ -360,7 +360,7 @@ def test_one_offer_whose_two_posts_give_its_end_in_two_time_zones_is_one_card():
     assert [p["title"] for p in first.also_posted] == [again.title]
     from slomp.verify import sales_checks as sc
     assert sc.quality([first, again], NOW, "duplicates")[0] == "fail"          # the check sees the pair as the pipeline does
-    # a store's sales are still held to the same calendar day: their names share too many words to loosen it
+    # a store's sales of two things are two, in whatever time zone their ends are written
     from slomp.sales import StoreSales
     mk = lambda title, ends: StoreSales(None, None).sale(Post(                                          # noqa: E731
         source="dealnews", id=f"dealnews:{abs(hash(title))}", url="u", title=title, text="", seller="Macy's", deal_type="sale",

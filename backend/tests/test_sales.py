@@ -587,3 +587,66 @@ def test_the_wave_before_a_day_and_the_days_own_sale_are_two_sales():
     assert (early.name, main.name, early.badge, main.badge) == ("Early Black Friday Deals", "Black Friday Deals", "Up to 50%", "Up to 50%")
     assert main.industries and main.starts_at.date().isoformat() == "2026-11-22"
     assert len(dedupe([early, main], Counter())) == 2
+
+
+def test_sales_of_different_things_named_for_one_day_are_different_sales():
+    # run 180, Nov 27, 2026: 103 sales stood under another sale's card, joined by "Black Friday" in their names
+    from slomp.sales import sale_said
+
+    def sales_at(store_name, *names, badge="Up to 40%", ends=BF_NOW + timedelta(days=5), source="dealnews"):
+        return [StoreSale(id=f"{source}:{store_name}:{n}", store=store_name.lower(), store_name=store_name, title=f"{n}: {badge}", name=n,
+                          offer=f"{badge} off", badge=badge, upto=40, source=source, ends_at=ends, posted_at=BF_NOW) for n in names]
+    # five brands' sales at one store, the same badge and end
+    brands = sales_at("Amazon", "GearWrench Black Friday Deals", "Gillette Black Friday Deals", "Vitamix Black Friday Deals",
+                      "Ninja Black Friday Deals", "Dyson Black Friday Deals")
+    ex = Counter()
+    assert len(dedupe(brands, ex)) == 5 and not ex
+    # the store's own sale for the day is not its category sales, nor they one another
+    fan = sales_at("Fanatics", "Black Friday Sale", "Black Friday NFL Jerseys Sale", "Nike Black Friday Deals", "MLB Black Friday Sale",
+                   "Black Friday College Gear Sale")
+    assert len(dedupe(fan, Counter())) == 5
+    assert len(dedupe(sales_at("adidas", "Black Friday Men's Accessories Deals", "Black Friday Men's Jacket Deals"), Counter())) == 2
+    assert len(dedupe(sales_at("Best Buy", "Half-Price (or Better) Black Friday Appliance Deals", "Half-Price (or Better) Black Friday Phone Deals"),
+                      Counter())) == 2
+    # the same sale twice is still one: "Deals" for "Sale", the year, the store's own name, a plural, another order
+    for a, b in (("Black Friday Sale", "Black Friday Deals 2026"), ("Black Friday Sale", "Kohl's Black Friday Sale"),
+                 ("Black Friday Cell Phone Sale", "Black Friday Cell Phones Deals"), ("Terrex Black Friday Sale", "Black Friday Terrex Deals"),
+                 ("Black Friday Printing Deals", "Printing Black Friday Deals")):
+        pair = sales_at("Kohl's", a) + sales_at("Kohl's", b, source="Hip2Save")
+        ex = Counter()
+        kept = dedupe(pair, ex)
+        assert len(kept) == 1 and kept[0].source == "dealnews" and ex["sale: same sale posted elsewhere"] == 1, (a, b)
+    # a sale named for another day is another sale, and so is the wave before a day
+    assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Cyber Monday Sale"), Counter())) == 2
+    assert len(dedupe(sales_at("Kohl's", "Black Friday Sale", "Early Black Friday Sale"), Counter())) == 2
+    assert len(dedupe(sales_at("eBay", "Early Black Friday Sale", "Anker Early Black Friday Deals"), Counter())) == 2
+    # the day is when and the rest is what
+    said = lambda name, store="Amazon": sale_said(sales_at(store, name)[0])                    # noqa: E731
+    assert said("GearWrench Black Friday Deals") == (frozenset({"Black Friday"}), frozenset({"gearwrench"}))
+    assert said("Amazon Black Friday Sale 2026") == (frozenset({"Black Friday"}), frozenset())
+    assert said("Early Black Friday Deals") == said("Black Friday Sale") and said("Deal Days Shoe Sale")[0] == frozenset()
+    assert said("Black Friday & Cyber Monday Deals")[0] == frozenset({"Black Friday", "Cyber Monday"})
+    # the same night written in two time zones is one end day, for a store's sale as for any
+    from zoneinfo import ZoneInfo
+    ET = ZoneInfo("America/New_York")
+    two = sales_at("Target", "Christmas Lights Sale", badge="BOGO 50%", ends=datetime(2026, 11, 30, 23, 59, tzinfo=ET)) + \
+        sales_at("Target", "Christmas Lights Sale", badge="BOGO 50%", ends=datetime(2026, 12, 1, 3, 0, tzinfo=ET), source="Hip2Save")
+    assert len(dedupe(two, Counter())) == 1
+    apart = sales_at("Macy's", "Cole Haan Black Friday Men's Deals", ends=datetime(2026, 11, 28, 23, 59, tzinfo=ET)) + \
+        sales_at("Macy's", "Nike Black Friday Deals", ends=datetime(2026, 11, 29, 3, 0, tzinfo=ET))
+    assert len(dedupe(apart, Counter())) == 2
+
+
+def test_an_events_headline_goes_under_the_stores_own_sale_for_the_day():
+    live, _ = one(bf("Amazon’s Black Friday Sale Is Live (Score Huge Savings on Tech, Clothes, Beauty, & More!)"))
+    brand, _ = one(bf("GearWrench Black Friday Deals at Amazon: Up to 40% off + free shipping w/ Prime", source="dealnews",
+                      seller="Amazon", deal_type="sale", days_ago=0.9, category="Hand Tools"))
+    own, _ = one(bf("Amazon Black Friday Sale 2026: Up to 70% off + free shipping w/ Prime", source="dealnews", seller="Amazon",
+                    deal_type="sale"))
+    assert live and brand and own and (brand.name, own.name) == ("GearWrench Black Friday Deals", "Black Friday Sale")
+    kept = dedupe([live, brand, own], Counter())
+    assert sorted(s.id for s in kept) == sorted([brand.id, own.id])
+    assert [p["source"] for p in own.also_posted] == ["Hip2Save"] and not brand.also_posted
+    # with no sale of the store's own for the day, the headline goes under the first that states a discount, as before
+    live.also_posted, brand.also_posted = [], []
+    assert [s.id for s in dedupe([live, brand], Counter())] == [brand.id] and brand.also_posted

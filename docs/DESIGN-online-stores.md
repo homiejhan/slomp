@@ -190,7 +190,8 @@ doorbusters, clearance), and either the sale's name is nothing but the event ("B
 name stands right before the event's ("Walmart's Black Friday Deals"), or the title gives a price in place of a
 discount ("... Deals for From $15", "... for Under $50"). The card says "Sale event, no discount stated", or the
 price ("From $15"); it ranks after every sale that states a discount, never reaches the home page's biggest deals,
-and gives way to a sale of the same store, named for the same day, that does state one. A day's name on anything else
+and gives way to a sale of the same store, named for the same day, that does state one: the store's own sale for
+that day when there is one, the one whose name names nothing but the day. A day's name on anything else
 ("FREE Lowe's Black Friday Buckets", a single product's "Black Friday Deal") still states no discount.
 
 Such headlines are often filed under no category Slomp reads ("Target's Black Friday Deals Start 11/22" was on
@@ -350,9 +351,20 @@ five were from October and August.
   without its name first, and with it only when nothing else places the sale ("Up to 60% Off at Mattress Firm").
   When neither the title, the feed nor the category's words say, the department the source files the post under
   does ("Home Deals & Tips").
-- **Duplicates**: the same store, offer and end posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is
-  one card; the dealnews post leads and the others are listed. A subscription or a ticket is compared more closely
-  (4.6): two channels at one price are two offers.
+- **Duplicates**: the same sale posted twice (dealnews and Hip2Save both cover Kohl's Deal Days) is one card; the
+  dealnews post leads and the others are listed. Two posts are the same sale when the store, the badge and the end
+  day are the same, they are named for the same day, and their names say the same thing once that day is set aside
+  (`sales.sale_said`). The day a sale is named for is when, not what. Names used to be the same when they shared
+  60% of their words, the day's among them, and in Black Friday week most names are "<something> Black Friday
+  Deals": Gillette's, Vitamix's, Ninja's and Dyson's sales at Amazon were listed under GearWrench's, and 16 of
+  Fanatics' under its storewide one. Of the 180 posts under another sale's card on Nov 27, 103 were sales of
+  something else (VERIFICATION.md, run 180). So what is left of a name must be the same words: without the day,
+  the store's own name, a word that sets a sale before its day ("Early"), the year, and "sale" or "deals"; a
+  plural is its singular. "Black Friday Sale" and "Kohl's Black Friday Deals 2026" are one sale; the store's own
+  sale and its sale on jackets are two, and so are its Black Friday and Cyber Monday sales. The end day is the one
+  a shopper would say (4.6). The cost: the same sale under two unlike names ("Christmas String Lights Sale",
+  "Christmas Lights") is two cards, each linked to its own post, where it used to be one. A subscription or a
+  ticket is compared in its own way (4.6): two channels at one price are two offers.
 - **Checks**: each sale's post page is re-read (cached an hour) and the sale is dropped when the page is gone,
   redirects elsewhere, or is marked expired.
 - **Order**: best deal first ranks by what a shopper can count on: a firm percent counts in full, an "up to" ceiling
@@ -411,9 +423,8 @@ passes and memberships, and Slomp showed none (VERIFICATION.md, "The second pass
   Prime Video's AMC+, MGM+ and STARZ bundle twice for want of this. The end day is the one a shopper would say: an
   end in the small hours in Texas belongs to the day before, as the page shows it. dealnews gave one offer's end as
   11:59 PM Eastern on November 30 in one post and as 3 AM Eastern on December 1, midnight Pacific that night, in
-  another, and the offer stood twice. A store's sale is still held to the same badge and the same calendar day:
-  its names are compared more loosely, and in a week when every sale is a "Black Friday" one, that looseness
-  already joins sales that are not the same (VERIFICATION.md, run 180).
+  another, and the offer stood twice. A store's sale is held to the same badge and to the same end day, read the
+  same way (4.5).
 - **When**: as for any sale (4.4). A plan priced "through December 31" and posted in August is past the 30 days and
   not shown: it is the standing price by then, not a deal.
 - **Where it shows.** An industry now says two things: `online` (product deals and sales at stores that ship) and
