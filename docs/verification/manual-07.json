@@ -14228,7 +14228,42 @@
    "on_run_180_as_it_is": "3: the two Prime Video pairs that PR 10 merges and HSN's two $20 codes, one card now; not the wave before the day against the day's own sale (Foot Locker, Target)",
    "on_the_new_list": "pass"
   },
-  "not_decided": "whether a post with no discount stated ('... Deals for From $15') should be a card of its own",
+  "live_build": {
+   "when": "2026-11-28T00:49Z, started by an assistant",
+   "feeds": {
+    "read": 140,
+    "of": 157,
+    "skipped_by_robots_txt": 16,
+    "refused": "Ben's Bargains, HTTP 403"
+   },
+   "sales": 602,
+   "stores_sales": 565,
+   "stores": 102,
+   "subscriptions": 21,
+   "tickets": 16,
+   "from_places_own_pages": 12,
+   "posts_under_another_card": 73,
+   "harness_duplicates_check": "pass",
+   "engine_js_same_as_server": "same sales, same order at six moments (601 down to 161)",
+   "browser": {
+    "page_errors": 0,
+    "phone_scrolls_sideways": false,
+    "sales_cards_for_a_stores_name": {
+     "kohls": 22,
+     "fanatics": 20,
+     "target": 16
+    },
+    "a_cards_details_list_the_posts_under_it": true
+   }
+  },
+  "left_as_it_was": {
+   "cards_the_same_in_everything_but_the_end_day": [
+    "HP 'Black Friday Sale': posted Nov 23 with no end, and Nov 27 ending Nov 29",
+    "Target 'Black Friday Sale' with no end beside '4-Day Black Friday Sale' ending Nov 29 (before, the 4-day sale was under its toy deals)",
+    "Woot 'Black Friday Promo Code': two posts with different ends"
+   ],
+   "no_discount_posts": "whether a post with no discount stated ('... Deals for From $15') should be a card of its own"
+  },
   "unit_tests": {
    "pass": 341,
    "new": 2
