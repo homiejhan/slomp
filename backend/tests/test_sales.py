@@ -610,6 +610,7 @@ def test_sales_of_different_things_named_for_one_day_are_different_sales():
                       Counter())) == 2
     # the same sale twice is still one: "Deals" for "Sale", the year, the store's own name, a plural, another order
     for a, b in (("Black Friday Sale", "Black Friday Deals 2026"), ("Black Friday Sale", "Kohl's Black Friday Sale"),
+                 ("Black Friday Sale", "Black Friday Event"),
                  ("Black Friday Cell Phone Sale", "Black Friday Cell Phones Deals"), ("Terrex Black Friday Sale", "Black Friday Terrex Deals"),
                  ("Black Friday Printing Deals", "Printing Black Friday Deals")):
         pair = sales_at("Kohl's", a) + sales_at("Kohl's", b, source="Hip2Save")

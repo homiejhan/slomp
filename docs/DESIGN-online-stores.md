@@ -359,8 +359,8 @@ five were from October and August.
   Deals": Gillette's, Vitamix's, Ninja's and Dyson's sales at Amazon were listed under GearWrench's, and 16 of
   Fanatics' under its storewide one. Of the 180 posts under another sale's card on Nov 27, 103 were sales of
   something else (VERIFICATION.md, run 180). So what is left of a name must be the same words: without the day,
-  the store's own name, a word that sets a sale before its day ("Early"), the year, and "sale" or "deals"; a
-  plural is its singular. "Black Friday Sale" and "Kohl's Black Friday Deals 2026" are one sale; the store's own
+  the store's own name, a word that sets a sale before its day ("Early"), the year, and "sale", "deals" or
+  "event"; a plural is its singular. "Black Friday Sale" and "Kohl's Black Friday Deals 2026" are one sale; the store's own
   sale and its sale on jackets are two, and so are its Black Friday and Cyber Monday sales. The end day is the one
   a shopper would say (4.6). The cost: the same sale under two unlike names ("Christmas String Lights Sale",
   "Christmas Lights") is two cards, each linked to its own post, where it used to be one. A subscription or a

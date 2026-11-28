@@ -1684,12 +1684,13 @@ def sale_said(s: StoreSale) -> tuple[frozenset, frozenset]:
     words). The day is when, not what. In Black Friday week most names are "<something> Black Friday Deals", and
     counted among a name's words the day made Gillette's sale at Amazon the same sale as GearWrench's: the published
     list of Nov 27, 2026 had 103 sales of something else under another sale's card. The store's own name, a word
-    that sets a sale before its day ("Early") and a year are set aside as well; a plural is its singular."""
+    that sets a sale before its day ("Early"), a year and "event" (a sale, as "sale" and "deals" are) are set aside
+    as well; a plural is its singular."""
     name = s.name
     named = frozenset(days.named(name))
     for _, rx, _ in days.DAYS:
         name = rx.sub(" ", name)
-    words = _words(days.BEFORE.sub(" ", name)) - _words(s.store_name)
+    words = _words(days.BEFORE.sub(" ", name)) - _words(s.store_name) - {"event", "events"}
     return named, frozenset(w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w for w in words)
 
 
